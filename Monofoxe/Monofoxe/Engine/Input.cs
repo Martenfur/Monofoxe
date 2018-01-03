@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Monofoxe.Engine
 {
-	public class InputCntrl
+	public class Input
 	{
 		// Mouse.
 		/// <summary>
@@ -32,6 +32,11 @@ namespace Monofoxe.Engine
 		public static string KeyboardString {get; private set;} = ""; // Comment?
 		
 		/// <summary>
+		/// Stores last pressed key in current step. If no keys were pressed, resets to Keys.None.
+		/// </summary>
+		public static Keys KeyboardKey {get; private set;} = Keys.None;
+
+		/// <summary>
 		/// Stores last pressed key. Doesn't reset.
 		/// </summary>
 		public static Keys KeyboardLastKey {get; private set;} = Keys.None;
@@ -52,28 +57,26 @@ namespace Monofoxe.Engine
 		/// If pressure value is below deadzone, GamepadCheck() won't detect trigger press.
 		/// </summary>
 		public static double GamepadTriggersDeadzone = 0.5;
-
+		
 		/// <summary>
-		/// Thump stick deadzone.
+		/// Type of stick deadzone.
 		/// </summary>
-		public static double GamepadSticksDeadzone = 0.2;
+		public static GamePadDeadZone GamepadDeadzoneType = GamePadDeadZone.Circular;
 
 		private static int _maxGamepadCount = 2;
 
 		/// <summary>
 		/// Amount of gamepads which are proccessed by input.
-		/// If you don't want to use gamepad, set value to 0.
+		/// If you don't want to use gamepad input, set value to 0.
 		/// </summary>
 		public static int MaxGamepadCount
 		{
-			get 
-			{return _maxGamepadCount;}
+			get => _maxGamepadCount;
 			set
 			{
 				_maxGamepadCount = Math.Min(GamePad.MaximumGamePadCount, value);
-				GamepadClear(); // Well, yeah, it's a clear function, btu also can be used to re-init arrays.
+				GamepadClear(); // Well, yeah, it's a clearing function, but also can be used to re-init arrays.
 			}
-
 		}
 
 		private static List<GP>[] _gamepadButtons = new List<GP>[_maxGamepadCount], 
@@ -152,10 +155,16 @@ namespace Monofoxe.Engine
 
 			if (KeyboardString.Length > 0)
 			{KeyboardLastChar = KeyboardString[KeyboardString.Length - 1];}
+
 			KeyboardLastKey = _keyboardLastKeyBuffer;
 
 			_previousKeys = _currentKeys;
 			_currentKeys = Keyboard.GetState().GetPressedKeys();
+			
+			if (_currentKeys.Length > 0)
+			{KeyboardKey = _currentKeys.Last();}
+			else
+			{KeyboardKey = Keys.None;}
 			// Keyboard.
 
 
@@ -164,7 +173,8 @@ namespace Monofoxe.Engine
 			for(var i = 0; i < MaxGamepadCount; i += 1)
 			{
 				_previousGamepadState[i] = _gamepadState[i];
-				_gamepadState[i] = GamePad.GetState(i);
+				 
+				_gamepadState[i] = GamePad.GetState(i,GamepadDeadzoneType);
 
 				_previousGamepadButtons[i] = _gamepadButtons[i];
 				_gamepadButtons[i] = new List<GP>();

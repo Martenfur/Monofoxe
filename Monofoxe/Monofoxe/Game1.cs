@@ -38,8 +38,10 @@ namespace Monofoxe
 			GameCntrl.MaxGameSpeed = 120.0;
 			Debug.Write(GameCntrl.MaxGameSpeed);
 			new TestObj();			
+			new GameObj();			
 
-			Window.TextInput += InputCntrl.TextInput;
+
+			Window.TextInput += Input.TextInput;
 
 			base.Initialize();
 		}
@@ -73,7 +75,7 @@ namespace Monofoxe
 			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
 			{Exit();}
 			
-			InputCntrl.Update();
+			Input.Update();
 			GameCntrl.Update(gameTime);
 			
 			ObjCntrl.Update(gameTime);
