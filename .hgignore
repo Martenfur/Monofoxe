@@ -33,4 +33,4 @@ syntax: glob
 _ReSharper*\*
 TestResults\*
 desktop.ini
-*\Monofoxe\.vs\*
+*\.vs\*
