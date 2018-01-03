@@ -44,7 +44,7 @@
   <ItemGroup>
     <Compile Include="Engine\GameCntrl.cs" />
     <Compile Include="Engine\GameObj.cs" />
-    <Compile Include="Engine\InputCntrl.cs" />
+    <Compile Include="Engine\Input.cs" />
     <Compile Include="Engine\ObjCntrl.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Program.cs" />

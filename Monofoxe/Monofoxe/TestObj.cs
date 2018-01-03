@@ -26,15 +26,15 @@ namespace Monofoxe
 		public override void Update()
 		{
 
-			var btn = InputCntrl.GP.RT;
+			var btn = Input.GP.RT;
 			
-			if (InputCntrl.GamepadCheckPress(0, btn))
+			if (Input.GamepadCheckPress(0, btn))
 			{Debug.WriteLine("Pressed!");}
 			
-			if (InputCntrl.GamepadCheck(0, btn))
+			if (Input.GamepadCheck(0, btn))
 			{Debug.WriteLine("Holding!");}
 			
-			if (InputCntrl.GamepadCheckRelease(0, btn))
+			if (Input.GamepadCheckRelease(0, btn))
 			{Debug.WriteLine("Released!");}
 			//GameCntrl.MaxGameSpeed = 5;
 
@@ -46,13 +46,10 @@ namespace Monofoxe
 			//	Debug.WriteLine("fps: " + GameCntrl.Fps + " " + GameCntrl.ElapsedTimeTotal);
 			}
 
-			if (InputCntrl.KeyboardString.Length > 0)
-			{Debug.WriteLine(InputCntrl.KeyboardString);}
-
+			Debug.Write(ObjCntrl.ObjExists(o));
 			//x = (int)(100 + 100*Math.Cos(ang));
 			//y = (int)(100 + 100*Math.Sin(ang));
-			y+=InputCntrl.MouseWheelVal * 10;
-			
+			y+=Input.MouseWheelVal * 10;
 		}
 
 		public override void Draw()
@@ -60,8 +57,8 @@ namespace Monofoxe
 			Rectangle rect = new Rectangle(new Point(x, y), new Point(Game1.tex.Width/2, Game1.tex.Height/2));
 			Rectangle rect1 = new Rectangle(new Point(0, 0), new Point(Game1.tex.Width, Game1.tex.Height));
 			
-			Vector2 gp = new Vector2 (InputCntrl.GamepadGetRightTrigger(0), InputCntrl.GamepadGetLeftTrigger(0));
-			//Debug.WriteLine(gp.X);
+			Vector2 gp = Input.GamepadGetLeftStick(0);
+			Debug.WriteLine(gp.ToString());
 			Rectangle rect2 = new Rectangle(new Point((int)(200+gp.X*100), (int)(200-gp.Y*100)), new Point(Game1.tex.Width/10, Game1.tex.Height/10));
 			Rectangle rect3 = new Rectangle(new Point(0, 0), new Point(Game1.tex.Width, Game1.tex.Height));
 

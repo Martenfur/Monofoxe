@@ -10,13 +10,17 @@ namespace Monofoxe.Engine
 	/// <summary>
 	/// Parent class of every in-game object.
 	/// </summary>
-	public abstract class GameObj
+	public class GameObj
 	{
 		
+		/// <summary>
+		/// If false, Update and Draw events won't be executed.
+		/// </summary>
+		public bool Active = true;
+
 		public GameObj()
 		{
 			ObjCntrl.AddObject(this);
-			Debug.WriteLine("SUPPIE BIATCHEZ");
 		}
 
 		/// <summary>
