@@ -16,7 +16,6 @@ namespace Monofoxe
 		int x, y;
 		double period = 3; // Seconds.
 		double ang = 0;
-
 		
 		public TestObj()
 		{
@@ -45,8 +44,8 @@ namespace Monofoxe
 				ang -= Math.PI * 2;
 			//	Debug.WriteLine("fps: " + GameCntrl.Fps + " " + GameCntrl.ElapsedTimeTotal);
 			}
-
-			Debug.Write(ObjCntrl.ObjExists(o));
+			Input.GamepadSetVibration(0,1,1);
+			//Debug.Write(ObjCntrl.ObjExists(o));
 			//x = (int)(100 + 100*Math.Cos(ang));
 			//y = (int)(100 + 100*Math.Sin(ang));
 			y+=Input.MouseWheelVal * 10;
@@ -64,8 +63,8 @@ namespace Monofoxe
 
 			
 			Game1.spriteBatch.Begin();
-			Game1.spriteBatch.Draw(Game1.tex, rect, rect1, Color.White, -1, new Vector2(0, 0), SpriteEffects.None, 0);
-			
+			//Game1.spriteBatch.Draw(Game1.tex, rect, rect1, Color.White, -1, new Vector2(0, 0), SpriteEffects.None, 0);
+			Game1.spriteBatch.Draw(Game1.surf, rect, rect1, Color.White, -1, new Vector2(0, 0), SpriteEffects.None, 0);
 			//for(var i = 0; i < 10000; i += 1)
 			//{
 				Game1.spriteBatch.Draw(Game1.tex, rect2, rect3, Color.White, -1, new Vector2(0, 0), SpriteEffects.None, 0);
