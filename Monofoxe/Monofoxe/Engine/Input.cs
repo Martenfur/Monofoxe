@@ -385,6 +385,19 @@ namespace Monofoxe.Engine
 		#region gamepad
 
 		/// <summary>
+		/// Checks if gamepad with given inex is connected.
+		/// </summary>
+		/// <param name="index">Index of gamepad.</param>
+		/// <returns></returns>
+		public static bool GamepadConnected(int index)
+		{
+			try
+			{return _gamepadState[index].IsConnected;}
+			catch(Exception)
+			{return false;}
+		}
+
+		/// <summary>
 		/// Checks if gamepad button is down in current step.
 		/// </summary>
 		/// <param name="index">Index of gamepad.</param>
@@ -484,6 +497,14 @@ namespace Monofoxe.Engine
 			{return 0;}
 		}
 
+		/// <summary>
+		/// Sets vibration to the given gamepad.
+		/// </summary>
+		/// <param name="index">Index of gamepad.</param>
+		/// <param name="leftMotor">Vibration intensity for left motor (0 to 1).</param>
+		/// <param name="rightMotor">Vibration intensity for right motor (0 to 1).</param>
+		public static void GamepadSetVibration(int index, float leftMotor, float rightMotor)
+		{GamePad.SetVibration(index, leftMotor, rightMotor);}
 
 		/// <summary>
 		/// Clears gamepad input, including triggers and thumb sticks.

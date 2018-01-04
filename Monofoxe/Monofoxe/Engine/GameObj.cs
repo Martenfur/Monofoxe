@@ -20,7 +20,7 @@ namespace Monofoxe.Engine
 
 		public GameObj()
 		{
-			ObjCntrl.AddObject(this);
+			Objects.AddObject(this);
 		}
 
 		/// <summary>

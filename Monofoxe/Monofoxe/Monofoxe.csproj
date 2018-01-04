@@ -45,7 +45,7 @@
     <Compile Include="Engine\GameCntrl.cs" />
     <Compile Include="Engine\GameObj.cs" />
     <Compile Include="Engine\Input.cs" />
-    <Compile Include="Engine\ObjCntrl.cs" />
+    <Compile Include="Engine\Objects.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

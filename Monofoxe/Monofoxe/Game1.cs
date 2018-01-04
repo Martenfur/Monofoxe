@@ -13,10 +13,13 @@ namespace Monofoxe
 	/// </summary>
 	public class Game1 : Game
 	{
-		GraphicsDeviceManager graphics;
+		public GraphicsDeviceManager graphics;
 		public static Texture2D tex;
 		public static SpriteBatch spriteBatch;
 		
+		
+		public static RenderTarget2D surf;
+
 		public Game1()
 		{
 			graphics = new GraphicsDeviceManager(this);
@@ -42,6 +45,13 @@ namespace Monofoxe
 
 
 			Window.TextInput += Input.TextInput;
+
+			surf = new RenderTarget2D(GraphicsDevice, 64, 64);
+
+			GraphicsDevice.SetRenderTarget(surf); 
+			GraphicsDevice.Clear(Color.AntiqueWhite);
+			GraphicsDevice.SetRenderTarget(null);
+		
 
 			base.Initialize();
 		}
@@ -78,7 +88,7 @@ namespace Monofoxe
 			Input.Update();
 			GameCntrl.Update(gameTime);
 			
-			ObjCntrl.Update(gameTime);
+			Objects.Update(gameTime);
 			
 			base.Update(gameTime);
 		}
@@ -91,7 +101,7 @@ namespace Monofoxe
 		{
 			GraphicsDevice.Clear(Color.CornflowerBlue);
 			
-			ObjCntrl.Draw();
+			Objects.Draw();
 
 			base.Draw(gameTime);
 		}

@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 
 namespace Monofoxe.Engine
 {
-	public class ObjCntrl
+	public class Objects
 	{
 		
 		/// <summary>
@@ -112,12 +112,13 @@ namespace Monofoxe.Engine
 				if (obj.Active)
 				{obj.Draw();}
 			}
-
+			
 			foreach(GameObj obj in _gameObjects)
 			{
 				if (obj.Active)
 				{obj.DrawEnd();}
 			}
+			
 		}
 
 
@@ -135,17 +136,8 @@ namespace Monofoxe.Engine
 		/// Returns list of objects of certain type.
 		/// </summary>
 		/// <typeparam name="T">Object type.</typeparam>
-		public static List<GameObj> GetList<T>()
-		{
-			List<GameObj> list = new List<GameObj>();
-			foreach(GameObj obj in _gameObjects)
-			{
-				if (obj is T)
-				{list.Add(obj);}
-			}
-
-			return list;
-		}
+		public static List<T> GetList<T>()
+		{return (List<T>)(_gameObjects.OfType<T>());}
 
 
 		/// <summary>
@@ -154,16 +146,7 @@ namespace Monofoxe.Engine
 		/// <typeparam name="T">Object type.</typeparam>
 		/// <returns>Returns amount of objects.</returns>
 		public static int Count<T>()
-		{
-			int count = 0;
-			foreach(GameObj obj in _gameObjects)
-			{
-				if (obj is T)
-				{count += 1;}
-			}
-
-			return count;
-		}
+		{return _gameObjects.OfType<T>().Count();}
 
 
 		/// <summary>
