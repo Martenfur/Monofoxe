@@ -7,12 +7,17 @@ using System.Diagnostics;
 
 namespace Monofoxe.Engine
 {
+	
 	/// <summary>
 	/// Parent class of every in-game object.
 	/// </summary>
 	public class GameObj
 	{
-		
+		/// <summary>
+		/// Depth of Draw event. Objects with the lowest depth draw the last.
+		/// </summary>
+		public int Depth = 0;
+	
 		/// <summary>
 		/// If false, Update and Draw events won't be executed.
 		/// </summary>

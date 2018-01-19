@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Monofoxe.Engine;
 
 
 
@@ -101,22 +101,49 @@ namespace Monofoxe.Engine
 
 		public static void Draw()
 		{
-			foreach(GameObj obj in _gameObjects)
-			{
-				if (obj.Active)
-				{obj.DrawBegin();}
-			}
+				
+			var depthSortedObjects = _gameObjects; // Replace!
 
-			foreach(GameObj obj in _gameObjects)
+			foreach(Camera camera in DrawCntrl.Cameras)
 			{
-				if (obj.Active)
-				{obj.Draw();}
+			
+				DrawCntrl.Device.SetRenderTarget(camera.ViewSurface);
+				
+				DrawCntrl.Device.Clear(Color.Transparent);
+
+				DrawCntrl.Batch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.CreateTranslationMatrix());
+
+				foreach(GameObj obj in depthSortedObjects)
+				{
+					if (obj.Active)
+					{obj.DrawBegin();}
+				}
+
+				foreach(GameObj obj in depthSortedObjects)
+				{
+					if (obj.Active)
+					{obj.Draw();}
+				}
+			
+				foreach(GameObj obj in depthSortedObjects)
+				{
+					if (obj.Active)
+					{obj.DrawEnd();}
+				}
+			
+				DrawCntrl.Batch.End();
+
 			}
 			
-			foreach(GameObj obj in _gameObjects)
+			DrawCntrl.Device.SetRenderTarget(null);
+			
+			DrawCntrl.Device.Clear(Color.YellowGreen);
+			
+			foreach(Camera camera in DrawCntrl.Cameras)
 			{
-				if (obj.Active)
-				{obj.DrawEnd();}
+				DrawCntrl.Batch.Begin();
+				DrawCntrl.Batch.Draw(camera.ViewSurface, new Vector2(camera.ViewportX, camera.ViewportY), Color.White);
+				DrawCntrl.Batch.End();
 			}
 			
 		}
