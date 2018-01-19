@@ -16,9 +16,12 @@ namespace Monofoxe
 		public GraphicsDeviceManager graphics;
 		public static Texture2D tex;
 		public static SpriteBatch spriteBatch;
+		public static SpriteBatch spriteBatch1;
 		
 		
 		public static RenderTarget2D surf;
+
+		public static Matrix Transform;
 
 		public Game1()
 		{
@@ -38,20 +41,19 @@ namespace Monofoxe
 			
 			GameCntrl.MyGame = this;
 			
-			GameCntrl.MaxGameSpeed = 120.0;
+			GameCntrl.MaxGameSpeed = 60.0;
+
 			Debug.Write(GameCntrl.MaxGameSpeed);
-			new TestObj();			
-			new GameObj();			
-
-
+			
 			Window.TextInput += Input.TextInput;
 
+			
 			surf = new RenderTarget2D(GraphicsDevice, 64, 64);
 
 			GraphicsDevice.SetRenderTarget(surf); 
 			GraphicsDevice.Clear(Color.AntiqueWhite);
 			GraphicsDevice.SetRenderTarget(null);
-		
+	
 
 			base.Initialize();
 		}
@@ -63,7 +65,15 @@ namespace Monofoxe
 		protected override void LoadContent()
 		{
 			spriteBatch = new SpriteBatch(GraphicsDevice);
+			spriteBatch1 = new SpriteBatch(GraphicsDevice);
+		
 			tex = Content.Load<Texture2D>("derp");
+		
+			DrawCntrl.Init(GraphicsDevice, spriteBatch);
+
+			new TestObj();			
+			new GameObj();	
+		
 		}
 
 		/// <summary>
