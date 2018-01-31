@@ -80,5 +80,11 @@ namespace Monofoxe.Engine
 		/// End of the draw event.
 		/// </summary>
 		public virtual void DrawEnd() {}
+
+
+		/// <summary>
+		///	Drawing on a GUI layer. 
+		/// </summary>
+		public virtual void DrawGUI() {}
 	}
 }

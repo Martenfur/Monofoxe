@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Monofoxe.Engine;
+using Monofoxe.Engine.Drawing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -19,9 +20,23 @@ namespace Monofoxe
 		
 		RenderTarget2D surf;
 
+		
+		Camera cam = new Camera(800, 480);
+
+		VertexPositionColor[] vertices = new VertexPositionColor[3];
+		VertexBuffer vertexBuffer;
+
 		public TestObj()
 		{
-			GameCntrl.MaxGameSpeed = 30;
+
+			vertices[0] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Transparent);
+			vertices[1] = new VertexPositionColor(new Vector3(64, 64, 0), Color.Transparent);
+			vertices[2] = new VertexPositionColor(new Vector3(0, 64, 0), Color.White);
+			vertexBuffer = new VertexBuffer(DrawCntrl.Device, typeof(VertexPositionColor), 3, BufferUsage.WriteOnly);
+			vertexBuffer.SetData(vertices);
+			
+			
+			GameCntrl.MaxGameSpeed = 60;
 			surf = new RenderTarget2D(DrawCntrl.Device, 512, 512);
 
 			SpriteBatch batch = new SpriteBatch(DrawCntrl.Device);
@@ -36,28 +51,10 @@ namespace Monofoxe
 
 			DrawCntrl.Device.SetRenderTarget(null);
 
-
-			var cam = new Camera(100, 100, 640, 480);
-			
-			var cam1 = new Camera(0, 0, 640, 480);
-			cam.Rotation = 10;
-
 		}
 
 		public override void Update()
 		{
-
-			var btn = Input.GP.RT;
-			
-			if (Input.GamepadCheckPress(0, btn))
-			{Debug.WriteLine("Pressed!");}
-			
-			if (Input.GamepadCheck(0, btn))
-			{Debug.WriteLine("Holding!");}
-			
-			if (Input.GamepadCheckRelease(0, btn))
-			{Debug.WriteLine("Released!");}
-			//GameCntrl.MaxGameSpeed = 5;
 
 			ang += GameCntrl.Time((Math.PI * 2) / period);
 
@@ -66,23 +63,101 @@ namespace Monofoxe
 				ang -= Math.PI * 2;
 			//	Debug.WriteLine("fps: " + GameCntrl.Fps + " " + GameCntrl.ElapsedTimeTotal);
 			}
-			Input.GamepadSetVibration(0,1,1);
-			//Debug.Write(ObjCntrl.ObjExists(o));
-			x = (int)(100 + 100*Math.Cos(ang));
-			y = (int)(100 + 100*Math.Sin(ang));
-			//y+=Input.MouseWheelVal * 10;
+			
+			if (Input.KeyboardCheck(Keys.Left))
+			{x += 5;}
+			
+			if (Input.KeyboardCheck(Keys.Right))
+			{x -= 5;}
+			
+			if (Input.KeyboardCheck(Keys.Up))
+			{y += 5;}
+			
+			if (Input.KeyboardCheck(Keys.Down))
+			{y -= 5;}
+			
+			if (Input.KeyboardCheck(Keys.Z))
+			{
+				cam.ScaleX += 0.1f;
+				cam.ScaleY += 0.1f;
+			}
+			
+			if (Input.KeyboardCheck(Keys.X))
+			{
+				cam.ScaleX -= 0.1f;
+				cam.ScaleY -= 0.1f;
+			}
+			
+			if (Input.KeyboardCheck(Keys.C))
+			{cam.Rotation += 5;}
+
+			if (Input.KeyboardCheck(Keys.V))
+			{cam.Rotation -= 5;}
+
+
+			//x=32;
+			//y=32;
+			cam.X = x;
+			cam.Y = y;
+			//cam.ScaleX = 2;
+			//cam.ScaleY = 2;
+			//cam.OffsetX = cam.W/2;
+			//cam.OffsetY = cam.H/2;
+
+
+
 		}
 
 		public override void Draw()
+		{	
+			
+			DrawCntrl.CurrentColor = Color.Red;
+			/*
+			Engine.Drawing.Rectangle.Draw(100, 100, 150, 200, false);
+			
+
+			Engine.Drawing.Rectangle.Draw(100, 100, 150, 200, false, Color.SkyBlue, Color.Sienna, Color.SpringGreen, Color.Tomato);
+			int xx, yy;
+			
+			xx = 32;
+			yy = 32;
+			DrawCntrl.CurrentColor = Color.SkyBlue;
+			Engine.Drawing.Rectangle.Draw(xx, yy, xx + 32, yy + 32, false);
+			
+			xx = 64;
+			yy = 32;
+			DrawCntrl.CurrentColor = Color.Sienna;
+			Engine.Drawing.Rectangle.Draw(xx, yy, xx + 32, yy + 32, false);
+			
+			
+			xx = 32;
+			yy = 64;
+			DrawCntrl.CurrentColor = Color.SpringGreen;
+			Engine.Drawing.Rectangle.Draw(xx, yy, xx + 32, yy + 32, false);
+
+			
+			xx = 64;
+			yy = 64;
+			DrawCntrl.CurrentColor = Color.Tomato;
+			Engine.Drawing.Rectangle.Draw(xx, yy, xx + 32, yy + 32, false);
+			
+			//DrawCntrl.DrawPrimitive(vertexBuffer);
+			
+			//DrawCntrl.DrawSprite(Game1.tex, -cam.X + x + 64, -cam.Y + y, new Color(255, 0, 0, 128));
+			
+			//DrawCntrl.DrawSprite(Game1.part, x + 64, y, new Color(0, 0, 255, 128));
+			Circle.Draw(200, 200, 8, true);
+			DrawCntrl.CurrentColor = new Color(56, 0, 10, 128);
+			Circle.Draw(200, 200+16, 8, false);
+			*/
+			Triangle.Draw(32,32,32,64,64,64,true);
+			Triangle.Draw(32,32+32,32,64+32,64,64+32,false);
+		}
+
+		public override void DrawGUI()
 		{
-			Vector2 gp = Input.GamepadGetLeftStick(0);
-			//Debug.WriteLine(gp.ToString());
-			
-			
-			DrawCntrl.DrawSprite(Game1.tex, x, y, Color.White);
-			
-			//DrawCntrl.DrawSurface(surf, 0, 0, Color.White);
 			
 		}
+
 	}
 }

@@ -16,7 +16,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// List of all game objects.
 		/// </summary>
-		private static List<GameObj> _gameObjects = new List<GameObj>();
+		public static List<GameObj> GameObjects = new List<GameObj>();
 
 		/// <summary>
 		/// List of newly created game objects. Since it won't be that cool to modify main list 
@@ -36,13 +36,13 @@ namespace Monofoxe.Engine
 		{
 			// Clearing main list from destroyed objects.
 			for(var i = 0; i < _destroyedGameObjects.Count; i += 1)
-			{_gameObjects.Remove(_destroyedGameObjects[i]);}
+			{GameObjects.Remove(_destroyedGameObjects[i]);}
 			_destroyedGameObjects.Clear();
 			// Clearing main list from destroyed objects.
 
 
 			// Adding new objects to the list.
-			_gameObjects.AddRange(_newGameObjects);
+			GameObjects.AddRange(_newGameObjects);
 			_newGameObjects.Clear();
 			// Adding new objects to the list.
 
@@ -55,19 +55,19 @@ namespace Monofoxe.Engine
 				var overflow = (int)(_fixedUpdateAl / GameCntrl.FixedUpdateRate); // In case of lags.
 				_fixedUpdateAl -= GameCntrl.FixedUpdateRate * overflow;	
 				
-				foreach(GameObj obj in _gameObjects)
+				foreach(GameObj obj in GameObjects)
 				{
 					if (obj.Active)
 					{obj.FixedUpdateBegin();}
 				}
 
-				foreach(GameObj obj in _gameObjects)
+				foreach(GameObj obj in GameObjects)
 				{
 					if (obj.Active)
 					{obj.FixedUpdate();}
 				}
 
-				foreach(GameObj obj in _gameObjects)
+				foreach(GameObj obj in GameObjects)
 				{
 					if (obj.Active)
 					{obj.FixedUpdateEnd();}
@@ -77,19 +77,19 @@ namespace Monofoxe.Engine
 
 
 			// Normal updates.
-			foreach(GameObj obj in _gameObjects)
+			foreach(GameObj obj in GameObjects)
 			{
 				if (obj.Active)
 				{obj.UpdateBegin();}
 			}
 
-			foreach(GameObj obj in _gameObjects)
+			foreach(GameObj obj in GameObjects)
 			{
 				if (obj.Active)
 				{obj.Update();}
 			}
 		
-			foreach(GameObj obj in _gameObjects)
+			foreach(GameObj obj in GameObjects)
 			{
 				if (obj.Active)
 				{obj.UpdateEnd();}
@@ -99,54 +99,7 @@ namespace Monofoxe.Engine
 		}
 		
 
-		public static void Draw()
-		{
-				
-			var depthSortedObjects = _gameObjects; // Replace!
-
-			foreach(Camera camera in DrawCntrl.Cameras)
-			{
-			
-				DrawCntrl.Device.SetRenderTarget(camera.ViewSurface);
-				
-				DrawCntrl.Device.Clear(Color.Transparent);
-
-				DrawCntrl.Batch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.CreateTranslationMatrix());
-
-				foreach(GameObj obj in depthSortedObjects)
-				{
-					if (obj.Active)
-					{obj.DrawBegin();}
-				}
-
-				foreach(GameObj obj in depthSortedObjects)
-				{
-					if (obj.Active)
-					{obj.Draw();}
-				}
-			
-				foreach(GameObj obj in depthSortedObjects)
-				{
-					if (obj.Active)
-					{obj.DrawEnd();}
-				}
-			
-				DrawCntrl.Batch.End();
-
-			}
-			
-			DrawCntrl.Device.SetRenderTarget(null);
-			
-			DrawCntrl.Device.Clear(Color.YellowGreen);
-			
-			foreach(Camera camera in DrawCntrl.Cameras)
-			{
-				DrawCntrl.Batch.Begin();
-				DrawCntrl.Batch.Draw(camera.ViewSurface, new Vector2(camera.ViewportX, camera.ViewportY), Color.White);
-				DrawCntrl.Batch.End();
-			}
-			
-		}
+		
 
 
 		/// <summary>
@@ -164,7 +117,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		/// <typeparam name="T">Object type.</typeparam>
 		public static List<T> GetList<T>()
-		{return (List<T>)(_gameObjects.OfType<T>());}
+		{return (List<T>)(GameObjects.OfType<T>());}
 
 
 		/// <summary>
@@ -173,7 +126,7 @@ namespace Monofoxe.Engine
 		/// <typeparam name="T">Object type.</typeparam>
 		/// <returns>Returns amount of objects.</returns>
 		public static int Count<T>()
-		{return _gameObjects.OfType<T>().Count();}
+		{return GameObjects.OfType<T>().Count();}
 
 
 		/// <summary>
@@ -193,7 +146,7 @@ namespace Monofoxe.Engine
 		/// <param name="obj">Object to check.</param>
 		public static bool ObjExists(GameObj obj)
 		{
-			foreach(GameObj obj1 in _gameObjects)
+			foreach(GameObj obj1 in GameObjects)
 			{
 				if (obj == obj1)
 				{return true;}
@@ -212,7 +165,7 @@ namespace Monofoxe.Engine
 		{
 			int counter = 0;
 
-			foreach(GameObj obj in _gameObjects)
+			foreach(GameObj obj in GameObjects)
 			{
 				if (counter >= count && obj is T)
 				{return obj;}

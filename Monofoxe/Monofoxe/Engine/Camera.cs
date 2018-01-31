@@ -6,37 +6,120 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine;
+using System.Diagnostics;
 
 namespace Monofoxe.Engine
 {
+
+	/// <summary>
+	/// Game cameras. Support positioning, rotating and scaling.
+	/// NOTE: There always should be at least one camera, 
+	/// otherwise Draw events won't be triggered.
+	/// </summary>
 	class Camera
 	{
 
-		public int ViewX =     0, 
-		           ViewY =     0,
-		           ViewportX = 0, 
-		           ViewportY = 0,
-							 Rotation =  0;
+		/// <summary>
+		/// View coordinates.
+		/// NOTE: They don't take in account offset and rotation.
+		/// </summary>
+		public int X = 0, 
+		           Y = 0;
 
+		/// <summary>
+		/// View width.
+		/// NOTE: To change view size, call Resize function.
+		/// </summary>
+		public int W 
+		{
+			get
+			{return ViewSurface.Width;}
+		}
+		
+		/// <summary>
+		/// View height.
+		/// NOTE: To change view size, call Resize function.
+		/// </summary>
+		public int H
+		{
+			get
+			{return ViewSurface.Height;}
+		}
+
+		/// <summary>
+		/// Camera offset.
+		/// </summary>
+		public int OffsetX = 0, 
+		           OffsetY = 0;
+
+		/// <summary>
+		/// Viewport coordinates. Sets where on screen view will be drawn.
+		/// </summary>
+		public int PortX = 0, 
+		           PortY = 0;
+		
+		/// <summary>
+		/// View rotation. Measured in degrees.
+		/// </summary>
+		public int Rotation = 0;
+
+		/// <summary>
+		/// View scale.
+		/// </summary>
 		public float ScaleX = 1,
 		             ScaleY = 1;
 
+		/// <summary>
+		/// View surface. Everything will be drawn on it.
+		/// </summary>
 		public RenderTarget2D ViewSurface;
 
-		public Camera(int x, int y, int w, int h)
+		/// <summary>
+		/// Background color for a view surface.
+		/// NOTE: It is not recommended to set transparent colors.
+		/// </summary>
+		public Color BackgroundColor = Color.Azure;
+
+		/// <summary>
+		/// If true, camera surface will be drawn automatically.
+		/// </summary>
+		public bool Autodraw = true;
+
+		/// <summary>
+		/// If false, camera won't trigger any Draw events.
+		/// </summary>
+		public bool Enabled = true;
+
+
+
+		public Camera(int w, int h)
 		{
 			ViewSurface = new RenderTarget2D(DrawCntrl.Device, w, h);
-			ViewX = x;
-			ViewY = y;
-			DrawCntrl.Cameras.Add(this);
+			DrawCntrl.Cameras.Add(this);	
 		}
+
+		
+		public void Resize(int w, int h)
+		{
+			ViewSurface.Dispose();
+			ViewSurface = new RenderTarget2D(DrawCntrl.Device, w, h);
+		}
+
+
+		public void Destroy()
+		{
+			DrawCntrl.Cameras.Remove(this);
+			ViewSurface.Dispose();
+		}
+
 
 		public Matrix CreateTranslationMatrix()
 		{
-			return Matrix.CreateTranslation(new Vector3(ViewX, ViewY, 0)) *
-                                          Matrix.CreateRotationZ(MathHelper.ToRadians(Rotation)) *
-                                          Matrix.CreateScale(new Vector3(ScaleX, ScaleY, 1)) *
-                                          Matrix.CreateTranslation(new Vector3(0, 0, 0)); 
+			return Matrix.CreateTranslation(new Vector3(-X, -Y, 0)) *          //Coordinates.
+             Matrix.CreateRotationZ(MathHelper.ToRadians(-Rotation)) *   //Rotation.
+             Matrix.CreateScale(new Vector3(ScaleX, ScaleY, 1)) *	       //Scale.
+             Matrix.CreateTranslation(new Vector3(OffsetX, OffsetY, 0)); //Offset.
+																					
 		}
 
 

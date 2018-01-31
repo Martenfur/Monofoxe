@@ -15,6 +15,7 @@ namespace Monofoxe
 	{
 		public GraphicsDeviceManager graphics;
 		public static Texture2D tex;
+		public static Texture2D part;
 		public static SpriteBatch spriteBatch;
 		public static SpriteBatch spriteBatch1;
 		
@@ -68,6 +69,7 @@ namespace Monofoxe
 			spriteBatch1 = new SpriteBatch(GraphicsDevice);
 		
 			tex = Content.Load<Texture2D>("derp");
+			part = Content.Load<Texture2D>("part");
 		
 			DrawCntrl.Init(GraphicsDevice, spriteBatch);
 
@@ -95,10 +97,7 @@ namespace Monofoxe
 			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
 			{Exit();}
 			
-			Input.Update();
 			GameCntrl.Update(gameTime);
-			
-			Objects.Update(gameTime);
 			
 			base.Update(gameTime);
 		}
@@ -108,10 +107,8 @@ namespace Monofoxe
 		/// </summary>
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw(GameTime gameTime)
-		{
-			GraphicsDevice.Clear(Color.CornflowerBlue);
-			
-			Objects.Draw();
+		{			
+			DrawCntrl.Update();
 
 			base.Draw(gameTime);
 		}

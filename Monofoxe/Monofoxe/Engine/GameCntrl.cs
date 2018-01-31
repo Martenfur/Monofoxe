@@ -84,7 +84,10 @@ namespace Monofoxe.Engine
 			}
 			// Fps counter.
 
-		
+			
+			Input.Update();
+			Objects.Update(gameTime);
+
 		}
 
 		public static double Time(double val)
