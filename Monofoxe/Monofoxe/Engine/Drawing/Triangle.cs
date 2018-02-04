@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace Monofoxe.Engine.Drawing
 {
 	class Triangle: Shape
 	{
 		private static readonly short[][] _indexes = {new short[]{0, 1, 1, 2, 2, 0}, new short[]{0, 1, 2}};
-		private static readonly PrimitiveType[] _types = {PrimitiveType.LineList, PrimitiveType.TriangleList};
+		private static readonly DrawCntrl.PipelineModes[] _types = {DrawCntrl.PipelineModes.OutlinePrimitives, DrawCntrl.PipelineModes.TrianglePrimitives};
 		private static readonly int[] _prAmounts = {3, 1};
 
 		public bool IsOutline;
@@ -55,13 +56,13 @@ namespace Monofoxe.Engine.Drawing
 			else
 			{o = 1;}
 
-			var vertices = new VertexPositionColor[3];
+			var vertices = new List<VertexPositionColor>();
 
-			vertices[0] = new VertexPositionColor(new Vector3(x1, y1, 0), c1);
-			vertices[1] = new VertexPositionColor(new Vector3(x2, y2, 0), c2);
-			vertices[2] = new VertexPositionColor(new Vector3(x3, y3, 0), c3);
+			vertices.Add(new VertexPositionColor(new Vector3(x1, y1, 0), c1));
+			vertices.Add(new VertexPositionColor(new Vector3(x2, y2, 0), c2));
+			vertices.Add(new VertexPositionColor(new Vector3(x3, y3, 0), c3));
 			
-			DrawPrimitive(_types[o], vertices, _indexes[o], _prAmounts[o]);
+			DrawCntrl.AddPrimitive(_types[o], vertices, new List<short>(_indexes[o]));
 		}
 	}
 }
