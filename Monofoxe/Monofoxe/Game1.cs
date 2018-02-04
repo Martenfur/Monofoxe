@@ -47,7 +47,6 @@ namespace Monofoxe
 			Debug.Write(GameCntrl.MaxGameSpeed);
 			
 			Window.TextInput += Input.TextInput;
-
 			
 			surf = new RenderTarget2D(GraphicsDevice, 64, 64);
 
@@ -97,7 +96,6 @@ namespace Monofoxe
 			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
 			{Exit();}
 			
-			GameCntrl.Update(gameTime);
 			
 			base.Update(gameTime);
 		}
@@ -108,6 +106,8 @@ namespace Monofoxe
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw(GameTime gameTime)
 		{			
+			GameCntrl.Update(gameTime); // Move to UPDATE!!!
+			
 			DrawCntrl.Update();
 
 			base.Draw(gameTime);

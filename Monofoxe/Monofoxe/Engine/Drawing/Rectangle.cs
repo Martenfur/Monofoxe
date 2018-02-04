@@ -36,10 +36,10 @@ namespace Monofoxe.Engine.Drawing
 
 			var vertices = new VertexPositionColor[4];
 			
-			vertices[0] = new VertexPositionColor(new Vector3(x1, y1, 0), c1);
-			vertices[1] = new VertexPositionColor(new Vector3(x2, y1, 0), c2);
-			vertices[2] = new VertexPositionColor(new Vector3(x2, y2, 0), c3);
-			vertices[3] = new VertexPositionColor(new Vector3(x1, y2, 0), c4);
+			vertices[0] = new VertexPositionColor(new Vector3(x1, y1, -1), c1);
+			vertices[1] = new VertexPositionColor(new Vector3(x2, y1, -1), c2);
+			vertices[2] = new VertexPositionColor(new Vector3(x2, y2, -1), c3);
+			vertices[3] = new VertexPositionColor(new Vector3(x1, y2, -1), c4);
 
 			DrawPrimitive(prType, vertices, indexArray, prAmount);
 		}

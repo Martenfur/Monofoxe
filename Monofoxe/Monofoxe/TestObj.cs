@@ -150,8 +150,30 @@ namespace Monofoxe
 			DrawCntrl.CurrentColor = new Color(56, 0, 10, 128);
 			Circle.Draw(200, 200+16, 8, false);
 			*/
-			Triangle.Draw(32,32,32,64,64,64,true);
-			Triangle.Draw(32,32+32,32,64+32,64,64+32,false);
+			Debug.WriteLine(GameCntrl.Fps);
+			DrawCntrl.CurrentColor = new Color(255, 0, 0, 100);
+			var xx = 0;
+			for(var i = 0; i < 2500*4 ; i += 1)
+			{
+				Triangle.Draw(32,32+xx,44,64,450,64,false);
+				xx += 1;
+				if (xx > 200)
+				{xx = 0;}
+				//Triangle.Draw(32+32,32+32,32+32,64+32,64+32,64+32,true);
+				
+				//Engine.Drawing.Rectangle.Draw(32, 32, 100, 100, false);
+				//Engine.Drawing.Rectangle.Draw(32, 32, 100, 100, true);
+			}
+			
+
+			Debug.WriteLine(GameCntrl.Fps);
+			//Triangle.Draw(32,32+32,32,64+32,64,64+32,false);
+			DrawCntrl.CurrentColor = Color.Blue;
+			//Engine.Drawing.Rectangle.Draw(32, 32, 100, 100, true);
+			//Engine.Drawing.Rectangle.Draw(32, 32, 100, 100, false);
+
+			
+
 		}
 
 		public override void DrawGUI()
