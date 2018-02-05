@@ -56,11 +56,11 @@ namespace Monofoxe.Engine.Drawing
 			else
 			{o = 1;}
 
-			var vertices = new List<VertexPositionColor>();
+			var vertices = new List<VertexPositionColorTexture>();
 
-			vertices.Add(new VertexPositionColor(new Vector3(x1, y1, 0), c1));
-			vertices.Add(new VertexPositionColor(new Vector3(x2, y2, 0), c2));
-			vertices.Add(new VertexPositionColor(new Vector3(x3, y3, 0), c3));
+			vertices.Add(new VertexPositionColorTexture(new Vector3(x1, y1, 0), c1, new Vector2(0, 0)));
+			vertices.Add(new VertexPositionColorTexture(new Vector3(x2, y2, 0), c2, new Vector2(0, 0)));
+			vertices.Add(new VertexPositionColorTexture(new Vector3(x3, y3, 0), c3, new Vector2(0, 0)));
 			
 			DrawCntrl.AddPrimitive(_types[o], vertices, new List<short>(_indexes[o]));
 		}

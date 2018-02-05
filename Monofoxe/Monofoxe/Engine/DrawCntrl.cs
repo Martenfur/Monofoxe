@@ -27,7 +27,7 @@ namespace Monofoxe.Engine
 		private static DynamicVertexBuffer _vertexBuffer;
 		private static DynamicIndexBuffer _indexBuffer;
 
-		private static List<VertexPositionColor> _vertices;
+		private static List<VertexPositionColorTexture> _vertices;
 		private static List<short> _indexes;
 
 		static int __drawcalls;
@@ -54,9 +54,9 @@ namespace Monofoxe.Engine
 			
 			CurrentColor = Color.White;
 
-			_vertexBuffer = new DynamicVertexBuffer(Device, typeof(VertexPositionColor), 320000, BufferUsage.WriteOnly);
+			_vertexBuffer = new DynamicVertexBuffer(Device, typeof(VertexPositionColorTexture), 320000, BufferUsage.WriteOnly);
 			_indexBuffer = new DynamicIndexBuffer(Device, IndexElementSize.SixteenBits, 320000, BufferUsage.WriteOnly);
-			_vertices = new List<VertexPositionColor>();
+			_vertices = new List<VertexPositionColorTexture>();
 			_indexes = new List<short>();
 
 			_currentPipelineMode = PipelineModes.Sprites;
@@ -231,7 +231,7 @@ namespace Monofoxe.Engine
 
 
 
-		public static void AddPrimitive(PipelineModes mode, List<VertexPositionColor> vertices, List<short> indexes)
+		public static void AddPrimitive(PipelineModes mode, List<VertexPositionColorTexture> vertices, List<short> indexes)
 		{
 			SwitchPipelineMode(mode);
 
