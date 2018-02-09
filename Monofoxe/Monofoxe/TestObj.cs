@@ -50,7 +50,7 @@ namespace Monofoxe
 			batch.End();
 
 			DrawCntrl.Device.SetRenderTarget(null);
-
+			cam.BackgroundColor = Color.BlanchedAlmond;
 		}
 
 		public override void Update()
@@ -61,7 +61,6 @@ namespace Monofoxe
 			if (ang >= Math.PI * 2)
 			{
 				ang -= Math.PI * 2;
-			//	Debug.WriteLine("fps: " + GameCntrl.Fps + " " + GameCntrl.ElapsedTimeTotal);
 			}
 			
 			if (Input.KeyboardCheck(Keys.Left))
@@ -95,85 +94,53 @@ namespace Monofoxe
 			{cam.Rotation -= 5;}
 
 
-			//x=32;
-			//y=32;
 			cam.X = x;
 			cam.Y = y;
-			//cam.ScaleX = 2;
-			//cam.ScaleY = 2;
-			//cam.OffsetX = cam.W/2;
-			//cam.OffsetY = cam.H/2;
-
+			
 
 
 		}
-
+		int c = 0;
 		public override void Draw()
 		{	
 			
-			DrawCntrl.CurrentColor = Color.Red;
-			/*
-			Engine.Drawing.Rectangle.Draw(100, 100, 150, 200, false);
-			
-
-			Engine.Drawing.Rectangle.Draw(100, 100, 150, 200, false, Color.SkyBlue, Color.Sienna, Color.SpringGreen, Color.Tomato);
-			int xx, yy;
-			
-			xx = 32;
-			yy = 32;
-			DrawCntrl.CurrentColor = Color.SkyBlue;
-			Engine.Drawing.Rectangle.Draw(xx, yy, xx + 32, yy + 32, false);
-			
-			xx = 64;
-			yy = 32;
-			DrawCntrl.CurrentColor = Color.Sienna;
-			Engine.Drawing.Rectangle.Draw(xx, yy, xx + 32, yy + 32, false);
-			
-			
-			xx = 32;
-			yy = 64;
-			DrawCntrl.CurrentColor = Color.SpringGreen;
-			Engine.Drawing.Rectangle.Draw(xx, yy, xx + 32, yy + 32, false);
-
-			
-			xx = 64;
-			yy = 64;
-			DrawCntrl.CurrentColor = Color.Tomato;
-			Engine.Drawing.Rectangle.Draw(xx, yy, xx + 32, yy + 32, false);
-			
-			//DrawCntrl.DrawPrimitive(vertexBuffer);
-			
-			//DrawCntrl.DrawSprite(Game1.tex, -cam.X + x + 64, -cam.Y + y, new Color(255, 0, 0, 128));
-			
-			//DrawCntrl.DrawSprite(Game1.part, x + 64, y, new Color(0, 0, 255, 128));
-			Circle.Draw(200, 200, 8, true);
-			DrawCntrl.CurrentColor = new Color(56, 0, 10, 128);
-			Circle.Draw(200, 200+16, 8, false);
-			*/
 			Debug.WriteLine(GameCntrl.Fps);
 			DrawCntrl.CurrentColor = new Color(255, 0, 0, 100);
-			var xx = 0;
-			for(var i = 0; i < 2500*4 ; i += 1)
-			{
-				Triangle.Draw(32,32+xx,44,64,450,64,false);
-				xx += 1;
-				if (xx > 200)
-				{xx = 0;}
-				//Triangle.Draw(32+32,32+32,32+32,64+32,64+32,64+32,true);
-				
-				//Engine.Drawing.Rectangle.Draw(32, 32, 100, 100, false);
-				//Engine.Drawing.Rectangle.Draw(32, 32, 100, 100, true);
-			}
+
+			DrawCntrl.CurrentColor = Color.Blue;
+			DrawCntrl.DrawRectangle(110, 110, 32, 32, false);
+			DrawCntrl.CurrentColor = Color.Brown;
+			DrawCntrl.DrawRectangle(0, 0, 32, 32, true);
 			
+			DrawCntrl.DrawCircle(400, 64, 32, false);
+			DrawCntrl.DrawRectangle(0, 0, 32, 32, false);
+			DrawCntrl.DrawCircle(64, 64, 32, true);
+			DrawCntrl.DrawRectangle(0, 0, 32, 32, false);
+			
+			DrawCntrl.DrawCircle(200, 64, 32, false);
+			int _x = 0;
+			int _y = 300;
+
+			int w = 8;
+			int h = 8;
+
+			c += 1;
+			if (c>320)
+			{c=0;}
+
+			DrawCntrl.PrimitiveBegin(DrawCntrl.PrType.Triangles);
+			for(var k = 0; k < h; k += 1)
+			{
+				for(var i = 0; i < w; i += 1)
+				{			
+					DrawCntrl.PrimitiveAddVertex(new Vector2(_x + 32 * i + (int)Math.Sqrt(i)*k*c, _y + 32 * k + (int)Math.Sqrt(k)*i*c), Color.BlueViolet);	
+				}
+			}
+
+			DrawCntrl.PrimitiveSetMeshIndices(w, h);
+			DrawCntrl.PrimitiveEnd();
 
 			Debug.WriteLine(GameCntrl.Fps);
-			//Triangle.Draw(32,32+32,32,64+32,64,64+32,false);
-			DrawCntrl.CurrentColor = Color.Blue;
-			//Engine.Drawing.Rectangle.Draw(32, 32, 100, 100, true);
-			//Engine.Drawing.Rectangle.Draw(32, 32, 100, 100, false);
-
-			
-
 		}
 
 		public override void DrawGUI()

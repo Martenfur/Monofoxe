@@ -7,7 +7,7 @@ namespace Monofoxe.Engine.Drawing
 	class Triangle: Shape
 	{
 		private static readonly short[][] _indexes = {new short[]{0, 1, 1, 2, 2, 0}, new short[]{0, 1, 2}};
-		private static readonly DrawCntrl.PipelineModes[] _types = {DrawCntrl.PipelineModes.OutlinePrimitives, DrawCntrl.PipelineModes.TrianglePrimitives};
+		private static readonly DrawCntrl.PipelineMode[] _types = {DrawCntrl.PipelineMode.OutlinePrimitives, DrawCntrl.PipelineMode.TrianglePrimitives};
 		private static readonly int[] _prAmounts = {3, 1};
 
 		public bool IsOutline;
@@ -62,7 +62,7 @@ namespace Monofoxe.Engine.Drawing
 			vertices.Add(new VertexPositionColorTexture(new Vector3(x2, y2, 0), c2, new Vector2(0, 0)));
 			vertices.Add(new VertexPositionColorTexture(new Vector3(x3, y3, 0), c3, new Vector2(0, 0)));
 			
-			DrawCntrl.AddPrimitive(_types[o], vertices, new List<short>(_indexes[o]));
+			DrawCntrl.AddVertices(_types[o], vertices, new List<short>(_indexes[o]));
 		}
 	}
 }
