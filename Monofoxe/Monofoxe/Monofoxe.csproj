@@ -44,11 +44,7 @@
   <ItemGroup>
     <Compile Include="Engine\Camera.cs" />
     <Compile Include="Engine\DrawCntrl.cs" />
-    <Compile Include="Engine\Drawing\Circle.cs" />
     <Compile Include="Engine\Drawing\Drawable.cs" />
-    <Compile Include="Engine\Drawing\Rectangle.cs" />
-    <Compile Include="Engine\Drawing\Shape.cs" />
-    <Compile Include="Engine\Drawing\Triangle.cs" />
     <Compile Include="Engine\GameCntrl.cs" />
     <Compile Include="Engine\GameObj.cs" />
     <Compile Include="Engine\Input.cs" />
