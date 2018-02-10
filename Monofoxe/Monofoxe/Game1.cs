@@ -16,9 +16,6 @@ namespace Monofoxe
 		public GraphicsDeviceManager graphics;
 		public static Texture2D tex;
 		public static Texture2D part;
-		public static SpriteBatch spriteBatch;
-		public static SpriteBatch spriteBatch1;
-		
 		
 		public static RenderTarget2D surf;
 
@@ -64,13 +61,11 @@ namespace Monofoxe
 		/// </summary>
 		protected override void LoadContent()
 		{
-			spriteBatch = new SpriteBatch(GraphicsDevice);
-			spriteBatch1 = new SpriteBatch(GraphicsDevice);
 		
 			tex = Content.Load<Texture2D>("derp");
 			part = Content.Load<Texture2D>("part");
 		
-			DrawCntrl.Init(GraphicsDevice, spriteBatch);
+			DrawCntrl.Init(GraphicsDevice);
 
 			new TestObj();			
 			new GameObj();	
