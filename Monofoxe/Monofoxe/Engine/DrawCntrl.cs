@@ -23,6 +23,7 @@ namespace Monofoxe.Engine
 		/// Current enabled camera.
 		/// </summary>
 		public static Camera CurrentCamera {get; private set;} = null;
+		public static Matrix CurrentTransformMatrix {get; private set;}
 		public static BasicEffect BasicEffect;
 
 		/// <summary>
@@ -54,7 +55,7 @@ namespace Monofoxe.Engine
 		}
 
 		private static PipelineMode _currentPipelineMode;
-
+		private static Texture2D _currentTexture;
 
 
 		#region shapes
@@ -106,6 +107,7 @@ namespace Monofoxe.Engine
 		private static List<VertexPositionColorTexture> _primitiveVertices;
 		private static List<short> _primitiveIndices;
 		private static PipelineMode _primitiveType;
+		private static Texture2D _primitiveTexture;
 		// Primitive.
 
 		#endregion shapes
@@ -133,15 +135,18 @@ namespace Monofoxe.Engine
 			_indices = new List<short>();
 
 			_currentPipelineMode = PipelineMode.Sprites;
+			_currentTexture = null;
 
 			Device.SetVertexBuffer(_vertexBuffer);
 			Device.Indices = _indexBuffer;
 
 			_primitiveVertices = new List<VertexPositionColorTexture>();
 			_primitiveIndices = new List<short>();
+			_primitiveTexture = null;
 
 			CurrentColor = Color.White;
 			CircleVerticesCount = 32;
+			
 		}
 
 
@@ -152,24 +157,29 @@ namespace Monofoxe.Engine
 		public static void Update()
 		{
 			__drawcalls = 0;
-			_currentPipelineMode = PipelineMode.Sprites;
 			
 			var depthSortedObjects = Objects.GameObjects.OrderByDescending(o => o.Depth);
 			
 			// Main draw events.
 			foreach(Camera camera in Cameras)
 			{
-				CurrentCamera = camera;
-				//BasicEffect.World = camera.CreateTranslationMatrix();
-				BasicEffect.View = camera.CreateTranslationMatrix();
-				BasicEffect.Projection = Matrix.CreateOrthographicOffCenter(0, camera.W, camera.H, 0, 0, 1);
-
-
 				if (camera.Enabled)
 				{
+					_currentPipelineMode = PipelineMode.Sprites;
+					
+					// Updating current transform matrix and camera.
+					camera.UpdateTransformMatrix();
+					CurrentCamera = camera;
+					CurrentTransformMatrix = camera.TransformMatrix;
+					BasicEffect.View = camera.TransformMatrix;
+					BasicEffect.Projection = Matrix.CreateOrthographicOffCenter(0, camera.W, camera.H, 0, 0, 1);
+					// Updating current transform matrix and camera.
+
+					Input.UpdateMouseWorldPosition();
+
 					Device.SetRenderTarget(camera.ViewSurface);
 					Device.Clear(camera.BackgroundColor);
-					Batch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, camera.CreateTranslationMatrix());
+					Batch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, CurrentTransformMatrix);
 					
 					foreach(GameObj obj in depthSortedObjects)
 					{
@@ -188,13 +198,15 @@ namespace Monofoxe.Engine
 						if (obj.Active)
 						{obj.DrawEnd();}
 					}
-					Batch.End();
+					Batch.End();			
+					DrawVertices(); // If there are any vertices left, we need to draw them.
 				}
 			}
 			// Main draw events.
 
 			CurrentCamera = null;
-			BasicEffect.World = Matrix.CreateTranslation(0, 0, 0);
+			CurrentTransformMatrix = Matrix.CreateTranslation(0, 0, 0);
+			BasicEffect.View = CurrentTransformMatrix;
 			BasicEffect.Projection = Matrix.CreateOrthographicOffCenter(0, 800, 480, 0, 0, 1);
 
 
@@ -211,12 +223,13 @@ namespace Monofoxe.Engine
 				{Batch.Draw(camera.ViewSurface, new Vector2(camera.PortX, camera.PortY), Color.White);}
 			}
 			Batch.End();
-			DrawVertices();
 			// Drawing camera surfaces.
 
 			Debug.WriteLine("CALLS: " + __drawcalls);
 
 			// Drawing GUI stuff.
+			_currentPipelineMode = PipelineMode.Sprites;
+			
 			Batch.Begin();
 			foreach(GameObj obj in depthSortedObjects)
 			{
@@ -224,6 +237,7 @@ namespace Monofoxe.Engine
 				{obj.DrawGUI();}
 			}
 			Batch.End();
+			DrawVertices();
 			// Drawing GUI stuff.
 		}
 
@@ -235,33 +249,20 @@ namespace Monofoxe.Engine
 		/// Switches graphics pipeline mode.
 		/// </summary>
 		/// <param name="mode"></param>
-		private static void SwitchPipelineMode(PipelineMode mode)
+		private static void SwitchPipelineMode(PipelineMode mode, Texture2D texture)
 		{
-			if (mode != _currentPipelineMode)
+			if (mode != _currentPipelineMode || texture != _currentTexture)
 			{
 				if (_currentPipelineMode == PipelineMode.Sprites)
 				{Batch.End();}
 				else
 				{DrawVertices();}
 
-				switch(mode)
-				{
-					case PipelineMode.Sprites:
-					{
-						Batch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, Cameras[0].CreateTranslationMatrix());
-						break;
-					}
-					case PipelineMode.TrianglePrimitives:
-					{
-						break;
-					}
-					case PipelineMode.OutlinePrimitives:
-					{ 
-						break;
-					}
-				}
+				if (mode == PipelineMode.Sprites)
+				{Batch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, CurrentTransformMatrix);}
 
 				_currentPipelineMode = mode;
+				_currentTexture = texture;
 			}
 		}
 
@@ -274,9 +275,9 @@ namespace Monofoxe.Engine
 		/// <param name="mode">Suggested pipeline mode.</param>
 		/// <param name="vertices">List of vertices.</param>
 		/// <param name="indexes">List of indices.</param>
-		private static void AddVertices(PipelineMode mode, List<VertexPositionColorTexture> vertices, List<short> indexes)
+		private static void AddVertices(PipelineMode mode, Texture2D texture, List<VertexPositionColorTexture> vertices, List<short> indexes)
 		{
-			SwitchPipelineMode(mode);
+			SwitchPipelineMode(mode, texture);
 
 			for(var i = 0; i < indexes.Count; i += 1)
 			{indexes[i] += (short)_vertices.Count;} // We need to offset each index because of single buffer for everything.
@@ -296,6 +297,11 @@ namespace Monofoxe.Engine
 
 			if (_vertices.Count > 0)
 			{
+			
+				BasicEffect.Texture = _currentTexture;
+				BasicEffect.TextureEnabled = (_currentTexture != null);
+
+
 				PrimitiveType type;
 				int prCount;
 
@@ -314,10 +320,10 @@ namespace Monofoxe.Engine
 				_vertexBuffer.SetData(_vertices.ToArray(), 0, _vertices.Count, SetDataOptions.None);
 				_indexBuffer.SetData(_indices.ToArray(), 0, _indices.Count);
 				// Passing primitive data to the buffers.
-			
 				RasterizerState rasterizerState = new RasterizerState(); // Do something with it, I guees.
 			  rasterizerState.CullMode = CullMode.None;
 				//rasterizerState.FillMode = FillMode.WireFrame;
+				
 				Device.RasterizerState = rasterizerState;
 
 				foreach(EffectPass pass in BasicEffect.CurrentTechnique.Passes)
@@ -328,7 +334,6 @@ namespace Monofoxe.Engine
 
 				_vertices.Clear();
 				_indices.Clear();
-				
 			}
 		}
 
@@ -340,6 +345,7 @@ namespace Monofoxe.Engine
 		
 		public static void DrawSprite(Texture2D texture, int x, int y, Color color)
 		{
+			SwitchPipelineMode(PipelineMode.Sprites, null);
 			Batch.Draw(texture, new Vector2(x, y), color);
 		}	
 		
@@ -347,6 +353,7 @@ namespace Monofoxe.Engine
 
 		public static void DrawSurface(RenderTarget2D surf, int x, int y, Color color)
 		{
+			SwitchPipelineMode(PipelineMode.Sprites, null);
 			Batch.Draw(surf, new Vector2(x, y), color);
 		}	
 
@@ -413,7 +420,7 @@ namespace Monofoxe.Engine
 			vertices.Add(new VertexPositionColorTexture(new Vector3(x2, y2, 0), c2, Vector2.Zero));
 			vertices.Add(new VertexPositionColorTexture(new Vector3(x3, y3, 0), c3, Vector2.Zero));
 			
-			AddVertices(_types[o], vertices, new List<short>(_triangleIndices[o]));
+			AddVertices(_types[o], null, vertices, new List<short>(_triangleIndices[o]));
 		}
 
 
@@ -476,7 +483,7 @@ namespace Monofoxe.Engine
 			vertices.Add(new VertexPositionColorTexture(new Vector3(x2, y2, 0), c3, Vector2.Zero));
 			vertices.Add(new VertexPositionColorTexture(new Vector3(x1, y2, 0), c4, Vector2.Zero));
 			
-			AddVertices(_types[o], vertices, new List<short>(_rectangleIndices[o]));
+			AddVertices(_types[o], null, vertices, new List<short>(_rectangleIndices[o]));
 		}
 
 
@@ -532,7 +539,7 @@ namespace Monofoxe.Engine
 			
 			for(var i = 0; i < CircleVerticesCount; i += 1)
 			{vertices.Add(new VertexPositionColorTexture(new Vector3(x + r * _circleVectors[i].X, y + r * _circleVectors[i].Y, 0), CurrentColor, Vector2.Zero));}
-			AddVertices(prType, vertices, new List<short>(indexArray));
+			AddVertices(prType, null, vertices, new List<short>(indexArray));
 		}
 
 		#endregion shapes
@@ -541,6 +548,11 @@ namespace Monofoxe.Engine
 
 		#region primitives
 		
+		public static void PrimitiveSetTexture(Texture2D texture)
+		{
+			_primitiveTexture = texture;
+		}
+
 		public static void PrimitiveAddVertex(Vector2 pos)
 		{
 			_primitiveVertices.Add(new VertexPositionColorTexture(new Vector3(pos.X, pos.Y, 0), CurrentColor, Vector2.Zero));
@@ -549,6 +561,11 @@ namespace Monofoxe.Engine
 		public static void PrimitiveAddVertex(Vector2 pos, Color color)
 		{
 			_primitiveVertices.Add(new VertexPositionColorTexture(new Vector3(pos.X, pos.Y, 0), color, Vector2.Zero));
+		}
+
+		public static void PrimitiveAddVertex(Vector2 pos, Vector2 texturePos)
+		{
+			_primitiveVertices.Add(new VertexPositionColorTexture(new Vector3(pos.X, pos.Y, 0), CurrentColor, texturePos));
 		}
 
 		public static void PrimitiveAddVertex(Vector2 pos, Color color, Vector2 texturePos)
@@ -564,6 +581,11 @@ namespace Monofoxe.Engine
 		public static void PrimitiveAddVertex(int x, int y, Color color)
 		{
 			_primitiveVertices.Add(new VertexPositionColorTexture(new Vector3(x, y, 0), color, Vector2.Zero));
+		}
+	
+		public static void PrimitiveAddVertex(int x, int y, Vector2 texturePos)
+		{
+			_primitiveVertices.Add(new VertexPositionColorTexture(new Vector3(x, y, 0), CurrentColor, texturePos));
 		}
 
 		public static void PrimitiveAddVertex(int x, int y, Color color, Vector2 texturePos)
@@ -711,16 +733,27 @@ namespace Monofoxe.Engine
 		}
 
 
+		/// <summary>
+		/// Begins primitive drawing. 
+		/// It's more of a safety check for junk primitives.
+		/// </summary>
+		public static void PrimitiveBegin()
+		{
+			if (_primitiveVertices.Count != 0 || _primitiveIndices.Count != 0)
+			{throw(new Exception("Junk primitive data detected! Did you set index data wrong or forgot PrimitiveEnd somewhere?"));}
+		}
 
 		/// <summary>
 		/// Ends drawing of a primitive.
 		/// </summary>
 		public static void PrimitiveEnd()
 		{
-			AddVertices(_primitiveType, _primitiveVertices, _primitiveIndices);
+			
+			AddVertices(_primitiveType, _primitiveTexture, _primitiveVertices, _primitiveIndices);
 
 			_primitiveVertices.Clear();
 			_primitiveIndices.Clear();
+			_primitiveTexture = null;
 		}
 
 		#endregion primitives

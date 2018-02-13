@@ -23,8 +23,8 @@ namespace Monofoxe.Engine
 		/// View coordinates.
 		/// NOTE: They don't take in account offset and rotation.
 		/// </summary>
-		public int X = 0, 
-		           Y = 0;
+		public float X = 0, 
+		             Y = 0;
 
 		/// <summary>
 		/// View width.
@@ -90,12 +90,16 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public bool Enabled = true;
 
+		/// <summary>
+		/// Transformation matrix.
+		/// </summary>
+		public Matrix TransformMatrix;
 
 
 		public Camera(int w, int h)
 		{
 			ViewSurface = new RenderTarget2D(DrawCntrl.Device, w, h);
-			DrawCntrl.Cameras.Add(this);	
+			DrawCntrl.Cameras.Add(this);
 		}
 
 		
@@ -111,18 +115,14 @@ namespace Monofoxe.Engine
 			DrawCntrl.Cameras.Remove(this);
 			ViewSurface.Dispose();
 		}
-
-
-		public Matrix CreateTranslationMatrix()
+		
+		public void UpdateTransformMatrix()
 		{
-			return Matrix.CreateTranslation(new Vector3(-X, -Y, 0)) *          //Coordinates.
-             Matrix.CreateRotationZ(MathHelper.ToRadians(-Rotation)) *   //Rotation.
-             Matrix.CreateScale(new Vector3(ScaleX, ScaleY, 1)) *	       //Scale.
-             Matrix.CreateTranslation(new Vector3(OffsetX, OffsetY, 0)); //Offset.
-																					
+			TransformMatrix = Matrix.CreateTranslation(new Vector3(-X, -Y, 0)) *          //Coordinates.
+		                    Matrix.CreateRotationZ(MathHelper.ToRadians(-Rotation)) *   //Rotation.
+		                    Matrix.CreateScale(new Vector3(ScaleX, ScaleY, 1)) *	       //Scale.
+		                    Matrix.CreateTranslation(new Vector3(OffsetX, OffsetY, 0)); //Offset.									
 		}
-
-
 
 	}
 }
