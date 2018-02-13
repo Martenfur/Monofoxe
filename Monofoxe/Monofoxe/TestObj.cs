@@ -14,14 +14,15 @@ namespace Monofoxe
 {
 	class TestObj: GameObj 
 	{
-		int x, y;
+		float x, y;
 		double period = 3; // Seconds.
 		double ang = 0;
 		
 		RenderTarget2D surf;
 
 		
-		Camera cam = new Camera(800, 480);
+		Camera cam = new Camera(300, 480);
+		Camera cam1 = new Camera(500, 480);
 
 		VertexPositionColor[] vertices = new VertexPositionColor[3];
 		VertexBuffer vertexBuffer;
@@ -50,7 +51,18 @@ namespace Monofoxe
 			batch.End();
 
 			DrawCntrl.Device.SetRenderTarget(null);
-			cam.BackgroundColor = Color.BlanchedAlmond;
+			cam.BackgroundColor = Color.BurlyWood;
+
+			
+			cam.OffsetX = cam.W / 2;
+			cam.OffsetY = cam.H / 2;
+
+			x = cam.W / 2;
+			y = cam.H / 2;
+
+			cam1.PortX = 300;
+			cam1.BackgroundColor = Color.Sienna;
+			//cam1.Enabled = false;
 		}
 
 		public override void Update()
@@ -64,16 +76,16 @@ namespace Monofoxe
 			}
 			
 			if (Input.KeyboardCheck(Keys.Left))
-			{x += 5;}
+			{x += (5 / cam.ScaleX);}
 			
 			if (Input.KeyboardCheck(Keys.Right))
-			{x -= 5;}
+			{x -= (5 / cam.ScaleX);;}
 			
 			if (Input.KeyboardCheck(Keys.Up))
-			{y += 5;}
+			{y += (5 / cam.ScaleX);}
 			
 			if (Input.KeyboardCheck(Keys.Down))
-			{y -= 5;}
+			{y -= (5 / cam.ScaleX);}
 			
 			if (Input.KeyboardCheck(Keys.Z))
 			{
@@ -85,6 +97,11 @@ namespace Monofoxe
 			{
 				cam.ScaleX -= 0.1f;
 				cam.ScaleY -= 0.1f;
+				if (cam.ScaleX <= 0)
+				{
+					cam.ScaleX = 0.1f;
+					cam.ScaleY = 0.1f;
+				}
 			}
 			
 			if (Input.KeyboardCheck(Keys.C))
@@ -96,25 +113,17 @@ namespace Monofoxe
 
 			cam.X = x;
 			cam.Y = y;
-			
+
 
 
 		}
-		int c = 0;
 		public override void Draw()
 		{	
-			
-			DrawCntrl.PrimitiveAddVertex(new Vector2(0, 0));
-			DrawCntrl.PrimitiveAddVertex(new Vector2(32, 32), Color.Aquamarine);
-			DrawCntrl.PrimitiveAddVertex(new Vector2(64, 0), Color.DarkBlue);
-			DrawCntrl.PrimitiveAddVertex(new Vector2(96, 32), Color.Chartreuse);
-			DrawCntrl.PrimitiveSetTriangleStripIndices();
-			DrawCntrl.PrimitiveEnd();
 			
 			DrawCntrl.PrimitiveAddVertex(new Vector2(64, 64), Color.DarkOrange);
 			DrawCntrl.PrimitiveAddVertex(new Vector2(70, 70), Color.Aquamarine);
 			DrawCntrl.PrimitiveAddVertex(new Vector2(100, 80), Color.DarkBlue);
-			DrawCntrl.PrimitiveAddVertex(new Vector2(64, 80), Color.Chartreuse);
+			DrawCntrl.PrimitiveAddVertex(new Vector2(64, 80), new Color(76, 135, 255, 128));
 			DrawCntrl.PrimitiveSetLineStripIndices(true);
 			DrawCntrl.PrimitiveEnd();
 			
@@ -127,8 +136,16 @@ namespace Monofoxe
 			DrawCntrl.PrimitiveAddVertex(new Vector2(130, 80), Color.Chartreuse);
 			DrawCntrl.PrimitiveSetTriangleFanIndices();
 			DrawCntrl.PrimitiveEnd();
-
-
+			
+			
+			DrawCntrl.PrimitiveAddVertex(0, 0, new Vector2(0, 0));
+			DrawCntrl.PrimitiveAddVertex(32, 32, new Color(56, 135, 255, 0), new Vector2(0, 1));
+			DrawCntrl.PrimitiveAddVertex(64, 0,new Color(56, 135, 255, 0) , new Vector2(1, 0));
+			DrawCntrl.PrimitiveAddVertex(96, 32, new Color(56, 135, 255, 0), new Vector2(1, 1));
+			DrawCntrl.PrimitiveSetTriangleStripIndices();
+			DrawCntrl.PrimitiveSetTexture(Game1.tex);
+			DrawCntrl.PrimitiveEnd();
+			
 
 			int _x = 0;
 			int _y = 100;
@@ -140,18 +157,37 @@ namespace Monofoxe
 			{
 				for(var i = 0; i < w; i += 1)
 				{			
-					DrawCntrl.PrimitiveAddVertex(new Vector2(_x + 16 * i, _y + 16 * k), Color.BlueViolet);	
+					DrawCntrl.PrimitiveAddVertex(_x + 8 * i + i * i * k, _y + 8 * k + k * k * i, Color.White, new Vector2(i / (float)(w - 1), k / (float)(h - 1)));	
 				}
 			}
+			DrawCntrl.PrimitiveSetTexture(Game1.tex);
 			DrawCntrl.PrimitiveSetMeshIndices(w, h);
 			DrawCntrl.PrimitiveEnd();
-
+			
 			Debug.WriteLine(GameCntrl.Fps);
+			
+			//DrawCntrl.DrawRectangle(0, 0, 100, 100, false);
+
+			DrawCntrl.DrawCircle(Input.MousePos, 8, false);
 		}
 
 		public override void DrawGUI()
 		{
+			/*
+			DrawCntrl.CurrentColor = Color.Black;
+			DrawCntrl.DrawRectangle(32,16,640,64,false);
+
+			Color c = new Color(56, 135, 255, 0);
+			DrawCntrl.PrimitiveAddVertex(0, 0, new Vector2(0, 0));
+			DrawCntrl.PrimitiveAddVertex(32, 32, c, new Vector2(0, 1));
+			DrawCntrl.PrimitiveAddVertex(64, 0, c, new Vector2(1, 0));
+			DrawCntrl.PrimitiveAddVertex(96, 32, c, new Vector2(1, 1));
+			DrawCntrl.PrimitiveSetTriangleStripIndices();
+			//DrawCntrl.PrimitiveSetTexture(Game1.tex);
+			DrawCntrl.PrimitiveEnd();
 			
+			DrawCntrl.DrawSprite(Game1.tex, 32, 32, Color.White);
+			*/
 		}
 
 	}

@@ -15,6 +15,13 @@ namespace Monofoxe.Engine
 		/// Cursor position on screen.
 		/// </summary>
 		public static Vector2 ScreenMousePos {get; private set;} = new Vector2(0, 0);
+		
+		/// <summary>
+		/// Cursor position in the world. Depends on current camera.
+		/// </summary>
+		public static Vector2 MousePos {get; private set;} = new Vector2(0, 0);
+
+
 		private static List<MB> _mouseButtons, _previousMouseButtons;
 		
 		/// <summary>
@@ -275,6 +282,19 @@ namespace Monofoxe.Engine
 			_mouseButtons = null;
 			_previousMouseButtons = null;
 		}
+
+
+		/// <summary>
+		/// Updates mouse position in the world.
+		/// </summary>
+		public static void UpdateMouseWorldPosition()
+		{
+			Matrix m = Matrix.Invert(DrawCntrl.CurrentTransformMatrix);
+			
+			Vector3 buffer = Vector3.Transform(new Vector3(ScreenMousePos.X, ScreenMousePos.Y, 0), m);
+			MousePos = new Vector2(buffer.X - DrawCntrl.CurrentCamera.PortX, buffer.Y - DrawCntrl.CurrentCamera.PortY);
+		}
+
 
 		#endregion mouse
 
