@@ -8,9 +8,9 @@ using Microsoft.Xna.Framework;
 
 namespace Monofoxe.Engine
 {
-	public class GameCntrl
+	public static class GameCntrl
 	{
-		public static Game1 MyGame = null;	
+		public static Game MyGame = null;	
 
 		public static double ElapsedTimeTotal {get; private set;} = 0;
 		public static double ElapsedTime {get; private set;} = 0;

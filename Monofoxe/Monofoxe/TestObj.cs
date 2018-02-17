@@ -21,15 +21,15 @@ namespace Monofoxe
 		RenderTarget2D surf;
 
 		
-		Camera cam = new Camera(300, 480);
-		Camera cam1 = new Camera(500, 480);
+		Camera cam = new Camera(400, 480);
+		Camera cam1 = new Camera(400, 480);
 
 		VertexPositionColor[] vertices = new VertexPositionColor[3];
 		VertexBuffer vertexBuffer;
 
 		public TestObj()
 		{
-
+			
 			vertices[0] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Transparent);
 			vertices[1] = new VertexPositionColor(new Vector3(64, 64, 0), Color.Transparent);
 			vertices[2] = new VertexPositionColor(new Vector3(0, 64, 0), Color.White);
@@ -38,19 +38,11 @@ namespace Monofoxe
 			
 			
 			GameCntrl.MaxGameSpeed = 60;
-			surf = new RenderTarget2D(DrawCntrl.Device, 512, 512);
+			surf = new RenderTarget2D(DrawCntrl.Device, 512, 512, false,
+                                           DrawCntrl.Device.PresentationParameters.BackBufferFormat,
+                                           DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
+			
 
-			SpriteBatch batch = new SpriteBatch(DrawCntrl.Device);
-
-			DrawCntrl.Device.SetRenderTarget(surf);
-
-			batch.Begin();
-
-			batch.Draw(Game1.tex, new Vector2(32, 32), Color.White);
-
-			batch.End();
-
-			DrawCntrl.Device.SetRenderTarget(null);
 			cam.BackgroundColor = Color.BurlyWood;
 
 			
@@ -60,7 +52,7 @@ namespace Monofoxe
 			x = cam.W / 2;
 			y = cam.H / 2;
 
-			cam1.PortX = 300;
+			cam1.PortX = 400;
 			cam1.BackgroundColor = Color.Sienna;
 			//cam1.Enabled = false;
 		}
@@ -114,12 +106,18 @@ namespace Monofoxe
 			cam.X = x;
 			cam.Y = y;
 
-
-
+			DrawCntrl.SetSurfaceTarget(surf, Matrix.CreateTranslation(0, 0, 0));
+			//DrawCntrl.Device.Clear(Color.Azure);
+			DrawCntrl.DrawSprite(Game1.part, cam.X, cam.Y, Color.White);
+			DrawCntrl.ResetSurfaceTarget();
 		}
+
 		public override void Draw()
 		{	
 			
+			
+
+	
 			DrawCntrl.PrimitiveAddVertex(new Vector2(64, 64), Color.DarkOrange);
 			DrawCntrl.PrimitiveAddVertex(new Vector2(70, 70), Color.Aquamarine);
 			DrawCntrl.PrimitiveAddVertex(new Vector2(100, 80), Color.DarkBlue);
@@ -129,7 +127,10 @@ namespace Monofoxe
 			
 			//DrawCntrl.DrawTriangle(0,0,32,32,64,100,true);
 
+			DrawCntrl.DrawSurface(surf, 32, 32, Color.White);
 			
+			DrawCntrl.DrawSprite(Game1.part, 0, 0, Color.Red);
+
 			DrawCntrl.PrimitiveAddVertex(new Vector2(120, 54), Color.DarkOrange);
 			DrawCntrl.PrimitiveAddVertex(new Vector2(150, 60), Color.Aquamarine);
 			DrawCntrl.PrimitiveAddVertex(new Vector2(180, 60), Color.DarkBlue);
@@ -145,6 +146,7 @@ namespace Monofoxe
 			DrawCntrl.PrimitiveSetTriangleStripIndices();
 			DrawCntrl.PrimitiveSetTexture(Game1.tex);
 			DrawCntrl.PrimitiveEnd();
+			
 			
 
 			int _x = 0;
@@ -164,16 +166,29 @@ namespace Monofoxe
 			DrawCntrl.PrimitiveSetMeshIndices(w, h);
 			DrawCntrl.PrimitiveEnd();
 			
+			//DrawCntrl.DrawRectangle(0, 0, 100, 100, false);
 			Debug.WriteLine(GameCntrl.Fps);
 			
-			//DrawCntrl.DrawRectangle(0, 0, 100, 100, false);
+			//DrawCntrl.DrawLine(Input.MousePos, Vector2.Zero, 16, Color.AliceBlue, Color.Black);
 
-			DrawCntrl.DrawCircle(Input.MousePos, 8, false);
+			//for(var i = 0; i < 5000; i +=1)
+			//DrawCntrl.DrawCircle(Input.MousePos, 8, false);
+			
+			//DrawCntrl.CurrentColor = Color.Brown;
+			//DrawCntrl.DrawRectangle(64,64,96,96,false);
+			//DrawCntrl.CurrentColor = Color.Cornsilk;
+			//DrawCntrl.DrawTriangle(0,0,0,16,3,320,false);
+			//DrawCntrl.DrawLine(Input.MousePos, Vector2.Zero, Color.AliceBlue, Color.Black);
+			//DrawCntrl.DrawLine(100,100,120,120, Color.AliceBlue, Color.Black);
+
+			
 		}
 
 		public override void DrawGUI()
 		{
-			/*
+		
+			DrawCntrl.DrawSprite(Game1.tex, 0, 0, Color.White);
+			
 			DrawCntrl.CurrentColor = Color.Black;
 			DrawCntrl.DrawRectangle(32,16,640,64,false);
 
@@ -186,8 +201,8 @@ namespace Monofoxe
 			//DrawCntrl.PrimitiveSetTexture(Game1.tex);
 			DrawCntrl.PrimitiveEnd();
 			
-			DrawCntrl.DrawSprite(Game1.tex, 32, 32, Color.White);
-			*/
+
+
 		}
 
 	}
