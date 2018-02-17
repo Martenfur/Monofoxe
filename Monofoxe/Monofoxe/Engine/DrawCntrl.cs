@@ -254,6 +254,18 @@ namespace Monofoxe.Engine
 
 			_currentPipelineMode = PipelineMode.None;
 
+			// Safety checks.
+			if (_surfaceStack.Count != 0)
+			{
+				throw(new InvalidOperationException("Unbalanced surface stack! Did you forgot to reset a surface somewhere?"));
+			}
+
+			if (_transformMatrixStack.Count != 0)
+			{
+				throw(new InvalidOperationException("Unbalanced matrix stack! Did you forgot to reset a matrix somewhere?"));
+			}
+			// Safety checks.
+
 			Debug.WriteLine("CALLS: " + __drawcalls);
 		}
 
@@ -388,24 +400,51 @@ namespace Monofoxe.Engine
 
 		public static void SetSurfaceTarget(RenderTarget2D surf, Matrix matrix)
 		{
-			SwitchPipelineMode(PipelineMode.None, null);
+			SetTransformMatrix(matrix);
+
 			_surfaceStack.Push(_currentSurface);
 			_currentSurface = surf;
-
-			_transformMatrixStack.Push(CurrentTransformMatrix);
-			CurrentTransformMatrix = matrix;
 
 			Device.SetRenderTarget(_currentSurface);
 		}
 
 		public static void ResetSurfaceTarget()
 		{
-			SwitchPipelineMode(PipelineMode.None, null);
+			ResetTransformMatrix();
+
+			if (_surfaceStack.Count == 0)
+			{
+				throw(new InvalidOperationException("Surface stack is empty! Did you forgot to set a surface somewhere?"));
+			}
 			_currentSurface = _surfaceStack.Pop();
 
-			CurrentTransformMatrix = _transformMatrixStack.Pop();
-			
 			Device.SetRenderTarget(_currentSurface);
+		}
+
+
+		public static void SetTransformMatrix(Matrix matrix)
+		{
+			SwitchPipelineMode(PipelineMode.None, null);
+			_transformMatrixStack.Push(CurrentTransformMatrix);
+			CurrentTransformMatrix = matrix;
+		}
+
+		public static void AddTransformMatrix(Matrix matrix)
+		{
+			SwitchPipelineMode(PipelineMode.None, null);
+			_transformMatrixStack.Push(CurrentTransformMatrix);
+			CurrentTransformMatrix = matrix * CurrentTransformMatrix;
+		}
+
+
+		public static void ResetTransformMatrix()
+		{
+			if (_transformMatrixStack.Count == 0)
+			{
+				throw(new InvalidOperationException("Matrix stack is empty! Did you forgot to set a matrix somewhere?"));
+			}
+			SwitchPipelineMode(PipelineMode.None, null);
+			CurrentTransformMatrix = _transformMatrixStack.Pop();
 		}
 
 		#endregion sprites
