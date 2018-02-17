@@ -116,8 +116,49 @@ namespace Monofoxe
 		{	
 			
 			
+			
+			//DrawCntrl.DrawSurface(surf, 32, 32, Color.White);
+			
 
-	
+			Matrix mtx = Matrix.CreateTranslation(new Vector3(64, 64, 0)) * Matrix.CreateRotationZ(MathHelper.ToRadians(cam.Rotation));
+			//* Matrix.CreateTranslation(new Vector3(64, 64, 0));
+			
+			DrawCntrl.AddTransformMatrix(mtx);
+			DrawCntrl.DrawSprite(Game1.part, 0, 0, Color.Red);
+			DrawCntrl.ResetTransformMatrix();
+
+			DrawCntrl.SetTransformMatrix(mtx);
+			DrawCntrl.DrawSprite(Game1.part, 0, 0, Color.Green);
+			DrawCntrl.ResetTransformMatrix();
+
+
+			TestDrawPrimitives();
+			
+			//DrawCntrl.DrawRectangle(0, 0, 100, 100, false);
+			Debug.WriteLine(GameCntrl.Fps);
+			
+			//DrawCntrl.DrawLine(Input.MousePos, Vector2.Zero, 16, Color.AliceBlue, Color.Black);
+
+			//for(var i = 0; i < 5000; i +=1)
+			//DrawCntrl.DrawCircle(Input.MousePos, 8, false);
+			
+			//DrawCntrl.CurrentColor = Color.Brown;
+			//DrawCntrl.DrawRectangle(64,64,96,96,false);
+			//DrawCntrl.CurrentColor = Color.Cornsilk;
+			//DrawCntrl.DrawTriangle(0,0,0,16,3,320,false);
+			//DrawCntrl.DrawLine(Input.MousePos, Vector2.Zero, Color.AliceBlue, Color.Black);
+			//DrawCntrl.DrawLine(100,100,120,120, Color.AliceBlue, Color.Black);
+
+			
+		}
+
+		public override void DrawGUI()
+		{
+		
+		}
+
+		private void TestDrawPrimitives()
+		{
 			DrawCntrl.PrimitiveAddVertex(new Vector2(64, 64), Color.DarkOrange);
 			DrawCntrl.PrimitiveAddVertex(new Vector2(70, 70), Color.Aquamarine);
 			DrawCntrl.PrimitiveAddVertex(new Vector2(100, 80), Color.DarkBlue);
@@ -126,10 +167,6 @@ namespace Monofoxe
 			DrawCntrl.PrimitiveEnd();
 			
 			//DrawCntrl.DrawTriangle(0,0,32,32,64,100,true);
-
-			DrawCntrl.DrawSurface(surf, 32, 32, Color.White);
-			
-			DrawCntrl.DrawSprite(Game1.part, 0, 0, Color.Red);
 
 			DrawCntrl.PrimitiveAddVertex(new Vector2(120, 54), Color.DarkOrange);
 			DrawCntrl.PrimitiveAddVertex(new Vector2(150, 60), Color.Aquamarine);
@@ -165,44 +202,6 @@ namespace Monofoxe
 			DrawCntrl.PrimitiveSetTexture(Game1.tex);
 			DrawCntrl.PrimitiveSetMeshIndices(w, h);
 			DrawCntrl.PrimitiveEnd();
-			
-			//DrawCntrl.DrawRectangle(0, 0, 100, 100, false);
-			Debug.WriteLine(GameCntrl.Fps);
-			
-			//DrawCntrl.DrawLine(Input.MousePos, Vector2.Zero, 16, Color.AliceBlue, Color.Black);
-
-			//for(var i = 0; i < 5000; i +=1)
-			//DrawCntrl.DrawCircle(Input.MousePos, 8, false);
-			
-			//DrawCntrl.CurrentColor = Color.Brown;
-			//DrawCntrl.DrawRectangle(64,64,96,96,false);
-			//DrawCntrl.CurrentColor = Color.Cornsilk;
-			//DrawCntrl.DrawTriangle(0,0,0,16,3,320,false);
-			//DrawCntrl.DrawLine(Input.MousePos, Vector2.Zero, Color.AliceBlue, Color.Black);
-			//DrawCntrl.DrawLine(100,100,120,120, Color.AliceBlue, Color.Black);
-
-			
-		}
-
-		public override void DrawGUI()
-		{
-		
-			DrawCntrl.DrawSprite(Game1.tex, 0, 0, Color.White);
-			
-			DrawCntrl.CurrentColor = Color.Black;
-			DrawCntrl.DrawRectangle(32,16,640,64,false);
-
-			Color c = new Color(56, 135, 255, 0);
-			DrawCntrl.PrimitiveAddVertex(0, 0, new Vector2(0, 0));
-			DrawCntrl.PrimitiveAddVertex(32, 32, c, new Vector2(0, 1));
-			DrawCntrl.PrimitiveAddVertex(64, 0, c, new Vector2(1, 0));
-			DrawCntrl.PrimitiveAddVertex(96, 32, c, new Vector2(1, 1));
-			DrawCntrl.PrimitiveSetTriangleStripIndices();
-			//DrawCntrl.PrimitiveSetTexture(Game1.tex);
-			DrawCntrl.PrimitiveEnd();
-			
-
-
 		}
 
 	}
