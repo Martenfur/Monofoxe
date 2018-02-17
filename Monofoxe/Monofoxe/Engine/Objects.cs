@@ -10,7 +10,7 @@ using Monofoxe.Engine;
 
 namespace Monofoxe.Engine
 {
-	public class Objects
+	public static class Objects
 	{
 		
 		/// <summary>

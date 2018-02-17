@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Monofoxe.Engine
 {
-	public class Input
+	public static class Input
 	{
 		// Mouse.
 		/// <summary>

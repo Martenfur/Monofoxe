@@ -16,10 +16,6 @@ namespace Monofoxe
 		public GraphicsDeviceManager graphics;
 		public static Texture2D tex;
 		public static Texture2D part;
-		
-		public static RenderTarget2D surf;
-
-		public static Matrix Transform;
 
 		public Game1()
 		{
@@ -35,8 +31,6 @@ namespace Monofoxe
 		/// </summary>
 		protected override void Initialize()
 		{
-			// TODO: Add your initialization logic here
-			
 			GameCntrl.MyGame = this;
 			
 			GameCntrl.MaxGameSpeed = 60.0;
@@ -44,13 +38,6 @@ namespace Monofoxe
 			Debug.Write(GameCntrl.MaxGameSpeed);
 			
 			Window.TextInput += Input.TextInput;
-			
-			surf = new RenderTarget2D(GraphicsDevice, 64, 64);
-
-			GraphicsDevice.SetRenderTarget(surf); 
-			GraphicsDevice.Clear(Color.AntiqueWhite);
-			GraphicsDevice.SetRenderTarget(null);
-	
 
 			base.Initialize();
 		}
@@ -91,6 +78,7 @@ namespace Monofoxe
 			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
 			{Exit();}
 			
+			GameCntrl.Update(gameTime);
 			
 			base.Update(gameTime);
 		}
@@ -101,8 +89,6 @@ namespace Monofoxe
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw(GameTime gameTime)
 		{			
-			GameCntrl.Update(gameTime); // Move to UPDATE!!!
-			
 			DrawCntrl.Update();
 
 			base.Draw(gameTime);

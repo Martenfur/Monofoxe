@@ -8,9 +8,10 @@ using System.Diagnostics;
 
 namespace Monofoxe.Engine
 {
-	class DrawCntrl
+	public static class DrawCntrl
 	{
-		
+		private const int BUFFER_SIZE = 320000;	
+
 		public static SpriteBatch Batch;
 		public static GraphicsDevice Device;
 
@@ -24,6 +25,8 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static Camera CurrentCamera {get; private set;} = null;
 		public static Matrix CurrentTransformMatrix {get; private set;}
+		private static Stack<Matrix> _transformMatrixStack;
+
 		public static BasicEffect BasicEffect;
 
 		/// <summary>
@@ -49,6 +52,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		private enum PipelineMode
 		{
+			None,               // No mode set.
 			Sprites,            // Sprite batch.
 			TrianglePrimitives, // Triangle list.
 			OutlinePrimitives,  // Line list.
@@ -57,13 +61,19 @@ namespace Monofoxe.Engine
 		private static PipelineMode _currentPipelineMode;
 		private static Texture2D _currentTexture;
 
+		/// <summary>
+		/// When can set surface tergets inside another surfaces.
+		/// </summary>
+		private static Stack<RenderTarget2D> _surfaceStack;
+		private static RenderTarget2D _currentSurface;
+
+
 
 		#region shapes
 
-		private static readonly PipelineMode[] _types = {PipelineMode.OutlinePrimitives, PipelineMode.TrianglePrimitives};
+		private static readonly PipelineMode[] _pipelineModes = {PipelineMode.OutlinePrimitives, PipelineMode.TrianglePrimitives};
 		
 		// Triangle.
-		private static readonly int[] _trianglePrAmounts = {3, 1};
 		private static readonly short[][] _triangleIndices = 
 		{
 			new short[]{0, 1, 1, 2, 2, 0}, 
@@ -72,7 +82,6 @@ namespace Monofoxe.Engine
 		// Triangle.
 
 		// Rectangle.
-		private static readonly int[] _rectanglePrAmounts = {4, 2};
 		private static readonly short[][] _rectangleIndices = 
 		{
 			new short[]{0, 1, 1, 2, 2, 3, 3, 0},
@@ -123,18 +132,18 @@ namespace Monofoxe.Engine
 		{
 			Device = device;
 
-			Batch = new SpriteBatch(device);
+			Batch = new SpriteBatch(Device);
 			Cameras = new List<Camera>();
 			BasicEffect = new BasicEffect(Device);
 			BasicEffect.VertexColorEnabled = true;
 			Device.DepthStencilState = DepthStencilState.DepthRead;
 			
-			_vertexBuffer = new DynamicVertexBuffer(Device, typeof(VertexPositionColorTexture), 320000, BufferUsage.WriteOnly);
-			_indexBuffer = new DynamicIndexBuffer(Device, IndexElementSize.SixteenBits, 320000, BufferUsage.WriteOnly);
+			_vertexBuffer = new DynamicVertexBuffer(Device, typeof(VertexPositionColorTexture), BUFFER_SIZE, BufferUsage.WriteOnly);
+			_indexBuffer = new DynamicIndexBuffer(Device, IndexElementSize.SixteenBits, BUFFER_SIZE, BufferUsage.WriteOnly);
 			_vertices = new List<VertexPositionColorTexture>();
 			_indices = new List<short>();
 
-			_currentPipelineMode = PipelineMode.Sprites;
+			_currentPipelineMode = PipelineMode.None;
 			_currentTexture = null;
 
 			Device.SetVertexBuffer(_vertexBuffer);
@@ -143,10 +152,14 @@ namespace Monofoxe.Engine
 			_primitiveVertices = new List<VertexPositionColorTexture>();
 			_primitiveIndices = new List<short>();
 			_primitiveTexture = null;
+			
+			_surfaceStack = new Stack<RenderTarget2D>();
+			_currentSurface = null;
 
 			CurrentColor = Color.White;
-			CircleVerticesCount = 32;
-			
+			CircleVerticesCount = 16;
+
+			_transformMatrixStack = new Stack<Matrix>();
 		}
 
 
@@ -165,21 +178,18 @@ namespace Monofoxe.Engine
 			{
 				if (camera.Enabled)
 				{
-					_currentPipelineMode = PipelineMode.Sprites;
-					
 					// Updating current transform matrix and camera.
 					camera.UpdateTransformMatrix();
 					CurrentCamera = camera;
-					CurrentTransformMatrix = camera.TransformMatrix;
 					BasicEffect.View = camera.TransformMatrix;
 					BasicEffect.Projection = Matrix.CreateOrthographicOffCenter(0, camera.W, camera.H, 0, 0, 1);
 					// Updating current transform matrix and camera.
 
 					Input.UpdateMouseWorldPosition();
 
-					Device.SetRenderTarget(camera.ViewSurface);
+					SetSurfaceTarget(camera.ViewSurface, camera.TransformMatrix);
+
 					Device.Clear(camera.BackgroundColor);
-					Batch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, CurrentTransformMatrix);
 					
 					foreach(GameObj obj in depthSortedObjects)
 					{
@@ -198,21 +208,22 @@ namespace Monofoxe.Engine
 						if (obj.Active)
 						{obj.DrawEnd();}
 					}
-					Batch.End();			
-					DrawVertices(); // If there are any vertices left, we need to draw them.
+					
+					ResetSurfaceTarget();
+					
 				}
 			}
 			// Main draw events.
 
+			
+			// Resetting camera and transform matrix.
 			CurrentCamera = null;
 			CurrentTransformMatrix = Matrix.CreateTranslation(0, 0, 0);
 			BasicEffect.View = CurrentTransformMatrix;
-			BasicEffect.Projection = Matrix.CreateOrthographicOffCenter(0, 800, 480, 0, 0, 1);
-
-
-			Device.SetRenderTarget(null);
+			BasicEffect.Projection = Matrix.CreateOrthographicOffCenter(0, 800, 480, 0, 0, 1); // TODO: Set actual backbuffer size here.
+			// Resetting camera and transform matrix.
 			
-			
+
 			// Drawing camera surfaces.
 			Device.Clear(Color.TransparentBlack);
 			
@@ -225,20 +236,25 @@ namespace Monofoxe.Engine
 			Batch.End();
 			// Drawing camera surfaces.
 
-			Debug.WriteLine("CALLS: " + __drawcalls);
-
-			// Drawing GUI stuff.
-			_currentPipelineMode = PipelineMode.Sprites;
 			
-			Batch.Begin();
+			// Drawing GUI stuff.
+			_currentPipelineMode = PipelineMode.None;
+			
 			foreach(GameObj obj in depthSortedObjects)
 			{
 				if (obj.Active)
 				{obj.DrawGUI();}
 			}
-			Batch.End();
+			
+			if (_currentPipelineMode == PipelineMode.Sprites) // If there's something left in batch or vertex buffer, we should draw it.
+			{Batch.End();}
 			DrawVertices();
 			// Drawing GUI stuff.
+
+
+			_currentPipelineMode = PipelineMode.None;
+
+			Debug.WriteLine("CALLS: " + __drawcalls);
 		}
 
 
@@ -253,14 +269,18 @@ namespace Monofoxe.Engine
 		{
 			if (mode != _currentPipelineMode || texture != _currentTexture)
 			{
-				if (_currentPipelineMode == PipelineMode.Sprites)
-				{Batch.End();}
-				else
-				{DrawVertices();}
+				if (_currentPipelineMode != PipelineMode.None)
+				{
+					if (_currentPipelineMode == PipelineMode.Sprites)
+					{Batch.End();}
+					else
+					{DrawVertices();}
+				}
 
 				if (mode == PipelineMode.Sprites)
-				{Batch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, CurrentTransformMatrix);}
-
+				{
+					Batch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, CurrentTransformMatrix);
+				}
 				_currentPipelineMode = mode;
 				_currentTexture = texture;
 			}
@@ -274,16 +294,24 @@ namespace Monofoxe.Engine
 		/// </summary>
 		/// <param name="mode">Suggested pipeline mode.</param>
 		/// <param name="vertices">List of vertices.</param>
-		/// <param name="indexes">List of indices.</param>
-		private static void AddVertices(PipelineMode mode, Texture2D texture, List<VertexPositionColorTexture> vertices, List<short> indexes)
+		/// <param name="indices">List of indices.</param>
+		private static void AddVertices(PipelineMode mode, Texture2D texture, List<VertexPositionColorTexture> vertices, short[] indices)
 		{
+			if (_indices.Count + indices.Length >= BUFFER_SIZE)
+			{
+				DrawVertices();
+			}
+
 			SwitchPipelineMode(mode, texture);
 
-			for(var i = 0; i < indexes.Count; i += 1)
-			{indexes[i] += (short)_vertices.Count;} // We need to offset each index because of single buffer for everything.
+			short[] indexesCopy= new short[indices.Length];
+			Array.Copy(indices, indexesCopy, indices.Length); // We must copy an array to prevent modifying original.
+
+			for(var i = 0; i < indices.Length; i += 1)
+			{indexesCopy[i] += (short)_vertices.Count;} // We need to offset each index because of single buffer for everything.
 
 			_vertices.AddRange(vertices);
-			_indices.AddRange(indexes);
+			_indices.AddRange(indexesCopy);
 		}
 
 
@@ -297,7 +325,6 @@ namespace Monofoxe.Engine
 
 			if (_vertices.Count > 0)
 			{
-			
 				BasicEffect.Texture = _currentTexture;
 				BasicEffect.TextureEnabled = (_currentTexture != null);
 
@@ -308,18 +335,19 @@ namespace Monofoxe.Engine
 				if (_currentPipelineMode == PipelineMode.OutlinePrimitives)
 				{
 					type = PrimitiveType.LineList;
-					prCount = _vertices.Count;
+					prCount = _indices.Count / 2;
 				}
 				else
 				{
 					type = PrimitiveType.TriangleList;
 					prCount = _indices.Count / 3;
 				}
-
+				
 				// Passing primitive data to the buffers.
 				_vertexBuffer.SetData(_vertices.ToArray(), 0, _vertices.Count, SetDataOptions.None);
 				_indexBuffer.SetData(_indices.ToArray(), 0, _indices.Count);
 				// Passing primitive data to the buffers.
+				
 				RasterizerState rasterizerState = new RasterizerState(); // Do something with it, I guees.
 			  rasterizerState.CullMode = CullMode.None;
 				//rasterizerState.FillMode = FillMode.WireFrame;
@@ -334,6 +362,7 @@ namespace Monofoxe.Engine
 
 				_vertices.Clear();
 				_indices.Clear();
+				
 			}
 		}
 
@@ -343,25 +372,131 @@ namespace Monofoxe.Engine
 
 		#region sprites
 		
-		public static void DrawSprite(Texture2D texture, int x, int y, Color color)
+		public static void DrawSprite(Texture2D texture, float x, float y, Color color)
 		{
 			SwitchPipelineMode(PipelineMode.Sprites, null);
 			Batch.Draw(texture, new Vector2(x, y), color);
 		}	
-		
-		
-
-		public static void DrawSurface(RenderTarget2D surf, int x, int y, Color color)
+	
+		public static void DrawSurface(RenderTarget2D surf, float x, float y, Color color)
 		{
 			SwitchPipelineMode(PipelineMode.Sprites, null);
 			Batch.Draw(surf, new Vector2(x, y), color);
-		}	
+		}
+
+
+
+		public static void SetSurfaceTarget(RenderTarget2D surf, Matrix matrix)
+		{
+			SwitchPipelineMode(PipelineMode.None, null);
+			_surfaceStack.Push(_currentSurface);
+			_currentSurface = surf;
+
+			_transformMatrixStack.Push(CurrentTransformMatrix);
+			CurrentTransformMatrix = matrix;
+
+			Device.SetRenderTarget(_currentSurface);
+		}
+
+		public static void ResetSurfaceTarget()
+		{
+			SwitchPipelineMode(PipelineMode.None, null);
+			_currentSurface = _surfaceStack.Pop();
+
+			CurrentTransformMatrix = _transformMatrixStack.Pop();
+			
+			Device.SetRenderTarget(_currentSurface);
+		}
 
 		#endregion sprites
 
 
 
 		#region shapes
+
+
+		#region line overloads
+		
+		/// <summary>
+		/// Draws a line.
+		/// </summary>
+		public static void DrawLine(Vector2 p1, Vector2 p2)
+		{
+			DrawLine(p1.X, p1.Y, p2.X, p2.Y, CurrentColor, CurrentColor);
+		}
+
+		/// <summary>
+		/// Draws a line with specified colors.
+		/// </summary>
+		/// <param name="c1"></param>
+		/// <param name="c2"></param>
+		public static void DrawLine(Vector2 p1, Vector2 p2, Color c1, Color c2)
+		{
+			DrawLine(p1.X, p1.Y, p2.X, p2.Y, c1, c2);
+		}
+
+		/// <summary>
+		/// Draws a line with specified width and colors.
+		/// </summary>
+		public static void DrawLine(Vector2 p1, Vector2 p2, float w, Color c1, Color c2)
+		{
+			DrawLine(p1.X, p1.Y, p2.X, p2.Y, w, c1, c2);
+		}
+
+		/// <summary>
+		/// Draws a line.
+		/// </summary>
+		public static void DrawLine(float x1, float y1, float x2, float y2)
+		{
+			DrawLine(x1, y1, x2, y2, CurrentColor, CurrentColor);
+		}
+
+		/// <summary>
+		/// Draws a line with specified width.
+		/// </summary>
+		public static void DrawLine(float x1, float y1, float x2, float y2, float w)
+		{
+			DrawLine(x1, y1, x2, y2, CurrentColor, CurrentColor);
+		}
+
+		#endregion line overloads
+
+		/// <summary>
+		/// Draws a line with specified colors.
+		/// </summary>
+		/// <param name="c1">First color.</param>
+		/// <param name="c2">Second color.</param>
+		public static void DrawLine(float x1, float y1, float x2, float y2, Color c1, Color c2)
+		{
+			var vertices = new List<VertexPositionColorTexture>();
+
+			vertices.Add(new VertexPositionColorTexture(new Vector3(x1, y1, 0), c1, Vector2.Zero));
+			vertices.Add(new VertexPositionColorTexture(new Vector3(x2, y2, 0), c2, Vector2.Zero));
+			
+			AddVertices(PipelineMode.OutlinePrimitives, null, vertices, new short[]{0, 1});
+		}
+
+		/// <summary>
+		/// Draws a line with specified width and colors.
+		/// </summary>
+		public static void DrawLine(float x1, float y1, float x2, float y2, float w, Color c1, Color c2)
+		{
+			var vertices = new List<VertexPositionColorTexture>();
+
+			Vector3 normal = new Vector3(y2 - y1, x1 - x2, 0);
+			normal.Normalize(); // The result is a unit vector rotated by 90 degrees.
+			normal *= w / 2;
+			
+			vertices.Add(new VertexPositionColorTexture(new Vector3(x1, y1, 0) + normal, c1, Vector2.Zero));
+			vertices.Add(new VertexPositionColorTexture(new Vector3(x1, y1, 0) - normal, c1, Vector2.Zero));
+			vertices.Add(new VertexPositionColorTexture(new Vector3(x2, y2, 0) - normal, c2, Vector2.Zero));
+			vertices.Add(new VertexPositionColorTexture(new Vector3(x2, y2, 0) + normal, c2, Vector2.Zero));
+			
+			AddVertices(PipelineMode.TrianglePrimitives, null, vertices, _rectangleIndices[1]); // Thick line is in fact just a rotated rectangle.
+		}
+
+
+		#region triangle overloads
 
 		/// <summary>
 		/// Draws a triangle.
@@ -372,7 +507,7 @@ namespace Monofoxe.Engine
 		/// <param name="isOutline">Is shape outline.</param>
 		public static void DrawTriangle(Vector2 p1, Vector2 p2, Vector2 p3, bool isOutline)
 		{
-			DrawTriangle((int)p1.X, (int)p1.Y, (int)p2.X, (int)p2.Y, (int)p3.X, (int)p3.Y, isOutline, CurrentColor, CurrentColor, CurrentColor);
+			DrawTriangle(p1.X, p1.Y, p2.X, p2.Y, p3.X, p3.Y, isOutline, CurrentColor, CurrentColor, CurrentColor);
 		}
 
 		/// <summary>
@@ -387,17 +522,19 @@ namespace Monofoxe.Engine
 		/// <param name="c3">3rd color.</param>
 		public static void DrawTriangle(Vector2 p1, Vector2 p2, Vector2 p3, bool isOutline, Color c1, Color c2, Color c3)
 		{
-			DrawTriangle((int)p1.X, (int)p1.Y, (int)p2.X, (int)p2.Y, (int)p3.X, (int)p3.Y, isOutline, c1, c2, c3);
+			DrawTriangle(p1.X, p1.Y, p2.X, p2.Y, p3.X, p3.Y, isOutline, c1, c2, c3);
 		}
 		
 		/// <summary>
 		/// Draws a triangle.
 		/// </summary>
 		/// <param name="isOutline"></param>
-		public static void DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, bool isOutline)
+		public static void DrawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, bool isOutline)
 		{
 			DrawTriangle(x1, y1, x2, y2, x3, y3, isOutline, CurrentColor, CurrentColor, CurrentColor);
 		}
+
+		#endregion triangle overloads
 
 		/// <summary>
 		/// Draw a triangle with specified colors.
@@ -406,24 +543,22 @@ namespace Monofoxe.Engine
 		/// <param name="c1">1st color.</param>
 		/// <param name="c2">2nd color.</param>
 		/// <param name="c3">3rd color.</param>
-		public static void DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, bool isOutline, Color c1, Color c2, Color c3)
+		public static void DrawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, bool isOutline, Color c1, Color c2, Color c3)
 		{
-			int o;
-			if (isOutline)
-			{o = 0;}
-			else
-			{o = 1;}
-
+			int isOutlineInt = Convert.ToInt32(isOutline); // We need to convert true/false to 1/0 to be able to get different sets of values from arrays. 
+			
 			var vertices = new List<VertexPositionColorTexture>();
 
 			vertices.Add(new VertexPositionColorTexture(new Vector3(x1, y1, 0), c1, Vector2.Zero));
 			vertices.Add(new VertexPositionColorTexture(new Vector3(x2, y2, 0), c2, Vector2.Zero));
 			vertices.Add(new VertexPositionColorTexture(new Vector3(x3, y3, 0), c3, Vector2.Zero));
 			
-			AddVertices(_types[o], null, vertices, new List<short>(_triangleIndices[o]));
+			AddVertices(_pipelineModes[isOutlineInt], null, vertices, _triangleIndices[isOutlineInt]);
 		}
 
 
+
+		#region rectangle overloads
 
 		/// <summary>
 		/// Draws a rectangle.
@@ -433,7 +568,7 @@ namespace Monofoxe.Engine
 		/// <param name="isOutline">Is shape outline.</param>
 		public static void DrawRectangle(Vector2 p1, Vector2 p2, bool isOutline)
 		{
-			DrawRectangle((int)p1.X, (int)p1.Y, (int)p2.X, (int)p2.Y, isOutline, CurrentColor, CurrentColor, CurrentColor, CurrentColor);
+			DrawRectangle(p1.X, p1.Y, p2.X, p2.Y, isOutline, CurrentColor, CurrentColor, CurrentColor, CurrentColor);
 		}
 
 		/// <summary>
@@ -448,17 +583,19 @@ namespace Monofoxe.Engine
 		/// <param name="c4">4th color.</param>
 		public static void DrawRectangle(Vector2 p1, Vector2 p2, bool isOutline, Color c1, Color c2, Color c3, Color c4)
 		{
-			DrawRectangle((int)p1.X, (int)p1.Y, (int)p2.X, (int)p2.Y, isOutline, c1, c2, c3, c4);
+			DrawRectangle(p1.X, p1.Y, p2.X, p2.Y, isOutline, c1, c2, c3, c4);
 		}
 
 		/// <summary>
 		/// Draws a rectangle.
 		/// </summary>
 		/// <param name="isOutline">Is shape outline</param>
-		public static void DrawRectangle(int x1, int y1, int x2, int y2, bool isOutline)
+		public static void DrawRectangle(float x1, float y1, float x2, float y2, bool isOutline)
 		{
 			DrawRectangle(x1, y1, x2, y2, isOutline, CurrentColor, CurrentColor, CurrentColor, CurrentColor);
 		}
+
+		#endregion rectangle overloads
 
 		/// <summary>
 		/// Draws a rectangle with specified colors for each corner.
@@ -468,13 +605,9 @@ namespace Monofoxe.Engine
 		/// <param name="c2">2nd color.</param>
 		/// <param name="c3">3rd color.</param>
 		/// <param name="c4">4th color.</param>
-		public static void DrawRectangle(int x1, int y1, int x2, int y2, bool isOutline, Color c1, Color c2, Color c3, Color c4)
+		public static void DrawRectangle(float x1, float y1, float x2, float y2, bool isOutline, Color c1, Color c2, Color c3, Color c4)
 		{
-			int o;
-			if (isOutline)
-			{o = 0;}
-			else
-			{o = 1;}
+			int isOutlineInt = Convert.ToInt32(isOutline); // We need to convert true/false to 1/0 to be able to get different sets of values from arrays. 
 
 			var vertices = new List<VertexPositionColorTexture>();
 			
@@ -483,20 +616,23 @@ namespace Monofoxe.Engine
 			vertices.Add(new VertexPositionColorTexture(new Vector3(x2, y2, 0), c3, Vector2.Zero));
 			vertices.Add(new VertexPositionColorTexture(new Vector3(x1, y2, 0), c4, Vector2.Zero));
 			
-			AddVertices(_types[o], null, vertices, new List<short>(_rectangleIndices[o]));
+			AddVertices(_pipelineModes[isOutlineInt], null, vertices, _rectangleIndices[isOutlineInt]);
 		}
 
 
-		
+		#region circle overloads
+
 		/// <summary>
 		/// Draws a circle.
 		/// </summary>
 		/// <param name="r">Radius.</param>
 		/// <param name="isOutline">Is shape outline.</param>
-		public static void DrawCircle(Vector2 p, int r, bool isOutline)
+		public static void DrawCircle(Vector2 p, float r, bool isOutline)
 		{
-			DrawCircle((int)p.X, (int)p.Y, r, isOutline);
+			DrawCircle(p.X, p.Y, r, isOutline);
 		}
+
+		#endregion circle overloads
 
 		/// <summary>
 		/// Draws a circle.
@@ -504,7 +640,7 @@ namespace Monofoxe.Engine
 		/// <param name="p">Center point.</param>
 		/// <param name="r">Radius.</param>
 		/// <param name="isOutline">Is shape outline.</param>
-		public static void DrawCircle(int x, int y, int r, bool isOutline)
+		public static void DrawCircle(float x, float y, float r, bool isOutline)
 		{
 			short[] indexArray;
 			PipelineMode prType;
@@ -539,7 +675,7 @@ namespace Monofoxe.Engine
 			
 			for(var i = 0; i < CircleVerticesCount; i += 1)
 			{vertices.Add(new VertexPositionColorTexture(new Vector3(x + r * _circleVectors[i].X, y + r * _circleVectors[i].Y, 0), CurrentColor, Vector2.Zero));}
-			AddVertices(prType, null, vertices, new List<short>(indexArray));
+			AddVertices(prType, null, vertices, indexArray);
 		}
 
 		#endregion shapes
@@ -573,22 +709,22 @@ namespace Monofoxe.Engine
 			_primitiveVertices.Add(new VertexPositionColorTexture(new Vector3(pos.X, pos.Y, 0), color, texturePos));
 		}
 
-		public static void PrimitiveAddVertex(int x, int y)
+		public static void PrimitiveAddVertex(float x, float y)
 		{
 			_primitiveVertices.Add(new VertexPositionColorTexture(new Vector3(x, y, 0), CurrentColor, Vector2.Zero));
 		}
 
-		public static void PrimitiveAddVertex(int x, int y, Color color)
+		public static void PrimitiveAddVertex(float x, float y, Color color)
 		{
 			_primitiveVertices.Add(new VertexPositionColorTexture(new Vector3(x, y, 0), color, Vector2.Zero));
 		}
 	
-		public static void PrimitiveAddVertex(int x, int y, Vector2 texturePos)
+		public static void PrimitiveAddVertex(float x, float y, Vector2 texturePos)
 		{
 			_primitiveVertices.Add(new VertexPositionColorTexture(new Vector3(x, y, 0), CurrentColor, texturePos));
 		}
 
-		public static void PrimitiveAddVertex(int x, int y, Color color, Vector2 texturePos)
+		public static void PrimitiveAddVertex(float x, float y, Color color, Vector2 texturePos)
 		{
 			_primitiveVertices.Add(new VertexPositionColorTexture(new Vector3(x, y, 0), color, texturePos));
 		}
@@ -749,7 +885,7 @@ namespace Monofoxe.Engine
 		public static void PrimitiveEnd()
 		{
 			
-			AddVertices(_primitiveType, _primitiveTexture, _primitiveVertices, _primitiveIndices);
+			AddVertices(_primitiveType, _primitiveTexture, _primitiveVertices, _primitiveIndices.ToArray());
 
 			_primitiveVertices.Clear();
 			_primitiveIndices.Clear();

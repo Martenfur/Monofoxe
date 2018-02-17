@@ -16,7 +16,7 @@ namespace Monofoxe.Engine
 	/// NOTE: There always should be at least one camera, 
 	/// otherwise Draw events won't be triggered.
 	/// </summary>
-	class Camera
+	public class Camera
 	{
 
 		/// <summary>
@@ -98,7 +98,9 @@ namespace Monofoxe.Engine
 
 		public Camera(int w, int h)
 		{
-			ViewSurface = new RenderTarget2D(DrawCntrl.Device, w, h);
+			ViewSurface = new RenderTarget2D(DrawCntrl.Device, w, h, false,
+                                           DrawCntrl.Device.PresentationParameters.BackBufferFormat,
+                                           DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
 			DrawCntrl.Cameras.Add(this);
 		}
 
@@ -106,7 +108,9 @@ namespace Monofoxe.Engine
 		public void Resize(int w, int h)
 		{
 			ViewSurface.Dispose();
-			ViewSurface = new RenderTarget2D(DrawCntrl.Device, w, h);
+			ViewSurface = new RenderTarget2D(DrawCntrl.Device, w, h, false,
+                                           DrawCntrl.Device.PresentationParameters.BackBufferFormat,
+                                           DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
 		}
 
 
