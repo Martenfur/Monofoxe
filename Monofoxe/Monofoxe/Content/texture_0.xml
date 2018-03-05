@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:dff3aa58b3a9a6743fad0c696e964385:9ae88d49ab2501c76ff438079f067c58:0250f7dcf38342c9a80bd82e93bc7763$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="texture_0.png" width="511" height="537">
+    <sprite n="barrel_0.png" x="242" y="303" w="54" h="57" pX="0.5" pY="0.5"/>
+    <sprite n="barrel_parts_0.png" x="264" y="472" w="17" h="53" pX="0.5" pY="0.5" r="y"/>
+    <sprite n="barrel_parts_1.png" x="472" y="378" w="32" h="17" pX="0.5" pY="0.5" oX="9" oY="0" oW="53" oH="17"/>
+    <sprite n="barrel_parts_2.png" x="420" y="504" w="17" h="32" pX="0.5" pY="0.5" oX="9" oY="0" oW="53" oH="17" r="y"/>
+    <sprite n="barrel_parts_3.png" x="372" y="507" w="41" h="17" pX="0.5" pY="0.5" oX="6" oY="0" oW="53" oH="17"/>
+    <sprite n="barrel_parts_4.png" x="464" y="463" w="40" h="17" pX="0.5" pY="0.5" oX="5" oY="0" oW="53" oH="17"/>
+    <sprite n="barrel_parts_5.png" x="330" y="454" w="45" h="17" pX="0.5" pY="0.5" oX="4" oY="0" oW="53" oH="17"/>
+    <sprite n="barrel_parts_6.png" x="439" y="504" w="17" h="31" pX="0.5" pY="0.5" oX="10" oY="0" oW="53" oH="17" r="y"/>
+    <sprite n="barrel_parts_7.png" x="458" y="504" w="17" h="28" pX="0.5" pY="0.5" oX="11" oY="0" oW="53" oH="17" r="y"/>
+    <sprite n="bro_woolhat_0.png" x="377" y="448" w="48" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="bst_gam_0.png" x="1" y="1" w="468" h="300" pX="0.5" pY="0.5"/>
+    <sprite n="bubble_strip2_0.png" x="125" y="397" w="44" h="21" pX="0.5" pY="0.5"/>
+    <sprite n="bucket_0.png" x="471" y="173" w="37" h="52" pX="0.5" pY="0.5" r="y"/>
+    <sprite n="cabbage1_0.png" x="327" y="473" w="43" h="41" pX="0.5" pY="0.5"/>
+    <sprite n="cabbage1_smashed_0.png" x="377" y="359" w="45" h="44" pX="0.5" pY="0.5"/>
+    <sprite n="cabbage2_0.png" x="425" y="400" w="41" h="46" pX="0.5" pY="0.5" r="y"/>
+    <sprite n="cabbage2_smashed_0.png" x="330" y="404" w="43" h="48" pX="0.5" pY="0.5" r="y"/>
+    <sprite n="cabbage3_0.png" x="471" y="129" w="39" h="42" pX="0.5" pY="0.5" r="y"/>
+    <sprite n="cabbage3_smashed_0.png" x="283" y="473" w="42" h="49" pX="0.5" pY="0.5" r="y"/>
+    <sprite n="chiggin_0.png" x="414" y="303" w="56" h="51" pX="0.5" pY="0.5"/>
+    <sprite n="chiggin_1.png" x="186" y="370" w="56" h="51" pX="0.5" pY="0.5"/>
+    <sprite n="cleric_0.png" x="174" y="423" w="54" h="47" pX="0.5" pY="0.5" r="y"/>
+    <sprite n="cleric_bench_0.png" x="1" y="303" w="126" h="92" pX="0.5" pY="0.5"/>
+    <sprite n="cleric_hat_0.png" x="472" y="280" w="36" h="50" pX="0.5" pY="0.5" r="y"/>
+    <sprite n="ded1_0.png" x="166" y="476" w="47" h="54" pX="0.5" pY="0.5"/>
+    <sprite n="ded1_dmg_0.png" x="215" y="472" w="47" h="54" pX="0.5" pY="0.5"/>
+    <sprite n="demon_0.png" x="57" y="420" w="62" h="54" pX="0.5" pY="0.5"/>
+    <sprite n="demon_dmg_0.png" x="298" y="303" w="57" h="54" pX="0.5" pY="0.5"/>
+    <sprite n="demon_fire_00.png" x="215" y="528" w="10" h="8" pX="0.5" pY="0.5" oX="23" oY="59" oW="54" oH="67"/>
+    <sprite n="demon_fire_01.png" x="283" y="524" w="15" h="12" pX="0.5" pY="0.5" oX="20" oY="55" oW="54" oH="67"/>
+    <sprite n="demon_fire_02.png" x="463" y="483" w="16" h="19" pX="0.5" pY="0.5" oX="18" oY="51" oW="54" oH="67" r="y"/>
+    <sprite n="demon_fire_03.png" x="477" y="509" w="26" h="21" pX="0.5" pY="0.5" oX="14" oY="46" oW="54" oH="67"/>
+    <sprite n="demon_fire_04.png" x="427" y="448" w="35" h="33" pX="0.5" pY="0.5" oX="10" oY="34" oW="54" oH="67"/>
+    <sprite n="demon_fire_05.png" x="468" y="400" w="42" h="41" pX="0.5" pY="0.5" oX="7" oY="26" oW="54" oH="67"/>
+    <sprite n="demon_fire_06.png" x="230" y="423" w="51" h="47" pX="0.5" pY="0.5" oX="4" oY="16" oW="54" oH="67" r="y"/>
+    <sprite n="demon_fire_07.png" x="113" y="476" w="51" h="60" pX="0.5" pY="0.5" oX="1" oY="7" oW="54" oH="67"/>
+    <sprite n="demon_fire_08.png" x="1" y="420" w="54" h="67" pX="0.5" pY="0.5"/>
+    <sprite n="demon_fire_09.png" x="186" y="303" w="54" h="65" pX="0.5" pY="0.5" oX="0" oY="0" oW="54" oH="67"/>
+    <sprite n="demon_fire_10.png" x="57" y="476" w="54" h="60" pX="0.5" pY="0.5" oX="0" oY="0" oW="54" oH="67"/>
+    <sprite n="demon_fire_11.png" x="357" y="303" w="55" h="54" pX="0.5" pY="0.5" oX="0" oY="1" oW="54" oH="67" r="y"/>
+    <sprite n="demon_fire_12.png" x="121" y="420" w="51" h="54" pX="0.5" pY="0.5" oX="0" oY="0" oW="54" oH="67" r="y"/>
+    <sprite n="demon_fire_13.png" x="283" y="418" w="45" h="53" pX="0.5" pY="0.5" oX="0" oY="0" oW="54" oH="67" r="y"/>
+    <sprite n="demon_fire_14.png" x="471" y="227" w="38" h="51" pX="0.5" pY="0.5" oX="2" oY="3" oW="54" oH="67" r="y"/>
+    <sprite n="demon_fire_15.png" x="293" y="362" w="32" h="49" pX="0.5" pY="0.5" oX="2" oY="5" oW="54" oH="67" r="y"/>
+    <sprite n="demon_fire_16.png" x="372" y="482" w="46" h="23" pX="0.5" pY="0.5" oX="4" oY="6" oW="54" oH="67"/>
+    <sprite n="Stuff/basket_0.png" x="472" y="332" w="35" h="44" pX="0.5" pY="0.5" r="y"/>
+    <sprite n="Stuff/bench_0.png" x="471" y="1" w="32" h="126" pX="0.5" pY="0.5" r="y"/>
+    <sprite n="Stuff/bench_shadow_0.png" x="1" y="397" w="122" h="21" pX="0.5" pY="0.5"/>
+    <sprite n="Stuff/birdie_body_0.png" x="481" y="482" w="26" h="25" pX="0.5" pY="0.5"/>
+    <sprite n="Stuff/birdie_legs_0.png" x="129" y="384" w="19" h="11" pX="0.5" pY="0.5" oX="2" oY="17" oW="26" oH="28"/>
+    <sprite n="Stuff/birdie_wing_0.png" x="264" y="527" w="16" h="9" pX="0.5" pY="0.5"/>
+    <sprite n="Stuff/boss_0.png" x="129" y="303" w="55" h="79" pX="0.5" pY="0.5"/>
+    <sprite n="Stuff/bottle_0.png" x="468" y="443" w="40" h="18" pX="0.5" pY="0.5" r="y"/>
+    <sprite n="Stuff/boulder1_0.png" x="327" y="359" w="48" h="43" pX="0.5" pY="0.5"/>
+    <sprite n="Stuff/boulder2_0.png" x="424" y="356" w="46" h="42" pX="0.5" pY="0.5"/>
+    <sprite n="Stuff/boulder3_0.png" x="375" y="405" w="48" h="41" pX="0.5" pY="0.5"/>
+    <sprite n="Stuff/bro_0.png" x="1" y="489" w="54" h="47" pX="0.5" pY="0.5" r="y"/>
+    <sprite n="Stuff/bro_dmg_0.png" x="244" y="362" w="47" h="54" pX="0.5" pY="0.5"/>
+    <sprite n="Stuff/bro_glasses_0.png" x="327" y="516" w="41" h="13" pX="0.5" pY="0.5"/>
+    <sprite n="Stuff/bro_hair_0.png" x="171" y="384" w="13" h="31" pX="0.5" pY="0.5" r="y"/>
+    <sprite n="Stuff/bro_hat_0.png" x="420" y="483" w="41" h="19" pX="0.5" pY="0.5"/>
+</TextureAtlas>

@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
 using System;
 using Monofoxe.Engine;
+using Monofoxe.Engine.Drawing;
+
 
 namespace Monofoxe
 {
@@ -35,7 +37,7 @@ namespace Monofoxe
 			
 			GameCntrl.MaxGameSpeed = 60.0;
 
-			Debug.Write(GameCntrl.MaxGameSpeed);
+			//Debug.Write(GameCntrl.MaxGameSpeed);
 			
 			Window.TextInput += Input.TextInput;
 
@@ -48,15 +50,19 @@ namespace Monofoxe
 		/// </summary>
 		protected override void LoadContent()
 		{
-		
+			
 			tex = Content.Load<Texture2D>("derp");
 			part = Content.Load<Texture2D>("part");
-		
+			
+			Texture2D page1 = Content.Load<Texture2D>("texture_0");
+			
+			Sprites.Init(Frame.LoadFrames(page1, @"C:\D\_Gaems\Monofoxe\Monofoxe\Monofoxe\Content\texture_0.xml"));
+			
 			DrawCntrl.Init(GraphicsDevice);
 
 			new TestObj();			
 			new GameObj();	
-		
+			
 		}
 
 		/// <summary>

@@ -105,7 +105,6 @@ namespace Monofoxe
 
 			cam.X = x;
 			cam.Y = y;
-
 			DrawCntrl.SetSurfaceTarget(surf, Matrix.CreateTranslation(0, 0, 0));
 			//DrawCntrl.Device.Clear(Color.Azure);
 			DrawCntrl.DrawSprite(Game1.part, cam.X, cam.Y, Color.White);
@@ -132,10 +131,12 @@ namespace Monofoxe
 			DrawCntrl.ResetTransformMatrix();
 
 
-			TestDrawPrimitives();
+			//TestDrawPrimitives();
 			
+			DrawCntrl.DrawSprite(Sprites.ClericHat, 0, 32, 32, Color.White);
+
 			//DrawCntrl.DrawRectangle(0, 0, 100, 100, false);
-			Debug.WriteLine(GameCntrl.Fps);
+			//Debug.WriteLine(GameCntrl.Fps);
 			
 			//DrawCntrl.DrawLine(Input.MousePos, Vector2.Zero, 16, Color.AliceBlue, Color.Black);
 
