@@ -45,6 +45,9 @@
     <Compile Include="Engine\Camera.cs" />
     <Compile Include="Engine\DrawCntrl.cs" />
     <Compile Include="Engine\Drawing\Drawable.cs" />
+    <Compile Include="Engine\Drawing\Frame.cs" />
+    <Compile Include="Engine\Drawing\Sprite.cs" />
+    <Compile Include="Engine\Drawing\Sprites.cs" />
     <Compile Include="Engine\GameCntrl.cs" />
     <Compile Include="Engine\GameObj.cs" />
     <Compile Include="Engine\Input.cs" />

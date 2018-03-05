@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
+using Monofoxe.Engine.Drawing;
 
 
 namespace Monofoxe.Engine
@@ -266,7 +267,7 @@ namespace Monofoxe.Engine
 			}
 			// Safety checks.
 
-			Debug.WriteLine("CALLS: " + __drawcalls);
+			//Debug.WriteLine("CALLS: " + __drawcalls);
 		}
 
 
@@ -380,24 +381,24 @@ namespace Monofoxe.Engine
 
 		#endregion pipeline
 
-
-
-		#region sprites
 		
-		public static void DrawSprite(Texture2D texture, float x, float y, Color color)
+		
+		#region surfaces and matrixes
+
+		/// <summary>
+		/// Sets surface as a render target.
+		/// </summary>
+		/// <param name="surf">Target surface.</param>
+		public static void SetSurfaceTarget(RenderTarget2D surf)
 		{
-			SwitchPipelineMode(PipelineMode.Sprites, null);
-			Batch.Draw(texture, new Vector2(x, y), color);
-		}	
-	
-		public static void DrawSurface(RenderTarget2D surf, float x, float y, Color color)
-		{
-			SwitchPipelineMode(PipelineMode.Sprites, null);
-			Batch.Draw(surf, new Vector2(x, y), color);
+			SetSurfaceTarget(surf, Matrix.CreateTranslation(Vector3.Zero));
 		}
 
-
-
+		/// <summary>
+		/// Sets surface as a render target.
+		/// </summary>
+		/// <param name="surf">Target surface.</param>
+		/// <param name="matrix">Surface transformation matrix.</param>
 		public static void SetSurfaceTarget(RenderTarget2D surf, Matrix matrix)
 		{
 			SetTransformMatrix(matrix);
@@ -408,6 +409,11 @@ namespace Monofoxe.Engine
 			Device.SetRenderTarget(_currentSurface);
 		}
 
+
+
+		/// <summary>
+		/// Resets render target to a previous surface.
+		/// </summary>
 		public static void ResetSurfaceTarget()
 		{
 			ResetTransformMatrix();
@@ -422,6 +428,11 @@ namespace Monofoxe.Engine
 		}
 
 
+
+		/// <summary>
+		/// Sets new transform matrix.
+		/// </summary>
+		/// <param name="matrix">Transform matrix.</param>
 		public static void SetTransformMatrix(Matrix matrix)
 		{
 			SwitchPipelineMode(PipelineMode.None, null);
@@ -429,6 +440,12 @@ namespace Monofoxe.Engine
 			CurrentTransformMatrix = matrix;
 		}
 
+
+
+		/// <summary>
+		/// Sets new transform matrix multiplied by current transform matrix.
+		/// </summary>
+		/// <param name="matrix"></param>
 		public static void AddTransformMatrix(Matrix matrix)
 		{
 			SwitchPipelineMode(PipelineMode.None, null);
@@ -437,14 +454,62 @@ namespace Monofoxe.Engine
 		}
 
 
+
+		/// <summary>
+		/// Resets to a previous transform matrix.
+		/// </summary>
 		public static void ResetTransformMatrix()
 		{
 			if (_transformMatrixStack.Count == 0)
 			{
 				throw(new InvalidOperationException("Matrix stack is empty! Did you forgot to set a matrix somewhere?"));
 			}
-			SwitchPipelineMode(PipelineMode.None, null);
+
+			SwitchPipelineMode(PipelineMode.None, null); 
 			CurrentTransformMatrix = _transformMatrixStack.Pop();
+		}
+
+		#endregion surfaces and matrixes
+
+
+
+		#region sprites
+
+		public static void DrawSprite(Sprite sprite, int frameId, float x, float y, Color color)
+		{
+			SwitchPipelineMode(PipelineMode.Sprites, null);
+
+			float rot = 0;
+
+			if (sprite.Frames[frameId].IsRotated)
+			{
+				rot = (float)(-Math.PI / 2.0);
+			}
+
+			Batch.Draw(
+				sprite.Frames[frameId].Texture, 
+				new Vector2(x, y), 
+				sprite.Frames[0].TexturePosition, 
+				color, 
+				rot, 
+				sprite.Origin,
+				Vector2.One,
+				SpriteEffects.None,
+				0
+			);
+		}	
+	
+
+		public static void DrawSprite(Texture2D texture, float x, float y, Color color)
+		{
+			SwitchPipelineMode(PipelineMode.Sprites, null);
+			Batch.Draw(texture, new Vector2(x, y), color);
+		}
+		
+		public static void DrawSurface(RenderTarget2D surf, float x, float y, Color color)
+		{
+			SwitchPipelineMode(PipelineMode.Sprites, null);
+			Batch.Draw(surf, new Vector2(x, y), color);
 		}
 
 		#endregion sprites

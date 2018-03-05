@@ -1,0 +1,1 @@
+SpriteThingy \TestGraphics\ \Monofoxe\Monofoxe\Content\ \TestGraphics\Sprites_template.cs \Monofoxe\Monofoxe\Engine\Drawing\Sprites.cs "TexturePacker --format xml --multipack --algorithm MaxRects --data <output_dir>texture_{n}.xml <input_dir>"
