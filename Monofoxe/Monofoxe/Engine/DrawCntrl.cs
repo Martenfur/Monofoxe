@@ -474,38 +474,116 @@ namespace Monofoxe.Engine
 
 
 		#region sprites
+		
+		private static int CalculateSpriteFrame(Sprite sprite, float frame)
+		{
+			return Math.Max(0, Math.Min(sprite.Frames.Count() - 1, (int)frame));
+		}
 
-		public static void DrawSprite(Sprite sprite, int frameId, float x, float y, Color color)
+		// Vectors.
+
+		public static void DrawSprite(Sprite sprite, Vector2 pos)
 		{
 			SwitchPipelineMode(PipelineMode.Sprites, null);
-
-			float rot = 0;
-
-			if (sprite.Frames[frameId].IsRotated)
-			{
-				rot = (float)(-Math.PI / 2.0);
-			}
-
-			Batch.Draw(
-				sprite.Frames[frameId].Texture, 
-				new Vector2(x, y), 
-				sprite.Frames[0].TexturePosition, 
-				color, 
-				rot, 
-				sprite.Origin,
-				Vector2.One,
-				SpriteEffects.None,
-				0
-			);
-		}	
-	
-
-		public static void DrawSprite(Texture2D texture, float x, float y, Color color)
-		{
-			SwitchPipelineMode(PipelineMode.Sprites, null);
-			Batch.Draw(texture, new Vector2(x, y), color);
+			
+			Batch.Draw(sprite.Frames[0].Texture, pos, CurrentColor);
 		}
 		
+		public static void DrawSprite(Sprite sprite, float frameId, Vector2 pos)
+		{			
+			SwitchPipelineMode(PipelineMode.Sprites, null);
+
+			int frame = CalculateSpriteFrame(sprite, frameId);
+			
+			Batch.Draw(sprite.Frames[frame].Texture, pos, CurrentColor);
+		}
+
+
+		public static void DrawSprite(Sprite sprite, float frameId, Vector2 pos, Vector2 scale, float rotation, Color color)
+		{
+			SwitchPipelineMode(PipelineMode.Sprites, null);
+			
+			int frame = CalculateSpriteFrame(sprite, frameId);
+			
+			SpriteEffects mirroring = SpriteEffects.None;
+
+			// Proper negative scaling.
+			Vector2 offset = Vector2.Zero;
+
+			if (scale.X < 0)
+			{
+				mirroring = mirroring | SpriteEffects.FlipHorizontally;
+				scale.X *= -1;
+				offset.X = sprite.W ;
+			}
+
+			if (scale.Y < 0)
+			{
+				mirroring = mirroring | SpriteEffects.FlipVertically;
+				scale.Y *= -1;
+				offset.Y = sprite.H;
+			}
+			// Proper negative scaling.
+
+			Batch.Draw(
+				sprite.Frames[frame].Texture, 
+				pos, 
+				sprite.Frames[frame].TexturePosition, 
+				color, 
+				MathHelper.ToRadians(rotation), 
+				sprite.Origin - sprite.Frames[frame].Origin + offset,
+				scale,
+				mirroring,
+				0
+			);
+		}
+		
+		// Vectors.
+		
+		// Floats.
+
+		public static void DrawSprite(Sprite sprite, float x, float y)
+		{
+			DrawSprite(sprite, new Vector2(x, y));
+		}
+		
+		public static void DrawSprite(Sprite sprite, float frameId, float x, float y)
+		{
+			DrawSprite(sprite, frameId, new Vector2(x, y));
+		}
+		
+		public static void DrawSprite(Sprite sprite, float frameId, float x, float y, float scaleX, float scaleY, float rotation, Color color)
+		{
+			DrawSprite(sprite, frameId, new Vector2(x, y), new Vector2(scaleX, scaleY), rotation, color);
+		}
+
+		// Floats.
+
+		// Rectangles.
+
+		public static void DrawSprite(Sprite sprite, float frameId, Rectangle posRect)
+		{
+			
+		}
+		
+		public static void DrawSprite(Sprite sprite, float frameId, Rectangle posRect, float rotaion, Color color)
+		{
+			
+		}
+
+		public static void DrawSprite(Sprite sprite, float frameId, Rectangle posRect, Rectangle scissorRect)
+		{
+			
+		}
+		
+		public static void DrawSprite(Sprite sprite, float frameId, Rectangle posRect, Rectangle scissorRect, float rotaion, Color color)
+		{
+			
+		}
+
+		// Rectangles.
+		
+
 		public static void DrawSurface(RenderTarget2D surf, float x, float y, Color color)
 		{
 			SwitchPipelineMode(PipelineMode.Sprites, null);
@@ -937,7 +1015,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		/// <param name="indices">Array of indices.</param>
 		public static void PrimitiveSetCustomLineIndices(short[] indices)
-		{
+		{ 
 			_primitiveType = PipelineMode.OutlinePrimitives;
 			_primitiveIndices = indices.ToList();
 		}

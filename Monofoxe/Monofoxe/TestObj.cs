@@ -27,6 +27,8 @@ namespace Monofoxe
 		VertexPositionColor[] vertices = new VertexPositionColor[3];
 		VertexBuffer vertexBuffer;
 
+		float fireFrame = 0;
+
 		public TestObj()
 		{
 			
@@ -59,6 +61,12 @@ namespace Monofoxe
 
 		public override void Update()
 		{
+			fireFrame += 0.1f;
+
+			if (fireFrame >= Sprites.DemonFire.Frames.Count())
+			{
+				fireFrame = 0;
+			}
 
 			ang += GameCntrl.Time((Math.PI * 2) / period);
 
@@ -107,34 +115,29 @@ namespace Monofoxe
 			cam.Y = y;
 			DrawCntrl.SetSurfaceTarget(surf, Matrix.CreateTranslation(0, 0, 0));
 			//DrawCntrl.Device.Clear(Color.Azure);
-			DrawCntrl.DrawSprite(Game1.part, cam.X, cam.Y, Color.White);
 			DrawCntrl.ResetSurfaceTarget();
 		}
 
 		public override void Draw()
 		{	
-			
-			
-			
-			//DrawCntrl.DrawSurface(surf, 32, 32, Color.White);
-			
-
-			Matrix mtx = Matrix.CreateTranslation(new Vector3(64, 64, 0)) * Matrix.CreateRotationZ(MathHelper.ToRadians(cam.Rotation));
-			//* Matrix.CreateTranslation(new Vector3(64, 64, 0));
-			
-			DrawCntrl.AddTransformMatrix(mtx);
-			DrawCntrl.DrawSprite(Game1.part, 0, 0, Color.Red);
-			DrawCntrl.ResetTransformMatrix();
-
-			DrawCntrl.SetTransformMatrix(mtx);
-			DrawCntrl.DrawSprite(Game1.part, 0, 0, Color.Green);
-			DrawCntrl.ResetTransformMatrix();
+			//DrawCntrl.DrawSprite(Sprites.DemonFire.Frames[0].Texture, 0, 0, Color.White);
 
 
-			//TestDrawPrimitives();
-			
-			DrawCntrl.DrawSprite(Sprites.ClericHat, 0, 32, 32, Color.White);
+			DrawCntrl.DrawSprite(Sprites.DemonFire, (int)fireFrame, new Vector2(0, 0), new Vector2(2, -2), 0, Color.White);
 
+			//DrawCntrl.DrawSprite(Sprites.DemonFire, (int)fireFrame, 100, 100, (float)GameCntrl.ElapsedTimeTotal*50, Color.White);
+
+			Frame f = Sprites.DemonFire.Frames[(int)fireFrame];
+
+			DrawCntrl.CurrentColor = Color.Red;
+			DrawCntrl.DrawRectangle(0, 0, Sprites.DemonFire.W, Sprites.DemonFire.H, false);
+
+			DrawCntrl.CurrentColor = Color.White;
+			DrawCntrl.DrawRectangle(f.Origin.X, f.Origin.Y, f.TexturePosition.Width + f.Origin.X, f.TexturePosition.Height + f.Origin.Y, false);
+
+
+			Debug.WriteLine(Sprites.Demon.Frames[0].TexturePosition);
+			
 			//DrawCntrl.DrawRectangle(0, 0, 100, 100, false);
 			//Debug.WriteLine(GameCntrl.Fps);
 			
@@ -149,8 +152,8 @@ namespace Monofoxe
 			//DrawCntrl.DrawTriangle(0,0,0,16,3,320,false);
 			//DrawCntrl.DrawLine(Input.MousePos, Vector2.Zero, Color.AliceBlue, Color.Black);
 			//DrawCntrl.DrawLine(100,100,120,120, Color.AliceBlue, Color.Black);
-
 			
+
 		}
 
 		public override void DrawGUI()
