@@ -50,7 +50,6 @@ namespace Monofoxe.Engine.Drawing
 
 		public Sprite(Frame[] frames, int originX, int originY) //PLACEHOLDER!
 		{
-			Debug.WriteLine(frames.Count() + " c");
 			Frames = new Frame[frames.Count()];
 			Array.Copy(frames, Frames, frames.Count());
 			Origin = new Vector2(originX, originY);
@@ -73,7 +72,7 @@ namespace Monofoxe.Engine.Drawing
 		public Sprite(Frame[] frames, Vector2 origin)
 		{
 			Array.Copy(frames, Frames, frames.Count());
-			Origin = new Vector2(origin.X, origin.Y);
+			Origin = origin;
 
 			// Checking if all frames got identical sizes.
 			SingleFrameSize = true;

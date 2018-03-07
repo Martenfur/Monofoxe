@@ -35,7 +35,7 @@ namespace Monofoxe
 		{
 			GameCntrl.MyGame = this;
 			
-			GameCntrl.MaxGameSpeed = 60.0;
+			GameCntrl.MaxGameSpeed = 15.0;
 
 			//Debug.Write(GameCntrl.MaxGameSpeed);
 			
@@ -54,9 +54,11 @@ namespace Monofoxe
 			tex = Content.Load<Texture2D>("derp");
 			part = Content.Load<Texture2D>("part");
 			
-			Texture2D page1 = Content.Load<Texture2D>("texture_0");
+			//Texture2D test = Content.Load<Texture2D>("thumb");
+			Texture2D page1 = Content.Load<Texture2D>("kok\\texture_0");
 			
-			Sprites.Init(Frame.LoadFrames(page1, @"C:\D\_Gaems\Monofoxe\Monofoxe\Monofoxe\Content\texture_0.xml"));
+
+			Sprites.Init(Frame.LoadFrames(page1, Environment.CurrentDirectory + @"\Resources\texture_0.xml"));
 			
 			DrawCntrl.Init(GraphicsDevice);
 

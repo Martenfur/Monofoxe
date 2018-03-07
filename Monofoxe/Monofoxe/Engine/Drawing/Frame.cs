@@ -30,29 +30,17 @@ namespace Monofoxe.Engine.Drawing
 		/// Height of the frame.
 		/// </summary>
 		public readonly int H;
+		
+		public readonly Vector2 Origin;
 
-		/// <summary>
-		/// Tells if frame is rotated on the texture atlass.
-		/// </summary>
-		public readonly bool IsRotated;
-
-
-		public Frame(Texture2D texture, Rectangle texturePosition, bool isRotated)
+		public Frame(Texture2D texture, Rectangle texturePosition, Vector2 origin, int w, int h)
 		{
 			Texture = texture;
 			TexturePosition = texturePosition;
-			IsRotated = isRotated;
-
-			if (isRotated)
-			{
-				W = texturePosition.Height;
-				H = texturePosition.Width;
-			}
-			else
-			{
-				W = texturePosition.Width;
-				H = texturePosition.Height;
-			}
+			
+			W = w;
+			H = h;
+			Origin = origin;//new Vector2(origin.X, origin.Y);
 		}
 
 
@@ -76,10 +64,40 @@ namespace Monofoxe.Engine.Drawing
 
 				int frameId = Int32.Parse(filename.Substring(filename.LastIndexOf('_') + 1));
 				
+				string fullName = node.Attributes["n"].Value;
+				int frameIdPos= fullName.LastIndexOf('_');
+				string frameKey = fullName.Remove(frameIdPos, fullName.Length - frameIdPos) + Path.GetExtension(fullName);
 
-				string frameKey = node.Attributes["n"].Value.Replace(filename.Substring(filename.LastIndexOf('_')), "");
+
 				if (previousFrameKey.Length == 0)
-				{previousFrameKey = frameKey;}
+				{
+					previousFrameKey = frameKey;
+				}
+
+				Vector2 origin;
+				try
+				{
+					origin = new Vector2(Int32.Parse(node.Attributes["oX"].Value), Int32.Parse(node.Attributes["oY"].Value));
+				}
+				catch(Exception)
+				{
+					origin = Vector2.Zero;
+				}
+
+
+				int frameW, frameH;
+
+				try
+				{
+					frameW = Int32.Parse(node.Attributes["oW"].Value);
+					frameH = Int32.Parse(node.Attributes["oH"].Value);
+				}
+				catch(Exception)
+				{
+					frameW = Int32.Parse(node.Attributes["w"].Value);
+					frameH = Int32.Parse(node.Attributes["h"].Value);
+				}
+
 
 				Frame f = new Frame(
 					atlass, 
@@ -89,9 +107,11 @@ namespace Monofoxe.Engine.Drawing
 						Int32.Parse(node.Attributes["w"].Value),
 						Int32.Parse(node.Attributes["h"].Value)
 					),
-					node.Attributes["r"] != null && node.Attributes["r"].Value[0] == 'y'
+					origin,
+					frameW, 
+					frameH
 				);
-
+				
 				if (frameId <= previousFrameId)
 				{
 					if (frameList.Count > 0)
