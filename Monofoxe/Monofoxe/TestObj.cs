@@ -121,9 +121,12 @@ namespace Monofoxe
 		public override void Draw()
 		{	
 			//DrawCntrl.DrawSprite(Sprites.DemonFire.Frames[0].Texture, 0, 0, Color.White);
-
-
+			
 			DrawCntrl.DrawSprite(Sprites.DemonFire, (int)fireFrame, new Vector2(0, 0), new Vector2(2, -2), 0, Color.White);
+
+			//DrawCntrl.DrawSprite(Sprites.DemonFire, new Vector2(0, 0));
+
+			DrawCntrl.DrawSprite(Sprites.BstGam, 0, new Rectangle(100, 100, 32, 32), new Rectangle(300, 320, 32, 32));
 
 			//DrawCntrl.DrawSprite(Sprites.DemonFire, (int)fireFrame, 100, 100, (float)GameCntrl.ElapsedTimeTotal*50, Color.White);
 
@@ -136,7 +139,7 @@ namespace Monofoxe
 			DrawCntrl.DrawRectangle(f.Origin.X, f.Origin.Y, f.TexturePosition.Width + f.Origin.X, f.TexturePosition.Height + f.Origin.Y, false);
 
 
-			Debug.WriteLine(Sprites.Demon.Frames[0].TexturePosition);
+			Debug.WriteLine(GameCntrl.Fps);
 			
 			//DrawCntrl.DrawRectangle(0, 0, 100, 100, false);
 			//Debug.WriteLine(GameCntrl.Fps);

@@ -96,7 +96,7 @@ namespace Monofoxe
 		/// </summary>
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw(GameTime gameTime)
-		{			
+		{	
 			DrawCntrl.Update();
 
 			base.Draw(gameTime);

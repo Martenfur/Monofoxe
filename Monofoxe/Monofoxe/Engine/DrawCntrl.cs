@@ -475,6 +475,25 @@ namespace Monofoxe.Engine
 
 		#region sprites
 		
+
+		private static void DrawSpriteUnsafe(Sprite sprite, int frame, Vector2 pos, Vector2 scale, float rotation, Vector2 offset, Color color, SpriteEffects effect)
+		{
+			SwitchPipelineMode(PipelineMode.Sprites, null);
+
+			Batch.Draw(
+				sprite.Frames[frame].Texture, 
+				pos, 
+				sprite.Frames[frame].TexturePosition, 
+				color, 
+				MathHelper.ToRadians(rotation), 
+				sprite.Origin - sprite.Frames[frame].Origin + offset,
+				scale,
+				effect, 
+				0
+			);
+		}
+
+
 		private static int CalculateSpriteFrame(Sprite sprite, float frame)
 		{
 			return Math.Max(0, Math.Min(sprite.Frames.Count() - 1, (int)frame));
@@ -484,18 +503,14 @@ namespace Monofoxe.Engine
 
 		public static void DrawSprite(Sprite sprite, Vector2 pos)
 		{
-			SwitchPipelineMode(PipelineMode.Sprites, null);
-			
-			Batch.Draw(sprite.Frames[0].Texture, pos, CurrentColor);
+			DrawSpriteUnsafe(sprite, 0, pos, Vector2.One, 0, Vector2.Zero, CurrentColor, SpriteEffects.None);
 		}
 		
 		public static void DrawSprite(Sprite sprite, float frameId, Vector2 pos)
 		{			
-			SwitchPipelineMode(PipelineMode.Sprites, null);
-
 			int frame = CalculateSpriteFrame(sprite, frameId);
 			
-			Batch.Draw(sprite.Frames[frame].Texture, pos, CurrentColor);
+			DrawSpriteUnsafe(sprite, frame, pos, Vector2.One, 0, Vector2.Zero, CurrentColor, SpriteEffects.None);
 		}
 
 
@@ -514,7 +529,7 @@ namespace Monofoxe.Engine
 			{
 				mirroring = mirroring | SpriteEffects.FlipHorizontally;
 				scale.X *= -1;
-				offset.X = sprite.W ;
+				offset.X = sprite.W;
 			}
 
 			if (scale.Y < 0)
@@ -525,17 +540,8 @@ namespace Monofoxe.Engine
 			}
 			// Proper negative scaling.
 
-			Batch.Draw(
-				sprite.Frames[frame].Texture, 
-				pos, 
-				sprite.Frames[frame].TexturePosition, 
-				color, 
-				MathHelper.ToRadians(rotation), 
-				sprite.Origin - sprite.Frames[frame].Origin + offset,
-				scale,
-				mirroring,
-				0
-			);
+			
+			DrawSpriteUnsafe(sprite, frame, pos, scale, rotation, offset, color, mirroring);
 		}
 		
 		// Vectors.
@@ -563,22 +569,62 @@ namespace Monofoxe.Engine
 
 		public static void DrawSprite(Sprite sprite, float frameId, Rectangle posRect)
 		{
+			SwitchPipelineMode(PipelineMode.Sprites, null);
 			
+			int frame = CalculateSpriteFrame(sprite, frameId);
+			
+			Batch.Draw(sprite.Frames[frame].Texture, posRect, sprite.Frames[frame].TexturePosition, CurrentColor);
 		}
 		
-		public static void DrawSprite(Sprite sprite, float frameId, Rectangle posRect, float rotaion, Color color)
+		public static void DrawSprite(Sprite sprite, float frameId, Rectangle posRect, float rotation, Color color)
 		{
+			SwitchPipelineMode(PipelineMode.Sprites, null);
 			
+			int frame = CalculateSpriteFrame(sprite, frameId);
+			
+			Batch.Draw(
+				sprite.Frames[frame].Texture, 
+				posRect, 
+				sprite.Frames[frame].TexturePosition, 
+				color, 
+				rotation, 
+				sprite.Origin - sprite.Frames[frame].Origin,
+				SpriteEffects.None, 
+				0
+			);
 		}
 
 		public static void DrawSprite(Sprite sprite, float frameId, Rectangle posRect, Rectangle scissorRect)
 		{
+			SwitchPipelineMode(PipelineMode.Sprites, null);
 			
+			int frame = CalculateSpriteFrame(sprite, frameId);
+			
+			scissorRect.X += sprite.Frames[frame].TexturePosition.X;
+			scissorRect.Y += sprite.Frames[frame].TexturePosition.Y;
+
+			Batch.Draw(sprite.Frames[frame].Texture, posRect, scissorRect, CurrentColor);
 		}
 		
-		public static void DrawSprite(Sprite sprite, float frameId, Rectangle posRect, Rectangle scissorRect, float rotaion, Color color)
+		public static void DrawSprite(Sprite sprite, float frameId, Rectangle posRect, Rectangle scissorRect, float rotation, Color color)
 		{
+			SwitchPipelineMode(PipelineMode.Sprites, null);
 			
+			int frame = CalculateSpriteFrame(sprite, frameId);
+			
+			scissorRect.X += sprite.Frames[frame].TexturePosition.X;
+			scissorRect.Y += sprite.Frames[frame].TexturePosition.Y;
+
+			Batch.Draw(
+				sprite.Frames[frame].Texture, 
+				posRect, 
+				sprite.Frames[frame].TexturePosition, 
+				color, 
+				rotation, 
+				sprite.Origin - sprite.Frames[frame].Origin,
+				SpriteEffects.None, 
+				0
+			);
 		}
 
 		// Rectangles.
