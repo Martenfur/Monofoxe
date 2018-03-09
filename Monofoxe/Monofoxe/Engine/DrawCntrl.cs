@@ -70,7 +70,7 @@ namespace Monofoxe.Engine
 
 		/// <summary>
 		/// Disables rendering for everything that's outside of rectangle.
-		/// Set to Rectangle.Empty to disable.
+		/// NOTE: To enable scissoring, enable scissor test in Rasterizer.
 		/// </summary>
 		public static Rectangle ScissorRectangle
 		{
@@ -79,16 +79,27 @@ namespace Monofoxe.Engine
 				SwitchPipelineMode(PipelineMode.None, null);
 				_scissorRectangle = value;
 			}
+			get 
+			{
+				return _scissorRectangle;
+			}
 		}
 		private static Rectangle _scissorRectangle;
 
-
+		/// <summary>
+		/// Rasterizer state. 
+		/// NOTE: Do NOT modify object which you'll set. This will lead to errors and unexpected behaviour.
+		/// </summary>
 		public static RasterizerState Rasterizer
 		{
 			set
 			{
 				SwitchPipelineMode(PipelineMode.None, null); 
 				_rasterizer = value;
+			}
+			get
+			{
+				return _rasterizer;
 			}
 		}
 		private static RasterizerState _rasterizer;
