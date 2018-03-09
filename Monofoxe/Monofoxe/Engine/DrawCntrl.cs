@@ -68,6 +68,32 @@ namespace Monofoxe.Engine
 		private static Stack<RenderTarget2D> _surfaceStack;
 		private static RenderTarget2D _currentSurface;
 
+		/// <summary>
+		/// Disables rendering for everything that's outside of rectangle.
+		/// Set to Rectangle.Empty to disable.
+		/// </summary>
+		public static Rectangle ScissorRectangle
+		{
+			set
+			{
+				SwitchPipelineMode(PipelineMode.None, null);
+				_scissorRectangle = value;
+			}
+		}
+		private static Rectangle _scissorRectangle;
+
+
+		public static RasterizerState Rasterizer
+		{
+			set
+			{
+				SwitchPipelineMode(PipelineMode.None, null); 
+				_rasterizer = value;
+			}
+		}
+		private static RasterizerState _rasterizer;
+
+
 
 
 		#region shapes
@@ -285,14 +311,19 @@ namespace Monofoxe.Engine
 				if (_currentPipelineMode != PipelineMode.None)
 				{
 					if (_currentPipelineMode == PipelineMode.Sprites)
-					{Batch.End();}
+					{
+						Batch.End();
+					}
 					else
-					{DrawVertices();}
+					{
+						DrawVertices();
+					}
 				}
 
 				if (mode == PipelineMode.Sprites)
 				{
-					Batch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, CurrentTransformMatrix);
+					Device.ScissorRectangle = _scissorRectangle;
+					Batch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, _rasterizer, null, CurrentTransformMatrix);
 				}
 				_currentPipelineMode = mode;
 				_currentTexture = texture;
@@ -361,11 +392,12 @@ namespace Monofoxe.Engine
 				_indexBuffer.SetData(_indices.ToArray(), 0, _indices.Count);
 				// Passing primitive data to the buffers.
 				
-				RasterizerState rasterizerState = new RasterizerState(); // Do something with it, I guees.
-			  rasterizerState.CullMode = CullMode.None;
-				//rasterizerState.FillMode = FillMode.WireFrame;
+				if (_rasterizer != null)
+				{
+					Device.RasterizerState = _rasterizer;
+				}
+				Device.ScissorRectangle = _scissorRectangle;
 				
-				Device.RasterizerState = rasterizerState;
 
 				foreach(EffectPass pass in BasicEffect.CurrentTechnique.Passes)
 				{
