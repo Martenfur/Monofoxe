@@ -72,21 +72,21 @@ namespace Monofoxe.Engine
 
 		#region shapes
 
-		private static readonly PipelineMode[] _pipelineModes = {PipelineMode.OutlinePrimitives, PipelineMode.TrianglePrimitives};
+		private static readonly PipelineMode[] _pipelineModes = {PipelineMode.TrianglePrimitives, PipelineMode.OutlinePrimitives};
 		
 		// Triangle.
 		private static readonly short[][] _triangleIndices = 
 		{
-			new short[]{0, 1, 1, 2, 2, 0}, 
-			new short[]{0, 1, 2}
+			new short[]{0, 1, 2},
+			new short[]{0, 1, 1, 2, 2, 0}
 		};
 		// Triangle.
 
 		// Rectangle.
 		private static readonly short[][] _rectangleIndices = 
 		{
-			new short[]{0, 1, 1, 2, 2, 3, 3, 0},
-			new short[]{0, 1, 3, 1, 2, 3}
+			new short[]{0, 1, 3, 1, 2, 3},
+			new short[]{0, 1, 1, 2, 2, 3, 3, 0}
 		};
 		// Rectangle.
 
@@ -776,7 +776,6 @@ namespace Monofoxe.Engine
 			int isOutlineInt = Convert.ToInt32(isOutline); // We need to convert true/false to 1/0 to be able to get different sets of values from arrays. 
 			
 			var vertices = new List<VertexPositionColorTexture>();
-
 			vertices.Add(new VertexPositionColorTexture(new Vector3(x1, y1, 0), c1, Vector2.Zero));
 			vertices.Add(new VertexPositionColorTexture(new Vector3(x2, y2, 0), c2, Vector2.Zero));
 			vertices.Add(new VertexPositionColorTexture(new Vector3(x3, y3, 0), c3, Vector2.Zero));
