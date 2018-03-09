@@ -57,6 +57,15 @@ namespace Monofoxe
 			cam1.PortX = 400;
 			cam1.BackgroundColor = Color.Sienna;
 			//cam1.Enabled = false;
+
+			RasterizerState rasterizerState = new RasterizerState(); // Do something with it, I guees.
+			rasterizerState.CullMode = CullMode.None;
+			rasterizerState.ScissorTestEnable = true;//(_scissorRectangle != Rectangle.Empty);
+			rasterizerState.FillMode = FillMode.Solid;
+			DrawCntrl.Rasterizer = rasterizerState;
+
+			DrawCntrl.ScissorRectangle = new Rectangle(0, 0, 100, 100);
+
 		}
 
 		public override void Update()
@@ -120,29 +129,24 @@ namespace Monofoxe
 
 		public override void Draw()
 		{	
-			//DrawCntrl.DrawSprite(Sprites.DemonFire.Frames[0].Texture, 0, 0, Color.White);
-			
-			//DrawCntrl.DrawSprite(Sprites.DemonFire, (int)fireFrame, new Vector2(0, 0), new Vector2(2, -2), 0, Color.White);
+				
 
-			//DrawCntrl.DrawSprite(Sprites.DemonFire, new Vector2(0, 0));
+			DrawCntrl.DrawSprite(Sprites.DemonFire, (int)fireFrame, new Vector2(0, 0), new Vector2(2, -2), 0, Color.White);
 
-			//DrawCntrl.DrawSprite(Sprites.BstGam, 0, new Rectangle(100, 100, 32, 32), new Rectangle(300, 320, 32, 32));
+			DrawCntrl.DrawSprite(Sprites.DemonFire, new Vector2(0, 0));
 
-			//DrawCntrl.DrawSprite(Sprites.DemonFire, (int)fireFrame, 100, 100, (float)GameCntrl.ElapsedTimeTotal*50, Color.White);
-
-			DrawCntrl.DrawTriangle(-32,0,32,32,64,64,true);
-
-			DrawCntrl.DrawCircle(32,32,100,true);
-			DrawCntrl.DrawCircle(32,32+20,10,false);
+			DrawCntrl.DrawSprite(Sprites.BstGam, 0, new Rectangle(100, 100, 32, 32), new Rectangle(300, 320, 32, 32));
 
 
-			//Frame f = Sprites.DemonFire.Frames[(int)fireFrame];
-
+			//DrawCntrl.ScissorRectangle = new Rectangle(0, 0, 100, 100);
+			Frame f = Sprites.DemonFire.Frames[(int)fireFrame];
 			DrawCntrl.CurrentColor = Color.Red;
-			//DrawCntrl.DrawRectangle(0, 0, Sprites.DemonFire.W, Sprites.DemonFire.H, false);
+			DrawCntrl.DrawRectangle(0, 0, Sprites.DemonFire.W, Sprites.DemonFire.H, true);
+
+			//DrawCntrl.ScissorRectangle = Rectangle.Empty;
 
 			DrawCntrl.CurrentColor = Color.White;
-			//DrawCntrl.DrawRectangle(f.Origin.X, f.Origin.Y, f.TexturePosition.Width + f.Origin.X, f.TexturePosition.Height + f.Origin.Y, false);
+			DrawCntrl.DrawRectangle(f.Origin.X, f.Origin.Y, f.TexturePosition.Width + f.Origin.X, f.TexturePosition.Height + f.Origin.Y, true);
 
 
 			Debug.WriteLine(GameCntrl.Fps);
