@@ -307,7 +307,9 @@ namespace Monofoxe.Engine
 		/// </summary>
 		/// <param name="key">Key to check.</param>
 		public static bool KeyboardCheck(Keys key)
-		{return _currentKeys.Contains<Keys>(key);}
+		{
+			return _currentKeys.Contains(key);
+		}
 
 		
 		/// <summary>

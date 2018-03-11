@@ -29,6 +29,8 @@ namespace Monofoxe
 
 		float fireFrame = 0;
 
+		Random r = new Random();
+
 		public TestObj()
 		{
 			
@@ -45,7 +47,7 @@ namespace Monofoxe
                                            DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
 			
 
-			cam.BackgroundColor = Color.BurlyWood;
+			cam.BackgroundColor = Color.AliceBlue;
 
 			
 			cam.OffsetX = cam.W / 2;
@@ -55,17 +57,16 @@ namespace Monofoxe
 			y = cam.H / 2;
 
 			cam1.PortX = 400;
-			cam1.BackgroundColor = Color.Sienna;
+			cam1.BackgroundColor = Color.AliceBlue;//Color.Sienna;
 			//cam1.Enabled = false;
 
 			RasterizerState rasterizerState = new RasterizerState(); // Do something with it, I guees.
 			rasterizerState.CullMode = CullMode.None;
-			rasterizerState.ScissorTestEnable = true;//(_scissorRectangle != Rectangle.Empty);
+			rasterizerState.ScissorTestEnable = false;//(_scissorRectangle != Rectangle.Empty);
 			rasterizerState.FillMode = FillMode.Solid;
 			DrawCntrl.Rasterizer = rasterizerState;
 
-			DrawCntrl.ScissorRectangle = new Rectangle(0, 0, 100, 100);
-
+			//DrawCntrl.ScissorRectangle = new Rectangle(0, 0, 100, 100);
 		}
 
 		public override void Update()
@@ -120,53 +121,83 @@ namespace Monofoxe
 			{cam.Rotation -= 5;}
 
 
+			if (Input.KeyboardCheck(Keys.G))
+			{
+				fuckup += fuckupSpd;
+				fuckupSpd += 0.01f;
+			}
+
+			if (Input.KeyboardCheck(Keys.H))
+			{
+				fuckup -= 0.1f;
+				if (fuckup < 0)
+				{
+					fuckup = 0;
+				}
+			}
+
+			
+
+			if (Input.KeyboardCheck(Keys.T))
+			{
+				fuckup += 4;
+			}
+			if (Input.KeyboardCheck(Keys.Y))
+			{
+				fuckup = 0;
+			}
+
 			cam.X = x;
 			cam.Y = y;
-			DrawCntrl.SetSurfaceTarget(surf, Matrix.CreateTranslation(0, 0, 0));
-			//DrawCntrl.Device.Clear(Color.Azure);
-			DrawCntrl.ResetSurfaceTarget();
+
+			Debug.WriteLine("Draw fps: " + GameCntrl.Fps + " Step fps: " + GameCntrl.Tps);
+			
 		}
+
+		float fuckupSpd = 0;
+		float fuckup = 0;
 
 		public override void Draw()
 		{	
-				
-
-			DrawCntrl.DrawSprite(Sprites.DemonFire, (int)fireFrame, new Vector2(0, 0), new Vector2(2, -2), 0, Color.White);
-
-			DrawCntrl.DrawSprite(Sprites.DemonFire, new Vector2(0, 0));
-
-			DrawCntrl.DrawSprite(Sprites.BstGam, 0, new Rectangle(100, 100, 32, 32), new Rectangle(300, 320, 32, 32));
+			
+			DrawCntrl.DrawSprite(Sprites.DemonFire, (int)fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
 
 
-			//DrawCntrl.ScissorRectangle = new Rectangle(0, 0, 100, 100);
 			Frame f = Sprites.DemonFire.Frames[(int)fireFrame];
 			DrawCntrl.CurrentColor = Color.Red;
 			DrawCntrl.DrawRectangle(0, 0, Sprites.DemonFire.W, Sprites.DemonFire.H, true);
-
-			//DrawCntrl.ScissorRectangle = Rectangle.Empty;
-
+			
 			DrawCntrl.CurrentColor = Color.White;
 			DrawCntrl.DrawRectangle(f.Origin.X, f.Origin.Y, f.TexturePosition.Width + f.Origin.X, f.TexturePosition.Height + f.Origin.Y, true);
 
+			for(var v = 0; v < 1; v += 1)
+			{
+			DrawCntrl.PrimitiveBegin();
+			DrawCntrl.PrimitiveSetTexture(Game1.tex);
 
-			Debug.WriteLine(GameCntrl.Fps);
-			
-			//DrawCntrl.DrawRectangle(0, 0, 100, 100, false);
-			//Debug.WriteLine(GameCntrl.Fps);
-			
-			//DrawCntrl.DrawLine(Input.MousePos, Vector2.Zero, 16, Color.AliceBlue, Color.Black);
+			int _x = 100;
+			int _y = 100;
 
-			//for(var i = 0; i < 5000; i +=1)
-			//DrawCntrl.DrawCircle(Input.MousePos, 8, false);
+			int w = 32;
+			int h = 32;
 			
-			//DrawCntrl.CurrentColor = Color.Brown;
-			//DrawCntrl.DrawRectangle(64,64,96,96,false);
-			//DrawCntrl.CurrentColor = Color.Cornsilk;
-			//DrawCntrl.DrawTriangle(0,0,0,16,3,320,false);
-			//DrawCntrl.DrawLine(Input.MousePos, Vector2.Zero, Color.AliceBlue, Color.Black);
-			//DrawCntrl.DrawLine(100,100,120,120, Color.AliceBlue, Color.Black);
 			
 
+			for(var k = 0; k < h; k += 1)
+			{
+				for(var i = 0; i < w; i += 1)
+				{			
+					DrawCntrl.PrimitiveAddVertex(
+					_x + 8 * i + (float)(r.NextDouble() * 2.0 - 1.0) * fuckup,
+					_y + 8 * k + (float)(r.NextDouble() * 2.0 - 1.0) * fuckup,
+					Color.White, 
+					new Vector2(i / (float)(w - 1)*4, k / (float)(h - 1)*4));	
+				}
+			}
+
+			DrawCntrl.PrimitiveSetMeshIndices(w, h);
+			DrawCntrl.PrimitiveEnd();
+			}
 		}
 
 		public override void DrawGUI()

@@ -35,9 +35,7 @@ namespace Monofoxe
 		{
 			GameCntrl.MyGame = this;
 			
-			GameCntrl.MaxGameSpeed = 15.0;
-
-			//Debug.Write(GameCntrl.MaxGameSpeed);
+			GameCntrl.MaxGameSpeed = 60.0;
 			
 			Window.TextInput += Input.TextInput;
 
@@ -54,10 +52,8 @@ namespace Monofoxe
 			tex = Content.Load<Texture2D>("derp");
 			part = Content.Load<Texture2D>("part");
 			
-			//Texture2D test = Content.Load<Texture2D>("thumb");
 			Texture2D page1 = Content.Load<Texture2D>("kok\\texture_0");
 			
-
 			Sprites.Init(Frame.LoadFrames(page1, Environment.CurrentDirectory + @"\Resources\texture_0.xml"));
 			
 			DrawCntrl.Init(GraphicsDevice);
@@ -84,8 +80,10 @@ namespace Monofoxe
 		protected override void Update(GameTime gameTime)
 		{
 			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-			{Exit();}
-			
+			{
+				Exit();
+			}
+
 			GameCntrl.Update(gameTime);
 			
 			base.Update(gameTime);
@@ -96,8 +94,9 @@ namespace Monofoxe
 		/// </summary>
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw(GameTime gameTime)
-		{	
-			DrawCntrl.Update();
+		{
+			GameCntrl.UpdateFps(gameTime);
+			DrawCntrl.Update(gameTime);
 
 			base.Draw(gameTime);
 		}
