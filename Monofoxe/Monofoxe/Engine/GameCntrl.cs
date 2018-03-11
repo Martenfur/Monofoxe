@@ -15,9 +15,25 @@ namespace Monofoxe.Engine
 		public static double ElapsedTimeTotal {get; private set;} = 0;
 		public static double ElapsedTime {get; private set;} = 0;
 
-		public static double Fps {get; private set;} = 0;
-		private static int _fpsCounter = 0;
-		private static double _fpsAddition = 0;
+		public static int Fps 
+		{
+			get
+			{
+				return _fpsCounter.Value;
+			}
+		}
+		static FpsCounter _fpsCounter = new FpsCounter();
+
+		
+		public static int Tps 
+		{
+			get
+			{
+				return _tpsCounter.Value;
+			}
+		}
+		static FpsCounter _tpsCounter = new FpsCounter();
+
 
 		public static double FixedUpdateRate = 0.5; // Seconds.
 		
@@ -58,7 +74,34 @@ namespace Monofoxe.Engine
 				{_minGameSpeed = value;}
 			}
 		}
+
+
 		
+		/// <summary>
+		/// Counts frames per second.
+		/// </summary>
+		class FpsCounter
+		{
+			public int Value = 0;
+
+			private int _fpsCount = 0;
+			private double _fpsAddition = 0;
+			
+			public void Update(GameTime gameTime)
+			{
+				_fpsAddition += gameTime.ElapsedGameTime.TotalSeconds;
+				_fpsCount += 1;
+
+				if (_fpsAddition >= 1) // Every second value updates and counters reset.
+				{
+					Value = _fpsCount;
+					_fpsAddition -= 1;
+					_fpsCount = 0;
+				}
+			}
+		}
+
+
 
 		public static void Update(GameTime gameTime)
 		{
@@ -71,24 +114,22 @@ namespace Monofoxe.Engine
 			else
 			{ElapsedTime = 1.0 / MinGameSpeed;}
 			// Elapsed time counters.
-		
-			// Fps counter.
-			_fpsAddition += ElapsedTime;
-			_fpsCounter += 1;
-
-			if (_fpsAddition >= 1)
-			{
-				Fps = _fpsCounter;
-				_fpsAddition -= 1;
-				_fpsCounter = 0;
-			}
-			// Fps counter.
-
+			
+			_tpsCounter.Update(gameTime);
 			
 			Input.Update();
 			Objects.Update(gameTime);
 
 		}
+
+		
+		
+		public static void UpdateFps(GameTime gameTime)
+		{
+			_fpsCounter.Update(gameTime);
+		}
+
+
 
 		public static double Time(double val)
 		{return val * ElapsedTime * GameSpeedMultiplier;}

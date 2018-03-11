@@ -13,23 +13,27 @@ namespace Monofoxe.Engine
 	{
 		private const int BUFFER_SIZE = 320000;	
 
-		public static SpriteBatch Batch;
-		public static GraphicsDevice Device;
+		public static SpriteBatch Batch {get; private set;}
+		public static GraphicsDevice Device {get; private set;}
+		public static BasicEffect BasicEffect {get; private set;}
 
 		/// <summary>
 		/// List of all cameras.
 		/// </summary>
-		public static List<Camera> Cameras;
+		public static List<Camera> Cameras {get; private set;}
 
 		/// <summary>
 		/// Current enabled camera.
 		/// </summary>
 		public static Camera CurrentCamera {get; private set;} = null;
+
+		/// <summary>
+		/// Current transformation matrix.
+		/// </summary>
 		public static Matrix CurrentTransformMatrix {get; private set;}
 		private static Stack<Matrix> _transformMatrixStack;
 
-		public static BasicEffect BasicEffect;
-
+		
 		/// <summary>
 		/// Current drawing color. Affects shapes and primitives.
 		/// </summary>
@@ -61,9 +65,9 @@ namespace Monofoxe.Engine
 
 		private static PipelineMode _currentPipelineMode;
 		private static Texture2D _currentTexture;
-
+		
 		/// <summary>
-		/// When can set surface tergets inside another surfaces.
+		/// When can set surface targets inside another surfaces.
 		/// </summary>
 		private static Stack<RenderTarget2D> _surfaceStack;
 		private static RenderTarget2D _currentSurface;
@@ -137,28 +141,34 @@ namespace Monofoxe.Engine
 			{
 				_circleVectors = new List<Vector2>();
 			
-				var angAdd = (float)Math.PI * 2 / value;
+				var angAdd = Math.PI * 2 / value;
 				
 				for(var i = 0; i < value; i += 1)
-				{_circleVectors.Add(new Vector2((float)Math.Cos(angAdd * i), (float)Math.Sin(angAdd * i)));}
+				{
+					_circleVectors.Add(new Vector2((float)Math.Cos(angAdd * i), (float)Math.Sin(angAdd * i)));
+				}
 			}
 
 			get
-			{return _circleVectors.Count;}
+			{
+				return _circleVectors.Count;
+			}
 		}
 
 		private static List<Vector2> _circleVectors; 
 		// Circle.
 
-		// Primitive.
+		#endregion shapes
+
+		// Primitives.
 		private static List<VertexPositionColorTexture> _primitiveVertices;
 		private static List<short> _primitiveIndices;
 		private static PipelineMode _primitiveType;
 		private static Texture2D _primitiveTexture;
-		// Primitive.
 
-		#endregion shapes
-
+		private static Vector2 _primitiveTextureOffset;
+		private static Vector2 _primitiveTextureRatio;
+		// Primitives.
 
 
 		/// <summary>
@@ -198,14 +208,19 @@ namespace Monofoxe.Engine
 			CircleVerticesCount = 16;
 
 			_transformMatrixStack = new Stack<Matrix>();
-		}
 
+			SamplerState samplerState = SamplerState.PointClamp;//new SamplerState();
+			//samplerState.BorderColor = Color.Red;
+
+			//Device.SamplerStates[0] = samplerState;
+			
+		}
 
 
 		/// <summary>
 		/// Performs Draw events for all objects.
 		/// </summary>
-		public static void Update()
+		public static void Update(GameTime gameTime)
 		{
 			__drawcalls = 0;
 			
@@ -354,7 +369,7 @@ namespace Monofoxe.Engine
 		{
 			if (_indices.Count + indices.Length >= BUFFER_SIZE)
 			{
-				DrawVertices();
+				DrawVertices(); // If buffer overflows, we need to empty it.
 			}
 
 			SwitchPipelineMode(mode, texture);
@@ -363,7 +378,9 @@ namespace Monofoxe.Engine
 			Array.Copy(indices, indexesCopy, indices.Length); // We must copy an array to prevent modifying original.
 
 			for(var i = 0; i < indices.Length; i += 1)
-			{indexesCopy[i] += (short)_vertices.Count;} // We need to offset each index because of single buffer for everything.
+			{
+				indexesCopy[i] += (short)_vertices.Count; // We need to offset each index because of single buffer for everything.
+			} 
 
 			_vertices.AddRange(vertices);
 			_indices.AddRange(indexesCopy);
@@ -408,7 +425,16 @@ namespace Monofoxe.Engine
 					Device.RasterizerState = _rasterizer;
 				}
 				Device.ScissorRectangle = _scissorRectangle;
-				
+
+				SamplerState ss = new SamplerState();
+				ss.BorderColor = Color.Red;
+				ss.Filter = TextureFilter.Point;
+				ss.FilterMode = TextureFilterMode.Comparison;
+				ss.AddressU = TextureAddressMode.Wrap;
+				ss.AddressV = TextureAddressMode.Mirror;
+
+
+				Device.SamplerStates[0] = ss;
 
 				foreach(EffectPass pass in BasicEffect.CurrentTechnique.Passes)
 				{
@@ -954,24 +980,54 @@ namespace Monofoxe.Engine
 
 		#region primitives
 		
+		/// <summary>
+		/// Sets texture for a primitive.
+		/// </summary>
+		/// <param name="texture"></param>
 		public static void PrimitiveSetTexture(Texture2D texture)
 		{
 			_primitiveTexture = texture;
+			_primitiveTextureOffset = Vector2.Zero;
+			_primitiveTextureRatio = Vector2.One;
 		}
+
+		/// <summary>
+		/// Sets texture for a primitive.
+		/// </summary>
+		/// <param name="texture"></param>
+		public static void PrimitiveSetTexture(Sprite sprite, float frameId)
+		{
+			Frame frame = sprite.Frames[(int)frameId];
+
+			_primitiveTexture = frame.Texture;
+			_primitiveTextureOffset = new Vector2(
+				frame.TexturePosition.X / (float)frame.Texture.Width, 
+				frame.TexturePosition.Y / (float)frame.Texture.Height
+			);
+			
+			_primitiveTextureRatio = new Vector2(
+				frame.TexturePosition.Width / (float)frame.Texture.Width, 
+				frame.TexturePosition.Height / (float)frame.Texture.Height
+			);
+		}
+
+
+
+		#region AddVertex overloads
 
 		public static void PrimitiveAddVertex(Vector2 pos)
 		{
-			_primitiveVertices.Add(new VertexPositionColorTexture(new Vector3(pos.X, pos.Y, 0), CurrentColor, Vector2.Zero));
+			PrimitiveAddVertex(pos.X, pos.Y, CurrentColor, Vector2.Zero);
 		}
 
 		public static void PrimitiveAddVertex(Vector2 pos, Color color)
 		{
-			_primitiveVertices.Add(new VertexPositionColorTexture(new Vector3(pos.X, pos.Y, 0), color, Vector2.Zero));
+			PrimitiveAddVertex(pos.X, pos.Y, color, Vector2.Zero);
 		}
 
 		public static void PrimitiveAddVertex(Vector2 pos, Vector2 texturePos)
 		{
-			_primitiveVertices.Add(new VertexPositionColorTexture(new Vector3(pos.X, pos.Y, 0), CurrentColor, texturePos));
+			PrimitiveAddVertex(pos.X, pos.Y, CurrentColor, texturePos);
 		}
 
 		public static void PrimitiveAddVertex(Vector2 pos, Color color, Vector2 texturePos)
@@ -981,23 +1037,31 @@ namespace Monofoxe.Engine
 
 		public static void PrimitiveAddVertex(float x, float y)
 		{
-			_primitiveVertices.Add(new VertexPositionColorTexture(new Vector3(x, y, 0), CurrentColor, Vector2.Zero));
+			PrimitiveAddVertex(x, y, CurrentColor, Vector2.Zero);
 		}
 
 		public static void PrimitiveAddVertex(float x, float y, Color color)
 		{
-			_primitiveVertices.Add(new VertexPositionColorTexture(new Vector3(x, y, 0), color, Vector2.Zero));
+			PrimitiveAddVertex(x, y, color, Vector2.Zero);
 		}
 	
 		public static void PrimitiveAddVertex(float x, float y, Vector2 texturePos)
 		{
-			_primitiveVertices.Add(new VertexPositionColorTexture(new Vector3(x, y, 0), CurrentColor, texturePos));
+			PrimitiveAddVertex(x, y, CurrentColor, texturePos);
 		}
+		
+		#endregion AddVertex overloads
 
 		public static void PrimitiveAddVertex(float x, float y, Color color, Vector2 texturePos)
 		{
-			_primitiveVertices.Add(new VertexPositionColorTexture(new Vector3(x, y, 0), color, texturePos));
+			/*
+			 * Since we may work with sprites, which are only little parts of whole texture atlass,
+			 * we need to convert local sprite coordinates to global atlass coordinates.
+			 */
+			Vector2 atlassPos = _primitiveTextureOffset + texturePos * _primitiveTextureRatio;
+			_primitiveVertices.Add(new VertexPositionColorTexture(new Vector3(x, y, 0), color, atlassPos));
 		}
+
 
 
 		/// <summary>
