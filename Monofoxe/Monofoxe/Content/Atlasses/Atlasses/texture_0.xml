@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:3621ce650e52b8563fa9755b6e712b24:61c4938b6ad7102beb3e782383db92eb:3e3366267bc9aa35d9d184e4f25f8352$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="texture_0.png" width="1912" height="2022">
+    <sprite n="barrel_0" x="1855" y="340" w="54" h="57" pX="0.5" pY="0.5"/>
+    <sprite n="barrel_parts_0" x="365" y="1952" w="53" h="17" pX="0.5" pY="0.5"/>
+    <sprite n="barrel_parts_1" x="1754" y="1921" w="32" h="17" pX="0.5" pY="0.5" oX="9" oY="0" oW="53" oH="17"/>
+    <sprite n="barrel_parts_2" x="1798" y="1842" w="32" h="17" pX="0.5" pY="0.5" oX="9" oY="0" oW="53" oH="17"/>
+    <sprite n="barrel_parts_3" x="556" y="1952" w="41" h="17" pX="0.5" pY="0.5" oX="6" oY="0" oW="53" oH="17"/>
+    <sprite n="barrel_parts_4" x="599" y="1952" w="40" h="17" pX="0.5" pY="0.5" oX="5" oY="0" oW="53" oH="17"/>
+    <sprite n="barrel_parts_5" x="420" y="1952" w="45" h="17" pX="0.5" pY="0.5" oX="4" oY="0" oW="53" oH="17"/>
+    <sprite n="barrel_parts_6" x="641" y="1952" w="31" h="17" pX="0.5" pY="0.5" oX="10" oY="0" oW="53" oH="17"/>
+    <sprite n="barrel_parts_7" x="1754" y="1940" w="28" h="17" pX="0.5" pY="0.5" oX="11" oY="0" oW="53" oH="17"/>
+    <sprite n="bro_woolhat_0" x="1733" y="985" w="48" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="bubble_strip2_0" x="467" y="1952" w="44" h="21" pX="0.5" pY="0.5"/>
+    <sprite n="bucket_0" x="241" y="1975" w="52" h="37" pX="0.5" pY="0.5"/>
+    <sprite n="cabbage1_smashed_0" x="1844" y="1679" w="45" h="44" pX="0.5" pY="0.5"/>
+    <sprite n="cabbage2_0" x="1081" y="1493" w="46" h="41" pX="0.5" pY="0.5"/>
+    <sprite n="cabbage2_smashed_0" x="1647" y="1335" w="48" h="43" pX="0.5" pY="0.5"/>
+    <sprite n="cabbage3_0" x="1754" y="1855" w="42" h="39" pX="0.5" pY="0.5"/>
+    <sprite n="cabbage3_smashed_0" x="1647" y="1380" w="49" h="42" pX="0.5" pY="0.5"/>
+    <sprite n="cabbage_0_0" x="1842" y="1762" w="43" h="41" pX="0.5" pY="0.5"/>
+    <sprite n="chiggin_0" x="1855" y="234" w="56" h="51" pX="0.5" pY="0.5"/>
+    <sprite n="chiggin_1" x="1855" y="287" w="56" h="51" pX="0.5" pY="0.5"/>
+    <sprite n="cleric_0" x="1647" y="1178" w="47" h="54" pX="0.5" pY="0.5"/>
+    <sprite n="cleric_bench_0" x="1605" y="916" w="126" h="92" pX="0.5" pY="0.5"/>
+    <sprite n="cleric_hat_0" x="931" y="1493" w="50" h="36" pX="0.5" pY="0.5"/>
+    <sprite n="ded1_0" x="1855" y="508" w="47" h="54" pX="0.5" pY="0.5"/>
+    <sprite n="ded1_dmg_0" x="1647" y="1234" w="47" h="54" pX="0.5" pY="0.5"/>
+    <sprite n="demon_0" x="1647" y="1010" w="62" h="54" pX="0.5" pY="0.5"/>
+    <sprite n="demon_dmg_0" x="1647" y="1066" w="57" h="54" pX="0.5" pY="0.5"/>
+    <sprite n="demon_fire_00" x="1843" y="645" w="10" h="8" pX="0.5" pY="0.5" oX="23" oY="59" oW="54" oH="67"/>
+    <sprite n="demon_fire_01" x="1" y="2009" w="15" h="12" pX="0.5" pY="0.5" oX="20" oY="55" oW="54" oH="67"/>
+    <sprite n="demon_fire_02" x="1129" y="1493" w="19" h="16" pX="0.5" pY="0.5" oX="18" oY="51" oW="54" oH="67"/>
+    <sprite n="demon_fire_03" x="1726" y="1954" w="26" h="21" pX="0.5" pY="0.5" oX="14" oY="46" oW="54" oH="67"/>
+    <sprite n="demon_fire_04" x="1798" y="1807" w="35" h="33" pX="0.5" pY="0.5" oX="10" oY="34" oW="54" oH="67"/>
+    <sprite n="demon_fire_05" x="1754" y="1812" w="42" h="41" pX="0.5" pY="0.5" oX="7" oY="26" oW="54" oH="67"/>
+    <sprite n="demon_fire_06" x="1855" y="564" w="47" h="51" pX="0.5" pY="0.5" oX="4" oY="16" oW="54" oH="67"/>
+    <sprite n="demon_fire_07" x="1789" y="916" w="51" h="60" pX="0.5" pY="0.5" oX="1" oY="7" oW="54" oH="67"/>
+    <sprite n="demon_fire_08" x="1733" y="916" w="54" h="67" pX="0.5" pY="0.5"/>
+    <sprite n="demon_fire_09" x="1670" y="1892" w="54" h="65" pX="0.5" pY="0.5" oX="0" oY="0" oW="54" oH="67"/>
+    <sprite n="demon_fire_10" x="1151" y="1493" w="54" h="60" pX="0.5" pY="0.5" oX="0" oY="0" oW="54" oH="67"/>
+    <sprite n="demon_fire_11" x="1670" y="1959" w="54" h="55" pX="0.5" pY="0.5" oX="0" oY="1" oW="54" oH="67"/>
+    <sprite n="demon_fire_12" x="1855" y="399" w="54" h="51" pX="0.5" pY="0.5" oX="0" oY="0" oW="54" oH="67"/>
+    <sprite n="demon_fire_13" x="1787" y="1760" w="53" h="45" pX="0.5" pY="0.5" oX="0" oY="0" oW="54" oH="67"/>
+    <sprite n="demon_fire_14" x="295" y="1975" w="51" h="38" pX="0.5" pY="0.5" oX="2" oY="3" oW="54" oH="67"/>
+    <sprite n="demon_fire_15" x="1855" y="617" w="49" h="32" pX="0.5" pY="0.5" oX="2" oY="5" oW="54" oH="67"/>
+    <sprite n="demon_fire_16" x="1754" y="1896" w="46" h="23" pX="0.5" pY="0.5" oX="4" oY="6" oW="54" oH="67"/>
+    <sprite n="intro/scene1_knight_0" x="1787" y="1555" w="102" h="122" pX="0.5" pY="0.5"/>
+    <sprite n="intro/scene3_sword_0" x="1151" y="1555" w="634" h="255" pX="0.5" pY="0.5"/>
+    <sprite n="intro/scene4_bucket_0" x="1151" y="1812" w="517" h="209" pX="0.5" pY="0.5"/>
+    <sprite n="intro/scene4_bucket_shadow_0" x="803" y="1416" w="422" h="75" pX="0.5" pY="0.5"/>
+    <sprite n="intro/scene4_knight_0" x="803" y="1021" w="511" h="393" pX="0.5" pY="0.5"/>
+    <sprite n="outro/sc5_knight_sword_0" x="1572" y="603" w="16" h="36" pX="0.5" pY="0.5"/>
+    <sprite n="outro/scene1_knight_body_0" x="1605" y="645" w="236" h="269" pX="0.5" pY="0.5"/>
+    <sprite n="outro/scene1_knight_face_strip3_0" x="1" y="1952" w="238" h="55" pX="0.5" pY="0.5" oX="2" oY="0" oW="240" oH="55"/>
+    <sprite n="outro/scene1_trees_bkg_layer1_0" x="1" y="1541" w="1148" h="409" pX="0.5" pY="0.5"/>
+    <sprite n="outro/scene1_trees_bkg_layer3_0" x="803" y="603" w="767" h="274" pX="0.5" pY="0.5"/>
+    <sprite n="outro/scene2_reflection_0" x="1603" y="1" w="308" h="231" pX="0.5" pY="0.5"/>
+    <sprite n="outro/scene3_ground_0" x="803" y="879" w="800" h="140" pX="0.5" pY="0.5"/>
+    <sprite n="outro/scene3_hill_0" x="1227" y="1432" w="678" h="121" pX="0.5" pY="0.5"/>
+    <sprite n="outro/scene3_tree_left_0" x="1316" y="1021" w="329" h="409" pX="0.5" pY="0.5"/>
+    <sprite n="outro/scene3_tree_right_0" x="1603" y="234" w="250" h="409" pX="0.5" pY="0.5"/>
+    <sprite n="outro/scene4_knight_0" x="1726" y="1892" w="26" h="33" pX="0.5" pY="0.5"/>
+    <sprite n="outro/scene5_bkg_0" x="1" y="603" w="800" h="936" pX="0.5" pY="0.5"/>
+    <sprite n="outro/scene5_bkg_strip2_0" x="1" y="1" w="1600" h="600" pX="0.5" pY="0.5"/>
+    <sprite n="Stuff/basket_0" x="1844" y="1725" w="44" h="35" pX="0.5" pY="0.5"/>
+    <sprite n="Stuff/bench_0" x="803" y="1493" w="126" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="Stuff/bench_shadow_0" x="241" y="1952" w="122" h="21" pX="0.5" pY="0.5"/>
+    <sprite n="Stuff/birdie_body_0" x="1726" y="1927" w="26" h="25" pX="0.5" pY="0.5"/>
+    <sprite n="Stuff/birdie_legs_0" x="803" y="1527" w="19" h="11" pX="0.5" pY="0.5" oX="2" oY="17" oW="26" oH="28"/>
+    <sprite n="Stuff/birdie_wing_0" x="1605" y="1010" w="16" h="9" pX="0.5" pY="0.5"/>
+    <sprite n="Stuff/boss_0" x="1787" y="1679" w="55" h="79" pX="0.5" pY="0.5"/>
+    <sprite n="Stuff/bottle_0" x="1207" y="1493" w="18" h="40" pX="0.5" pY="0.5"/>
+    <sprite n="Stuff/boulder1_0" x="1647" y="1290" w="48" h="43" pX="0.5" pY="0.5"/>
+    <sprite n="Stuff/boulder2_0" x="1033" y="1493" w="46" h="42" pX="0.5" pY="0.5"/>
+    <sprite n="Stuff/boulder3_0" x="983" y="1493" w="48" h="41" pX="0.5" pY="0.5"/>
+    <sprite n="Stuff/bro_0" x="1647" y="1122" w="47" h="54" pX="0.5" pY="0.5"/>
+    <sprite n="Stuff/bro_dmg_0" x="1855" y="452" w="47" h="54" pX="0.5" pY="0.5"/>
+    <sprite n="Stuff/bro_glasses_0" x="1227" y="1416" w="41" h="13" pX="0.5" pY="0.5"/>
+    <sprite n="Stuff/bro_hair_0" x="1270" y="1416" w="31" h="13" pX="0.5" pY="0.5"/>
+    <sprite n="Stuff/bro_hat_0" x="513" y="1952" w="41" h="19" pX="0.5" pY="0.5"/>
+    <sprite n="test kitten_0" x="1670" y="1812" w="82" h="78" pX="0.5" pY="0.5"/>
+</TextureAtlas>

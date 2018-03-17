@@ -6,7 +6,8 @@ using System.Diagnostics;
 using System;
 using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
-
+using System.Collections.Generic;
+using System.IO;
 
 namespace Monofoxe
 {
@@ -16,13 +17,13 @@ namespace Monofoxe
 	public class Game1 : Game
 	{
 		public GraphicsDeviceManager graphics;
-		public static Texture2D tex;
-		public static Texture2D part;
+		
+		public static SpriteFont Def;
 
 		public Game1()
 		{
 			graphics = new GraphicsDeviceManager(this);
-			Content.RootDirectory = "Content";
+			Content.RootDirectory = GameCntrl.ContentDir;
 		}
 
 		/// <summary>
@@ -48,19 +49,13 @@ namespace Monofoxe
 		/// </summary>
 		protected override void LoadContent()
 		{
-			
-			tex = Content.Load<Texture2D>("derp");
-			part = Content.Load<Texture2D>("part");
-			
-			Texture2D page1 = Content.Load<Texture2D>("kok\\texture_0");
-			
-			Sprites.Init(Frame.LoadFrames(page1, Environment.CurrentDirectory + @"\Resources\texture_0.xml"));
-			
+			GameCntrl.LoadGraphics(Content);			
 			DrawCntrl.Init(GraphicsDevice);
+			
+			Def = Content.Load<SpriteFont>("def"); 
 
 			new TestObj();			
 			new GameObj();	
-			
 		}
 
 		/// <summary>

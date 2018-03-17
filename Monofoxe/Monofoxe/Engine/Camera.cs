@@ -33,7 +33,9 @@ namespace Monofoxe.Engine
 		public int W 
 		{
 			get
-			{return ViewSurface.Width;}
+			{
+				return ViewSurface.Width;
+			}
 		}
 		
 		/// <summary>
@@ -43,7 +45,9 @@ namespace Monofoxe.Engine
 		public int H
 		{
 			get
-			{return ViewSurface.Height;}
+			{
+				return ViewSurface.Height;
+			}
 		}
 
 		/// <summary>
@@ -122,10 +126,10 @@ namespace Monofoxe.Engine
 		
 		public void UpdateTransformMatrix()
 		{
-			TransformMatrix = Matrix.CreateTranslation(new Vector3(-X, -Y, 0)) *          //Coordinates.
-		                    Matrix.CreateRotationZ(MathHelper.ToRadians(-Rotation)) *   //Rotation.
-		                    Matrix.CreateScale(new Vector3(ScaleX, ScaleY, 1)) *	       //Scale.
-		                    Matrix.CreateTranslation(new Vector3(OffsetX, OffsetY, 0)); //Offset.									
+			TransformMatrix = Matrix.CreateTranslation(new Vector3(-X, -Y, 0)) *          // Coordinates.
+		                    Matrix.CreateRotationZ(MathHelper.ToRadians(-Rotation)) *   // Rotation.
+		                    Matrix.CreateScale(new Vector3(ScaleX, ScaleY, 1)) *	      // Scale.
+		                    Matrix.CreateTranslation(new Vector3(OffsetX, OffsetY, 0)); // Offset.									
 		}
 
 	}

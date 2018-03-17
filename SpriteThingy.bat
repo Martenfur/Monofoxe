@@ -1,1 +1,1 @@
-SpriteThingy \TestGraphics\ \Monofoxe\Monofoxe\Resources\ \TestGraphics\Sprites_template.cs \Monofoxe\Monofoxe\Engine\Drawing\Sprites.cs "TexturePacker --format xml --disable-rotation --multipack --algorithm MaxRects --data <output_dir>texture_{n}.xml <input_dir>"
+SpriteThingy \TestGraphics\ \Monofoxe\Monofoxe\Content\Atlasses\ \TestGraphics\Sprites_template.cs \Monofoxe\Monofoxe\Engine\Drawing\Sprites.cs "TexturePacker --format xml --disable-rotation --multipack --trim-sprite-names --algorithm MaxRects --data <output_dir>texture_{n}.xml <input_dir>"
