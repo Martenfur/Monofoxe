@@ -30,7 +30,7 @@ namespace Monofoxe
 		float fireFrame = 0;
 
 		Random r = new Random();
-
+		Sprite fontSheet;
 		public TestObj()
 		{
 			
@@ -67,6 +67,11 @@ namespace Monofoxe
 			DrawCntrl.Rasterizer = rasterizerState;
 
 			//DrawCntrl.ScissorRectangle = new Rectangle(0, 0, 100, 100);
+
+
+			fontSheet = new Sprite(new Frame(Game1.Def.Texture, new Rectangle(0, 0, Game1.Def.Texture.Width, Game1.Def.Texture.Height), Vector2.Zero, Game1.Def.Texture.Width, Game1.Def.Texture.Height), 0, 0);
+
+
 		}
 
 		public override void Update()
@@ -156,10 +161,14 @@ namespace Monofoxe
 
 		float fuckupSpd = 0;
 		float fuckup = 0;
+		float mtxAng = 0;
 
 		public override void Draw()
 		{	
-			
+			mtxAng += 1;
+			if (mtxAng > 359)
+			{mtxAng -= 360;}
+
 			DrawCntrl.DrawSprite(Sprites.DemonFire, (int)fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
 
 
@@ -167,13 +176,12 @@ namespace Monofoxe
 			DrawCntrl.CurrentColor = Color.Red;
 			DrawCntrl.DrawRectangle(0, 0, Sprites.DemonFire.W, Sprites.DemonFire.H, true);
 			
-			DrawCntrl.CurrentColor = Color.White;
+			DrawCntrl.CurrentColor = Color.BlueViolet;
 			DrawCntrl.DrawRectangle(f.Origin.X, f.Origin.Y, f.TexturePosition.Width + f.Origin.X, f.TexturePosition.Height + f.Origin.Y, true);
 
-			for(var v = 0; v < 1; v += 1)
-			{
+			
 			DrawCntrl.PrimitiveBegin();
-			DrawCntrl.PrimitiveSetTexture(Game1.tex);
+			DrawCntrl.PrimitiveSetTexture(Sprites.BstGam, 1);
 
 			int _x = 100;
 			int _y = 100;
@@ -191,18 +199,34 @@ namespace Monofoxe
 					_x + 8 * i + (float)(r.NextDouble() * 2.0 - 1.0) * fuckup,
 					_y + 8 * k + (float)(r.NextDouble() * 2.0 - 1.0) * fuckup,
 					Color.White, 
-					new Vector2(i / (float)(w - 1)*4, k / (float)(h - 1)*4));	
+					new Vector2(i / (float)(w - 1)*2, k / (float)(h - 1)*2));	
 				}
 			}
 
 			DrawCntrl.PrimitiveSetMeshIndices(w, h);
 			DrawCntrl.PrimitiveEnd();
-			}
+			
+			Vector2 size = Game1.Def.MeasureString("AVFoxes" + Environment.NewLine + "лисята ѥ");
+			Vector2 pos = new Vector2(0, 0);
+			Vector2 pos1 = new Vector2(32, 100);
+
+
+			Matrix 
+			TransformMatrix = Matrix.CreateTranslation(new Vector3(-8, -8, 0)) *          // Coordinates.
+		                    Matrix.CreateRotationZ(MathHelper.ToRadians(-mtxAng)) *   // Rotation.
+		                    Matrix.CreateScale(new Vector3(1, 1, 1)) *	      // Scale.
+		                    Matrix.CreateTranslation(new Vector3(32, 100, 0)); // Offset.		
+			
+			DrawCntrl.DrawRectangle(pos1, pos1 + size, true);
+			
+			//DrawCntrl.AddTransformMatrix(TransformMatrix);
+			DrawCntrl.DrawRectangle(pos, pos + size, true);
+			DrawCntrl.DrawText(Game1.Def, pos.X, pos.Y, "AVFoxes" + Environment.NewLine + "лисята ѥ");
+			//DrawCntrl.ResetTransformMatrix();
 		}
 
 		public override void DrawGUI()
 		{
-		
 		}
 
 		private void TestDrawPrimitives()
@@ -229,7 +253,7 @@ namespace Monofoxe
 			DrawCntrl.PrimitiveAddVertex(64, 0,new Color(56, 135, 255, 0) , new Vector2(1, 0));
 			DrawCntrl.PrimitiveAddVertex(96, 32, new Color(56, 135, 255, 0), new Vector2(1, 1));
 			DrawCntrl.PrimitiveSetTriangleStripIndices();
-			DrawCntrl.PrimitiveSetTexture(Game1.tex);
+			DrawCntrl.PrimitiveSetTexture(Sprites.BirdieBody, 0);
 			DrawCntrl.PrimitiveEnd();
 			
 			
@@ -247,7 +271,7 @@ namespace Monofoxe
 					DrawCntrl.PrimitiveAddVertex(_x + 8 * i + i * i * k, _y + 8 * k + k * k * i, Color.White, new Vector2(i / (float)(w - 1), k / (float)(h - 1)));	
 				}
 			}
-			DrawCntrl.PrimitiveSetTexture(Game1.tex);
+			DrawCntrl.PrimitiveSetTexture(Sprites.Boulder3, 0);
 			DrawCntrl.PrimitiveSetMeshIndices(w, h);
 			DrawCntrl.PrimitiveEnd();
 		}

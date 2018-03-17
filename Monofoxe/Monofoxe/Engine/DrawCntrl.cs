@@ -393,6 +393,8 @@ namespace Monofoxe.Engine
 		/// </summary>
 		private static void DrawVertices()
 		{
+			BasicEffect.View = CurrentTransformMatrix;
+			
 			__drawcalls += 1;
 
 			if (_vertices.Count > 0)
@@ -703,6 +705,14 @@ namespace Monofoxe.Engine
 		{
 			SwitchPipelineMode(PipelineMode.Sprites, null);
 			Batch.Draw(surf, new Vector2(x, y), color);
+		}
+
+
+
+		public static void DrawText(SpriteFont font, float x, float y, string text)
+		{
+			SwitchPipelineMode(PipelineMode.Sprites, null);
+			Batch.DrawString(font, text, new Vector2(x, y), Color.Black);
 		}
 
 		#endregion sprites
