@@ -169,15 +169,15 @@ namespace Monofoxe
 			if (mtxAng > 359)
 			{mtxAng -= 360;}
 
-			DrawCntrl.DrawSprite(Sprites.DemonFire, (int)fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
+			//DrawCntrl.DrawSprite(Sprites.DemonFire, (int)fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
 
 
 			Frame f = Sprites.DemonFire.Frames[(int)fireFrame];
 			DrawCntrl.CurrentColor = Color.Red;
-			DrawCntrl.DrawRectangle(0, 0, Sprites.DemonFire.W, Sprites.DemonFire.H, true);
+			//DrawCntrl.DrawRectangle(0, 0, Sprites.DemonFire.W, Sprites.DemonFire.H, true);
 			
 			DrawCntrl.CurrentColor = Color.BlueViolet;
-			DrawCntrl.DrawRectangle(f.Origin.X, f.Origin.Y, f.TexturePosition.Width + f.Origin.X, f.TexturePosition.Height + f.Origin.Y, true);
+			//DrawCntrl.DrawRectangle(f.Origin.X, f.Origin.Y, f.TexturePosition.Width + f.Origin.X, f.TexturePosition.Height + f.Origin.Y, true);
 
 			
 			DrawCntrl.PrimitiveBegin();
@@ -206,7 +206,7 @@ namespace Monofoxe
 			DrawCntrl.PrimitiveSetMeshIndices(w, h);
 			DrawCntrl.PrimitiveEnd();
 			
-			Vector2 size = Game1.Def.MeasureString("AVFoxes" + Environment.NewLine + "лисята ѥ");
+			Vector2 size = Game1.Def.MeasureString("AVFoxes" + Environment.NewLine + "лисята");
 			Vector2 pos = new Vector2(0, 0);
 			Vector2 pos1 = new Vector2(32, 100);
 
@@ -221,8 +221,11 @@ namespace Monofoxe
 			
 			//DrawCntrl.AddTransformMatrix(TransformMatrix);
 			DrawCntrl.DrawRectangle(pos, pos + size, true);
-			DrawCntrl.DrawText(Game1.Def, pos.X, pos.Y, "AVFoxes" + Environment.NewLine + "лисята ѥ");
+			DrawCntrl.CurrentColor = Color.White;
+			DrawCntrl.DrawText(Fonts.TexFont, pos.X, pos.Y, "AVFoxIes" + Environment.NewLine + "moar foxi'es", TextAlign.Center, TextAlign.Center);
 			//DrawCntrl.ResetTransformMatrix();
+			Debug.WriteLine("STR: " + Game1.Def.MeasureString("A") + " " + Game1.Def.MeasureString("_"));
+			
 		}
 
 		public override void DrawGUI()

@@ -11,5 +11,6 @@ namespace Monofoxe.Engine.Drawing
 	public static class Fonts
 	{
 		//SpriteFont
+		public static IFont TexFont = new TextureFont(Sprites.SpriteFont, " !" + '"' + @"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~", true);
 	}
 }
