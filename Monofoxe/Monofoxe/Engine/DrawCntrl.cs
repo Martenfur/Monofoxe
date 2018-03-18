@@ -700,21 +700,6 @@ namespace Monofoxe.Engine
 
 		// Rectangles.
 		
-
-		public static void DrawSurface(RenderTarget2D surf, float x, float y, Color color)
-		{
-			SwitchPipelineMode(PipelineMode.Sprites, null);
-			Batch.Draw(surf, new Vector2(x, y), color);
-		}
-
-
-
-		public static void DrawText(SpriteFont font, float x, float y, string text)
-		{
-			SwitchPipelineMode(PipelineMode.Sprites, null);
-			Batch.DrawString(font, text, new Vector2(x, y), Color.Black);
-		}
-
 		#endregion sprites
 
 
@@ -1237,6 +1222,22 @@ namespace Monofoxe.Engine
 		}
 
 		#endregion primitives
+
+
+		public static void DrawSurface(RenderTarget2D surf, float x, float y, Color color)
+		{
+			SwitchPipelineMode(PipelineMode.Sprites, null);
+			Batch.Draw(surf, new Vector2(x, y), color);
+		}
+
+
+
+		public static void DrawText(IFont font, float x, float y, string text, TextAlign halign, TextAlign valign)
+		{
+			SwitchPipelineMode(PipelineMode.Sprites, null);
+			
+			font.Draw(text, new Vector2(x, y), halign, valign);
+		}
 
 	}
 }

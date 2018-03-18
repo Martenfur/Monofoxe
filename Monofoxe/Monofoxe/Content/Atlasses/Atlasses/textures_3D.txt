@@ -1,4 +1,0 @@
-Textures/bst_gam_0
-Textures/bst_gam_1
-Textures/bst_gam_2
-Textures/bst_gam_3

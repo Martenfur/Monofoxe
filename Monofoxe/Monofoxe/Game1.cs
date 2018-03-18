@@ -18,7 +18,7 @@ namespace Monofoxe
 	{
 		public GraphicsDeviceManager graphics;
 		
-		public static SpriteFont Def;
+		public static IFont Def;
 
 		public Game1()
 		{
@@ -52,7 +52,7 @@ namespace Monofoxe
 			GameCntrl.LoadGraphics(Content);			
 			DrawCntrl.Init(GraphicsDevice);
 			
-			Def = Content.Load<SpriteFont>("def"); 
+			Def = new Font(Content.Load<SpriteFont>("def")); 
 
 			new TestObj();			
 			new GameObj();	

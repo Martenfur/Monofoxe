@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:3621ce650e52b8563fa9755b6e712b24:61c4938b6ad7102beb3e782383db92eb:3e3366267bc9aa35d9d184e4f25f8352$ -->
+<!-- $TexturePacker:SmartUpdate:07438051cec37b0e9d6cb50116a7713b:c26eca68e14bec8f62cbd399109b2380:3e3366267bc9aa35d9d184e4f25f8352$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -19,13 +19,15 @@ vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
 verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
 triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
-<TextureAtlas imagePath="texture_1.png" width="1868" height="1507">
-    <sprite n="intro/scene2_0" x="1" y="603" w="1000" h="408" pX="0.5" pY="0.5"/>
-    <sprite n="intro/scene3_bkg_0" x="1" y="1" w="800" h="600" pX="0.5" pY="0.5"/>
-    <sprite n="intro/scene4_bkg_0" x="1003" y="339" w="800" h="409" pX="0.5" pY="0.5"/>
-    <sprite n="outro/scene1_trees_bkg_layer2_0" x="803" y="1" w="940" h="336" pX="0.5" pY="0.5"/>
-    <sprite n="outro/scene2_bkg_0" x="1003" y="750" w="800" h="409" pX="0.5" pY="0.5"/>
-    <sprite n="outro/scene2_knight_0" x="1605" y="1161" w="262" h="242" pX="0.5" pY="0.5"/>
-    <sprite n="outro/scene3_bkg_0" x="803" y="1161" w="800" h="345" pX="0.5" pY="0.5"/>
-    <sprite n="outro/scene4_bkg_0" x="1" y="1013" w="800" h="409" pX="0.5" pY="0.5"/>
+<TextureAtlas imagePath="texture_1.png" width="1868" height="1429">
+    <sprite n="intro/scene2_0" x="1" y="1" w="1000" h="408" pX="0.5" pY="0.5"/>
+    <sprite n="intro/scene3_sword_0" x="1" y="1160" w="634" h="255" pX="0.5" pY="0.5"/>
+    <sprite n="intro/scene4_bucket_0" x="637" y="1160" w="517" h="209" pX="0.5" pY="0.5"/>
+    <sprite n="intro/scene4_knight_0" x="1156" y="1035" w="511" h="393" pX="0.5" pY="0.5"/>
+    <sprite n="outro/scene1_trees_bkg_layer2_0" x="1" y="822" w="940" h="336" pX="0.5" pY="0.5"/>
+    <sprite n="outro/scene1_trees_bkg_layer3_0" x="943" y="759" w="767" h="274" pX="0.5" pY="0.5"/>
+    <sprite n="outro/scene2_bkg_0" x="1003" y="1" w="800" h="409" pX="0.5" pY="0.5"/>
+    <sprite n="outro/scene2_knight_0" x="1605" y="412" w="262" h="242" pX="0.5" pY="0.5"/>
+    <sprite n="outro/scene3_bkg_0" x="803" y="412" w="800" h="345" pX="0.5" pY="0.5"/>
+    <sprite n="outro/scene4_bkg_0" x="1" y="411" w="800" h="409" pX="0.5" pY="0.5"/>
 </TextureAtlas>

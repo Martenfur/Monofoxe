@@ -27,6 +27,7 @@ namespace Monofoxe.Engine.Drawing
 		public static Sprite Demon;
 		public static Sprite DemonDmg;
 		public static Sprite DemonFire;
+		public static Sprite SpriteFont;
 		public static Sprite TestKitten;
 		public static Sprite Scene1Knight;
 		public static Sprite Scene2;
@@ -97,6 +98,7 @@ namespace Monofoxe.Engine.Drawing
 			Demon = new Sprite(frames["demon"], 0, 0);
 			DemonDmg = new Sprite(frames["demon_dmg"], 0, 0);
 			DemonFire = new Sprite(frames["demon_fire"], 32, 32);
+			SpriteFont = new Sprite(frames["sprite_font"], 0, 0);
 			TestKitten = new Sprite(frames["test kitten"], 0, 0);
 			Scene1Knight = new Sprite(frames["intro/scene1_knight"], 0, 0);
 			Scene2 = new Sprite(frames["intro/scene2"], 0, 0);
