@@ -225,7 +225,14 @@ namespace Monofoxe
 			DrawCntrl.CurrentFont = Fonts.AnotherFont;
 			DrawCntrl.HorAlign = TextAlign.Center;
 			DrawCntrl.VerAlign = TextAlign.Center;
+
+			DrawCntrl.Sampler = SamplerState.PointClamp;
+
 			DrawCntrl.DrawText("AVFoxIes" + Environment.NewLine + "mo|r f'oxi.es", pos, new Vector2(1, 1), new Vector2(0, 0), mtxAng);
+			
+			DrawCntrl.Sampler = SamplerState.AnisotropicClamp;
+			DrawCntrl.DrawText("Blurred fuck", 100, 100);
+			
 			//DrawCntrl.CurrentFont = Fonts.AnotherFont;
 			//DrawCntrl.DrawText("AVFoxIes" + Environment.NewLine + "mo|r f'oxi.es");
 			

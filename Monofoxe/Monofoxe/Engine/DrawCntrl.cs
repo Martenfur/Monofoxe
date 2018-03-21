@@ -108,7 +108,24 @@ namespace Monofoxe.Engine
 		}
 		private static RasterizerState _rasterizer;
 
-
+		/// <summary>
+		/// Sampler state. Used for interpolation and texture wrappping.
+		/// NOTE: Do NOT modify object which you'll set. This will lead to errors and unexpected behaviour.
+		/// </summary>
+		public static SamplerState Sampler
+		{
+			set
+			{
+				SwitchPipelineMode(PipelineMode.None, null); 
+				_sampler = value;
+			}
+			get
+			{
+				return _sampler;
+			}
+		}
+		private static SamplerState _sampler;
+		
 
 
 		#region shapes
@@ -217,11 +234,6 @@ namespace Monofoxe.Engine
 
 			_transformMatrixStack = new Stack<Matrix>();
 
-			SamplerState samplerState = SamplerState.PointClamp;//new SamplerState();
-			//samplerState.BorderColor = Color.Red;
-
-			//Device.SamplerStates[0] = samplerState;
-			
 			HorAlign = TextAlign.Left;
 			VerAlign = TextAlign.Top;
 		}
@@ -359,7 +371,7 @@ namespace Monofoxe.Engine
 				if (mode == PipelineMode.Sprites)
 				{
 					Device.ScissorRectangle = _scissorRectangle;
-					Batch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, null, _rasterizer, null, CurrentTransformMatrix);
+					Batch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, _sampler, null, _rasterizer, null, CurrentTransformMatrix);
 				}
 				_currentPipelineMode = mode;
 				_currentTexture = texture;
@@ -436,18 +448,14 @@ namespace Monofoxe.Engine
 				{
 					Device.RasterizerState = _rasterizer;
 				}
+
+				if (_sampler != null)
+				{
+					Device.SamplerStates[0] = _sampler;
+				}
+				
 				Device.ScissorRectangle = _scissorRectangle;
-
-				SamplerState ss = new SamplerState();
-				ss.BorderColor = Color.Red;
-				ss.Filter = TextureFilter.Point;
-				ss.FilterMode = TextureFilterMode.Comparison;
-				ss.AddressU = TextureAddressMode.Wrap;
-				ss.AddressV = TextureAddressMode.Mirror;
-
-
-				Device.SamplerStates[0] = ss;
-
+				
 				foreach(EffectPass pass in BasicEffect.CurrentTechnique.Passes)
 				{
 					pass.Apply();
@@ -1233,21 +1241,15 @@ namespace Monofoxe.Engine
 
 		#endregion primitives
 
-		
+
 
 		#region text
 
 		/// <summary>
 		/// Draws text in specified coordinates.
 		/// </summary>
-		/// <param name="text"></param>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		public static void DrawText(string text, float x, float y)
-		{
-			DrawText(text, x, y);
-		}
-		
+		public static void DrawText(string text, float x, float y) => DrawText(text, new Vector2(x, y));
+
 		/// <summary>
 		/// Draws text in specified coordinates.
 		/// </summary>
@@ -1261,11 +1263,9 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Draws text in specified coordinates with rotation, scale and origin.
 		/// </summary>
-		public static void DrawText(string text, Vector2 pos, Vector2 scale, Vector2 origin, float rot = 0)
-		{
-			DrawText(text, pos.X, pos.Y, scale.X, scale.Y, origin.X, origin.Y, rot);
-		}
-		
+		public static void DrawText(string text, Vector2 pos, Vector2 scale, Vector2 origin, float rot = 0) 
+		=> DrawText(text, pos.X, pos.Y, scale.X, scale.Y, origin.X, origin.Y, rot);
+
 		/// <summary>
 		/// Draws text in specified coordinates with rotation, scale and origin.
 		/// </summary>
