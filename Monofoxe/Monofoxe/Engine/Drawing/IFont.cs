@@ -36,6 +36,6 @@ namespace Monofoxe.Engine.Drawing
 		float MeasureStringHeight(StringBuilder text);
 
 
-		void Draw(string text, Vector2 pos, TextAlign halign, TextAlign valign);
+		void Draw(SpriteBatch batch, string text, Vector2 pos, TextAlign halign, TextAlign valign);
 	}
 }

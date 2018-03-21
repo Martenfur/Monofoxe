@@ -170,6 +170,14 @@ namespace Monofoxe.Engine
 		private static Vector2 _primitiveTextureRatio;
 		// Primitives.
 
+		
+		// Text.
+		public static IFont CurrentFont;
+
+		public static TextAlign HorAlign;
+		public static TextAlign VerAlign;
+		// Text.
+
 
 		/// <summary>
 		/// Initialization function for draw controller. 
@@ -214,6 +222,8 @@ namespace Monofoxe.Engine
 
 			//Device.SamplerStates[0] = samplerState;
 			
+			HorAlign = TextAlign.Left;
+			VerAlign = TextAlign.Top;
 		}
 
 
@@ -1223,6 +1233,59 @@ namespace Monofoxe.Engine
 
 		#endregion primitives
 
+		
+
+		#region text
+
+		/// <summary>
+		/// Draws text in specified coordinates.
+		/// </summary>
+		/// <param name="text"></param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		public static void DrawText(string text, float x, float y)
+		{
+			DrawText(text, x, y);
+		}
+		
+		/// <summary>
+		/// Draws text in specified coordinates.
+		/// </summary>
+		public static void DrawText(string text, Vector2 pos)
+		{
+			SwitchPipelineMode(PipelineMode.Sprites, null);
+			
+			CurrentFont.Draw(Batch, text, pos, HorAlign, VerAlign);
+		}
+
+		/// <summary>
+		/// Draws text in specified coordinates with rotation, scale and origin.
+		/// </summary>
+		public static void DrawText(string text, Vector2 pos, Vector2 scale, Vector2 origin, float rot = 0)
+		{
+			DrawText(text, pos.X, pos.Y, scale.X, scale.Y, origin.X, origin.Y, rot);
+		}
+		
+		/// <summary>
+		/// Draws text in specified coordinates with rotation, scale and origin.
+		/// </summary>
+		public static void DrawText(string text, float x, float y, float scaleX, float scaleY, float originX = 0, float originY = 0, float rot = 0)
+		{
+			Matrix transformMatrix = Matrix.CreateTranslation(new Vector3(-originX, -originY, 0)) * // Origin.
+		                    Matrix.CreateRotationZ(MathHelper.ToRadians(-rot)) *		              // Rotation.
+		                    Matrix.CreateScale(new Vector3(scaleX, scaleY, 1)) *	                // Scale.
+		                    Matrix.CreateTranslation(new Vector3(x, y, 0));                       // Position.
+												
+			AddTransformMatrix(transformMatrix);
+			SwitchPipelineMode(PipelineMode.Sprites, null);
+			CurrentFont.Draw(Batch, text, Vector2.Zero, HorAlign, VerAlign);
+			ResetTransformMatrix();
+		}
+
+		#endregion text
+
+
+
 
 		public static void DrawSurface(RenderTarget2D surf, float x, float y, Color color)
 		{
@@ -1230,14 +1293,6 @@ namespace Monofoxe.Engine
 			Batch.Draw(surf, new Vector2(x, y), color);
 		}
 
-
-
-		public static void DrawText(IFont font, float x, float y, string text, TextAlign halign, TextAlign valign)
-		{
-			SwitchPipelineMode(PipelineMode.Sprites, null);
-			
-			font.Draw(text, new Vector2(x, y), halign, valign);
-		}
 
 	}
 }

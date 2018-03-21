@@ -236,7 +236,7 @@ namespace Monofoxe.Engine.Drawing
 		/// <param name="pos"></param>
 		/// <param name="halign"></param>
 		/// <param name="valign"></param>
-		public void Draw(string text, Vector2 pos, TextAlign halign, TextAlign valign)
+		public void Draw(SpriteBatch batch, string text, Vector2 pos, TextAlign halign, TextAlign valign)
 		{
 			string[] lines = text.Split(new []{Environment.NewLine}, StringSplitOptions.None);
 
@@ -268,7 +268,7 @@ namespace Monofoxe.Engine.Drawing
 					Vector2 border = new Vector2(-glyph.LeftSideBearing, 0);
 					Vector2 lineOffset = new Vector2(strSize.X * align.X, textH * align.Y);
 					
-					DrawCntrl.Batch.Draw(frame.Texture, pos + offset + frame.Origin + border - lineOffset, frame.TexturePosition, DrawCntrl.CurrentColor);
+					batch.Draw(frame.Texture, pos + offset + frame.Origin + border - lineOffset, frame.TexturePosition, DrawCntrl.CurrentColor);
 					offset.X += glyph.Width + Spacing;
 				}
 				offset.X = 0;

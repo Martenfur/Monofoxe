@@ -195,10 +195,11 @@ namespace Monofoxe
 				for(var i = 0; i < w; i += 1)
 				{			
 					DrawCntrl.PrimitiveAddVertex(
-					_x + 8 * i + (float)(r.NextDouble() * 2.0 - 1.0) * fuckup,
-					_y + 8 * k + (float)(r.NextDouble() * 2.0 - 1.0) * fuckup,
-					Color.White, 
-					new Vector2(i / (float)(w - 1)*2, k / (float)(h - 1)*2));	
+						_x + 8 * i + (float)(r.NextDouble() * 2.0 - 1.0) * fuckup,
+						_y + 8 * k + (float)(r.NextDouble() * 2.0 - 1.0) * fuckup,
+						Color.White, 
+						new Vector2(i / (float)(w - 1)*2, k / (float)(h - 1)*2)
+					);
 				}
 			}
 
@@ -206,7 +207,7 @@ namespace Monofoxe
 			DrawCntrl.PrimitiveEnd();
 			
 			Vector2 size = Fonts.AnotherFont.MeasureString("AVFoxIes" + Environment.NewLine + "mo|r f'oxi.es"+ Environment.NewLine);
-			Vector2 pos = new Vector2(0, 0);
+			Vector2 pos = new Vector2(32, 100);
 			Vector2 pos1 = new Vector2(32, 100);
 
 
@@ -221,13 +222,15 @@ namespace Monofoxe
 			//DrawCntrl.AddTransformMatrix(TransformMatrix);
 			DrawCntrl.DrawRectangle(pos, pos + size, true);
 			DrawCntrl.CurrentColor = Color.Black;
-			DrawCntrl.DrawText(Fonts.AnotherFont, pos.X, pos.Y, "AVFoxIes" + Environment.NewLine + "mo|r f'oxi.es", TextAlign.Left, TextAlign.Top);
-			DrawCntrl.DrawText(Fonts.AnotherFont1, pos.X, pos.Y + 64, "AVFoxIes" + Environment.NewLine + "mo|r f'oxi.es", TextAlign.Right, TextAlign.Bottom);
+			DrawCntrl.CurrentFont = Fonts.AnotherFont;
+			DrawCntrl.HorAlign = TextAlign.Center;
+			DrawCntrl.VerAlign = TextAlign.Center;
+			DrawCntrl.DrawText("AVFoxIes" + Environment.NewLine + "mo|r f'oxi.es", pos, new Vector2(1, 1), new Vector2(0, 0), mtxAng);
+			//DrawCntrl.CurrentFont = Fonts.AnotherFont;
+			//DrawCntrl.DrawText("AVFoxIes" + Environment.NewLine + "mo|r f'oxi.es");
 			
 			//DrawCntrl.ResetTransformMatrix();
-			//Debug.WriteLine("STR: " + Game1.Def.MeasureString("A") + " " + Game1.Def.MeasureString("_"));
-			Debug.WriteLine(Game1.Def.GetGlyphs()['i'].Width + " " + Game1.Def.GetGlyphs()['i'].WidthIncludingBearings);
-
+			
 		}
 
 		public override void DrawGUI()
