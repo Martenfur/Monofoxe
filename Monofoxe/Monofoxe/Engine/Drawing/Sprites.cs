@@ -7,6 +7,7 @@ namespace Monofoxe.Engine.Drawing
 	public static class Sprites
 	{
 		#region sprites
+		public static Sprite AnotherFont;
 		public static Sprite Barrel;
 		public static Sprite BarrelParts;
 		public static Sprite BroWoolhat;
@@ -78,6 +79,7 @@ namespace Monofoxe.Engine.Drawing
 		{
 			#region sprite_constructors
 			
+			AnotherFont = new Sprite(frames["another_font"], 0, 0);
 			Barrel = new Sprite(frames["barrel"], 0, 0);
 			BarrelParts = new Sprite(frames["barrel_parts"], 0, 0);
 			BroWoolhat = new Sprite(frames["bro_woolhat"], 0, 0);
@@ -97,7 +99,7 @@ namespace Monofoxe.Engine.Drawing
 			Ded1Dmg = new Sprite(frames["ded1_dmg"], 0, 0);
 			Demon = new Sprite(frames["demon"], 0, 0);
 			DemonDmg = new Sprite(frames["demon_dmg"], 0, 0);
-			DemonFire = new Sprite(frames["demon_fire"], 32, 32);
+			DemonFire = new Sprite(frames["demon_fire"], 0, 0);
 			SpriteFont = new Sprite(frames["sprite_font"], 0, 0);
 			TestKitten = new Sprite(frames["test kitten"], 0, 0);
 			Scene1Knight = new Sprite(frames["intro/scene1_knight"], 0, 0);

@@ -349,7 +349,7 @@ namespace Monofoxe.Engine
 				if (mode == PipelineMode.Sprites)
 				{
 					Device.ScissorRectangle = _scissorRectangle;
-					Batch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, _rasterizer, null, CurrentTransformMatrix);
+					Batch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, null, _rasterizer, null, CurrentTransformMatrix);
 				}
 				_currentPipelineMode = mode;
 				_currentTexture = texture;

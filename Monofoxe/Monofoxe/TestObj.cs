@@ -67,8 +67,7 @@ namespace Monofoxe
 			DrawCntrl.Rasterizer = rasterizerState;
 
 			//DrawCntrl.ScissorRectangle = new Rectangle(0, 0, 100, 100);
-
-
+			
 			fontSheet = new Sprite(new Frame(Game1.Def.Texture, new Rectangle(0, 0, Game1.Def.Texture.Width, Game1.Def.Texture.Height), Vector2.Zero, Game1.Def.Texture.Width, Game1.Def.Texture.Height), 0, 0);
 
 
@@ -206,7 +205,7 @@ namespace Monofoxe
 			DrawCntrl.PrimitiveSetMeshIndices(w, h);
 			DrawCntrl.PrimitiveEnd();
 			
-			Vector2 size = Game1.Def.MeasureString("AVFoxes" + Environment.NewLine + "лисята");
+			Vector2 size = Fonts.AnotherFont.MeasureString("AVFoxIes" + Environment.NewLine + "mo|r f'oxi.es"+ Environment.NewLine);
 			Vector2 pos = new Vector2(0, 0);
 			Vector2 pos1 = new Vector2(32, 100);
 
@@ -221,11 +220,14 @@ namespace Monofoxe
 			
 			//DrawCntrl.AddTransformMatrix(TransformMatrix);
 			DrawCntrl.DrawRectangle(pos, pos + size, true);
-			DrawCntrl.CurrentColor = Color.White;
-			DrawCntrl.DrawText(Fonts.TexFont, pos.X, pos.Y, "AVFoxIes" + Environment.NewLine + "moar foxi'es", TextAlign.Center, TextAlign.Center);
-			//DrawCntrl.ResetTransformMatrix();
-			Debug.WriteLine("STR: " + Game1.Def.MeasureString("A") + " " + Game1.Def.MeasureString("_"));
+			DrawCntrl.CurrentColor = Color.Black;
+			DrawCntrl.DrawText(Fonts.AnotherFont, pos.X, pos.Y, "AVFoxIes" + Environment.NewLine + "mo|r f'oxi.es", TextAlign.Left, TextAlign.Top);
+			DrawCntrl.DrawText(Fonts.AnotherFont1, pos.X, pos.Y + 64, "AVFoxIes" + Environment.NewLine + "mo|r f'oxi.es", TextAlign.Right, TextAlign.Bottom);
 			
+			//DrawCntrl.ResetTransformMatrix();
+			//Debug.WriteLine("STR: " + Game1.Def.MeasureString("A") + " " + Game1.Def.MeasureString("_"));
+			Debug.WriteLine(Game1.Def.GetGlyphs()['i'].Width + " " + Game1.Def.GetGlyphs()['i'].WidthIncludingBearings);
+
 		}
 
 		public override void DrawGUI()

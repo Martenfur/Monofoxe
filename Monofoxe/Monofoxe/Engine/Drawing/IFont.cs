@@ -30,6 +30,11 @@ namespace Monofoxe.Engine.Drawing
 		Dictionary<char, SpriteFont.Glyph> GetGlyphs();
 		Vector2 MeasureString(string text);
 		Vector2 MeasureString(StringBuilder text);
+		float MeasureStringWidth(string text);
+		float MeasureStringWidth(StringBuilder text);
+		float MeasureStringHeight(string text);
+		float MeasureStringHeight(StringBuilder text);
+
 
 		void Draw(string text, Vector2 pos, TextAlign halign, TextAlign valign);
 	}
