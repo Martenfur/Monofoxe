@@ -168,7 +168,7 @@ namespace Monofoxe.Engine.Drawing
 		/// <param name="pos"></param>
 		/// <param name="halign"></param>
 		/// <param name="valign"></param>
-		public void Draw(string text, Vector2 pos, TextAlign halign, TextAlign valign)
+		public void Draw(SpriteBatch batch, string text, Vector2 pos, TextAlign halign, TextAlign valign)
 		{
 			string[] lines = text.Split(new []{Environment.NewLine}, StringSplitOptions.None);
 
@@ -182,7 +182,7 @@ namespace Monofoxe.Engine.Drawing
 			{
 				Vector2 lineSize = _spriteFont.MeasureString(line);
 				Vector2 lineOffset = new Vector2(lineSize.X * align.X, textH * align.Y);
-				DrawCntrl.Batch.DrawString(_spriteFont, line, pos - lineOffset + offset, Color.Black);	
+				batch.DrawString(_spriteFont, line, pos - lineOffset + offset, Color.Black);	
 				offset.Y += lineSize.Y;
 			}
 		}
