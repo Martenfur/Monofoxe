@@ -36,6 +36,7 @@ namespace Monofoxe.Engine
 		
 
 		public static Game MyGame = null;	
+		public static GameWindow Window = null;
 
 		public static double ElapsedTimeTotal {get; private set;} = 0;
 		public static double ElapsedTime {get; private set;} = 0;
@@ -126,6 +127,21 @@ namespace Monofoxe.Engine
 			}
 		}
 
+		
+		
+		public static void Init(Game game)
+		{
+			MyGame = game;
+			Window = game.Window;
+		}
+
+
+
+		public static void Begin()
+		{
+			new TestObj();
+		}
+
 
 
 		public static void Update(GameTime gameTime)
@@ -158,9 +174,6 @@ namespace Monofoxe.Engine
 		{return val * ElapsedTime * GameSpeedMultiplier;}
 
 
-
-
-	
 
 		public static void LoadGraphics(ContentManager content)
 		{

@@ -30,7 +30,7 @@ namespace Monofoxe
 		float fireFrame = 0;
 
 		Random r = new Random();
-		Sprite fontSheet;
+
 		public TestObj()
 		{
 			
@@ -58,7 +58,7 @@ namespace Monofoxe
 
 			cam1.PortX = 400;
 			cam1.BackgroundColor = Color.AliceBlue;//Color.Sienna;
-			//cam1.Enabled = false;
+			cam1.Enabled = false;
 
 			RasterizerState rasterizerState = new RasterizerState(); // Do something with it, I guees.
 			rasterizerState.CullMode = CullMode.None;
@@ -67,9 +67,6 @@ namespace Monofoxe
 			DrawCntrl.Rasterizer = rasterizerState;
 
 			//DrawCntrl.ScissorRectangle = new Rectangle(0, 0, 100, 100);
-			
-			fontSheet = new Sprite(new Frame(Game1.Def.Texture, new Rectangle(0, 0, Game1.Def.Texture.Width, Game1.Def.Texture.Height), Vector2.Zero, Game1.Def.Texture.Width, Game1.Def.Texture.Height), 0, 0);
-
 
 		}
 
@@ -167,8 +164,9 @@ namespace Monofoxe
 			mtxAng += 1;
 			if (mtxAng > 359)
 			{mtxAng -= 360;}
-
-			//DrawCntrl.DrawSprite(Sprites.DemonFire, (int)fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
+			DrawCntrl.CurrentColor = Color.Violet;
+			DrawCntrl.DrawRectangle(-32, -32, 500, 500, false);
+			DrawCntrl.DrawSprite(Sprites.DemonFire, (int)fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
 
 
 			Frame f = Sprites.DemonFire.Frames[(int)fireFrame];
@@ -206,23 +204,14 @@ namespace Monofoxe
 			DrawCntrl.PrimitiveSetMeshIndices(w, h);
 			DrawCntrl.PrimitiveEnd();
 			
-			Vector2 size = Fonts.AnotherFont.MeasureString("AVFoxIes" + Environment.NewLine + "mo|r f'oxi.es"+ Environment.NewLine);
+			Vector2 size = Fonts.Def.MeasureString("AVFoxIes" + Environment.NewLine + "mo|r f'oxi.es"+ Environment.NewLine);
 			Vector2 pos = new Vector2(32, 100);
-			Vector2 pos1 = new Vector2(32, 100);
-
-
-			Matrix 
-			TransformMatrix = Matrix.CreateTranslation(new Vector3(-8, -8, 0)) *          // Coordinates.
-		                    Matrix.CreateRotationZ(MathHelper.ToRadians(-mtxAng)) *   // Rotation.
-		                    Matrix.CreateScale(new Vector3(1, 1, 1)) *	      // Scale.
-		                    Matrix.CreateTranslation(new Vector3(32, 100, 0)); // Offset.		
 			
-			DrawCntrl.DrawRectangle(pos1, pos1 + size, true);
+			DrawCntrl.DrawRectangle(pos, pos + size, true);
 			
-			//DrawCntrl.AddTransformMatrix(TransformMatrix);
 			DrawCntrl.DrawRectangle(pos, pos + size, true);
 			DrawCntrl.CurrentColor = Color.Black;
-			DrawCntrl.CurrentFont = Fonts.AnotherFont;
+			DrawCntrl.CurrentFont = Fonts.Def;
 			DrawCntrl.HorAlign = TextAlign.Center;
 			DrawCntrl.VerAlign = TextAlign.Center;
 
@@ -233,15 +222,13 @@ namespace Monofoxe
 			DrawCntrl.Sampler = SamplerState.AnisotropicClamp;
 			DrawCntrl.DrawText("Blurred fuck", 100, 100);
 			
-			//DrawCntrl.CurrentFont = Fonts.AnotherFont;
-			//DrawCntrl.DrawText("AVFoxIes" + Environment.NewLine + "mo|r f'oxi.es");
 			
-			//DrawCntrl.ResetTransformMatrix();
 			
 		}
 
 		public override void DrawGUI()
 		{
+			//DrawCntrl.DrawSprite(Sprites.Bench, 32, 32);
 		}
 
 		private void TestDrawPrimitives()

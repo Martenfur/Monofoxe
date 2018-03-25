@@ -18,7 +18,7 @@ namespace Monofoxe
 	{
 		public GraphicsDeviceManager graphics;
 		
-		public static IFont Def;
+		public static Effect effect;
 
 		public Game1()
 		{
@@ -34,7 +34,7 @@ namespace Monofoxe
 		/// </summary>
 		protected override void Initialize()
 		{
-			GameCntrl.MyGame = this;
+			GameCntrl.Init(this);
 			
 			GameCntrl.MaxGameSpeed = 60.0;
 			
@@ -49,13 +49,13 @@ namespace Monofoxe
 		/// </summary>
 		protected override void LoadContent()
 		{
-			GameCntrl.LoadGraphics(Content);			
+			GameCntrl.LoadGraphics(Content);	
+			Fonts.Load(Content);
 			DrawCntrl.Init(GraphicsDevice);
 			
-			Def = new Font(Content.Load<SpriteFont>("def")); 
-
-			new TestObj();			
-			new GameObj();	
+			effect = Content.Load<Effect>("Effects/effect");
+			      
+			GameCntrl.Begin();
 		}
 
 		/// <summary>
