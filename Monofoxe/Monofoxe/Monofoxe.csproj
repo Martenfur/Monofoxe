@@ -42,6 +42,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Engine\Alarm.cs" />
     <Compile Include="Engine\Camera.cs" />
     <Compile Include="Engine\DrawCntrl.cs" />
     <Compile Include="Engine\Drawing\Font.cs" />
@@ -133,6 +134,7 @@
     <Content Include="Content\Atlasses\texture_1.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Effects\effect.fx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

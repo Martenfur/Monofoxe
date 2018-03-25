@@ -92,3 +92,9 @@
 /processorParam:TextureFormat=Compressed
 /build:def.spritefont
 
+#begin Effects/effect.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/effect.fx
+

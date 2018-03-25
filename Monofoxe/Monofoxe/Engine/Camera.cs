@@ -95,6 +95,11 @@ namespace Monofoxe.Engine
 		public bool Enabled = true;
 
 		/// <summary>
+		/// If true, clears camera surface every step.
+		/// </summary>
+		public bool ClearBackground = true;
+
+		/// <summary>
 		/// Transformation matrix.
 		/// </summary>
 		public Matrix TransformMatrix;
