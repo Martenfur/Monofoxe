@@ -5,14 +5,14 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine;
-
+using System.Diagnostics;
 
 
 namespace Monofoxe.Engine
 {
 	public static class Objects
 	{
-		
+
 		/// <summary>
 		/// List of all game objects.
 		/// </summary>
@@ -35,8 +35,10 @@ namespace Monofoxe.Engine
 		public static void Update(GameTime gameTime)
 		{
 			// Clearing main list from destroyed objects.
-			for(var i = 0; i < _destroyedGameObjects.Count; i += 1)
-			{GameObjects.Remove(_destroyedGameObjects[i]);}
+			for (var i = 0; i < _destroyedGameObjects.Count; i += 1)
+			{
+				GameObjects.Remove(_destroyedGameObjects[i]); 
+			}
 			_destroyedGameObjects.Clear();
 			// Clearing main list from destroyed objects.
 
@@ -53,53 +55,64 @@ namespace Monofoxe.Engine
 			if (_fixedUpdateAl >= GameCntrl.FixedUpdateRate)
 			{
 				var overflow = (int)(_fixedUpdateAl / GameCntrl.FixedUpdateRate); // In case of lags.
-				_fixedUpdateAl -= GameCntrl.FixedUpdateRate * overflow;	
-				
-				foreach(GameObj obj in GameObjects)
+				_fixedUpdateAl -= GameCntrl.FixedUpdateRate * overflow;
+
+				foreach (GameObj obj in GameObjects)
 				{
 					if (obj.Active)
-					{obj.FixedUpdateBegin();}
+					{
+						obj.FixedUpdateBegin();
+					}
 				}
 
-				foreach(GameObj obj in GameObjects)
+				foreach (GameObj obj in GameObjects)
 				{
 					if (obj.Active)
-					{obj.FixedUpdate();}
+					{
+						obj.FixedUpdate();
+					}
 				}
 
-				foreach(GameObj obj in GameObjects)
+				foreach (GameObj obj in GameObjects)
 				{
 					if (obj.Active)
-					{obj.FixedUpdateEnd();}
+					{
+						obj.FixedUpdateEnd(); 
+					}
 				}
 			}
 			// Fixed updates.
 
 
 			// Normal updates.
-			foreach(GameObj obj in GameObjects)
+			foreach (GameObj obj in GameObjects)
 			{
 				if (obj.Active)
-				{obj.UpdateBegin();}
+				{
+					obj.UpdateBegin();
+				}
 			}
 
-			foreach(GameObj obj in GameObjects)
+			foreach (GameObj obj in GameObjects)
 			{
 				if (obj.Active)
-				{obj.Update();}
+				{ 
+					obj.Update(); 
+				}
 			}
-		
-			foreach(GameObj obj in GameObjects)
+
+			foreach (GameObj obj in GameObjects)
 			{
 				if (obj.Active)
-				{obj.UpdateEnd();}
+				{ 
+					obj.UpdateEnd();
+				}
 			}
 			// Normal updates.
-
 		}
-		
 
-		
+
+
 
 
 		/// <summary>
@@ -107,7 +120,9 @@ namespace Monofoxe.Engine
 		/// </summary>
 		/// <param name="obj"></param>
 		public static void AddObject(GameObj obj)
-		{_newGameObjects.Add(obj);}
+		{
+			_newGameObjects.Add(obj);
+		}
 
 
 		#region user functions 
@@ -117,7 +132,9 @@ namespace Monofoxe.Engine
 		/// </summary>
 		/// <typeparam name="T">Object type.</typeparam>
 		public static List<T> GetList<T>()
-		{return (List<T>)(GameObjects.OfType<T>());}
+		{
+			return GameObjects.OfType<T>().ToList();
+		}
 
 
 		/// <summary>
@@ -126,7 +143,9 @@ namespace Monofoxe.Engine
 		/// <typeparam name="T">Object type.</typeparam>
 		/// <returns>Returns amount of objects.</returns>
 		public static int Count<T>()
-		{return GameObjects.OfType<T>().Count();}
+		{
+			return GameObjects.OfType<T>().Count();
+		}
 
 
 		/// <summary>
@@ -136,7 +155,9 @@ namespace Monofoxe.Engine
 		public static void Destroy(GameObj obj)
 		{
 			if (!_destroyedGameObjects.Contains(obj))
-			{_destroyedGameObjects.Add(obj);}
+			{
+				_destroyedGameObjects.Add(obj);
+			}
 		}
 
 
@@ -146,14 +167,15 @@ namespace Monofoxe.Engine
 		/// <param name="obj">Object to check.</param>
 		public static bool ObjExists(GameObj obj)
 		{
-			foreach(GameObj obj1 in GameObjects)
+			foreach (GameObj obj1 in GameObjects)
 			{
 				if (obj == obj1)
-				{return true;}
+				{
+					return true;
+				}
 			}
 			return false;
 		}
-
 
 		/// <summary>
 		/// Finds n-th object of given type.
@@ -165,10 +187,12 @@ namespace Monofoxe.Engine
 		{
 			int counter = 0;
 
-			foreach(GameObj obj in GameObjects)
+			foreach (GameObj obj in GameObjects)
 			{
 				if (counter >= count && obj is T)
-				{return obj;}
+				{
+					return obj;
+				}
 				counter += 1;
 			}
 			return null;
