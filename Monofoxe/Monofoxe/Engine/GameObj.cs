@@ -48,7 +48,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Begin of the update at every frame.
 		/// </summary>
-		public void UpdateBegin() {}		
+		public virtual void UpdateBegin() {}		
 
 		
 		/// <summary>

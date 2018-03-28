@@ -256,6 +256,7 @@ namespace Monofoxe.Engine
 					// Updating current transform matrix and camera.
 					camera.UpdateTransformMatrix();
 					CurrentCamera = camera;
+					CurrentTransformMatrix = camera.TransformMatrix;
 					BasicEffect.View = camera.TransformMatrix;
 					BasicEffect.Projection = Matrix.CreateOrthographicOffCenter(0, camera.W, camera.H, 0, 0, 1);
 					// Updating current transform matrix and camera.

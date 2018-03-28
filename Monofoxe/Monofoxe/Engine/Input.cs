@@ -302,13 +302,20 @@ namespace Monofoxe.Engine
 
 		#region keyboard
 
-		/// <summary>
+				/// <summary>
 		/// Checks if keyboard key is down in current step.
 		/// </summary>
 		/// <param name="key">Key to check.</param>
 		public static bool KeyboardCheck(Keys key)
 		{
-			return _currentKeys.Contains(key);
+			try
+			{
+				return _currentKeys.Contains(key);
+			}
+			catch(Exception)
+			{
+				return false;
+			}
 		}
 
 		
@@ -319,9 +326,13 @@ namespace Monofoxe.Engine
 		public static bool KeyboardCheckPress(Keys key)
 		{
 			try
-			{return (_currentKeys.Contains<Keys>(key)) && (!_previousKeys.Contains<Keys>(key));}
+			{
+				return (_currentKeys.Contains<Keys>(key)) && (!_previousKeys.Contains<Keys>(key));
+			}
 			catch(Exception)
-			{return false;}
+			{
+				return false;
+			}
 		}
 		
 
@@ -332,9 +343,13 @@ namespace Monofoxe.Engine
 		public static bool KeyboardCheckRelease(Keys key)
 		{
 			try
-			{return (!_currentKeys.Contains<Keys>(key)) && (_previousKeys.Contains<Keys>(key));}
+			{
+				return (!_currentKeys.Contains<Keys>(key)) && (_previousKeys.Contains<Keys>(key));
+			}
 			catch(Exception)
-			{return false;}
+			{
+				return false;
+			}
 		}
 
 
