@@ -240,23 +240,23 @@ namespace Monofoxe.Engine
 				}
 
 				Vector2 origin;
-				try // There may not be an origin field.
+				if (node.Attributes["oX"] != null) // There may not be an origin field.
 				{
 					origin = new Vector2(Int32.Parse(node.Attributes["oX"].Value), Int32.Parse(node.Attributes["oY"].Value));
 				}
-				catch(Exception)
+				else
 				{
 					origin = Vector2.Zero;
 				}
 				
 				int frameW, frameH;
 
-				try // For sprites with transparent cut-outs. 
+				if (node.Attributes["oW"] != null) // For sprites with transparent cut-outs. 
 				{
 					frameW = Int32.Parse(node.Attributes["oW"].Value);
 					frameH = Int32.Parse(node.Attributes["oH"].Value);
 				}
-				catch(Exception)
+				else
 				{
 					frameW = Int32.Parse(node.Attributes["w"].Value);
 					frameH = Int32.Parse(node.Attributes["h"].Value);
