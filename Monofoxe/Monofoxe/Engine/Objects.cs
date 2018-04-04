@@ -157,6 +157,10 @@ namespace Monofoxe.Engine
 			if (!_destroyedGameObjects.Contains(obj))
 			{
 				_destroyedGameObjects.Add(obj);
+				if (obj.Active)
+				{
+					obj.Destroy();
+				}
 			}
 		}
 
