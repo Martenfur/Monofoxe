@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Monofoxe.Engine;
 
-namespace Monofoxe.Engine
+namespace Monofoxe.Utils
 {
+	/// <summary>
+	/// Counts seconds. Needs to be updated manually.
+	/// </summary>
 	public class Alarm
 	{
 		/// <summary>
 		/// Tells how much time is left in seconds.
 		/// </summary>
-		private double _counter;
+		protected double _counter;
 		
 		/// <summary>
 		/// Alarm won't update if it's inactive.
@@ -27,9 +26,10 @@ namespace Monofoxe.Engine
 		/// Sets alarm to given time.
 		/// </summary>
 		/// <param name="time">Time in seconds.</param>
-		public void Set(float time)
+		public void Set(double time)
 		{
 			Active = true;
+			Triggered = false;
 			_counter = time;
 		}
 
@@ -39,6 +39,7 @@ namespace Monofoxe.Engine
 		public void Reset()
 		{
 			Active = false;
+			Triggered = false;
 			_counter = 0;
 		}
 
@@ -46,12 +47,12 @@ namespace Monofoxe.Engine
 		/// Updates alarm. Also can be used to check for triggering.
 		/// </summary>
 		/// <returns></returns>
-		public bool Update()
+		public virtual bool Update()
 		{
 			Triggered = false;
 			if (Active)
 			{
-				_counter -= GameCntrl.ElapsedTime;
+				_counter -= GameCntrl.Time();
 
 				if (_counter <= 0)
 				{

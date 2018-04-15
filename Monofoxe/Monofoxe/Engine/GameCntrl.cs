@@ -38,7 +38,13 @@ namespace Monofoxe.Engine
 		public static Game MyGame = null;	
 		public static GameWindow Window = null;
 
+		/// <summary>
+		/// Time in seconds, elapsed since game start.
+		/// </summary>
 		public static double ElapsedTimeTotal {get; private set;} = 0;
+		/// <summary>
+		/// Time in seconds, elapsed since previous frame.
+		/// </summary>
 		public static double ElapsedTime {get; private set;} = 0;
 
 		public static int Fps 
@@ -150,9 +156,13 @@ namespace Monofoxe.Engine
 			ElapsedTimeTotal = gameTime.TotalGameTime.TotalSeconds;
 
 			if (1.0 / MinGameSpeed >= gameTime.ElapsedGameTime.TotalSeconds)
-			{ElapsedTime = gameTime.ElapsedGameTime.TotalSeconds;}
+			{
+				ElapsedTime = gameTime.ElapsedGameTime.TotalSeconds;
+			}
 			else
-			{ElapsedTime = 1.0 / MinGameSpeed;}
+			{
+				ElapsedTime = 1.0 / MinGameSpeed;
+			}
 			// Elapsed time counters.
 			
 			_tpsCounter.Update(gameTime);
@@ -170,8 +180,10 @@ namespace Monofoxe.Engine
 
 
 
-		public static double Time(double val)
-		{return val * ElapsedTime * GameSpeedMultiplier;}
+		public static double Time(double val = 1)
+		{
+			return val * ElapsedTime * GameSpeedMultiplier;
+		}
 
 
 
@@ -201,7 +213,14 @@ namespace Monofoxe.Engine
 			}
 			// Loading all atlasses.
 
-			LoadTextures(atlasses, content, ContentDir + '/' + GraphicsDir + '/' + TextureInfoFileName);
+			// Loading 3D textures.
+			string path = ContentDir + '/' + GraphicsDir + '/' + TextureInfoFileName;
+			if (File.Exists(path))
+			{
+				LoadTextures(atlasses, content, path);
+			}
+			// Loading 3D textures.
+
 			Sprites.Init(atlasses);
 		}
 
