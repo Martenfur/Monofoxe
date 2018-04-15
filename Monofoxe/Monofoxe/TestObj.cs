@@ -150,7 +150,7 @@ namespace Monofoxe
 
 			cam.X = x;
 			cam.Y = y;
-
+			
 			Debug.WriteLine("Draw fps: " + GameCntrl.Fps + " Step fps: " + GameCntrl.Tps + " ");
 			
 		}

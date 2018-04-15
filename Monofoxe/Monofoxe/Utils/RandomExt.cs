@@ -8,18 +8,34 @@ namespace Monofoxe.Utils
 	public class RandomExt
 	{
 		private Random Random;
+		public readonly int Seed;
 
 		/// <summary>
 		/// Creates random generator with system time used as a seed.
 		/// </summary>
-		public RandomExt() => 
-			Random = new Random();
+		public RandomExt()
+		{
+			// System.Random only accepts int as a seed. This kinda sucks. 
+			// Datetime.Now overflows int 700+ times, so we sannot really store it like this.
+			double time = DateTime.Now.Subtract(new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds; 
+
+			// We need a conversion to int here to remove fraction, but still need double to prevent overflow.
+			double overflowsCount = (int)(time / Int32.MaxValue); 
+
+			time -= Int32.MaxValue * overflowsCount; // Removing a chunk of a number so int can actually handle it.
+			Seed = (int)time;
+
+			Random = new Random(Seed);
+		}
 
 		/// <summary>
 		/// Creates random generator with a specific seed.
 		/// </summary>
-		public RandomExt(int seed) => 
+		public RandomExt(int seed)
+		{
 			Random = new Random(seed);
+			Seed = seed;
+		}
 
 
 
