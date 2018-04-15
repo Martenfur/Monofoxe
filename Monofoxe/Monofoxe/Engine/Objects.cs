@@ -157,6 +157,7 @@ namespace Monofoxe.Engine
 			if (!_destroyedGameObjects.Contains(obj))
 			{
 				_destroyedGameObjects.Add(obj);
+				obj.Destroyed = true;
 				if (obj.Active)
 				{
 					obj.Destroy();
@@ -168,12 +169,11 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Checks if given instance exists.
 		/// </summary>
-		/// <param name="obj">Object to check.</param>
-		public static bool ObjExists(GameObj obj)
+		public static bool ObjExists<T>()
 		{
-			foreach (GameObj obj1 in GameObjects)
+			foreach (GameObj obj in GameObjects)
 			{
-				if (obj == obj1)
+				if (obj is T)
 				{
 					return true;
 				}
@@ -187,7 +187,7 @@ namespace Monofoxe.Engine
 		/// <typeparam name="T">Type to search.</typeparam>
 		/// <param name="count">Number of the object in object list.</param>
 		/// <returns>Returns object if it was found, or null, if it wasn't.</returns>
-		public static GameObj ObjFind<T>(int count)
+		public static T ObjFind<T>(int count)
 		{
 			int counter = 0;
 
@@ -195,11 +195,11 @@ namespace Monofoxe.Engine
 			{
 				if (counter >= count && obj is T)
 				{
-					return obj;
+					return (T)(object)obj;
 				}
 				counter += 1;
 			}
-			return null;
+			return default(T);
 		}
 
 		#endregion user functions 

@@ -42,7 +42,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Engine\Alarm.cs" />
+    <Compile Include="Utils\Alarm.cs" />
     <Compile Include="Engine\Camera.cs" />
     <Compile Include="Engine\DrawCntrl.cs" />
     <Compile Include="Engine\Drawing\Font.cs" />
@@ -60,6 +60,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestObj.cs" />
+    <Compile Include="Utils\AutoAlarm.cs" />
+    <Compile Include="Utils\RandomExt.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
