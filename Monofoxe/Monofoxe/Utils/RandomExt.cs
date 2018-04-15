@@ -7,17 +7,34 @@ namespace Monofoxe.Utils
 	/// </summary>
 	public class RandomExt
 	{
-		Random Random;
+		private Random Random;
+
+		/// <summary>
+		/// Creates random generator with system time used as a seed.
+		/// </summary>
+		public RandomExt() => 
+			Random = new Random();
+
+		/// <summary>
+		/// Creates random generator with a specific seed.
+		/// </summary>
+		public RandomExt(int seed) => 
+			Random = new Random(seed);
+
+
 
 		/// <summary>
 		/// Returns a random number in range [0, Int32.MaxValue).
 		/// </summary>
-		public int Next() => Random.Next();
+		public int Next() => 
+			Random.Next();
+
 		/// <summary>
 		/// Returns a random number in range [0, maxValue).
 		/// </summary>
 		public int Next(int maxValue) => 
 			Random.Next(maxValue);
+
 		/// <summary>
 		/// Returns a random number in range [minValue, maxValue).
 		/// </summary>
