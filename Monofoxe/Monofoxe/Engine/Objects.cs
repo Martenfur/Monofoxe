@@ -35,9 +35,9 @@ namespace Monofoxe.Engine
 		public static void Update(GameTime gameTime)
 		{
 			// Clearing main list from destroyed objects.
-			for (var i = 0; i < _destroyedGameObjects.Count; i += 1)
+			foreach(GameObj obj in _destroyedGameObjects)
 			{
-				GameObjects.Remove(_destroyedGameObjects[i]); 
+				GameObjects.Remove(obj); 
 			}
 			_destroyedGameObjects.Clear();
 			// Clearing main list from destroyed objects.
@@ -57,7 +57,7 @@ namespace Monofoxe.Engine
 				var overflow = (int)(_fixedUpdateAl / GameCntrl.FixedUpdateRate); // In case of lags.
 				_fixedUpdateAl -= GameCntrl.FixedUpdateRate * overflow;
 
-				foreach (GameObj obj in GameObjects)
+				foreach(GameObj obj in GameObjects)
 				{
 					if (obj.Active)
 					{
@@ -65,7 +65,7 @@ namespace Monofoxe.Engine
 					}
 				}
 
-				foreach (GameObj obj in GameObjects)
+				foreach(GameObj obj in GameObjects)
 				{
 					if (obj.Active)
 					{
@@ -73,7 +73,7 @@ namespace Monofoxe.Engine
 					}
 				}
 
-				foreach (GameObj obj in GameObjects)
+				foreach(GameObj obj in GameObjects)
 				{
 					if (obj.Active)
 					{
@@ -85,7 +85,7 @@ namespace Monofoxe.Engine
 
 
 			// Normal updates.
-			foreach (GameObj obj in GameObjects)
+			foreach(GameObj obj in GameObjects)
 			{
 				if (obj.Active)
 				{
@@ -93,7 +93,7 @@ namespace Monofoxe.Engine
 				}
 			}
 
-			foreach (GameObj obj in GameObjects)
+			foreach(GameObj obj in GameObjects)
 			{
 				if (obj.Active)
 				{ 
@@ -101,7 +101,7 @@ namespace Monofoxe.Engine
 				}
 			}
 
-			foreach (GameObj obj in GameObjects)
+			foreach(GameObj obj in GameObjects)
 			{
 				if (obj.Active)
 				{ 
@@ -171,7 +171,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static bool ObjExists<T>()
 		{
-			foreach (GameObj obj in GameObjects)
+			foreach(GameObj obj in GameObjects)
 			{
 				if (obj is T)
 				{
@@ -191,7 +191,7 @@ namespace Monofoxe.Engine
 		{
 			int counter = 0;
 
-			foreach (GameObj obj in GameObjects)
+			foreach(GameObj obj in GameObjects)
 			{
 				if (counter >= count && obj is T)
 				{

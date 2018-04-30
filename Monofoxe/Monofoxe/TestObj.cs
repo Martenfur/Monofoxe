@@ -21,7 +21,7 @@ namespace Monofoxe
 		RenderTarget2D surf;
 
 		
-		Camera cam = new Camera(400, 480);
+		Camera cam = new Camera(1440, 900);
 		Camera cam1 = new Camera(400, 480);
 
 		VertexPositionColor[] vertices = new VertexPositionColor[3];
@@ -143,14 +143,13 @@ namespace Monofoxe
 			{
 				fuckup += 4;
 			}
-			if (Input.KeyboardCheck(Keys.Y))
+			if (Input.KeyboardCheckPress(Keys.F))
 			{
-				fuckup = 0;
+				GameCntrl.WindowManager.SetFullScreen(!GameCntrl.WindowManager.IsFullScreen);	
 			}
-
+			GameCntrl.WindowManager.CenterWindow();//.WindowPos = new Point(100, 100);
 			cam.X = x;
 			cam.Y = y;
-			
 			Debug.WriteLine("Draw fps: " + GameCntrl.Fps + " Step fps: " + GameCntrl.Tps + " ");
 			
 		}
@@ -158,7 +157,7 @@ namespace Monofoxe
 		float fuckupSpd = 0;
 		float fuckup = 0;
 		float mtxAng = 0;
-
+		
 		public override void Draw()
 		{	
 			mtxAng += 1;

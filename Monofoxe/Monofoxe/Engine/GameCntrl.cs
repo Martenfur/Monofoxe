@@ -34,9 +34,15 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static string TextureInfoFileName = "textures_3D.txt";
 		
-
-		public static Game MyGame = null;	
-		public static GameWindow Window = null;
+		/// <summary>
+		/// Main Game class.
+		/// </summary>
+		public static Game Game;	
+		
+		/// <summary>
+		/// Window manager. Can be used for screen and window stuff.
+		/// </summary>
+		public static WindowManager WindowManager;
 
 		/// <summary>
 		/// Time in seconds, elapsed since game start.
@@ -85,12 +91,12 @@ namespace Monofoxe.Engine
 		public static double MaxGameSpeed
 		{
 			get
-			{return (int)(1.0 / MyGame.TargetElapsedTime.TotalSeconds);}
+			{return (int)(1.0 / Game.TargetElapsedTime.TotalSeconds);}
 
 			set
 			{
 				if (value > 0)
-				{MyGame.TargetElapsedTime = TimeSpan.FromTicks(10000000 / (long)value);}
+				{Game.TargetElapsedTime = TimeSpan.FromTicks(10000000 / (long)value);}
 			}
 		}
 		
@@ -134,11 +140,13 @@ namespace Monofoxe.Engine
 		}
 
 		
-		
 		public static void Init(Game game)
 		{
-			MyGame = game;
-			Window = game.Window;
+			Game = game;
+			game.IsMouseVisible = true;
+			game.Window.TextInput += Input.TextInput;
+
+			WindowManager = new WindowManager(game);
 		}
 
 

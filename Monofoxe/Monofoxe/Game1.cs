@@ -16,14 +16,13 @@ namespace Monofoxe
 	/// </summary>
 	public class Game1 : Game
 	{
-		public GraphicsDeviceManager graphics;
 		
 		public static Effect effect;
 
 		public Game1()
 		{
-			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = GameCntrl.ContentDir;
+			GameCntrl.Init(this);
 		}
 
 		/// <summary>
@@ -34,12 +33,6 @@ namespace Monofoxe
 		/// </summary>
 		protected override void Initialize()
 		{
-			GameCntrl.Init(this);
-			
-			GameCntrl.MaxGameSpeed = 60.0;
-			
-			Window.TextInput += Input.TextInput;
-
 			base.Initialize();
 		}
 
