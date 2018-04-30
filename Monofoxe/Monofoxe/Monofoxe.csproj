@@ -42,6 +42,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Engine\WindowManager.cs" />
     <Compile Include="Utils\Alarm.cs" />
     <Compile Include="Engine\Camera.cs" />
     <Compile Include="Engine\DrawCntrl.cs" />

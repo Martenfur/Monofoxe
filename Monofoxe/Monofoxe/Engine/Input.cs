@@ -128,7 +128,7 @@ namespace Monofoxe.Engine
 
 		public static void Update()
 		{
-			// Mouse.
+			#region Mouse
 			MouseState mouseState = Mouse.GetState();
 			
 			ScreenMousePos = new Vector2(mouseState.X, mouseState.Y);
@@ -137,11 +137,17 @@ namespace Monofoxe.Engine
 			_mouseButtons = new List<MB>();
 			
 			if (mouseState.LeftButton == ButtonState.Pressed)
-			{_mouseButtons.Add(MB.Left);}
+			{
+				_mouseButtons.Add(MB.Left);
+			}
 			if (mouseState.RightButton == ButtonState.Pressed)
-			{_mouseButtons.Add(MB.Right);}
+			{
+				_mouseButtons.Add(MB.Right);
+			}
 			if (mouseState.MiddleButton == ButtonState.Pressed)
-			{_mouseButtons.Add(MB.Middle);}
+			{
+				_mouseButtons.Add(MB.Middle);
+			}
 
 
 			/*
@@ -152,16 +158,18 @@ namespace Monofoxe.Engine
 			*/
 			MouseWheelVal = Math.Sign(_mouseWheelAdditionPrev - mouseState.ScrollWheelValue);
 			_mouseWheelAdditionPrev = mouseState.ScrollWheelValue;
-			// Mouse.
+			#endregion Mouse
 
 
 
-			// Keyboard.
+			#region Keyboard
 			KeyboardString = _keyboardBuffer.ToString();
 			_keyboardBuffer.Clear();
 
 			if (KeyboardString.Length > 0)
-			{KeyboardLastChar = KeyboardString[KeyboardString.Length - 1];}
+			{
+				KeyboardLastChar = KeyboardString[KeyboardString.Length - 1];
+			}
 
 			KeyboardLastKey = _keyboardLastKeyBuffer;
 
@@ -169,14 +177,18 @@ namespace Monofoxe.Engine
 			_currentKeys = Keyboard.GetState().GetPressedKeys();
 			
 			if (_currentKeys.Length > 0)
-			{KeyboardKey = _currentKeys.Last();}
+			{
+				KeyboardKey = _currentKeys.Last();
+			}
 			else
-			{KeyboardKey = Keys.None;}
-			// Keyboard.
+			{
+				KeyboardKey = Keys.None;
+			}
+			#endregion Keyboard
 
 
 
-			// Gamepad.
+			#region Gamepad
 			for(var i = 0; i < MaxGamepadCount; i += 1)
 			{
 				_previousGamepadState[i] = _gamepadState[i];
@@ -224,7 +236,7 @@ namespace Monofoxe.Engine
 				if (_gamepadState[i].Buttons.Back == ButtonState.Pressed)
 				{_gamepadButtons[i].Add(GP.Select);}
 			}
-			// Gamepad.
+			#endregion Gamepad
 			
 		}
 
@@ -327,7 +339,7 @@ namespace Monofoxe.Engine
 		{
 			try
 			{
-				return (_currentKeys.Contains<Keys>(key)) && (!_previousKeys.Contains<Keys>(key));
+				return (_currentKeys.Contains<Keys>(key) && !_previousKeys.Contains(key));
 			}
 			catch(Exception)
 			{
@@ -344,7 +356,7 @@ namespace Monofoxe.Engine
 		{
 			try
 			{
-				return (!_currentKeys.Contains<Keys>(key)) && (_previousKeys.Contains<Keys>(key));
+				return (!_currentKeys.Contains(key) && _previousKeys.Contains(key));
 			}
 			catch(Exception)
 			{
