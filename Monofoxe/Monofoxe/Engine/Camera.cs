@@ -23,44 +23,29 @@ namespace Monofoxe.Engine
 		/// View coordinates.
 		/// NOTE: They don't take in account offset and rotation.
 		/// </summary>
-		public float X = 0, 
-		             Y = 0;
+		public Vector2 Pos;
 
 		/// <summary>
-		/// View width.
+		/// View size.
 		/// NOTE: To change view size, call Resize function.
 		/// </summary>
-		public int W 
+		public Vector2 Size 
 		{
 			get
 			{
-				return ViewSurface.Width;
+				return new Vector2(ViewSurface.Width, ViewSurface.Height);
 			}
 		}
 		
 		/// <summary>
-		/// View height.
-		/// NOTE: To change view size, call Resize function.
-		/// </summary>
-		public int H
-		{
-			get
-			{
-				return ViewSurface.Height;
-			}
-		}
-
-		/// <summary>
 		/// Camera offset.
 		/// </summary>
-		public int OffsetX = 0, 
-		           OffsetY = 0;
+		public Vector2 Offset;
 
 		/// <summary>
 		/// Viewport coordinates. Sets where on screen view will be drawn.
 		/// </summary>
-		public int PortX = 0, 
-		           PortY = 0;
+		public Vector2 PortPos;
 		
 		/// <summary>
 		/// View rotation. Measured in degrees.
@@ -70,8 +55,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// View scale.
 		/// </summary>
-		public float ScaleX = 1,
-		             ScaleY = 1;
+		public Vector2 Scale = Vector2.One;
 
 		/// <summary>
 		/// View surface. Everything will be drawn on it.
@@ -122,7 +106,6 @@ namespace Monofoxe.Engine
                                            DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
 		}
 
-
 		public void Destroy()
 		{
 			DrawCntrl.Cameras.Remove(this);
@@ -131,10 +114,10 @@ namespace Monofoxe.Engine
 		
 		public void UpdateTransformMatrix()
 		{
-			TransformMatrix = Matrix.CreateTranslation(new Vector3(-X, -Y, 0)) *          // Coordinates.
-		                    Matrix.CreateRotationZ(MathHelper.ToRadians(-Rotation)) *   // Rotation.
-		                    Matrix.CreateScale(new Vector3(ScaleX, ScaleY, 1)) *	      // Scale.
-		                    Matrix.CreateTranslation(new Vector3(OffsetX, OffsetY, 0)); // Offset.									
+			TransformMatrix = Matrix.CreateTranslation(new Vector3(-Pos.X, -Pos.Y, 0)) *    // Coordinates.
+		                    Matrix.CreateRotationZ(MathHelper.ToRadians(-Rotation)) *     // Rotation.
+		                    Matrix.CreateScale(new Vector3(Scale.X, Scale.Y, 1)) *	      // Scale.
+		                    Matrix.CreateTranslation(new Vector3(Offset.X, Offset.Y, 0)); // Offset.									
 		}
 
 	}

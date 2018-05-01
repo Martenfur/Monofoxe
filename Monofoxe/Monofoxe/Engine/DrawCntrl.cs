@@ -258,7 +258,7 @@ namespace Monofoxe.Engine
 					CurrentCamera = camera;
 					CurrentTransformMatrix = camera.TransformMatrix;
 					BasicEffect.View = camera.TransformMatrix;
-					BasicEffect.Projection = Matrix.CreateOrthographicOffCenter(0, camera.W, camera.H, 0, 0, 1);
+					BasicEffect.Projection = Matrix.CreateOrthographicOffCenter(0, camera.Size.X, camera.Size.Y, 0, 0, 1);
 					// Updating current transform matrix and camera.
 
 					Input.UpdateMouseWorldPosition();
@@ -273,19 +273,25 @@ namespace Monofoxe.Engine
 					foreach(GameObj obj in depthSortedObjects)
 					{
 						if (obj.Active)
-						{obj.DrawBegin();}
+						{
+							obj.DrawBegin();
+						}
 					}
 
 					foreach(GameObj obj in depthSortedObjects)
 					{
 						if (obj.Active)
-						{obj.Draw();}
+						{
+							obj.Draw();
+						}
 					}
 			
 					foreach(GameObj obj in depthSortedObjects)
 					{
 						if (obj.Active)
-						{obj.DrawEnd();}
+						{
+							obj.DrawEnd();
+						}
 					}
 					
 					ResetSurfaceTarget();
@@ -299,7 +305,14 @@ namespace Monofoxe.Engine
 			CurrentCamera = null;
 			CurrentTransformMatrix = Matrix.CreateTranslation(0, 0, 0);
 			BasicEffect.View = CurrentTransformMatrix;
-			BasicEffect.Projection = Matrix.CreateOrthographicOffCenter(0, 800, 480, 0, 0, 1); // TODO: Set actual backbuffer size here.
+			BasicEffect.Projection = Matrix.CreateOrthographicOffCenter(
+				0, 
+				GameCntrl.WindowManager.PreferredBackBufferWidth, 
+				GameCntrl.WindowManager.PreferredBackBufferHeight, 
+				0,
+				0,
+				1
+			);
 			// Resetting camera and transform matrix.
 			
 
@@ -310,7 +323,23 @@ namespace Monofoxe.Engine
 			foreach(Camera camera in Cameras)
 			{
 				if (camera.Autodraw && camera.Enabled)
-				{Batch.Draw(camera.ViewSurface, new Vector2(camera.PortX, camera.PortY), Color.White);}
+				{
+					
+					//Batch.Draw(camera.ViewSurface, camera.PortPos, Color.White);
+					Batch.Draw(
+						camera.ViewSurface, 
+						camera.PortPos,
+						camera.ViewSurface.Bounds, 
+						Color.White, 
+						0f, 
+						Vector2.Zero,
+						new Vector2(
+							GameCntrl.WindowManager.PreferredBackBufferWidth / (float)camera.ViewSurface.Width, 
+							GameCntrl.WindowManager.PreferredBackBufferHeight / (float)camera.ViewSurface.Height),
+						SpriteEffects.None, 
+						0
+					);
+				}
 			}
 			Batch.End();
 			// Drawing camera surfaces.
@@ -322,11 +351,15 @@ namespace Monofoxe.Engine
 			foreach(GameObj obj in depthSortedObjects)
 			{
 				if (obj.Active)
-				{obj.DrawGUI();}
+				{
+					obj.DrawGUI();
+				}
 			}
 			
 			if (_currentPipelineMode == PipelineMode.Sprites) // If there's something left in batch or vertex buffer, we should draw it.
-			{Batch.End();}
+			{
+				Batch.End();
+			}
 			DrawVertices();
 			// Drawing GUI stuff.
 
@@ -378,7 +411,7 @@ namespace Monofoxe.Engine
 					
 					Game1.effect.Parameters["World"].SetValue(Matrix.CreateTranslation(Vector3.Zero));
 					Game1.effect.Parameters["View"].SetValue(CurrentCamera.TransformMatrix);
-					Game1.effect.Parameters["Projection"].SetValue(Matrix.CreateOrthographicOffCenter(0, CurrentCamera.W, CurrentCamera.H, 0, 0, 1));
+					Game1.effect.Parameters["Projection"].SetValue(Matrix.CreateOrthographicOffCenter(0, CurrentCamera.Size.X, CurrentCamera.Size.Y, 0, 0, 1));
 					
 					Batch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, _sampler, null, _rasterizer, null, CurrentTransformMatrix);
 					Game1.effect.CurrentTechnique.Passes[0].Apply();

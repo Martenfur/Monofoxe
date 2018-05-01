@@ -8,6 +8,40 @@ using System.Text;
 
 namespace Monofoxe.Engine
 {
+	/// <summary>
+	/// Mouse buttons.
+	/// </summary>
+	public enum MouseButtons
+	{
+		Left,
+		Right,
+		Middle
+	}
+
+	/// <summary>
+	/// Gamepad buttons, including triggers.
+	/// </summary>
+	public enum GamepadButtons
+	{
+		Left,
+		Right,
+		Up,
+		Down,
+		A,
+		B,
+		X,
+		Y,
+		LT, // Left trigger.
+		RT, // Right trigger.
+		LB, // Left button.
+		RB, // Right button.
+		LS, // Left stick.
+		RS, // Right stick.
+		Start,
+		Select
+	}
+
+
 	public static class Input
 	{
 		// Mouse.
@@ -22,7 +56,7 @@ namespace Monofoxe.Engine
 		public static Vector2 MousePos {get; private set;} = new Vector2(0, 0);
 
 
-		private static List<MB> _mouseButtons, _previousMouseButtons;
+		private static List<MouseButtons> _mouseButtons, _previousMouseButtons;
 		
 		/// <summary>
 		/// Scrollwheel value. Can be -1, 0 or 1.
@@ -86,45 +120,12 @@ namespace Monofoxe.Engine
 			}
 		}
 
-		private static List<GP>[] _gamepadButtons = new List<GP>[_maxGamepadCount], 
-		                          _previousGamepadButtons = new List<GP>[_maxGamepadCount];
+		private static List<GamepadButtons>[] _gamepadButtons = new List<GamepadButtons>[_maxGamepadCount], 
+		                          _previousGamepadButtons = new List<GamepadButtons>[_maxGamepadCount];
 		private static GamePadState[] _gamepadState = new GamePadState[_maxGamepadCount],
 		                              _previousGamepadState = new GamePadState[_maxGamepadCount];
 		// Gamepad.
-
-		/// <summary>
-		/// Mouse buttons.
-		/// </summary>
-		public enum MB
-		{
-			Left,
-			Right,
-			Middle
-		}
-
-		/// <summary>
-		/// Gamepad buttons, including triggers.
-		/// </summary>
-		public enum GP
-		{
-			Left,
-			Right,
-			Up,
-			Down,
-			A,
-			B,
-			X,
-			Y,
-			LT, // Left trigger.
-			RT, // Right trigger.
-			LB, // Left button.
-			RB, // Right button.
-			LS, // Left stick.
-			RS, // Right stick.
-			Start,
-			Select
-		}
-
+		
 
 		public static void Update()
 		{
@@ -134,19 +135,19 @@ namespace Monofoxe.Engine
 			ScreenMousePos = new Vector2(mouseState.X, mouseState.Y);
 
 			_previousMouseButtons = _mouseButtons;
-			_mouseButtons = new List<MB>();
+			_mouseButtons = new List<MouseButtons>();
 			
 			if (mouseState.LeftButton == ButtonState.Pressed)
 			{
-				_mouseButtons.Add(MB.Left);
+				_mouseButtons.Add(MouseButtons.Left);
 			}
 			if (mouseState.RightButton == ButtonState.Pressed)
 			{
-				_mouseButtons.Add(MB.Right);
+				_mouseButtons.Add(MouseButtons.Right);
 			}
 			if (mouseState.MiddleButton == ButtonState.Pressed)
 			{
-				_mouseButtons.Add(MB.Middle);
+				_mouseButtons.Add(MouseButtons.Middle);
 			}
 
 
@@ -187,7 +188,7 @@ namespace Monofoxe.Engine
 			#endregion Keyboard
 
 
-
+			
 			#region Gamepad
 			for(var i = 0; i < MaxGamepadCount; i += 1)
 			{
@@ -196,45 +197,45 @@ namespace Monofoxe.Engine
 				_gamepadState[i] = GamePad.GetState(i,GamepadDeadzoneType);
 
 				_previousGamepadButtons[i] = _gamepadButtons[i];
-				_gamepadButtons[i] = new List<GP>();
+				_gamepadButtons[i] = new List<GamepadButtons>();
 			
 				if (_gamepadState[i].DPad.Left == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GP.Left);}
+				{_gamepadButtons[i].Add(GamepadButtons.Left);}
 				if (_gamepadState[i].DPad.Right == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GP.Right);}
+				{_gamepadButtons[i].Add(GamepadButtons.Right);}
 				if (_gamepadState[i].DPad.Up == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GP.Up);}
+				{_gamepadButtons[i].Add(GamepadButtons.Up);}
 				if (_gamepadState[i].DPad.Down == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GP.Down);}
+				{_gamepadButtons[i].Add(GamepadButtons.Down);}
 	
 				if (_gamepadState[i].Buttons.A == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GP.A);}
+				{_gamepadButtons[i].Add(GamepadButtons.A);}
 				if (_gamepadState[i].Buttons.B == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GP.B);}
+				{_gamepadButtons[i].Add(GamepadButtons.B);}
 				if (_gamepadState[i].Buttons.X == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GP.X);}
+				{_gamepadButtons[i].Add(GamepadButtons.X);}
 				if (_gamepadState[i].Buttons.Y == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GP.Y);}
+				{_gamepadButtons[i].Add(GamepadButtons.Y);}
 	
 				if (_gamepadState[i].Buttons.LeftShoulder == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GP.LB);}
+				{_gamepadButtons[i].Add(GamepadButtons.LB);}
 				if (_gamepadState[i].Buttons.RightShoulder == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GP.RB);}
+				{_gamepadButtons[i].Add(GamepadButtons.RB);}
 				
 				if (_gamepadState[i].Triggers.Left > GamepadTriggersDeadzone)
-				{_gamepadButtons[i].Add(GP.LT);}
+				{_gamepadButtons[i].Add(GamepadButtons.LT);}
 				if (_gamepadState[i].Triggers.Right > GamepadTriggersDeadzone)
-				{_gamepadButtons[i].Add(GP.RT);}
+				{_gamepadButtons[i].Add(GamepadButtons.RT);}
 
 				if (_gamepadState[i].Buttons.LeftStick == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GP.LS);}
+				{_gamepadButtons[i].Add(GamepadButtons.LS);}
 				if (_gamepadState[i].Buttons.RightStick == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GP.RS);}
+				{_gamepadButtons[i].Add(GamepadButtons.RS);}
 
 				if (_gamepadState[i].Buttons.Start == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GP.Start);}
+				{_gamepadButtons[i].Add(GamepadButtons.Start);}
 				if (_gamepadState[i].Buttons.Back == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GP.Select);}
+				{_gamepadButtons[i].Add(GamepadButtons.Select);}
 			}
 			#endregion Gamepad
 			
@@ -249,7 +250,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		/// <param name="button">Button to check.</param>
 		/// <returns>Returns if button is down.</returns>
-		public static bool MouseCheck(MB button)
+		public static bool MouseCheck(MouseButtons button)
 		{
 			try
 			{return _mouseButtons.Contains(button);}
@@ -263,7 +264,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		/// <param name="button">Button to check.</param>
 		/// <returns>Returns if button is pressed.</returns>
-		public static bool MouseCheckPress(MB button)
+		public static bool MouseCheckPress(MouseButtons button)
 		{
 			try
 			{return (_mouseButtons.Contains(button) && !_previousMouseButtons.Contains(button));}
@@ -277,7 +278,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		/// <param name="button">Button to check.</param>
 		/// <returns>Returns if button is released.</returns>
-		public static bool MouseCheckRelease(MB button)
+		public static bool MouseCheckRelease(MouseButtons button)
 		{
 			try
 			{return (!_mouseButtons.Contains(button) && _previousMouseButtons.Contains(button));}
@@ -304,7 +305,7 @@ namespace Monofoxe.Engine
 			Matrix m = Matrix.Invert(DrawCntrl.CurrentTransformMatrix);
 			
 			Vector3 buffer = Vector3.Transform(new Vector3(ScreenMousePos.X, ScreenMousePos.Y, 0), m);
-			MousePos = new Vector2(buffer.X - DrawCntrl.CurrentCamera.PortX, buffer.Y - DrawCntrl.CurrentCamera.PortY);
+			MousePos = new Vector2(buffer.X, buffer.Y) - DrawCntrl.CurrentCamera.PortPos;
 		}
 
 
@@ -452,10 +453,10 @@ namespace Monofoxe.Engine
 		/// <param name="index">Index of gamepad.</param>
 		/// <param name="button">Button to check.</param>
 		/// <returns>Returns if button is down.</returns>
-		public static bool GamepadCheck(int index, GP button)
+		public static bool GamepadCheck(int index, GamepadButtons button)
 		{
 			try
-			{return (_gamepadButtons[index].Contains<GP>(button));}
+			{return (_gamepadButtons[index].Contains<GamepadButtons>(button));}
 			catch(Exception)
 			{return false;}
 		}
@@ -467,10 +468,10 @@ namespace Monofoxe.Engine
 		/// <param name="index">Index of gamepad.</param>
 		/// <param name="button">Button to check.</param>
 		/// <returns>Returns if button is pressed.</returns>
-		public static bool GamepadCheckPress(int index, GP button)
+		public static bool GamepadCheckPress(int index, GamepadButtons button)
 		{
 			try
-			{return (_gamepadButtons[index].Contains<GP>(button) && !_previousGamepadButtons[index].Contains<GP>(button));}
+			{return (_gamepadButtons[index].Contains<GamepadButtons>(button) && !_previousGamepadButtons[index].Contains<GamepadButtons>(button));}
 			catch(Exception)
 			{return false;}
 		}
@@ -482,10 +483,10 @@ namespace Monofoxe.Engine
 		/// <param name="index">Index of gamepad.</param>
 		/// <param name="button">Button to check.</param>
 		/// <returns>Returns if button is released.</returns>
-		public static bool GamepadCheckRelease(int index, GP button)
+		public static bool GamepadCheckRelease(int index, GamepadButtons button)
 		{
 			try
-			{return (!_gamepadButtons[index].Contains<GP>(button) && _previousGamepadButtons[index].Contains<GP>(button));}
+			{return (!_gamepadButtons[index].Contains<GamepadButtons>(button) && _previousGamepadButtons[index].Contains<GamepadButtons>(button));}
 			catch(Exception)
 			{return false;}
 		}
@@ -560,8 +561,8 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static void GamepadClear()
 		{
-			_gamepadButtons = new List<GP>[_maxGamepadCount];
-			_previousGamepadButtons = new List<GP>[_maxGamepadCount];
+			_gamepadButtons = new List<GamepadButtons>[_maxGamepadCount];
+			_previousGamepadButtons = new List<GamepadButtons>[_maxGamepadCount];
 			_gamepadState = new GamePadState[_maxGamepadCount];
 			_previousGamepadState = new GamePadState[_maxGamepadCount];
 		}
