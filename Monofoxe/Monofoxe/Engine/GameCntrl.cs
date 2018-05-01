@@ -195,6 +195,16 @@ namespace Monofoxe.Engine
 
 
 
+		/// <summary>
+		/// Closes the game.
+		/// </summary>
+		public static void ExitGame()
+		{
+			Game.Exit();
+		}
+
+
+
 		public static void LoadGraphics(ContentManager content)
 		{
 			Dictionary<string, Frame[]> atlasses = new Dictionary<string, Frame[]>();
@@ -231,6 +241,8 @@ namespace Monofoxe.Engine
 
 			Sprites.Init(atlasses);
 		}
+
+
 
 		/// <summary>
 		/// Creates a Dictionary of Frame arrays using provided texture atlass and XML document.
@@ -322,6 +334,7 @@ namespace Monofoxe.Engine
 				dictionary.Add(previousFrameKey, frameList.ToArray());
 			}
 		}
+
 
 
 		/// <summary>

@@ -21,7 +21,7 @@ namespace Monofoxe
 		RenderTarget2D surf;
 
 		
-		Camera cam = new Camera(1440, 900);
+		Camera cam = new Camera(800, 600);
 		Camera cam1 = new Camera(400, 480);
 
 		VertexPositionColor[] vertices = new VertexPositionColor[3];
@@ -50,13 +50,12 @@ namespace Monofoxe
 			cam.BackgroundColor = Color.AliceBlue;
 
 			
-			cam.OffsetX = cam.W / 2;
-			cam.OffsetY = cam.H / 2;
+			cam.Offset = cam.Size / 2;
 
-			x = cam.W / 2;
-			y = cam.H / 2;
+			x = cam.Size.X / 2;
+			y = cam.Size.Y / 2;
 
-			cam1.PortX = 400;
+			cam1.PortPos.X = 400;
 			cam1.BackgroundColor = Color.AliceBlue;//Color.Sienna;
 			cam1.Enabled = false;
 
@@ -87,31 +86,31 @@ namespace Monofoxe
 			}
 			
 			if (Input.KeyboardCheck(Keys.Left))
-			{x += (5 / cam.ScaleX);}
+			{x += (5 / cam.Scale.X);}
 			
 			if (Input.KeyboardCheck(Keys.Right))
-			{x -= (5 / cam.ScaleX);;}
+			{x -= (5 / cam.Scale.X);}
 			
 			if (Input.KeyboardCheck(Keys.Up))
-			{y += (5 / cam.ScaleX);}
+			{y += (5 / cam.Scale.X);}
 			
 			if (Input.KeyboardCheck(Keys.Down))
-			{y -= (5 / cam.ScaleX);}
+			{y -= (5 / cam.Scale.X);}
 			
 			if (Input.KeyboardCheck(Keys.Z))
 			{
-				cam.ScaleX += 0.1f;
-				cam.ScaleY += 0.1f;
+				cam.Scale.X += 0.1f;
+				cam.Scale.Y += 0.1f;
 			}
 			
 			if (Input.KeyboardCheck(Keys.X))
 			{
-				cam.ScaleX -= 0.1f;
-				cam.ScaleY -= 0.1f;
-				if (cam.ScaleX <= 0)
+				cam.Scale.X -= 0.1f;
+				cam.Scale.Y -= 0.1f;
+				if (cam.Scale.X <= 0)
 				{
-					cam.ScaleX = 0.1f;
-					cam.ScaleY = 0.1f;
+					cam.Scale.X = 0.1f;
+					cam.Scale.Y = 0.1f;
 				}
 			}
 			
@@ -137,7 +136,10 @@ namespace Monofoxe
 				}
 			}
 
-			
+			if (Input.KeyboardCheck(Keys.Escape))
+			{
+				GameCntrl.ExitGame();
+			}
 
 			if (Input.KeyboardCheck(Keys.T))
 			{
@@ -148,8 +150,8 @@ namespace Monofoxe
 				GameCntrl.WindowManager.SetFullScreen(!GameCntrl.WindowManager.IsFullScreen);	
 			}
 			GameCntrl.WindowManager.CenterWindow();//.WindowPos = new Point(100, 100);
-			cam.X = x;
-			cam.Y = y;
+			cam.Pos.X = x;
+			cam.Pos.Y = y;
 			Debug.WriteLine("Draw fps: " + GameCntrl.Fps + " Step fps: " + GameCntrl.Tps + " ");
 			
 		}
