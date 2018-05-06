@@ -62,7 +62,15 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Window size.
 		/// </summary>
-		public Vector2 WindowSize {get => new Vector2(WindowW, WindowH);}
+		public Vector2 WindowSize 
+		{
+			get => new Vector2(WindowW, WindowH);
+			set 
+			{
+				WindowW = (int)value.X;
+				WindowH = (int)value.Y;
+			}
+		}
 
 		/// <summary>
 		/// Window position.

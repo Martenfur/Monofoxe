@@ -9,6 +9,13 @@ using Monofoxe.Engine.Drawing;
 
 namespace Monofoxe.Engine
 {
+	public enum CanvasMode
+	{
+		KeepAspectRatio,
+		Fill,
+		None,
+	}
+
 	public static class DrawCntrl
 	{
 		private const int BUFFER_SIZE = 320000;	
@@ -25,7 +32,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Current enabled camera.
 		/// </summary>
-		public static Camera CurrentCamera {get; private set;} = null;
+		public static Camera CurrentCamera {get; private set;}
 
 		/// <summary>
 		/// Current transformation matrix.
@@ -83,10 +90,7 @@ namespace Monofoxe.Engine
 				SwitchPipelineMode(PipelineMode.None, null);
 				_scissorRectangle = value;
 			}
-			get 
-			{
-				return _scissorRectangle;
-			}
+			get => _scissorRectangle;
 		}
 		private static Rectangle _scissorRectangle;
 
@@ -101,10 +105,7 @@ namespace Monofoxe.Engine
 				SwitchPipelineMode(PipelineMode.None, null); 
 				_rasterizer = value;
 			}
-			get
-			{
-				return _rasterizer;
-			}
+			get => _rasterizer;
 		}
 		private static RasterizerState _rasterizer;
 
@@ -119,14 +120,16 @@ namespace Monofoxe.Engine
 				SwitchPipelineMode(PipelineMode.None, null); 
 				_sampler = value;
 			}
-			get
-			{
-				return _sampler;
-			}
+			get =>_sampler;
 		}
 		private static SamplerState _sampler;
 		
 
+		
+		public static Vector2 CanvasSize = new Vector2(1000, 480);
+		public static Matrix CanvasMatrix;
+		public static CanvasMode CanvasMode = CanvasMode.KeepAspectRatio;
+		
 
 		#region shapes
 
@@ -165,11 +168,7 @@ namespace Monofoxe.Engine
 					_circleVectors.Add(new Vector2((float)Math.Cos(angAdd * i), (float)Math.Sin(angAdd * i)));
 				}
 			}
-
-			get
-			{
-				return _circleVectors.Count;
-			}
+			get => _circleVectors.Count;
 		}
 
 		private static List<Vector2> _circleVectors; 
@@ -302,8 +301,52 @@ namespace Monofoxe.Engine
 
 			
 			// Resetting camera and transform matrix.
+			if (CanvasMode == CanvasMode.Fill)
+			{
+				CanvasMatrix =
+					Matrix.CreateScale(
+						new Vector3(	
+							GameCntrl.WindowManager.PreferredBackBufferWidth / CanvasSize.X, 
+							GameCntrl.WindowManager.PreferredBackBufferHeight / CanvasSize.Y,
+							1
+						)
+					);
+			}
+
+			if (CanvasMode == CanvasMode.KeepAspectRatio)
+			{
+				Vector2 backbufferSize = new Vector2(
+					GameCntrl.WindowManager.PreferredBackBufferWidth, 
+					GameCntrl.WindowManager.PreferredBackBufferHeight
+				);
+				float ratio, 
+					offsetX = 0, 
+					offsetY = 0;
+				
+				float backbufferRatio = GameCntrl.WindowManager.PreferredBackBufferWidth / (float)GameCntrl.WindowManager.PreferredBackBufferHeight;
+				float canvasRatio = CanvasSize.X / CanvasSize.Y;
+
+				if (canvasRatio > backbufferRatio)
+				{
+					ratio = GameCntrl.WindowManager.PreferredBackBufferWidth / CanvasSize.X;
+					offsetY = (GameCntrl.WindowManager.PreferredBackBufferHeight - (CanvasSize.Y * ratio)) / 2;
+				}
+				else
+				{
+					ratio = GameCntrl.WindowManager.PreferredBackBufferHeight / CanvasSize.Y;
+					offsetX = (GameCntrl.WindowManager.PreferredBackBufferWidth - (CanvasSize.X * ratio)) / 2;
+				}
+				
+				CanvasMatrix = Matrix.CreateScale(new Vector3(ratio, ratio, 1)) * Matrix.CreateTranslation(new Vector3(offsetX, offsetY, 0));
+			}
+
+			if (CanvasMode == CanvasMode.None)
+			{
+				CanvasMatrix = Matrix.CreateTranslation(Vector3.Zero);
+			}
+
 			CurrentCamera = null;
-			CurrentTransformMatrix = Matrix.CreateTranslation(0, 0, 0);
+			CurrentTransformMatrix = CanvasMatrix;
 			BasicEffect.View = CurrentTransformMatrix;
 			BasicEffect.Projection = Matrix.CreateOrthographicOffCenter(
 				0, 
@@ -319,29 +362,15 @@ namespace Monofoxe.Engine
 			// Drawing camera surfaces.
 			Device.Clear(Color.TransparentBlack);
 			
-			Batch.Begin();
+			SwitchPipelineMode(PipelineMode.Sprites, null);
 			foreach(Camera camera in Cameras)
 			{
 				if (camera.Autodraw && camera.Enabled)
 				{
-					
-					//Batch.Draw(camera.ViewSurface, camera.PortPos, Color.White);
-					Batch.Draw(
-						camera.ViewSurface, 
-						camera.PortPos,
-						camera.ViewSurface.Bounds, 
-						Color.White, 
-						0f, 
-						Vector2.Zero,
-						new Vector2(
-							GameCntrl.WindowManager.PreferredBackBufferWidth / (float)camera.ViewSurface.Width, 
-							GameCntrl.WindowManager.PreferredBackBufferHeight / (float)camera.ViewSurface.Height),
-						SpriteEffects.None, 
-						0
-					);
+					Batch.Draw(camera.ViewSurface, camera.PortPos, Color.White);
 				}
 			}
-			Batch.End();
+			SwitchPipelineMode(PipelineMode.None, null);
 			// Drawing camera surfaces.
 
 			
@@ -409,12 +438,12 @@ namespace Monofoxe.Engine
 				{
 					Device.ScissorRectangle = _scissorRectangle;
 					
-					Game1.effect.Parameters["World"].SetValue(Matrix.CreateTranslation(Vector3.Zero));
-					Game1.effect.Parameters["View"].SetValue(CurrentCamera.TransformMatrix);
-					Game1.effect.Parameters["Projection"].SetValue(Matrix.CreateOrthographicOffCenter(0, CurrentCamera.Size.X, CurrentCamera.Size.Y, 0, 0, 1));
+					//Game1.effect.Parameters["World"].SetValue(Matrix.CreateTranslation(Vector3.Zero));
+					//Game1.effect.Parameters["View"].SetValue(CurrentCamera.TransformMatrix);
+					//Game1.effect.Parameters["Projection"].SetValue(Matrix.CreateOrthographicOffCenter(0, CurrentCamera.Size.X, CurrentCamera.Size.Y, 0, 0, 1));
 					
 					Batch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, _sampler, null, _rasterizer, null, CurrentTransformMatrix);
-					Game1.effect.CurrentTechnique.Passes[0].Apply();
+					//Game1.effect.CurrentTechnique.Passes[0].Apply();
 				}
 				_currentPipelineMode = mode;
 				_currentTexture = texture;

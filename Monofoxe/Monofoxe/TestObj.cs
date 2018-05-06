@@ -21,8 +21,8 @@ namespace Monofoxe
 		RenderTarget2D surf;
 
 		
-		Camera cam = new Camera(800, 600);
-		Camera cam1 = new Camera(400, 480);
+		Camera cam = new Camera(400, 480);
+		Camera cam1 = new Camera(600, 480);
 
 		VertexPositionColor[] vertices = new VertexPositionColor[3];
 		VertexBuffer vertexBuffer;
@@ -56,8 +56,8 @@ namespace Monofoxe
 			y = cam.Size.Y / 2;
 
 			cam1.PortPos.X = 400;
-			cam1.BackgroundColor = Color.AliceBlue;//Color.Sienna;
-			cam1.Enabled = false;
+			cam1.BackgroundColor = Color.Sienna;
+			//cam1.Enabled = false;
 
 			RasterizerState rasterizerState = new RasterizerState(); // Do something with it, I guees.
 			rasterizerState.CullMode = CullMode.None;
@@ -65,12 +65,22 @@ namespace Monofoxe
 			rasterizerState.FillMode = FillMode.Solid;
 			DrawCntrl.Rasterizer = rasterizerState;
 
+			DrawCntrl.Sampler = SamplerState.PointClamp;
+
 			//DrawCntrl.ScissorRectangle = new Rectangle(0, 0, 100, 100);
+			GameCntrl.WindowManager.WindowSize = new Vector2(800, 600);
+			GameCntrl.WindowManager.Window.AllowUserResizing = false;
+			GameCntrl.WindowManager.ApplyChanges();
+			GameCntrl.WindowManager.CenterWindow();
+
+			DrawCntrl.CanvasMode = CanvasMode.KeepAspectRatio; 
 
 		}
 
 		public override void Update()
 		{
+			GameCntrl.WindowManager.Title = "Draw fps: " + GameCntrl.Fps + " Step fps: " + GameCntrl.Tps + " ";
+			
 			fireFrame += 0.1f;
 
 			if (fireFrame >= Sprites.DemonFire.Frames.Count())
@@ -149,10 +159,9 @@ namespace Monofoxe
 			{
 				GameCntrl.WindowManager.SetFullScreen(!GameCntrl.WindowManager.IsFullScreen);	
 			}
-			GameCntrl.WindowManager.CenterWindow();//.WindowPos = new Point(100, 100);
 			cam.Pos.X = x;
 			cam.Pos.Y = y;
-			Debug.WriteLine("Draw fps: " + GameCntrl.Fps + " Step fps: " + GameCntrl.Tps + " ");
+
 			
 		}
 
@@ -216,11 +225,11 @@ namespace Monofoxe
 			DrawCntrl.HorAlign = TextAlign.Center;
 			DrawCntrl.VerAlign = TextAlign.Center;
 
-			DrawCntrl.Sampler = SamplerState.PointClamp;
+			//DrawCntrl.Sampler = SamplerState.PointClamp;
 
 			DrawCntrl.DrawText("AVFoxIes" + Environment.NewLine + "mo|r f'oxi.es", pos, new Vector2(1, 1), new Vector2(0, 0), mtxAng);
 			
-			DrawCntrl.Sampler = SamplerState.AnisotropicClamp;
+			//DrawCntrl.Sampler = SamplerState.AnisotropicClamp;
 			DrawCntrl.DrawText("Blurred fuck", 100, 100);
 			
 			
@@ -230,6 +239,7 @@ namespace Monofoxe
 		public override void DrawGUI()
 		{
 			//DrawCntrl.DrawSprite(Sprites.Bench, 32, 32);
+			//DrawCntrl.DrawSurface(DrawCntrl.Cameras[0].ViewSurface, 0, 0, Color.White);
 		}
 
 		private void TestDrawPrimitives()
