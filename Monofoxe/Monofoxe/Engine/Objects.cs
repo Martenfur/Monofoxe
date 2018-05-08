@@ -29,7 +29,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		private static List<GameObj> _destroyedGameObjects = new List<GameObj>();
 
-		private static double _fixedUpdateAl = 0;
+		private static double _fixedUpdateAl;
 
 
 		public static void Update(GameTime gameTime)
@@ -119,10 +119,9 @@ namespace Monofoxe.Engine
 		/// Adds object to object list.
 		/// </summary>
 		/// <param name="obj"></param>
-		public static void AddObject(GameObj obj)
-		{
+		public static void AddObject(GameObj obj) => 
 			_newGameObjects.Add(obj);
-		}
+
 
 
 		#region user functions 
@@ -131,10 +130,8 @@ namespace Monofoxe.Engine
 		/// Returns list of objects of certain type.
 		/// </summary>
 		/// <typeparam name="T">Object type.</typeparam>
-		public static List<T> GetList<T>()
-		{
-			return GameObjects.OfType<T>().ToList();
-		}
+		public static List<T> GetList<T>() => 
+			GameObjects.OfType<T>().ToList();
 
 
 		/// <summary>
@@ -142,10 +139,8 @@ namespace Monofoxe.Engine
 		/// </summary>
 		/// <typeparam name="T">Object type.</typeparam>
 		/// <returns>Returns amount of objects.</returns>
-		public static int Count<T>()
-		{
-			return GameObjects.OfType<T>().Count();
-		}
+		public static int Count<T>() => 
+			GameObjects.OfType<T>().Count();
 
 
 		/// <summary>

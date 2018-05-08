@@ -14,114 +14,61 @@ namespace Monofoxe.Engine.Drawing
 	{
 		#region fields
 
-		public Texture2D Texture 
-		{
-			get
-			{
-				return _spriteFont.Texture;
-			}
-		}
-		
-		public ReadOnlyCollection<char> Characters 
-		{
-			get
-			{
-				return _spriteFont.Characters;
-			}
-		}
-		
-		public char? DefaultCharacter 
-		{
-			get
-			{
-				return _spriteFont.DefaultCharacter;
-			}
+		public Texture2D Texture => _spriteFont.Texture;
 
-			set
-			{
-				_spriteFont.DefaultCharacter = value;
-			}
-		}
-		
-		public int LineSpacing 
-		{
-			get
-			{
-				return _spriteFont.LineSpacing;
-			}
+		public ReadOnlyCollection<char> Characters => _spriteFont.Characters;
 
-			set
-			{
-				_spriteFont.LineSpacing = value;
-			}
+		public char? DefaultCharacter
+		{
+			get => _spriteFont.DefaultCharacter;
+			set => _spriteFont.DefaultCharacter = value;
 		}
-		
+
+		public int LineSpacing
+		{
+			get => _spriteFont.LineSpacing;
+			set => _spriteFont.LineSpacing = value;
+		}
+
 		public float Spacing
 		{
-			get
-			{
-				return _spriteFont.Spacing;
-			}
-
-			set
-			{
-				_spriteFont.Spacing = value;
-			}
+			get => _spriteFont.Spacing;
+			set => _spriteFont.Spacing = value;
 		}
 
 		#endregion fields
-		
+
 		private SpriteFont _spriteFont;
 
-		public Font(SpriteFont spriteFont)
-		{
+		public Font(SpriteFont spriteFont) => 
 			_spriteFont = spriteFont;
-		}
 
 		/// <summary>
 		/// Returns a Dictionary of Glyphs for current font.
 		/// </summary>
 		/// <returns></returns>
-		public Dictionary<char, SpriteFont.Glyph> GetGlyphs()
-		{
-			return _spriteFont.GetGlyphs();
-		}
-		
-		/// <summary>
-		/// Measures both width and height of text.
-		/// </summary>
-		/// <param name="text"></param>
-		/// <returns></returns>
-		public Vector2 MeasureString(string text)
-		{
-			return _spriteFont.MeasureString(text);
-		}
+		public Dictionary<char, SpriteFont.Glyph> GetGlyphs() => 
+			_spriteFont.GetGlyphs();
 
 		/// <summary>
 		/// Measures both width and height of text.
 		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>
-		public Vector2 MeasureString(StringBuilder text)
-		{
-			return _spriteFont.MeasureString(text);
-		}
+		public Vector2 MeasureString(string text) => 
+			_spriteFont.MeasureString(text);
+
+		/// <summary>
+		/// Measures both width and height of text.
+		/// </summary>
+		/// <param name="text"></param>
+		/// <returns></returns>
+		public Vector2 MeasureString(StringBuilder text) => 
+			_spriteFont.MeasureString(text);
 
 		// A lump of shitcode.
-		// SpriteFont doesn't privide functions measuring only
+		// SpriteFont doesn't provide functions measuring only
 		// width or height, so we have to always calculate both.
-		
-		/// <summary>
-		/// Measures width of the text. 
-		/// NOTE: It is highly recommended to use MeasureString, 
-		/// since under the hood it is still just a MeasureString call.
-		/// </summary>
-		/// <param name="text"></param>
-		/// <returns></returns>
-		public float MeasureStringWidth(string text)
-		{
-			return _spriteFont.MeasureString(text).X;
-		}
 
 		/// <summary>
 		/// Measures width of the text. 
@@ -130,12 +77,20 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>
-		public float MeasureStringWidth(StringBuilder text)
-		{
-			return _spriteFont.MeasureString(text).X;
-		}
+		public float MeasureStringWidth(string text) => 
+			_spriteFont.MeasureString(text).X;
 
-		
+		/// <summary>
+		/// Measures width of the text. 
+		/// NOTE: It is highly recommended to use MeasureString, 
+		/// since under the hood it is still just a MeasureString call.
+		/// </summary>
+		/// <param name="text"></param>
+		/// <returns></returns>
+		public float MeasureStringWidth(StringBuilder text) => 
+			_spriteFont.MeasureString(text).X;
+
+
 		/// <summary>
 		/// Measures height of the text. 
 		/// NOTE: It is highly recommended to use MeasureString, 
@@ -143,12 +98,10 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>
-		public float MeasureStringHeight(string text)
-		{
-			return _spriteFont.MeasureString(text).Y;
-		}
-		
-		
+		public float MeasureStringHeight(string text) => 
+			_spriteFont.MeasureString(text).Y;
+
+
 		/// <summary>
 		/// Measures height of the text. 
 		/// NOTE: It is highly recommended to use MeasureString, 
@@ -156,10 +109,8 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		/// <param name="text"></param>
 		/// <returns></returns>
-		public float MeasureStringHeight(StringBuilder text)
-		{
-			return _spriteFont.MeasureString(text).Y;
-		}
+		public float MeasureStringHeight(StringBuilder text) => 
+			_spriteFont.MeasureString(text).Y;
 
 		/// <summary>
 		/// Draws text. Not recommended to call on its own, use DrawCntrl functions instead.

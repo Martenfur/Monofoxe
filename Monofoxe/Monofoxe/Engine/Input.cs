@@ -273,7 +273,7 @@ namespace Monofoxe.Engine
 			
 		}
 
-		
+
 
 		#region mouse
 
@@ -282,10 +282,8 @@ namespace Monofoxe.Engine
 		/// </summary>
 		/// <param name="button">Button to check.</param>
 		/// <returns>Returns if button is down.</returns>
-		public static bool MouseCheck(MouseButtons button)
-		{
-			return _mouseButtons.Contains(button);	
-		}
+		public static bool MouseCheck(MouseButtons button) => 
+			_mouseButtons.Contains(button);
 
 
 		/// <summary>
@@ -293,10 +291,8 @@ namespace Monofoxe.Engine
 		/// </summary>
 		/// <param name="button">Button to check.</param>
 		/// <returns>Returns if button is pressed.</returns>
-		public static bool MouseCheckPress(MouseButtons button)
-		{
-			return (_mouseButtons.Contains(button) && !_previousMouseButtons.Contains(button));
-		}
+		public static bool MouseCheckPress(MouseButtons button) => 
+			(_mouseButtons.Contains(button) && !_previousMouseButtons.Contains(button));
 
 
 		/// <summary>
@@ -304,11 +300,9 @@ namespace Monofoxe.Engine
 		/// </summary>
 		/// <param name="button">Button to check.</param>
 		/// <returns>Returns if button is released.</returns>
-		public static bool MouseCheckRelease(MouseButtons button)
-		{
-			return (!_mouseButtons.Contains(button) && _previousMouseButtons.Contains(button));
-		}
-		
+		public static bool MouseCheckRelease(MouseButtons button) => 
+			(!_mouseButtons.Contains(button) && _previousMouseButtons.Contains(button));
+
 
 		/// <summary>
 		/// Clears mouse input.
@@ -342,48 +336,48 @@ namespace Monofoxe.Engine
 		/// Checks if keyboard key is down in current step.
 		/// </summary>
 		/// <param name="key">Key to check.</param>
-		public static bool KeyboardCheck(Keys key) 
-			=> _currentKeys.Contains(key);
+		public static bool KeyboardCheck(Keys key) => 
+			_currentKeys.Contains(key);
 
 
 		/// <summary>
 		/// Checks if keyboard key is pressed.
 		/// </summary>
 		/// <param name="key">Key to check.</param>
-		public static bool KeyboardCheckPress(Keys key) 
-			=> (_currentKeys.Contains(key) && !_previousKeys.Contains(key));
+		public static bool KeyboardCheckPress(Keys key) => 
+			(_currentKeys.Contains(key) && !_previousKeys.Contains(key));
 
 
 		/// <summary>
 		/// Checks if keyboard key is released.
 		/// </summary>
 		/// <param name="key">Key to check.</param>
-		public static bool KeyboardCheckRelease(Keys key) 
-			=> (!_currentKeys.Contains(key) && _previousKeys.Contains(key));
+		public static bool KeyboardCheckRelease(Keys key) => 
+			(!_currentKeys.Contains(key) && _previousKeys.Contains(key));
 
 
 		/// <summary>
 		/// Checks if any keyboard key in down in current step.
 		/// </summary>
 		/// <returns></returns>
-		public static bool KeyboardCheckAnyKey 
-			=> _currentKeys.Length > 0;
+		public static bool KeyboardCheckAnyKey => 
+			_currentKeys.Length > 0;
 
 
 		/// <summary>
 		/// Checks if any keyboard key in pressed.
 		/// </summary>
 		/// <returns></returns>
-		public static bool KeyboardCheckAnyKeyPress 
-			=> (_currentKeys.Length > 0 && _previousKeys.Length == 0);
+		public static bool KeyboardCheckAnyKeyPress => 
+			(_currentKeys.Length > 0 && _previousKeys.Length == 0);
 
 
 		/// <summary>
 		/// Checks if any keyboard key in released.
 		/// </summary>
 		/// <returns></returns>
-		public static bool KeyboardCheckAnyKeyRelease() 
-			=> (_currentKeys.Length == 0 && _previousKeys.Length > 0);
+		public static bool KeyboardCheckAnyKeyRelease() => 
+			(_currentKeys.Length == 0 && _previousKeys.Length > 0);
 
 
 		/// <summary>
