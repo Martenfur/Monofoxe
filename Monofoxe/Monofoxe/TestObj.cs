@@ -76,6 +76,12 @@ namespace Monofoxe
 			DrawCntrl.CanvasMode = CanvasMode.KeepAspectRatio; 
 
 		}
+		public override void UpdateBegin()
+		{
+			if (Input.KeyboardCheck(Keys.Left))
+			{}
+			Input.MouseCheck(MouseButtons.Left);
+		}
 
 		public override void Update()
 		{

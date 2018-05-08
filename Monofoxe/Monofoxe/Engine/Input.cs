@@ -48,12 +48,12 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Cursor position on screen.
 		/// </summary>
-		public static Vector2 ScreenMousePos {get; private set;} = new Vector2(0, 0);
+		public static Vector2 ScreenMousePos {get; private set;}
 		
 		/// <summary>
 		/// Cursor position in the world. Depends on current camera.
 		/// </summary>
-		public static Vector2 MousePos {get; private set;} = new Vector2(0, 0);
+		public static Vector2 MousePos {get; private set;}
 
 
 		private static List<MouseButtons> _mouseButtons, _previousMouseButtons;
@@ -61,8 +61,8 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Scrollwheel value. Can be -1, 0 or 1.
 		/// </summary>
-		public static int MouseWheelVal {get; private set;} = 0;
-		private static int _mouseWheelAdditionPrev = 0;
+		public static int MouseWheelVal {get; private set;}
+		private static int _mouseWheelAdditionPrev;
 		// Mouse.
 
 
@@ -70,7 +70,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Stores all chars typed in previous step.  
 		/// </summary>
-		public static string KeyboardString {get; private set;} = ""; // Comment?
+		public static string KeyboardString {get; private set;} // Comment?
 		
 		/// <summary>
 		/// Stores last pressed key in current step. If no keys were pressed, resets to Keys.None.
@@ -200,42 +200,74 @@ namespace Monofoxe.Engine
 				_gamepadButtons[i] = new List<GamepadButtons>();
 			
 				if (_gamepadState[i].DPad.Left == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GamepadButtons.Left);}
+				{
+					_gamepadButtons[i].Add(GamepadButtons.Left);
+				}
 				if (_gamepadState[i].DPad.Right == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GamepadButtons.Right);}
+				{
+					_gamepadButtons[i].Add(GamepadButtons.Right);
+				}
 				if (_gamepadState[i].DPad.Up == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GamepadButtons.Up);}
+				{
+					_gamepadButtons[i].Add(GamepadButtons.Up);
+				}
 				if (_gamepadState[i].DPad.Down == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GamepadButtons.Down);}
+				{
+					_gamepadButtons[i].Add(GamepadButtons.Down);
+				}
 	
 				if (_gamepadState[i].Buttons.A == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GamepadButtons.A);}
+				{
+					_gamepadButtons[i].Add(GamepadButtons.A);
+				}
 				if (_gamepadState[i].Buttons.B == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GamepadButtons.B);}
+				{
+					_gamepadButtons[i].Add(GamepadButtons.B);
+				}
 				if (_gamepadState[i].Buttons.X == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GamepadButtons.X);}
+				{
+					_gamepadButtons[i].Add(GamepadButtons.X);
+				}
 				if (_gamepadState[i].Buttons.Y == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GamepadButtons.Y);}
+				{
+					_gamepadButtons[i].Add(GamepadButtons.Y);
+				}
 	
 				if (_gamepadState[i].Buttons.LeftShoulder == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GamepadButtons.LB);}
+				{
+					_gamepadButtons[i].Add(GamepadButtons.LB);
+				}
 				if (_gamepadState[i].Buttons.RightShoulder == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GamepadButtons.RB);}
+				{
+					_gamepadButtons[i].Add(GamepadButtons.RB);
+				}
 				
 				if (_gamepadState[i].Triggers.Left > GamepadTriggersDeadzone)
-				{_gamepadButtons[i].Add(GamepadButtons.LT);}
+				{
+					_gamepadButtons[i].Add(GamepadButtons.LT);
+				}
 				if (_gamepadState[i].Triggers.Right > GamepadTriggersDeadzone)
-				{_gamepadButtons[i].Add(GamepadButtons.RT);}
+				{
+					_gamepadButtons[i].Add(GamepadButtons.RT);
+				}
 
 				if (_gamepadState[i].Buttons.LeftStick == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GamepadButtons.LS);}
+				{
+					_gamepadButtons[i].Add(GamepadButtons.LS);
+				}
 				if (_gamepadState[i].Buttons.RightStick == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GamepadButtons.RS);}
+				{
+					_gamepadButtons[i].Add(GamepadButtons.RS);
+				}
 
 				if (_gamepadState[i].Buttons.Start == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GamepadButtons.Start);}
+				{
+					_gamepadButtons[i].Add(GamepadButtons.Start);
+				}
 				if (_gamepadState[i].Buttons.Back == ButtonState.Pressed)
-				{_gamepadButtons[i].Add(GamepadButtons.Select);}
+				{
+					_gamepadButtons[i].Add(GamepadButtons.Select);
+				}
 			}
 			#endregion Gamepad
 			
@@ -252,10 +284,7 @@ namespace Monofoxe.Engine
 		/// <returns>Returns if button is down.</returns>
 		public static bool MouseCheck(MouseButtons button)
 		{
-			try
-			{return _mouseButtons.Contains(button);}
-			catch(Exception)
-			{return false;}
+			return _mouseButtons.Contains(button);	
 		}
 
 
@@ -266,10 +295,7 @@ namespace Monofoxe.Engine
 		/// <returns>Returns if button is pressed.</returns>
 		public static bool MouseCheckPress(MouseButtons button)
 		{
-			try
-			{return (_mouseButtons.Contains(button) && !_previousMouseButtons.Contains(button));}
-			catch(Exception)
-			{return false;}
+			return (_mouseButtons.Contains(button) && !_previousMouseButtons.Contains(button));
 		}
 
 
@@ -280,10 +306,7 @@ namespace Monofoxe.Engine
 		/// <returns>Returns if button is released.</returns>
 		public static bool MouseCheckRelease(MouseButtons button)
 		{
-			try
-			{return (!_mouseButtons.Contains(button) && _previousMouseButtons.Contains(button));}
-			catch(Exception)
-			{return false;}
+			return (!_mouseButtons.Contains(button) && _previousMouseButtons.Contains(button));
 		}
 		
 
@@ -315,94 +338,52 @@ namespace Monofoxe.Engine
 
 		#region keyboard
 
-				/// <summary>
+		/// <summary>
 		/// Checks if keyboard key is down in current step.
 		/// </summary>
 		/// <param name="key">Key to check.</param>
-		public static bool KeyboardCheck(Keys key)
-		{
-			try
-			{
-				return _currentKeys.Contains(key);
-			}
-			catch(Exception)
-			{
-				return false;
-			}
-		}
+		public static bool KeyboardCheck(Keys key) 
+			=> _currentKeys.Contains(key);
 
-		
+
 		/// <summary>
 		/// Checks if keyboard key is pressed.
 		/// </summary>
 		/// <param name="key">Key to check.</param>
-		public static bool KeyboardCheckPress(Keys key)
-		{
-			try
-			{
-				return (_currentKeys.Contains<Keys>(key) && !_previousKeys.Contains(key));
-			}
-			catch(Exception)
-			{
-				return false;
-			}
-		}
-		
+		public static bool KeyboardCheckPress(Keys key) 
+			=> (_currentKeys.Contains(key) && !_previousKeys.Contains(key));
+
 
 		/// <summary>
 		/// Checks if keyboard key is released.
 		/// </summary>
 		/// <param name="key">Key to check.</param>
-		public static bool KeyboardCheckRelease(Keys key)
-		{
-			try
-			{
-				return (!_currentKeys.Contains(key) && _previousKeys.Contains(key));
-			}
-			catch(Exception)
-			{
-				return false;
-			}
-		}
+		public static bool KeyboardCheckRelease(Keys key) 
+			=> (!_currentKeys.Contains(key) && _previousKeys.Contains(key));
 
 
 		/// <summary>
 		/// Checks if any keyboard key in down in current step.
 		/// </summary>
 		/// <returns></returns>
-		public static bool KeyboardCheckAnyKey()
-		{
-			try
-			{return _currentKeys.Length > 0;}
-			catch(Exception)
-			{return false;}
-		}
+		public static bool KeyboardCheckAnyKey 
+			=> _currentKeys.Length > 0;
 
-		
+
 		/// <summary>
 		/// Checks if any keyboard key in pressed.
 		/// </summary>
 		/// <returns></returns>
-		public static bool KeyboardCheckAnyKeyPress()
-		{
-			try
-			{return (_currentKeys.Length > 0 && _previousKeys.Length == 0);}
-			catch(Exception)
-			{return false;}
-		}
+		public static bool KeyboardCheckAnyKeyPress 
+			=> (_currentKeys.Length > 0 && _previousKeys.Length == 0);
 
 
 		/// <summary>
 		/// Checks if any keyboard key in released.
 		/// </summary>
 		/// <returns></returns>
-		public static bool KeyboardCheckAnyKeyRelease()
-		{
-			try
-			{return (_currentKeys.Length == 0 && _previousKeys.Length > 0);}
-			catch(Exception)
-			{return false;}
-		}
+		public static bool KeyboardCheckAnyKeyRelease() 
+			=> (_currentKeys.Length == 0 && _previousKeys.Length > 0);
 
 
 		/// <summary>
@@ -441,10 +422,11 @@ namespace Monofoxe.Engine
 		/// <returns></returns>
 		public static bool GamepadConnected(int index)
 		{
-			try
-			{return _gamepadState[index].IsConnected;}
-			catch(Exception)
-			{return false;}
+			if (index < _gamepadState.Length)
+			{
+				return _gamepadState[index].IsConnected;
+			}
+			return false;
 		}
 
 		/// <summary>
@@ -455,10 +437,11 @@ namespace Monofoxe.Engine
 		/// <returns>Returns if button is down.</returns>
 		public static bool GamepadCheck(int index, GamepadButtons button)
 		{
-			try
-			{return (_gamepadButtons[index].Contains<GamepadButtons>(button));}
-			catch(Exception)
-			{return false;}
+			if (index < _gamepadButtons.Length)
+			{
+				return (_gamepadButtons[index].Contains(button));
+			}
+			return false;
 		}
 
 		
@@ -470,10 +453,11 @@ namespace Monofoxe.Engine
 		/// <returns>Returns if button is pressed.</returns>
 		public static bool GamepadCheckPress(int index, GamepadButtons button)
 		{
-			try
-			{return (_gamepadButtons[index].Contains<GamepadButtons>(button) && !_previousGamepadButtons[index].Contains<GamepadButtons>(button));}
-			catch(Exception)
-			{return false;}
+			if (index < _gamepadButtons.Length)
+			{
+				return (_gamepadButtons[index].Contains(button) && !_previousGamepadButtons[index].Contains(button));
+			}
+			return false;
 		}
 
 		
@@ -485,10 +469,11 @@ namespace Monofoxe.Engine
 		/// <returns>Returns if button is released.</returns>
 		public static bool GamepadCheckRelease(int index, GamepadButtons button)
 		{
-			try
-			{return (!_gamepadButtons[index].Contains<GamepadButtons>(button) && _previousGamepadButtons[index].Contains<GamepadButtons>(button));}
-			catch(Exception)
-			{return false;}
+			if (index < _gamepadButtons.Length)
+			{
+				return (!_gamepadButtons[index].Contains(button) && _previousGamepadButtons[index].Contains(button));
+			}
+			return false;
 		}
 
 
@@ -498,10 +483,11 @@ namespace Monofoxe.Engine
 		/// <param name="index">Index of gamepad.</param>
 		public static Vector2 GamepadGetLeftStick(int index)
 		{
-			try
-			{return _gamepadState[index].ThumbSticks.Left;}
-			catch(Exception)
-			{return new Vector2(0, 0);}
+			if (index < _gamepadState.Length)
+			{
+				return _gamepadState[index].ThumbSticks.Left;
+			}
+			return Vector2.Zero;
 		}
 
 		
@@ -511,10 +497,11 @@ namespace Monofoxe.Engine
 		/// <param name="index">Index of gamepad.</param>
 		public static Vector2 GamepadGetRightStick(int index)
 		{
-			try
-			{return _gamepadState[index].ThumbSticks.Right;}
-			catch(Exception)
-			{return new Vector2(0, 0);}
+			if (index < _gamepadState.Length)
+			{
+				return _gamepadState[index].ThumbSticks.Right;
+			}
+			return Vector2.Zero;
 		}
 
 		
@@ -526,10 +513,11 @@ namespace Monofoxe.Engine
 		/// <returns>Returns value of pressure (0..1) on left trigger.</returns>
 		public static float GamepadGetLeftTrigger(int index)
 		{
-			try
-			{return _gamepadState[index].Triggers.Left;}
-			catch(Exception)
-			{return 0;}
+			if (index < _gamepadState.Length)
+			{
+				return _gamepadState[index].Triggers.Left;
+			}
+			return 0f;
 		}
 
 
@@ -541,10 +529,11 @@ namespace Monofoxe.Engine
 		/// <returns>Returns value of pressure (0..1) on right trigger.</returns>
 		public static float GamepadGetRightTrigger(int index)
 		{
-			try
-			{return _gamepadState[index].Triggers.Right;}
-			catch(Exception)
-			{return 0;}
+			if (index < _gamepadState.Length)
+			{
+				return _gamepadState[index].Triggers.Right;
+			}
+			return 0f;
 		}
 
 		/// <summary>
@@ -554,7 +543,7 @@ namespace Monofoxe.Engine
 		/// <param name="leftMotor">Vibration intensity for left motor (0 to 1).</param>
 		/// <param name="rightMotor">Vibration intensity for right motor (0 to 1).</param>
 		public static void GamepadSetVibration(int index, float leftMotor, float rightMotor)
-		{GamePad.SetVibration(index, leftMotor, rightMotor);}
+			=> GamePad.SetVibration(index, leftMotor, rightMotor);
 
 		/// <summary>
 		/// Clears gamepad input, including triggers and thumb sticks.
