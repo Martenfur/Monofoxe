@@ -47,71 +47,76 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Time in seconds, elapsed since game start.
 		/// </summary>
-		public static double ElapsedTimeTotal {get; private set;} = 0;
+		public static double ElapsedTimeTotal {get; private set;}
 		/// <summary>
 		/// Time in seconds, elapsed since previous frame.
 		/// </summary>
-		public static double ElapsedTime {get; private set;} = 0;
+		public static double ElapsedTime {get; private set;}
 
 		public static int Fps 
 		{
-			get
-			{
-				return _fpsCounter.Value;
-			}
+			get => _fpsCounter.Value;
 		}
 		static FpsCounter _fpsCounter = new FpsCounter();
 
 		
 		public static int Tps 
 		{
-			get
-			{
-				return _tpsCounter.Value;
-			}
+			get => _tpsCounter.Value;
 		}
 		static FpsCounter _tpsCounter = new FpsCounter();
 
 
 		public static double FixedUpdateRate = 0.5; // Seconds.
 		
-		private static double _gameSpeedMultiplier = 1; 
+		/// <summary>
+		/// If more than one, game will speed up.
+		/// If less than one, game will slow down.
+		/// </summary>
 		public static double GameSpeedMultiplier 
 		{
-			get 
-			{return _gameSpeedMultiplier;}
+			get => _gameSpeedMultiplier;
 			
 			set 
 			{
 				if (value > 0)
-				{_gameSpeedMultiplier = value;}
+				{
+					_gameSpeedMultiplier = value;
+				}
 			}
 		}
+		private static double _gameSpeedMultiplier = 1; 
 		
+
 		public static double MaxGameSpeed
 		{
-			get
-			{return (int)(1.0 / Game.TargetElapsedTime.TotalSeconds);}
+			get => (int)(1.0 / Game.TargetElapsedTime.TotalSeconds);
 
 			set
 			{
 				if (value > 0)
-				{Game.TargetElapsedTime = TimeSpan.FromTicks(10000000 / (long)value);}
+				{
+					Game.TargetElapsedTime = TimeSpan.FromTicks(10000000 / (long)value);
+				}
 			}
 		}
 		
-		private static double _minGameSpeed = 30;
-		public static double MinGameSpeed // After this point game will slow down instead of skipping frames.
+		/// <summary>
+		/// After this point game will slow down instead of skipping frames.
+		/// </summary>
+		public static double MinGameSpeed 
 		{
-			get
-			{return _minGameSpeed;}
+			get => _minGameSpeed;
 
 			set
 			{
 				if (value > 0)
-				{_minGameSpeed = value;}
+				{
+					_minGameSpeed = value;
+				}
 			}
 		}
+		private static double _minGameSpeed = 30;
 
 
 		
@@ -120,10 +125,10 @@ namespace Monofoxe.Engine
 		/// </summary>
 		class FpsCounter
 		{
-			public int Value = 0;
+			public int Value;
 
-			private int _fpsCount = 0;
-			private double _fpsAddition = 0;
+			private int _fpsCount;
+			private double _fpsAddition;
 			
 			public void Update(GameTime gameTime)
 			{
@@ -181,27 +186,21 @@ namespace Monofoxe.Engine
 
 		
 		
-		public static void UpdateFps(GameTime gameTime)
-		{
+		public static void UpdateFps(GameTime gameTime) => 
 			_fpsCounter.Update(gameTime);
-		}
 
 
 
-		public static double Time(double val = 1)
-		{
-			return val * ElapsedTime * GameSpeedMultiplier;
-		}
+		public static double Time(double val = 1) => 
+			val * ElapsedTime * GameSpeedMultiplier;
 
 
 
 		/// <summary>
 		/// Closes the game.
 		/// </summary>
-		public static void ExitGame()
-		{
+		public static void ExitGame() => 
 			Game.Exit();
-		}
 
 
 
