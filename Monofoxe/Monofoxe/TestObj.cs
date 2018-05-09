@@ -21,7 +21,7 @@ namespace Monofoxe
 		RenderTarget2D surf;
 
 		
-		Camera cam = new Camera(400, 480);
+		Camera cam = new Camera(800, 600);
 		Camera cam1 = new Camera(600, 480);
 
 		VertexPositionColor[] vertices = new VertexPositionColor[3];
@@ -57,7 +57,7 @@ namespace Monofoxe
 
 			cam1.PortPos.X = 400;
 			cam1.BackgroundColor = Color.Sienna;
-			//cam1.Enabled = false;
+			cam1.Enabled = false;
 
 			RasterizerState rasterizerState = new RasterizerState(); // Do something with it, I guees.
 			rasterizerState.CullMode = CullMode.None;
@@ -68,12 +68,12 @@ namespace Monofoxe
 			DrawCntrl.Sampler = SamplerState.PointClamp;
 
 			//DrawCntrl.ScissorRectangle = new Rectangle(0, 0, 100, 100);
-			GameCntrl.WindowManager.WindowSize = new Vector2(800, 600);
+			GameCntrl.WindowManager.CanvasSize = new Vector2(800, 600);
 			GameCntrl.WindowManager.Window.AllowUserResizing = false;
 			GameCntrl.WindowManager.ApplyChanges();
 			GameCntrl.WindowManager.CenterWindow();
 
-			DrawCntrl.CanvasMode = CanvasMode.KeepAspectRatio; 
+			GameCntrl.WindowManager.CanvasMode = CanvasMode.KeepAspectRatio; 
 
 		}
 		public override void UpdateBegin()
@@ -85,7 +85,7 @@ namespace Monofoxe
 
 		public override void Update()
 		{
-			GameCntrl.WindowManager.Title = "Draw fps: " + GameCntrl.Fps + " Step fps: " + GameCntrl.Tps + " ";
+			GameCntrl.WindowManager.WindowTitle = "Draw fps: " + GameCntrl.Fps + " Step fps: " + GameCntrl.Tps + " ";
 			
 			fireFrame += 0.1f;
 
