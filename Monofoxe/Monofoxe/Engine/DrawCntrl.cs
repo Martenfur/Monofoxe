@@ -9,12 +9,6 @@ using Monofoxe.Engine.Drawing;
 
 namespace Monofoxe.Engine
 {
-	public enum CanvasMode
-	{
-		KeepAspectRatio,
-		Fill,
-		None,
-	}
 
 	public static class DrawCntrl
 	{
@@ -126,9 +120,9 @@ namespace Monofoxe.Engine
 		
 
 		
-		public static Vector2 CanvasSize = new Vector2(1000, 480);
+		//public static Vector2 CanvasSize = new Vector2(1000, 480);
 		public static Matrix CanvasMatrix;
-		public static CanvasMode CanvasMode = CanvasMode.KeepAspectRatio;
+		//public static CanvasMode CanvasMode = CanvasMode.KeepAspectRatio;
 		
 
 		#region shapes
@@ -301,21 +295,24 @@ namespace Monofoxe.Engine
 
 
 			// Resetting camera and transform matrix.
+
+			WindowManager windowManager = GameCntrl.WindowManager;
+			
 			if (GameCntrl.WindowManager.IsFullScreen)
 			{
-				if (CanvasMode == CanvasMode.Fill)
+				if (windowManager.CanvasMode == CanvasMode.Fill)
 				{
 					CanvasMatrix =
 						Matrix.CreateScale(
 							new Vector3(
-								GameCntrl.WindowManager.PreferredBackBufferWidth / CanvasSize.X,
-								GameCntrl.WindowManager.PreferredBackBufferHeight / CanvasSize.Y,
+								GameCntrl.WindowManager.PreferredBackBufferWidth / windowManager.CanvasW,
+								GameCntrl.WindowManager.PreferredBackBufferHeight / windowManager.CanvasH,
 								1
 							)
 						);
 				}
 
-				if (CanvasMode == CanvasMode.KeepAspectRatio)
+				if (windowManager.CanvasMode == CanvasMode.KeepAspectRatio)
 				{
 					Vector2 backbufferSize = new Vector2(
 						GameCntrl.WindowManager.PreferredBackBufferWidth,
@@ -326,24 +323,23 @@ namespace Monofoxe.Engine
 						offsetY = 0;
 
 					float backbufferRatio = GameCntrl.WindowManager.PreferredBackBufferWidth / (float)GameCntrl.WindowManager.PreferredBackBufferHeight;
-					float canvasRatio = CanvasSize.X / CanvasSize.Y;
+					float canvasRatio = windowManager.CanvasW / windowManager.CanvasH;
 
 					if (canvasRatio > backbufferRatio)
 					{
-						ratio = GameCntrl.WindowManager.PreferredBackBufferWidth / CanvasSize.X;
-						offsetY = (GameCntrl.WindowManager.PreferredBackBufferHeight - (CanvasSize.Y * ratio)) / 2;
+						ratio = GameCntrl.WindowManager.PreferredBackBufferWidth / (float)windowManager.CanvasW;
+						offsetY = (GameCntrl.WindowManager.PreferredBackBufferHeight - (windowManager.CanvasH * ratio)) / 2;
 					}
 					else
 					{
-						ratio = GameCntrl.WindowManager.PreferredBackBufferHeight / CanvasSize.Y;
-						offsetX = (GameCntrl.WindowManager.PreferredBackBufferWidth - (CanvasSize.X * ratio)) / 2;
+						ratio = GameCntrl.WindowManager.PreferredBackBufferHeight / (float)windowManager.CanvasH;
+						offsetX = (GameCntrl.WindowManager.PreferredBackBufferWidth - (windowManager.CanvasW * ratio)) / 2;
 					}
-
+					
 					CanvasMatrix = Matrix.CreateScale(new Vector3(ratio, ratio, 1)) * Matrix.CreateTranslation(new Vector3(offsetX, offsetY, 0));
 				}
 			}
-
-			if (!GameCntrl.WindowManager.IsFullScreen || CanvasMode == CanvasMode.None)
+			if (!GameCntrl.WindowManager.IsFullScreen || windowManager.CanvasMode == CanvasMode.None)
 			{
 				CanvasMatrix = Matrix.CreateTranslation(Vector3.Zero);
 			}

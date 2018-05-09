@@ -121,9 +121,9 @@ namespace Monofoxe.Engine
 		}
 
 		private static List<GamepadButtons>[] _gamepadButtons = new List<GamepadButtons>[_maxGamepadCount], 
-		                          _previousGamepadButtons = new List<GamepadButtons>[_maxGamepadCount];
+			_previousGamepadButtons = new List<GamepadButtons>[_maxGamepadCount];
 		private static GamePadState[] _gamepadState = new GamePadState[_maxGamepadCount],
-		                              _previousGamepadState = new GamePadState[_maxGamepadCount];
+			_previousGamepadState = new GamePadState[_maxGamepadCount];
 		// Gamepad.
 		
 
