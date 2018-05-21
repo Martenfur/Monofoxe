@@ -73,7 +73,7 @@ namespace Monofoxe
 			GameCntrl.WindowManager.ApplyChanges();
 			GameCntrl.WindowManager.CenterWindow();
 
-			GameCntrl.WindowManager.CanvasMode = CanvasMode.KeepAspectRatio; 
+			GameCntrl.WindowManager.CanvasMode = CanvasMode.Fill; 
 
 		}
 		public override void UpdateBegin()
@@ -238,7 +238,7 @@ namespace Monofoxe
 			//DrawCntrl.Sampler = SamplerState.AnisotropicClamp;
 			DrawCntrl.DrawText("Blurred fuck", 100, 100);
 			
-			
+			DrawCntrl.DrawCircle(Input.MousePos, 4, true);
 			
 		}
 
