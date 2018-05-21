@@ -16,7 +16,7 @@ namespace Monofoxe.Utils
 		public RandomExt()
 		{
 			// System.Random only accepts int as a seed. This kinda sucks. 
-			// Datetime.Now overflows int 700+ times, so we sannot really store it like this.
+			// DateTime.Now overflows int 700+ times, so we have to store it as a double.
 			double time = DateTime.Now.Subtract(new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds; 
 
 			// We need a conversion to int here to remove fraction, but still need double to prevent overflow.
@@ -29,7 +29,7 @@ namespace Monofoxe.Utils
 		}
 
 		/// <summary>
-		/// Creates random generator with a specific seed.
+		/// Creates random number generator with a specific seed.
 		/// </summary>
 		public RandomExt(int seed)
 		{

@@ -239,9 +239,64 @@ namespace Monofoxe.Engine
 		{
 			__drawcalls = 0;
 			
+			#region Canvas matrix 
+
+			WindowManager windowManager = GameCntrl.WindowManager;
+			if (!windowManager.IsFullScreen || windowManager.CanvasMode == CanvasMode.None)
+			{
+				CanvasMatrix = Matrix.CreateTranslation(Vector3.Zero);
+			}
+			if (windowManager.IsFullScreen)
+			{
+				// Fills the display with canvas.
+				if (windowManager.CanvasMode == CanvasMode.Fill)
+				{
+					CanvasMatrix =
+						Matrix.CreateScale(
+							new Vector3(
+								windowManager.PreferredBackBufferWidth / (float)windowManager.CanvasW,
+								windowManager.PreferredBackBufferHeight / (float)windowManager.CanvasH,
+								1
+							)
+						);
+				}
+
+				// Scales display to match canvas, but keeps aspect ratio.
+				if (windowManager.CanvasMode == CanvasMode.KeepAspectRatio)
+				{
+					Vector2 backbufferSize = new Vector2(
+						windowManager.PreferredBackBufferWidth,
+						windowManager.PreferredBackBufferHeight
+					);
+					float ratio,
+						offsetX = 0,
+						offsetY = 0;
+
+					float backbufferRatio = windowManager.PreferredBackBufferWidth / (float)windowManager.PreferredBackBufferHeight;
+					float canvasRatio = windowManager.CanvasW / windowManager.CanvasH;
+
+					if (canvasRatio > backbufferRatio)
+					{
+						ratio = windowManager.PreferredBackBufferWidth / (float)windowManager.CanvasW;
+						offsetY = (windowManager.PreferredBackBufferHeight - (windowManager.CanvasH * ratio)) / 2;
+					}
+					else
+					{
+						ratio = windowManager.PreferredBackBufferHeight / (float)windowManager.CanvasH;
+						offsetX = (windowManager.PreferredBackBufferWidth - (windowManager.CanvasW * ratio)) / 2;
+					}
+					
+					CanvasMatrix = Matrix.CreateScale(new Vector3(ratio, ratio, 1)) * Matrix.CreateTranslation(new Vector3(offsetX, offsetY, 0));
+				}
+			}
+			
+			#endregion Canvas matrix 
+
+
+			
+			#region Main draw events
 			var depthSortedObjects = Objects.GameObjects.OrderByDescending(o => o.Depth);
 			
-			// Main draw events.
 			foreach(Camera camera in Cameras)
 			{
 				if (camera.Enabled)
@@ -291,59 +346,10 @@ namespace Monofoxe.Engine
 					
 				}
 			}
-			// Main draw events.
+			#endregion Main draw events
 
 
 			// Resetting camera and transform matrix.
-
-			WindowManager windowManager = GameCntrl.WindowManager;
-			
-			if (GameCntrl.WindowManager.IsFullScreen)
-			{
-				if (windowManager.CanvasMode == CanvasMode.Fill)
-				{
-					CanvasMatrix =
-						Matrix.CreateScale(
-							new Vector3(
-								GameCntrl.WindowManager.PreferredBackBufferWidth / windowManager.CanvasW,
-								GameCntrl.WindowManager.PreferredBackBufferHeight / windowManager.CanvasH,
-								1
-							)
-						);
-				}
-
-				if (windowManager.CanvasMode == CanvasMode.KeepAspectRatio)
-				{
-					Vector2 backbufferSize = new Vector2(
-						GameCntrl.WindowManager.PreferredBackBufferWidth,
-						GameCntrl.WindowManager.PreferredBackBufferHeight
-					);
-					float ratio,
-						offsetX = 0,
-						offsetY = 0;
-
-					float backbufferRatio = GameCntrl.WindowManager.PreferredBackBufferWidth / (float)GameCntrl.WindowManager.PreferredBackBufferHeight;
-					float canvasRatio = windowManager.CanvasW / windowManager.CanvasH;
-
-					if (canvasRatio > backbufferRatio)
-					{
-						ratio = GameCntrl.WindowManager.PreferredBackBufferWidth / (float)windowManager.CanvasW;
-						offsetY = (GameCntrl.WindowManager.PreferredBackBufferHeight - (windowManager.CanvasH * ratio)) / 2;
-					}
-					else
-					{
-						ratio = GameCntrl.WindowManager.PreferredBackBufferHeight / (float)windowManager.CanvasH;
-						offsetX = (GameCntrl.WindowManager.PreferredBackBufferWidth - (windowManager.CanvasW * ratio)) / 2;
-					}
-					
-					CanvasMatrix = Matrix.CreateScale(new Vector3(ratio, ratio, 1)) * Matrix.CreateTranslation(new Vector3(offsetX, offsetY, 0));
-				}
-			}
-			if (!GameCntrl.WindowManager.IsFullScreen || windowManager.CanvasMode == CanvasMode.None)
-			{
-				CanvasMatrix = Matrix.CreateTranslation(Vector3.Zero);
-			}
-
 			CurrentCamera = null;
 			CurrentTransformMatrix = CanvasMatrix;
 			BasicEffect.View = CurrentTransformMatrix;

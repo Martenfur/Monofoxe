@@ -319,7 +319,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static void UpdateMouseWorldPosition()
 		{
-			Matrix m = Matrix.Invert(DrawCntrl.CurrentTransformMatrix);
+			Matrix m = Matrix.Invert(DrawCntrl.CurrentTransformMatrix * DrawCntrl.CanvasMatrix);
 			
 			Vector3 buffer = Vector3.Transform(new Vector3(ScreenMousePos.X, ScreenMousePos.Y, 0), m);
 			MousePos = new Vector2(buffer.X, buffer.Y) - DrawCntrl.CurrentCamera.PortPos;
