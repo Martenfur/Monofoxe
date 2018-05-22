@@ -193,64 +193,27 @@ namespace Monofoxe
 			DrawCntrl.CurrentColor = Color.BlueViolet;
 			//DrawCntrl.DrawRectangle(f.Origin.X, f.Origin.Y, f.TexturePosition.Width + f.Origin.X, f.TexturePosition.Height + f.Origin.Y, true);
 
-			
-			DrawCntrl.PrimitiveBegin();
-			DrawCntrl.PrimitiveSetTexture(Sprites.BstGam, 1);
-
-			int _x = 100;
-			int _y = 100;
-
-			int w = 32;
-			int h = 32;
-			
-			
-
-			for(var k = 0; k < h; k += 1)
-			{
-				for(var i = 0; i < w; i += 1)
-				{			
-					DrawCntrl.PrimitiveAddVertex(
-						_x + 8 * i + (float)(r.NextDouble() * 2.0 - 1.0) * fuckup,
-						_y + 8 * k + (float)(r.NextDouble() * 2.0 - 1.0) * fuckup,
-						Color.White, 
-						new Vector2(i / (float)(w - 1)*2, k / (float)(h - 1)*2)
-					);
-				}
-			}
-
-			DrawCntrl.PrimitiveSetMeshIndices(w, h);
-			DrawCntrl.PrimitiveEnd();
-			
-			Vector2 size = Fonts.Def.MeasureString("AVFoxIes" + Environment.NewLine + "mo|r f'oxi.es"+ Environment.NewLine);
-			Vector2 pos = new Vector2(32, 100);
-			
-			DrawCntrl.DrawRectangle(pos, pos + size, true);
-			
-			DrawCntrl.DrawRectangle(pos, pos + size, true);
-			DrawCntrl.CurrentColor = Color.Black;
-			DrawCntrl.CurrentFont = Fonts.Def;
-			DrawCntrl.HorAlign = TextAlign.Center;
-			DrawCntrl.VerAlign = TextAlign.Center;
-
-			//DrawCntrl.Sampler = SamplerState.PointClamp;
-
-			DrawCntrl.DrawText("AVFoxIes" + Environment.NewLine + "mo|r f'oxi.es", pos, new Vector2(1, 1), new Vector2(0, 0), mtxAng);
-			
-			//DrawCntrl.Sampler = SamplerState.AnisotropicClamp;
-			
-			DrawCntrl.DrawText("Blurred fuck", 100, 100);
-			
-			DrawCntrl.CurrentColor = Color.Blue;
-			DrawCntrl.HorAlign = TextAlign.Left;
-			
 			DrawCntrl.DrawCircle(Input.MousePos, 4, true);
 			
-			double dir = MathHelper.ToRadians((float)GameMath.Direction(new Vector2(200, 200), Input.MousePos));
-
-			DrawCntrl.DrawText("diff:" + (int)GameMath.AngleDiff(45, GameMath.Direction(new Vector2(200, 200), Input.MousePos)), 250, 170);
-			DrawCntrl.DrawText("dir:" + GameMath.Direction(new Vector2(200, 200), Input.MousePos), 250, 200);
+			Vector2 p1 = new Vector2(300, 400);
+			Vector2 p2 = new Vector2(300 + 100, 400 + 32);
+			Vector2 p3 = new Vector2(300 + 200, 400 - 50);
+			Vector2 s = new Vector2(30, 40);
 			
-			DrawCntrl.DrawLine(200, 200, 200 + (float)Math.Cos(dir) * 32f, 200 - (float)Math.Sin(dir) * 32f);
+			if (GameMath.LinesCross(Input.MousePos, p2, p1, p3) == 1)//GameMath.RectangleInRectangle(Input.MousePos, Input.MousePos + s, p1, p2))
+			{
+				DrawCntrl.CurrentColor = Color.Red;
+			}
+			else
+			{
+				DrawCntrl.CurrentColor = Color.Black;
+			}
+
+			//DrawCntrl.DrawRectangle(p1, p2, true);
+			//DrawCntrl.DrawRectangle(Input.MousePos, Input.MousePos + s, true);
+			DrawCntrl.DrawLine(p1, p3);
+			DrawCntrl.DrawLine(Input.MousePos, p2);
+
 		}
 
 		public override void DrawGUI()
