@@ -200,7 +200,8 @@ namespace Monofoxe
 			Vector2 p3 = new Vector2(300 + 200, 400 - 50);
 			Vector2 s = new Vector2(30, 40);
 			
-			if (GameMath.LinesCross(Input.MousePos, p2, p1, p3) == 1)//GameMath.RectangleInRectangle(Input.MousePos, Input.MousePos + s, p1, p2))
+
+			if (GameMath.LinesCross(Input.MousePos, p2, p1, p3, ref s) == 1)//GameMath.RectangleInRectangle(Input.MousePos, Input.MousePos + s, p1, p2))
 			{
 				DrawCntrl.CurrentColor = Color.Red;
 			}
@@ -213,6 +214,9 @@ namespace Monofoxe
 			//DrawCntrl.DrawRectangle(Input.MousePos, Input.MousePos + s, true);
 			DrawCntrl.DrawLine(p1, p3);
 			DrawCntrl.DrawLine(Input.MousePos, p2);
+
+			DrawCntrl.DrawCircle(s, 8, true);
+
 
 		}
 

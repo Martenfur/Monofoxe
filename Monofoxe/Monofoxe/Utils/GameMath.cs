@@ -127,13 +127,23 @@ namespace Monofoxe.Utils
 		public static bool RectangleInRectangle(Vector2 rect1Pt1, Vector2 rect1Pt2, Vector2 rect2Pt1, Vector2 rect2Pt2) =>
 			rect1Pt1.X < rect2Pt2.X && rect1Pt2.X > rect2Pt1.X && rect1Pt1.Y < rect2Pt2.Y && rect1Pt2.Y > rect2Pt1.Y;
 
+
+		/// <summary>
+		/// Calculates on which side point is from a line. 
+		/// 1 - left
+		/// -1 - right
+		/// 0 - on the line
+		/// </summary>
 		public static int PointSide(Vector2 point, Vector2 linePt1, Vector2 linePt2)
 		{
 			Vector2 v = new Vector2(linePt2.Y - linePt1.Y, linePt1.X - linePt2.X);
 
 			return Math.Sign(Vector2.Dot(point - linePt1, v));
 		}
-
+		
+		/// <summary>
+		/// Checks if two linew cross. Returns 1 if lines cross, 0 if not and 2 if lines overlap.
+		/// </summary>
 		public static int LinesCross(Vector2 line1Pt1, Vector2 line1Pt2, Vector2 line2Pt1, Vector2 line2Pt2)
 		{
 			Vector2 line1 = new Vector2(line1Pt2.Y - line1Pt1.Y, line1Pt1.X - line1Pt2.X);
@@ -157,6 +167,34 @@ namespace Monofoxe.Utils
 			return 0;
 		}
 
+		
+		/// <summary>
+		/// Checks if two linew cross. Returns 1 if lines cross, 0 if not and 2 if lines overlap.
+		/// Also calculates intersection point.
+		/// </summary>
+		public static int LinesCross(Vector2 line1Pt1, Vector2 line1Pt2, Vector2 line2Pt1, Vector2 line2Pt2, ref Vector2 collisionPt)
+		{
+			int result = LinesCross(line1Pt1, line1Pt2, line2Pt1, line2Pt2);
+			if (result == 1)
+			{
+				Vector2 e1 = line1Pt2 - line1Pt1;
+				e1.Normalize();
+				Vector2 e2 = line2Pt2 - line2Pt1;
+				e2.Normalize();
+
+				// A bit of unpleasant math.
+				// The base idea is:
+				// e1 * l1 + v1 = e2 * l2 + v2
+				// So we need to calculate l1 or l2 and plop it into vector function.
+
+				// Formula will probably break with parallel lines.
+				// (result == 1) prevents it, but just keep this in mind.
+				float l = (e1.X * (line1Pt1.Y - line2Pt1.Y) + e1.Y * (line2Pt1.X - line1Pt1.X)) / (e1.X * e2.Y - e2.X * e1.Y);
+
+				collisionPt = line2Pt1 + e2 * l;
+			}
+			return result;
+		}
 
 		#endregion Intersections.
 	}
