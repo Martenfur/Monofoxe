@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
+using Monofoxe.Utils;
 
 namespace Monofoxe
 {
@@ -236,10 +237,20 @@ namespace Monofoxe
 			DrawCntrl.DrawText("AVFoxIes" + Environment.NewLine + "mo|r f'oxi.es", pos, new Vector2(1, 1), new Vector2(0, 0), mtxAng);
 			
 			//DrawCntrl.Sampler = SamplerState.AnisotropicClamp;
+			
 			DrawCntrl.DrawText("Blurred fuck", 100, 100);
+			
+			DrawCntrl.CurrentColor = Color.Blue;
+			DrawCntrl.HorAlign = TextAlign.Left;
 			
 			DrawCntrl.DrawCircle(Input.MousePos, 4, true);
 			
+			double dir = MathHelper.ToRadians((float)GameMath.Direction(new Vector2(200, 200), Input.MousePos));
+
+			DrawCntrl.DrawText("diff:" + (int)GameMath.AngleDiff(45, GameMath.Direction(new Vector2(200, 200), Input.MousePos)), 250, 170);
+			DrawCntrl.DrawText("dir:" + GameMath.Direction(new Vector2(200, 200), Input.MousePos), 250, 200);
+			
+			DrawCntrl.DrawLine(200, 200, 200 + (float)Math.Cos(dir) * 32f, 200 - (float)Math.Sin(dir) * 32f);
 		}
 
 		public override void DrawGUI()
