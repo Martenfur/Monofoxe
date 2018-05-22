@@ -133,7 +133,7 @@ namespace Monofoxe.Engine.Drawing
 			{
 				Vector2 lineSize = _spriteFont.MeasureString(line);
 				Vector2 lineOffset = new Vector2(lineSize.X * align.X, textH * align.Y);
-				batch.DrawString(_spriteFont, line, pos - lineOffset + offset, Color.Black);	
+				batch.DrawString(_spriteFont, line, pos - lineOffset + offset, DrawCntrl.CurrentColor);	
 				offset.Y += lineSize.Y;
 			}
 		}
