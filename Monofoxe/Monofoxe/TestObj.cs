@@ -185,13 +185,12 @@ namespace Monofoxe
 			DrawCntrl.DrawRectangle(-32, -32, 500, 500, false);
 			DrawCntrl.DrawSprite(Sprites.DemonFire, (int)fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
 
-
 			Frame f = Sprites.DemonFire.Frames[(int)fireFrame];
 			DrawCntrl.CurrentColor = Color.Red;
-			//DrawCntrl.DrawRectangle(0, 0, Sprites.DemonFire.W, Sprites.DemonFire.H, true);
+			DrawCntrl.DrawRectangle(0, 0, Sprites.DemonFire.W, Sprites.DemonFire.H, true);
 			
 			DrawCntrl.CurrentColor = Color.BlueViolet;
-			//DrawCntrl.DrawRectangle(f.Origin.X, f.Origin.Y, f.TexturePosition.Width + f.Origin.X, f.TexturePosition.Height + f.Origin.Y, true);
+			DrawCntrl.DrawRectangle(f.Origin.X, f.Origin.Y, f.TexturePosition.Width + f.Origin.X, f.TexturePosition.Height + f.Origin.Y, true);
 
 			DrawCntrl.DrawCircle(Input.MousePos, 4, true);
 			

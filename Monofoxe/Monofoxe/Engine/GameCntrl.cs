@@ -5,9 +5,9 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Monofoxe.Engine.Drawing;
-using System.Xml;
+//using System.Xml;
 using System.Diagnostics;
-
+using Newtonsoft.Json.Linq;
 
 namespace Monofoxe.Engine
 {
@@ -217,9 +217,9 @@ namespace Monofoxe.Engine
 			{
 				try
 				{
-					Debug.WriteLine("Loading " +  ContentDir + '/' + graphicsPath + i + ".xml");
+					Debug.WriteLine("Loading " +  ContentDir + '/' + graphicsPath + i + ".json");
 					atlass = content.Load<Texture2D>(graphicsPath + i);
-					LoadFrames(atlasses, atlass, ContentDir + '/' + graphicsPath + i + ".xml");
+					LoadFrames(atlasses, atlass, ContentDir + '/' + graphicsPath + i + ".json");
 				}
 				catch(Exception) // If content file doesn't exist, this means we've loaded all atlasses.
 				{
@@ -244,28 +244,28 @@ namespace Monofoxe.Engine
 
 
 		/// <summary>
-		/// Creates a Dictionary of Frame arrays using provided texture atlass and XML document.
+		/// Creates a Dictionary of Frame arrays using provided texture atlass and config.
 		/// </summary>
 		/// <param name="dictionary">Dictionaty, to which frame arrays will be written.</param>
 		/// <param name="atlass">Texture atlass.</param>
-		/// <param name="xmlPath">Path to XML document which contains info about sprites in the atlass.</param>
-		public static void LoadFrames(Dictionary<string, Frame[]> dictionary, Texture2D atlass, string xmlPath)
+		/// <param name="path">Path to config which contains info about sprites in the atlass.</param>
+		public static void LoadFrames(Dictionary<string, Frame[]> dictionary, Texture2D atlass, string path)
 		{
-			// Parsing XML.
-			XmlDocument xml = new XmlDocument();
-			xml.Load(xmlPath);
-			
-			XmlNodeList nodes = xml.DocumentElement.SelectNodes("sprite");
-			// Parsing XML.
+			// Parsing config.
+			string json = File.ReadAllText(path);
 
-			int previousFrameId = -1;
-			string previousFrameKey = "";
+			JToken framesData = JObject.Parse(json)["frames"];
+			// Parsing config.
+
+			var previousFrameId = -1;
+			var previousFrameKey = "";
 
 			List<Frame> frameList = new List<Frame>();
-
-			foreach(XmlNode node in nodes)
+			
+			foreach(JProperty token in framesData)
 			{
-				string filename = node.Attributes["n"].Value;
+				JToken frameData = token.Value;
+				string filename = token.Name;
 				
 				int frameIdPos = filename.LastIndexOf('_');
 				int frameId = Int32.Parse(filename.Substring(frameIdPos + 1));
@@ -277,37 +277,24 @@ namespace Monofoxe.Engine
 					previousFrameKey = frameKey;
 				}
 
-				Vector2 origin;
-				if (node.Attributes["oX"] != null) // There may not be an origin field.
-				{
-					origin = new Vector2(Int32.Parse(node.Attributes["oX"].Value), Int32.Parse(node.Attributes["oY"].Value));
-				}
-				else
-				{
-					origin = Vector2.Zero;
-				}
+				Vector2 origin = new Vector2(
+					Int32.Parse(frameData["spriteSourceSize"]["x"].ToString()), 
+					Int32.Parse(frameData["spriteSourceSize"]["y"].ToString())
+				);
+				
 				
 				int frameW, frameH;
 
-				if (node.Attributes["oW"] != null) // For sprites with transparent cut-outs. 
-				{
-					frameW = Int32.Parse(node.Attributes["oW"].Value);
-					frameH = Int32.Parse(node.Attributes["oH"].Value);
-				}
-				else
-				{
-					frameW = Int32.Parse(node.Attributes["w"].Value);
-					frameH = Int32.Parse(node.Attributes["h"].Value);
-				}
-
-
+				frameW = Int32.Parse(frameData["sourceSize"]["w"].ToString());
+				frameH = Int32.Parse(frameData["sourceSize"]["h"].ToString());
+				
 				Frame frame = new Frame(
 					atlass, 
 					new Rectangle(
-						Int32.Parse(node.Attributes["x"].Value),
-						Int32.Parse(node.Attributes["y"].Value),
-						Int32.Parse(node.Attributes["w"].Value),
-						Int32.Parse(node.Attributes["h"].Value)
+						Int32.Parse(frameData["frame"]["x"].ToString()),
+						Int32.Parse(frameData["frame"]["y"].ToString()),
+						Int32.Parse(frameData["frame"]["w"].ToString()),
+						Int32.Parse(frameData["frame"]["h"].ToString())
 					),
 					origin,
 					frameW, 

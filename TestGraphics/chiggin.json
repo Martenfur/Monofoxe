@@ -1,0 +1,13 @@
+﻿{
+	frames:
+	{
+		v: 1,
+		h: 2,
+	},
+	
+	params:
+	{
+		offset_x: 0,
+		offset_y: 0,
+	},
+}
