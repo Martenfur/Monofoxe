@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Monofoxe.Engine.Drawing;
+using System.Diagnostics;
 
 namespace Monofoxe.Engine.Drawing
 {
@@ -78,7 +79,6 @@ namespace Monofoxe.Engine.Drawing
 		public static void Init(Dictionary<string, Frame[]> frames)
 		{
 			#region sprite_constructors
-			
 			AnotherFont = new Sprite(frames["another_font"], 0, 0);
 			Barrel = new Sprite(frames["barrel"], 0, 0);
 			BarrelParts = new Sprite(frames["barrel_parts"], 0, 0);

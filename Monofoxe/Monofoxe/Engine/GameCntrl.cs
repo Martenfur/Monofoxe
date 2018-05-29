@@ -7,7 +7,7 @@ using System.IO;
 using Monofoxe.Engine.Drawing;
 //using System.Xml;
 using System.Diagnostics;
-using Newtonsoft.Json.Linq;
+using System.Linq;
 
 namespace Monofoxe.Engine
 {
@@ -218,8 +218,11 @@ namespace Monofoxe.Engine
 				try
 				{
 					Debug.WriteLine("Loading " +  ContentDir + '/' + graphicsPath + i + ".json");
-					atlass = content.Load<Texture2D>(graphicsPath + i);
-					LoadFrames(atlasses, atlass, ContentDir + '/' + graphicsPath + i + ".json");
+					//atlass = content.Load<Texture2D>(graphicsPath + i);
+					//LoadFrames(atlasses, atlass, ContentDir + '/' + graphicsPath + i + ".json");
+					var d2 = content.Load<Dictionary<string, Frame[]>>(graphicsPath + i);
+					atlasses = atlasses.Concat(d2).ToDictionary(x=> x.Key, x=> x.Value);
+					Debug.WriteLine(atlasses.Count);
 				}
 				catch(Exception) // If content file doesn't exist, this means we've loaded all atlasses.
 				{
@@ -242,85 +245,7 @@ namespace Monofoxe.Engine
 		}
 
 
-
-		/// <summary>
-		/// Creates a Dictionary of Frame arrays using provided texture atlass and config.
-		/// </summary>
-		/// <param name="dictionary">Dictionaty, to which frame arrays will be written.</param>
-		/// <param name="atlass">Texture atlass.</param>
-		/// <param name="path">Path to config which contains info about sprites in the atlass.</param>
-		public static void LoadFrames(Dictionary<string, Frame[]> dictionary, Texture2D atlass, string path)
-		{
-			// Parsing config.
-			string json = File.ReadAllText(path);
-
-			JToken framesData = JObject.Parse(json)["frames"];
-			// Parsing config.
-
-			var previousFrameId = -1;
-			var previousFrameKey = "";
-
-			List<Frame> frameList = new List<Frame>();
-			
-			foreach(JProperty token in framesData)
-			{
-				JToken frameData = token.Value;
-				string filename = token.Name;
-				
-				int frameIdPos = filename.LastIndexOf('_');
-				int frameId = Int32.Parse(filename.Substring(frameIdPos + 1));
-				
-				string frameKey = filename.Remove(frameIdPos, filename.Length - frameIdPos);
-
-				if (previousFrameKey.Length == 0)
-				{
-					previousFrameKey = frameKey;
-				}
-
-				Vector2 origin = new Vector2(
-					Int32.Parse(frameData["spriteSourceSize"]["x"].ToString()), 
-					Int32.Parse(frameData["spriteSourceSize"]["y"].ToString())
-				);
-				
-				
-				int frameW, frameH;
-
-				frameW = Int32.Parse(frameData["sourceSize"]["w"].ToString());
-				frameH = Int32.Parse(frameData["sourceSize"]["h"].ToString());
-				
-				Frame frame = new Frame(
-					atlass, 
-					new Rectangle(
-						Int32.Parse(frameData["frame"]["x"].ToString()),
-						Int32.Parse(frameData["frame"]["y"].ToString()),
-						Int32.Parse(frameData["frame"]["w"].ToString()),
-						Int32.Parse(frameData["frame"]["h"].ToString())
-					),
-					origin,
-					frameW, 
-					frameH
-				);
-				
-				// If current frame index is lesser than previous, we got new sprite sheet.
-				if (frameId <= previousFrameId && frameList.Count > 0) 
-				{			
-					// Adding frame array to dictionary with corresponding key and clearing buffer list.
-					dictionary.Add(previousFrameKey, frameList.ToArray());
-					previousFrameKey = frameKey;
-					frameList.Clear();
-					// Adding frame array to dictionary with corresponding key and clearing buffer list.
-				}
-				
-				previousFrameId = frameId;
-				frameList.Add(frame);
-			}
-
-			if (frameList.Count > 0) // If there are any frames left -- we need them too.
-			{
-				dictionary.Add(previousFrameKey, frameList.ToArray());
-			}
-		}
-
+		
 
 
 		/// <summary>
