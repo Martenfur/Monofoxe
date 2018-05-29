@@ -10,20 +10,9 @@
 
 #-------------------------------- References --------------------------------#
 
+/reference:..\..\PipelineExt\bin\Release\PipelineExt.dll
 
 #---------------------------------- Content ---------------------------------#
-
-#begin Atlasses/texture_0.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Atlasses/texture_0.png
 
 #begin Atlasses/Textures/bst_gam_0.png
 /importer:TextureImporter
@@ -73,18 +62,6 @@
 /processorParam:TextureFormat=Color
 /build:Atlasses/Textures/bst_gam_3.png
 
-#begin Atlasses/texture_1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Atlasses/texture_1.png
-
 #begin def.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -97,4 +74,14 @@
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:Effects/effect.fx
+
+#begin Atlasses/texture_0.json
+/importer:AtlassImporter
+/processor:AtlassProcessor
+/build:Atlasses/texture_0.json
+
+#begin Atlasses/texture_1.json
+/importer:AtlassImporter
+/processor:AtlassProcessor
+/build:Atlasses/texture_1.json
 
