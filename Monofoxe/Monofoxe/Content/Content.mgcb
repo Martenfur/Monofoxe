@@ -21,9 +21,9 @@
 /processorParam:ColorKeyEnabled=True
 /processorParam:GenerateMipmaps=False
 /processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
+/processorParam:ResizeToPowerOfTwo=True
 /processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
+/processorParam:TextureFormat=DxtCompressed
 /build:Atlasses/Textures/bst_gam_0.png
 
 #begin Atlasses/Textures/bst_gam_1.png
@@ -75,13 +75,13 @@
 /processorParam:DebugMode=Auto
 /build:Effects/effect.fx
 
-#begin Atlasses/texture_0.json
-/importer:AtlassImporter
-/processor:AtlassProcessor
-/build:Atlasses/texture_0.json
-
 #begin Atlasses/texture_1.json
 /importer:AtlassImporter
 /processor:AtlassProcessor
 /build:Atlasses/texture_1.json
+
+#begin Atlasses/texture_0.json
+/importer:AtlassImporter
+/processor:AtlassProcessor
+/build:Atlasses/texture_0.json
 

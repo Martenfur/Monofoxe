@@ -8,6 +8,9 @@ using System.Diagnostics;
 
 namespace Monofoxe.Engine
 {
+	/// <summary>
+	/// Reads atlass file.
+	/// </summary>
 	public class AtlassReader : ContentTypeReader<Dictionary<string, Frame[]>>
 	{
 		protected override Dictionary<string, Frame[]> Read(ContentReader input, Dictionary<string, Frame[]> existingInstance)
@@ -39,7 +42,6 @@ namespace Monofoxe.Engine
 						input.ReadInt32(), 
 						input.ReadInt32()
 					);
-					Debug.WriteLine("size: " + frameW + " " + frameH + "; " + frameTexturePos);
 				
 					frames[k] = new Frame(texture, frameTexturePos, frameOrigin, frameW, frameH);
 				}

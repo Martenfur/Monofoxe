@@ -4,15 +4,38 @@ using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 
 namespace PipelineExt
 {
+	/// <summary>
+	/// Atlass writer. Gets sprite data from processor and writes it into a file. 
+	/// </summary>
 	[ContentTypeWriter]
-	public class AtlassWriter : ContentTypeWriter<AtlassSprites>
+	public class AtlassWriter : ContentTypeWriter<AtlassContainer<Sprite>>
 	{
-		protected override void Write(ContentWriter output, AtlassSprites value)
+		protected override void Write(ContentWriter output, AtlassContainer<Sprite> value)
 		{
+			/*
+			 * File structure:
+			 * - Texture (TextureContent)
+			 * - Sprites count (int)
+			 * 
+			 *   For each sprite:
+			 *   - Sprite name (string)
+			 *   - Amount of frames (int)
+			 *   
+			 *     For each frame:
+			 *     - Width (int)
+			 *     - Height (int)
+			 *     - Origin x (int)
+			 *     - Origin y (int)
+			 *     - Texture x (int)
+			 *     - Texture y (int)
+			 *     - Width on texture (int)
+			 *     - Height on texture (int)
+			 */
+
 			output.WriteObject(value.Texture);
 			
-			output.Write(value.Sprites.Count);
-			foreach(Sprite sprite in value.Sprites)
+			output.Write(value.Items.Count);
+			foreach(Sprite sprite in value.Items)
 			{
 				output.Write(sprite.Name);
 				output.Write(sprite.Frames.Length);
@@ -32,7 +55,7 @@ namespace PipelineExt
 		}
 
 		public override string GetRuntimeType(TargetPlatform targetPlatform) =>
-			typeof (AtlassSprites).AssemblyQualifiedName;
+			typeof (AtlassContainer<Sprite>).AssemblyQualifiedName;
 
 		public override string GetRuntimeReader(TargetPlatform targetPlatform) =>
 			"Monofoxe.Engine.AtlassReader, Monofoxe";

@@ -50,10 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AtlassFrames.cs" />
+    <Compile Include="AtlassContainer.cs" />
     <Compile Include="AtlassImporter.cs" />
     <Compile Include="AtlassProcessor.cs" />
-    <Compile Include="AtlassSprites.cs" />
     <Compile Include="AtlassWriter.cs" />
     <Compile Include="Frame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
