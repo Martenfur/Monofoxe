@@ -45,7 +45,6 @@ namespace Monofoxe.Engine
 					frames[k] = new Frame(texture, frameTexturePos, frameOrigin, frameW, frameH);
 				}
 				dictionary.Add(spriteName, frames);
-
 			}
 
 			return dictionary;

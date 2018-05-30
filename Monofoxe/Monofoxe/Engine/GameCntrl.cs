@@ -206,7 +206,7 @@ namespace Monofoxe.Engine
 
 		public static void LoadGraphics(ContentManager content)
 		{
-			Dictionary<string, Frame[]> atlasses = new Dictionary<string, Frame[]>();
+			var atlasses = new Dictionary<string, Frame[]>();
 			
 			var i = 0;
 			string graphicsPath = GraphicsDir +  '/' + AtlassFileName + '_';
@@ -217,7 +217,7 @@ namespace Monofoxe.Engine
 				try
 				{
 					var d2 = content.Load<Dictionary<string, Frame[]>>(graphicsPath + i);
-					atlasses = atlasses.Concat(d2).ToDictionary(x=> x.Key, x=> x.Value);
+					atlasses = atlasses.Concat(d2).ToDictionary(x => x.Key, x => x.Value);
 					Debug.WriteLine("Loading " +  ContentDir + '/' + graphicsPath + i + ".json");
 				}
 				catch(Exception) // If content file doesn't exist, this means we've loaded all atlasses.
