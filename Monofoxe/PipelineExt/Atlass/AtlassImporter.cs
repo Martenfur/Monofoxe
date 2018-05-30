@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
 using Newtonsoft.Json.Linq;
+using System;
 using System.IO;
-using Microsoft.Xna.Framework;
 
 /*
  * FUTURE NOTE:

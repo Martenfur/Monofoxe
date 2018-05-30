@@ -208,7 +208,6 @@ namespace Monofoxe.Engine
 		{
 			Dictionary<string, Frame[]> atlasses = new Dictionary<string, Frame[]>();
 			
-			Texture2D atlass;
 			var i = 0;
 			string graphicsPath = GraphicsDir +  '/' + AtlassFileName + '_';
 			
@@ -217,12 +216,9 @@ namespace Monofoxe.Engine
 			{
 				try
 				{
-					Debug.WriteLine("Loading " +  ContentDir + '/' + graphicsPath + i + ".json");
-					//atlass = content.Load<Texture2D>(graphicsPath + i);
-					//LoadFrames(atlasses, atlass, ContentDir + '/' + graphicsPath + i + ".json");
 					var d2 = content.Load<Dictionary<string, Frame[]>>(graphicsPath + i);
 					atlasses = atlasses.Concat(d2).ToDictionary(x=> x.Key, x=> x.Value);
-					Debug.WriteLine(atlasses.Count);
+					Debug.WriteLine("Loading " +  ContentDir + '/' + graphicsPath + i + ".json");
 				}
 				catch(Exception) // If content file doesn't exist, this means we've loaded all atlasses.
 				{
@@ -244,10 +240,6 @@ namespace Monofoxe.Engine
 			Sprites.Init(atlasses);
 		}
 
-
-		
-
-
 		/// <summary>
 		/// Loads individual textures using provided text file and adds them to provided dictionary.
 		/// </summary>
@@ -256,7 +248,7 @@ namespace Monofoxe.Engine
 		/// <param name="txtPath">Path to text file with info about textures.</param>
 		private static void LoadTextures(Dictionary<string, Frame[]> dictionary, ContentManager content, string txtPath)
 		{
-			// Algorhitm is almost the same as in LoadFrames().
+			// Algorhitm is almost the same as in AtlassReader.
 
 			string[] lines = File.ReadAllLines(txtPath);
 			
@@ -291,7 +283,6 @@ namespace Monofoxe.Engine
 					{
 						dictionary.Add(previousFrameKey, frameList.ToArray());
 						
-						Debug.WriteLine(previousFrameKey + ": " + frameList.Count);
 						previousFrameKey = frameKey;
 
 						frameList.Clear();

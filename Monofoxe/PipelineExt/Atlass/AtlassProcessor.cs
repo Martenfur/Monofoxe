@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Content.Pipeline;
+using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework.Content.Pipeline;
 
 
 namespace PipelineExt

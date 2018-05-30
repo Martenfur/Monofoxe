@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
+﻿using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
+using System.Collections.Generic;
 
 namespace PipelineExt
 {
