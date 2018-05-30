@@ -6,7 +6,7 @@
 /platform:DesktopGL
 /config:
 /profile:Reach
-/compress:False
+/compress:True
 
 #-------------------------------- References --------------------------------#
 
@@ -23,7 +23,7 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:ResizeToPowerOfTwo=True
 /processorParam:MakeSquare=False
-/processorParam:TextureFormat=DxtCompressed
+/processorParam:TextureFormat=Color
 /build:Atlasses/Textures/bst_gam_0.png
 
 #begin Atlasses/Textures/bst_gam_1.png
