@@ -85,3 +85,6 @@
 /processor:AtlassProcessor
 /build:Atlasses/texture_0.json
 
+#begin Atlasses/textures_3D.txt
+/copy:Atlasses/textures_3D.txt
+

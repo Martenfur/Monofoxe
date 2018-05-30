@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Content;
 using Monofoxe.Engine.Drawing;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using System.Diagnostics;
 
 namespace Monofoxe.Engine
 {
@@ -13,6 +12,7 @@ namespace Monofoxe.Engine
 	/// </summary>
 	public class AtlassReader : ContentTypeReader<Dictionary<string, Frame[]>>
 	{
+		// NOTE: replace Dictionary with something more fitting.
 		protected override Dictionary<string, Frame[]> Read(ContentReader input, Dictionary<string, Frame[]> existingInstance)
 		{
 			var texture = input.ReadObject<Texture2D>();
@@ -28,7 +28,6 @@ namespace Monofoxe.Engine
 
 				Frame[] frames = new Frame[framesCount];
 				
-				Debug.WriteLine(framesCount);
 				for(var k = 0; k < framesCount; k += 1)
 				{
 					var frameW = input.ReadInt32();
