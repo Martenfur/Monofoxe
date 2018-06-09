@@ -2532,10 +2532,10 @@
 "meta": {
 	"app": "http://www.codeandweb.com/texturepacker",
 	"version": "1.0",
-	"image": "texture_0.png",
+	"image": "Default_0.png",
 	"format": "RGBA8888",
 	"size": {"w":1952,"h":1977},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:44ec1095a013ea085414b42aa93d3467:7c8655f06cf2b19a10ee6b9160bbe239:6692d44519ca4982bf2da370cf9c4c09$"
+	"smartupdate": "$TexturePacker:SmartUpdate:ea53fd550c5329752b02789dcd5e4772:7c8655f06cf2b19a10ee6b9160bbe239:7cc41e2bb55e5b36bff228a6b08350df$"
 }
 }

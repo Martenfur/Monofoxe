@@ -75,16 +75,16 @@
 /processorParam:DebugMode=Auto
 /build:Effects/effect.fx
 
-#begin Atlasses/texture_1.json
-/importer:AtlassImporter
-/processor:AtlassProcessor
-/build:Atlasses/texture_1.json
-
-#begin Atlasses/texture_0.json
-/importer:AtlassImporter
-/processor:AtlassProcessor
-/build:Atlasses/texture_0.json
-
 #begin Atlasses/textures_3D.txt
 /copy:Atlasses/textures_3D.txt
+
+#begin Atlasses/Default_0.json
+/importer:AtlassImporter
+/processor:AtlassProcessor
+/build:Atlasses/Default_0.json
+
+#begin Atlasses/Default_1.json
+/importer:AtlassImporter
+/processor:AtlassProcessor
+/build:Atlasses/Default_1.json
 
