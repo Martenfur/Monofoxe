@@ -24,9 +24,9 @@ namespace Monofoxe.Engine.Drawing
 			_content = new ContentManager(content.ServiceProvider);
 			_content.RootDirectory = content.RootDirectory;
 			
-			TexFont = new TextureFont(Sprites.SpriteFont, 3, 3, ascii, false);
-			AnotherFont = new TextureFont(Sprites.AnotherFont, 1, 1, ascii, false);
-			AnotherFont1 = new TextureFont(Sprites.AnotherFont, 1, 1, ascii, true);
+			TexFont = new TextureFont(Sprites.Default.SpriteFont, 3, 3, ascii, false);
+			AnotherFont = new TextureFont(Sprites.Default.AnotherFont, 1, 1, ascii, false);
+			AnotherFont1 = new TextureFont(Sprites.Default.AnotherFont, 1, 1, ascii, true);
 			
 			Def = new Font(_content.Load<SpriteFont>("def"));
 		}

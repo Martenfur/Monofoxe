@@ -154,15 +154,7 @@ namespace Monofoxe.Engine
 			WindowManager = new WindowManager(game);
 		}
 
-
-
-		public static void Begin()
-		{
-			new TestObj();
-		}
-
-
-
+		
 		public static void Update(GameTime gameTime)
 		{
 			// Elapsed time counters.
@@ -208,27 +200,8 @@ namespace Monofoxe.Engine
 		{
 			var atlasses = new Dictionary<string, Frame[]>();
 			
-			var i = 0;
 			string graphicsPath = GraphicsDir +  '/' + AtlassFileName + '_';
 			
-			// Loading all atlasses.
-			while(true)
-			{
-				try
-				{
-					var d2 = content.Load<Dictionary<string, Frame[]>>(graphicsPath + i);
-					atlasses = atlasses.Concat(d2).ToDictionary(x => x.Key, x => x.Value);
-					Debug.WriteLine("Loading " +  ContentDir + '/' + graphicsPath + i + ".json");
-				}
-				catch(Exception) // If content file doesn't exist, this means we've loaded all atlasses.
-				{
-					break;
-				}
-
-				i += 1;
-			}
-			// Loading all atlasses.
-
 			// Loading 3D textures.
 			string path = ContentDir + '/' + GraphicsDir + '/' + TextureInfoFileName;
 			if (File.Exists(path))
@@ -236,8 +209,8 @@ namespace Monofoxe.Engine
 				LoadTextures(atlasses, content, path);
 			}
 			// Loading 3D textures.
-
-			Sprites.Init(atlasses);
+			
+			Sprites.Default.Load();
 		}
 
 		/// <summary>

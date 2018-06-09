@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>738d5ca0-fb57-45c1-a577-a99a0b6b051b</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>MonofoxeCore</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\AtlassReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Camera.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\DrawCntrl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\Font.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\Fonts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\Frame.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\IFont.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\Sprite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\TextureFont.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\GameCntrl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\GameObj.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Input.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Objects.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\WindowManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\Alarm.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\AutoAlarm.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\GameMath.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\RandomExt.cs" />
+  </ItemGroup>
+</Project>

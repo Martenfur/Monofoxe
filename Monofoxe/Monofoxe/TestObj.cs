@@ -90,7 +90,7 @@ namespace Monofoxe
 			
 			fireFrame += 0.1f;
 
-			if (fireFrame >= Sprites.DemonFire.Frames.Count())
+			if (fireFrame >= Sprites.Default.DemonFire.Frames.Count())
 			{
 				fireFrame = 0;
 			}
@@ -183,11 +183,11 @@ namespace Monofoxe
 			{mtxAng -= 360;}
 			DrawCntrl.CurrentColor = Color.Violet;
 			DrawCntrl.DrawRectangle(-32, -32, 500, 500, false);
-			DrawCntrl.DrawSprite(Sprites.DemonFire, (int)fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
+			DrawCntrl.DrawSprite(Sprites.Default.DemonFire, (int)fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
 
-			Frame f = Sprites.DemonFire.Frames[(int)fireFrame];
+			Frame f = Sprites.Default.DemonFire.Frames[(int)fireFrame];
 			DrawCntrl.CurrentColor = Color.Red;
-			DrawCntrl.DrawRectangle(0, 0, Sprites.DemonFire.W, Sprites.DemonFire.H, true);
+			DrawCntrl.DrawRectangle(0, 0, Sprites.Default.DemonFire.W, Sprites.Default.DemonFire.H, true);
 			
 			DrawCntrl.CurrentColor = Color.BlueViolet;
 			DrawCntrl.DrawRectangle(f.Origin.X, f.Origin.Y, f.TexturePosition.Width + f.Origin.X, f.TexturePosition.Height + f.Origin.Y, true);
@@ -249,7 +249,7 @@ namespace Monofoxe
 			DrawCntrl.PrimitiveAddVertex(64, 0,new Color(56, 135, 255, 0) , new Vector2(1, 0));
 			DrawCntrl.PrimitiveAddVertex(96, 32, new Color(56, 135, 255, 0), new Vector2(1, 1));
 			DrawCntrl.PrimitiveSetTriangleStripIndices();
-			DrawCntrl.PrimitiveSetTexture(Sprites.BirdieBody, 0);
+			DrawCntrl.PrimitiveSetTexture(Sprites.Default.BirdieBody, 0);
 			DrawCntrl.PrimitiveEnd();
 			
 			
@@ -267,7 +267,7 @@ namespace Monofoxe
 					DrawCntrl.PrimitiveAddVertex(_x + 8 * i + i * i * k, _y + 8 * k + k * k * i, Color.White, new Vector2(i / (float)(w - 1), k / (float)(h - 1)));	
 				}
 			}
-			DrawCntrl.PrimitiveSetTexture(Sprites.Boulder3, 0);
+			DrawCntrl.PrimitiveSetTexture(Sprites.Default.Boulder3, 0);
 			DrawCntrl.PrimitiveSetMeshIndices(w, h);
 			DrawCntrl.PrimitiveEnd();
 		}

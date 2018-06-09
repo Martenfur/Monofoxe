@@ -16,7 +16,6 @@ namespace Monofoxe
 	/// </summary>
 	public class Game1 : Game
 	{
-		
 		public static Effect effect;
 
 		public Game1()
@@ -35,7 +34,7 @@ namespace Monofoxe
 		{
 			base.Initialize();
 			
-			GameCntrl.Begin();
+			new TestObj();
 		}
 
 		/// <summary>
@@ -49,7 +48,6 @@ namespace Monofoxe
 			DrawCntrl.Init(GraphicsDevice);
 			
 			effect = Content.Load<Effect>("Effects/effect");
-			      
 		}
 
 		/// <summary>
