@@ -9,7 +9,7 @@
     <Import_RootNamespace>MonofoxeCore</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Engine\AtlassReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\AtlasReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Camera.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\DrawCntrl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\Font.cs" />

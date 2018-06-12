@@ -22,12 +22,12 @@ namespace Monofoxe.Engine
 		/// Root directory of the graphics.
 		/// NOTE: This directory is located inside ContentDir.
 		/// </summary>
-		public static string GraphicsDir = "Atlasses";
+		public static string GraphicsDir = "Atlases";
 
 		/// <summary>
-		/// Name of texture atlasses.
+		/// Name of texture atlases.
 		/// </summary>
-		public static string AtlassFileName = "texture";
+		public static string AtlasFileName = "texture";
 
 		/// <summary>
 		/// Name of the file where info about separate textures is stored. 
@@ -198,15 +198,15 @@ namespace Monofoxe.Engine
 
 		public static void LoadGraphics(ContentManager content)
 		{
-			var atlasses = new Dictionary<string, Frame[]>();
+			var atlases = new Dictionary<string, Frame[]>();
 			
-			string graphicsPath = GraphicsDir +  '/' + AtlassFileName + '_';
+			string graphicsPath = GraphicsDir +  '/' + AtlasFileName + '_';
 			
 			// Loading 3D textures.
 			string path = ContentDir + '/' + GraphicsDir + '/' + TextureInfoFileName;
 			if (File.Exists(path))
 			{
-				LoadTextures(atlasses, content, path);
+				LoadTextures(atlases, content, path);
 			}
 			// Loading 3D textures.
 			
@@ -221,7 +221,7 @@ namespace Monofoxe.Engine
 		/// <param name="txtPath">Path to text file with info about textures.</param>
 		private static void LoadTextures(Dictionary<string, Frame[]> dictionary, ContentManager content, string txtPath)
 		{
-			// Algorhitm is almost the same as in AtlassReader.
+			// Algorhitm is almost the same as in AtlasReader.
 
 			var lines = File.ReadAllLines(txtPath);
 			

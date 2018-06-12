@@ -5,12 +5,12 @@ using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 namespace PipelineExt
 {
 	/// <summary>
-	/// Atlass writer. Gets sprite data from processor and writes it into a file. 
+	/// Atlas writer. Gets sprite data from processor and writes it into a file. 
 	/// </summary>
 	[ContentTypeWriter]
-	public class AtlassWriter : ContentTypeWriter<AtlassContainer<Sprite>>
+	public class AtlasWriter : ContentTypeWriter<AtlasContainer<Sprite>>
 	{
-		protected override void Write(ContentWriter output, AtlassContainer<Sprite> value)
+		protected override void Write(ContentWriter output, AtlasContainer<Sprite> value)
 		{
 			/*
 			 * File structure:
@@ -55,9 +55,9 @@ namespace PipelineExt
 		}
 
 		public override string GetRuntimeType(TargetPlatform targetPlatform) =>
-			typeof (AtlassContainer<Sprite>).AssemblyQualifiedName;
+			typeof (AtlasContainer<Sprite>).AssemblyQualifiedName;
 
 		public override string GetRuntimeReader(TargetPlatform targetPlatform) =>
-			"Monofoxe.Engine.AtlassReader, Monofoxe";
+			"Monofoxe.Engine.AtlasReader, Monofoxe";
 	}
 }

@@ -8,9 +8,9 @@ using Microsoft.Xna.Framework;
 namespace Monofoxe.Engine
 {
 	/// <summary>
-	/// Reads atlass file.
+	/// Reads atlas file.
 	/// </summary>
-	public class AtlassReader : ContentTypeReader<Dictionary<string, Frame[]>>
+	public class AtlasReader : ContentTypeReader<Dictionary<string, Frame[]>>
 	{
 		// NOTE: replace Dictionary with something more fitting.
 		protected override Dictionary<string, Frame[]> Read(ContentReader input, Dictionary<string, Frame[]> existingInstance)
