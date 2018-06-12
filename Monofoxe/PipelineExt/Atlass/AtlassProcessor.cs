@@ -16,7 +16,7 @@ namespace PipelineExt
 		{
 			var atlassSprites = new AtlassContainer<Sprite>();
 			atlassSprites.Texture = input.Texture;
-
+			
 			var previousFrameId = -1;
 			var previousFrameKey = "";
 			var frameList = new List<Frame>();

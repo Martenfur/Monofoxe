@@ -223,17 +223,17 @@ namespace Monofoxe.Engine
 		{
 			// Algorhitm is almost the same as in AtlassReader.
 
-			string[] lines = File.ReadAllLines(txtPath);
+			var lines = File.ReadAllLines(txtPath);
 			
-			int previousFrameId = -1;
-			string previousFrameKey = "";
+			var previousFrameId = -1;
+			var previousFrameKey = "";
 
-			List<Frame> frameList = new List<Frame>();
+			var frameList = new List<Frame>();
 
 
 			foreach(string line in lines)
 			{
-				Texture2D tex = content.Load<Texture2D>(GraphicsDir + '/' + line);
+				var tex = content.Load<Texture2D>(GraphicsDir + '/' + line);
 
 				string filename = line;
 				

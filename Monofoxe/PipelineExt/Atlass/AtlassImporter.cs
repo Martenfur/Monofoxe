@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
+using Microsoft.Xna.Framework.Graphics;
 
 /*
  * FUTURE NOTE:
@@ -31,7 +32,7 @@ namespace PipelineExt
 		public override AtlassContainer<Frame> Import(string filename, ContentImporterContext context)
 		{
 			var atlassFrames = new AtlassContainer<Frame>();
-			
+
 			try
 			{
 				var textureImporter = new TextureImporter();
