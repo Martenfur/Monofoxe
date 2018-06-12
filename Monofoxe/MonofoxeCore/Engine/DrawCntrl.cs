@@ -1144,11 +1144,11 @@ namespace Monofoxe.Engine
 		public static void PrimitiveAddVertex(float x, float y, Color color, Vector2 texturePos)
 		{
 			/*
-			 * Since we may work with sprites, which are only little parts of whole texture atlass,
-			 * we need to convert local sprite coordinates to global atlass coordinates.
+			 * Since we may work with sprites, which are only little parts of whole texture atlas,
+			 * we need to convert local sprite coordinates to global atlas coordinates.
 			 */
-			Vector2 atlassPos = _primitiveTextureOffset + texturePos * _primitiveTextureRatio;
-			_primitiveVertices.Add(new VertexPositionColorTexture(new Vector3(x, y, 0), color, atlassPos));
+			Vector2 atlasPos = _primitiveTextureOffset + texturePos * _primitiveTextureRatio;
+			_primitiveVertices.Add(new VertexPositionColorTexture(new Vector3(x, y, 0), color, atlasPos));
 		}
 
 

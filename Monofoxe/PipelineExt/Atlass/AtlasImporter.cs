@@ -20,24 +20,24 @@ using Microsoft.Xna.Framework.Graphics;
 namespace PipelineExt
 {
 	/// <summary>
-	/// Atlass importer. Parses json, loads texture and generates 
-	/// frame array, which will be passed to AtlassProcessor.
-	/// All atlasses should come in json-png pairs.
+	/// Atlas importer. Parses json, loads texture and generates 
+	/// frame array, which will be passed to AtlasProcessor.
+	/// All atlases should come in json-png pairs.
 	/// Importer is oriented to TexturePacker JSON format. 
 	/// </summary>
-	[ContentImporter(".json", DefaultProcessor = "AtlassProcessor", 
-	DisplayName = "Atlass Importer - Monofoxe")]
-	public class AtlassImporter : ContentImporter<AtlassContainer<Frame>>
+	[ContentImporter(".json", DefaultProcessor = "AtlasProcessor", 
+	DisplayName = "Atlas Importer - Monofoxe")]
+	public class AtlasImporter : ContentImporter<AtlasContainer<Frame>>
 	{
-		public override AtlassContainer<Frame> Import(string filename, ContentImporterContext context)
+		public override AtlasContainer<Frame> Import(string filename, ContentImporterContext context)
 		{
-			var atlassFrames = new AtlassContainer<Frame>();
+			var atlasFrames = new AtlasContainer<Frame>();
 
 			try
 			{
 				var textureImporter = new TextureImporter();
 				TextureContent texture = textureImporter.Import(Path.ChangeExtension(filename, ".png"), context);	
-				atlassFrames.Texture = texture;
+				atlasFrames.Texture = texture;
 			}
 			catch(Exception)
 			{
@@ -78,7 +78,7 @@ namespace PipelineExt
 						)
 					);
 
-					atlassFrames.Add(frame);
+					atlasFrames.Add(frame);
 				}
 			}
 			catch(Exception)
@@ -86,7 +86,7 @@ namespace PipelineExt
 				throw(new InvalidContentException("Incorrect JSON format!"));
 			}
 
-			return atlassFrames;
+			return atlasFrames;
 			
 		}
 	}

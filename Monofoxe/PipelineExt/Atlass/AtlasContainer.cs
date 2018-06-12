@@ -4,15 +4,15 @@ using System.Collections.Generic;
 namespace PipelineExt
 {
 	/// <summary>
-	/// Basic atlass container. Stores list of frames or sprites and their texture. 
+	/// Basic atlas container. Stores list of frames or sprites and their texture. 
 	/// </summary>
 	/// <typeparam name="T">Frame or Sprite.</typeparam>
-	public class AtlassContainer<T>
+	public class AtlasContainer<T>
 	{
 		public List<T> Items;
 		public TextureContent Texture;
 
-		public AtlassContainer() =>
+		public AtlasContainer() =>
 			Items = new List<T>();
 		
 		public void Add(T item) =>

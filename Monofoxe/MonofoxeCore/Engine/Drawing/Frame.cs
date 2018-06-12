@@ -7,12 +7,12 @@ namespace Monofoxe.Engine.Drawing
 	public class Frame
 	{
 		/// <summary>
-		/// Texture atlass where frame is stored.
+		/// Texture atlas where frame is stored.
 		/// </summary>
 		public readonly Texture2D Texture;
 
 		/// <summary>
-		/// Position of the frame on the atlass. Note that it may be rotated.
+		/// Position of the frame on the atlas. Note that it may be rotated.
 		/// </summary>
 		public readonly Rectangle TexturePosition;
 

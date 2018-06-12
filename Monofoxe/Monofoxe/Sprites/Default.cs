@@ -94,22 +94,22 @@ namespace Sprites
 			
 			Loaded = true;
 			
-			// Loading all atlasses.
+			// Loading all atlases.
 			while(true)
 			{
 				try
 				{
-					var atlassSprites = _content.Load<Dictionary<string, Frame[]>>(graphicsPath + i);
-					sprites = sprites.Concat(atlassSprites).ToDictionary(x => x.Key, x => x.Value);
+					var atlasSprites = _content.Load<Dictionary<string, Frame[]>>(graphicsPath + i);
+					sprites = sprites.Concat(atlasSprites).ToDictionary(x => x.Key, x => x.Value);
 				}
-				catch(Exception) // If content file doesn't exist, this means we've loaded all atlasses.
+				catch(Exception) // If content file doesn't exist, this means we've loaded all atlases.
 				{
 					break;
 				}
 				
 				i += 1;
 			}
-			// Loading all atlasses.
+			// Loading all atlases.
 			
 			#region sprite_constructors
 			

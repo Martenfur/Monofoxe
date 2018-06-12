@@ -6,16 +6,16 @@ using System.Collections.Generic;
 namespace PipelineExt
 {
 	/// <summary>
-	/// Gets frame array from AtlassImporter, batches them into sprites according to their names
-	/// and passes array of sprites to AtlassWriter.
+	/// Gets frame array from AtlasImporter, batches them into sprites according to their names
+	/// and passes array of sprites to AtlasWriter.
 	/// </summary>
-	[ContentProcessor(DisplayName = "Atlass Processor - Monofoxe")]
-	public class AtlassProcessor : ContentProcessor<AtlassContainer<Frame>, AtlassContainer<Sprite>>
+	[ContentProcessor(DisplayName = "Atlas Processor - Monofoxe")]
+	public class AtlasProcessor : ContentProcessor<AtlasContainer<Frame>, AtlasContainer<Sprite>>
 	{
-		public override AtlassContainer<Sprite> Process(AtlassContainer<Frame> input, ContentProcessorContext context)
+		public override AtlasContainer<Sprite> Process(AtlasContainer<Frame> input, ContentProcessorContext context)
 		{
-			var atlassSprites = new AtlassContainer<Sprite>();
-			atlassSprites.Texture = input.Texture;
+			var atlasSprites = new AtlasContainer<Sprite>();
+			atlasSprites.Texture = input.Texture;
 			
 			var previousFrameId = -1;
 			var previousFrameKey = "";
@@ -37,7 +37,7 @@ namespace PipelineExt
 				if (frameId <= previousFrameId && frameList.Count > 0) 
 				{			
 					// Adding frame array to dictionary with corresponding key and clearing buffer list.
-					atlassSprites.Add(new Sprite(previousFrameKey, frameList.ToArray()));
+					atlasSprites.Add(new Sprite(previousFrameKey, frameList.ToArray()));
 					previousFrameKey = frameKey;
 					frameList.Clear();
 					// Adding frame array to dictionary with corresponding key and clearing buffer list.
@@ -49,10 +49,10 @@ namespace PipelineExt
 
 			if (frameList.Count > 0) // If there are any frames left -- we need them too.
 			{
-				atlassSprites.Add(new Sprite(previousFrameKey, frameList.ToArray()));
+				atlasSprites.Add(new Sprite(previousFrameKey, frameList.ToArray()));
 			}
 
-			return atlassSprites;
+			return atlasSprites;
 		}
 	}
 }
