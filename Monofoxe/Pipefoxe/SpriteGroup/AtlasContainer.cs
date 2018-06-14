@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
 using System.Collections.Generic;
 
-namespace Pipefoxe.Atlas
+namespace Pipefoxe.SpriteGroup
 {
 	/// <summary>
 	/// Basic atlas container. Stores list of frames or sprites and their texture. 

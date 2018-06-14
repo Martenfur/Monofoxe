@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Pipefoxe.Atlas
+namespace Pipefoxe.SpriteGroup
 {
-	class SpriteGroupData
+	public class SpriteGroupData
 	{
 		public int TextureSize;
 		public int TexturePadding;
