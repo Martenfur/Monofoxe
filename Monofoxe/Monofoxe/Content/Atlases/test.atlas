@@ -1,0 +1,11 @@
+{
+	textureSize: 512,
+	texturePadding: 1,
+	rootDir: "/Fier",
+	groupName: "Default",
+	classTemplatePath: "/Template.cs",
+	singleTexturesWildcards: 
+	[
+		"/Textures/*"
+	],
+}
