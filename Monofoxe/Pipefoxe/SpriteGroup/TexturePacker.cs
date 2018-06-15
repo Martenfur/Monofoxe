@@ -3,160 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
 using System.IO;
-using Newtonsoft.Json.Linq;
 
 namespace Pipefoxe.SpriteGroup
 {
 	static class TexturePacker
 	{
-		public static void PackTextures(List<RawSprite> textures, int textureSize, int padding, string groupName)
+		public static (List<RawSprite> spriteInfo, List<Bitmap> atlases) 
+		PackTextures(List<RawSprite> textures, int textureSize, int padding, string groupName)
 		{
-			Console.WriteLine("Packing textures...");
 			List<RawSprite> sprites = Pack(textures, textureSize, padding);
-			Console.WriteLine("Done! " + sprites.Count + " atlases packed.");
+			List<Bitmap> atlases = AssembleAtlases(sprites, textureSize, padding);
 			
-			var atlasIndex = 0;
-			var atlasBmp = new Bitmap(textureSize, textureSize);
-			var graphics = Graphics.FromImage(atlasBmp);
-			graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-			
-			while(sprites.Count > 0)
-			{
-				var spritesCopy = new List<RawSprite>(sprites);
-
-				foreach(RawSprite sprite in spritesCopy)
-				{
-					for(var i = sprite.RenderedFrames; i < sprite.FramesV * sprite.FramesH; i += 1)			
-					{
-						var frame = sprite.Frames[i];
-
-						if (frame.TextureIndex == atlasIndex)
-						{
-							sprite.RenderedFrames += 1;
-
-							if (sprite.RenderedFrames == sprite.FramesH * sprite.FramesV)
-							{
-								sprites.Remove(sprite);
-							}
-
-							int y = i / sprite.FramesH;
-							int x = i % sprite.FramesH;
-
-							graphics.DrawImage(
-								sprite.RawTexture,
-								frame.TexturePos,
-								new Rectangle(
-									x * frame.TexturePos.Width,
-									y * frame.TexturePos.Height,
-									frame.TexturePos.Width, 
-									frame.TexturePos.Height
-								),  
-								GraphicsUnit.Pixel
-							);
-
-							#region Padding.
-							/*
-							 * Drawing padding lines around the texture turned out to be harder than I thought.
-							 * Let's just pretend it's all pretty and readable.
-							 */
-							 /*
-							Rectangle[] srcRects = 
-					{
-						new Rectangle(
-							texture.TexturePosition.X, 
-							texture.TexturePosition.Y, 
-							1,
-							texture.TexturePosition.Height 
-						),
-						new Rectangle(
-							texture.TexturePosition.X + texture.TexturePosition.Width - 1, 
-							texture.TexturePosition.Y, 
-							1,
-							texture.TexturePosition.Height 
-						),
-						new Rectangle(
-							texture.TexturePosition.X, 
-							texture.TexturePosition.Y, 
-							texture.TexturePosition.Width, 
-							1
-						),
-						new Rectangle(
-							texture.TexturePosition.X, 
-							texture.TexturePosition.Y + texture.TexturePosition.Height - 1,
-							texture.TexturePosition.Width,
-							1
-						),
-					};
-							Rectangle[] destRects = 
-					{
-						new Rectangle(
-							texture.Position.X - 1, 
-							texture.Position.Y, 
-							1, 
-							texture.TexturePosition.Height
-						),
-						new Rectangle(
-							texture.Position.X + texture.TexturePosition.Width, 
-							texture.Position.Y,
-							1, 
-							texture.TexturePosition.Height
-						),
-						new Rectangle(
-							texture.Position.X, 
-							texture.Position.Y - 1, 
-							texture.TexturePosition.Width,
-							1
-						),
-						new Rectangle(
-							texture.Position.X, 
-							texture.Position.Y + texture.TexturePosition.Height,
-							texture.TexturePosition.Width,
-							1
-						),
-					};
-
-							for(var side = 0; side < 4; side += 1) // 4 sides, 4 lines.
-							{
-								// DrawImage draws 2 pixels of source texture instead of 1 if scaled, for some reason.
-								// So we have to draw a ton of lines without scaling.
-								for(var i = 0; i < padding; i += 1) 
-								{
-									var destRect = destRects[side];
-
-									int iAdd = i * ((side % 2) * 2 - 1);
-							
-									if (side < 2)
-									{
-										destRect.X += iAdd;
-									}
-									else
-									{
-										destRect.Y += iAdd;
-									}
-
-									graphics.DrawImage(
-										texture.Texture, 
-										destRect,
-										srcRects[side],
-										GraphicsUnit.Pixel
-									);
-								}
-							}
-							*/
-							#endregion Padding.
-						}
-					}
-				}
-				
-				
-				var outName = Environment.CurrentDirectory + "/" + groupName + "_" + atlasIndex;
-				atlasBmp.Save(outName + ".png");
-
-				graphics.Clear(Color.Transparent);
-				atlasIndex += 1;
-			}
-			
-			graphics.Dispose();
+			return (sprites, atlases);
 		}
 
 		private static List<RawSprite> Pack(List<RawSprite> textures, int textureSize, int padding)
@@ -255,6 +113,114 @@ namespace Pipefoxe.SpriteGroup
 
 			return packedSprites;
 		}
+
+		private static List<Bitmap> AssembleAtlases(List<RawSprite> sprites, int textureSize, int padding)
+		{
+			var atlases = new List<Bitmap>();
+			var atlasIndex = 0;
+			
+			var spritesEnum = new List<RawSprite>(sprites);
+
+			while(spritesEnum.Count > 0)
+			{
+				var atlasBmp = new Bitmap(textureSize, textureSize);
+				var graphics = Graphics.FromImage(atlasBmp);
+				graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+			
+				var spritesCopy = new List<RawSprite>(spritesEnum);
+
+				foreach(RawSprite sprite in spritesCopy)
+				{
+					for(var i = sprite.RenderedFrames; i < sprite.FramesV * sprite.FramesH; i += 1)			
+					{
+						var frame = sprite.Frames[i];
+
+						if (frame.TextureIndex == atlasIndex)
+						{
+							sprite.RenderedFrames += 1;
+
+							if (sprite.RenderedFrames == sprite.FramesH * sprite.FramesV)
+							{
+								spritesEnum.Remove(sprite);
+							}
+
+							int x = (i % sprite.FramesH) * frame.TexturePos.Width;
+							int y = (i / sprite.FramesH) * frame.TexturePos.Height;
+							
+							graphics.DrawImage(
+								sprite.RawTexture,
+								frame.TexturePos,
+								new Rectangle(
+									x,
+									y,
+									frame.TexturePos.Width, 
+									frame.TexturePos.Height
+								),  
+								GraphicsUnit.Pixel
+							);
+
+							#region Padding.
+							/*
+							 * Drawing padding lines around the texture turned out to be harder than I thought.
+							 * Let's just pretend it's all pretty and readable.
+							 */
+							
+							Rectangle[] srcRects =
+							{
+								new Rectangle(x, y, 1, frame.TexturePos.Height),
+								new Rectangle(x + frame.TexturePos.Width - 1, y, 1, frame.TexturePos.Height),
+								new Rectangle(x, y, frame.TexturePos.Width, 1),
+								new Rectangle(x, y + frame.TexturePos.Height - 1, frame.TexturePos.Width, 1),
+							};
+							Rectangle[] destRects =
+							{
+								new Rectangle(frame.TexturePos.X - 1, frame.TexturePos.Y, 1, frame.TexturePos.Height),
+								new Rectangle(frame.TexturePos.X + frame.TexturePos.Width, frame.TexturePos.Y, 1, frame.TexturePos.Height),
+								new Rectangle(frame.TexturePos.X, frame.TexturePos.Y - 1, frame.TexturePos.Width, 1),
+								new Rectangle(frame.TexturePos.X, frame.TexturePos.Y + frame.TexturePos.Height, frame.TexturePos.Width, 1),
+							};
+
+							for (var side = 0; side < 4; side += 1) // 4 sides, 4 lines.
+							{
+								// DrawImage draws 2 pixels of source texture instead of 1 if scaled, for some reason.
+								// So we have to draw a ton of lines without scaling.
+								for (var l = 0; l < padding; l += 1)
+								{
+									var destRect = destRects[side];
+
+									int lAdd = l * ((side % 2) * 2 - 1);
+
+									if (side < 2)
+									{
+										destRect.X += lAdd;
+									}
+									else
+									{
+										destRect.Y += lAdd;
+									}
+
+									graphics.DrawImage(
+										sprite.RawTexture,
+										destRect,
+										srcRects[side],
+										GraphicsUnit.Pixel
+									);
+								}
+							}
+
+							#endregion Padding.
+						}
+					}
+				}
+				
+				atlases.Add(atlasBmp);
+				graphics.Dispose();
+				atlasIndex += 1;
+			}
+			return atlases;
+		}
+
+
 
 		/// <summary>
 		/// Checks if one texture overlaps with the rest.
