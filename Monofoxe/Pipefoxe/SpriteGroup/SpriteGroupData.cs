@@ -9,6 +9,7 @@ namespace Pipefoxe.SpriteGroup
 		public string RootDir;
 		public string GroupName;
 		public string ClassTemplatePath;
+		public string ClassDir;
 		public List<RawSprite> Sprites;
 		public List<RawSprite> Textures;
 

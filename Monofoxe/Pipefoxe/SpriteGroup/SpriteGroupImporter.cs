@@ -43,10 +43,11 @@ namespace Pipefoxe.SpriteGroup
 
 				groupData.TextureSize = Int32.Parse(configData["textureSize"].ToString());
 				groupData.TexturePadding = Int32.Parse(configData["texturePadding"].ToString());
-				groupData.RootDir = configData["rootDir"].ToString();
+				groupData.RootDir = Path.GetDirectoryName(filename) + '/' + configData["rootDir"].ToString();
 				groupData.GroupName = configData["groupName"].ToString();
 				groupData.ClassTemplatePath = configData["classTemplatePath"].ToString();
-				
+				groupData.ClassDir = configData["classDir"].ToString();
+
 				JArray textureWildcards = (JArray)configData["singleTexturesWildcards"];
 
 				textureRegex = new string[textureWildcards.Count];
@@ -61,7 +62,7 @@ namespace Pipefoxe.SpriteGroup
 				throw(new InvalidContentException("Incorrect JSON format!"));
 			}
 			
-			ImportTextures(Path.GetDirectoryName(filename) + '/' + groupData.RootDir, "", groupData, textureRegex);
+			ImportTextures(groupData.RootDir, "", groupData, textureRegex);
 
 			var fileData = new StringBuilder();
 
