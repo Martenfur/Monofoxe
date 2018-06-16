@@ -198,81 +198,8 @@ namespace Monofoxe.Engine
 
 		public static void LoadGraphics(ContentManager content)
 		{
-			var atlases = new Dictionary<string, Frame[]>();
-			
-			string graphicsPath = GraphicsDir +  '/' + AtlasFileName + '_';
-			
-			// Loading 3D textures.
-			string path = ContentDir + '/' + GraphicsDir + '/' + TextureInfoFileName;
-			if (File.Exists(path))
-			{
-				LoadTextures(atlases, content, path);
-			}
-			// Loading 3D textures.
-			
 			Sprites.Default.Load();
 		}
-
-		/// <summary>
-		/// Loads individual textures using provided text file and adds them to provided dictionary.
-		/// </summary>
-		/// <param name="dictionary">Dictionaty, to which frame arrays will be written.</param>
-		/// <param name="content">Content, using which textures will be loaded.</param>
-		/// <param name="txtPath">Path to text file with info about textures.</param>
-		private static void LoadTextures(Dictionary<string, Frame[]> dictionary, ContentManager content, string txtPath)
-		{
-			// Algorhitm is almost the same as in AtlasReader.
-
-			var lines = File.ReadAllLines(txtPath);
-			
-			var previousFrameId = -1;
-			var previousFrameKey = "";
-
-			var frameList = new List<Frame>();
-
-
-			foreach(string line in lines)
-			{
-				var tex = content.Load<Texture2D>(GraphicsDir + '/' + line);
-
-				string filename = line;
-				
-				int frameIdPos = filename.LastIndexOf('_');
-				int frameId = Int32.Parse(filename.Substring(frameIdPos + 1));
-				
-				string frameKey = filename.Remove(frameIdPos, filename.Length - frameIdPos);
-
-
-				if (previousFrameKey.Length == 0)
-				{
-					previousFrameKey = frameKey;
-				}
-
-				Frame frame = new Frame(tex, new Rectangle(0, 0, tex.Width, tex.Height), Vector2.Zero, tex.Width, tex.Height);
-				
-				if (frameId <= previousFrameId)
-				{
-					if (frameList.Count > 0)
-					{
-						dictionary.Add(previousFrameKey, frameList.ToArray());
-						
-						previousFrameKey = frameKey;
-
-						frameList.Clear();
-					}
-				}
-				
-				previousFrameId = frameId;
-				frameList.Add(frame);
-			}
-
-			if (frameList.Count > 0)
-			{
-				dictionary.Add(previousFrameKey, frameList.ToArray());
-				frameList.Clear();
-			}
-		}
-
 
 	}
 }

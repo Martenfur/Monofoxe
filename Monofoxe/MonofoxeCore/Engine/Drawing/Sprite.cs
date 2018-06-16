@@ -53,6 +53,7 @@ namespace Monofoxe.Engine.Drawing
 
 		public Sprite(Frame[] frames, Vector2 origin)
 		{
+			Frames = new Frame[frames.Count()];
 			Array.Copy(frames, Frames, frames.Count());
 			Origin = origin;
 			SingleFrameSize = CheckIdenticalFrameSizes(frames);

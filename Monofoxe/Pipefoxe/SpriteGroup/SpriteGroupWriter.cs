@@ -43,6 +43,8 @@ namespace Pipefoxe.SpriteGroup
 			var bitmaps = value.Item2;
 
 			// Writing textures.
+			output.Write(bitmaps.Count);
+
 			var tempFilePath = Environment.CurrentDirectory + "/temp.temp";
 			foreach(Bitmap bitmap in bitmaps)
 			{
