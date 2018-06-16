@@ -1,10 +1,10 @@
 {
-	textureSize: 128,
+	textureSize: 2048,
 	texturePadding: 1,
-	rootDir: "/Fier",
-	groupName: "Test",
+	rootDir: "/TestGraphics",
+	groupName: "Default",
 	classTemplatePath: "/Template.cs", // Relative to rootDir.
-	classDir: "/", // Relative to content project file.
+	classDir: "/../Sprites/", // Relative to content project file.
 	singleTexturesWildcards: 
 	[
 		"/Textures/*"
