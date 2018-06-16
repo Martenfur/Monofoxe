@@ -94,3 +94,8 @@
 /processor:SpriteGroupProcessor
 /build:Atlases/test.atlas
 
+#begin default.atlas
+/importer:SpriteGroupImporter
+/processor:SpriteGroupProcessor
+/build:default.atlas
+

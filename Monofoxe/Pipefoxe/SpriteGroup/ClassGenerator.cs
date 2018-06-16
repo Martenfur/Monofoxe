@@ -79,6 +79,24 @@ namespace Pipefoxe.SpriteGroup
 			var code = new StringBuilder();
 			code.Append(codeTemplate);
 				
+			// Resolving name conflicts.
+			var spriteNames = new List<string>();
+			var spriteOccurences = new Dictionary<string, int>();
+			for(var i = 0; i < sprites.Count; i += 1)
+			{
+				var name = ToCamelCase(Path.GetFileName(sprites[i].Name));
+				if (spriteOccurences.ContainsKey(name))
+				{
+					spriteNames.Add(name + '_' + spriteOccurences[name]);
+					spriteOccurences[name] += 1;
+				}
+				else
+				{
+					spriteOccurences.Add(name, 1);
+					spriteNames.Add(name);
+				}
+			}
+			// Resolving name conflicts.
 				
 			// Assembling variables from templates using extracted sprite parameters.
 			var completeVariableValues = new List<StringBuilder>();
@@ -88,11 +106,13 @@ namespace Pipefoxe.SpriteGroup
 				completeVariableValues.Add(new StringBuilder());
 				var lastSprite = sprites.Last();
 
+				var i = 0;
 				foreach(RawSprite sprite in sprites)
 				{
 					var v = customVariableValues[k]
-						.Replace("<sprite_name>", ToCamelCase(Path.GetFileName(sprite.Name)))
+						.Replace("<sprite_name>", spriteNames[i])
 						.Replace("<hash_sprite_name>", '"' + sprite.Name + '"');
+					i += 1;
 
 					completeVariableValues[k].Append(v);
 
@@ -100,6 +120,7 @@ namespace Pipefoxe.SpriteGroup
 					{
 						completeVariableValues[k].AppendLine();
 					}
+					
 				}
 			}
 			// Assembling variables from templates using extracted sprite parameters.

@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 using System.Collections.Generic;
 using System.Drawing;
 using System;
+using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
+using System.IO;
 
 namespace Pipefoxe.SpriteGroup
 {
@@ -41,7 +43,15 @@ namespace Pipefoxe.SpriteGroup
 			var bitmaps = value.Item2;
 
 			// Writing textures.
-			//output.WriteObject(value.Texture);
+			var tempFilePath = Environment.CurrentDirectory + "/temp.temp";
+			foreach(Bitmap bitmap in bitmaps)
+			{
+				bitmap.Save(tempFilePath);
+				var textureImporter = new TextureImporter();
+				TextureContent texture = textureImporter.Import(tempFilePath, null);
+				output.WriteObject(texture);
+			}
+			File.Delete(tempFilePath);
 			// Writing textures.
 
 
