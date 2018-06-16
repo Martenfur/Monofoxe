@@ -19,17 +19,19 @@ namespace Pipefoxe.SpriteGroup
 			// Packing sprites into texture atlases.
 			
 			var singleTextureResult = ProcessSingleTextures(atlases.Count, groupData.Textures);
+			// Now atlas sprites and singles got same format and we can merge them into one texture\sprite list.
 			sprites = sprites.Concat(singleTextureResult.spriteInfo).ToList();
 			atlases = atlases.Concat(singleTextureResult.textures).ToList();
 			
-			// Debug.
+			/*
+			// Debug. Make something with it later.
 			var index = 0;
 			foreach(Bitmap atlas in atlases)
 			{
 				atlas.Save(Environment.CurrentDirectory + '/' + groupData.GroupName + "_debug/" + groupData.GroupName + '_' + index + ".png");
 				index += 1;
 			}
-			// Debug.
+			*/
 
 			ClassGenerator.Generate(
 				groupData.RootDir + '/' + groupData.ClassTemplatePath, 

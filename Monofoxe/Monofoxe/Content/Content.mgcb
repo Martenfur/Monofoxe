@@ -10,7 +10,6 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:..\..\PipelineExt\bin\Release\PipelineExt.dll
 /reference:..\..\Pipefoxe\bin\Debug\Pipefoxe.dll
 
 #---------------------------------- Content ---------------------------------#
@@ -28,13 +27,8 @@
 /processorParam:DebugMode=Auto
 /build:Effects/effect.fx
 
-#begin Atlases/test.atlas
+#begin Graphics/default.atlas
 /importer:SpriteGroupImporter
 /processor:SpriteGroupProcessor
-/build:Atlases/test.atlas
-
-#begin Atlases/default.atlas
-/importer:SpriteGroupImporter
-/processor:SpriteGroupProcessor
-/build:Atlases/default.atlas
+/build:Graphics/default.atlas
 

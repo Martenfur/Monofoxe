@@ -2,8 +2,7 @@
 	textureSize: 2048,
 	texturePadding: 1,
 	rootDir: "/TestGraphics",
-	groupName: "Default",
-	classTemplatePath: "/Template.cs", // Relative to rootDir.
+	classTemplatePath: "/../Template.cs", // Relative to rootDir.
 	classDir: "/../Sprites/", // Relative to content project file.
 	singleTexturesWildcards: 
 	[

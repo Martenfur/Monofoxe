@@ -22,18 +22,8 @@ namespace Monofoxe.Engine
 		/// Root directory of the graphics.
 		/// NOTE: This directory is located inside ContentDir.
 		/// </summary>
-		public static string GraphicsDir = "Atlases";
+		public static string GraphicsDir = "Graphics";
 
-		/// <summary>
-		/// Name of texture atlases.
-		/// </summary>
-		public static string AtlasFileName = "texture";
-
-		/// <summary>
-		/// Name of the file where info about separate textures is stored. 
-		/// </summary>
-		public static string TextureInfoFileName = "textures_3D.txt";
-		
 		/// <summary>
 		/// Main Game class.
 		/// </summary>

@@ -45,11 +45,7 @@ namespace Pipefoxe.SpriteGroup
 						if (nameMatch.Success && valueMatch.Success)
 						{
 							customVariableNames.Add(nameMatch.Value.Substring(1,nameMatch.Value.Length - 2).Replace(" ", ""));
-							customVariableValues.Add(valueMatch.Value.Substring(1,valueMatch.Value.Length - 2));
-								
-							Console.WriteLine("Parsing " + customVariableNames.Last());
-							Console.WriteLine("Value: " + customVariableValues.Last());
-							Console.WriteLine();
+							customVariableValues.Add(valueMatch.Value.Substring(1,valueMatch.Value.Length - 2));					
 						}
 						else
 						{
@@ -79,7 +75,7 @@ namespace Pipefoxe.SpriteGroup
 			var code = new StringBuilder();
 			code.Append(codeTemplate);
 				
-			// Resolving name conflicts.
+			#region Resolving name conflicts.
 
 			/*
 			 * Some sprites may have identical names.
@@ -103,9 +99,10 @@ namespace Pipefoxe.SpriteGroup
 					spriteNames.Add(name);
 				}
 			}
-			// Resolving name conflicts.
-				
-			// Assembling variables from templates.
+			#endregion Resolving name conflicts.
+			
+
+			#region Assembling variables from templates.
 			var completeVariableValues = new List<StringBuilder>();
 
 			for(var k = 0; k < customVariableValues.Count; k += 1)
@@ -130,40 +127,37 @@ namespace Pipefoxe.SpriteGroup
 					
 				}
 			}
-			// Assembling variables from templates.
+			#endregion Assembling variables from templates.
+		
 			
-			code = code.Replace("<group_name>", groupName);
-					
-			for (var i = 0; i < customVariableNames.Count; i += 1)
+			code = code.Replace("<group_name>", ToCamelCase(groupName));
+			
+			for(var i = 0; i < customVariableNames.Count; i += 1)
 			{
-				Console.WriteLine("Writing " + customVariableNames[i]);
 				code = code.Replace('<' + customVariableNames[i] + '>', completeVariableValues[i].ToString());
 			}
 
+			// Now tabs are all messed up. Fixing this just to make code look pretteh.
 			FixTabulation(code);
-					
-			try
-			{
-				File.WriteAllText(outPath + '/' + groupName + ".cs", code.ToString());
-			}
-			catch (Exception)
-			{
-				throw(new Exception("Cannot write class file to the given path. File may be busy or path may be invalid."));
-			}
+			
+			File.WriteAllText(outPath + '/' + ToCamelCase(groupName) + ".cs", code.ToString());
 		}
 
+
+		/// <summary>
+		/// Fixes tabs in code.
+		/// </summary>
 		private static void FixTabulation(StringBuilder str)
 		{
-			string buffer = str.ToString().Replace("\t", ""); // Removing all tabs from code.
+			var buffer = str.ToString().Replace("\t", ""); // Removing all tabs from code.
 			str.Clear();
 			str.Append(buffer);
 			
-			int bracketCount = 0;
+			var bracketCount = 0;
 
-			int strPtr = 0;
+			var strPtr = 0;
 			for(var i = 0; i < buffer.Length - 1; i += 1)
 			{
-				
 				if (buffer[i] == '{')
 				{
 					bracketCount += 1;
@@ -178,7 +172,6 @@ namespace Pipefoxe.SpriteGroup
 					strPtr += bracketCount;
 				}	
 				strPtr += 1;
-				
 			}
 		}
 	
@@ -190,7 +183,7 @@ namespace Pipefoxe.SpriteGroup
 		/// </summary>
 		public static string ToCamelCase(string str)
 		{
-			// Removing not-allowed symbols from string.
+			// Removing prohibited symbols from string.
 			Regex rgx = new Regex("[^a-zA-Z0-9 _]"); 
 			str = rgx.Replace(str, "");
 
@@ -198,7 +191,7 @@ namespace Pipefoxe.SpriteGroup
 			{
 				return "";
 			}
-			// Removing not-allowed symbols from string.
+			// Removing prohibited symbols from string.
 			
 			string[] words = str.Split(new char[]{'_', ' '});
 			StringBuilder upper = new StringBuilder();
