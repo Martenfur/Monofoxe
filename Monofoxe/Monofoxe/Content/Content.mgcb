@@ -15,54 +15,6 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Atlases/Textures/bst_gam_0.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=True
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Atlases/Textures/bst_gam_0.png
-
-#begin Atlases/Textures/bst_gam_1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Atlases/Textures/bst_gam_1.png
-
-#begin Atlases/Textures/bst_gam_2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Atlases/Textures/bst_gam_2.png
-
-#begin Atlases/Textures/bst_gam_3.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Atlases/Textures/bst_gam_3.png
-
 #begin def.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -76,26 +28,13 @@
 /processorParam:DebugMode=Auto
 /build:Effects/effect.fx
 
-#begin Atlases/textures_3D.txt
-/copy:Atlases/textures_3D.txt
-
-#begin Atlases/Default_0.json
-/importer:AtlasImporter
-/processor:AtlasProcessor
-/build:Atlases/Default_0.json
-
-#begin Atlases/Default_1.json
-/importer:AtlasImporter
-/processor:AtlasProcessor
-/build:Atlases/Default_1.json
-
 #begin Atlases/test.atlas
 /importer:SpriteGroupImporter
 /processor:SpriteGroupProcessor
 /build:Atlases/test.atlas
 
-#begin default.atlas
+#begin Atlases/default.atlas
 /importer:SpriteGroupImporter
 /processor:SpriteGroupProcessor
-/build:default.atlas
+/build:Atlases/default.atlas
 

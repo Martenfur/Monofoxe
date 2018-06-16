@@ -90,98 +90,80 @@ namespace Sprites
 		
 		public static void Load()
 		{
-			var sprites = new Dictionary<string, Frame[]>();
-			
-			var i = 0;
-			var graphicsPath = GameCntrl.ContentDir + '/' + GameCntrl.GraphicsDir +  '/' + _groupName + '_';
+			var graphicsPath = GameCntrl.ContentDir + '/' + GameCntrl.GraphicsDir +  '/' + _groupName;
 			
 			Loaded = true;
 			
-			// Loading all atlasses.
-			while(true)
-			{
-				try
-				{
-					var atlassSprites = _content.Load<Dictionary<string, Frame[]>>(graphicsPath + i);
-					sprites = sprites.Concat(atlassSprites).ToDictionary(x => x.Key, x => x.Value);
-				}
-				catch(Exception) // If content file doesn't exist, this means we've loaded all atlasses.
-				{
-					break;
-				}
-				
-				i += 1;
-			}
-			// Loading all atlasses.
+			var sprites = _content.Load<Dictionary<string, Sprite>>(graphicsPath );
 			
 			#region sprite_constructors
 			
-			Scene5Bkg = new Sprite(sprites["outro/scene5_bkg"]);
-			Scene3Bkg = new Sprite(sprites["intro/scene3_bkg"]);
-			Scene5BkgStrip2 = new Sprite(sprites["outro/scene5_bkg_strip2"]);
-			Scene4Bkg = new Sprite(sprites["intro/scene4_bkg"]);
-			Scene1TreesBkgLayer1 = new Sprite(sprites["outro/scene1_trees_bkg_layer1"]);
-			Scene3TreeLeft = new Sprite(sprites["outro/scene3_tree_left"]);
-			Scene3TreeRight = new Sprite(sprites["outro/scene3_tree_right"]);
-			Scene1TreesBkgLayer3 = new Sprite(sprites["outro/scene1_trees_bkg_layer3"]);
-			Scene1KnightBody = new Sprite(sprites["outro/scene1_knight_body"]);
-			Scene2Knight = new Sprite(sprites["outro/scene2_knight"]);
-			Scene1Knight = new Sprite(sprites["intro/scene1_knight"]);
-			ClericBench = new Sprite(sprites["cleric_bench"]);
-			Boss = new Sprite(sprites["Stuff/boss"]);
-			TestKitten = new Sprite(sprites["test kitten"]);
-			Scene4BucketShadow = new Sprite(sprites["intro/scene4_bucket_shadow"]);
-			DemonFire = new Sprite(sprites["demon_fire"]);
-			Barrel = new Sprite(sprites["barrel"]);
-			Scene1KnightFaceStrip3 = new Sprite(sprites["outro/scene1_knight_face_strip3"]);
-			Cleric = new Sprite(sprites["cleric"]);
-			Ded1 = new Sprite(sprites["ded1"]);
-			Ded1Dmg = new Sprite(sprites["ded1_dmg"]);
-			Demon = new Sprite(sprites["demon"]);
-			DemonDmg = new Sprite(sprites["demon_dmg"]);
-			Bro = new Sprite(sprites["Stuff/bro"]);
-			BroDmg = new Sprite(sprites["Stuff/bro_dmg"]);
-			Chiggin = new Sprite(sprites["chiggin"]);
-			Cabbage1Smashed = new Sprite(sprites["cabbage1_smashed"]);
-			Cabbage2Smashed = new Sprite(sprites["cabbage2_smashed"]);
-			Boulder1 = new Sprite(sprites["Stuff/boulder1"]);
-			Cabbage3Smashed = new Sprite(sprites["cabbage3_smashed"]);
-			Boulder2 = new Sprite(sprites["Stuff/boulder2"]);
-			Cabbage2 = new Sprite(sprites["cabbage2"]);
-			Cabbage0 = new Sprite(sprites["cabbage_0"]);
-			Boulder3 = new Sprite(sprites["Stuff/boulder3"]);
-			Bottle = new Sprite(sprites["Stuff/bottle"]);
-			Cabbage3 = new Sprite(sprites["cabbage3"]);
-			Bucket = new Sprite(sprites["bucket"]);
-			ClericHat = new Sprite(sprites["cleric_hat"]);
-			Sc5KnightSword = new Sprite(sprites["outro/sc5_knight_sword"]);
-			Basket = new Sprite(sprites["Stuff/basket"]);
-			Scene4Knight = new Sprite(sprites["outro/scene4_knight"]);
-			BroWoolhat = new Sprite(sprites["bro_woolhat"]);
-			Bench = new Sprite(sprites["Stuff/bench"]);
-			BirdieLegs = new Sprite(sprites["Stuff/birdie_legs"]);
-			BirdieBody = new Sprite(sprites["Stuff/birdie_body"]);
-			SpriteFont = new Sprite(sprites["sprite_font"]);
-			BubbleStrip2 = new Sprite(sprites["bubble_strip2"]);
-			BenchShadow = new Sprite(sprites["Stuff/bench_shadow"]);
-			BroHat = new Sprite(sprites["Stuff/bro_hat"]);
-			BarrelParts = new Sprite(sprites["barrel_parts"]);
-			BroGlasses = new Sprite(sprites["Stuff/bro_glasses"]);
-			BroHair = new Sprite(sprites["Stuff/bro_hair"]);
-			BirdieWing = new Sprite(sprites["Stuff/birdie_wing"]);
-			AnotherFont = new Sprite(sprites["another_font"]);
-			Scene2Bkg = new Sprite(sprites["outro/scene2_bkg"]);
-			Scene4Bkg_1 = new Sprite(sprites["outro/scene4_bkg"]);
-			Scene2 = new Sprite(sprites["intro/scene2"]);
-			Scene4Knight_1 = new Sprite(sprites["intro/scene4_knight"]);
-			Scene3Bkg_1 = new Sprite(sprites["outro/scene3_bkg"]);
-			Scene1TreesBkgLayer2 = new Sprite(sprites["outro/scene1_trees_bkg_layer2"]);
-			Scene3Sword = new Sprite(sprites["intro/scene3_sword"]);
-			Scene2Reflection = new Sprite(sprites["outro/scene2_reflection"]);
-			Scene4Bucket = new Sprite(sprites["intro/scene4_bucket"]);
-			Scene3Ground = new Sprite(sprites["outro/scene3_ground"]);
-			Scene3Hill = new Sprite(sprites["outro/scene3_hill"]);
-			BstGam = new Sprite(sprites["Textures/bst_gam"]);
+			Scene5Bkg = sprites["outro/scene5_bkg"];
+			Scene3Bkg = sprites["intro/scene3_bkg"];
+			Scene5BkgStrip2 = sprites["outro/scene5_bkg_strip2"];
+			Scene4Bkg = sprites["intro/scene4_bkg"];
+			Scene1TreesBkgLayer1 = sprites["outro/scene1_trees_bkg_layer1"];
+			Scene3TreeLeft = sprites["outro/scene3_tree_left"];
+			Scene3TreeRight = sprites["outro/scene3_tree_right"];
+			Scene1TreesBkgLayer3 = sprites["outro/scene1_trees_bkg_layer3"];
+			Scene1KnightBody = sprites["outro/scene1_knight_body"];
+			Scene2Knight = sprites["outro/scene2_knight"];
+			Scene1Knight = sprites["intro/scene1_knight"];
+			ClericBench = sprites["cleric_bench"];
+			Boss = sprites["Stuff/boss"];
+			TestKitten = sprites["test kitten"];
+			Scene4BucketShadow = sprites["intro/scene4_bucket_shadow"];
+			DemonFire = sprites["demon_fire"];
+			Barrel = sprites["barrel"];
+			Scene1KnightFaceStrip3 = sprites["outro/scene1_knight_face_strip3"];
+			Cleric = sprites["cleric"];
+			Ded1 = sprites["ded1"];
+			Ded1Dmg = sprites["ded1_dmg"];
+			Demon = sprites["demon"];
+			DemonDmg = sprites["demon_dmg"];
+			Bro = sprites["Stuff/bro"];
+			BroDmg = sprites["Stuff/bro_dmg"];
+			Chiggin = sprites["chiggin"];
+			Cabbage1Smashed = sprites["cabbage1_smashed"];
+			Cabbage2Smashed = sprites["cabbage2_smashed"];
+			Boulder1 = sprites["Stuff/boulder1"];
+			Cabbage3Smashed = sprites["cabbage3_smashed"];
+			Boulder2 = sprites["Stuff/boulder2"];
+			Cabbage2 = sprites["cabbage2"];
+			Cabbage0 = sprites["cabbage_0"];
+			Boulder3 = sprites["Stuff/boulder3"];
+			Bottle = sprites["Stuff/bottle"];
+			Cabbage3 = sprites["cabbage3"];
+			Bucket = sprites["bucket"];
+			ClericHat = sprites["cleric_hat"];
+			Sc5KnightSword = sprites["outro/sc5_knight_sword"];
+			Basket = sprites["Stuff/basket"];
+			Scene4Knight = sprites["outro/scene4_knight"];
+			BroWoolhat = sprites["bro_woolhat"];
+			Bench = sprites["Stuff/bench"];
+			BirdieLegs = sprites["Stuff/birdie_legs"];
+			BirdieBody = sprites["Stuff/birdie_body"];
+			SpriteFont = sprites["sprite_font"];
+			BubbleStrip2 = sprites["bubble_strip2"];
+			BenchShadow = sprites["Stuff/bench_shadow"];
+			BroHat = sprites["Stuff/bro_hat"];
+			BarrelParts = sprites["barrel_parts"];
+			BroGlasses = sprites["Stuff/bro_glasses"];
+			BroHair = sprites["Stuff/bro_hair"];
+			BirdieWing = sprites["Stuff/birdie_wing"];
+			AnotherFont = sprites["another_font"];
+			Scene2Bkg = sprites["outro/scene2_bkg"];
+			Scene4Bkg_1 = sprites["outro/scene4_bkg"];
+			Scene2 = sprites["intro/scene2"];
+			Scene4Knight_1 = sprites["intro/scene4_knight"];
+			Scene3Bkg_1 = sprites["outro/scene3_bkg"];
+			Scene1TreesBkgLayer2 = sprites["outro/scene1_trees_bkg_layer2"];
+			Scene3Sword = sprites["intro/scene3_sword"];
+			Scene2Reflection = sprites["outro/scene2_reflection"];
+			Scene4Bucket = sprites["intro/scene4_bucket"];
+			Scene3Ground = sprites["outro/scene3_ground"];
+			Scene3Hill = sprites["outro/scene3_hill"];
+			BstGam = sprites["Textures/bst_gam"];
 			
 			#endregion sprite_constructors
 		}

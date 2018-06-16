@@ -1,5 +1,5 @@
 #class_prefix = "public static Sprite <sprite_name>;"
-#class_constructor = "<sprite_name> = new Sprite(sprites[<hash_sprite_name>]);"
+#class_constructor = "<sprite_name> = sprites[<hash_sprite_name>];"
 // Template tags: 
 // <group_name> - Name of current group.
 // <sprite_name> - Name of each sprite.
@@ -27,30 +27,13 @@ namespace Sprites
 		
 		public static void Load()
 		{
-			var sprites = new Dictionary<string, Frame[]>();
-			
 			var i = 0;
-			var graphicsPath = GameCntrl.ContentDir + '/' + GameCntrl.GraphicsDir +  '/' + _groupName + '_';
+			var graphicsPath = GameCntrl.ContentDir + '/' + GameCntrl.GraphicsDir +  '/' + _groupName;
 			
-			Loaded = true;
-			
-			// Loading all atlasses.
-			while(true)
-			{
-				try
-				{
-					var atlassSprites = _content.Load<Dictionary<string, Frame[]>>(graphicsPath + i);
-					sprites = sprites.Concat(atlassSprites).ToDictionary(x => x.Key, x => x.Value);
-				}
-				catch(Exception) // If content file doesn't exist, this means we've loaded all atlasses.
-				{
-					break;
-				}
-
-				i += 1;
-			}
-			// Loading all atlasses.
-			
+			Loaded = true;	
+		
+			var sprites = _content.Load<Dictionary<string, Sprite>>(graphicsPath + i);
+					
 			#region sprite_constructors
 
 			<class_constructor>

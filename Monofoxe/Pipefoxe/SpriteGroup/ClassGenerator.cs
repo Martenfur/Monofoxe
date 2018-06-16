@@ -80,6 +80,13 @@ namespace Pipefoxe.SpriteGroup
 			code.Append(codeTemplate);
 				
 			// Resolving name conflicts.
+
+			/*
+			 * Some sprites may have identical names.
+			 * Even though this is bad practice, generator 
+			 * allows this and resolves name conflicts.
+			 */
+
 			var spriteNames = new List<string>();
 			var spriteOccurences = new Dictionary<string, int>();
 			for(var i = 0; i < sprites.Count; i += 1)
@@ -98,7 +105,7 @@ namespace Pipefoxe.SpriteGroup
 			}
 			// Resolving name conflicts.
 				
-			// Assembling variables from templates using extracted sprite parameters.
+			// Assembling variables from templates.
 			var completeVariableValues = new List<StringBuilder>();
 
 			for(var k = 0; k < customVariableValues.Count; k += 1)
@@ -123,8 +130,8 @@ namespace Pipefoxe.SpriteGroup
 					
 				}
 			}
-			// Assembling variables from templates using extracted sprite parameters.
-					
+			// Assembling variables from templates.
+			
 			code = code.Replace("<group_name>", groupName);
 					
 			for (var i = 0; i < customVariableNames.Count; i += 1)
