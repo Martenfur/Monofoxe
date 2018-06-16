@@ -22,8 +22,6 @@ namespace Pipefoxe.SpriteGroup
 			sprites = sprites.Concat(singleTextureResult.spriteInfo).ToList();
 			atlases = atlases.Concat(singleTextureResult.textures).ToList();
 			
-			File.WriteAllText(Environment.CurrentDirectory + "/dbg.txt", sprites.Count + " " + atlases.Count);
-
 			// Debug.
 			var index = 0;
 			foreach(Bitmap atlas in atlases)
@@ -37,7 +35,8 @@ namespace Pipefoxe.SpriteGroup
 				groupData.RootDir + '/' + groupData.ClassTemplatePath, 
 				Environment.CurrentDirectory + groupData.ClassDir, 
 				sprites,
-				groupData.GroupName);
+				groupData.GroupName
+			);
 
 			return (sprites, atlases);
 		}

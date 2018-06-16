@@ -64,6 +64,7 @@
     <Compile Include="SpriteGroup\RawSprite.cs" />
     <Compile Include="SpriteGroup\SpriteGroupData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpriteGroup\SpriteGroupWriter.cs" />
     <Compile Include="SpriteGroup\TextureGrid.cs" />
     <Compile Include="SpriteGroup\TexturePacker.cs" />
   </ItemGroup>
