@@ -58,7 +58,8 @@ namespace Pipefoxe.SpriteGroup
 				{
 					var frame = new Frame();
 					frame.TextureIndex = textureIndex;
-					
+					frame.TexturePos = new Rectangle(0, 0, frameW, frameH);
+
 					int x = (frameId % sprite.FramesH) * frame.TexturePos.Width;
 					int y = (frameId / sprite.FramesH) * frame.TexturePos.Height;
 					
@@ -68,7 +69,7 @@ namespace Pipefoxe.SpriteGroup
 					
 					graphics.DrawImage(
 						sprite.RawTexture,
-						new Rectangle(0, 0, frameW, frameH),
+						frame.TexturePos,
 						new Rectangle(x, y, frameW, frameH),
 						GraphicsUnit.Pixel
 					);

@@ -27,12 +27,9 @@ namespace Sprites
 		
 		public static void Load()
 		{
-			var i = 0;
-			var graphicsPath = GameCntrl.ContentDir + '/' + GameCntrl.GraphicsDir +  '/' + _groupName;
-			
 			Loaded = true;	
-		
-			var sprites = _content.Load<Dictionary<string, Sprite>>(graphicsPath + i);
+			var graphicsPath = GameCntrl.ContentDir + '/' + GameCntrl.GraphicsDir +  '/' + _groupName;
+			var sprites = _content.Load<Dictionary<string, Sprite>>(graphicsPath);
 					
 			#region sprite_constructors
 

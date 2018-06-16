@@ -90,11 +90,9 @@ namespace Sprites
 		
 		public static void Load()
 		{
-			var graphicsPath = GameCntrl.ContentDir + '/' + GameCntrl.GraphicsDir +  '/' + _groupName;
-			
 			Loaded = true;
-			
-			var sprites = _content.Load<Dictionary<string, Sprite>>(graphicsPath );
+			var graphicsPath = GameCntrl.ContentDir + '/' + GameCntrl.GraphicsDir +  '/' + _groupName;
+			var sprites = _content.Load<Dictionary<string, Sprite>>(graphicsPath);
 			
 			#region sprite_constructors
 			

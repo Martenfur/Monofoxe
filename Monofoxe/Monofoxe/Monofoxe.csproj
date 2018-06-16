@@ -123,8 +123,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="app.manifest" />
-    <None Include="Content\Atlasses\texture_0.json" />
-    <None Include="Content\Atlasses\texture_1.json" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -134,9 +132,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Atlasses\textures_3D.txt" />
-    <Content Include="Content\Atlasses\texture_0.png" />
-    <Content Include="Content\Atlasses\texture_1.png" />
     <Content Include="Content\Effects\effect.fx" />
   </ItemGroup>
   <ItemGroup />
