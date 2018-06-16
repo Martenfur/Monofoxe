@@ -184,9 +184,10 @@ namespace Monofoxe
 			{mtxAng -= 360;}
 			DrawCntrl.CurrentColor = Color.Violet;
 			//DrawCntrl.DrawRectangle(-32, -32, 500, 500, false);
+			DrawCntrl.DrawSprite(Sprites.Default.BstGam, 0, Vector2.Zero);
+			
 			DrawCntrl.DrawSprite(Sprites.Default.DemonFire, (int)fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
 
-			DrawCntrl.DrawSprite(Sprites.Default.BstGam, 0, Vector2.Zero);
 			Debug.WriteLine(Sprites.Default.BstGam.W);
 
 			Frame f = Sprites.Default.DemonFire.Frames[(int)fireFrame];

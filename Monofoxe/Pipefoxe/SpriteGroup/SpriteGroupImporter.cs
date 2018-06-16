@@ -20,10 +20,8 @@ using System.Text;
 namespace Pipefoxe.SpriteGroup
 {
 	/// <summary>
-	/// Atlas importer. Parses json, loads texture and generates 
-	/// frame array, which will be passed to AtlasProcessor.
-	/// All atlases should come in json-png pairs.
-	/// Importer is oriented to TexturePacker JSON format. 
+	/// Sprite group importer. Parses json config, and loads textures,
+	/// which will be passed to AtlasProcessor.
 	/// </summary>
 	[ContentImporter(".atlas", DefaultProcessor = "SpriteGroupProcessor", 
 	DisplayName = "Sprite Group Importer - Monofoxe")]
@@ -35,16 +33,16 @@ namespace Pipefoxe.SpriteGroup
 			
 			string[] textureRegex;
 
+			#region Parsing config.	
 			try
 			{
-				// Parsing config.
 				var json = File.ReadAllText(filename);
 				JToken configData = JObject.Parse(json);
 
 				groupData.TextureSize = Int32.Parse(configData["textureSize"].ToString());
 				groupData.TexturePadding = Int32.Parse(configData["texturePadding"].ToString());
 				groupData.RootDir = Path.GetDirectoryName(filename) + '/' + configData["rootDir"].ToString();
-				groupData.GroupName = configData["groupName"].ToString();
+				groupData.GroupName = Path.GetFileNameWithoutExtension(filename);
 				groupData.ClassTemplatePath = configData["classTemplatePath"].ToString();
 				groupData.ClassDir = configData["classDir"].ToString();
 
@@ -55,15 +53,18 @@ namespace Pipefoxe.SpriteGroup
 				{
 					textureRegex[i] = WildCardToRegular(textureWildcards[i].ToString());
 				}
-				// Parsing config.
 			}
 			catch(Exception)
 			{
 				throw(new InvalidContentException("Incorrect JSON format!"));
 			}
+			#endregion Parsing config.
+			
 			
 			ImportTextures(groupData.RootDir, "", groupData, textureRegex);
 
+			/* Debug output. Make something out of it later.
+			
 			var fileData = new StringBuilder();
 
 			foreach(RawSprite spr in groupData.Sprites)
@@ -72,11 +73,18 @@ namespace Pipefoxe.SpriteGroup
 			}
 
 			File.WriteAllText(Environment.CurrentDirectory + "/log.log", fileData.ToString());
-
+			*/
 			return groupData;
 			
 		}
 
+		/// <summary>
+		/// Recursively looks into root dir and loads textures. 
+		/// </summary>
+		/// <param name="dirPath">Full path to directory.</param>
+		/// <param name="dirName">Full path minus root.</param>
+		/// <param name="groupData">SpriteGroupData object.</param>
+		/// <param name="textureRegex">Regex filter. Determines if texture is part of atlas or single.</param>
 		private void ImportTextures(string dirPath, string dirName, SpriteGroupData groupData, string[] textureRegex)
 		{
 			DirectoryInfo dirInfo = new DirectoryInfo(dirPath);
@@ -90,6 +98,10 @@ namespace Pipefoxe.SpriteGroup
 				var configPath = Path.ChangeExtension(file.FullName, ".json");
 				
 				#region Reading config.
+				/*
+				 * Just reading sprite jsons.
+				 * If you want to add more parameters, begin from here.
+				 */
 				if (File.Exists(configPath))
 				{
 					try
@@ -97,25 +109,24 @@ namespace Pipefoxe.SpriteGroup
 						var conf = File.ReadAllText(configPath);
 						JToken confData = JObject.Parse(conf); 			
 
-						var v = Int32.Parse(confData["v"].ToString());
-						var h = Int32.Parse(confData["h"].ToString());
-
-						if (v > 0 && h > 0)
+						spr.FramesH = Int32.Parse(confData["h"].ToString());
+						spr.FramesV = Int32.Parse(confData["v"].ToString());
+						
+						if (spr.FramesH < 1 || spr.FramesV < 1) // Frame amount cannot be lesser than 1.
 						{
-							spr.FramesV = v;
-							spr.FramesH = h;
+							throw(new Exception());
 						}
 
 						spr.Offset = new Point(Int32.Parse(confData["offset_x"].ToString()), Int32.Parse(confData["offset_y"].ToString()));
 					}
 					catch(Exception)
 					{
-						throw(new Exception("Incorrect JSON format!"));
+						throw(new Exception("Error while pasring sprite JSON for file: " + file.Name));
 					}
 				}
 				#endregion Reading config.
 				
-				if (PathMatchesRegex('/' + dirName + '/' + file.Name, textureRegex))
+				if (PathMatchesRegex('/' + dirName + '/' + file.Name, textureRegex)) // Separating atlas sprites from single textures.
 				{
 					groupData.Textures.Add(spr);
 				}
@@ -134,10 +145,13 @@ namespace Pipefoxe.SpriteGroup
 			// Recursively repeating for all subdirectories.
 
 		}
-
+		
 		private string WildCardToRegular(string value) =>
 			"^" + Regex.Escape(value).Replace("\\*", ".*") + "$"; 
 		
+		/// <summary>
+		/// Checks if path matches regex filter.
+		/// </summary>
 		private bool PathMatchesRegex(string path, string[] regexArray)
 		{
 			var safePath = path.Replace('\\', '/'); // Just to not mess with regex and wildcards.
