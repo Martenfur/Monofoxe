@@ -178,12 +178,16 @@ namespace Monofoxe
 		
 		public override void Draw()
 		{	
+
 			mtxAng += 1;
 			if (mtxAng > 359)
 			{mtxAng -= 360;}
 			DrawCntrl.CurrentColor = Color.Violet;
-			DrawCntrl.DrawRectangle(-32, -32, 500, 500, false);
+			//DrawCntrl.DrawRectangle(-32, -32, 500, 500, false);
 			DrawCntrl.DrawSprite(Sprites.Default.DemonFire, (int)fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
+
+			DrawCntrl.DrawSprite(Sprites.Default.BstGam, 0, Vector2.Zero);
+			Debug.WriteLine(Sprites.Default.BstGam.W);
 
 			Frame f = Sprites.Default.DemonFire.Frames[(int)fireFrame];
 			DrawCntrl.CurrentColor = Color.Red;
@@ -215,8 +219,7 @@ namespace Monofoxe
 			DrawCntrl.DrawLine(Input.MousePos, p2);
 
 			DrawCntrl.DrawCircle(s, 8, true);
-
-
+			
 		}
 
 		public override void DrawGUI()

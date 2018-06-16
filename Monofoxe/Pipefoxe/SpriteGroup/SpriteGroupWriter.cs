@@ -65,7 +65,7 @@ namespace Pipefoxe.SpriteGroup
 				
 				output.Write(sprite.Offset.X);
 				output.Write(sprite.Offset.Y);
-
+				
 				output.Write(sprite.Frames[0].TexturePos.Width);
 				output.Write(sprite.Frames[0].TexturePos.Height);
 				
