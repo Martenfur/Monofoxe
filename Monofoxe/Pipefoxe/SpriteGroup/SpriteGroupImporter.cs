@@ -39,12 +39,12 @@ namespace Pipefoxe.SpriteGroup
 				var json = File.ReadAllText(filename);
 				JToken configData = JObject.Parse(json);
 
-				groupData.TextureSize = Int32.Parse(configData["textureSize"].ToString());
+				groupData.AtlasSize = Int32.Parse(configData["atlasSize"].ToString());
 				groupData.TexturePadding = Int32.Parse(configData["texturePadding"].ToString());
 				groupData.RootDir = Path.GetDirectoryName(filename) + '/' + configData["rootDir"].ToString();
 				groupData.GroupName = Path.GetFileNameWithoutExtension(filename);
 				groupData.ClassTemplatePath = configData["classTemplatePath"].ToString();
-				groupData.ClassDir = configData["classDir"].ToString();
+				groupData.ClassOutputDir = configData["classOutputDir"].ToString();
 
 				JArray textureWildcards = (JArray)configData["singleTexturesWildcards"];
 
@@ -78,6 +78,8 @@ namespace Pipefoxe.SpriteGroup
 			
 		}
 
+
+
 		/// <summary>
 		/// Recursively looks into root dir and loads textures. 
 		/// </summary>
@@ -97,6 +99,7 @@ namespace Pipefoxe.SpriteGroup
 
 				var configPath = Path.ChangeExtension(file.FullName, ".json");
 				
+
 				#region Reading config.
 				/*
 				 * Just reading sprite jsons.
@@ -126,9 +129,10 @@ namespace Pipefoxe.SpriteGroup
 				}
 				#endregion Reading config.
 				
+
 				if (PathMatchesRegex('/' + dirName + '/' + file.Name, textureRegex)) // Separating atlas sprites from single textures.
 				{
-					groupData.Textures.Add(spr);
+					groupData.SingleTextures.Add(spr);
 				}
 				else
 				{
@@ -146,9 +150,13 @@ namespace Pipefoxe.SpriteGroup
 
 		}
 		
+
+
 		private string WildCardToRegular(string value) =>
 			"^" + Regex.Escape(value).Replace("\\*", ".*") + "$"; 
 		
+
+
 		/// <summary>
 		/// Checks if path matches regex filter.
 		/// </summary>
@@ -166,6 +174,5 @@ namespace Pipefoxe.SpriteGroup
 			return false;
 		}
 		
-
 	}
 }

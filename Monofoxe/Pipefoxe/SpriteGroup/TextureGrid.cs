@@ -2,14 +2,28 @@
 
 namespace Pipefoxe.SpriteGroup
 {
+	/// <summary>
+	/// Grid with cells which can have different sizes. 
+	/// Each cell stores bool.
+	/// </summary>
 	public class TextureGrid
 	{
-		private List<int> _cellsH;
+		/// <summary>
+		/// Horizontal cell coordinates.
+		/// </summary>
+		private List<int> _cellsH; 
+		
+		/// <summary>
+		/// Vertical cell coordinates.
+		/// </summary>
 		private List<int> _cellsV;
 
 		public int Width {get => _cellsH.Count - 1;}
 		public int Height {get => _cellsV.Count - 1;}
 
+		/// <summary>
+		/// Actual grid.
+		/// </summary>
 		private List<List<bool>> _cells;
 
 		public TextureGrid(int size)
@@ -41,7 +55,9 @@ namespace Pipefoxe.SpriteGroup
 		public int GetCellH(int index) =>
 			_cellsV[index + 1] - _cellsV[index];
 		
-
+		/// <summary>
+		/// Splits cell column into two at given coordinate.
+		/// </summary>
 		public void SplitH(int newColumn)
 		{
 			/* 
@@ -73,6 +89,9 @@ namespace Pipefoxe.SpriteGroup
 
 		}
 
+		/// <summary>
+		/// Splits cell row into two at given coordinate.
+		/// </summary>
 		public void SplitV(int newColumn)
 		{
 			/* 

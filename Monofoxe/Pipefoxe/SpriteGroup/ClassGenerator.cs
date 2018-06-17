@@ -11,10 +11,12 @@ namespace Pipefoxe.SpriteGroup
 	public static class ClassGenerator
 	{
 		private static char _variableKeychar = '#';
+
 		/// <summary>
 		/// Used when file name begins with a char, not allowed in variable names.
 		/// </summary>
 		private static string _paddingStr = "S";
+
 
 
 		public static void Generate(string templatePath, string outPath, List<RawSprite> sprites, string groupName)
@@ -142,6 +144,7 @@ namespace Pipefoxe.SpriteGroup
 			
 			File.WriteAllText(outPath + '/' + ToCamelCase(groupName) + ".cs", code.ToString());
 		}
+
 
 
 		/// <summary>
