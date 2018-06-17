@@ -13,12 +13,12 @@ namespace Pipefoxe.SpriteGroup
 		public override (List<RawSprite>, List<Bitmap>) Process(SpriteGroupData groupData, ContentProcessorContext context)
 		{
 			// Packing sprites into texture atlases.
-			var atlasResult = TexturePacker.PackTextures(groupData.Sprites, groupData.TextureSize, groupData.TexturePadding, groupData.GroupName);
+			var atlasResult = TexturePacker.PackTextures(groupData.Sprites, groupData.AtlasSize, groupData.TexturePadding, groupData.GroupName);
 			List<RawSprite> sprites = atlasResult.spriteInfo;
 			List<Bitmap> atlases = atlasResult.atlases;
 			// Packing sprites into texture atlases.
 			
-			var singleTextureResult = ProcessSingleTextures(atlases.Count, groupData.Textures);
+			var singleTextureResult = ProcessSingleTextures(atlases.Count, groupData.SingleTextures);
 			// Now atlas sprites and singles got same format and we can merge them into one texture\sprite list.
 			sprites = sprites.Concat(singleTextureResult.spriteInfo).ToList();
 			atlases = atlases.Concat(singleTextureResult.textures).ToList();
@@ -35,7 +35,7 @@ namespace Pipefoxe.SpriteGroup
 
 			ClassGenerator.Generate(
 				groupData.RootDir + '/' + groupData.ClassTemplatePath, 
-				Environment.CurrentDirectory + groupData.ClassDir, 
+				Environment.CurrentDirectory + groupData.ClassOutputDir, 
 				sprites,
 				groupData.GroupName
 			);
@@ -44,6 +44,15 @@ namespace Pipefoxe.SpriteGroup
 		}
 
 
+
+		/// <summary>
+		/// Single textures can also be spritesheets. 
+		/// Function generates frame arrays for input sprites according to sheet data
+		/// and splits frames into single textures.
+		/// </summary>
+		/// <param name="startingIndex">We already got atlases, so we need to index new textures with that in mind.</param>
+		/// <param name="sprites"></param>
+		/// <returns></returns>
 		private (List<RawSprite> spriteInfo, List<Bitmap> textures) 
 		ProcessSingleTextures(int startingIndex, List<RawSprite> sprites)
 		{
@@ -51,6 +60,8 @@ namespace Pipefoxe.SpriteGroup
 			var spriteInfo = new List<RawSprite>();
 
 			var textureIndex = startingIndex;
+
+			// Input sprites got no frames.
 			foreach(RawSprite sprite in sprites)
 			{
 				int frameW = sprite.RawTexture.Width / sprite.FramesH;
@@ -62,6 +73,7 @@ namespace Pipefoxe.SpriteGroup
 					frame.TextureIndex = textureIndex;
 					frame.TexturePos = new Rectangle(0, 0, frameW, frameH);
 
+					// Calculating texture coordinates out of frame index.
 					int x = (frameId % sprite.FramesH) * frame.TexturePos.Width;
 					int y = (frameId / sprite.FramesH) * frame.TexturePos.Height;
 					
@@ -69,6 +81,7 @@ namespace Pipefoxe.SpriteGroup
 					var graphics = Graphics.FromImage(texture);
 					graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
 					
+					// These are single texture sprites. This means that each frame has to be separate texture. 
 					graphics.DrawImage(
 						sprite.RawTexture,
 						frame.TexturePos,

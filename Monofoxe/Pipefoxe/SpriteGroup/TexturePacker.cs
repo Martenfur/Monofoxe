@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Drawing;
-using System.IO;
+using System.Linq;
 
 namespace Pipefoxe.SpriteGroup
 {
@@ -17,14 +16,24 @@ namespace Pipefoxe.SpriteGroup
 			return (sprites, atlases);
 		}
 
-		private static List<RawSprite> Pack(List<RawSprite> textures, int textureSize, int padding)
+
+
+		/// <summary>
+		/// Calculates sprite positions for texture atlases.
+		/// Basic algorhitm:
+		/// In the beginning we have 1x1 grid and list of sprites sorted by height.
+		/// We take biggest sprite and try to fit it into each free cell of a grid.
+		/// If sprite fits, we place it into this cell and split grid at the right
+		/// and bottom bound of placed sprite.
+		/// </summary>
+		private static List<RawSprite> Pack(List<RawSprite> textures, int atlasSize, int padding)
 		{
 			// Checking for textures larger than atlas size. 
 			foreach(RawSprite texture in textures)
 			{
-				if (texture.RawTexture.Width / texture.FramesH > textureSize || texture.RawTexture.Height / texture.FramesV > textureSize)
+				if (texture.RawTexture.Width / texture.FramesH > atlasSize || texture.RawTexture.Height / texture.FramesV > atlasSize)
 				{
-					throw(new Exception("Cannot pack " + texture.Name + "! It's too big for " + textureSize + "x" + textureSize + " atlas!"));
+					throw(new Exception("Cannot pack " + texture.Name + "! It's too big for " + atlasSize + "x" + atlasSize + " atlas!"));
 				}
 			}
 			// Checking for textures larger than atlas size. 
@@ -39,7 +48,7 @@ namespace Pipefoxe.SpriteGroup
 			{
 				var packedFrames = new List<Frame>();
 	
-				var grid = new TextureGrid(textureSize);
+				var grid = new TextureGrid(atlasSize);
 				
 				// We need to copy list, because sortedTextures has to be changed during enumeration.
 				var sortedTexturesCopy = new List<RawSprite>(sortedSprites);
@@ -53,6 +62,7 @@ namespace Pipefoxe.SpriteGroup
 						sprite.RawTexture.Height / sprite.FramesV
 					);
 					
+					// Sprite consists out of multiple frames. Each should be placed separately.
 					for(var frameId = 0; frameId < sprite.FramesH * sprite.FramesV; frameId += 1)
 					{
 						var placed = false; // Tells if texture has been placed.
@@ -73,8 +83,8 @@ namespace Pipefoxe.SpriteGroup
 								
 								if (!grid[y, x]
 								&& !CheckOverlap(frame, packedFrames, padding)
-								&& rightBound <= textureSize - padding
-								&& bottomBound <= textureSize - padding)
+								&& rightBound <= atlasSize - padding
+								&& bottomBound <= atlasSize - padding)
 								{
 									packedFrames.Add(frame);
 									sprite.Frames.Add(frame);
@@ -88,7 +98,25 @@ namespace Pipefoxe.SpriteGroup
 
 									grid.SplitH(rightBound + padding);
 									grid.SplitV(bottomBound + padding);
-									grid[y, x] = true;
+
+									// In case frame takes more than one cell.
+									for(var fillY = y; fillY < grid.Height; fillY += 1)
+									{
+										if (grid.GetCellY(fillY) >= bottomBound + padding)
+										{
+											break;
+										}
+										for(var fillX = x; fillX < grid.Width; fillX += 1)
+										{
+											if (grid.GetCellX(fillX) >= rightBound + padding)
+											{
+												break;
+											}
+											grid[fillY, fillX] = true;
+										}
+									}
+									// In case frame takes more than one cell.
+						
 									placed = true;
 									break;
 								}
@@ -114,12 +142,18 @@ namespace Pipefoxe.SpriteGroup
 			return packedSprites;
 		}
 
+
+
+		/// <summary>
+		/// Generates atlas textures out of sprite info.
+		/// </summary>
 		private static List<Bitmap> AssembleAtlases(List<RawSprite> sprites, int textureSize, int padding)
 		{
 			var atlases = new List<Bitmap>();
 			var atlasIndex = 0;
-			
-			var spritesEnum = new List<RawSprite>(sprites);
+
+			// List of unrendered sprites. When all sprite's frames are rendered, it will be removed from list.
+			var spritesEnum = new List<RawSprite>(sprites); 
 
 			while(spritesEnum.Count > 0)
 			{
@@ -135,7 +169,7 @@ namespace Pipefoxe.SpriteGroup
 					{
 						var frame = sprite.Frames[i];
 
-						if (frame.TextureIndex == atlasIndex)
+						if (frame.TextureIndex == atlasIndex) // Each frame may be on different atlas.
 						{
 							sprite.RenderedFrames += 1;
 
@@ -225,17 +259,17 @@ namespace Pipefoxe.SpriteGroup
 		/// <summary>
 		/// Checks if one texture overlaps with the rest.
 		/// </summary>
-		private static bool CheckOverlap(Frame frame, List<Frame> textures, int padding)
+		private static bool CheckOverlap(Frame frame, List<Frame> frames, int padding)
 		{
 			var paddingOffset = new Size(padding, padding);
-			foreach(Frame tex in textures)
+			foreach(Frame fr in frames)
 			{
 				if (
 					RectangleInRectangle(
 						frame.TexturePos.Location - paddingOffset, 
 						frame.TexturePos.Location + frame.TexturePos.Size + paddingOffset, 
-						tex.TexturePos.Location - paddingOffset, 
-						tex.TexturePos.Location + tex.TexturePos.Size + paddingOffset
+						fr.TexturePos.Location - paddingOffset, 
+						fr.TexturePos.Location + fr.TexturePos.Size + paddingOffset
 					)
 				)
 				{
@@ -245,12 +279,16 @@ namespace Pipefoxe.SpriteGroup
 			return false;
 		}
 
+
+
 		/// <summary>
 		/// Checks if two rectangles intersect.
 		/// </summary>
-		public static bool RectangleInRectangle(Point rect1Pt1, Point rect1Pt2, Point rect2Pt1, Point rect2Pt2) =>
+		private static bool RectangleInRectangle(Point rect1Pt1, Point rect1Pt2, Point rect2Pt1, Point rect2Pt2) =>
 			rect1Pt1.X < rect2Pt2.X && rect1Pt2.X > rect2Pt1.X && rect1Pt1.Y < rect2Pt2.Y && rect1Pt2.Y > rect2Pt1.Y;
-
+		
+		
+		
 		private static bool IsPow2(int x) =>
 			(x & (x - 1)) == 0;
 

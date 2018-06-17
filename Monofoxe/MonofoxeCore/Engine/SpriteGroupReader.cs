@@ -9,26 +9,29 @@ using System.Diagnostics;
 namespace Monofoxe.Engine
 {
 	/// <summary>
-	/// Reads atlas file.
+	/// Reads sprite group file.
 	/// </summary>
 	public class SpriteGroupReader : ContentTypeReader<Dictionary<string, Sprite>>
 	{
-		// NOTE: replace Dictionary with something more fitting.
 		protected override Dictionary<string, Sprite> Read(ContentReader input, Dictionary<string, Sprite> existingInstance)
 		{
 			var texturesCount = input.ReadInt32();
 
 			var textures = new Texture2D[texturesCount];
 
+			// Reading textures.
 			for(var i = 0; i < texturesCount; i += 1)
 			{
 				textures[i] = input.ReadObject<Texture2D>();
 			}
+			
+			Debug.WriteLine(input.AssetName + ": " + textures.Length + " textures loaded!");
 
 			var dictionary = new Dictionary<string, Sprite>();
 
 			var spritesCount = input.ReadInt32();
 
+			// Reading sprite info.
 			for(var i = 0; i < spritesCount; i += 1)
 			{
 				var spriteName = input.ReadString();
@@ -37,19 +40,19 @@ namespace Monofoxe.Engine
 				var spriteH = input.ReadInt32();
 				var framesCount = input.ReadInt32();
 
-				Frame[] frames = new Frame[framesCount];
+				var frames = new Frame[framesCount];
 				
 				for(var k = 0; k < framesCount; k += 1)
 				{
 					var textureIndex = input.ReadInt32();
-					Debug.WriteLine("TEX ID: " + textureIndex + " " + texturesCount);
+
 					var frameTexturePos = new Rectangle(
 						input.ReadInt32(), 
 						input.ReadInt32(), 
 						spriteW,
 						spriteH
 					);
-				
+					
 					frames[k] = new Frame(
 						textures[textureIndex], 
 						frameTexturePos, 

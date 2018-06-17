@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework.Content.Pipeline;
+using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System;
-using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
 using System.IO;
 
 namespace Pipefoxe.SpriteGroup
@@ -37,6 +37,9 @@ namespace Pipefoxe.SpriteGroup
 			 *     - Texture id (int)
 			 *     - Texture x (int)
 			 *     - Texture y (int)
+			 *     
+			 * So, in other words, file is divided into two sections:
+			 * array of textures and array of sprites.
 			 */
 			
 			var sprites = value.Item1;
@@ -46,6 +49,9 @@ namespace Pipefoxe.SpriteGroup
 			output.Write(bitmaps.Count);
 
 			var tempFilePath = Environment.CurrentDirectory + "/temp.temp";
+			// There is no easy way to convert Bitmap to TextureContent, as I'm aware.
+			// So, we need to save Bitmap as a file and then import it using TextureImporter.
+			// ¯\_(ツ)_/¯
 			foreach(Bitmap bitmap in bitmaps)
 			{
 				bitmap.Save(tempFilePath);
@@ -81,8 +87,12 @@ namespace Pipefoxe.SpriteGroup
 			// Writing sprites.
 		}
 
+
+
 		public override string GetRuntimeType(TargetPlatform targetPlatform) =>
 			typeof (Tuple<List<RawSprite>, List<Bitmap>>).AssemblyQualifiedName;
+
+
 
 		public override string GetRuntimeReader(TargetPlatform targetPlatform) =>
 			"Monofoxe.Engine.SpriteGroupReader, Monofoxe";
