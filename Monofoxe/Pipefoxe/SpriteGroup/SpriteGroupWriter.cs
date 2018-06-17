@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Text;
 
 namespace Pipefoxe.SpriteGroup
 {
@@ -14,6 +15,10 @@ namespace Pipefoxe.SpriteGroup
 	[ContentTypeWriter]
 	public class SpriteGroupWriter : ContentTypeWriter<(List<RawSprite>, List<Bitmap>)>
 	{
+		public static bool DebugMode = false;
+		public static string DebugDir = "";
+
+
 		protected override void Write(ContentWriter output, (List<RawSprite>, List<Bitmap>) value)
 		{
 			/*
@@ -45,6 +50,11 @@ namespace Pipefoxe.SpriteGroup
 			var sprites = value.Item1;
 			var bitmaps = value.Item2;
 
+			if (DebugMode)
+			{
+				DumpDebugData(sprites, bitmaps);
+			}
+			
 			// Writing textures.
 			output.Write(bitmaps.Count);
 
@@ -96,5 +106,42 @@ namespace Pipefoxe.SpriteGroup
 
 		public override string GetRuntimeReader(TargetPlatform targetPlatform) =>
 			"Monofoxe.Engine.SpriteGroupReader, Monofoxe";
+
+
+		
+		private void DumpDebugData(List<RawSprite> sprites, List<Bitmap> bitmaps)
+		{
+			if (Directory.Exists(DebugDir))
+			{
+				Directory.Delete(DebugDir, true);
+			}
+			Directory.CreateDirectory(DebugDir);
+			
+			// Dumping textures.
+			var index = 0;
+			foreach(Bitmap bitmap in bitmaps)
+			{
+				bitmap.Save(DebugDir + "/texture_" + index + ".png");
+				index += 1;
+			}
+			// Dumping textures.
+			
+			var spriteInfo = new StringBuilder();
+
+			foreach(RawSprite sprite in sprites)
+			{
+				spriteInfo.Append(sprite.Name);
+				spriteInfo.Append(" " + sprite.FramesH + 'x' + sprite.FramesV);
+				spriteInfo.Append(" offset:" + sprite.Offset);
+				spriteInfo.Append(Environment.NewLine);
+				foreach(Frame frame in sprite.Frames)
+				{
+					spriteInfo.Append("\t" + frame.TextureIndex + Environment.NewLine);
+					spriteInfo.Append("\t" + frame.TexturePos + Environment.NewLine);
+				}
+			}
+			spriteInfo.Append(Environment.NewLine);
+			File.WriteAllText(DebugDir + "/sprite_info.txt", spriteInfo.ToString());
+		}
 	}
 }

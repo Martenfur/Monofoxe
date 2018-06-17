@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-
 
 namespace Monofoxe.Engine.Drawing
 {
@@ -11,8 +7,7 @@ namespace Monofoxe.Engine.Drawing
 	{
 		private static ContentManager _content;
 		
-
-		static string ascii = " !" + '"' + @"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
+		static string Ascii = " !" + '"' + @"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
 		
 		public static IFont TexFont;
 		public static IFont AnotherFont;
@@ -24,9 +19,9 @@ namespace Monofoxe.Engine.Drawing
 			_content = new ContentManager(content.ServiceProvider);
 			_content.RootDirectory = content.RootDirectory;
 			
-			TexFont = new TextureFont(Sprites.Default.SpriteFont, 3, 3, ascii, false);
-			AnotherFont = new TextureFont(Sprites.Default.AnotherFont, 1, 1, ascii, false);
-			AnotherFont1 = new TextureFont(Sprites.Default.AnotherFont, 1, 1, ascii, true);
+			TexFont = new TextureFont(Sprites.Default.SpriteFont, 3, 3, Ascii, false);
+			AnotherFont = new TextureFont(Sprites.Default.AnotherFont, 1, 1, Ascii, false);
+			AnotherFont1 = new TextureFont(Sprites.Default.AnotherFont, 1, 1, Ascii, true);
 			
 			Def = new Font(_content.Load<SpriteFont>("def"));
 		}
