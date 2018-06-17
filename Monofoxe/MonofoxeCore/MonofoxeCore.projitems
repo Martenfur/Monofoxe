@@ -13,7 +13,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Camera.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\DrawCntrl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\Font.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\Fonts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\Frame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\IFont.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\Sprite.cs" />

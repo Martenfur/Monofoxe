@@ -43,7 +43,7 @@ namespace Monofoxe
 		/// </summary>
 		protected override void LoadContent()
 		{
-			GameCntrl.LoadGraphics(Content);	
+			Sprites.Default.Load();	
 			Fonts.Load(Content);
 			DrawCntrl.Init(GraphicsDevice);
 			

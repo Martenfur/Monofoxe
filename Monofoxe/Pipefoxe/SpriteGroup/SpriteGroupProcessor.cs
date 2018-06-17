@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Content.Pipeline;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework.Content.Pipeline;
 using System.Drawing;
-using System.IO;
+using System.Linq;
 
 namespace Pipefoxe.SpriteGroup
 {
@@ -23,16 +22,6 @@ namespace Pipefoxe.SpriteGroup
 			sprites = sprites.Concat(singleTextureResult.spriteInfo).ToList();
 			atlases = atlases.Concat(singleTextureResult.textures).ToList();
 			
-			/*
-			// Debug. Make something with it later.
-			var index = 0;
-			foreach(Bitmap atlas in atlases)
-			{
-				atlas.Save(Environment.CurrentDirectory + '/' + groupData.GroupName + "_debug/" + groupData.GroupName + '_' + index + ".png");
-				index += 1;
-			}
-			*/
-
 			ClassGenerator.Generate(
 				groupData.RootDir + '/' + groupData.ClassTemplatePath, 
 				Environment.CurrentDirectory + groupData.ClassOutputDir, 

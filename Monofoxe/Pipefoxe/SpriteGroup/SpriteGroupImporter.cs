@@ -1,10 +1,9 @@
-﻿using System;
-using System.IO;
-using Microsoft.Xna.Framework.Content.Pipeline;
+﻿using Microsoft.Xna.Framework.Content.Pipeline;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Drawing;
+using System.IO;
 using System.Text.RegularExpressions;
-using System.Text;
 
 /*
  * FUTURE NOTE:
@@ -46,6 +45,9 @@ namespace Pipefoxe.SpriteGroup
 				groupData.ClassTemplatePath = configData["classTemplatePath"].ToString();
 				groupData.ClassOutputDir = configData["classOutputDir"].ToString();
 
+				SpriteGroupWriter.DebugMode = (configData["debugMode"].ToString() == "true");
+				SpriteGroupWriter.DebugDir = Environment.CurrentDirectory + "/" + groupData.GroupName + "_dbg";
+
 				JArray textureWildcards = (JArray)configData["singleTexturesWildcards"];
 
 				textureRegex = new string[textureWildcards.Count];
@@ -63,17 +65,6 @@ namespace Pipefoxe.SpriteGroup
 			
 			ImportTextures(groupData.RootDir, "", groupData, textureRegex);
 
-			/* Debug output. Make something out of it later.
-			
-			var fileData = new StringBuilder();
-
-			foreach(RawSprite spr in groupData.Sprites)
-			{
-				fileData.Append(spr.Name + Environment.NewLine);
-			}
-
-			File.WriteAllText(Environment.CurrentDirectory + "/log.log", fileData.ToString());
-			*/
 			return groupData;
 			
 		}

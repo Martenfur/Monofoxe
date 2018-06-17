@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using System.IO;
-using Monofoxe.Engine.Drawing;
-//using System.Xml;
-using System.Diagnostics;
-using System.Linq;
+﻿using Microsoft.Xna.Framework;
+using System;
 
 namespace Monofoxe.Engine
 {
@@ -63,7 +55,7 @@ namespace Monofoxe.Engine
 		/// If more than one, game will speed up.
 		/// If less than one, game will slow down.
 		/// </summary>
-		public static double GameSpeedMultiplier 
+		public static double GameSpeedMultiplier
 		{
 			get => _gameSpeedMultiplier;
 			
@@ -183,13 +175,6 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static void ExitGame() => 
 			Game.Exit();
-
-
-
-		public static void LoadGraphics(ContentManager content)
-		{
-			Sprites.Default.Load();
-		}
 
 	}
 }

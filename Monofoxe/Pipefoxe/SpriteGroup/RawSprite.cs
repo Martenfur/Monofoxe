@@ -11,6 +11,7 @@ namespace Pipefoxe.SpriteGroup
 		public Point Offset = new Point(0, 0);
 		public Image RawTexture; 
 		public List<Frame> Frames = new List<Frame>();
+
 		/// <summary>
 		/// Tells how many frames were already rendered to the atlas.
 		/// </summary>

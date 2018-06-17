@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.IO;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json.Linq;
 
 namespace Pipefoxe.SpriteGroup
 {
