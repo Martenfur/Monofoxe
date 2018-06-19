@@ -1,9 +1,8 @@
-﻿using Monofoxe.Engine;
-
+﻿
 namespace Monofoxe.Utils
 {
 	/// <summary>
-	/// Counts seconds. Needs to be updated manually. Sets itself automatically after triggering.
+	/// Counts down seconds. Needs to be updated manually. Sets itself automatically after triggering.
 	/// </summary>
 	public class AutoAlarm : Alarm
 	{
@@ -11,28 +10,20 @@ namespace Monofoxe.Utils
 
 		public AutoAlarm(double time)
 		{
-			time = Time;
+			Time = time;
 			Set(Time);
 		}
 
 		/// <summary>
 		/// Updates alarm. Also can be used to check for triggering.
 		/// </summary>
-		/// <returns></returns>	
 		public override bool Update()
 		{
-			Triggered = false;
-			if (Active)
+			if (base.Update())
 			{
-				_counter -= GameCntrl.Time();
-
-				if (_counter <= 0)
-				{
-					Triggered = true;
-					_counter += Time;
-				}
+				Active = true;
+				_counter += Time;
 			}
-
 			return Triggered;
 		}
 	}

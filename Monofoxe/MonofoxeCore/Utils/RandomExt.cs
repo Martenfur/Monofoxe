@@ -1,5 +1,7 @@
 ﻿using System;
-
+using System.Collections.Generic;
+using System.Linq;
+using System.Diagnostics;
 namespace Monofoxe.Utils
 {
 	/// <summary>
@@ -92,5 +94,31 @@ namespace Monofoxe.Utils
 		/// </summary>
 		public T Choose<T>(params T[] args) =>
 			args[Random.Next(args.Length)];
+
+
+
+		public List<int> GetListWithoutRepeats(int listSize, int minValue, int maxValue)
+		{
+			int delta = Math.Abs(maxValue - minValue);
+
+			if (delta < listSize)
+			{
+				throw(new Exception("List size is bigger than value delta!"));
+			}
+
+			var padding = Math.Abs(minValue); // Enumerable.Range requires only positive numbers.
+
+			var sequenceList = Enumerable.Range(padding + minValue, padding + maxValue).ToList();
+			var list = new List<int>();
+
+			for(var i = 0; i < listSize; i += 1)
+			{
+				var index = Random.Next(sequenceList.Count);
+				list.Add(sequenceList[index] - padding);
+				sequenceList.RemoveAt(index);
+			}
+
+			return list;
+		}
 	}
 }

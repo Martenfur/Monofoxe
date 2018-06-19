@@ -3,7 +3,7 @@
 namespace Monofoxe.Utils
 {
 	/// <summary>
-	/// Counts seconds. Needs to be updated manually.
+	/// Counts down seconds. Needs to be updated manually.
 	/// </summary>
 	public class Alarm
 	{
@@ -20,7 +20,14 @@ namespace Monofoxe.Utils
 		/// <summary>
 		/// Tells if alarm was triggered.
 		/// </summary>
-		public bool Triggered = false;
+		public bool Triggered {get; protected set;} = false;
+
+		/// <summary>
+		/// Tells if alarm is affected by GameCntrl.GameSpeedMultiplier.
+		/// </summary>
+		public bool AffectedBySpeedMultiplier = true;
+
+
 
 		/// <summary>
 		/// Sets alarm to given time.
@@ -33,6 +40,8 @@ namespace Monofoxe.Utils
 			_counter = time;
 		}
 
+
+
 		/// <summary>
 		/// Resets alarm.
 		/// </summary>
@@ -43,22 +52,29 @@ namespace Monofoxe.Utils
 			_counter = 0;
 		}
 
+
+
 		/// <summary>
 		/// Updates alarm. Also can be used to check for triggering.
 		/// </summary>
-		/// <returns></returns>
 		public virtual bool Update()
 		{
 			Triggered = false;
 			if (Active)
 			{
-				_counter -= GameCntrl.Time();
-
+				if (AffectedBySpeedMultiplier)
+				{
+					_counter -= GameCntrl.Time();
+				}
+				else
+				{
+					_counter -= GameCntrl.ElapsedTime;
+				}
+				
 				if (_counter <= 0)
 				{
 					Triggered = true;
 					Active = false;
-					_counter = 0;
 				}
 			}
 

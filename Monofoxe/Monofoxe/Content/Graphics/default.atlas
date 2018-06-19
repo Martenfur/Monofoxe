@@ -3,7 +3,7 @@
 	texturePadding: 1,
 	rootDir: "/TestGraphics",
 	classTemplatePath: "/../Template.cs", // Relative to rootDir.
-	classOutputDir: "/../Sprites/", // Relative to content project file.
+	classOutputDir: "/../Resources/Sprites/", // Relative to content project file.
 	singleTexturesWildcards: 
 	[
 		"/Textures/*"

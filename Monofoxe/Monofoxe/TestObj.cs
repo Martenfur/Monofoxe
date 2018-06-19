@@ -30,11 +30,22 @@ namespace Monofoxe
 
 		float fireFrame = 0;
 
-		Random r = new Random();
+		RandomExt r = new RandomExt();
+
+		AutoAlarm auto1 = new AutoAlarm(1);
+		AutoAlarm auto2 = new AutoAlarm(1);
+
+		Sprite s1 = Sprites.Default.Boss;
+		Sprite s2 = Sprites.Default.Boss;
+
+		Timer timer = new Timer();
 
 		public TestObj()
 		{
-			
+			GameCntrl.GameSpeedMultiplier = 1;
+			auto1.AffectedBySpeedMultiplier = false;
+
+
 			vertices[0] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Transparent);
 			vertices[1] = new VertexPositionColor(new Vector3(64, 64, 0), Color.Transparent);
 			vertices[2] = new VertexPositionColor(new Vector3(0, 64, 0), Color.White);
@@ -73,9 +84,9 @@ namespace Monofoxe
 			GameCntrl.WindowManager.Window.AllowUserResizing = false;
 			GameCntrl.WindowManager.ApplyChanges();
 			GameCntrl.WindowManager.CenterWindow();
-
+			
 			GameCntrl.WindowManager.CanvasMode = CanvasMode.Fill; 
-
+			
 		}
 		public override void UpdateBegin()
 		{
@@ -86,7 +97,49 @@ namespace Monofoxe
 
 		public override void Update()
 		{
-			GameCntrl.WindowManager.WindowTitle = "Draw fps: " + GameCntrl.Fps + " Step fps: " + GameCntrl.Tps + " ";
+			auto1.Update();
+			auto2.Update();
+			timer.Update();
+			
+			var list = r.GetListWithoutRepeats(10, -10, 0);
+
+			for(var i = 0; i < list.Count; i += 1)
+			{
+				for(var k = 0; k < list.Count; k += 1)
+				{
+					if (i != k && list[i] == list[k])
+					{
+						throw(new Exception("OH BOI"));
+					}
+				}
+				Debug.Write(list[i] + " ");
+			}
+			Debug.Write(Environment.NewLine);
+
+			if (auto1.Triggered)
+			{
+				if (s1 == Sprites.Default.Boss)
+				{
+					s1 = Sprites.Default.Bottle;
+				}
+				else
+				{
+					s1 = Sprites.Default.Boss;
+				}
+			}
+			if (auto2.Triggered)
+			{
+				if (s2 == Sprites.Default.Boss)
+				{
+					s2 = Sprites.Default.Bottle;
+				}
+				else
+				{
+					s2 = Sprites.Default.Boss;
+				}
+			}
+
+			GameCntrl.WindowManager.WindowTitle = "Draw fps: " + GameCntrl.Fps + " Step fps: " + GameCntrl.Tps + " " + timer.Counter;
 			
 			fireFrame += 0.1f;
 
@@ -188,8 +241,7 @@ namespace Monofoxe
 			
 			DrawCntrl.DrawSprite(Sprites.Default.DemonFire, (int)fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
 
-			Debug.WriteLine(Sprites.Default.BstGam.W);
-
+			
 			Frame f = Sprites.Default.DemonFire.Frames[(int)fireFrame];
 			DrawCntrl.CurrentColor = Color.Red;
 			DrawCntrl.DrawRectangle(0, 0, Sprites.Default.DemonFire.W, Sprites.Default.DemonFire.H, true);
@@ -221,6 +273,8 @@ namespace Monofoxe
 
 			DrawCntrl.DrawCircle(s, 8, true);
 			
+			DrawCntrl.DrawSprite(s1, new Vector2(200, 200));
+			DrawCntrl.DrawSprite(s2, new Vector2(400, 200));
 		}
 
 		public override void DrawGUI()
