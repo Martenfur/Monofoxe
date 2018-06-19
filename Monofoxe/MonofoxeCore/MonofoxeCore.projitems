@@ -6,7 +6,7 @@
     <SharedGUID>738d5ca0-fb57-45c1-a577-a99a0b6b051b</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>MonofoxeCore</Import_RootNamespace>
+    <Import_RootNamespace>Monofoxe</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Engine\SpriteGroupReader.cs" />
@@ -26,5 +26,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utils\AutoAlarm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\GameMath.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\RandomExt.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\Timer.cs" />
   </ItemGroup>
 </Project>
