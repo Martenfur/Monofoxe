@@ -10,7 +10,7 @@ namespace Monofoxe.Utils
 		/// <summary>
 		/// Tells how much time is left in seconds.
 		/// </summary>
-		protected double _counter;
+		public double Counter;
 		
 		/// <summary>
 		/// Alarm won't update if it's inactive.
@@ -37,7 +37,7 @@ namespace Monofoxe.Utils
 		{
 			Active = true;
 			Triggered = false;
-			_counter = time;
+			Counter = time;
 		}
 
 
@@ -49,7 +49,7 @@ namespace Monofoxe.Utils
 		{
 			Active = false;
 			Triggered = false;
-			_counter = 0;
+			Counter = 0;
 		}
 
 
@@ -64,14 +64,14 @@ namespace Monofoxe.Utils
 			{
 				if (AffectedBySpeedMultiplier)
 				{
-					_counter -= GameCntrl.Time();
+					Counter -= GameCntrl.Time();
 				}
 				else
 				{
-					_counter -= GameCntrl.ElapsedTime;
+					Counter -= GameCntrl.ElapsedTime;
 				}
 				
-				if (_counter <= 0)
+				if (Counter <= 0)
 				{
 					Triggered = true;
 					Active = false;
