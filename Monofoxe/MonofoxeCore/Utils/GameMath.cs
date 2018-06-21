@@ -24,6 +24,7 @@ namespace Monofoxe.Utils
 			(float)Math.Sqrt(x * x + y * y);
 
 
+
 		/// <summary>
 		/// Calculates direction between two points in degrees.
 		/// </summary>
@@ -39,6 +40,7 @@ namespace Monofoxe.Utils
 		public static double Direction(float x, float y) =>
 			DirectionRad(x, y) * 360 / (Math.PI * 2);
 		
+
 		
 		/// <summary>
 		/// Calculates direction between two points in radians.
@@ -55,7 +57,8 @@ namespace Monofoxe.Utils
 		public static double DirectionRad(float x, float y) =>
 			(Math.Atan2(y, -x) + Math.PI) % (Math.PI * 2);
 		
-		
+			
+
 		/// <summary>
 		/// Calculates difference between two angles from -180 to 180;
 		/// </summary>

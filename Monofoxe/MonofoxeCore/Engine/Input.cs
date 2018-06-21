@@ -309,8 +309,8 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static void MouseClear()
 		{
-			_mouseButtons = null;
-			_previousMouseButtons = null;
+			_mouseButtons.Clear();
+			_previousMouseButtons.Clear();
 		}
 
 

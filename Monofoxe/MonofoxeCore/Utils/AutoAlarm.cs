@@ -22,7 +22,7 @@ namespace Monofoxe.Utils
 			if (base.Update())
 			{
 				Active = true;
-				_counter += Time;
+				Counter += Time;
 			}
 			return Triggered;
 		}
