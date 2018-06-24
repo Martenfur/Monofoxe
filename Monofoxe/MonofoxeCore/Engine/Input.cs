@@ -44,7 +44,7 @@ namespace Monofoxe.Engine
 
 	public static class Input
 	{
-		// Mouse.
+		#region Mouse.
 		/// <summary>
 		/// Cursor position on screen.
 		/// </summary>
@@ -56,17 +56,19 @@ namespace Monofoxe.Engine
 		public static Vector2 MousePos {get; private set;}
 
 
-		private static List<MouseButtons> _mouseButtons, _previousMouseButtons;
+		private static List<MouseButtons> _mouseButtons = new List<MouseButtons>();
+		private static List<MouseButtons> _previousMouseButtons = new List<MouseButtons>();
 		
+
 		/// <summary>
 		/// Scrollwheel value. Can be -1, 0 or 1.
 		/// </summary>
 		public static int MouseWheelVal {get; private set;}
 		private static int _mouseWheelAdditionPrev;
-		// Mouse.
+		#endregion Mouse.
 
 
-		// Keyboard.
+		#region Keyboard.
 		/// <summary>
 		/// Stores all chars typed in previous step.  
 		/// </summary>
@@ -88,12 +90,13 @@ namespace Monofoxe.Engine
 		public static char KeyboardLastChar {get; private set;} = ' ';
 
 		private static StringBuilder _keyboardBuffer = new StringBuilder();
-		private static Keys _keyboardLastKeyBuffer;		
-		private static Keys[] _currentKeys, _previousKeys;
-		// Keyboard.
+		private static Keys _keyboardLastKeyBuffer = Keys.None;		
+		private static Keys[] _currentKeys = new Keys[0]; // A little bit of wasted memory, but code gets much simplier.
+		private static Keys[]_previousKeys = new Keys[0];
+		#endregion Keyboard.
 		
 
-		// Gamepad.
+		#region Gamepad.
 		/// <summary>
 		/// If pressure value is below deadzone, GamepadCheck() won't detect trigger press.
 		/// </summary>
@@ -124,11 +127,28 @@ namespace Monofoxe.Engine
 			_previousGamepadButtons = new List<GamepadButtons>[_maxGamepadCount];
 		private static GamePadState[] _gamepadState = new GamePadState[_maxGamepadCount],
 			_previousGamepadState = new GamePadState[_maxGamepadCount];
-		// Gamepad.
+		#endregion Gamepad.
 		
+		private static bool _mouseCleared;
+		private static bool _keyboardCleared;
+		private static bool _gamepadCleared;
+
+		private static void GamepadInit(int maxGamepadCount)
+		{
+			_maxGamepadCount = maxGamepadCount;
+
+			_gamepadButtons = new List<GamepadButtons>[_maxGamepadCount];
+			_previousGamepadButtons = new List<GamepadButtons>[_maxGamepadCount];
+			_gamepadState = new GamePadState[_maxGamepadCount];
+			_previousGamepadState = new GamePadState[_maxGamepadCount];
+		}
 
 		public static void Update()
 		{
+			_mouseCleared = false;
+			_keyboardCleared = false;
+			_gamepadCleared = false;
+
 			#region Mouse
 			MouseState mouseState = Mouse.GetState();
 			
@@ -283,7 +303,7 @@ namespace Monofoxe.Engine
 		/// <param name="button">Button to check.</param>
 		/// <returns>Returns if button is down.</returns>
 		public static bool MouseCheck(MouseButtons button) => 
-			_mouseButtons.Contains(button);
+			!_mouseCleared && _mouseButtons.Contains(button);
 
 
 		/// <summary>
@@ -292,7 +312,7 @@ namespace Monofoxe.Engine
 		/// <param name="button">Button to check.</param>
 		/// <returns>Returns if button is pressed.</returns>
 		public static bool MouseCheckPress(MouseButtons button) => 
-			(_mouseButtons.Contains(button) && !_previousMouseButtons.Contains(button));
+			!_mouseCleared && _mouseButtons.Contains(button) && !_previousMouseButtons.Contains(button);
 
 
 		/// <summary>
@@ -301,17 +321,14 @@ namespace Monofoxe.Engine
 		/// <param name="button">Button to check.</param>
 		/// <returns>Returns if button is released.</returns>
 		public static bool MouseCheckRelease(MouseButtons button) => 
-			(!_mouseButtons.Contains(button) && _previousMouseButtons.Contains(button));
+			!_mouseCleared && !_mouseButtons.Contains(button) && _previousMouseButtons.Contains(button);
 
 
 		/// <summary>
 		/// Clears mouse input.
 		/// </summary>
-		public static void MouseClear()
-		{
-			_mouseButtons.Clear();
-			_previousMouseButtons.Clear();
-		}
+		public static void MouseClear() =>
+			_mouseCleared = true;
 
 
 		/// <summary>
@@ -337,7 +354,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		/// <param name="key">Key to check.</param>
 		public static bool KeyboardCheck(Keys key) => 
-			_currentKeys.Contains(key);
+			!_keyboardCleared && _currentKeys.Contains(key);
 
 
 		/// <summary>
@@ -345,7 +362,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		/// <param name="key">Key to check.</param>
 		public static bool KeyboardCheckPress(Keys key) => 
-			(_currentKeys.Contains(key) && !_previousKeys.Contains(key));
+			!_keyboardCleared && _currentKeys.Contains(key) && !_previousKeys.Contains(key);
 
 
 		/// <summary>
@@ -353,7 +370,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		/// <param name="key">Key to check.</param>
 		public static bool KeyboardCheckRelease(Keys key) => 
-			(!_currentKeys.Contains(key) && _previousKeys.Contains(key));
+			!_keyboardCleared && !_currentKeys.Contains(key) && _previousKeys.Contains(key);
 
 
 		/// <summary>
@@ -361,7 +378,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		/// <returns></returns>
 		public static bool KeyboardCheckAnyKey => 
-			_currentKeys.Length > 0;
+			!_keyboardCleared && _currentKeys.Length > 0;
 
 
 		/// <summary>
@@ -369,7 +386,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		/// <returns></returns>
 		public static bool KeyboardCheckAnyKeyPress => 
-			(_currentKeys.Length > 0 && _previousKeys.Length == 0);
+			!_keyboardCleared && _currentKeys.Length > 0 && _previousKeys.Length == 0;
 
 
 		/// <summary>
@@ -377,17 +394,14 @@ namespace Monofoxe.Engine
 		/// </summary>
 		/// <returns></returns>
 		public static bool KeyboardCheckAnyKeyRelease() => 
-			(_currentKeys.Length == 0 && _previousKeys.Length > 0);
+			!_keyboardCleared && _currentKeys.Length == 0 && _previousKeys.Length > 0;
 
 
 		/// <summary>
 		/// Clears keyboard input.
 		/// </summary>
-		public static void KeyboardClear()
-		{
-			_currentKeys = null;
-			_previousKeys = null;
-		}
+		public static void KeyboardClear() =>
+			_keyboardCleared = true;
 
 
 		/// <summary>
@@ -416,7 +430,7 @@ namespace Monofoxe.Engine
 		/// <returns></returns>
 		public static bool GamepadConnected(int index)
 		{
-			if (index < _gamepadState.Length)
+			if (!_gamepadCleared && index < _gamepadState.Length)
 			{
 				return _gamepadState[index].IsConnected;
 			}
@@ -431,7 +445,7 @@ namespace Monofoxe.Engine
 		/// <returns>Returns if button is down.</returns>
 		public static bool GamepadCheck(int index, GamepadButtons button)
 		{
-			if (index < _gamepadButtons.Length)
+			if (!_gamepadCleared && index < _gamepadButtons.Length)
 			{
 				return (_gamepadButtons[index].Contains(button));
 			}
@@ -447,7 +461,7 @@ namespace Monofoxe.Engine
 		/// <returns>Returns if button is pressed.</returns>
 		public static bool GamepadCheckPress(int index, GamepadButtons button)
 		{
-			if (index < _gamepadButtons.Length)
+			if (!_gamepadCleared && index < _gamepadButtons.Length)
 			{
 				return (_gamepadButtons[index].Contains(button) && !_previousGamepadButtons[index].Contains(button));
 			}
@@ -463,7 +477,7 @@ namespace Monofoxe.Engine
 		/// <returns>Returns if button is released.</returns>
 		public static bool GamepadCheckRelease(int index, GamepadButtons button)
 		{
-			if (index < _gamepadButtons.Length)
+			if (!_gamepadCleared && index < _gamepadButtons.Length)
 			{
 				return (!_gamepadButtons[index].Contains(button) && _previousGamepadButtons[index].Contains(button));
 			}
@@ -477,7 +491,7 @@ namespace Monofoxe.Engine
 		/// <param name="index">Index of gamepad.</param>
 		public static Vector2 GamepadGetLeftStick(int index)
 		{
-			if (index < _gamepadState.Length)
+			if (!_gamepadCleared && index < _gamepadState.Length)
 			{
 				return _gamepadState[index].ThumbSticks.Left;
 			}
@@ -491,7 +505,7 @@ namespace Monofoxe.Engine
 		/// <param name="index">Index of gamepad.</param>
 		public static Vector2 GamepadGetRightStick(int index)
 		{
-			if (index < _gamepadState.Length)
+			if (!_gamepadCleared && index < _gamepadState.Length)
 			{
 				return _gamepadState[index].ThumbSticks.Right;
 			}
@@ -507,7 +521,7 @@ namespace Monofoxe.Engine
 		/// <returns>Returns value of pressure (0..1) on left trigger.</returns>
 		public static float GamepadGetLeftTrigger(int index)
 		{
-			if (index < _gamepadState.Length)
+			if (!_gamepadCleared && index < _gamepadState.Length)
 			{
 				return _gamepadState[index].Triggers.Left;
 			}
@@ -523,7 +537,7 @@ namespace Monofoxe.Engine
 		/// <returns>Returns value of pressure (0..1) on right trigger.</returns>
 		public static float GamepadGetRightTrigger(int index)
 		{
-			if (index < _gamepadState.Length)
+			if (!_gamepadCleared && index < _gamepadState.Length)
 			{
 				return _gamepadState[index].Triggers.Right;
 			}
@@ -538,17 +552,13 @@ namespace Monofoxe.Engine
 		/// <param name="rightMotor">Vibration intensity for right motor (0 to 1).</param>
 		public static void GamepadSetVibration(int index, float leftMotor, float rightMotor)
 			=> GamePad.SetVibration(index, leftMotor, rightMotor);
-
+		
 		/// <summary>
 		/// Clears gamepad input, including triggers and thumb sticks.
 		/// </summary>
-		public static void GamepadClear()
-		{
-			_gamepadButtons = new List<GamepadButtons>[_maxGamepadCount];
-			_previousGamepadButtons = new List<GamepadButtons>[_maxGamepadCount];
-			_gamepadState = new GamePadState[_maxGamepadCount];
-			_previousGamepadState = new GamePadState[_maxGamepadCount];
-		}
+		public static void GamepadClear() =>
+			_gamepadCleared = true;
+		
 
 		#endregion gamepad
 

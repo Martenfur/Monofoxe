@@ -58,6 +58,7 @@ namespace Monofoxe
                                            DrawCntrl.Device.PresentationParameters.BackBufferFormat,
                                            DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
 			
+			
 
 			cam.BackgroundColor = Color.AliceBlue;
 
@@ -87,12 +88,19 @@ namespace Monofoxe
 			
 			GameCntrl.WindowManager.CanvasMode = CanvasMode.Fill; 
 			
+			Input.KeyboardCheck(Keys.A);
+
 		}
 		public override void UpdateBegin()
 		{
 			if (Input.KeyboardCheck(Keys.Left))
 			{}
 			Input.MouseCheck(MouseButtons.Left);
+			
+			
+			Input.MaxGamepadCount = 0;
+			Input.MaxGamepadCount = 1;
+			Input.GamepadCheckPress(0, GamepadButtons.A);
 		}
 
 		public override void Update()
