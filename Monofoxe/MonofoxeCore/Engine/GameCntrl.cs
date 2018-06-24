@@ -35,19 +35,8 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static double ElapsedTime {get; private set;}
 
-		public static int Fps 
-		{
-			get => _fpsCounter.Value;
-		}
+		public static int Fps => _fpsCounter.Value;
 		static FpsCounter _fpsCounter = new FpsCounter();
-
-		
-		public static int Tps 
-		{
-			get => _tpsCounter.Value;
-		}
-		static FpsCounter _tpsCounter = new FpsCounter();
-
 
 		public static double FixedUpdateRate = 0.5; // Seconds.
 		
@@ -131,6 +120,7 @@ namespace Monofoxe.Engine
 		{
 			Game = game;
 			game.IsMouseVisible = true;
+			
 			game.Window.TextInput += Input.TextInput;
 
 			WindowManager = new WindowManager(game);
@@ -151,8 +141,6 @@ namespace Monofoxe.Engine
 				ElapsedTime = 1.0 / MinGameSpeed;
 			}
 			// Elapsed time counters.
-			
-			_tpsCounter.Update(gameTime);
 			
 			Input.Update();
 			Objects.Update(gameTime);
