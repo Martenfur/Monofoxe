@@ -22,8 +22,8 @@ namespace Monofoxe
 		RenderTarget2D surf;
 
 		
-		Camera cam = new Camera(800, 600);
-		Camera cam1 = new Camera(600, 480);
+		Camera cam = new Camera(400, 600);
+		Camera cam1 = new Camera(400, 600);
 
 		VertexPositionColor[] vertices = new VertexPositionColor[3];
 		VertexBuffer vertexBuffer;
@@ -60,17 +60,16 @@ namespace Monofoxe
 			
 			
 
-			cam.BackgroundColor = Color.AliceBlue;
+			cam.BackgroundColor = Color.DarkSeaGreen;
 
-			
 			cam.Offset = cam.Size / 2;
 
 			x = cam.Size.X / 2;
 			y = cam.Size.Y / 2;
 
 			cam1.PortPos.X = 400;
-			cam1.BackgroundColor = Color.Sienna;
-			cam1.Enabled = false;
+			cam1.BackgroundColor = Color.DarkSeaGreen;
+			cam1.Enabled = true;
 
 			RasterizerState rasterizerState = new RasterizerState(); // Do something with it, I guees.
 			rasterizerState.CullMode = CullMode.None;
@@ -87,67 +86,14 @@ namespace Monofoxe
 			GameCntrl.WindowManager.CenterWindow();
 			
 			GameCntrl.WindowManager.CanvasMode = CanvasMode.Fill; 
-			
-			Input.KeyboardCheck(Keys.A);
-
 		}
 		public override void UpdateBegin()
 		{
-			if (Input.KeyboardCheck(Keys.Left))
-			{}
-			Input.MouseCheck(MouseButtons.Left);
-			
-			
-			Input.MaxGamepadCount = 0;
-			Input.MaxGamepadCount = 1;
-			Input.GamepadCheckPress(0, GamepadButtons.A);
 		}
 
 		public override void Update()
 		{
-			auto1.Update();
-			auto2.Update();
-			timer.Update();
-			
-			var list = r.GetListWithoutRepeats(10, -10, 0);
-
-			for(var i = 0; i < list.Count; i += 1)
-			{
-				for(var k = 0; k < list.Count; k += 1)
-				{
-					if (i != k && list[i] == list[k])
-					{
-						throw(new Exception("OH BOI"));
-					}
-				}
-				Debug.Write(list[i] + " ");
-			}
-			Debug.Write(Environment.NewLine);
-
-			if (auto1.Triggered)
-			{
-				if (s1 == Sprites.Default.Boss)
-				{
-					s1 = Sprites.Default.Bottle;
-				}
-				else
-				{
-					s1 = Sprites.Default.Boss;
-				}
-			}
-			if (auto2.Triggered)
-			{
-				if (s2 == Sprites.Default.Boss)
-				{
-					s2 = Sprites.Default.Bottle;
-				}
-				else
-				{
-					s2 = Sprites.Default.Boss;
-				}
-			}
-
-			GameCntrl.WindowManager.WindowTitle = "Draw fps: " + GameCntrl.Fps + " Step fps: " + GameCntrl.Tps + " " + timer.Counter;
+			GameCntrl.WindowManager.WindowTitle = "Draw fps: " + GameCntrl.Fps;
 			
 			fireFrame += 0.1f;
 
@@ -155,6 +101,8 @@ namespace Monofoxe
 			{
 				fireFrame = 0;
 			}
+
+			#region Camera. 
 
 			ang += GameCntrl.Time((Math.PI * 2) / period);
 
@@ -198,31 +146,11 @@ namespace Monofoxe
 			if (Input.KeyboardCheck(Keys.V))
 			{cam.Rotation -= 5;}
 
-
-			if (Input.KeyboardCheck(Keys.G))
-			{
-				fuckup += fuckupSpd;
-				fuckupSpd += 0.01f;
-			}
-
-			if (Input.KeyboardCheck(Keys.H))
-			{
-				fuckup -= 0.1f;
-				if (fuckup < 0)
-				{
-					fuckup = 0;
-				}
-			}
-
 			if (Input.KeyboardCheck(Keys.Escape))
 			{
 				GameCntrl.ExitGame();
 			}
-
-			if (Input.KeyboardCheck(Keys.T))
-			{
-				fuckup += 4;
-			}
+			
 			if (Input.KeyboardCheckPress(Keys.F))
 			{
 				GameCntrl.WindowManager.SetFullScreen(!GameCntrl.WindowManager.IsFullScreen);	
@@ -230,19 +158,25 @@ namespace Monofoxe
 			cam.Pos.X = x;
 			cam.Pos.Y = y;
 
-			
+			#endregion Camera. 
+
 		}
 
-		float fuckupSpd = 0;
-		float fuckup = 0;
-		float mtxAng = 0;
 		
 		public override void Draw()
 		{	
+			if (DrawCntrl.CurrentCamera == cam)
+			{
+				//DrawCntrl.BlendState = BlendState.Additive;
+				DrawCntrl.__effect = Game1.effect;
+			}
+			else
+			{
+				//DrawCntrl.BlendState = BlendState.AlphaBlend;
+				
+			}
 
-			mtxAng += 1;
-			if (mtxAng > 359)
-			{mtxAng -= 360;}
+
 			DrawCntrl.CurrentColor = Color.Violet;
 			//DrawCntrl.DrawRectangle(-32, -32, 500, 500, false);
 			DrawCntrl.DrawSprite(Sprites.Default.BstGam, 0, Vector2.Zero);
@@ -251,7 +185,7 @@ namespace Monofoxe
 
 			
 			Frame f = Sprites.Default.DemonFire.Frames[(int)fireFrame];
-			DrawCntrl.CurrentColor = Color.Red;
+			DrawCntrl.CurrentColor = Color.White;
 			DrawCntrl.DrawRectangle(0, 0, Sprites.Default.DemonFire.W, Sprites.Default.DemonFire.H, true);
 			
 			DrawCntrl.CurrentColor = Color.BlueViolet;
@@ -278,11 +212,16 @@ namespace Monofoxe
 			//DrawCntrl.DrawRectangle(Input.MousePos, Input.MousePos + s, true);
 			DrawCntrl.DrawLine(p1, p3);
 			DrawCntrl.DrawLine(Input.MousePos, p2);
-
+		
+			DrawCntrl.CurrentColor = Color.White;
+			
 			DrawCntrl.DrawCircle(s, 8, true);
 			
 			DrawCntrl.DrawSprite(s1, new Vector2(200, 200));
 			DrawCntrl.DrawSprite(s2, new Vector2(400, 200));
+			
+			DrawCntrl.__effect = null;
+			
 		}
 
 		public override void DrawGUI()

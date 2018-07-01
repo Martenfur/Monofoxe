@@ -5,6 +5,8 @@ float4x4 Projection;
 float4 AmbientColor = float4(1, 0, 1, 1);
 float AmbientIntensity = 1;
 
+sampler s0;
+
 struct VertexShaderInput
 {
     float4 Position : POSITION0;
@@ -26,16 +28,16 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
     return output;
 }
 
-float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
+float4 PixelShaderFunction(float2 coords: TEXCOORD0) : COLOR0
 {
-    return AmbientColor * AmbientIntensity;
+	float4 color = tex2D(s0, coords);
+	return color * 2;
 }
 
 technique Ambient
 {
     pass Pass1
     {
-        VertexShader = compile vs_2_0 VertexShaderFunction();
         PixelShader = compile ps_2_0 PixelShaderFunction();
     }
 }

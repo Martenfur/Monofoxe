@@ -96,5 +96,6 @@ namespace Monofoxe.Engine
 		///	Triggers right before destruction, if object is active. 
 		/// </summary>
 		public virtual void Destroy() {}
+
 	}
 }

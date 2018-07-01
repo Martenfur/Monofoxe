@@ -144,8 +144,8 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Centers game window on the screen.
 		/// </summary>
-		public void CenterWindow() 
-		=> WindowPos = ((ScreenSize - CanvasSize) / 2).ToPoint();
+		public void CenterWindow() => 
+			WindowPos = ((ScreenSize - CanvasSize) / 2).ToPoint();
 		
 
 

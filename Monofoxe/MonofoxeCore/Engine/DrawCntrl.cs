@@ -17,6 +17,7 @@ namespace Monofoxe.Engine
 		public static SpriteBatch Batch {get; private set;}
 		public static GraphicsDevice Device {get; private set;}
 		public static BasicEffect BasicEffect {get; private set;}
+		public static Effect __effect;
 
 		/// <summary>
 		/// List of all cameras.
@@ -73,6 +74,8 @@ namespace Monofoxe.Engine
 		private static Stack<RenderTarget2D> _surfaceStack;
 		private static RenderTarget2D _currentSurface;
 
+		#region Modifiers.
+
 		/// <summary>
 		/// Disables rendering for everything that's outside of rectangle.
 		/// NOTE: To enable scissoring, enable scissor test in Rasterizer.
@@ -114,18 +117,31 @@ namespace Monofoxe.Engine
 				SwitchPipelineMode(PipelineMode.None, null); 
 				_sampler = value;
 			}
-			get =>_sampler;
+			get => _sampler;
 		}
 		private static SamplerState _sampler;
 		
-
+		/// <summary>
+		/// Blend state. Used for color blending.
+		/// NOTE: Do NOT modify object which you'll set. This will lead to errors and unexpected behaviour.
+		/// </summary>
+		public static BlendState BlendState
+		{
+			set
+			{
+				SwitchPipelineMode(PipelineMode.None, null); 
+				_blendState = value;
+			}
+			get => _blendState;
+		}
+		private static BlendState _blendState;
 		
-		//public static Vector2 CanvasSize = new Vector2(1000, 480);
+		#endregion Modifiers.
+
 		public static Matrix CanvasMatrix;
-		//public static CanvasMode CanvasMode = CanvasMode.KeepAspectRatio;
 		
 
-		#region shapes
+		#region Shapes.
 
 		private static readonly PipelineMode[] _pipelineModes = {PipelineMode.TrianglePrimitives, PipelineMode.OutlinePrimitives};
 		
@@ -168,7 +184,8 @@ namespace Monofoxe.Engine
 		private static List<Vector2> _circleVectors; 
 		// Circle.
 
-		#endregion shapes
+		#endregion Shapes.
+
 
 		// Primitives.
 		private static List<VertexPositionColorTexture> _primitiveVertices;
@@ -417,7 +434,7 @@ namespace Monofoxe.Engine
 
 
 
-		#region pipeline
+		#region Pipeline.
 
 		/// <summary>
 		/// Switches graphics pipeline mode.
@@ -447,8 +464,9 @@ namespace Monofoxe.Engine
 					//Game1.effect.Parameters["View"].SetValue(CurrentCamera.TransformMatrix);
 					//Game1.effect.Parameters["Projection"].SetValue(Matrix.CreateOrthographicOffCenter(0, CurrentCamera.Size.X, CurrentCamera.Size.Y, 0, 0, 1));
 					
-					Batch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, _sampler, null, _rasterizer, null, CurrentTransformMatrix);
-					//Game1.effect.CurrentTechnique.Passes[0].Apply();
+					Batch.Begin(SpriteSortMode.Deferred, _blendState, _sampler, null, _rasterizer, __effect, CurrentTransformMatrix);
+					//__effect.CurrentTechnique.Passes[0].Apply();
+
 				}
 				_currentPipelineMode = mode;
 				_currentTexture = texture;
@@ -531,6 +549,11 @@ namespace Monofoxe.Engine
 					Device.SamplerStates[0] = _sampler;
 				}
 				
+				if (_blendState != null)
+				{
+					Device.BlendState = _blendState;
+				}
+
 				Device.ScissorRectangle = _scissorRectangle;
 				
 				foreach(EffectPass pass in BasicEffect.CurrentTechnique.Passes)
@@ -538,18 +561,18 @@ namespace Monofoxe.Engine
 					pass.Apply();
 					Device.DrawIndexedPrimitives(type, 0, 0, prCount);
 				}
-
+				
 				_vertices.Clear();
 				_indices.Clear();
 				
 			}
 		}
 
-		#endregion pipeline
+		#endregion Pipeline.
 
 		
 		
-		#region surfaces and matrixes
+		#region Surfaces and matrixes.
 
 		/// <summary>
 		/// Sets surface as a render target.
@@ -635,12 +658,11 @@ namespace Monofoxe.Engine
 			CurrentTransformMatrix = _transformMatrixStack.Pop();
 		}
 
-		#endregion surfaces and matrixes
+		#endregion Surfaces and matrixes.
 
 
 
-		#region sprites
-		
+		#region Sprites.
 
 		private static void DrawFrame(Frame frame, Vector2 pos, Vector2 scale, float rotation, Vector2 offset, Color color, SpriteEffects effect)
 		{
@@ -794,64 +816,50 @@ namespace Monofoxe.Engine
 
 		// Rectangles.
 		
-		#endregion sprites
+		#endregion Sprites.
 
 
 
-		#region shapes
+		#region Shapes.
 
 
-		#region line overloads
+		#region Line overloads.
 		
 		/// <summary>
 		/// Draws a line.
 		/// </summary>
-		public static void DrawLine(Vector2 p1, Vector2 p2)
-		{
+		public static void DrawLine(Vector2 p1, Vector2 p2) =>
 			DrawLine(p1.X, p1.Y, p2.X, p2.Y, CurrentColor, CurrentColor);
-		}
 
 		/// <summary>
 		/// Draws a line with specified colors.
 		/// </summary>
-		/// <param name="c1"></param>
-		/// <param name="c2"></param>
-		public static void DrawLine(Vector2 p1, Vector2 p2, Color c1, Color c2)
-		{
+		public static void DrawLine(Vector2 p1, Vector2 p2, Color c1, Color c2) =>
 			DrawLine(p1.X, p1.Y, p2.X, p2.Y, c1, c2);
-		}
 
 		/// <summary>
 		/// Draws a line with specified width and colors.
 		/// </summary>
-		public static void DrawLine(Vector2 p1, Vector2 p2, float w, Color c1, Color c2)
-		{
+		public static void DrawLine(Vector2 p1, Vector2 p2, float w, Color c1, Color c2) =>
 			DrawLine(p1.X, p1.Y, p2.X, p2.Y, w, c1, c2);
-		}
 
 		/// <summary>
 		/// Draws a line.
 		/// </summary>
-		public static void DrawLine(float x1, float y1, float x2, float y2)
-		{
+		public static void DrawLine(float x1, float y1, float x2, float y2) =>
 			DrawLine(x1, y1, x2, y2, CurrentColor, CurrentColor);
-		}
 
 		/// <summary>
 		/// Draws a line with specified width.
 		/// </summary>
-		public static void DrawLine(float x1, float y1, float x2, float y2, float w)
-		{
+		public static void DrawLine(float x1, float y1, float x2, float y2, float w) =>
 			DrawLine(x1, y1, x2, y2, CurrentColor, CurrentColor);
-		}
 
-		#endregion line overloads
+		#endregion Line overloads.
 
 		/// <summary>
 		/// Draws a line with specified colors.
 		/// </summary>
-		/// <param name="c1">First color.</param>
-		/// <param name="c2">Second color.</param>
 		public static void DrawLine(float x1, float y1, float x2, float y2, Color c1, Color c2)
 		{
 			var vertices = new List<VertexPositionColorTexture>();
@@ -882,53 +890,31 @@ namespace Monofoxe.Engine
 		}
 
 
-		#region triangle overloads
+		#region Triangle overloads.
 
 		/// <summary>
 		/// Draws a triangle.
 		/// </summary>
-		/// <param name="p1">First point.</param>
-		/// <param name="p2">Second point.</param>
-		/// <param name="p3">Third point.</param>
-		/// <param name="isOutline">Is shape outline.</param>
-		public static void DrawTriangle(Vector2 p1, Vector2 p2, Vector2 p3, bool isOutline)
-		{
+		public static void DrawTriangle(Vector2 p1, Vector2 p2, Vector2 p3, bool isOutline) =>
 			DrawTriangle(p1.X, p1.Y, p2.X, p2.Y, p3.X, p3.Y, isOutline, CurrentColor, CurrentColor, CurrentColor);
-		}
 
 		/// <summary>
 		/// Draws a triangle with specified colors.
 		/// </summary>
-		/// <param name="p1">First point.</param>
-		/// <param name="p2">Second point.</param>
-		/// <param name="p3">Third point.</param>
-		/// <param name="isOutline">Is shape outline.</param>
-		/// <param name="c1">1st color.</param>
-		/// <param name="c2">2nd color.</param>
-		/// <param name="c3">3rd color.</param>
-		public static void DrawTriangle(Vector2 p1, Vector2 p2, Vector2 p3, bool isOutline, Color c1, Color c2, Color c3)
-		{
+		public static void DrawTriangle(Vector2 p1, Vector2 p2, Vector2 p3, bool isOutline, Color c1, Color c2, Color c3) =>
 			DrawTriangle(p1.X, p1.Y, p2.X, p2.Y, p3.X, p3.Y, isOutline, c1, c2, c3);
-		}
 		
 		/// <summary>
 		/// Draws a triangle.
 		/// </summary>
-		/// <param name="isOutline"></param>
-		public static void DrawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, bool isOutline)
-		{
+		public static void DrawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, bool isOutline) =>
 			DrawTriangle(x1, y1, x2, y2, x3, y3, isOutline, CurrentColor, CurrentColor, CurrentColor);
-		}
 
-		#endregion triangle overloads
+		#endregion Triangle overloads.
 
 		/// <summary>
 		/// Draw a triangle with specified colors.
 		/// </summary>
-		/// <param name="isOutline">Is shape outline.</param>
-		/// <param name="c1">1st color.</param>
-		/// <param name="c2">2nd color.</param>
-		/// <param name="c3">3rd color.</param>
 		public static void DrawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, bool isOutline, Color c1, Color c2, Color c3)
 		{
 			int isOutlineInt = Convert.ToInt32(isOutline); // We need to convert true/false to 1/0 to be able to get different sets of values from arrays. 
@@ -943,53 +929,31 @@ namespace Monofoxe.Engine
 
 
 
-		#region rectangle overloads
+		#region Rectangle overloads.
 
 		/// <summary>
 		/// Draws a rectangle.
 		/// </summary>
-		/// <param name="p1">First point.</param>
-		/// <param name="p2">Second point.</param>
-		/// <param name="isOutline">Is shape outline.</param>
-		public static void DrawRectangle(Vector2 p1, Vector2 p2, bool isOutline)
-		{
+		public static void DrawRectangle(Vector2 p1, Vector2 p2, bool isOutline) =>
 			DrawRectangle(p1.X, p1.Y, p2.X, p2.Y, isOutline, CurrentColor, CurrentColor, CurrentColor, CurrentColor);
-		}
 
 		/// <summary>
 		/// Draws a rectangle with specified colors for each corner.
 		/// </summary>
-		/// <param name="p1">First point.</param>
-		/// <param name="p2">Second point.</param>
-		/// <param name="isOutline">Is shape outline.</param>
-		/// <param name="c1">1st color.</param>
-		/// <param name="c2">2nd color.</param>
-		/// <param name="c3">3rd color.</param>
-		/// <param name="c4">4th color.</param>
-		public static void DrawRectangle(Vector2 p1, Vector2 p2, bool isOutline, Color c1, Color c2, Color c3, Color c4)
-		{
+		public static void DrawRectangle(Vector2 p1, Vector2 p2, bool isOutline, Color c1, Color c2, Color c3, Color c4) =>
 			DrawRectangle(p1.X, p1.Y, p2.X, p2.Y, isOutline, c1, c2, c3, c4);
-		}
 
 		/// <summary>
 		/// Draws a rectangle.
 		/// </summary>
-		/// <param name="isOutline">Is shape outline</param>
-		public static void DrawRectangle(float x1, float y1, float x2, float y2, bool isOutline)
-		{
+		public static void DrawRectangle(float x1, float y1, float x2, float y2, bool isOutline) =>
 			DrawRectangle(x1, y1, x2, y2, isOutline, CurrentColor, CurrentColor, CurrentColor, CurrentColor);
-		}
 
-		#endregion rectangle overloads
+		#endregion Rectangle overloads.
 
 		/// <summary>
 		/// Draws a rectangle with specified colors for each corner.
 		/// </summary>
-		/// <param name="isOutline">Is shape outline.</param>
-		/// <param name="c1">1st color.</param>
-		/// <param name="c2">2nd color.</param>
-		/// <param name="c3">3rd color.</param>
-		/// <param name="c4">4th color.</param>
 		public static void DrawRectangle(float x1, float y1, float x2, float y2, bool isOutline, Color c1, Color c2, Color c3, Color c4)
 		{
 			int isOutlineInt = Convert.ToInt32(isOutline); // We need to convert true/false to 1/0 to be able to get different sets of values from arrays. 
@@ -1005,19 +969,15 @@ namespace Monofoxe.Engine
 		}
 
 
-		#region circle overloads
+		#region Circle overloads.
 
 		/// <summary>
 		/// Draws a circle.
 		/// </summary>
-		/// <param name="r">Radius.</param>
-		/// <param name="isOutline">Is shape outline.</param>
-		public static void DrawCircle(Vector2 p, float r, bool isOutline)
-		{
+		public static void DrawCircle(Vector2 p, float r, bool isOutline) =>
 			DrawCircle(p.X, p.Y, r, isOutline);
-		}
 
-		#endregion circle overloads
+		#endregion Circle overloads.
 
 		/// <summary>
 		/// Draws a circle.
@@ -1059,20 +1019,31 @@ namespace Monofoxe.Engine
 			var vertices = new List<VertexPositionColorTexture>();
 			
 			for(var i = 0; i < CircleVerticesCount; i += 1)
-			{vertices.Add(new VertexPositionColorTexture(new Vector3(x + r * _circleVectors[i].X, y + r * _circleVectors[i].Y, 0), CurrentColor, Vector2.Zero));}
+			{
+				vertices.Add(
+					new VertexPositionColorTexture(
+						new Vector3(
+							x + r * _circleVectors[i].X, 
+							y + r * _circleVectors[i].Y, 
+							0
+						), 
+						CurrentColor, 
+						Vector2.Zero
+					)
+				);
+			}
 			AddVertices(prType, null, vertices, indexArray);
 		}
 
-		#endregion shapes
+		#endregion Shapes.
 
 
 
-		#region primitives
+		#region Primitives.
 		
 		/// <summary>
 		/// Sets texture for a primitive.
 		/// </summary>
-		/// <param name="texture"></param>
 		public static void PrimitiveSetTexture(Texture2D texture)
 		{
 			_primitiveTexture = texture;
@@ -1083,10 +1054,9 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Sets texture for a primitive.
 		/// </summary>
-		/// <param name="texture"></param>
 		public static void PrimitiveSetTexture(Sprite sprite, float frameId)
 		{
-			Frame frame = sprite.Frames[(int)frameId];
+			var frame = sprite.Frames[(int)frameId];
 
 			_primitiveTexture = frame.Texture;
 			_primitiveTextureOffset = new Vector2(
@@ -1102,44 +1072,30 @@ namespace Monofoxe.Engine
 
 
 
-		#region AddVertex overloads
+		#region AddVertex overloads.
 
-		public static void PrimitiveAddVertex(Vector2 pos)
-		{
+		public static void PrimitiveAddVertex(Vector2 pos) =>
 			PrimitiveAddVertex(pos.X, pos.Y, CurrentColor, Vector2.Zero);
-		}
 
-		public static void PrimitiveAddVertex(Vector2 pos, Color color)
-		{
+		public static void PrimitiveAddVertex(Vector2 pos, Color color) =>
 			PrimitiveAddVertex(pos.X, pos.Y, color, Vector2.Zero);
-		}
 
-		public static void PrimitiveAddVertex(Vector2 pos, Vector2 texturePos)
-		{
+		public static void PrimitiveAddVertex(Vector2 pos, Vector2 texturePos) =>
 			PrimitiveAddVertex(pos.X, pos.Y, CurrentColor, texturePos);
-		}
 
-		public static void PrimitiveAddVertex(Vector2 pos, Color color, Vector2 texturePos)
-		{
+		public static void PrimitiveAddVertex(Vector2 pos, Color color, Vector2 texturePos) =>
 			_primitiveVertices.Add(new VertexPositionColorTexture(new Vector3(pos.X, pos.Y, 0), color, texturePos));
-		}
 
-		public static void PrimitiveAddVertex(float x, float y)
-		{
+		public static void PrimitiveAddVertex(float x, float y) =>
 			PrimitiveAddVertex(x, y, CurrentColor, Vector2.Zero);
-		}
 
-		public static void PrimitiveAddVertex(float x, float y, Color color)
-		{
+		public static void PrimitiveAddVertex(float x, float y, Color color) =>
 			PrimitiveAddVertex(x, y, color, Vector2.Zero);
-		}
 	
-		public static void PrimitiveAddVertex(float x, float y, Vector2 texturePos)
-		{
+		public static void PrimitiveAddVertex(float x, float y, Vector2 texturePos) =>
 			PrimitiveAddVertex(x, y, CurrentColor, texturePos);
-		}
 		
-		#endregion AddVertex overloads
+		#endregion AddVertex overloads.
 
 		public static void PrimitiveAddVertex(float x, float y, Color color, Vector2 texturePos)
 		{
@@ -1254,7 +1210,6 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Sets user-defined array of indices for alist of lines.
 		/// </summary>
-		/// <param name="indices">Array of indices.</param>
 		public static void PrimitiveSetCustomLineIndices(short[] indices)
 		{ 
 			_primitiveType = PipelineMode.OutlinePrimitives;
@@ -1264,7 +1219,6 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Sets user-defined list of indices for list of lines.
 		/// </summary>
-		/// <param name="indices">List of indices.</param>
 		public static void PrimitiveSetCustomLineIndices(List<short> indices)
 		{
 			_primitiveType = PipelineMode.OutlinePrimitives;
@@ -1274,7 +1228,6 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Sets user-defined array of indices for list of triangles.
 		/// </summary>
-		/// <param name="indices">Array of indices.</param>
 		public static void PrimitiveSetCustomTriangleIndices(short[] indices)
 		{
 			_primitiveType = PipelineMode.TrianglePrimitives;
@@ -1284,7 +1237,6 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Sets user-defined list of indices for list of triangles.
 		/// </summary>
-		/// <param name="indices">List of indices.</param>
 		public static void PrimitiveSetCustomTriangleIndices(List<short> indices)
 		{
 			_primitiveType = PipelineMode.TrianglePrimitives;
@@ -1299,7 +1251,9 @@ namespace Monofoxe.Engine
 		public static void PrimitiveBegin()
 		{
 			if (_primitiveVertices.Count != 0 || _primitiveIndices.Count != 0)
-			{throw(new Exception("Junk primitive data detected! Did you set index data wrong or forgot PrimitiveEnd somewhere?"));}
+			{
+				throw(new Exception("Junk primitive data detected! Did you set index data wrong or forgot PrimitiveEnd somewhere?"));
+			}
 		}
 
 		/// <summary>
@@ -1307,7 +1261,6 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static void PrimitiveEnd()
 		{
-			
 			AddVertices(_primitiveType, _primitiveTexture, _primitiveVertices, _primitiveIndices.ToArray());
 
 			_primitiveVertices.Clear();
@@ -1315,16 +1268,17 @@ namespace Monofoxe.Engine
 			_primitiveTexture = null;
 		}
 
-		#endregion primitives
+		#endregion Primitives.
 
 
 
-		#region text
+		#region Text.
 
 		/// <summary>
 		/// Draws text in specified coordinates.
 		/// </summary>
-		public static void DrawText(string text, float x, float y) => DrawText(text, new Vector2(x, y));
+		public static void DrawText(string text, float x, float y) => 
+			DrawText(text, new Vector2(x, y));
 
 		/// <summary>
 		/// Draws text in specified coordinates.
@@ -1332,25 +1286,25 @@ namespace Monofoxe.Engine
 		public static void DrawText(string text, Vector2 pos)
 		{
 			SwitchPipelineMode(PipelineMode.Sprites, null);
-			
 			CurrentFont.Draw(Batch, text, pos, HorAlign, VerAlign);
 		}
 
 		/// <summary>
 		/// Draws text in specified coordinates with rotation, scale and origin.
 		/// </summary>
-		public static void DrawText(string text, Vector2 pos, Vector2 scale, Vector2 origin, float rot = 0) 
-		=> DrawText(text, pos.X, pos.Y, scale.X, scale.Y, origin.X, origin.Y, rot);
+		public static void DrawText(string text, Vector2 pos, Vector2 scale, Vector2 origin, float rot = 0) => 
+			DrawText(text, pos.X, pos.Y, scale.X, scale.Y, origin.X, origin.Y, rot);
 
 		/// <summary>
 		/// Draws text in specified coordinates with rotation, scale and origin.
 		/// </summary>
 		public static void DrawText(string text, float x, float y, float scaleX, float scaleY, float originX = 0, float originY = 0, float rot = 0)
 		{
-			Matrix transformMatrix = Matrix.CreateTranslation(new Vector3(-originX, -originY, 0)) * // Origin.
-		                    Matrix.CreateRotationZ(MathHelper.ToRadians(-rot)) *		              // Rotation.
-		                    Matrix.CreateScale(new Vector3(scaleX, scaleY, 1)) *	                // Scale.
-		                    Matrix.CreateTranslation(new Vector3(x, y, 0));                       // Position.
+			Matrix transformMatrix = 
+				Matrix.CreateTranslation(new Vector3(-originX, -originY, 0)) * // Origin.
+				Matrix.CreateRotationZ(MathHelper.ToRadians(-rot)) *		       // Rotation.
+				Matrix.CreateScale(new Vector3(scaleX, scaleY, 1)) *	         // Scale.
+				Matrix.CreateTranslation(new Vector3(x, y, 0));                // Position.
 												
 			AddTransformMatrix(transformMatrix);
 			SwitchPipelineMode(PipelineMode.Sprites, null);
@@ -1358,10 +1312,7 @@ namespace Monofoxe.Engine
 			ResetTransformMatrix();
 		}
 
-		#endregion text
-
-
-
+		#endregion Text.
 
 		public static void DrawSurface(RenderTarget2D surf, float x, float y, Color color)
 		{
