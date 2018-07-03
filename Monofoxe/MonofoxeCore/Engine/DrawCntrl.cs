@@ -555,7 +555,10 @@ namespace Monofoxe.Engine
 				}
 
 				Device.ScissorRectangle = _scissorRectangle;
-				
+				if (__effect != null)
+				__effect.CurrentTechnique.Passes[0].Apply();
+
+				__effect = BasicEffect;
 				foreach(EffectPass pass in BasicEffect.CurrentTechnique.Passes)
 				{
 					pass.Apply();
