@@ -168,7 +168,7 @@ namespace Monofoxe
 			if (DrawCntrl.CurrentCamera == cam)
 			{
 				//DrawCntrl.BlendState = BlendState.Additive;
-				DrawCntrl.__effect = Game1.effect;
+				DrawCntrl._effect = Game1.effect;
 			}
 			else
 			{
@@ -220,7 +220,7 @@ namespace Monofoxe
 			DrawCntrl.DrawSprite(s1, new Vector2(200, 200));
 			DrawCntrl.DrawSprite(s2, new Vector2(400, 200));
 			
-			DrawCntrl.__effect = null;
+			DrawCntrl._effect = null;
 			
 		}
 
