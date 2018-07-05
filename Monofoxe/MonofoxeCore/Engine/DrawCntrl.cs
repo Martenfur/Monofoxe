@@ -16,13 +16,11 @@ namespace Monofoxe.Engine
 
 		public static SpriteBatch Batch {get; private set;}
 		public static GraphicsDevice Device {get; private set;}
-		public static BasicEffect BasicEffect {get; private set;}
-		public static Effect __effect;
-
+		
 		/// <summary>
 		/// List of all cameras.
 		/// </summary>
-		public static List<Camera> Cameras {get; private set;}
+		public static List<Camera> Cameras {get; private set;} = new List<Camera>();
 
 		/// <summary>
 		/// Current enabled camera.
@@ -33,19 +31,19 @@ namespace Monofoxe.Engine
 		/// Current transformation matrix.
 		/// </summary>
 		public static Matrix CurrentTransformMatrix {get; private set;}
-		private static Stack<Matrix> _transformMatrixStack;
+		private static Stack<Matrix> _transformMatrixStack = new Stack<Matrix>();
 
 		
 		/// <summary>
 		/// Current drawing color. Affects shapes and primitives.
 		/// </summary>
-		public static Color CurrentColor;
+		public static Color CurrentColor = Color.White;
 
 		private static DynamicVertexBuffer _vertexBuffer;
 		private static DynamicIndexBuffer _indexBuffer;
 
-		private static List<VertexPositionColorTexture> _vertices;
-		private static List<short> _indices;
+		private static List<VertexPositionColorTexture> _vertices = new List<VertexPositionColorTexture>();
+		private static List<short> _indices = new List<short>();
 
 		/// <summary>
 		/// Amount of draw calls per frame.
@@ -65,13 +63,13 @@ namespace Monofoxe.Engine
 			OutlinePrimitives,  // Line list.
 		}
 
-		private static PipelineMode _currentPipelineMode;
+		private static PipelineMode _currentPipelineMode = PipelineMode.None;
 		private static Texture2D _currentTexture;
 		
 		/// <summary>
 		/// When can set surface targets inside another surfaces.
 		/// </summary>
-		private static Stack<RenderTarget2D> _surfaceStack;
+		private static Stack<RenderTarget2D> _surfaceStack = new Stack<RenderTarget2D>();
 		private static RenderTarget2D _currentSurface;
 
 		#region Modifiers.
@@ -135,11 +133,25 @@ namespace Monofoxe.Engine
 			get => _blendState;
 		}
 		private static BlendState _blendState;
-		
+
+
+		public static Effect Effect
+		{
+			set
+			{
+				SwitchPipelineMode(PipelineMode.None, null);
+				_effect = value;
+			}
+			get => _effect;
+		}
+		private static Effect _basicEffect;
+		private static Effect _effect;
+
+
 		#endregion Modifiers.
 
 		public static Matrix CanvasMatrix;
-		
+
 
 		#region Shapes.
 
@@ -188,9 +200,9 @@ namespace Monofoxe.Engine
 
 
 		// Primitives.
-		private static List<VertexPositionColorTexture> _primitiveVertices;
-		private static List<short> _primitiveIndices;
-		private static PipelineMode _primitiveType;
+		private static List<VertexPositionColorTexture> _primitiveVertices = new List<VertexPositionColorTexture>();
+		private static List<short> _primitiveIndices = new List<short>();
+		private static PipelineMode _primitiveType = PipelineMode.None;
 		private static Texture2D _primitiveTexture;
 
 		private static Vector2 _primitiveTextureOffset;
@@ -201,8 +213,8 @@ namespace Monofoxe.Engine
 		// Text.
 		public static IFont CurrentFont;
 
-		public static TextAlign HorAlign;
-		public static TextAlign VerAlign;
+		public static TextAlign HorAlign = TextAlign.Left;
+		public static TextAlign VerAlign = TextAlign.Top;
 		// Text.
 
 
@@ -214,38 +226,20 @@ namespace Monofoxe.Engine
 		public static void Init(GraphicsDevice device)
 		{
 			Device = device;
+			Device.DepthStencilState = DepthStencilState.DepthRead;
 
 			Batch = new SpriteBatch(Device);
-			Cameras = new List<Camera>();
-			BasicEffect = new BasicEffect(Device);
-			BasicEffect.VertexColorEnabled = true;
-			Device.DepthStencilState = DepthStencilState.DepthRead;
+
+			_basicEffect = new BasicEffect(Device);
+			_basicEffect.VertexColorEnabled = true;
 			
 			_vertexBuffer = new DynamicVertexBuffer(Device, typeof(VertexPositionColorTexture), BUFFER_SIZE, BufferUsage.WriteOnly);
 			_indexBuffer = new DynamicIndexBuffer(Device, IndexElementSize.SixteenBits, BUFFER_SIZE, BufferUsage.WriteOnly);
-			_vertices = new List<VertexPositionColorTexture>();
-			_indices = new List<short>();
-
-			_currentPipelineMode = PipelineMode.None;
-			_currentTexture = null;
-
+			
 			Device.SetVertexBuffer(_vertexBuffer);
 			Device.Indices = _indexBuffer;
-
-			_primitiveVertices = new List<VertexPositionColorTexture>();
-			_primitiveIndices = new List<short>();
-			_primitiveTexture = null;
 			
-			_surfaceStack = new Stack<RenderTarget2D>();
-			_currentSurface = null;
-
-			CurrentColor = Color.White;
 			CircleVerticesCount = 16;
-
-			_transformMatrixStack = new Stack<Matrix>();
-
-			HorAlign = TextAlign.Left;
-			VerAlign = TextAlign.Top;
 		}
 
 
@@ -322,8 +316,8 @@ namespace Monofoxe.Engine
 					camera.UpdateTransformMatrix();
 					CurrentCamera = camera;
 					CurrentTransformMatrix = camera.TransformMatrix;
-					BasicEffect.View = camera.TransformMatrix;
-					BasicEffect.Projection = Matrix.CreateOrthographicOffCenter(0, camera.Size.X, camera.Size.Y, 0, 0, 1);
+					_basicEffect.View = camera.TransformMatrix;
+					_basicEffect.Projection = Matrix.CreateOrthographicOffCenter(0, camera.Size.X, camera.Size.Y, 0, 0, 1);
 					// Updating current transform matrix and camera.
 
 					Input.UpdateMouseWorldPosition();
@@ -369,8 +363,8 @@ namespace Monofoxe.Engine
 			// Resetting camera and transform matrix.
 			CurrentCamera = null;
 			CurrentTransformMatrix = CanvasMatrix;
-			BasicEffect.View = CurrentTransformMatrix;
-			BasicEffect.Projection = Matrix.CreateOrthographicOffCenter(
+			_basicEffect.View = CurrentTransformMatrix;
+			_basicEffect.Projection = Matrix.CreateOrthographicOffCenter(
 				0, 
 				GameCntrl.WindowManager.PreferredBackBufferWidth, 
 				GameCntrl.WindowManager.PreferredBackBufferHeight, 
@@ -460,13 +454,7 @@ namespace Monofoxe.Engine
 				{
 					Device.ScissorRectangle = _scissorRectangle;
 					
-					//Game1.effect.Parameters["World"].SetValue(Matrix.CreateTranslation(Vector3.Zero));
-					//Game1.effect.Parameters["View"].SetValue(CurrentCamera.TransformMatrix);
-					//Game1.effect.Parameters["Projection"].SetValue(Matrix.CreateOrthographicOffCenter(0, CurrentCamera.Size.X, CurrentCamera.Size.Y, 0, 0, 1));
-					
-					Batch.Begin(SpriteSortMode.Deferred, _blendState, _sampler, null, _rasterizer, __effect, CurrentTransformMatrix);
-					//__effect.CurrentTechnique.Passes[0].Apply();
-
+					Batch.Begin(SpriteSortMode.Deferred, _blendState, _sampler, null, _rasterizer, _effect, CurrentTransformMatrix);
 				}
 				_currentPipelineMode = mode;
 				_currentTexture = texture;
@@ -510,14 +498,14 @@ namespace Monofoxe.Engine
 		/// </summary>
 		private static void DrawVertices()
 		{
-			BasicEffect.View = CurrentTransformMatrix;
+			_basicEffect.View = CurrentTransformMatrix;
 			
 			__drawcalls += 1;
 
 			if (_vertices.Count > 0)
 			{
-				BasicEffect.Texture = _currentTexture;
-				BasicEffect.TextureEnabled = (_currentTexture != null);
+				_basicEffect.Texture = _currentTexture;
+				_basicEffect.TextureEnabled = (_currentTexture != null);
 
 
 				PrimitiveType type;
@@ -555,11 +543,12 @@ namespace Monofoxe.Engine
 				}
 
 				Device.ScissorRectangle = _scissorRectangle;
-				if (__effect != null)
-				__effect.CurrentTechnique.Passes[0].Apply();
 
-				__effect = BasicEffect;
-				foreach(EffectPass pass in BasicEffect.CurrentTechnique.Passes)
+				if (_effect != null)
+				_effect.CurrentTechnique.Passes[0].Apply();
+
+				_effect = _basicEffect;
+				foreach(EffectPass pass in _basicEffect.CurrentTechnique.Passes)
 				{
 					pass.Apply();
 					Device.DrawIndexedPrimitives(type, 0, 0, prCount);
