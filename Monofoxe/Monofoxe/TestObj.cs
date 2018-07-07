@@ -165,7 +165,7 @@ namespace Monofoxe
 			if (DrawCntrl.CurrentCamera == cam)
 			{
 				//DrawCntrl.BlendState = BlendState.Additive;
-				//DrawCntrl.Effect = Game1.effect;
+				DrawCntrl.Effect = Game1.effect;
 			}
 			else
 			{

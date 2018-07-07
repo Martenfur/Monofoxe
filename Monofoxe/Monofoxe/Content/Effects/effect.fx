@@ -31,7 +31,8 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 float4 PixelShaderFunction(float2 coords: TEXCOORD0) : COLOR0
 {
 	float4 color = tex2D(s0, coords);
-	return float4(0, 0, 0, 1);
+  float s = (color.r + color.g + color.b) / 3.0;
+  return float4(s, s, s, color.a);
 }
 
 technique Ambient
