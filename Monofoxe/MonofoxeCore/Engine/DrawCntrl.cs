@@ -684,23 +684,17 @@ namespace Monofoxe.Engine
 			);
 		}
 
-
-		private static int CalculateSpriteFrame(Sprite sprite, float frame)
-		{
-			return Math.Max(0, Math.Min(sprite.Frames.Count() - 1, (int)frame));
-		}
+		private static int CalculateSpriteFrame(Sprite sprite, float frame) =>
+			Math.Max(0, Math.Min(sprite.Frames.Count() - 1, (int)frame));
 
 		// Vectors.
 
-		public static void DrawSprite(Sprite sprite, Vector2 pos)
-		{
+		public static void DrawSprite(Sprite sprite, Vector2 pos) =>
 			DrawFrame(sprite.Frames[0], pos, Vector2.One, 0, sprite.Origin, CurrentColor, SpriteEffects.None);
-		}
 		
 		public static void DrawSprite(Sprite sprite, float frameId, Vector2 pos)
 		{			
-			int frame = CalculateSpriteFrame(sprite, frameId);
-			
+			var frame = CalculateSpriteFrame(sprite, frameId);
 			DrawFrame(sprite.Frames[frame], pos, Vector2.One, 0, sprite.Origin, CurrentColor, SpriteEffects.None);
 		}
 
@@ -709,12 +703,12 @@ namespace Monofoxe.Engine
 		{
 			SwitchPipelineMode(PipelineMode.Sprites, null);
 			
-			int frame = CalculateSpriteFrame(sprite, frameId);
+			var frame = CalculateSpriteFrame(sprite, frameId);
 			
-			SpriteEffects mirroring = SpriteEffects.None;
+			var mirroring = SpriteEffects.None;
 
 			// Proper negative scaling.
-			Vector2 offset = Vector2.Zero;
+			var offset = Vector2.Zero;
 
 			if (scale.X < 0)
 			{
@@ -738,43 +732,36 @@ namespace Monofoxe.Engine
 		
 		// Floats.
 
-		public static void DrawSprite(Sprite sprite, float x, float y)
-		{
+		public static void DrawSprite(Sprite sprite, float x, float y) =>
 			DrawSprite(sprite, new Vector2(x, y));
-		}
 		
-		public static void DrawSprite(Sprite sprite, float frameId, float x, float y)
-		{
+		public static void DrawSprite(Sprite sprite, float frameId, float x, float y) =>
 			DrawSprite(sprite, frameId, new Vector2(x, y));
-		}
 		
-		public static void DrawSprite(Sprite sprite, float frameId, float x, float y, float scaleX, float scaleY, float rotation, Color color)
-		{
+		public static void DrawSprite(Sprite sprite, float frameId, float x, float y, float scaleX, float scaleY, float rotation, Color color) =>
 			DrawSprite(sprite, frameId, new Vector2(x, y), new Vector2(scaleX, scaleY), rotation, color);
-		}
 
 		// Floats.
 
 		// Rectangles.
 
-		public static void DrawSprite(Sprite sprite, float frameId, Rectangle posRect)
+		public static void DrawSprite(Sprite sprite, float frameId, Rectangle destRect)
 		{
 			SwitchPipelineMode(PipelineMode.Sprites, null);
 			
-			int frame = CalculateSpriteFrame(sprite, frameId);
-			
-			Batch.Draw(sprite.Frames[frame].Texture, posRect, sprite.Frames[frame].TexturePosition, CurrentColor);
+			var frame = CalculateSpriteFrame(sprite, frameId);
+			Batch.Draw(sprite.Frames[frame].Texture, destRect, sprite.Frames[frame].TexturePosition, CurrentColor);
 		}
 		
-		public static void DrawSprite(Sprite sprite, float frameId, Rectangle posRect, float rotation, Color color)
+		public static void DrawSprite(Sprite sprite, float frameId, Rectangle destRect, float rotation, Color color)
 		{
 			SwitchPipelineMode(PipelineMode.Sprites, null);
 			
-			int frame = CalculateSpriteFrame(sprite, frameId);
+			var frame = CalculateSpriteFrame(sprite, frameId);
 			
 			Batch.Draw(
 				sprite.Frames[frame].Texture, 
-				posRect, 
+				destRect, 
 				sprite.Frames[frame].TexturePosition, 
 				color, 
 				rotation, 
@@ -784,30 +771,30 @@ namespace Monofoxe.Engine
 			);
 		}
 
-		public static void DrawSprite(Sprite sprite, float frameId, Rectangle posRect, Rectangle scissorRect)
+		public static void DrawSprite(Sprite sprite, float frameId, Rectangle destRect, Rectangle srcRect)
 		{
 			SwitchPipelineMode(PipelineMode.Sprites, null);
 			
-			int frame = CalculateSpriteFrame(sprite, frameId);
+			var frame = CalculateSpriteFrame(sprite, frameId);
 			
-			scissorRect.X += sprite.Frames[frame].TexturePosition.X;
-			scissorRect.Y += sprite.Frames[frame].TexturePosition.Y;
+			srcRect.X += sprite.Frames[frame].TexturePosition.X;
+			srcRect.Y += sprite.Frames[frame].TexturePosition.Y;
 
-			Batch.Draw(sprite.Frames[frame].Texture, posRect, scissorRect, CurrentColor);
+			Batch.Draw(sprite.Frames[frame].Texture, destRect, srcRect, CurrentColor);
 		}
 		
-		public static void DrawSprite(Sprite sprite, float frameId, Rectangle posRect, Rectangle scissorRect, float rotation, Color color)
+		public static void DrawSprite(Sprite sprite, float frameId, Rectangle destRect, Rectangle srcRect, float rotation, Color color)
 		{
 			SwitchPipelineMode(PipelineMode.Sprites, null);
 			
-			int frame = CalculateSpriteFrame(sprite, frameId);
+			var frame = CalculateSpriteFrame(sprite, frameId);
 			
-			scissorRect.X += sprite.Frames[frame].TexturePosition.X;
-			scissorRect.Y += sprite.Frames[frame].TexturePosition.Y;
+			srcRect.X += sprite.Frames[frame].TexturePosition.X;
+			srcRect.Y += sprite.Frames[frame].TexturePosition.Y;
 
 			Batch.Draw(
 				sprite.Frames[frame].Texture, 
-				posRect, 
+				destRect, 
 				sprite.Frames[frame].TexturePosition, 
 				color, 
 				rotation, 
@@ -1317,12 +1304,135 @@ namespace Monofoxe.Engine
 
 		#endregion Text.
 
+
+
+		//TODO: Test all this shit.
+		#region Surfaces.
+		
 		public static void DrawSurface(RenderTarget2D surf, float x, float y, Color color)
 		{
 			SwitchPipelineMode(PipelineMode.Sprites, null);
 			Batch.Draw(surf, new Vector2(x, y), color);
 		}
 
+		//TODO: Rename.
+		private static void DrawFrame(RenderTarget2D frame, Vector2 pos, Vector2 scale, float rotation, Vector2 offset, Color color, SpriteEffects effect)
+		{
+			SwitchPipelineMode(PipelineMode.Sprites, null);
+
+			Batch.Draw(
+				frame, 
+				pos, 
+				frame.Bounds, 
+				color, 
+				MathHelper.ToRadians(rotation), 
+				offset,
+				scale,
+				effect, 
+				0
+			);
+		}
+		
+		// Vectors.
+
+		public static void DrawSurface(RenderTarget2D surf, Vector2 pos) =>
+			DrawFrame(surf, pos, Vector2.One, 0, Vector2.Zero, CurrentColor, SpriteEffects.None);
+
+		public static void DrawSurface(RenderTarget2D surf, Vector2 pos, Vector2 scale, float rotation, Color color)
+		{
+			SwitchPipelineMode(PipelineMode.Sprites, null);
+			
+			var mirroring = SpriteEffects.None;
+
+			// Proper negative scaling.
+			var offset = Vector2.Zero;
+
+			if (scale.X < 0)
+			{
+				mirroring = mirroring | SpriteEffects.FlipHorizontally;
+				scale.X *= -1;
+				offset.X = surf.Width;
+			}
+
+			if (scale.Y < 0)
+			{
+				mirroring = mirroring | SpriteEffects.FlipVertically;
+				scale.Y *= -1;
+				offset.Y = surf.Height;
+			}
+			// Proper negative scaling.
+
+			DrawFrame(surf, pos, scale, rotation, offset, color, mirroring);
+		}
+		
+		// Vectors.
+		
+		// Floats.
+
+		public static void DrawSurface(RenderTarget2D surf, float x, float y) =>
+			DrawSurface(surf, new Vector2(x, y));
+		
+		public static void DrawSurface(RenderTarget2D surf, float x, float y, float scaleX, float scaleY, float rotation, Color color) =>
+			DrawSurface(surf, new Vector2(x, y), new Vector2(scaleX, scaleY), rotation, color);
+
+		// Floats.
+
+		// Rectangles.
+
+		public static void DrawSurface(RenderTarget2D surf, Rectangle destRect)
+		{
+			SwitchPipelineMode(PipelineMode.Sprites, null);
+			Batch.Draw(surf, destRect, surf.Bounds, CurrentColor);
+		}
+		
+		public static void DrawSurface(RenderTarget2D surf, Rectangle destRect, float rotation, Color color)
+		{
+			SwitchPipelineMode(PipelineMode.Sprites, null);
+			Batch.Draw(
+				surf, 
+				destRect, 
+				surf.Bounds, 
+				color, 
+				rotation,
+				Vector2.Zero,
+				SpriteEffects.None, 
+				0
+			);
+		}
+
+		public static void DrawSurface(RenderTarget2D surf, Rectangle destRect, Rectangle srcRect)
+		{
+			SwitchPipelineMode(PipelineMode.Sprites, null);
+			
+			srcRect.X += surf.Bounds.X;
+			srcRect.Y += surf.Bounds.Y;
+
+			Batch.Draw(surf, destRect, srcRect, CurrentColor);
+		}
+		
+		public static void DrawSurface(RenderTarget2D surf, Rectangle destRect, Rectangle srcRect, float rotation, Color color)
+		{
+			SwitchPipelineMode(PipelineMode.Sprites, null);
+						
+			srcRect.X += surf.Bounds.X;
+			srcRect.Y += surf.Bounds.Y;
+
+			Batch.Draw(
+				surf, 
+				destRect, 
+				surf.Bounds, 
+				color, 
+				rotation, 
+				Vector2.Zero,
+				SpriteEffects.None, 
+				0
+			);
+		}
+
+		// Rectangles.
+
+
+		#endregion Surfaces.
 
 	}
 }
