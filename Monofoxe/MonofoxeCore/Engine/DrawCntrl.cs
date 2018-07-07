@@ -137,6 +137,13 @@ namespace Monofoxe.Engine
 		private static BlendState _blendState;
 
 
+		/// <summary>
+		/// Current shader. Set to null to reset.
+		/// NOTE: Shader won't be applied to primitives.
+		/// If you really want this, you have to implement it yourself. 
+		/// : - )
+		/// ( - :
+		/// </summary>
 		public static Effect Effect
 		{
 			set
@@ -146,9 +153,13 @@ namespace Monofoxe.Engine
 			}
 			get => _effect;
 		}
-		private static BasicEffect _basicEffect;
 		private static Effect _effect;
-
+		
+		/// <summary>
+		/// Just a placeholder for shaders for primitives.
+		/// </summary>
+		private static BasicEffect _basicEffect;
+		
 
 		#endregion Modifiers.
 
@@ -547,10 +558,7 @@ namespace Monofoxe.Engine
 
 				Device.ScissorRectangle = _scissorRectangle;
 
-				//if (_effect != null)
-				//_effect.CurrentTechnique.Passes[0].Apply();
-				
-				//_effect = _basicEffect;
+				// Replace _basicEffect with custom effect system. Or not. We'll see. :V
 				foreach(EffectPass pass in _basicEffect.CurrentTechnique.Passes)
 				{
 					pass.Apply();

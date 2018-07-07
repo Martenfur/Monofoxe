@@ -47,9 +47,9 @@ namespace Monofoxe.Engine
 		public int Rotation;
 
 		/// <summary>
-		/// View scale.
+		/// View zoom.
 		/// </summary>
-		public Vector2 Scale = Vector2.One;
+		public float Zoom = 1;
 
 		/// <summary>
 		/// View surface. Everything will be drawn on it.
@@ -129,7 +129,7 @@ namespace Monofoxe.Engine
 		{
 			TransformMatrix = Matrix.CreateTranslation(new Vector3(-Pos.X, -Pos.Y, 0)) * // Coordinates.
 				Matrix.CreateRotationX(MathHelper.ToRadians(-Rotation)) *                  // Rotation.
-				Matrix.CreateScale(new Vector3(Scale.X, Scale.Y, 1)) *	                   // Scale.
+				Matrix.CreateScale(Vector3.One * Zoom) *                                   // Scale.
 				Matrix.CreateTranslation(new Vector3(Offset.X, Offset.Y, 0));              // Offset.									
 		}
 
