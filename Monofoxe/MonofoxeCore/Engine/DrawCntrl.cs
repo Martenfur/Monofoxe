@@ -31,6 +31,8 @@ namespace Monofoxe.Engine
 		/// Current transformation matrix.
 		/// </summary>
 		public static Matrix CurrentTransformMatrix {get; private set;}
+		public static Matrix CurrentProjection {get; private set;}
+
 		private static Stack<Matrix> _transformMatrixStack = new Stack<Matrix>();
 
 		
@@ -144,7 +146,7 @@ namespace Monofoxe.Engine
 			}
 			get => _effect;
 		}
-		private static Effect _basicEffect;
+		private static BasicEffect _basicEffect;
 		private static Effect _effect;
 
 
@@ -316,8 +318,7 @@ namespace Monofoxe.Engine
 					camera.UpdateTransformMatrix();
 					CurrentCamera = camera;
 					CurrentTransformMatrix = camera.TransformMatrix;
-					_basicEffect.View = camera.TransformMatrix;
-					_basicEffect.Projection = Matrix.CreateOrthographicOffCenter(0, camera.Size.X, camera.Size.Y, 0, 0, 1);
+					CurrentProjection = Matrix.CreateOrthographicOffCenter(0, camera.Size.X, camera.Size.Y, 0, 0, 1);
 					// Updating current transform matrix and camera.
 
 					Input.UpdateMouseWorldPosition();
@@ -363,14 +364,15 @@ namespace Monofoxe.Engine
 			// Resetting camera and transform matrix.
 			CurrentCamera = null;
 			CurrentTransformMatrix = CanvasMatrix;
-			_basicEffect.View = CurrentTransformMatrix;
-			_basicEffect.Projection = Matrix.CreateOrthographicOffCenter(
-				0, 
-				GameCntrl.WindowManager.PreferredBackBufferWidth, 
-				GameCntrl.WindowManager.PreferredBackBufferHeight, 
-				0,
-				0,
-				1
+			CurrentProjection = (
+				Matrix.CreateOrthographicOffCenter(
+					0, 
+					GameCntrl.WindowManager.PreferredBackBufferWidth, 
+					GameCntrl.WindowManager.PreferredBackBufferHeight, 
+					0,
+					0,
+					1
+				)
 			);
 			// Resetting camera and transform matrix.
 			
@@ -499,7 +501,8 @@ namespace Monofoxe.Engine
 		private static void DrawVertices()
 		{
 			_basicEffect.View = CurrentTransformMatrix;
-			
+			_basicEffect.Projection = CurrentProjection;
+
 			__drawcalls += 1;
 
 			if (_vertices.Count > 0)
@@ -544,10 +547,10 @@ namespace Monofoxe.Engine
 
 				Device.ScissorRectangle = _scissorRectangle;
 
-				if (_effect != null)
-				_effect.CurrentTechnique.Passes[0].Apply();
-
-				_effect = _basicEffect;
+				//if (_effect != null)
+				//_effect.CurrentTechnique.Passes[0].Apply();
+				
+				//_effect = _basicEffect;
 				foreach(EffectPass pass in _basicEffect.CurrentTechnique.Passes)
 				{
 					pass.Apply();
