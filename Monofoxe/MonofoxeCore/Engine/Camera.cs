@@ -29,10 +29,7 @@ namespace Monofoxe.Engine
 		/// View size.
 		/// NOTE: To change view size, call Resize function.
 		/// </summary>
-		public Vector2 Size 
-		{
-			get => new Vector2(ViewSurface.Width, ViewSurface.Height);
-		}
+		public Vector2 Size => new Vector2(ViewSurface.Width, ViewSurface.Height);
 		
 		/// <summary>
 		/// Camera offset.
@@ -88,9 +85,16 @@ namespace Monofoxe.Engine
 
 		public Camera(int w, int h)
 		{
-			ViewSurface = new RenderTarget2D(DrawCntrl.Device, w, h, false,
+			ViewSurface = new RenderTarget2D(
+				DrawCntrl.Device, 
+				w, 
+				h, 
+				false,
 				DrawCntrl.Device.PresentationParameters.BackBufferFormat,
-				DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
+				DepthFormat.Depth24, 
+				0, 
+				RenderTargetUsage.PreserveContents
+			);
 			DrawCntrl.Cameras.Add(this);
 		}
 
@@ -100,9 +104,16 @@ namespace Monofoxe.Engine
 		public void Resize(int w, int h)
 		{
 			ViewSurface.Dispose();
-			ViewSurface = new RenderTarget2D(DrawCntrl.Device, w, h, false,
+			ViewSurface = new RenderTarget2D(
+				DrawCntrl.Device, 
+				w, 
+				h, 
+				false,
 				DrawCntrl.Device.PresentationParameters.BackBufferFormat,
-				DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
+				DepthFormat.Depth24, 
+				0, 
+				RenderTargetUsage.PreserveContents
+			);
 		}
 
 		/// <summary>
@@ -117,7 +128,7 @@ namespace Monofoxe.Engine
 		public void UpdateTransformMatrix()
 		{
 			TransformMatrix = Matrix.CreateTranslation(new Vector3(-Pos.X, -Pos.Y, 0)) * // Coordinates.
-				Matrix.CreateRotationZ(MathHelper.ToRadians(-Rotation)) *                  // Rotation.
+				Matrix.CreateRotationX(MathHelper.ToRadians(-Rotation)) *                  // Rotation.
 				Matrix.CreateScale(new Vector3(Scale.X, Scale.Y, 1)) *	                   // Scale.
 				Matrix.CreateTranslation(new Vector3(Offset.X, Offset.Y, 0));              // Offset.									
 		}

@@ -130,7 +130,7 @@ namespace Monofoxe.Engine
 		/// Returns list of objects of certain type.
 		/// </summary>
 		/// <typeparam name="T">Object type.</typeparam>
-		public static List<T> GetList<T>() => 
+		public static List<T> GetList<T>() where T : GameObj => 
 			GameObjects.OfType<T>().ToList();
 
 
@@ -139,7 +139,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		/// <typeparam name="T">Object type.</typeparam>
 		/// <returns>Returns amount of objects.</returns>
-		public static int Count<T>() => 
+		public static int Count<T>() where T : GameObj => 
 			GameObjects.OfType<T>().Count();
 
 
@@ -164,7 +164,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Checks if given instance exists.
 		/// </summary>
-		public static bool ObjExists<T>()
+		public static bool ObjExists<T>() where T : GameObj
 		{
 			foreach(GameObj obj in GameObjects)
 			{
@@ -182,19 +182,19 @@ namespace Monofoxe.Engine
 		/// <typeparam name="T">Type to search.</typeparam>
 		/// <param name="count">Number of the object in object list.</param>
 		/// <returns>Returns object if it was found, or null, if it wasn't.</returns>
-		public static T ObjFind<T>(int count)
+		public static T ObjFind<T>(int count) where T : GameObj
 		{
-			int counter = 0;
+			var counter = 0;
 
 			foreach(GameObj obj in GameObjects)
 			{
 				if (counter >= count && obj is T)
 				{
-					return (T)(object)obj;
+					return (T)obj;
 				}
 				counter += 1;
 			}
-			return default(T);
+			return null;
 		}
 
 		#endregion user functions 

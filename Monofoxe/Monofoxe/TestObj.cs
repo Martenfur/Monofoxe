@@ -112,31 +112,28 @@ namespace Monofoxe
 			}
 			
 			if (Input.KeyboardCheck(Keys.Left))
-			{x += (5 / cam.Scale.X);}
+			{x += (5 / cam.Zoom);}
 			
 			if (Input.KeyboardCheck(Keys.Right))
-			{x -= (5 / cam.Scale.X);}
+			{x -= (5 / cam.Zoom);}
 			
 			if (Input.KeyboardCheck(Keys.Up))
-			{y += (5 / cam.Scale.X);}
+			{y += (5 / cam.Zoom);}
 			
 			if (Input.KeyboardCheck(Keys.Down))
-			{y -= (5 / cam.Scale.X);}
+			{y -= (5 / cam.Zoom);}
 			
 			if (Input.KeyboardCheck(Keys.Z))
 			{
-				cam.Scale.X += 0.1f;
-				cam.Scale.Y += 0.1f;
+				cam.Zoom += 0.1f;
 			}
 			
 			if (Input.KeyboardCheck(Keys.X))
 			{
-				cam.Scale.X -= 0.1f;
-				cam.Scale.Y -= 0.1f;
-				if (cam.Scale.X <= 0)
+				cam.Zoom -= 0.1f;
+				if (cam.Zoom <= 0)
 				{
-					cam.Scale.X = 0.1f;
-					cam.Scale.Y = 0.1f;
+					cam.Zoom = 0.1f;
 				}
 			}
 			
@@ -168,12 +165,11 @@ namespace Monofoxe
 			if (DrawCntrl.CurrentCamera == cam)
 			{
 				//DrawCntrl.BlendState = BlendState.Additive;
-				DrawCntrl._effect = Game1.effect;
+				//DrawCntrl.Effect = Game1.effect;
 			}
 			else
 			{
 				//DrawCntrl.BlendState = BlendState.AlphaBlend;
-				
 			}
 
 
@@ -220,7 +216,7 @@ namespace Monofoxe
 			DrawCntrl.DrawSprite(s1, new Vector2(200, 200));
 			DrawCntrl.DrawSprite(s2, new Vector2(400, 200));
 			
-			DrawCntrl._effect = null;
+			DrawCntrl.Effect = null;
 			
 		}
 
