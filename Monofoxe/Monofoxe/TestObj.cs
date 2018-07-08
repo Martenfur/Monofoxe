@@ -22,8 +22,8 @@ namespace Monofoxe
 		RenderTarget2D surf;
 
 		
-		Camera cam = new Camera(400, 600);
-		Camera cam1 = new Camera(400, 600);
+		Camera cam = new Camera(600, 600);
+		Camera cam1 = new Camera(600, 600);
 
 		VertexPositionColor[] vertices = new VertexPositionColor[3];
 		VertexBuffer vertexBuffer;
@@ -40,6 +40,8 @@ namespace Monofoxe
 
 		Timer timer = new Timer();
 
+		RenderTarget2D surfForDrawing;
+
 		public TestObj()
 		{
 			GameCntrl.GameSpeedMultiplier = 1;
@@ -54,11 +56,41 @@ namespace Monofoxe
 			
 			
 			GameCntrl.MaxGameSpeed = 60;
-			surf = new RenderTarget2D(DrawCntrl.Device, 512, 512, false,
-                                           DrawCntrl.Device.PresentationParameters.BackBufferFormat,
-                                           DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
+			surf = new RenderTarget2D(
+				DrawCntrl.Device, 
+				512, 
+				512, 
+				false,
+				DrawCntrl.Device.PresentationParameters.BackBufferFormat,
+				DepthFormat.Depth24, 
+				0, 
+				RenderTargetUsage.PreserveContents
+			);
+			surfForDrawing = new RenderTarget2D(
+				DrawCntrl.Device, 
+				128, 
+				128, 
+				false,
+				DrawCntrl.Device.PresentationParameters.BackBufferFormat,
+				DepthFormat.Depth24, 
+				0, 
+				RenderTargetUsage.PreserveContents
+			);
 			
+
 			
+			DrawCntrl.SetSurfaceTarget(surf);
+			Game1.effect.Parameters["test"].SetValue(new Vector4(0.5f, 0.3f, 0.1f, 1));
+			DrawCntrl.Effect = Game1.effect;
+			DrawCntrl.Device.Clear(Color.Black);
+			DrawCntrl.DrawCircle(256, 256, 256, false);
+			DrawCntrl.DrawSprite(Sprites.Default.Chiggin, 0, 0);
+
+			DrawCntrl.Effect = null;
+			DrawCntrl.ResetSurfaceTarget();
+
+
+
 
 			cam.BackgroundColor = Color.DarkSeaGreen;
 
@@ -67,7 +99,7 @@ namespace Monofoxe
 			x = cam.Size.X / 2;
 			y = cam.Size.Y / 2;
 
-			cam1.PortPos.X = 400;
+			cam1.PortPos.X = 600;
 			cam1.BackgroundColor = Color.DarkSeaGreen;
 			cam1.Enabled = true;
 
@@ -80,17 +112,14 @@ namespace Monofoxe
 			DrawCntrl.Sampler = SamplerState.PointClamp;
 
 			//DrawCntrl.ScissorRectangle = new Rectangle(0, 0, 100, 100);
-			GameCntrl.WindowManager.CanvasSize = new Vector2(800, 600);
+			GameCntrl.WindowManager.CanvasSize = new Vector2(1200, 600);
 			GameCntrl.WindowManager.Window.AllowUserResizing = false;
 			GameCntrl.WindowManager.ApplyChanges();
 			GameCntrl.WindowManager.CenterWindow();
 			
 			GameCntrl.WindowManager.CanvasMode = CanvasMode.Fill; 
 		}
-		public override void UpdateBegin()
-		{
-		}
-
+		
 		public override void Update()
 		{
 			GameCntrl.WindowManager.WindowTitle = "Draw fps: " + GameCntrl.Fps;
@@ -156,7 +185,15 @@ namespace Monofoxe
 			cam.Pos.Y = y;
 
 			#endregion Camera. 
-
+			
+			DrawCntrl.CurrentColor = new Color((float)r.NextDouble(), (float)r.NextDouble(), (float)r.NextDouble(), 1.0f);
+			DrawCntrl.SetSurfaceTarget(surfForDrawing);
+			if (Input.MouseCheck(MouseButtons.Left))
+			{
+				DrawCntrl.DrawCircle(Input.ScreenMousePos, 16, false);
+			}
+			DrawCntrl.ResetSurfaceTarget();
+			
 		}
 
 		
@@ -165,6 +202,7 @@ namespace Monofoxe
 			if (DrawCntrl.CurrentCamera == cam)
 			{
 				//DrawCntrl.BlendState = BlendState.Additive;
+				Game1.effect.Parameters["test"].SetValue(new Vector4(0.0f, 0.7f, 0.0f, 1.0f));
 				DrawCntrl.Effect = Game1.effect;
 			}
 			else
@@ -216,14 +254,21 @@ namespace Monofoxe
 			DrawCntrl.DrawSprite(s1, new Vector2(200, 200));
 			DrawCntrl.DrawSprite(s2, new Vector2(400, 200));
 			
+			DrawCntrl.DrawSurface(surf, 128, 128);
+
 			DrawCntrl.Effect = null;
+			
 			
 		}
 
 		public override void DrawGUI()
 		{
-			//DrawCntrl.DrawSprite(Sprites.Bench, 32, 32);
-			//DrawCntrl.DrawSurface(DrawCntrl.Cameras[0].ViewSurface, 0, 0, Color.White);
+			DrawCntrl.CurrentColor = Color.Red;
+
+			
+			DrawCntrl.CurrentColor = Color.White;
+			DrawCntrl.DrawSurface(surfForDrawing, 0, 0);
+			DrawCntrl.DrawCircle(Input.ScreenMousePos, 8, false);
 		}
 
 		private void TestDrawPrimitives()

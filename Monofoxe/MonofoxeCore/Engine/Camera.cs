@@ -128,7 +128,7 @@ namespace Monofoxe.Engine
 		public void UpdateTransformMatrix()
 		{
 			TransformMatrix = Matrix.CreateTranslation(new Vector3(-Pos.X, -Pos.Y, 0)) * // Coordinates.
-				Matrix.CreateRotationX(MathHelper.ToRadians(-Rotation)) *                  // Rotation.
+				Matrix.CreateRotationZ(MathHelper.ToRadians(-Rotation)) *                  // Rotation.
 				Matrix.CreateScale(Vector3.One * Zoom) *                                   // Scale.
 				Matrix.CreateTranslation(new Vector3(Offset.X, Offset.Y, 0));              // Offset.									
 		}

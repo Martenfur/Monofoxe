@@ -5,7 +5,11 @@ float4x4 Projection;
 float4 AmbientColor = float4(1, 0, 1, 1);
 float AmbientIntensity = 1;
 
+float4 test;
+
 sampler s0;
+
+
 
 struct VertexShaderInput
 {
@@ -32,13 +36,16 @@ float4 PixelShaderFunction(float2 coords: TEXCOORD0) : COLOR0
 {
 	float4 color = tex2D(s0, coords);
   float s = (color.r + color.g + color.b) / 3.0;
-  return float4(s, s, s, color.a);
+  return float4(s, s, s, 1.0f) * test;
 }
 
 technique Ambient
 {
-    pass Pass1
-    {
-        PixelShader = compile ps_2_0 PixelShaderFunction();
-    }
+  pass Pass1
+  {
+    AlphaBlendEnable = true;
+    DestBlend = DESTALPHA;
+    SrcBlend = SRCALPHA;
+    PixelShader = compile ps_2_0 PixelShaderFunction();
+  }
 }
