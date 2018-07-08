@@ -566,69 +566,7 @@ namespace Monofoxe.Engine
 
 		
 		
-		#region Surfaces and matrixes.
-
-		/// <summary>
-		/// Sets surface as a render target.
-		/// </summary>
-		/// <param name="surf">Target surface.</param>
-		public static void SetSurfaceTarget(RenderTarget2D surf)
-		{
-			SetSurfaceTarget(surf, Matrix.CreateTranslation(Vector3.Zero));
-		}
-
-		/// <summary>
-		/// Sets surface as a render target.
-		/// </summary>
-		/// <param name="surf">Target surface.</param>
-		/// <param name="matrix">Surface transformation matrix.</param>
-		public static void SetSurfaceTarget(RenderTarget2D surf, Matrix matrix)
-		{
-			SetTransformMatrix(matrix);
-
-			_surfaceStack.Push(_currentSurface);
-			_currentSurface = surf;
-
-			CurrentProjection = Matrix.CreateOrthographicOffCenter(0,	_currentSurface.Width, _currentSurface.Height, 0, 0, 1);
-
-			Device.SetRenderTarget(_currentSurface);
-		}
-
-
-
-		/// <summary>
-		/// Resets render target to a previous surface.
-		/// </summary>
-		public static void ResetSurfaceTarget()
-		{
-			ResetTransformMatrix();
-
-			if (_surfaceStack.Count == 0)
-			{
-				throw(new InvalidOperationException("Surface stack is empty! Did you forgot to set a surface somewhere?"));
-			}
-			_currentSurface = _surfaceStack.Pop();
-
-			if (_currentSurface != null)
-			{
-				CurrentProjection = Matrix.CreateOrthographicOffCenter(0,	_currentSurface.Width, _currentSurface.Height, 0, 0, 1);
-			}
-			else
-			{
-				CurrentProjection = Matrix.CreateOrthographicOffCenter(
-					0, 
-					GameCntrl.WindowManager.PreferredBackBufferWidth, 
-					GameCntrl.WindowManager.PreferredBackBufferHeight, 
-					0,
-					0,
-					1
-				);
-			}
-
-			Device.SetRenderTarget(_currentSurface);
-		}
-
-
+		#region Matrixes.
 
 		/// <summary>
 		/// Sets new transform matrix.
@@ -641,8 +579,6 @@ namespace Monofoxe.Engine
 			CurrentTransformMatrix = matrix;
 		}
 
-
-
 		/// <summary>
 		/// Sets new transform matrix multiplied by current transform matrix.
 		/// </summary>
@@ -653,8 +589,6 @@ namespace Monofoxe.Engine
 			_transformMatrixStack.Push(CurrentTransformMatrix);
 			CurrentTransformMatrix = matrix * CurrentTransformMatrix;
 		}
-
-
 
 		/// <summary>
 		/// Resets to a previous transform matrix.
@@ -670,7 +604,7 @@ namespace Monofoxe.Engine
 			CurrentTransformMatrix = _transformMatrixStack.Pop();
 		}
 
-		#endregion Surfaces and matrixes.
+		#endregion Matrixes.
 
 
 
@@ -1315,38 +1249,90 @@ namespace Monofoxe.Engine
 
 
 
-		//TODO: Test all this shit.
 		#region Surfaces.
 		
-		public static void DrawSurface(RenderTarget2D surf, float x, float y, Color color)
+		/// <summary>
+		/// Sets surface as a render target.
+		/// </summary>
+		/// <param name="surf">Target surface.</param>
+		public static void SetSurfaceTarget(RenderTarget2D surf)
 		{
-			SwitchPipelineMode(PipelineMode.Sprites, null);
-			Batch.Draw(surf, new Vector2(x, y), color);
+			SetSurfaceTarget(surf, Matrix.CreateTranslation(Vector3.Zero));
 		}
 
-		//TODO: Rename.
-		private static void DrawFrame(RenderTarget2D frame, Vector2 pos, Vector2 scale, float rotation, Vector2 offset, Color color, SpriteEffects effect)
+		/// <summary>
+		/// Sets surface as a render target.
+		/// </summary>
+		/// <param name="surf">Target surface.</param>
+		/// <param name="matrix">Surface transformation matrix.</param>
+		public static void SetSurfaceTarget(RenderTarget2D surf, Matrix matrix)
+		{
+			SetTransformMatrix(matrix);
+
+			_surfaceStack.Push(_currentSurface);
+			_currentSurface = surf;
+
+			CurrentProjection = Matrix.CreateOrthographicOffCenter(0,	_currentSurface.Width, _currentSurface.Height, 0, 0, 1);
+
+			Device.SetRenderTarget(_currentSurface);
+		}
+
+		/// <summary>
+		/// Resets render target to a previous surface.
+		/// </summary>
+		public static void ResetSurfaceTarget()
+		{
+			ResetTransformMatrix();
+
+			if (_surfaceStack.Count == 0)
+			{
+				throw(new InvalidOperationException("Surface stack is empty! Did you forgot to set a surface somewhere?"));
+			}
+			_currentSurface = _surfaceStack.Pop();
+
+			if (_currentSurface != null)
+			{
+				CurrentProjection = Matrix.CreateOrthographicOffCenter(0,	_currentSurface.Width, _currentSurface.Height, 0, 0, 1);
+			}
+			else
+			{
+				CurrentProjection = Matrix.CreateOrthographicOffCenter(
+					0, 
+					GameCntrl.WindowManager.PreferredBackBufferWidth, 
+					GameCntrl.WindowManager.PreferredBackBufferHeight, 
+					0,
+					0,
+					1
+				);
+			}
+
+			Device.SetRenderTarget(_currentSurface);
+		}
+
+
+
+		private static void DrawRenderTarget(
+			RenderTarget2D renderTarget, 
+			Vector2 pos, 
+			Vector2 scale, 
+			float rotation, 
+			Vector2 offset, 
+			Color color, 
+			SpriteEffects effect
+		)
 		{
 			SwitchPipelineMode(PipelineMode.Sprites, null);
-
-			Batch.Draw(
-				frame, 
-				pos, 
-				frame.Bounds, 
-				color, 
-				MathHelper.ToRadians(rotation), 
-				offset,
-				scale,
-				effect, 
-				0
-			);
+			Batch.Draw(renderTarget, pos, renderTarget.Bounds, color, MathHelper.ToRadians(rotation), offset, scale, effect, 0);
 		}
 		
 		// Vectors.
 
-		public static void DrawSurface(RenderTarget2D surf, Vector2 pos) =>
-			DrawFrame(surf, pos, Vector2.One, 0, Vector2.Zero, CurrentColor, SpriteEffects.None);
-
+		public static void DrawSurface(RenderTarget2D surf, Vector2 pos)
+		{
+			SwitchPipelineMode(PipelineMode.Sprites, null);
+			Batch.Draw(surf, pos, CurrentColor);
+		}
+		
 		public static void DrawSurface(RenderTarget2D surf, Vector2 pos, Vector2 scale, float rotation, Color color)
 		{
 			SwitchPipelineMode(PipelineMode.Sprites, null);
@@ -1371,7 +1357,7 @@ namespace Monofoxe.Engine
 			}
 			// Proper negative scaling.
 
-			DrawFrame(surf, pos, scale, rotation, offset, color, mirroring);
+			DrawRenderTarget(surf, pos, scale, rotation, offset, color, mirroring);
 		}
 		
 		// Vectors.

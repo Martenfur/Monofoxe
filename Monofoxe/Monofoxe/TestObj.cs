@@ -44,6 +44,11 @@ namespace Monofoxe
 
 		public TestObj()
 		{
+			//TODO: Fix this shit.
+			//Input.GamepadCheck(0, GamepadButtons.Down);
+			//Input.MaxGamepadCount = 3;
+			//Input.GamepadCheck(0, GamepadButtons.Down);
+
 			GameCntrl.GameSpeedMultiplier = 1;
 			auto1.AffectedBySpeedMultiplier = false;
 
@@ -265,10 +270,20 @@ namespace Monofoxe
 		{
 			DrawCntrl.CurrentColor = Color.Red;
 
-			
-			DrawCntrl.CurrentColor = Color.White;
+
+			DrawCntrl.CurrentColor = new Color(Color.White, 0.5f);
 			DrawCntrl.DrawSurface(surfForDrawing, 0, 0);
 			DrawCntrl.DrawCircle(Input.ScreenMousePos, 8, false);
+
+			var spr = Sprites.Default.Scene3TreeLeft;
+
+			
+			//DrawCntrl.CurrentColor = new Color(Color.White, 0.5f);
+			//DrawCntrl.DrawSprite(spr, 0, 0);
+			
+			DrawCntrl.CurrentColor = Color.White;
+			DrawCntrl.DrawSurface(surfForDrawing, new Rectangle(32, 32, 32, 48), new Rectangle(32, 32, 32, 48));
+
 		}
 
 		private void TestDrawPrimitives()
