@@ -48,12 +48,12 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Cursor position on screen.
 		/// </summary>
-		public static Vector2 ScreenMousePos {get; private set;}
+		public static Vector2 ScreenMousePos {get; private set;} = Vector2.Zero;
 		
 		/// <summary>
 		/// Cursor position in the world. Depends on current camera.
 		/// </summary>
-		public static Vector2 MousePos {get; private set;}
+		public static Vector2 MousePos {get; private set;} = Vector2.Zero;
 
 
 		private static List<MouseButtons> _mouseButtons = new List<MouseButtons>();
@@ -149,10 +149,15 @@ namespace Monofoxe.Engine
 			_keyboardCleared = false;
 			_gamepadCleared = false;
 
-			#region Mouse
+			#region Mouse.
 			MouseState mouseState = Mouse.GetState();
 			
-			ScreenMousePos = new Vector2(mouseState.X, mouseState.Y);
+			
+			var m = Matrix.Invert(DrawCntrl.CanvasMatrix);
+			
+			var buffer = Vector3.Transform(new Vector3(mouseState.X, mouseState.Y, 0), m);
+			ScreenMousePos = new Vector2(buffer.X, buffer.Y);
+			//ScreenMousePos = new Vector2(mouseState.X, mouseState.Y);
 
 			_previousMouseButtons = _mouseButtons;
 			_mouseButtons = new List<MouseButtons>();
@@ -179,11 +184,11 @@ namespace Monofoxe.Engine
 			*/
 			MouseWheelVal = Math.Sign(_mouseWheelAdditionPrev - mouseState.ScrollWheelValue);
 			_mouseWheelAdditionPrev = mouseState.ScrollWheelValue;
-			#endregion Mouse
+			#endregion Mouse.
 
 
 
-			#region Keyboard
+			#region Keyboard.
 			KeyboardString = _keyboardBuffer.ToString();
 			_keyboardBuffer.Clear();
 
@@ -205,11 +210,11 @@ namespace Monofoxe.Engine
 			{
 				KeyboardKey = Keys.None;
 			}
-			#endregion Keyboard
+			#endregion Keyboard.
 
 
 			
-			#region Gamepad
+			#region Gamepad.
 			for(var i = 0; i < MaxGamepadCount; i += 1)
 			{
 				_previousGamepadState[i] = _gamepadState[i];
@@ -289,13 +294,13 @@ namespace Monofoxe.Engine
 					_gamepadButtons[i].Add(GamepadButtons.Select);
 				}
 			}
-			#endregion Gamepad
+			#endregion Gamepad.
 			
 		}
 
+		//TODO: Update comments and codestyle.
 
-
-		#region mouse
+		#region Mouse.
 
 		/// <summary>
 		/// Checks if mouse button is down in current step.
@@ -336,18 +341,18 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static void UpdateMouseWorldPosition()
 		{
-			Matrix m = Matrix.Invert(DrawCntrl.CurrentTransformMatrix * DrawCntrl.CanvasMatrix);
+			Matrix m = Matrix.Invert(DrawCntrl.CurrentTransformMatrix);
 			
 			Vector3 buffer = Vector3.Transform(new Vector3(ScreenMousePos.X, ScreenMousePos.Y, 0), m);
 			MousePos = new Vector2(buffer.X, buffer.Y) - DrawCntrl.CurrentCamera.PortPos;
 		}
 
 
-		#endregion mouse
+		#endregion Mouse.
 
 
 
-		#region keyboard
+		#region Keyboard.
 
 		/// <summary>
 		/// Checks if keyboard key is down in current step.
@@ -417,7 +422,7 @@ namespace Monofoxe.Engine
 			_keyboardLastKeyBuffer = e.Key;
 		}
 
-		#endregion keyboard
+		#endregion Keyboard.
 
 
 

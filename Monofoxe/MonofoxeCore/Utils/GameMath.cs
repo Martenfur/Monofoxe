@@ -151,7 +151,7 @@ namespace Monofoxe.Utils
 		{
 			Vector2 line1 = new Vector2(line1Pt2.Y - line1Pt1.Y, line1Pt1.X - line1Pt2.X);
 			Vector2 line2 = new Vector2(line2Pt2.Y - line2Pt1.Y, line2Pt1.X - line2Pt2.X);
-
+			
 			int side1 = Math.Sign(Vector2.Dot(line2Pt1 - line1Pt1, line1));
 			int side2 = Math.Sign(Vector2.Dot(line2Pt2 - line1Pt1, line1));
 			int side3 = Math.Sign(Vector2.Dot(line1Pt1 - line2Pt1, line2));

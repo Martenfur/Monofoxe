@@ -163,8 +163,10 @@ namespace Monofoxe.Engine
 
 		#endregion Modifiers.
 
-		public static Matrix CanvasMatrix;
 
+		//We need zero matrix here, or else mouse position will derp out.
+		public static Matrix CanvasMatrix = Matrix.CreateTranslation(Vector3.Zero); 
+		
 
 		#region Shapes.
 
@@ -275,14 +277,13 @@ namespace Monofoxe.Engine
 				// Fills the display with canvas.
 				if (windowManager.CanvasMode == CanvasMode.Fill)
 				{
-					CanvasMatrix =
-						Matrix.CreateScale(
-							new Vector3(
-								windowManager.PreferredBackBufferWidth / (float)windowManager.CanvasW,
-								windowManager.PreferredBackBufferHeight / (float)windowManager.CanvasH,
-								1
-							)
-						);
+					CanvasMatrix = Matrix.CreateScale(
+					 new Vector3(
+							windowManager.PreferredBackBufferWidth / (float)windowManager.CanvasW,
+							windowManager.PreferredBackBufferHeight / (float)windowManager.CanvasH,
+							1
+						)
+					);
 				}
 
 				// Scales display to match canvas, but keeps aspect ratio.
@@ -375,16 +376,6 @@ namespace Monofoxe.Engine
 			// Resetting camera and transform matrix.
 			CurrentCamera = null;
 			CurrentTransformMatrix = CanvasMatrix;
-			CurrentProjection = (
-				Matrix.CreateOrthographicOffCenter(
-					0, 
-					GameCntrl.WindowManager.PreferredBackBufferWidth, 
-					GameCntrl.WindowManager.PreferredBackBufferHeight, 
-					0,
-					0,
-					1
-				)
-			);
 			// Resetting camera and transform matrix.
 			
 
@@ -598,6 +589,8 @@ namespace Monofoxe.Engine
 			_surfaceStack.Push(_currentSurface);
 			_currentSurface = surf;
 
+			CurrentProjection = Matrix.CreateOrthographicOffCenter(0,	_currentSurface.Width, _currentSurface.Height, 0, 0, 1);
+
 			Device.SetRenderTarget(_currentSurface);
 		}
 
@@ -615,6 +608,22 @@ namespace Monofoxe.Engine
 				throw(new InvalidOperationException("Surface stack is empty! Did you forgot to set a surface somewhere?"));
 			}
 			_currentSurface = _surfaceStack.Pop();
+
+			if (_currentSurface != null)
+			{
+				CurrentProjection = Matrix.CreateOrthographicOffCenter(0,	_currentSurface.Width, _currentSurface.Height, 0, 0, 1);
+			}
+			else
+			{
+				CurrentProjection = Matrix.CreateOrthographicOffCenter(
+					0, 
+					GameCntrl.WindowManager.PreferredBackBufferWidth, 
+					GameCntrl.WindowManager.PreferredBackBufferHeight, 
+					0,
+					0,
+					1
+				);
+			}
 
 			Device.SetRenderTarget(_currentSurface);
 		}
