@@ -130,9 +130,11 @@ namespace Pipefoxe.SpriteGroup
 			}
 			#endregion Assembling variables from templates.
 		
+			var camelGroupName = ToCamelCase(groupName);
+			var className = "Sprites" + camelGroupName;
+			code = code.Replace("<group_name>", camelGroupName).Replace("<class_name>", className);
 			
-			code = code.Replace("<group_name>", ToCamelCase(groupName));
-			
+
 			for(var i = 0; i < customVariableNames.Count; i += 1)
 			{
 				code = code.Replace('<' + customVariableNames[i] + '>', completeVariableValues[i].ToString());
@@ -141,7 +143,7 @@ namespace Pipefoxe.SpriteGroup
 			// Now tabs are all messed up. Fixing this just to make code look pretteh.
 			FixTabulation(code);
 			
-			File.WriteAllText(outPath + '/' + ToCamelCase(groupName) + ".cs", code.ToString());
+			File.WriteAllText(outPath + '/' + className + ".cs", code.ToString());
 		}
 
 

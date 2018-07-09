@@ -1,6 +1,7 @@
 #class_prefix = "public static Sprite <sprite_name>;"
 #class_constructor = "<sprite_name> = sprites[<hash_sprite_name>];"
 // Template tags: 
+// <class_name> - Name of output class.
 // <group_name> - Name of current group.
 // <sprite_name> - Name of each sprite.
 // <sprite_hash_name> - Hash name of each sprite.
@@ -8,17 +9,15 @@
 using Microsoft.Xna.Framework.Content;
 using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace Sprites
+namespace Resources.Sprites
 {
-	public static class <group_name>
+	public static class <class_name>
 	{
-		#region sprites
+		#region Sprites.
 		<class_prefix>		
-		#endregion sprites
+		#endregion Sprites.
 		
 		private static string _groupName = "<group_name>";
 		private static ContentManager _content = new ContentManager(GameCntrl.Game.Services);
@@ -31,11 +30,11 @@ namespace Sprites
 			var graphicsPath = GameCntrl.ContentDir + '/' + GameCntrl.GraphicsDir +  '/' + _groupName;
 			var sprites = _content.Load<Dictionary<string, Sprite>>(graphicsPath);
 					
-			#region sprite_constructors
+			#region Sprite constructors.
 
 			<class_constructor>
 
-			#endregion sprite_constructors
+			#endregion Sprite constructors.
 		}
 		
 		public static void Unload()

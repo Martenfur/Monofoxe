@@ -1,13 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-//using System.Windows.Forms;
-using System.Diagnostics;
-using System;
 using Monofoxe.Engine;
-using Monofoxe.Engine.Drawing;
-using System.Collections.Generic;
-using System.IO;
 
 namespace Monofoxe
 {
@@ -16,8 +9,6 @@ namespace Monofoxe
 	/// </summary>
 	public class Game1 : Game
 	{
-		public static Effect effect;
-
 		public Game1()
 		{
 			Content.RootDirectory = GameCntrl.ContentDir;
@@ -43,11 +34,10 @@ namespace Monofoxe
 		/// </summary>
 		protected override void LoadContent()
 		{
-			Sprites.Default.Load();	
-			Fonts.Load(Content);
+			Resources.Sprites.SpritesDefault.Load();	
+			Resources.Fonts.Load(Content);
+			Resources.Effects.Load(Content);
 			DrawCntrl.Init(GraphicsDevice);
-			
-			effect = Content.Load<Effect>("Effects/effect");
 		}
 
 		/// <summary>

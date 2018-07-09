@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
 using Monofoxe.Utils;
+using Resources.Sprites;
+using Resources;
 
 namespace Monofoxe
 {
@@ -35,8 +37,8 @@ namespace Monofoxe
 		AutoAlarm auto1 = new AutoAlarm(1);
 		AutoAlarm auto2 = new AutoAlarm(1);
 
-		Sprite s1 = Sprites.Default.Boss;
-		Sprite s2 = Sprites.Default.Boss;
+		Sprite s1 = SpritesDefault.Boss;
+		Sprite s2 = SpritesDefault.Boss;
 
 		Timer timer = new Timer();
 
@@ -86,11 +88,11 @@ namespace Monofoxe
 
 			
 			DrawCntrl.SetSurfaceTarget(surf);
-			Game1.effect.Parameters["test"].SetValue(new Vector4(0.5f, 0.3f, 0.1f, 1));
-			DrawCntrl.Effect = Game1.effect;
+			Effects.Effect.Parameters["test"].SetValue(new Vector4(0.5f, 0.3f, 0.1f, 1));
+			DrawCntrl.Effect = Effects.Effect;
 			DrawCntrl.Device.Clear(Color.Black);
 			DrawCntrl.DrawCircle(256, 256, 256, false);
-			DrawCntrl.DrawSprite(Sprites.Default.Chiggin, 0, 0);
+			DrawCntrl.DrawSprite(SpritesDefault.Chiggin, 0, 0);
 
 			DrawCntrl.Effect = null;
 			DrawCntrl.ResetSurfaceTarget();
@@ -132,7 +134,7 @@ namespace Monofoxe
 			
 			fireFrame += 0.1f;
 
-			if (fireFrame >= Sprites.Default.DemonFire.Frames.Count())
+			if (fireFrame >= SpritesDefault.DemonFire.Frames.Count())
 			{
 				fireFrame = 0;
 			}
@@ -208,8 +210,8 @@ namespace Monofoxe
 			if (DrawCntrl.CurrentCamera == cam)
 			{
 				//DrawCntrl.BlendState = BlendState.Additive;
-				Game1.effect.Parameters["test"].SetValue(new Vector4(0.0f, 0.7f, 0.0f, 1.0f));
-				DrawCntrl.Effect = Game1.effect;
+				Effects.Effect.Parameters["test"].SetValue(new Vector4(0.0f, 0.7f, 0.0f, 1.0f));
+				DrawCntrl.Effect = Effects.Effect;
 			}
 			else
 			{
@@ -219,14 +221,14 @@ namespace Monofoxe
 
 			DrawCntrl.CurrentColor = Color.Violet;
 			//DrawCntrl.DrawRectangle(-32, -32, 500, 500, false);
-			DrawCntrl.DrawSprite(Sprites.Default.BstGam, 0, Vector2.Zero);
+			DrawCntrl.DrawSprite(SpritesDefault.BstGam, 0, Vector2.Zero);
 			
-			DrawCntrl.DrawSprite(Sprites.Default.DemonFire, (int)fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
+			DrawCntrl.DrawSprite(SpritesDefault.DemonFire, (int)fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
 
 			
-			Frame f = Sprites.Default.DemonFire.Frames[(int)fireFrame];
+			Frame f = SpritesDefault.DemonFire.Frames[(int)fireFrame];
 			DrawCntrl.CurrentColor = Color.White;
-			DrawCntrl.DrawRectangle(0, 0, Sprites.Default.DemonFire.W, Sprites.Default.DemonFire.H, true);
+			DrawCntrl.DrawRectangle(0, 0, SpritesDefault.DemonFire.W, SpritesDefault.DemonFire.H, true);
 			
 			DrawCntrl.CurrentColor = Color.BlueViolet;
 			DrawCntrl.DrawRectangle(f.Origin.X, f.Origin.Y, f.TexturePosition.Width + f.Origin.X, f.TexturePosition.Height + f.Origin.Y, true);
@@ -276,7 +278,7 @@ namespace Monofoxe
 			DrawCntrl.DrawSurface(surfForDrawing, 0, 0);
 			DrawCntrl.DrawCircle(Input.ScreenMousePos, 8, false);
 
-			var spr = Sprites.Default.Scene3TreeLeft;
+			var spr = SpritesDefault.Scene3TreeLeft;
 
 			
 			//DrawCntrl.CurrentColor = new Color(Color.White, 0.5f);
@@ -311,7 +313,7 @@ namespace Monofoxe
 			DrawCntrl.PrimitiveAddVertex(64, 0,new Color(56, 135, 255, 0) , new Vector2(1, 0));
 			DrawCntrl.PrimitiveAddVertex(96, 32, new Color(56, 135, 255, 0), new Vector2(1, 1));
 			DrawCntrl.PrimitiveSetTriangleStripIndices();
-			DrawCntrl.PrimitiveSetTexture(Sprites.Default.BirdieBody, 0);
+			DrawCntrl.PrimitiveSetTexture(SpritesDefault.BirdieBody, 0);
 			DrawCntrl.PrimitiveEnd();
 			
 			
@@ -329,7 +331,7 @@ namespace Monofoxe
 					DrawCntrl.PrimitiveAddVertex(_x + 8 * i + i * i * k, _y + 8 * k + k * k * i, Color.White, new Vector2(i / (float)(w - 1), k / (float)(h - 1)));	
 				}
 			}
-			DrawCntrl.PrimitiveSetTexture(Sprites.Default.Boulder3, 0);
+			DrawCntrl.PrimitiveSetTexture(SpritesDefault.Boulder3, 0);
 			DrawCntrl.PrimitiveSetMeshIndices(w, h);
 			DrawCntrl.PrimitiveEnd();
 		}
