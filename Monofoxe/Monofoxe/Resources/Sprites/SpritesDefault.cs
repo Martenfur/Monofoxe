@@ -1,4 +1,5 @@
 // Template tags: 
+// SpritesDefault - Name of output class.
 // Default - Name of current group.
 // <sprite_name> - Name of each sprite.
 // <sprite_hash_name> - Hash name of each sprite.
@@ -6,15 +7,13 @@
 using Microsoft.Xna.Framework.Content;
 using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace Sprites
+namespace Resources.Sprites
 {
-	public static class Default
+	public static class SpritesDefault
 	{
-		#region sprites
+		#region Sprites.
 		public static Sprite Scene5Bkg;
 		public static Sprite Scene3Bkg;
 		public static Sprite Scene5BkgStrip2;
@@ -81,7 +80,7 @@ namespace Sprites
 		public static Sprite Scene3Ground;
 		public static Sprite Scene3Hill;
 		public static Sprite BstGam;
-		#endregion sprites
+		#endregion Sprites.
 		
 		private static string _groupName = "Default";
 		private static ContentManager _content = new ContentManager(GameCntrl.Game.Services);
@@ -94,7 +93,7 @@ namespace Sprites
 			var graphicsPath = GameCntrl.ContentDir + '/' + GameCntrl.GraphicsDir +  '/' + _groupName;
 			var sprites = _content.Load<Dictionary<string, Sprite>>(graphicsPath);
 			
-			#region sprite_constructors
+			#region Sprite constructors.
 			
 			Scene5Bkg = sprites["outro/scene5_bkg"];
 			Scene3Bkg = sprites["intro/scene3_bkg"];
@@ -163,7 +162,7 @@ namespace Sprites
 			Scene3Hill = sprites["outro/scene3_hill"];
 			BstGam = sprites["Textures/bst_gam"];
 			
-			#endregion sprite_constructors
+			#endregion Sprite constructors.
 		}
 		
 		public static void Unload()
