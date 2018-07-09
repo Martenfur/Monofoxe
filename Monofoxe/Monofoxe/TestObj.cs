@@ -44,10 +44,11 @@ namespace Monofoxe
 
 		public TestObj()
 		{
-			//TODO: Fix this shit.
-			//Input.GamepadCheck(0, GamepadButtons.Down);
-			//Input.MaxGamepadCount = 3;
-			//Input.GamepadCheck(0, GamepadButtons.Down);
+			Input.GamepadConnected(0);
+			Input.GamepadCheckPress(0, GamepadButtons.Down);
+			Input.MaxGamepadCount = 3;
+			Input.GamepadCheckRelease(0, GamepadButtons.Down);
+			Input.GamepadGetRightStick(0);
 
 			GameCntrl.GameSpeedMultiplier = 1;
 			auto1.AffectedBySpeedMultiplier = false;

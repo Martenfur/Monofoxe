@@ -122,8 +122,10 @@ namespace Monofoxe.Engine
 			game.IsMouseVisible = true;
 			
 			game.Window.TextInput += Input.TextInput;
+			Input.MaxGamepadCount = 2;
 
 			WindowManager = new WindowManager(game);
+
 		}
 
 		

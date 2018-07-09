@@ -124,7 +124,7 @@ namespace Monofoxe.Engine
 			set
 			{
 				_maxGamepadCount = Math.Min(GamePad.MaximumGamePadCount, value);
-				GamepadClear(); // Well, yeah, it's a clearing function, but also can be used to re-init arrays.
+				GamepadInit();
 			}
 		}
 
@@ -138,17 +138,6 @@ namespace Monofoxe.Engine
 		
 
 		private static bool _mouseCleared, _keyboardCleared, _gamepadCleared;
-
-
-		private static void GamepadInit(int maxGamepadCount)
-		{
-			_maxGamepadCount = maxGamepadCount;
-
-			_gamepadButtons = new List<GamepadButtons>[_maxGamepadCount];
-			_previousGamepadButtons = new List<GamepadButtons>[_maxGamepadCount];
-			_gamepadState = new GamePadState[_maxGamepadCount];
-			_previousGamepadState = new GamePadState[_maxGamepadCount];
-		}
 
 		public static void Update()
 		{
@@ -418,6 +407,24 @@ namespace Monofoxe.Engine
 
 		#region Gamepad.
 
+		private static void GamepadInit()
+		{
+			// Creating a bunch of dummy objects just to get rid of null ref exception.
+			_gamepadButtons = new List<GamepadButtons>[_maxGamepadCount];
+			for(var i = 0; i < _gamepadButtons.Length; i += 1)
+			{
+				_gamepadButtons[i] = new List<GamepadButtons>();
+			}
+			_previousGamepadButtons = _gamepadButtons;
+
+			_gamepadState = new GamePadState[_maxGamepadCount];
+			for(var i = 0; i < _gamepadState.Length; i += 1)
+			{
+				_gamepadState[i] = new GamePadState();
+			}
+			_previousGamepadState = _gamepadState;			
+		}
+
 		/// <summary>
 		/// Checks if gamepad with given inex is connected.
 		/// </summary>
@@ -533,7 +540,6 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static void GamepadClear() =>
 			_gamepadCleared = true;
-
 		#endregion Gamepad.
 
 

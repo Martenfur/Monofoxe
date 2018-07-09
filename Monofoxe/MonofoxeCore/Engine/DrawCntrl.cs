@@ -1250,15 +1250,13 @@ namespace Monofoxe.Engine
 
 
 		#region Surfaces.
-		
+
 		/// <summary>
 		/// Sets surface as a render target.
 		/// </summary>
 		/// <param name="surf">Target surface.</param>
-		public static void SetSurfaceTarget(RenderTarget2D surf)
-		{
+		public static void SetSurfaceTarget(RenderTarget2D surf) => 
 			SetSurfaceTarget(surf, Matrix.CreateTranslation(Vector3.Zero));
-		}
 
 		/// <summary>
 		/// Sets surface as a render target.
