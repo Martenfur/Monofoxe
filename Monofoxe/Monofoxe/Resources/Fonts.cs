@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Resources.Sprites;
+using Monofoxe.Engine.Drawing;
 
-namespace Monofoxe.Engine.Drawing
+namespace Resources
 {
 	public static class Fonts
 	{
@@ -19,9 +21,9 @@ namespace Monofoxe.Engine.Drawing
 			_content = new ContentManager(content.ServiceProvider);
 			_content.RootDirectory = content.RootDirectory;
 			
-			TexFont = new TextureFont(Sprites.Default.SpriteFont, 3, 3, Ascii, false);
-			AnotherFont = new TextureFont(Sprites.Default.AnotherFont, 1, 1, Ascii, false);
-			AnotherFont1 = new TextureFont(Sprites.Default.AnotherFont, 1, 1, Ascii, true);
+			TexFont = new TextureFont(SpritesDefault.SpriteFont, 3, 3, Ascii, false);
+			AnotherFont = new TextureFont(SpritesDefault.AnotherFont, 1, 1, Ascii, false);
+			AnotherFont1 = new TextureFont(SpritesDefault.AnotherFont, 1, 1, Ascii, true);
 			
 			Def = new Font(_content.Load<SpriteFont>("def"));
 		}
