@@ -135,6 +135,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Effects\effect.fx" />
+    <Content Include="Content\Music\m_peace.ogg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="..\MonofoxeCore\MonofoxeCore.projitems" Label="Shared" />

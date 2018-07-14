@@ -31,7 +31,7 @@ syntax: glob
 *.scc
 *.sig
 _ReSharper*\*
-TestResults\*
+*\TestResults\*
 desktop.ini
 *\.vs\*
 temp\*
