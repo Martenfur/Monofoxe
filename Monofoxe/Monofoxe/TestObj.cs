@@ -12,6 +12,7 @@ using System.Diagnostics;
 using Monofoxe.Utils;
 using Resources.Sprites;
 using Resources;
+using FMOD;
 
 namespace Monofoxe
 {
@@ -46,6 +47,8 @@ namespace Monofoxe
 
 		public TestObj()
 		{
+			MusicPlayer.Init();
+			
 			Input.GamepadConnected(0);
 			Input.GamepadCheckPress(0, GamepadButtons.Down);
 			Input.MaxGamepadCount = 3;
@@ -78,7 +81,7 @@ namespace Monofoxe
 				DrawCntrl.Device, 
 				128, 
 				128, 
-				false,
+				false, 
 				DrawCntrl.Device.PresentationParameters.BackBufferFormat,
 				DepthFormat.Depth24, 
 				0, 
@@ -132,6 +135,13 @@ namespace Monofoxe
 		{
 			GameCntrl.WindowManager.WindowTitle = "Draw fps: " + GameCntrl.Fps;
 			
+			if (Input.KeyboardCheckPress(Keys.A))
+			{
+				MusicPlayer.Instance.Play(1);
+			}
+
+			System.Diagnostics.Debug.WriteLine(MusicPlayer.Instance.IsPlaying());
+
 			fireFrame += 0.1f;
 
 			if (fireFrame >= SpritesDefault.DemonFire.Frames.Count())

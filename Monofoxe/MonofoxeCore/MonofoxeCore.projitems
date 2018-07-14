@@ -22,10 +22,21 @@
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Input.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Objects.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\WindowManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FMOD\fmod.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FMOD\fmod_dsp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FMOD\MusicPlayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Alarm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\AutoAlarm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\GameMath.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\RandomExt.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Timer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)FMOD\32\fmod.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)FMOD\64\fmod.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
