@@ -33,6 +33,6 @@ To launch Monofoxe, you'll need:
 * [Monogame](http://monogame.net).
 * [FMOD API for Windows](http://fmod.com).
 
-
+Want to contribute, suggest a feature or just want to pour shit on my code? Feel free to contact me: foxoftgames@gmail.com
 
 
