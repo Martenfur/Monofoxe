@@ -45,6 +45,8 @@ namespace Monofoxe
 
 		RenderTarget2D surfForDrawing;
 
+		float lowpass = 1f;
+
 		public TestObj()
 		{
 			MusicPlayer.Init();
@@ -65,6 +67,7 @@ namespace Monofoxe
 			vertexBuffer = new VertexBuffer(DrawCntrl.Device, typeof(VertexPositionColor), 3, BufferUsage.WriteOnly);
 			vertexBuffer.SetData(vertices);
 			
+
 			
 			GameCntrl.MaxGameSpeed = 60;
 			surf = new RenderTarget2D(
@@ -133,14 +136,41 @@ namespace Monofoxe
 		
 		public override void Update()
 		{
+			MusicPlayer.Instance.Update();
+
 			GameCntrl.WindowManager.WindowTitle = "Draw fps: " + GameCntrl.Fps;
 			
 			if (Input.KeyboardCheckPress(Keys.A))
 			{
 				MusicPlayer.Instance.Play(1);
 			}
+			if (Input.KeyboardCheckPress(Keys.S))
+			{
+				MusicPlayer.Instance.Play(0);
+			}
+			if (Input.KeyboardCheck(Keys.D))
+			{
+				MusicPlayer.Instance.Play(2);
+			}
 
-			System.Diagnostics.Debug.WriteLine(MusicPlayer.Instance.IsPlaying());
+			if (Input.KeyboardCheck(Keys.Q))
+			{
+				lowpass += 0.1f;
+				if (lowpass > 1)
+				{
+					lowpass = 1;
+				}	
+				MusicPlayer.Instance.Channel.setLowPassGain(lowpass);
+			}
+			if (Input.KeyboardCheck(Keys.W))
+			{
+				lowpass -= 0.1f;
+				if (lowpass < 0.1f)
+				{
+					lowpass = 0.1f;
+				}
+				MusicPlayer.Instance.Channel.setLowPassGain(lowpass);			
+			}
 
 			fireFrame += 0.1f;
 
