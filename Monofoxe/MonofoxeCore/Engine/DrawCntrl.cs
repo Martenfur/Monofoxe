@@ -68,7 +68,7 @@ namespace Monofoxe.Engine
 		private static Texture2D _currentTexture;
 		
 		/// <summary>
-		/// When can set surface targets inside another surfaces.
+		/// We can set surface targets inside another surfaces.
 		/// </summary>
 		private static Stack<RenderTarget2D> _surfaceStack = new Stack<RenderTarget2D>();
 		private static RenderTarget2D _currentSurface;

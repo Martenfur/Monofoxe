@@ -32,6 +32,8 @@ namespace Monofoxe.Engine.Audio
 			FMOD.Factory.System_Create(out _FMODSystem);
 			_FMODSystem.setDSPBufferSize(1024, 10);
 			_FMODSystem.init(32, FMOD.INITFLAGS.CHANNEL_LOWPASS, (IntPtr)0);
+			
+			
 		}
 		
 
@@ -42,7 +44,7 @@ namespace Monofoxe.Engine.Audio
 		internal static void Update() =>
 			_FMODSystem.update();
 		
-
+		
 		public static Sound LoadSound(string name, FMOD.MODE mode = FMOD.MODE.DEFAULT)
 		{
 			FMOD.Sound newSound;
@@ -60,13 +62,12 @@ namespace Monofoxe.Engine.Audio
 		}
 
 		
-		public static Sound Play(Sound sound) =>
-			null;
+	//	public void Play(bool paused = false) =>
+		//	LastResult = _FMODSystem.playSound(_sound, null, paused, out _channel);
 
-		
-		public static Sound Play(Sound sound, float volume, float pitch) =>
-			null;
 
+		//public void Play(FMOD.ChannelGroup group, bool paused = false) =>
+		//	LastResult = _FMODSystem.playSound(_sound, group, paused, out _channel);
 
 	}
 }
