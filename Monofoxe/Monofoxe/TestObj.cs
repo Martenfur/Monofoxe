@@ -45,6 +45,8 @@ namespace Monofoxe
 		Sound snd2;
 		Sound snd3;
 
+		FMOD.ChannelGroup group = new FMOD.ChannelGroup((IntPtr)0);
+
 		public TestObj()
 		{
 			snd1 = AudioMgr.LoadStreamedSound("m_mission");
@@ -127,15 +129,18 @@ namespace Monofoxe
 			
 			if (Input.KeyboardCheckPress(Keys.A))
 			{
-				snd1.Play();
+				snd1.Play(group);
 			}
 			if (Input.KeyboardCheckPress(Keys.S))
 			{
-				snd2.Play();
+				snd2.Play(group);
 			}
 			if (Input.KeyboardCheck(Keys.D))
 			{
-				snd3.Play();
+				if (!snd3.IsPlaying)
+				{
+					snd3.Play(group);
+				}
 			}
 
 			if (Input.KeyboardCheck(Keys.Q))
@@ -145,7 +150,9 @@ namespace Monofoxe
 				{
 					lowpass = 1;
 				}	
-				snd1.Channel.setLowPassGain(lowpass);
+				group.setLowPassGain(lowpass);
+
+				//snd1.LowPass = lowpass;
 			}
 			if (Input.KeyboardCheck(Keys.W))
 			{
@@ -154,7 +161,8 @@ namespace Monofoxe
 				{
 					lowpass = 0.1f;
 				}
-				snd1.Channel.setLowPassGain(lowpass);			
+				//snd1.LowPass = lowpass;		
+				group.setLowPassGain(lowpass);
 			}
 
 			fireFrame += 0.1f;
