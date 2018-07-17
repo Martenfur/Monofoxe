@@ -139,7 +139,7 @@ namespace Monofoxe.Engine
 
 		private static bool _mouseCleared, _keyboardCleared, _gamepadCleared;
 
-		public static void Update()
+		internal static void Update()
 		{
 			_mouseCleared = false;
 			_keyboardCleared = false;
@@ -407,7 +407,7 @@ namespace Monofoxe.Engine
 
 		#region Gamepad.
 
-		private static void GamepadInit()
+		internal static void GamepadInit()
 		{
 			// Creating a bunch of dummy objects just to get rid of null ref exception.
 			_gamepadButtons = new List<GamepadButtons>[_maxGamepadCount];

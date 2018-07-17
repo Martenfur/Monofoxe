@@ -12,7 +12,7 @@ using System.Diagnostics;
 using Monofoxe.Utils;
 using Resources.Sprites;
 using Resources;
-using FMOD;
+using Monofoxe.Engine.Audio;
 
 namespace Monofoxe
 {
@@ -28,9 +28,6 @@ namespace Monofoxe
 		Camera cam = new Camera(600, 600);
 		Camera cam1 = new Camera(600, 600);
 
-		VertexPositionColor[] vertices = new VertexPositionColor[3];
-		VertexBuffer vertexBuffer;
-
 		float fireFrame = 0;
 
 		RandomExt r = new RandomExt();
@@ -38,37 +35,26 @@ namespace Monofoxe
 		AutoAlarm auto1 = new AutoAlarm(1);
 		AutoAlarm auto2 = new AutoAlarm(1);
 
-		Sprite s1 = SpritesDefault.Boss;
-		Sprite s2 = SpritesDefault.Boss;
-
 		Timer timer = new Timer();
 
 		RenderTarget2D surfForDrawing;
 
 		float lowpass = 1f;
 
+		Sound snd1;
+		Sound snd2;
+		Sound snd3;
+
 		public TestObj()
 		{
-			MusicPlayer.Init();
+			snd1 = AudioMgr.LoadStreamedSound("m_mission");
+			snd2 = AudioMgr.LoadStreamedSound("m_peace");
+			snd3 = AudioMgr.LoadSound("punch");
 			
-			Input.GamepadConnected(0);
-			Input.GamepadCheckPress(0, GamepadButtons.Down);
-			Input.MaxGamepadCount = 3;
-			Input.GamepadCheckRelease(0, GamepadButtons.Down);
-			Input.GamepadGetRightStick(0);
-
+		
 			GameCntrl.GameSpeedMultiplier = 1;
 			auto1.AffectedBySpeedMultiplier = false;
 
-
-			vertices[0] = new VertexPositionColor(new Vector3(0, 0, 0), Color.Transparent);
-			vertices[1] = new VertexPositionColor(new Vector3(64, 64, 0), Color.Transparent);
-			vertices[2] = new VertexPositionColor(new Vector3(0, 64, 0), Color.White);
-			vertexBuffer = new VertexBuffer(DrawCntrl.Device, typeof(VertexPositionColor), 3, BufferUsage.WriteOnly);
-			vertexBuffer.SetData(vertices);
-			
-
-			
 			GameCntrl.MaxGameSpeed = 60;
 			surf = new RenderTarget2D(
 				DrawCntrl.Device, 
@@ -136,21 +122,20 @@ namespace Monofoxe
 		
 		public override void Update()
 		{
-			MusicPlayer.Instance.Update();
-
+			
 			GameCntrl.WindowManager.WindowTitle = "Draw fps: " + GameCntrl.Fps;
 			
 			if (Input.KeyboardCheckPress(Keys.A))
 			{
-				MusicPlayer.Instance.Play(1);
+				snd1.Play();
 			}
 			if (Input.KeyboardCheckPress(Keys.S))
 			{
-				MusicPlayer.Instance.Play(0);
+				snd2.Play();
 			}
 			if (Input.KeyboardCheck(Keys.D))
 			{
-				MusicPlayer.Instance.Play(2);
+				snd3.Play();
 			}
 
 			if (Input.KeyboardCheck(Keys.Q))
@@ -160,7 +145,7 @@ namespace Monofoxe
 				{
 					lowpass = 1;
 				}	
-				MusicPlayer.Instance.Channel.setLowPassGain(lowpass);
+				snd1.Channel.setLowPassGain(lowpass);
 			}
 			if (Input.KeyboardCheck(Keys.W))
 			{
@@ -169,7 +154,7 @@ namespace Monofoxe
 				{
 					lowpass = 0.1f;
 				}
-				MusicPlayer.Instance.Channel.setLowPassGain(lowpass);			
+				snd1.Channel.setLowPassGain(lowpass);			
 			}
 
 			fireFrame += 0.1f;
@@ -257,7 +242,7 @@ namespace Monofoxe
 			{
 				//DrawCntrl.BlendState = BlendState.AlphaBlend;
 			}
-
+			
 
 			DrawCntrl.CurrentColor = Color.Violet;
 			//DrawCntrl.DrawRectangle(-32, -32, 500, 500, false);
@@ -299,8 +284,8 @@ namespace Monofoxe
 			
 			DrawCntrl.DrawCircle(s, 8, true);
 			
-			DrawCntrl.DrawSprite(s1, new Vector2(200, 200));
-			DrawCntrl.DrawSprite(s2, new Vector2(400, 200));
+			DrawCntrl.DrawSprite(SpritesDefault.Boss, new Vector2(200, 200));
+			DrawCntrl.DrawSprite(SpritesDefault.Boulder3, new Vector2(400, 200));
 			
 			DrawCntrl.DrawSurface(surf, 128, 128);
 
