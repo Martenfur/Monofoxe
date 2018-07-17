@@ -32,7 +32,7 @@ namespace Monofoxe.Engine
 		private static double _fixedUpdateAl;
 
 
-		public static void Update(GameTime gameTime)
+		internal static void Update(GameTime gameTime)
 		{
 			// Clearing main list from destroyed objects.
 			foreach(GameObj obj in _destroyedGameObjects)
@@ -118,18 +118,16 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Adds object to object list.
 		/// </summary>
-		/// <param name="obj"></param>
-		public static void AddObject(GameObj obj) => 
+		internal static void AddObject(GameObj obj) => 
 			_newGameObjects.Add(obj);
 
 
 
-		#region user functions 
+		#region User functions. 
 
 		/// <summary>
 		/// Returns list of objects of certain type.
 		/// </summary>
-		/// <typeparam name="T">Object type.</typeparam>
 		public static List<T> GetList<T>() where T : GameObj => 
 			GameObjects.OfType<T>().ToList();
 
@@ -137,8 +135,6 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Counts amount of objects of certain type.
 		/// </summary>
-		/// <typeparam name="T">Object type.</typeparam>
-		/// <returns>Returns amount of objects.</returns>
 		public static int Count<T>() where T : GameObj => 
 			GameObjects.OfType<T>().Count();
 
@@ -146,7 +142,6 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Destroys game object.
 		/// </summary>
-		/// <param name="obj">Game object.</param>
 		public static void Destroy(GameObj obj)
 		{
 			if (!_destroyedGameObjects.Contains(obj))
@@ -197,7 +192,7 @@ namespace Monofoxe.Engine
 			return null;
 		}
 
-		#endregion user functions 
+		#endregion User functions.
 
 	}
 }

@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 using Monofoxe.Engine.Drawing;
 
-
 namespace Monofoxe.Engine
 {
 
@@ -261,7 +260,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Performs Draw events for all objects.
 		/// </summary>
-		public static void Update(GameTime gameTime)
+		internal static void Update(GameTime gameTime)
 		{
 			__drawcalls = 0;
 			

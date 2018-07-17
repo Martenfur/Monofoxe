@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using Monofoxe.Engine.Audio;
 
 namespace Monofoxe.Engine
 {
@@ -126,6 +127,7 @@ namespace Monofoxe.Engine
 
 			WindowManager = new WindowManager(game);
 
+			AudioMgr.Init();
 		}
 
 		
@@ -146,6 +148,7 @@ namespace Monofoxe.Engine
 			
 			Input.Update();
 			Objects.Update(gameTime);
+			AudioMgr.Update();
 		}
 
 		

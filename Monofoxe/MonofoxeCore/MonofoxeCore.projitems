@@ -9,7 +9,8 @@
     <Import_RootNamespace>Monofoxe</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Engine\Audio.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Audio\AudioMgr.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Audio\Sound.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\SpriteGroupReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Camera.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\DrawCntrl.cs" />
@@ -25,7 +26,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Engine\WindowManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FMOD\fmod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FMOD\fmod_dsp.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FMOD\MusicPlayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Alarm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\AutoAlarm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\GameMath.cs" />
@@ -33,11 +33,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Timer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)FMOD\32\fmod.dll">
+    <None Include="$(MSBuildThisFileDirectory)FMOD\x32\fmod.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="$(MSBuildThisFileDirectory)FMOD\64\fmod.dll">
+    <None Include="$(MSBuildThisFileDirectory)FMOD\x64\fmod.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Engine\Audio\" />
   </ItemGroup>
 </Project>
