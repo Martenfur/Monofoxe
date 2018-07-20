@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Xna.Framework;
+
+// DO NOT reference FMOD in ANY of your classes.
+// Use FMOD.SomeClass instead.
+// FMOD classes seriously interfere with System.
 
 namespace Monofoxe.Engine.Audio
 {
@@ -23,19 +28,10 @@ namespace Monofoxe.Engine.Audio
 			get
 			{
 				var pitch = 1f;
-				if(_channel != null)
-				{
-					SetLastResult(_channel.getPitch(out pitch));
-				}
+				SetLastResult(_channel?.getPitch(out pitch));
 				return pitch;
 			}
-			set
-			{
-				if(_channel != null)
-				{
-					SetLastResult(_channel.setPitch(value));
-				}
-			}
+			set => SetLastResult(_channel?.setPitch(value));
 		}
 
 		public float Volume
@@ -43,19 +39,10 @@ namespace Monofoxe.Engine.Audio
 			get
 			{
 				var volume = 1f;
-				if(_channel != null)
-				{
-					SetLastResult(_channel.getVolume(out volume));
-				}
+				SetLastResult(_channel?.getVolume(out volume));
 				return volume;
 			}
-			set
-			{
-				if(_channel != null)
-				{
-					SetLastResult(_channel.setVolume(value));
-				}
-			}
+			set => SetLastResult(_channel?.setVolume(value));	
 		}
 
 		public float LowPass
@@ -63,28 +50,24 @@ namespace Monofoxe.Engine.Audio
 			get
 			{
 				var lowPassGain = 1f;
-				if(_channel != null)
-				{
-					SetLastResult(_channel.getLowPassGain(out lowPassGain));
-				}
+				SetLastResult(_channel?.getLowPassGain(out lowPassGain));
 				return lowPassGain;
 			}
-			set
+			set => SetLastResult(_channel?.setLowPassGain(value));
+		}
+
+
+		public bool IsPlaying
+		{
+			get
 			{
-				if(_channel != null)
-				{
-					SetLastResult(_channel.setLowPassGain(value));
-				}
+				var isPlaying = false;
+				SetLastResult(_channel?.isPlaying(out isPlaying));
+				return isPlaying;
 			}
 		}
 
-		public float TrackPosition;
-
-		public bool IsPlaying;
-
-		
-
-		#endregion
+		#endregion Properties.
 
 
 
@@ -95,52 +78,55 @@ namespace Monofoxe.Engine.Audio
 		}
 
 
-
-		public void Play(bool paused = false)
-		{
-			SetLastResult(_FMODSystem.playSound(FMODSound, null, paused, out _channel));
-		}
-
-
-		public void Play(FMOD.ChannelGroup group, bool paused = false)
-		{
+		public void Play(FMOD.ChannelGroup group = null, bool paused = false) =>
 			SetLastResult(_FMODSystem.playSound(FMODSound, group, paused, out _channel));
-		}
 
+		public void Pause() =>
+			SetLastResult(_channel?.setPaused(true));
 
-		public void Pause()
-		{
-			if(_channel != null)
-			{
-				SetLastResult(_channel.setPaused(true));
-			}
-		}
-
-		public void Resume()
-		{
-			if(_channel != null)
-			{
-				SetLastResult(_channel.setPaused(false));
-			}
-		}
-
+		public void Resume() =>
+			SetLastResult(_channel?.setPaused(false));
 
 		public void Stop()
 		{
-			if(_channel != null)
-			{
-				SetLastResult(_channel.stop());
-			}
+			SetLastResult(_channel?.stop());
+			_channel = null;
 		}
 
+		public uint GetPosition(FMOD.TIMEUNIT timeUnit = FMOD.TIMEUNIT.MS)
+		{
+			uint position = 0;
+			SetLastResult(_channel?.getPosition(out position, timeUnit));
+			return position;
+		}
+
+		public void SetPosition(uint position, FMOD.TIMEUNIT timeUnit = FMOD.TIMEUNIT.MS) =>
+			SetLastResult(_channel?.setPosition(position, timeUnit));
+
+		public void Do3DStuff(Vector2 pos)
+		{
+			var fmodPos = new FMOD.VECTOR();
+			fmodPos.x = pos.X;
+			fmodPos.y = pos.Y;
+			fmodPos.z = 0;
+
+			_channel?.set3DAttributes(ref fmodPos, ref fmodPos, ref fmodPos);
+			_channel?.set3DMinMaxDistance(100, 200);
+			
+		}
 
 		/// <summary>
 		/// Sets last result to the Audio Manager.
 		/// NOTE: There is very high probability that this code will change, so 
 		/// making it separate function will make life a bit easier.
 		/// </summary>
-		private void SetLastResult(FMOD.RESULT result) =>
-			AudioMgr.LastResult = result;
+		private void SetLastResult(FMOD.RESULT? result)
+		{
+			if (result != null)
+			{
+				AudioMgr.LastResult = (FMOD.RESULT)result;
+			}
+		}
 
 	}
 }

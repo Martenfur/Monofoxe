@@ -45,14 +45,17 @@ namespace Monofoxe
 		Sound snd2;
 		Sound snd3;
 
-		FMOD.ChannelGroup group = new FMOD.ChannelGroup((IntPtr)0);
+		FMOD.ChannelGroup group;//new FMOD.ChannelGroup((IntPtr)0);
 
 		public TestObj()
 		{
-			snd1 = AudioMgr.LoadStreamedSound("m_mission");
+			snd1 = AudioMgr.LoadStreamedSound("m_mission", FMOD.MODE._3D);
 			snd2 = AudioMgr.LoadStreamedSound("m_peace");
 			snd3 = AudioMgr.LoadSound("punch");
+
 			
+
+			group = AudioMgr.CreateChannelGroup("group");
 		
 			GameCntrl.GameSpeedMultiplier = 1;
 			auto1.AffectedBySpeedMultiplier = false;
@@ -124,7 +127,9 @@ namespace Monofoxe
 		
 		public override void Update()
 		{
-			
+			snd1.Do3DStuff(Input.MousePos);
+
+			Debug.WriteLine(snd1.Volume);
 			GameCntrl.WindowManager.WindowTitle = "Draw fps: " + GameCntrl.Fps;
 			
 			if (Input.KeyboardCheckPress(Keys.A))
@@ -141,6 +146,11 @@ namespace Monofoxe
 				{
 					snd3.Play(group);
 				}
+			}
+
+			if (Input.KeyboardCheckPress(Keys.O))
+			{
+				group.stop();
 			}
 
 			if (Input.KeyboardCheck(Keys.Q))
@@ -161,7 +171,7 @@ namespace Monofoxe
 				{
 					lowpass = 0.1f;
 				}
-				//snd1.LowPass = lowpass;		
+				//snd1.LowPass = lowpass;
 				group.setLowPassGain(lowpass);
 			}
 
