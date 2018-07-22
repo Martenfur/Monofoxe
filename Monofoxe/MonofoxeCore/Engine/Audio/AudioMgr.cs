@@ -17,6 +17,17 @@ namespace Monofoxe.Engine.Audio
 		private static string _sfxExtension = ".wav";
 		private static string _musicExtension = ".ogg";
 
+		public static int ListenerCount 
+		{
+			get 
+			{
+				var listeners = 0;
+				LastResult = _FMODSystem.get3DNumListeners(out listeners);
+				return listeners;
+			}
+			set => LastResult = _FMODSystem.set3DNumListeners(value);
+		}
+
 
 		[DllImport("kernel32.dll")]
 		public static extern IntPtr LoadLibrary(string dllToLoad);
@@ -35,14 +46,6 @@ namespace Monofoxe.Engine.Audio
 			FMOD.Factory.System_Create(out _FMODSystem);
 			_FMODSystem.setDSPBufferSize(1024, 10);
 			_FMODSystem.init(32, FMOD.INITFLAGS.CHANNEL_LOWPASS | FMOD.INITFLAGS.CHANNEL_DISTANCEFILTER, (IntPtr)0);
-			
-			var pos = GetFmodVector(32, 32, 0);
-			var vel = GetFmodVector(0, 0, 0);
-			var forw = GetFmodVector(1, 0, 0);
-			var up = GetFmodVector(0, 0, 1);
-			_FMODSystem.set3DNumListeners(1);
-			_FMODSystem.set3DListenerAttributes(1, ref pos, ref vel, ref forw, ref up);
-			
 		}
 		
 		public static FMOD.ChannelGroup CreateChannelGroup(string name)
@@ -78,7 +81,9 @@ namespace Monofoxe.Engine.Audio
 			return new Sound(_FMODSystem, newSound);
 		}
 
-		public static FMOD.VECTOR GetFmodVector(float x, float y, float z)
+
+
+		public static FMOD.VECTOR GetFmodVector(float x = 0, float y = 0, float z = 0)
 		{
 			var vector = new FMOD.VECTOR();
 			vector.x = x;
@@ -87,7 +92,7 @@ namespace Monofoxe.Engine.Audio
 			return vector;
 		}
 
-		public static FMOD.VECTOR GetFmodVector(Vector3 v)
+		public static FMOD.VECTOR Vector3ToFmodVector(Vector3 v)
 		{
 			var vector = new FMOD.VECTOR();
 			vector.x = v.X;
@@ -96,12 +101,47 @@ namespace Monofoxe.Engine.Audio
 			return vector;
 		}
 
-	//	public void Play(bool paused = false) =>
-		//	LastResult = _FMODSystem.playSound(_sound, null, paused, out _channel);
+		public static FMOD.VECTOR Vector2ToFmodVector(Vector2 v)
+		{
+			var vector = new FMOD.VECTOR();
+			vector.x = v.X;
+			vector.y = v.Y;
+			vector.z = 0;
+			return vector;
+		}
 
 
-		//public void Play(FMOD.ChannelGroup group, bool paused = false) =>
-		//	LastResult = _FMODSystem.playSound(_sound, group, paused, out _channel);
+
+		public static Sound PlaySound(Sound sound, FMOD.ChannelGroup group = null, bool paused = false)
+		{
+			FMOD.Channel channel;
+			LastResult = _FMODSystem.playSound(sound.FMODSound, group, paused, out channel);
+			return new Sound(_FMODSystem, sound.FMODSound, channel);
+		}
+
+
+		public static void SetListenerPosition(Vector2 pos, int listenerId = 0)
+		{
+			var fmodPos = Vector2ToFmodVector(pos);
+			var fmodZeroVec = GetFmodVector();
+			// Apparently, you cannot just pass zero vector and call it a day.
+			var fmodForward = Vector2ToFmodVector(Vector2.UnitY);
+			var fmodUp = Vector3ToFmodVector(Vector3.UnitZ);
+
+			LastResult = _FMODSystem.set3DListenerAttributes(listenerId, ref fmodPos, ref fmodZeroVec, ref fmodForward, ref fmodUp);
+		}
+
+		public static void SetListenerAttributes(Vector2 pos, Vector2 velocity, Vector2 forward, int listenerId = 0)
+		{
+			var fmodPos = Vector2ToFmodVector(pos);
+			var fmodVelocity = Vector2ToFmodVector(velocity);
+			var fmodForward = Vector2ToFmodVector(forward);
+			var fmodZeroVec = GetFmodVector();
+			var fmodUp = Vector3ToFmodVector(Vector3.UnitZ);
+
+			LastResult = _FMODSystem.set3DListenerAttributes(listenerId, ref fmodPos, ref fmodVelocity, ref fmodForward, ref fmodUp);		
+		}
+
 
 	}
 }
