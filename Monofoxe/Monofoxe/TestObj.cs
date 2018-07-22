@@ -51,12 +51,13 @@ namespace Monofoxe
 		{
 			snd1 = AudioMgr.LoadStreamedSound("m_mission", FMOD.MODE._3D);
 			snd2 = AudioMgr.LoadStreamedSound("m_peace");
-			snd3 = AudioMgr.LoadSound("punch");
-
+			snd3 = AudioMgr.LoadSound("punch", FMOD.MODE._3D);
 			
+			AudioMgr.ListenerCount = 1;
+			AudioMgr.SetListenerPosition(new Vector2(256, 256), 0);
 
 			group = AudioMgr.CreateChannelGroup("group");
-		
+			
 			GameCntrl.GameSpeedMultiplier = 1;
 			auto1.AffectedBySpeedMultiplier = false;
 
@@ -127,7 +128,8 @@ namespace Monofoxe
 		
 		public override void Update()
 		{
-			snd1.Do3DStuff(Input.MousePos);
+			snd1.Set3DAttributes(Input.ScreenMousePos, Vector2.Zero);
+			snd1.Set3DMinMaxDistance(100, 300);
 
 			Debug.WriteLine(snd1.Volume);
 			GameCntrl.WindowManager.WindowTitle = "Draw fps: " + GameCntrl.Fps;

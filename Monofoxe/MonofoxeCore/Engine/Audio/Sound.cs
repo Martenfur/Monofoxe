@@ -16,12 +16,23 @@ namespace Monofoxe.Engine.Audio
 		public FMOD.Sound FMODSound {get; private set;}
 		public FMOD.Channel Channel
 		{
-			get => _channel;
-			private set => _channel = value;
+			get;
+			private set;
 		}
-		public FMOD.Channel _channel;
+		private FMOD.Channel _channel; // Can't use out on properties. 
 
 		#region Properties.
+
+		public int Loops
+		{
+			get
+			{
+				var loops = 0;
+				SetLastResult(_channel?.getLoopCount(out loops));
+				return loops;
+			}
+			set => SetLastResult(_channel?.setLoopCount(value));
+		}
 
 		public float Pitch
 		{
@@ -56,7 +67,6 @@ namespace Monofoxe.Engine.Audio
 			set => SetLastResult(_channel?.setLowPassGain(value));
 		}
 
-
 		public bool IsPlaying
 		{
 			get
@@ -67,20 +77,32 @@ namespace Monofoxe.Engine.Audio
 			}
 		}
 
+		public FMOD.MODE Mode
+		{
+			get
+			{
+				var mode = FMOD.MODE.DEFAULT;
+				SetLastResult(_channel?.getMode(out mode));
+				return mode;
+			}
+			set => SetLastResult(_channel?.setMode(value));
+		}
+
 		#endregion Properties.
 
 
 
-		public Sound(FMOD.System system, FMOD.Sound sound)
+		public Sound(FMOD.System system, FMOD.Sound sound, FMOD.Channel channel = null)
 		{
 			_FMODSystem = system;
 			FMODSound = sound;
+			_channel = channel;
 		}
 
 
 		public void Play(FMOD.ChannelGroup group = null, bool paused = false) =>
 			SetLastResult(_FMODSystem.playSound(FMODSound, group, paused, out _channel));
-
+		
 		public void Pause() =>
 			SetLastResult(_channel?.setPaused(true));
 
@@ -93,27 +115,61 @@ namespace Monofoxe.Engine.Audio
 			_channel = null;
 		}
 
-		public uint GetPosition(FMOD.TIMEUNIT timeUnit = FMOD.TIMEUNIT.MS)
+		public uint GetTrackPosition(FMOD.TIMEUNIT timeUnit = FMOD.TIMEUNIT.MS)
 		{
 			uint position = 0;
 			SetLastResult(_channel?.getPosition(out position, timeUnit));
 			return position;
 		}
 
-		public void SetPosition(uint position, FMOD.TIMEUNIT timeUnit = FMOD.TIMEUNIT.MS) =>
+		public void SetTrackPosition(uint position, FMOD.TIMEUNIT timeUnit = FMOD.TIMEUNIT.MS) =>
 			SetLastResult(_channel?.setPosition(position, timeUnit));
+		
+		
+		//TODO: Add Vector3 functions, if you will need them.
 
-		public void Do3DStuff(Vector2 pos)
+		public void PlayAt(
+			FMOD.ChannelGroup group = null, 
+			bool paused = false, 
+			Vector2 pos = default(Vector2), 
+			Vector2 velocity = default(Vector2)
+		)
 		{
-			var fmodPos = new FMOD.VECTOR();
-			fmodPos.x = pos.X;
-			fmodPos.y = pos.Y;
-			fmodPos.z = 0;
-
-			_channel?.set3DAttributes(ref fmodPos, ref fmodPos, ref fmodPos);
-			_channel?.set3DMinMaxDistance(100, 200);
-			
+			FMODSound.setMode(FMOD.MODE._3D);
+			Set3DAttributes(pos, velocity);
+			SetLastResult(_FMODSystem.playSound(FMODSound, group, paused, out _channel));
 		}
+
+		public void Set3DAttributes(Vector2 pos, Vector2 velocity)
+		{
+			var fmodPos = AudioMgr.Vector2ToFmodVector(pos);
+			var fmodVelocity = AudioMgr.Vector2ToFmodVector(velocity);
+			var zeroVec = AudioMgr.GetFmodVector();
+			SetLastResult(_channel?.set3DAttributes(ref fmodPos, ref fmodVelocity, ref zeroVec));
+		}
+
+		public void Set3DAttributes(Vector2 pos, Vector2 velocity, Vector2 altPanPos)
+		{
+			var fmodPos = AudioMgr.Vector2ToFmodVector(pos);
+			var fmodVelocity = AudioMgr.Vector2ToFmodVector(velocity);
+			var fmodAltPanPos = AudioMgr.Vector2ToFmodVector(altPanPos);
+			SetLastResult(_channel?.set3DAttributes(ref fmodPos, ref fmodVelocity, ref fmodAltPanPos));
+		}
+
+
+
+		public void Set3DMinMaxDistance(float minDistance, float maxDistance) =>
+			SetLastResult(_channel?.set3DMinMaxDistance(minDistance, maxDistance));
+
+		public Tuple<float, float> Get3DMinMaxDistance()
+		{
+			float minDistance = 0, 
+				maxDistance = 0;
+			SetLastResult(_channel?.get3DMinMaxDistance(out minDistance, out maxDistance));
+			return new Tuple<float, float>(minDistance, maxDistance);
+		}
+		
+
 
 		/// <summary>
 		/// Sets last result to the Audio Manager.
