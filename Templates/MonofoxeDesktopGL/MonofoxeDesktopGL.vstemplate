@@ -24,7 +24,11 @@
       <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="Test.cs">Test.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="app.manifest">app.manifest</ProjectItem>
-      <ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.dll">Monofoxe.dll</ProjectItem>
+      
+      <Folder Name="References" TargetFolderName="References">
+        <ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.dll">Monofoxe.dll</ProjectItem>
+      </Folder>      
+      
       <Folder Name="Resources" TargetFolderName="Resources">
         <Folder Name="Sprites" TargetFolderName="Sprites">
           <ProjectItem ReplaceParameters="false" TargetFileName="SpritesDefault.cs">SpritesDefault.cs</ProjectItem>

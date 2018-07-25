@@ -7,7 +7,6 @@ using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
 using Monofoxe.Utils;
 using Resources.Sprites;
@@ -134,15 +133,15 @@ namespace Monofoxe
 			Debug.WriteLine(snd1.Volume);
 			GameCntrl.WindowManager.WindowTitle = "Draw fps: " + GameCntrl.Fps;
 			
-			if (Input.KeyboardCheckPress(Keys.A))
+			if (Input.CheckButtonPress(Buttons.A))
 			{
 				snd1.Play(group);
 			}
-			if (Input.KeyboardCheckPress(Keys.S))
+			if (Input.CheckButtonPress(Buttons.S))
 			{
 				snd2.Play(group);
 			}
-			if (Input.KeyboardCheck(Keys.D))
+			if (Input.CheckButton(Buttons.D))
 			{
 				if (!snd3.IsPlaying)
 				{
@@ -151,12 +150,12 @@ namespace Monofoxe
 				}
 			}
 
-			if (Input.KeyboardCheckPress(Keys.O))
+			if (Input.CheckButtonPress(Buttons.O))
 			{
 				group.stop();
 			}
 
-			if (Input.KeyboardCheck(Keys.Q))
+			if (Input.CheckButton(Buttons.Q))
 			{
 				lowpass += 0.1f;
 				if (lowpass > 1000)
@@ -167,7 +166,7 @@ namespace Monofoxe
 
 				//snd1.LowPass = lowpass;
 			}
-			if (Input.KeyboardCheck(Keys.W))
+			if (Input.CheckButton(Buttons.W))
 			{
 				lowpass -= 0.1f;
 				if (lowpass < 0.1f)
@@ -194,24 +193,24 @@ namespace Monofoxe
 				ang -= Math.PI * 2;
 			}
 			
-			if (Input.KeyboardCheck(Keys.Left))
+			if (Input.CheckButton(Buttons.Left))
 			{x += (5 / cam.Zoom);}
 			
-			if (Input.KeyboardCheck(Keys.Right))
+			if (Input.CheckButton(Buttons.Right))
 			{x -= (5 / cam.Zoom);}
 			
-			if (Input.KeyboardCheck(Keys.Up))
+			if (Input.CheckButton(Buttons.Up))
 			{y += (5 / cam.Zoom);}
 			
-			if (Input.KeyboardCheck(Keys.Down))
+			if (Input.CheckButton(Buttons.Down))
 			{y -= (5 / cam.Zoom);}
 			
-			if (Input.KeyboardCheck(Keys.Z))
+			if (Input.CheckButton(Buttons.Z))
 			{
 				cam.Zoom += 0.1f;
 			}
 			
-			if (Input.KeyboardCheck(Keys.X))
+			if (Input.CheckButton(Buttons.X))
 			{
 				cam.Zoom -= 0.1f;
 				if (cam.Zoom <= 0)
@@ -220,18 +219,18 @@ namespace Monofoxe
 				}
 			}
 			
-			if (Input.KeyboardCheck(Keys.C))
+			if (Input.CheckButton(Buttons.C))
 			{cam.Rotation += 5;}
 
-			if (Input.KeyboardCheck(Keys.V))
+			if (Input.CheckButton(Buttons.V))
 			{cam.Rotation -= 5;}
 
-			if (Input.KeyboardCheck(Keys.Escape))
+			if (Input.CheckButton(Buttons.Escape))
 			{
 				GameCntrl.ExitGame();
 			}
 			
-			if (Input.KeyboardCheckPress(Keys.F))
+			if (Input.CheckButtonPress(Buttons.F))
 			{
 				GameCntrl.WindowManager.SetFullScreen(!GameCntrl.WindowManager.IsFullScreen);	
 			}
@@ -242,7 +241,7 @@ namespace Monofoxe
 			
 			DrawCntrl.CurrentColor = new Color((float)r.NextDouble(), (float)r.NextDouble(), (float)r.NextDouble(), 1.0f);
 			DrawCntrl.SetSurfaceTarget(surfForDrawing);
-			if (Input.MouseCheck(MouseButtons.Left))
+			if (Input.CheckButton(Buttons.MouseLeft))
 			{
 				DrawCntrl.DrawCircle(Input.ScreenMousePos, 16, false);
 			}
