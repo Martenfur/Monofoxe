@@ -8,44 +8,210 @@ using System.Text;
 
 namespace Monofoxe.Engine
 {
+	
 	/// <summary>
-	/// Mouse buttons.
+	/// Combined enums from keyboard, gamepad and mouse.
+	/// I really don't like the idea of 3 separate sets of functions for each input method.
+	/// Standard Xna.Input.Keys can be casted into Buttons.
 	/// </summary>
-	public enum MouseButtons
+	public enum Buttons
 	{
-		Left,
-		Right,
-		Middle
-	}
+		#region Keyboard.
+		None = 0,
+		Back = 8,
+		Tab = 9,
+		Enter = 13,
+		Pause = 19,
+		CapsLock = 20,
+		Kana = 21,
+		Kanji = 25,
+		Escape = 27,
+		ImeConvert = 28,
+		ImeNoConvert = 29,
+		Space = 32,
+		PageUp = 33,
+		PageDown = 34,
+		End = 35,
+		Home = 36,
+		Left = 37,
+		Up = 38,
+		Right = 39,
+		Down = 40,
+		Select = 41,
+		Print = 42,
+		Execute = 43,
+		PrintScreen = 44,
+		Insert = 45,
+		Delete = 46,
+		Help = 47,
+		D0 = 48,
+		D1 = 49,
+		D2 = 50,
+		D3 = 51,
+		D4 = 52,
+		D5 = 53,
+		D6 = 54,
+		D7 = 55,
+		D8 = 56,
+		D9 = 57,
+		A = 65,
+		B = 66,
+		C = 67,
+		D = 68,
+		E = 69,
+		F = 70,
+		G = 71,
+		H = 72,
+		I = 73,
+		J = 74,
+		K = 75,
+		L = 76,
+		M = 77,
+		N = 78,
+		O = 79,
+		P = 80,
+		Q = 81,
+		R = 82,
+		S = 83,
+		T = 84,
+		U = 85,
+		V = 86,
+		W = 87,
+		X = 88,
+		Y = 89,
+		Z = 90,
+		LeftWindows = 91,
+		RightWindows = 92,
+		Apps = 93,
+		Sleep = 95,
+		NumPad0 = 96,
+		NumPad1 = 97,
+		NumPad2 = 98,
+		NumPad3 = 99,
+		NumPad4 = 100,
+		NumPad5 = 101,
+		NumPad6 = 102,
+		NumPad7 = 103,
+		NumPad8 = 104,
+		NumPad9 = 105,
+		Multiply = 106,
+		Add = 107,
+		Separator = 108,
+		Subtract = 109,
+		Decimal = 110,
+		Divide = 111,
+		F1 = 112,
+		F2 = 113,
+		F3 = 114,
+		F4 = 115,
+		F5 = 116,
+		F6 = 117,
+		F7 = 118,
+		F8 = 119,
+		F9 = 120,
+		F10 = 121,
+		F11 = 122,
+		F12 = 123,
+		F13 = 124,
+		F14 = 125,
+		F15 = 126,
+		F16 = 127,
+		F17 = 128,
+		F18 = 129,
+		F19 = 130,
+		F20 = 131,
+		F21 = 132,
+		F22 = 133,
+		F23 = 134,
+		F24 = 135,
+		NumLock = 144,
+		Scroll = 145,
+		LeftShift = 160,
+		RightShift = 161,
+		LeftControl = 162,
+		RightControl = 163,
+		LeftAlt = 164,
+		RightAlt = 165,
+		BrowserBack = 166,
+		BrowserForward = 167,
+		BrowserRefresh = 168,
+		BrowserStop = 169,
+		BrowserSearch = 170,
+		BrowserFavorites = 171,
+		BrowserHome = 172,
+		VolumeMute = 173,
+		VolumeDown = 174,
+		VolumeUp = 175,
+		MediaNextTrack = 176,
+		MediaPreviousTrack = 177,
+		MediaStop = 178,
+		MediaPlayPause = 179,
+		LaunchMail = 180,
+		SelectMedia = 181,
+		LaunchApplication1 = 182,
+		LaunchApplication2 = 183,
+		OemSemicolon = 186,
+		OemPlus = 187,
+		OemComma = 188,
+		OemMinus = 189,
+		OemPeriod = 190,
+		OemQuestion = 191,
+		OemTilde = 192,
+		ChatPadGreen = 202,
+		ChatPadOrange = 203,
+		OemOpenBrackets = 219,
+		OemPipe = 220,
+		OemCloseBrackets = 221,
+		OemQuotes = 222,
+		Oem8 = 223,
+		OemBackslash = 226,
+		ProcessKey = 229,
+		OemCopy = 242,
+		OemAuto = 243,
+		OemEnlW = 244,
+		Attn = 246,
+		Crsel = 247,
+		Exsel = 248,
+		EraseEof = 249,
+		Play = 250,
+		Zoom = 251,
+		Pa1 = 253,
+		OemClear = 254,
+		#endregion Keyboard.
 
-	/// <summary>
-	/// Gamepad buttons, including triggers.
-	/// </summary>
-	public enum GamepadButtons
-	{
-		Left,
-		Right,
-		Up,
-		Down,
-		A,
-		B,
-		X,
-		Y,
-		LT, // Left trigger.
-		RT, // Right trigger.
-		LB, // Left button.
-		RB, // Right button.
-		LS, // Left stick.
-		RS, // Right stick.
-		Start,
-		Select
+
+		#region Mouse.
+		MouseLeft = 1000,
+		MouseRight = 1001,
+		MouseMiddle = 1002,
+		#endregion Mouse.
+
+
+		#region Gamepad.
+		GpLeft = 2000,
+		GpRight = 2001,
+		GpUp = 2002,
+		GpDown = 2003,
+		GpA = 2004,
+		GpB = 2005,
+		GpX = 2006,
+		GpY = 2007,
+		GpLT = 2008, // Left trigger.
+		GpRT = 2009, // Right trigger.
+		GpLB = 2010, // Left button.
+		GpRB = 2011, // Right button.
+		GpLS = 2012, // Left stick.
+		GpRS = 2013, // Right stick.
+		GpStart = 2014,
+		GpSelect = 2015,
+		#endregion Gamepad.
 	}
 
 
 	public static class Input
 	{
 		#region Mouse.
-
+	
 		/// <summary>
 		/// Cursor position on screen.
 		/// </summary>
@@ -57,8 +223,8 @@ namespace Monofoxe.Engine
 		public static Vector2 MousePos {get; private set;} = Vector2.Zero;
 
 
-		private static List<MouseButtons> _mouseButtons = new List<MouseButtons>(),
-			_previousMouseButtons = new List<MouseButtons>();
+		private static List<Buttons> _mouseButtons = new List<Buttons>(),
+			_previousMouseButtons = new List<Buttons>();
 		
 
 		/// <summary>
@@ -128,14 +294,19 @@ namespace Monofoxe.Engine
 			}
 		}
 
-		private static List<GamepadButtons>[] _gamepadButtons = new List<GamepadButtons>[_maxGamepadCount], 
-			_previousGamepadButtons = new List<GamepadButtons>[_maxGamepadCount];
+		private static List<Buttons>[] _gamepadButtons = new List<Buttons>[_maxGamepadCount], 
+			_previousGamepadButtons = new List<Buttons>[_maxGamepadCount];
 
 		private static GamePadState[] _gamepadState = new GamePadState[_maxGamepadCount],
 			_previousGamepadState = new GamePadState[_maxGamepadCount];
 
 		#endregion Gamepad.
 		
+
+		private const int _keyboardMaxCode = 1000;
+		private const int _mouseMaxCode = 2000;
+		private const int _gamepadMaxCode = 3000;
+
 
 		private static bool _mouseCleared, _keyboardCleared, _gamepadCleared;
 
@@ -154,19 +325,19 @@ namespace Monofoxe.Engine
 			ScreenMousePos = new Vector2(buffer.X, buffer.Y);
 			
 			_previousMouseButtons = _mouseButtons;
-			_mouseButtons = new List<MouseButtons>();
+			_mouseButtons = new List<Buttons>();
 			
 			if (mouseState.LeftButton == ButtonState.Pressed)
 			{
-				_mouseButtons.Add(MouseButtons.Left);
+				_mouseButtons.Add(Buttons.MouseLeft);
 			}
 			if (mouseState.RightButton == ButtonState.Pressed)
 			{
-				_mouseButtons.Add(MouseButtons.Right);
+				_mouseButtons.Add(Buttons.MouseRight);
 			}
 			if (mouseState.MiddleButton == ButtonState.Pressed)
 			{
-				_mouseButtons.Add(MouseButtons.Middle);
+				_mouseButtons.Add(Buttons.MouseMiddle);
 			}
 
 
@@ -217,76 +388,76 @@ namespace Monofoxe.Engine
 				_gamepadState[i] = GamePad.GetState(i,GamepadDeadzoneType);
 
 				_previousGamepadButtons[i] = _gamepadButtons[i];
-				_gamepadButtons[i] = new List<GamepadButtons>();
+				_gamepadButtons[i] = new List<Buttons>();
 			
 				if (_gamepadState[i].DPad.Left == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(GamepadButtons.Left);
+					_gamepadButtons[i].Add(Buttons.GpLeft);
 				}
 				if (_gamepadState[i].DPad.Right == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(GamepadButtons.Right);
+					_gamepadButtons[i].Add(Buttons.GpRight);
 				}
 				if (_gamepadState[i].DPad.Up == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(GamepadButtons.Up);
+					_gamepadButtons[i].Add(Buttons.GpUp);
 				}
 				if (_gamepadState[i].DPad.Down == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(GamepadButtons.Down);
+					_gamepadButtons[i].Add(Buttons.GpDown);
 				}
 	
 				if (_gamepadState[i].Buttons.A == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(GamepadButtons.A);
+					_gamepadButtons[i].Add(Buttons.GpA);
 				}
 				if (_gamepadState[i].Buttons.B == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(GamepadButtons.B);
+					_gamepadButtons[i].Add(Buttons.GpB);
 				}
 				if (_gamepadState[i].Buttons.X == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(GamepadButtons.X);
+					_gamepadButtons[i].Add(Buttons.GpX);
 				}
 				if (_gamepadState[i].Buttons.Y == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(GamepadButtons.Y);
+					_gamepadButtons[i].Add(Buttons.GpY);
 				}
 	
 				if (_gamepadState[i].Buttons.LeftShoulder == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(GamepadButtons.LB);
+					_gamepadButtons[i].Add(Buttons.GpLB);
 				}
 				if (_gamepadState[i].Buttons.RightShoulder == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(GamepadButtons.RB);
+					_gamepadButtons[i].Add(Buttons.GpRB);
 				}
 				
 				if (_gamepadState[i].Triggers.Left > GamepadTriggersDeadzone)
 				{
-					_gamepadButtons[i].Add(GamepadButtons.LT);
+					_gamepadButtons[i].Add(Buttons.GpLT);
 				}
 				if (_gamepadState[i].Triggers.Right > GamepadTriggersDeadzone)
 				{
-					_gamepadButtons[i].Add(GamepadButtons.RT);
+					_gamepadButtons[i].Add(Buttons.GpRT);
 				}
 
 				if (_gamepadState[i].Buttons.LeftStick == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(GamepadButtons.LS);
+					_gamepadButtons[i].Add(Buttons.GpLS);
 				}
 				if (_gamepadState[i].Buttons.RightStick == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(GamepadButtons.RS);
+					_gamepadButtons[i].Add(Buttons.GpRS);
 				}
 
 				if (_gamepadState[i].Buttons.Start == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(GamepadButtons.Start);
+					_gamepadButtons[i].Add(Buttons.GpStart);
 				}
 				if (_gamepadState[i].Buttons.Back == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(GamepadButtons.Select);
+					_gamepadButtons[i].Add(Buttons.Select);
 				}
 			}
 			#endregion Gamepad.
@@ -294,29 +465,67 @@ namespace Monofoxe.Engine
 		}
 
 
+		#region Button checks.
+
+		/// <summary>
+		/// Checks if mouse, keyboard or gamepad button is down.
+		/// </summary>
+		/// <param name="button">Button to check.</param>
+		/// <param name="index">Device index. Used for gamepad only.</param>
+		public static bool CheckButton(Buttons button, int index = 0)
+		{
+			var buttonCode = (int)button;
+
+			var result = 
+				index < _gamepadButtons.Length   && !_gamepadCleared  && _gamepadButtons[0].Contains(button)
+				|| buttonCode < _keyboardMaxCode && !_keyboardCleared && _currentKeys.Contains((Keys)button)
+				|| buttonCode < _mouseMaxCode    && !_mouseCleared    && _mouseButtons.Contains(button);
+			
+			return result;
+		}
+
+
+		/// <summary>
+		/// Checks if mouse, keyboard or gamepad button is pressed.
+		/// </summary>
+		/// <param name="button">Button to check.</param>
+		/// <param name="index">Device index. Used for gamepad only.</param>
+		
+		public static bool CheckButtonPress(Buttons button, int index = 0)
+		{
+			var buttonCode = (int)button;
+
+			var result = 
+				index < _gamepadButtons.Length   && !_gamepadCleared  && _gamepadButtons[0].Contains(button) && _previousGamepadButtons[0].Contains(button)
+				|| buttonCode < _keyboardMaxCode && !_keyboardCleared && _currentKeys.Contains((Keys)button) && !_previousKeys.Contains((Keys)button)
+				|| buttonCode < _mouseMaxCode    && !_mouseCleared    && _mouseButtons.Contains(button)      && !_previousMouseButtons.Contains(button);
+			
+			return result;
+		}
+
+
+		/// <summary>
+		/// Checks if mouse, keyboard or gamepad button is released.
+		/// </summary>
+		/// <param name="button">Button to check.</param>
+		/// <param name="index">Device index. Used for gamepad only.</param>
+		public static bool CheckButtonRelease(Buttons button, int index = 0)
+		{
+			var buttonCode = (int)button;
+
+			var result = 
+				index < _gamepadButtons.Length   && !_gamepadCleared  && !_gamepadButtons[0].Contains(button) && _previousGamepadButtons[0].Contains(button)
+				|| buttonCode < _keyboardMaxCode && !_keyboardCleared && !_currentKeys.Contains((Keys)button) && _previousKeys.Contains((Keys)button)
+				|| buttonCode < _mouseMaxCode    && !_mouseCleared    && !_mouseButtons.Contains(button)      && _previousMouseButtons.Contains(button);
+			
+			return result;
+		}
+
+		#endregion Button checks.
+		
+
 
 		#region Mouse.
-
-		/// <summary>
-		/// Checks if mouse button is down in current step.
-		/// </summary>
-		public static bool MouseCheck(MouseButtons button) => 
-			!_mouseCleared && _mouseButtons.Contains(button);
-
-
-		/// <summary>
-		/// Checks if mouse button is pressed.
-		/// </summary>
-		public static bool MouseCheckPress(MouseButtons button) => 
-			!_mouseCleared && _mouseButtons.Contains(button) && !_previousMouseButtons.Contains(button);
-
-
-		/// <summary>
-		/// Checks if mouse button is released.
-		/// </summary>
-		public static bool MouseCheckRelease(MouseButtons button) => 
-			!_mouseCleared && !_mouseButtons.Contains(button) && _previousMouseButtons.Contains(button);
-
 
 		/// <summary>
 		/// Clears mouse input.
@@ -340,27 +549,6 @@ namespace Monofoxe.Engine
 
 
 		#region Keyboard.
-
-		/// <summary>
-		/// Checks if keyboard key is down in current step.
-		/// </summary>
-		public static bool KeyboardCheck(Keys key) => 
-			!_keyboardCleared && _currentKeys.Contains(key);
-
-
-		/// <summary>
-		/// Checks if keyboard key is pressed.
-		/// </summary>
-		public static bool KeyboardCheckPress(Keys key) => 
-			!_keyboardCleared && _currentKeys.Contains(key) && !_previousKeys.Contains(key);
-
-
-		/// <summary>
-		/// Checks if keyboard key is released.
-		/// </summary>
-		public static bool KeyboardCheckRelease(Keys key) => 
-			!_keyboardCleared && !_currentKeys.Contains(key) && _previousKeys.Contains(key);
-
 
 		/// <summary>
 		/// Checks if any keyboard key in down in current step.
@@ -410,10 +598,10 @@ namespace Monofoxe.Engine
 		internal static void GamepadInit()
 		{
 			// Creating a bunch of dummy objects just to get rid of null ref exception.
-			_gamepadButtons = new List<GamepadButtons>[_maxGamepadCount];
+			_gamepadButtons = new List<Buttons>[_maxGamepadCount];
 			for(var i = 0; i < _gamepadButtons.Length; i += 1)
 			{
-				_gamepadButtons[i] = new List<GamepadButtons>();
+				_gamepadButtons[i] = new List<Buttons>();
 			}
 			_previousGamepadButtons = _gamepadButtons;
 
@@ -425,6 +613,7 @@ namespace Monofoxe.Engine
 			_previousGamepadState = _gamepadState;			
 		}
 
+
 		/// <summary>
 		/// Checks if gamepad with given inex is connected.
 		/// </summary>
@@ -433,44 +622,6 @@ namespace Monofoxe.Engine
 			if (!_gamepadCleared && index < _gamepadState.Length)
 			{
 				return _gamepadState[index].IsConnected;
-			}
-			return false;
-		}
-
-		/// <summary>
-		/// Checks if gamepad button is down in current step.
-		/// </summary>
-		public static bool GamepadCheck(int index, GamepadButtons button)
-		{
-			if (!_gamepadCleared && index < _gamepadButtons.Length)
-			{
-				return (_gamepadButtons[index].Contains(button));
-			}
-			return false;
-		}
-
-		
-		/// <summary>
-		/// Checks if gamepad button is pressed.
-		/// </summary>
-		public static bool GamepadCheckPress(int index, GamepadButtons button)
-		{
-			if (!_gamepadCleared && index < _gamepadButtons.Length)
-			{
-				return (_gamepadButtons[index].Contains(button) && !_previousGamepadButtons[index].Contains(button));
-			}
-			return false;
-		}
-
-		
-		/// <summary>
-		/// Checks if gamepad button is released.
-		/// </summary>
-		public static bool GamepadCheckRelease(int index, GamepadButtons button)
-		{
-			if (!_gamepadCleared && index < _gamepadButtons.Length)
-			{
-				return (!_gamepadButtons[index].Contains(button) && _previousGamepadButtons[index].Contains(button));
 			}
 			return false;
 		}
