@@ -31,7 +31,9 @@ Not planned:
 To launch Monofoxe, you'll need:
 
 * [Monogame](http://monogame.net).
-* [FMOD API for Windows](http://fmod.com).
+* [Latest release of Monofoxe](https://bitbucket.org/gnFur/monofoxe/downloads/MonofoxeDesktopGL.zip).
+
+Just install Monofoxe template, create project with it and you're good to go.
 
 Want to contribute, suggest a feature or just want to pour shit on my code? Feel free to contact me: foxoftgames@gmail.com
 
