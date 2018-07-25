@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine;
+using Monofoxe.Engine.Audio;
 
 namespace Monofoxe
 {
@@ -46,7 +46,7 @@ namespace Monofoxe
 		/// </summary>
 		protected override void UnloadContent()
 		{
-			// Unload any non ContentManager content here
+			AudioMgr.Unload();
 		}
 
 		/// <summary>

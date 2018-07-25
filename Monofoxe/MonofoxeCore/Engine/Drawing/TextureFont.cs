@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace Monofoxe.Engine.Drawing
 {
-	class TextureFont : IFont
+	public class TextureFont : IFont
 	{
 		#region fields
 
