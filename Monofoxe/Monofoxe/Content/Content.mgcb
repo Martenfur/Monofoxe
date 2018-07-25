@@ -32,3 +32,12 @@
 /processor:SpriteGroupProcessor
 /build:Graphics/default.atlas
 
+#begin Audio/Music/m_mission.ogg
+/copy:Audio/Music/m_mission.ogg
+
+#begin Audio/Music/m_peace.ogg
+/copy:Audio/Music/m_peace.ogg
+
+#begin Audio/Sounds/punch.wav
+/copy:Audio/Sounds/punch.wav
+

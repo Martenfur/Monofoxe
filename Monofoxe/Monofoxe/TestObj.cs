@@ -49,9 +49,9 @@ namespace Monofoxe
 
 		public TestObj()
 		{
-			snd1 = AudioMgr.LoadStreamedSound("m_mission", FMOD.MODE._3D);
-			snd2 = AudioMgr.LoadStreamedSound("m_peace");
-			snd3 = AudioMgr.LoadSound("punch", FMOD.MODE._3D);
+			snd1 = AudioMgr.LoadStreamedSound("Music/m_mission", FMOD.MODE._3D);
+			snd2 = AudioMgr.LoadStreamedSound("Music/m_peace");
+			snd3 = AudioMgr.LoadSound("Sounds/punch", FMOD.MODE._3D);
 			
 			AudioMgr.ListenerCount = 1;
 			AudioMgr.SetListenerPosition(new Vector2(256, 256), 0);
@@ -147,6 +147,7 @@ namespace Monofoxe
 				if (!snd3.IsPlaying)
 				{
 					snd3.Play(group);
+					snd3.Channel?.setReverbProperties(0, lowpass);
 				}
 			}
 
@@ -158,7 +159,7 @@ namespace Monofoxe
 			if (Input.KeyboardCheck(Keys.Q))
 			{
 				lowpass += 0.1f;
-				if (lowpass > 1)
+				if (lowpass > 1000)
 				{
 					lowpass = 1;
 				}	

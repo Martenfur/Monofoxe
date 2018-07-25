@@ -1,0 +1,43 @@
+
+#----------------------------- Global Properties ----------------------------#
+
+/outputDir:bin/$(Platform)
+/intermediateDir:obj/$(Platform)
+/platform:DesktopGL
+/config:
+/profile:Reach
+/compress:False
+
+#-------------------------------- References --------------------------------#
+
+/reference:dlls\Pipefoxe.dll
+
+#---------------------------------- Content ---------------------------------#
+
+#begin Audio/Music/m_mission.ogg
+/copy:Audio/Music/m_mission.ogg
+
+#begin Audio/Music/m_peace.ogg
+/copy:Audio/Music/m_peace.ogg
+
+#begin Audio/Sounds/punch.wav
+/copy:Audio/Sounds/punch.wav
+
+#begin Effects/effect.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/effect.fx
+
+#begin Graphics/default.atlas
+/importer:SpriteGroupImporter
+/processor:SpriteGroupProcessor
+/build:Graphics/default.atlas
+
+#begin Fonts/Arial.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Arial.spritefont
+

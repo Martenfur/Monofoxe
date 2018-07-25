@@ -1,19 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.Xna.Framework;
 
-// DO NOT reference FMOD in ANY of your classes.
+// DO NOT include FMOD namespace in ANY of your classes.
 // Use FMOD.SomeClass instead.
-// FMOD classes seriously interfere with System.
+// FMOD classes seriously interfere with System namespace.
 
 namespace Monofoxe.Engine.Audio
 {
+	/// <summary>
+	/// FMOD sound wrapper. Takes horrible FMOD wrapper and makes it look pretty.
+	/// Basically, a sound instance.
+	/// 
+	/// NOTE: You can set sound parameters only AFTER you've started playing sound.
+	/// Otherwise they will have no effect!
+	/// 
+	/// NOTE: My wrappers don't provide full FMOD functionality. For example,
+	/// DSPs and advanced 3D stuff are largely left untouched. I may extend my audio
+	/// classes to add new features. For now, you have to use FMOD classes directly.
+	/// </summary>
 	public class Sound
 	{
 		private FMOD.System _FMODSystem;
 
+		/// <summary>
+		/// FMOD sound object.
+		/// 
+		/// NOTE: It is not recommended to use it directly. 
+		/// If you'll really need some of its features, 
+		/// just implement them in this class.
+		/// </summary>
 		public FMOD.Sound FMODSound {get; private set;}
+		
+		/// <summary>
+		/// FMOD channel object.
+		/// 
+		/// NOTE: It is not recommended to use it directly. 
+		/// If you'll really need some of its features, 
+		/// just implement them in this class.
+		/// 
+		/// NOTE: ALWAYS check for null!!!
+		/// </summary>
 		public FMOD.Channel Channel
 		{
 			get;
@@ -21,8 +47,15 @@ namespace Monofoxe.Engine.Audio
 		}
 		private FMOD.Channel _channel; // Can't use out on properties. 
 
+
 		#region Properties.
 
+		/// <summary>
+		/// Amount of loops. 
+		/// > 0 - Specific count.
+		/// 0 - No loops.
+		/// -1 - Infinite loops.
+		/// </summary>
 		public int Loops
 		{
 			get
@@ -34,6 +67,10 @@ namespace Monofoxe.Engine.Audio
 			set => SetLastResult(_channel?.setLoopCount(value));
 		}
 
+		/// <summary>
+		/// Sound pitch. Affects speed too.
+		/// 1 - Normal pitch.
+		/// </summary>
 		public float Pitch
 		{
 			get
@@ -56,6 +93,11 @@ namespace Monofoxe.Engine.Audio
 			set => SetLastResult(_channel?.setVolume(value));	
 		}
 
+		/// <summary>
+		/// Low pass filter. Makes sound muffled.
+		/// 1 - No filtering.
+		/// 0 - Full filtering.
+		/// </summary>
 		public float LowPass
 		{
 			get
@@ -67,6 +109,9 @@ namespace Monofoxe.Engine.Audio
 			set => SetLastResult(_channel?.setLowPassGain(value));
 		}
 
+		/// <summary>
+		/// Tells if sound is playing.
+		/// </summary>
 		public bool IsPlaying
 		{
 			get
@@ -77,6 +122,9 @@ namespace Monofoxe.Engine.Audio
 			}
 		}
 
+		/// <summary>
+		/// Sound mode. Mainly used for 3D sound.
+		/// </summary>
 		public FMOD.MODE Mode
 		{
 			get
@@ -100,6 +148,12 @@ namespace Monofoxe.Engine.Audio
 		}
 
 
+
+		/// <summary>
+		/// Plays sound. 
+		/// 
+		/// NOTE: if you want to create new sound instance, use AudioMgr.PlaySound.
+		/// </summary>
 		public void Play(FMOD.ChannelGroup group = null, bool paused = false) =>
 			SetLastResult(_FMODSystem.playSound(FMODSound, group, paused, out _channel));
 		
@@ -115,6 +169,8 @@ namespace Monofoxe.Engine.Audio
 			_channel = null;
 		}
 
+
+
 		public uint GetTrackPosition(FMOD.TIMEUNIT timeUnit = FMOD.TIMEUNIT.MS)
 		{
 			uint position = 0;
@@ -126,8 +182,12 @@ namespace Monofoxe.Engine.Audio
 			SetLastResult(_channel?.setPosition(position, timeUnit));
 		
 		
+
 		//TODO: Add Vector3 functions, if you will need them.
 
+		/// <summary>
+		/// Sets sound mode to 3D and plays it at the given position.
+		/// </summary>
 		public void PlayAt(
 			FMOD.ChannelGroup group = null, 
 			bool paused = false, 
@@ -140,15 +200,15 @@ namespace Monofoxe.Engine.Audio
 			SetLastResult(_FMODSystem.playSound(FMODSound, group, paused, out _channel));
 		}
 
-		public void Set3DAttributes(Vector2 pos, Vector2 velocity)
-		{
-			var fmodPos = AudioMgr.Vector2ToFmodVector(pos);
-			var fmodVelocity = AudioMgr.Vector2ToFmodVector(velocity);
-			var zeroVec = AudioMgr.GetFmodVector();
-			SetLastResult(_channel?.set3DAttributes(ref fmodPos, ref fmodVelocity, ref zeroVec));
-		}
 
-		public void Set3DAttributes(Vector2 pos, Vector2 velocity, Vector2 altPanPos)
+
+		/// <summary>
+		/// Sets 3D attributes.
+		/// </summary>
+		/// <param name="pos">Sound position.</param>
+		/// <param name="velocity">Sound velocity.</param>
+		/// <param name="altPanPos">Panning position.</param>
+		public void Set3DAttributes(Vector2 pos, Vector2 velocity, Vector2 altPanPos = default(Vector2))
 		{
 			var fmodPos = AudioMgr.Vector2ToFmodVector(pos);
 			var fmodVelocity = AudioMgr.Vector2ToFmodVector(velocity);
@@ -158,6 +218,11 @@ namespace Monofoxe.Engine.Audio
 
 
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="minDistance"></param>
+		/// <param name="maxDistance"></param>
 		public void Set3DMinMaxDistance(float minDistance, float maxDistance) =>
 			SetLastResult(_channel?.set3DMinMaxDistance(minDistance, maxDistance));
 
@@ -169,6 +234,18 @@ namespace Monofoxe.Engine.Audio
 			return new Tuple<float, float>(minDistance, maxDistance);
 		}
 		
+
+
+		/// <summary>
+		/// Unloads sound from the game.
+		/// Recommended to use only at the end of the game.
+		/// </summary>
+		public void Unload()
+		{
+			Stop();
+			FMODSound.release();
+		}
+
 
 
 		/// <summary>

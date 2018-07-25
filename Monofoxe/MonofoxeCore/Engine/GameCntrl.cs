@@ -151,8 +151,15 @@ namespace Monofoxe.Engine
 			AudioMgr.Update();
 		}
 
+
+		public static void Draw(GameTime gameTime)
+		{
+			UpdateFps(gameTime);
+			DrawCntrl.Update(gameTime);
+		}
+
 		
-		
+
 		public static void UpdateFps(GameTime gameTime) => 
 			_fpsCounter.Update(gameTime);
 
