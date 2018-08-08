@@ -239,14 +239,16 @@ namespace Monofoxe.Engine
 		/// <param name="device">Graphics device.</param>
 		public static void Init(GraphicsDevice device)
 		{
-			Device = device;
+			Device = device;			
 			Device.DepthStencilState = DepthStencilState.DepthRead;
-
+		
 			Batch = new SpriteBatch(Device);
 
 			_basicEffect = new BasicEffect(Device);
 			_basicEffect.VertexColorEnabled = true;
 			
+			
+
 			_vertexBuffer = new DynamicVertexBuffer(Device, typeof(VertexPositionColorTexture), BUFFER_SIZE, BufferUsage.WriteOnly);
 			_indexBuffer = new DynamicIndexBuffer(Device, IndexElementSize.SixteenBits, BUFFER_SIZE, BufferUsage.WriteOnly);
 			
@@ -547,7 +549,7 @@ namespace Monofoxe.Engine
 				}
 
 				Device.ScissorRectangle = _scissorRectangle;
-
+		
 				// Replace _basicEffect with custom effect system. Or not. We'll see. :V
 				foreach(EffectPass pass in _basicEffect.CurrentTechnique.Passes)
 				{
