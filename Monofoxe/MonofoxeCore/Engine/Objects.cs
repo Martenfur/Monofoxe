@@ -24,22 +24,21 @@ namespace Monofoxe.Engine
 		/// </summary>
 		private static List<GameObj> _newGameObjects = new List<GameObj>();
 
-		/// <summary>
-		/// List of objects that should be destroyed in next step.
-		/// </summary>
-		private static List<GameObj> _destroyedGameObjects = new List<GameObj>();
-
 		private static double _fixedUpdateAl;
 
 
 		internal static void Update(GameTime gameTime)
 		{
 			// Clearing main list from destroyed objects.
-			foreach(GameObj obj in _destroyedGameObjects)
+			var updatedList = new List<GameObj>();
+			foreach(GameObj obj in GameObjects)
 			{
-				GameObjects.Remove(obj); 
+				if (!obj.Destroyed)
+				{
+					updatedList.Add(obj);
+				}
 			}
-			_destroyedGameObjects.Clear();
+			GameObjects = updatedList;
 			// Clearing main list from destroyed objects.
 
 
@@ -144,9 +143,8 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static void Destroy(GameObj obj)
 		{
-			if (!_destroyedGameObjects.Contains(obj))
+			if (!obj.Destroyed)
 			{
-				_destroyedGameObjects.Add(obj);
 				obj.Destroyed = true;
 				if (obj.Active)
 				{

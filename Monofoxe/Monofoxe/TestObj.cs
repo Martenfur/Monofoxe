@@ -94,7 +94,7 @@ namespace Monofoxe
 			DrawCntrl.Effect = null;
 			DrawCntrl.ResetSurfaceTarget();
 
-
+			DrawCntrl.BlendState = BlendState.NonPremultiplied; // Makes alpha magically work.
 
 
 			cam.BackgroundColor = Color.DarkSeaGreen;
@@ -112,9 +112,11 @@ namespace Monofoxe
 			rasterizerState.CullMode = CullMode.None;
 			rasterizerState.ScissorTestEnable = false;//(_scissorRectangle != Rectangle.Empty);
 			rasterizerState.FillMode = FillMode.Solid;
+			
 			DrawCntrl.Rasterizer = rasterizerState;
 
 			DrawCntrl.Sampler = SamplerState.PointClamp;
+
 
 			//DrawCntrl.ScissorRectangle = new Rectangle(0, 0, 100, 100);
 			GameCntrl.WindowManager.CanvasSize = new Vector2(1200, 600);
@@ -311,6 +313,11 @@ namespace Monofoxe
 
 			DrawCntrl.Effect = null;
 			
+			
+			DrawCntrl.CurrentColor = new Color(Color.Azure, 0.1f);
+			DrawCntrl.DrawCircle(100, 100, 100, false);
+			DrawCntrl.DrawCircle(120, 100, 100, false);
+			DrawCntrl.CurrentColor = Color.White;
 			
 		}
 
