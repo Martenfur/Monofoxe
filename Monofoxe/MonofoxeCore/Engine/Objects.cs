@@ -16,13 +16,13 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// List of all game objects.
 		/// </summary>
-		public static List<GameObj> GameObjects = new List<GameObj>();
+		public static List<Entity> GameObjects = new List<Entity>();
 
 		/// <summary>
 		/// List of newly created game objects. Since it won't be that cool to modify main list 
 		/// in mid-step, they'll be added in next one.
 		/// </summary>
-		private static List<GameObj> _newGameObjects = new List<GameObj>();
+		private static List<Entity> _newGameObjects = new List<Entity>();
 
 		private static double _fixedUpdateAl;
 
@@ -30,8 +30,8 @@ namespace Monofoxe.Engine
 		internal static void Update(GameTime gameTime)
 		{
 			// Clearing main list from destroyed objects.
-			var updatedList = new List<GameObj>();
-			foreach(GameObj obj in GameObjects)
+			var updatedList = new List<Entity>();
+			foreach(Entity obj in GameObjects)
 			{
 				if (!obj.Destroyed)
 				{
@@ -56,7 +56,7 @@ namespace Monofoxe.Engine
 				var overflow = (int)(_fixedUpdateAl / GameCntrl.FixedUpdateRate); // In case of lags.
 				_fixedUpdateAl -= GameCntrl.FixedUpdateRate * overflow;
 
-				foreach(GameObj obj in GameObjects)
+				foreach(Entity obj in GameObjects)
 				{
 					if (obj.Active)
 					{
@@ -64,7 +64,7 @@ namespace Monofoxe.Engine
 					}
 				}
 
-				foreach(GameObj obj in GameObjects)
+				foreach(Entity obj in GameObjects)
 				{
 					if (obj.Active)
 					{
@@ -72,7 +72,7 @@ namespace Monofoxe.Engine
 					}
 				}
 
-				foreach(GameObj obj in GameObjects)
+				foreach(Entity obj in GameObjects)
 				{
 					if (obj.Active)
 					{
@@ -84,7 +84,7 @@ namespace Monofoxe.Engine
 
 
 			// Normal updates.
-			foreach(GameObj obj in GameObjects)
+			foreach(Entity obj in GameObjects)
 			{
 				if (obj.Active)
 				{
@@ -92,7 +92,8 @@ namespace Monofoxe.Engine
 				}
 			}
 
-			foreach(GameObj obj in GameObjects)
+			ECS.ECSMgr.Update();
+			foreach(Entity obj in GameObjects)
 			{
 				if (obj.Active)
 				{ 
@@ -100,7 +101,7 @@ namespace Monofoxe.Engine
 				}
 			}
 
-			foreach(GameObj obj in GameObjects)
+			foreach(Entity obj in GameObjects)
 			{
 				if (obj.Active)
 				{ 
@@ -117,8 +118,9 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Adds object to object list.
 		/// </summary>
-		internal static void AddObject(GameObj obj) => 
+		internal static void AddObject(Entity obj) => 
 			_newGameObjects.Add(obj);
+
 
 
 
@@ -127,21 +129,21 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Returns list of objects of certain type.
 		/// </summary>
-		public static List<T> GetList<T>() where T : GameObj => 
+		public static List<T> GetList<T>() where T : Entity => 
 			GameObjects.OfType<T>().ToList();
 
 
 		/// <summary>
 		/// Counts amount of objects of certain type.
 		/// </summary>
-		public static int Count<T>() where T : GameObj => 
+		public static int Count<T>() where T : Entity => 
 			GameObjects.OfType<T>().Count();
 
 
 		/// <summary>
 		/// Destroys game object.
 		/// </summary>
-		public static void Destroy(GameObj obj)
+		public static void Destroy(Entity obj)
 		{
 			if (!obj.Destroyed)
 			{
@@ -157,9 +159,9 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Checks if given instance exists.
 		/// </summary>
-		public static bool ObjExists<T>() where T : GameObj
+		public static bool ObjExists<T>() where T : Entity
 		{
-			foreach(GameObj obj in GameObjects)
+			foreach(Entity obj in GameObjects)
 			{
 				if (obj is T)
 				{
@@ -175,22 +177,106 @@ namespace Monofoxe.Engine
 		/// <typeparam name="T">Type to search.</typeparam>
 		/// <param name="count">Number of the object in object list.</param>
 		/// <returns>Returns object if it was found, or null, if it wasn't.</returns>
-		public static T ObjFind<T>(int count) where T : GameObj
+		public static T ObjFind<T>(int count) where T : Entity
 		{
 			var counter = 0;
 
-			foreach(GameObj obj in GameObjects)
+			foreach(Entity obj in GameObjects)
 			{
-				if (counter >= count && obj is T)
+				if (obj is T)
 				{
-					return (T)obj;
+					if (counter >= count)
+					{
+						return (T)obj;
+					}
+					counter += 1;
 				}
-				counter += 1;
 			}
 			return null;
 		}
 
 		#endregion User functions.
+
+
+		#region ECS functions.
+
+		/// <summary>
+		/// Returns list of objects of certain type.
+		/// </summary>
+		public static List<Entity> GetList(string tag)
+		{
+			var list = new List<Entity>();
+
+			foreach(Entity obj in GameObjects)
+			{
+				if (obj.Tag == tag)
+				{
+					list.Add(obj);
+				}
+			}
+			return list;
+		}
+		
+
+		/// <summary>
+		/// Counts amount of objects of certain type.
+		/// </summary>
+		public static int Count(string tag)
+		{
+			var counter = 0;
+
+			foreach(Entity obj in GameObjects)
+			{
+				if (obj.Tag == tag)
+				{
+					counter += 1;
+				}
+			}
+			return counter;
+		}
+		
+
+		/// <summary>
+		/// Checks if given instance exists.
+		/// </summary>
+		public static bool ObjExists(string tag)
+		{
+			foreach(Entity obj in GameObjects)
+			{
+				if (obj.Tag == tag)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		
+
+		/// <summary>
+		/// Finds n-th object of given type.
+		/// </summary>
+		/// <typeparam name="T">Type to search.</typeparam>
+		/// <param name="count">Number of the object in object list.</param>
+		/// <returns>Returns object if it was found, or null, if it wasn't.</returns>
+		public static Entity ObjFind(string tag, int count)
+		{
+			var counter = 0;
+
+			foreach(Entity obj in GameObjects)
+			{
+				if (obj.Tag == tag)
+				{
+					if (counter >= count)
+					{
+						return obj;
+					}
+					counter += 1;
+				}
+			}
+			return null;
+		}
+
+		#endregion ECS functions.
 
 	}
 }
