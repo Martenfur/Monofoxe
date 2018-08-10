@@ -343,7 +343,7 @@ namespace Monofoxe.Engine
 						Device.Clear(camera.BackgroundColor);
 					}
 
-					foreach(GameObj obj in depthSortedObjects)
+					foreach(Entity obj in depthSortedObjects)
 					{
 						if (obj.Active)
 						{
@@ -351,15 +351,15 @@ namespace Monofoxe.Engine
 						}
 					}
 
-					foreach(GameObj obj in depthSortedObjects)
+					foreach(Entity obj in depthSortedObjects)
 					{
 						if (obj.Active)
 						{
 							obj.Draw();
 						}
 					}
-			
-					foreach(GameObj obj in depthSortedObjects)
+					
+					foreach(Entity obj in depthSortedObjects)
 					{
 						if (obj.Active)
 						{
@@ -398,7 +398,7 @@ namespace Monofoxe.Engine
 			// Drawing GUI stuff.
 			_currentPipelineMode = PipelineMode.None;
 			
-			foreach(GameObj obj in depthSortedObjects)
+			foreach(Entity obj in depthSortedObjects)
 			{
 				if (obj.Active)
 				{

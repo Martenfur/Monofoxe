@@ -15,7 +15,7 @@ using Monofoxe.Engine.Audio;
 
 namespace Monofoxe
 {
-	class TestObj: GameObj 
+	class TestObj: Entity 
 	{
 		float x, y;
 		double period = 3; // Seconds.

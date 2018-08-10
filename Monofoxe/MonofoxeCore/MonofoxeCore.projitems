@@ -11,6 +11,10 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Audio\AudioMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Audio\Sound.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\ECSMgr.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\IComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\ISystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\TestComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\SpriteGroupReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Camera.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\DrawCntrl.cs" />
@@ -20,7 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\Sprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\TextureFont.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\GameCntrl.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Engine\GameObj.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Entity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Input.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Objects.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\WindowManager.cs" />
