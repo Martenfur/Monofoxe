@@ -5,12 +5,12 @@ using Monofoxe.Engine.Drawing;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Monofoxe.Engine
+namespace Monofoxe.Engine.ContentReaders
 {
 	/// <summary>
 	/// Reads sprite group file.
 	/// </summary>
-	public class SpriteGroupReader : ContentTypeReader<Dictionary<string, Sprite>>
+	internal class SpriteGroupReader : ContentTypeReader<Dictionary<string, Sprite>>
 	{
 		protected override Dictionary<string, Sprite> Read(ContentReader input, Dictionary<string, Sprite> existingInstance)
 		{

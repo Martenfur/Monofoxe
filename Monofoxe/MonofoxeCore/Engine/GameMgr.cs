@@ -4,7 +4,7 @@ using Monofoxe.Engine.Audio;
 
 namespace Monofoxe.Engine
 {
-	public static class GameCntrl
+	public static class GameMgr
 	{
 		/// <summary>
 		/// Root directory of the game content.
@@ -25,7 +25,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Window manager. Can be used for screen and window stuff.
 		/// </summary>
-		public static WindowManager WindowManager;
+		public static WindowMgr WindowManager;
 
 		/// <summary>
 		/// Time in seconds, elapsed since game start.
@@ -125,7 +125,7 @@ namespace Monofoxe.Engine
 			game.Window.TextInput += Input.TextInput;
 			Input.MaxGamepadCount = 2;
 
-			WindowManager = new WindowManager(game);
+			WindowManager = new WindowMgr(game);
 
 			AudioMgr.Init();
 		}
@@ -155,7 +155,7 @@ namespace Monofoxe.Engine
 		public static void Draw(GameTime gameTime)
 		{
 			UpdateFps(gameTime);
-			DrawCntrl.Update(gameTime);
+			DrawMgr.Update(gameTime);
 		}
 
 		
