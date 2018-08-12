@@ -15,7 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\IComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\ISystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ContentReaders\SpriteGroupReader.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Engine\Camera.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\Camera.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\DrawMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\Font.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\Frame.cs" />
@@ -25,7 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Engine\GameMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\Entity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Input.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Engine\Objects.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\EntityMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\WindowMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FMOD\fmod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FMOD\fmod_dsp.cs" />

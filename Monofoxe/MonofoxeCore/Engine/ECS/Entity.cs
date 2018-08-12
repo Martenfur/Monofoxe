@@ -31,7 +31,7 @@ namespace Monofoxe.Engine.ECS
 
 		public Entity(string tag = "entity")
 		{
-			Objects.AddEntity(this);
+			EntityMgr.AddEntity(this);
 			_components = new Dictionary<string, IComponent>();
 			Tag = tag;
 		}
@@ -120,7 +120,9 @@ namespace Monofoxe.Engine.ECS
 		}
 		
 
-
+		/// <summary>
+		/// Returns component with given tag.
+		/// </summary>
 		public IComponent this[string tag]
 		{
 			get
@@ -134,7 +136,9 @@ namespace Monofoxe.Engine.ECS
 		}
 
 
-
+		/// <summary>
+		/// Returns component of given class.
+		/// </summary>
 		public T GetComponent<T>() where T : IComponent
 		{
 			foreach(KeyValuePair<string, IComponent> component in _components)

@@ -9,7 +9,7 @@ using Monofoxe.Engine.ECS;
 
 namespace Monofoxe.Engine
 {
-	public static class Objects
+	public static class EntityMgr
 	{
 
 		/// <summary>
@@ -101,7 +101,7 @@ namespace Monofoxe.Engine
 				}
 			}
 
-			ECS.ECSMgr.Update();
+			ECSMgr.Update();
 			foreach(Entity obj in _entities)
 			{
 				if (obj.Active)
@@ -128,7 +128,6 @@ namespace Monofoxe.Engine
 
 		internal static void Draw()
 		{
-			ECSMgr.Draw();
 			foreach(Entity obj in _depthSortedEntities)
 			{
 				if (obj.Active)
@@ -137,6 +136,7 @@ namespace Monofoxe.Engine
 				}
 			}
 
+			ECSMgr.Draw();
 			foreach(Entity obj in _depthSortedEntities)
 			{
 				if (obj.Active)

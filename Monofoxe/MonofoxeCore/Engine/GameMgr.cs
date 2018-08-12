@@ -147,7 +147,7 @@ namespace Monofoxe.Engine
 			// Elapsed time counters.
 			
 			Input.Update();
-			Objects.Update(gameTime);
+			EntityMgr.Update(gameTime);
 			AudioMgr.Update();
 		}
 
