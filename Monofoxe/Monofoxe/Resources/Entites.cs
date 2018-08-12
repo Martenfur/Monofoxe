@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using Monofoxe.Engine;
 using Monofoxe.Engine.ECS;
 using Microsoft.Xna.Framework;
+using Monofoxe;
 
-namespace Monofoxe.Resources
+namespace Resources
 {
 	public static class Entites
 	{

@@ -268,7 +268,7 @@ namespace Monofoxe.Engine.Drawing
 					Vector2 border = new Vector2(-glyph.LeftSideBearing, 0);
 					Vector2 lineOffset = new Vector2(strSize.X * align.X, textH * align.Y);
 					
-					batch.Draw(frame.Texture, pos + offset + frame.Origin + border - lineOffset, frame.TexturePosition, DrawCntrl.CurrentColor);
+					batch.Draw(frame.Texture, pos + offset + frame.Origin + border - lineOffset, frame.TexturePosition, DrawMgr.CurrentColor);
 					offset.X += glyph.Width + Spacing;
 				}
 				offset.X = 0;

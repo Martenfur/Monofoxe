@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine;
 using System.Diagnostics;
-
+using Monofoxe.Engine.ECS;
 
 namespace Monofoxe.Engine
 {
@@ -47,14 +47,15 @@ namespace Monofoxe.Engine
 			_newGameObjects.Clear();
 			// Adding new objects to the list.
 
+			ECSMgr.Create();
 
 			// Fixed updates.
 			_fixedUpdateAl += gameTime.ElapsedGameTime.TotalSeconds;
 
-			if (_fixedUpdateAl >= GameCntrl.FixedUpdateRate)
+			if (_fixedUpdateAl >= GameMgr.FixedUpdateRate)
 			{
-				var overflow = (int)(_fixedUpdateAl / GameCntrl.FixedUpdateRate); // In case of lags.
-				_fixedUpdateAl -= GameCntrl.FixedUpdateRate * overflow;
+				var overflow = (int)(_fixedUpdateAl / GameMgr.FixedUpdateRate); // In case of lags.
+				_fixedUpdateAl -= GameMgr.FixedUpdateRate * overflow;
 
 				foreach(Entity obj in GameObjects)
 				{
@@ -152,6 +153,7 @@ namespace Monofoxe.Engine
 				{
 					obj.Destroy();
 				}
+				obj.RemoveAllComponents();
 			}
 		}
 

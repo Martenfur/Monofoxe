@@ -105,7 +105,7 @@ namespace Pipefoxe.SpriteGroup
 
 
 		public override string GetRuntimeReader(TargetPlatform targetPlatform) =>
-			"Monofoxe.Engine.SpriteGroupReader, Monofoxe";
+			"Monofoxe.Engine.ContentReaders.SpriteGroupReader, Monofoxe";
 
 
 		
