@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine;
@@ -16,48 +15,57 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// List of all game objects.
 		/// </summary>
-		public static List<Entity> GameObjects = new List<Entity>();
+		private static List<Entity> _entities = new List<Entity>();
 
 		/// <summary>
 		/// List of newly created game objects. Since it won't be that cool to modify main list 
 		/// in mid-step, they'll be added in next one.
 		/// </summary>
-		private static List<Entity> _newGameObjects = new List<Entity>();
+		private static List<Entity> _newEntities = new List<Entity>();
 
-		private static double _fixedUpdateAl;
+		/// <summary>
+		/// Entity list sorted by depth.
+		/// </summary>
+		private static List<Entity> _depthSortedEntities = new List<Entity>();
+
+
+		/// <summary>
+		/// Counts time until next fixed update.
+		/// </summary>
+		private static double _fixedUpdateTimer;
 
 
 		internal static void Update(GameTime gameTime)
-		{
+		{		
 			// Clearing main list from destroyed objects.
 			var updatedList = new List<Entity>();
-			foreach(Entity obj in GameObjects)
+			foreach(Entity obj in _entities)
 			{
 				if (!obj.Destroyed)
 				{
 					updatedList.Add(obj);
 				}
 			}
-			GameObjects = updatedList;
+			_entities = updatedList;
 			// Clearing main list from destroyed objects.
 
 
 			// Adding new objects to the list.
-			GameObjects.AddRange(_newGameObjects);
-			_newGameObjects.Clear();
+			_entities.AddRange(_newEntities);		
+			_newEntities.Clear();
 			// Adding new objects to the list.
 
 			ECSMgr.Create();
 
 			// Fixed updates.
-			_fixedUpdateAl += gameTime.ElapsedGameTime.TotalSeconds;
+			_fixedUpdateTimer += gameTime.ElapsedGameTime.TotalSeconds;
 
-			if (_fixedUpdateAl >= GameMgr.FixedUpdateRate)
+			if (_fixedUpdateTimer >= GameMgr.FixedUpdateRate)
 			{
-				var overflow = (int)(_fixedUpdateAl / GameMgr.FixedUpdateRate); // In case of lags.
-				_fixedUpdateAl -= GameMgr.FixedUpdateRate * overflow;
+				var overflow = (int)(_fixedUpdateTimer / GameMgr.FixedUpdateRate); // In case of lags.
+				_fixedUpdateTimer -= GameMgr.FixedUpdateRate * overflow;
 
-				foreach(Entity obj in GameObjects)
+				foreach(Entity obj in _entities)
 				{
 					if (obj.Active)
 					{
@@ -65,7 +73,7 @@ namespace Monofoxe.Engine
 					}
 				}
 
-				foreach(Entity obj in GameObjects)
+				foreach(Entity obj in _entities)
 				{
 					if (obj.Active)
 					{
@@ -73,7 +81,7 @@ namespace Monofoxe.Engine
 					}
 				}
 
-				foreach(Entity obj in GameObjects)
+				foreach(Entity obj in _entities)
 				{
 					if (obj.Active)
 					{
@@ -85,7 +93,7 @@ namespace Monofoxe.Engine
 
 
 			// Normal updates.
-			foreach(Entity obj in GameObjects)
+			foreach(Entity obj in _entities)
 			{
 				if (obj.Active)
 				{
@@ -94,7 +102,7 @@ namespace Monofoxe.Engine
 			}
 
 			ECS.ECSMgr.Update();
-			foreach(Entity obj in GameObjects)
+			foreach(Entity obj in _entities)
 			{
 				if (obj.Active)
 				{ 
@@ -102,7 +110,7 @@ namespace Monofoxe.Engine
 				}
 			}
 
-			foreach(Entity obj in GameObjects)
+			foreach(Entity obj in _entities)
 			{
 				if (obj.Active)
 				{ 
@@ -110,8 +118,53 @@ namespace Monofoxe.Engine
 				}
 			}
 			// Normal updates.
+
+
+			// Updating depth list for drawing stuff.
+			_depthSortedEntities = _entities.OrderByDescending(o => o.Depth).ToList();
 		}
 
+
+
+		internal static void Draw()
+		{
+			ECSMgr.Draw();
+			foreach(Entity obj in _depthSortedEntities)
+			{
+				if (obj.Active)
+				{
+					obj.DrawBegin();
+				}
+			}
+
+			foreach(Entity obj in _depthSortedEntities)
+			{
+				if (obj.Active)
+				{
+					obj.Draw();
+				}
+			}
+					
+			foreach(Entity obj in _depthSortedEntities)
+			{
+				if (obj.Active)
+				{
+					obj.DrawEnd();
+				}
+			}
+		}
+
+
+		internal static void DrawGUI()
+		{
+			foreach(Entity obj in _depthSortedEntities)
+			{
+				if (obj.Active)
+				{
+					obj.DrawGUI();
+				}
+			}
+		}
 
 
 
@@ -119,11 +172,9 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Adds object to object list.
 		/// </summary>
-		internal static void AddObject(Entity obj) => 
-			_newGameObjects.Add(obj);
-
-
-
+		internal static void AddEntity(Entity obj) => 
+			_newEntities.Add(obj);
+		
 
 		#region User functions. 
 
@@ -131,16 +182,16 @@ namespace Monofoxe.Engine
 		/// Returns list of objects of certain type.
 		/// </summary>
 		public static List<T> GetList<T>() where T : Entity => 
-			GameObjects.OfType<T>().ToList();
+			_entities.OfType<T>().ToList();
 
 
 		/// <summary>
 		/// Counts amount of objects of certain type.
 		/// </summary>
 		public static int Count<T>() where T : Entity => 
-			GameObjects.OfType<T>().Count();
+			_entities.OfType<T>().Count();
 
-
+		
 		/// <summary>
 		/// Destroys game object.
 		/// </summary>
@@ -163,7 +214,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static bool ObjExists<T>() where T : Entity
 		{
-			foreach(Entity obj in GameObjects)
+			foreach(Entity obj in _entities)
 			{
 				if (obj is T)
 				{
@@ -183,7 +234,7 @@ namespace Monofoxe.Engine
 		{
 			var counter = 0;
 
-			foreach(Entity obj in GameObjects)
+			foreach(Entity obj in _entities)
 			{
 				if (obj is T)
 				{
@@ -209,7 +260,7 @@ namespace Monofoxe.Engine
 		{
 			var list = new List<Entity>();
 
-			foreach(Entity obj in GameObjects)
+			foreach(Entity obj in _entities)
 			{
 				if (obj.Tag == tag)
 				{
@@ -227,7 +278,7 @@ namespace Monofoxe.Engine
 		{
 			var counter = 0;
 
-			foreach(Entity obj in GameObjects)
+			foreach(Entity obj in _entities)
 			{
 				if (obj.Tag == tag)
 				{
@@ -243,7 +294,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static bool ObjExists(string tag)
 		{
-			foreach(Entity obj in GameObjects)
+			foreach(Entity obj in _entities)
 			{
 				if (obj.Tag == tag)
 				{
@@ -264,7 +315,7 @@ namespace Monofoxe.Engine
 		{
 			var counter = 0;
 
-			foreach(Entity obj in GameObjects)
+			foreach(Entity obj in _entities)
 			{
 				if (obj.Tag == tag)
 				{

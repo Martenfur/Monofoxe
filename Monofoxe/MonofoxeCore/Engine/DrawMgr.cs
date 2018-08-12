@@ -322,7 +322,6 @@ namespace Monofoxe.Engine
 
 			
 			#region Main draw events
-			var depthSortedObjects = Objects.GameObjects.OrderByDescending(o => o.Depth);
 			
 			foreach(Camera camera in Cameras)
 			{
@@ -344,32 +343,8 @@ namespace Monofoxe.Engine
 						Device.Clear(camera.BackgroundColor);
 					}
 
+					Objects.Draw();
 
-					ECSMgr.Draw();
-					foreach(Entity obj in depthSortedObjects)
-					{
-						if (obj.Active)
-						{
-							obj.DrawBegin();
-						}
-					}
-
-					foreach(Entity obj in depthSortedObjects)
-					{
-						if (obj.Active)
-						{
-							obj.Draw();
-						}
-					}
-					
-					foreach(Entity obj in depthSortedObjects)
-					{
-						if (obj.Active)
-						{
-							obj.DrawEnd();
-						}
-					}
-					
 					ResetSurfaceTarget();
 					
 				}
@@ -401,13 +376,7 @@ namespace Monofoxe.Engine
 			// Drawing GUI stuff.
 			_currentPipelineMode = PipelineMode.None;
 			
-			foreach(Entity obj in depthSortedObjects)
-			{
-				if (obj.Active)
-				{
-					obj.DrawGUI();
-				}
-			}
+			Objects.DrawGUI();
 			
 			if (_currentPipelineMode == PipelineMode.Sprites) // If there's something left in batch or vertex buffer, we should draw it.
 			{
