@@ -35,13 +35,13 @@ namespace Monofoxe.Engine.ECS
 					{
 						_components.Add(system.Tag, _newComponents[system.Tag]);
 					}
-
-					_newComponents.Remove(system.Tag);
 				}
 			}
+			_newComponents.Clear();
 		}
 
 
+		#region Events.
 
 		internal static void Update()
 		{
@@ -68,6 +68,9 @@ namespace Monofoxe.Engine.ECS
 				}
 			}
 		}
+
+		#endregion Events.
+
 
 
 		internal static void AddComponent(IComponent component)
@@ -97,6 +100,34 @@ namespace Monofoxe.Engine.ECS
 			}
 		}
 		
+
+
+		/// <summary>
+		/// Invokes Create event for corresponding system.
+		/// Create events are usually executed at the beginning of each step,
+		/// so components stay uninitialized for a bit right after creation.
+		/// In most cases it's fine, but you may need to init your component
+		/// right here and right now.
+		/// </summary>
+		public static void InitComponent(IComponent component)
+		{
+			// If component is even there.
+			if (_newComponents.ContainsKey(component.Tag) && _newComponents[component.Tag].Contains(component))
+			{
+				foreach(ISystem system in Systems)
+				{
+					if (component.Tag == system.Tag)
+					{
+						system.Create(component);
+					}
+				}
+				_newComponents.Remove(component.Tag);
+			}
+		}
+
+
+
+
 
 		/// <summary>
 		/// Filters out inactive components.

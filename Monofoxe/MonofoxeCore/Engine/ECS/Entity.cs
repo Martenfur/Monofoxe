@@ -151,6 +151,26 @@ namespace Monofoxe.Engine.ECS
 			return default(T);
 		}
 
+		
+		/// <summary>
+		/// Returns all the components. All of them.
+		/// </summary>
+		public IComponent[] GetAllComponents()
+		{
+			var array = new IComponent[_components.Count];
+			var id = 0;
+
+			foreach(KeyValuePair<string, IComponent> component in _components)
+			{
+				array[id] = component.Value;
+				id += 1;
+			}
+
+			return array;
+		}
+
+
+
 		/// <summary>
 		/// Removes all components.
 		/// </summary>

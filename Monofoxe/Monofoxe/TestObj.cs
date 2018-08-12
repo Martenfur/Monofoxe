@@ -52,7 +52,7 @@ namespace Monofoxe
 		public TestObj()
 		{
 			ECSMgr.Systems.Add(new TestSystem());
-			entity = Entites.CreateSomething(new Vector2(32, 32));
+			Entities.Init();
 
 			snd1 = AudioMgr.LoadStreamedSound("Music/m_mission", FMOD.MODE._3D);
 			snd2 = AudioMgr.LoadStreamedSound("Music/m_peace");
@@ -145,7 +145,8 @@ namespace Monofoxe
 			if (Input.CheckButtonPress(Buttons.A))
 			{
 				//snd1.Play(group);
-				entity = Entites.CreateSomething(new Vector2(32, 32));
+				entity = Entities.CreateEntity("testie");
+				((TestComponent)entity["test"]).Position = new Vector2(32, 32);
 			}
 			if (Input.CheckButtonPress(Buttons.S))
 			{
