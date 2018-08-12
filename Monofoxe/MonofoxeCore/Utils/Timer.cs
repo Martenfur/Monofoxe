@@ -44,11 +44,11 @@ namespace Monofoxe.Utils
 			{
 				if (AffectedBySpeedMultiplier)
 				{
-					Counter += GameCntrl.Time();
+					Counter += GameMgr.Time();
 				}
 				else
 				{
-					Counter += GameCntrl.ElapsedTime;
+					Counter += GameMgr.ElapsedTime;
 				}
 			}
 		}

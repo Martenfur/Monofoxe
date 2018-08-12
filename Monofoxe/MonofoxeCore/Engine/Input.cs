@@ -320,7 +320,7 @@ namespace Monofoxe.Engine
 
 			MouseState mouseState = Mouse.GetState();
 			
-			var m = Matrix.Invert(DrawCntrl.CanvasMatrix);
+			var m = Matrix.Invert(DrawMgr.CanvasMatrix);
 			var buffer = Vector3.Transform(new Vector3(mouseState.X, mouseState.Y, 0), m);
 			ScreenMousePos = new Vector2(buffer.X, buffer.Y);
 			
@@ -539,9 +539,9 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static void UpdateMouseWorldPosition()
 		{
-			var m = Matrix.Invert(DrawCntrl.CurrentTransformMatrix);
+			var m = Matrix.Invert(DrawMgr.CurrentTransformMatrix);
 			var buffer = Vector3.Transform(new Vector3(ScreenMousePos.X, ScreenMousePos.Y, 0), m);
-			MousePos = new Vector2(buffer.X, buffer.Y) - DrawCntrl.CurrentCamera.PortPos;
+			MousePos = new Vector2(buffer.X, buffer.Y) - DrawMgr.CurrentCamera.PortPos;
 		}
 
 		#endregion Mouse.

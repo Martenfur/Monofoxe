@@ -11,8 +11,8 @@ namespace Monofoxe
 	{
 		public Game1()
 		{
-			Content.RootDirectory = GameCntrl.ContentDir;
-			GameCntrl.Init(this);
+			Content.RootDirectory = GameMgr.ContentDir;
+			GameMgr.Init(this);
 		}
 
 		/// <summary>
@@ -37,7 +37,7 @@ namespace Monofoxe
 			Resources.Sprites.SpritesDefault.Load();	
 			Resources.Fonts.Load(Content);
 			Resources.Effects.Load(Content);
-			DrawCntrl.Init(GraphicsDevice);
+			DrawMgr.Init(GraphicsDevice);
 		}
 
 		/// <summary>
@@ -56,7 +56,7 @@ namespace Monofoxe
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Update(GameTime gameTime)
 		{
-			GameCntrl.Update(gameTime);
+			GameMgr.Update(gameTime);
 			
 			base.Update(gameTime);
 		}
@@ -67,8 +67,8 @@ namespace Monofoxe
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw(GameTime gameTime)
 		{
-			GameCntrl.UpdateFps(gameTime);
-			DrawCntrl.Update(gameTime);
+			GameMgr.UpdateFps(gameTime);
+			DrawMgr.Update(gameTime);
 
 			base.Draw(gameTime);
 		}

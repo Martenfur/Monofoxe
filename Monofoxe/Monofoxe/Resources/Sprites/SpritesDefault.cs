@@ -83,14 +83,14 @@ namespace Resources.Sprites
 		#endregion Sprites.
 		
 		private static string _groupName = "Default";
-		private static ContentManager _content = new ContentManager(GameCntrl.Game.Services);
+		private static ContentManager _content = new ContentManager(GameMgr.Game.Services);
 		
 		public static bool Loaded = false;
 		
 		public static void Load()
 		{
 			Loaded = true;
-			var graphicsPath = GameCntrl.ContentDir + '/' + GameCntrl.GraphicsDir +  '/' + _groupName;
+			var graphicsPath = GameMgr.ContentDir + '/' + GameMgr.GraphicsDir +  '/' + _groupName;
 			var sprites = _content.Load<Dictionary<string, Sprite>>(graphicsPath);
 			
 			#region Sprite constructors.

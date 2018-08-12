@@ -86,16 +86,16 @@ namespace Monofoxe.Engine
 		public Camera(int w, int h)
 		{
 			ViewSurface = new RenderTarget2D(
-				DrawCntrl.Device, 
+				DrawMgr.Device, 
 				w, 
 				h, 
 				false,
-				DrawCntrl.Device.PresentationParameters.BackBufferFormat,
+				DrawMgr.Device.PresentationParameters.BackBufferFormat,
 				DepthFormat.Depth24, 
 				0, 
 				RenderTargetUsage.PreserveContents
 			);
-			DrawCntrl.Cameras.Add(this);
+			DrawMgr.Cameras.Add(this);
 		}
 
 		/// <summary>
@@ -105,11 +105,11 @@ namespace Monofoxe.Engine
 		{
 			ViewSurface.Dispose();
 			ViewSurface = new RenderTarget2D(
-				DrawCntrl.Device, 
+				DrawMgr.Device, 
 				w, 
 				h, 
 				false,
-				DrawCntrl.Device.PresentationParameters.BackBufferFormat,
+				DrawMgr.Device.PresentationParameters.BackBufferFormat,
 				DepthFormat.Depth24, 
 				0, 
 				RenderTargetUsage.PreserveContents
@@ -121,7 +121,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public void Destroy()
 		{
-			DrawCntrl.Cameras.Remove(this);
+			DrawMgr.Cameras.Remove(this);
 			ViewSurface.Dispose();
 		}
 		

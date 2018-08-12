@@ -68,6 +68,7 @@
     <Compile Include="Resources\Fonts.cs" />
     <Compile Include="TestComponent.cs" />
     <Compile Include="TestObj.cs" />
+    <Compile Include="TestSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

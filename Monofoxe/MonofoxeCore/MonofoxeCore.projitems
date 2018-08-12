@@ -14,20 +14,19 @@
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\ECSMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\IComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\ISystem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\TestComponent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Engine\SpriteGroupReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\ContentReaders\SpriteGroupReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Camera.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Engine\DrawCntrl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\DrawMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\Font.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\Frame.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\IFont.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\Sprite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\TextureFont.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Engine\GameCntrl.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Engine\Entity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\GameMgr.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\Entity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Input.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Objects.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Engine\WindowManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\WindowMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FMOD\fmod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FMOD\fmod_dsp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Alarm.cs" />
@@ -46,5 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Engine\Audio\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Engine\ContentReaders\" />
   </ItemGroup>
 </Project>

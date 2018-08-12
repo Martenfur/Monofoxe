@@ -11,7 +11,7 @@ namespace Monofoxe
 {
 	public class TestComponent : IComponent
 	{
-		public string Tag {get;} = "test";
+		public string Tag => "test";
 		public Entity Owner {get; set;}
 		
 		public Vector2 Position;
