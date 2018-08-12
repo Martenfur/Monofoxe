@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine;
-using System.Diagnostics;
 
-namespace Monofoxe.Engine
+namespace Monofoxe.Utils
 {
 
 	/// <summary>

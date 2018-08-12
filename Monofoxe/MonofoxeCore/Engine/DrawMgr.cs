@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 using Monofoxe.Engine.Drawing;
-using Monofoxe.Engine.ECS;
+using Monofoxe.Utils;
 
 namespace Monofoxe.Engine
 {
@@ -343,7 +343,7 @@ namespace Monofoxe.Engine
 						Device.Clear(camera.BackgroundColor);
 					}
 
-					Objects.Draw();
+					EntityMgr.Draw();
 
 					ResetSurfaceTarget();
 					
@@ -376,7 +376,7 @@ namespace Monofoxe.Engine
 			// Drawing GUI stuff.
 			_currentPipelineMode = PipelineMode.None;
 			
-			Objects.DrawGUI();
+			EntityMgr.DrawGUI();
 			
 			if (_currentPipelineMode == PipelineMode.Sprites) // If there's something left in batch or vertex buffer, we should draw it.
 			{
@@ -399,8 +399,6 @@ namespace Monofoxe.Engine
 				throw(new InvalidOperationException("Unbalanced matrix stack! Did you forgot to reset a matrix somewhere?"));
 			}
 			// Safety checks.
-
-			//Debug.WriteLine("CALLS: " + __drawcalls);
 		}
 
 
