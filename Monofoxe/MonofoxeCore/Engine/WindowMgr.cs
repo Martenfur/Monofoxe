@@ -14,9 +14,9 @@ namespace Monofoxe.Engine
 	/// <summary>
 	/// Merging of GraphicsDeviveManager and WindowManager.
 	/// </summary>
-	public class WindowManager : GraphicsDeviceManager
+	public class WindowMgr : GraphicsDeviceManager
 	{
-		#region Window properties
+		#region Window properties.
 		/// <summary>
 		/// Width of the screen.
 		/// </summary>
@@ -107,7 +107,7 @@ namespace Monofoxe.Engine
 			get => Window.IsBorderless;
 			set => Window.IsBorderless = value;
 		}
-		#endregion Window properties
+		#endregion Window properties.
 
 		/// <summary>
 		/// Game window class. 
@@ -116,7 +116,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public GameWindow Window {get;}
 
-		public WindowManager(Game game) : base(game)
+		public WindowMgr(Game game) : base(game)
 		{
 			Window = game.Window;
 			_canvasW = PreferredBackBufferWidth;

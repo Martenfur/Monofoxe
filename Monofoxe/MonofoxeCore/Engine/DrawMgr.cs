@@ -5,11 +5,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 using Monofoxe.Engine.Drawing;
+using Monofoxe.Engine.ECS;
 
 namespace Monofoxe.Engine
 {
 
-	public static class DrawCntrl
+	public static class DrawMgr
 	{
 		private const int BUFFER_SIZE = 320000;	
 
@@ -268,7 +269,7 @@ namespace Monofoxe.Engine
 			
 			#region Canvas matrix 
 
-			WindowManager windowManager = GameCntrl.WindowManager;
+			WindowMgr windowManager = GameMgr.WindowManager;
 			if (!windowManager.IsFullScreen || windowManager.CanvasMode == CanvasMode.None)
 			{
 				CanvasMatrix = Matrix.CreateTranslation(Vector3.Zero);
@@ -343,6 +344,8 @@ namespace Monofoxe.Engine
 						Device.Clear(camera.BackgroundColor);
 					}
 
+
+					ECSMgr.Draw();
 					foreach(Entity obj in depthSortedObjects)
 					{
 						if (obj.Active)
@@ -1297,8 +1300,8 @@ namespace Monofoxe.Engine
 			{
 				CurrentProjection = Matrix.CreateOrthographicOffCenter(
 					0, 
-					GameCntrl.WindowManager.PreferredBackBufferWidth, 
-					GameCntrl.WindowManager.PreferredBackBufferHeight, 
+					GameMgr.WindowManager.PreferredBackBufferWidth, 
+					GameMgr.WindowManager.PreferredBackBufferHeight, 
 					0,
 					0,
 					1

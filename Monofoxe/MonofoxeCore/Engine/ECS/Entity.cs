@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using Monofoxe.Engine.ECS;
+﻿using System.Collections.Generic;
 
-namespace Monofoxe.Engine
+namespace Monofoxe.Engine.ECS
 {
 	
 	/// <summary>
@@ -42,21 +36,9 @@ namespace Monofoxe.Engine
 			Tag = tag;
 		}
 
-		public void AddComponent(IComponent component)
-		{
-			_components.Add(component.Tag, component);
-			ECSMgr.AddComponent(component);
-		}
-		
-		public IComponent GetComponent(string tag)
-		{
-			if (_components.ContainsKey(tag))
-			{
-				return _components[tag];
-			}
-			return null;
-		}
 
+
+		
 
 
 		#region Events.
@@ -124,7 +106,60 @@ namespace Monofoxe.Engine
 
 		#endregion Events.
 
+		#region Components.
 
+
+		/// <summary>
+		/// Adds component to the entity.
+		/// </summary>
+		public void AddComponent(IComponent component)
+		{
+			_components.Add(component.Tag, component);
+			component.Owner = this;
+			ECSMgr.AddComponent(component);
+		}
+		
+
+
+		public IComponent this[string tag]
+		{
+			get
+			{
+				if (_components.ContainsKey(tag))
+				{
+					return _components[tag];
+				}
+				return null;
+			}
+		}
+
+
+
+		public T GetComponent<T>() where T : IComponent
+		{
+			foreach(KeyValuePair<string, IComponent> component in _components)
+			{
+				if (component.Value is T)
+				{
+					return (T)component.Value;
+				}
+			}
+			return default(T);
+		}
+
+		/// <summary>
+		/// Removes all components.
+		/// </summary>
+		internal void RemoveAllComponents()
+		{
+			foreach(KeyValuePair<string, IComponent> component in _components)
+			{
+				ECSMgr.RemoveComponent(component.Value);
+			}
+			_components.Clear();
+		}
+
+		#endregion Components.
 
 	}
 }
