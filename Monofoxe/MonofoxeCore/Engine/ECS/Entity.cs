@@ -31,7 +31,7 @@ namespace Monofoxe.Engine.ECS
 
 		public Entity(string tag = "entity")
 		{
-			Objects.AddObject(this);
+			Objects.AddEntity(this);
 			_components = new Dictionary<string, IComponent>();
 			Tag = tag;
 		}
