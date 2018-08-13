@@ -15,7 +15,19 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		static Dictionary<string, List<IComponent>> _newComponents = new Dictionary<string, List<IComponent>>();
 
+		static Dictionary<string, List<IComponent>> _depthSortedComponents = new Dictionary<string, List<IComponent>>();
 		
+		internal static void SortComponentsByDepth()
+		{
+			_depthSortedComponents.Clear();
+			foreach(KeyValuePair<string, List<IComponent>> list in _components)
+			{
+				_depthSortedComponents.Add(list.Key, list.Value.OrderByDescending(o => o.Owner.Depth).ToList());
+			}
+		}
+
+		#region Events.
+
 		internal static void Create()
 		{
 			foreach(ISystem system in Systems)
@@ -41,11 +53,56 @@ namespace Monofoxe.Engine.ECS
 		}
 
 
-		#region Events.
+
+		internal static void FixedUpdateBegin()
+		{
+			foreach(ISystem system in Systems)
+			{
+				if (system is ISystemFixedUpdateEvents && _components.ContainsKey(system.Tag))
+				{
+					((ISystemFixedUpdateEvents)system).FixedUpdateBegin(FilterInactiveComponnets(_components[system.Tag]));
+				}
+			}
+		}
+
+		internal static void FixedUpdate()
+		{
+			foreach(ISystem system in Systems)
+			{
+				if (system is ISystemFixedUpdateEvents && _components.ContainsKey(system.Tag))
+				{
+					((ISystemFixedUpdateEvents)system).FixedUpdate(FilterInactiveComponnets(_components[system.Tag]));
+				}
+			}
+		}
+
+		internal static void FixedUpdateEnd()
+		{
+			foreach(ISystem system in Systems)
+			{
+				if (system is ISystemFixedUpdateEvents && _components.ContainsKey(system.Tag))
+				{
+					((ISystemFixedUpdateEvents)system).FixedUpdateEnd(FilterInactiveComponnets(_components[system.Tag]));
+				}
+			}
+		}
+
+
+
+
+		internal static void UpdateBegin()
+		{
+			foreach(ISystem system in Systems)
+			{
+				if (system is ISystemExtEvents &&  _components.ContainsKey(system.Tag))
+				{
+					((ISystemExtEvents)system).UpdateBegin(FilterInactiveComponnets(_components[system.Tag]));
+				}
+			}
+		}
 
 		internal static void Update()
 		{
-			// TODO: Expand for other events.
 			foreach(ISystem system in Systems)
 			{
 				if (_components.ContainsKey(system.Tag))
@@ -55,19 +112,63 @@ namespace Monofoxe.Engine.ECS
 			}
 		}
 
-		internal static void Draw()
+		internal static void UpdateEnd()
 		{
-			// TODO: Expand for other events.
 			foreach(ISystem system in Systems)
 			{
-				if (_components.ContainsKey(system.Tag))
+				if (system is ISystemExtEvents &&  _components.ContainsKey(system.Tag))
 				{
-					var depthSortedComponents = _components[system.Tag].OrderByDescending(o => o.Owner.Depth).ToList();
-					
-					system.Draw(FilterInactiveComponnets(depthSortedComponents));
+					((ISystemExtEvents)system).UpdateEnd(FilterInactiveComponnets(_components[system.Tag]));
 				}
 			}
 		}
+
+		
+
+		internal static void DrawBegin()
+		{
+			foreach(ISystem system in Systems)
+			{
+				if (system is ISystemExtEvents && _depthSortedComponents.ContainsKey(system.Tag))
+				{
+					((ISystemExtEvents)system).DrawBegin(FilterInactiveComponnets(_depthSortedComponents[system.Tag]));
+				}
+			}
+		}
+
+		internal static void Draw()
+		{
+			foreach(ISystem system in Systems)
+			{
+				if (_depthSortedComponents.ContainsKey(system.Tag))
+				{
+					system.Draw(FilterInactiveComponnets(_depthSortedComponents[system.Tag]));
+				}
+			}
+		}
+
+		internal static void DrawEnd()
+		{
+			foreach(ISystem system in Systems)
+			{
+				if (system is ISystemExtEvents && _depthSortedComponents.ContainsKey(system.Tag))
+				{
+					((ISystemExtEvents)system).DrawEnd(FilterInactiveComponnets(_depthSortedComponents[system.Tag]));
+				}
+			}
+		}
+
+		internal static void DrawGUI()
+		{
+			foreach(ISystem system in Systems)
+			{
+				if (system is ISystemDrawGUIEvents && _depthSortedComponents.ContainsKey(system.Tag))
+				{
+					((ISystemDrawGUIEvents)system).DrawGUI(FilterInactiveComponnets(_depthSortedComponents[system.Tag]));
+				}
+			}
+		}
+
 
 		#endregion Events.
 
@@ -90,6 +191,7 @@ namespace Monofoxe.Engine.ECS
 
 		internal static void RemoveComponent(IComponent component)
 		{
+			// Removing from lists.
 			if (_newComponents.ContainsKey(component.Tag))
 			{
 				_newComponents[component.Tag].Remove(component);
@@ -97,6 +199,15 @@ namespace Monofoxe.Engine.ECS
 			if (_components.ContainsKey(component.Tag))
 			{
 				_components[component.Tag].Remove(component);
+			}
+
+			// Performing Destroy event.
+			foreach(ISystem system in Systems)
+			{
+				if (component.Tag == system.Tag)
+				{
+					system.Destroy(component);
+				}
 			}
 		}
 		
@@ -124,8 +235,6 @@ namespace Monofoxe.Engine.ECS
 				_newComponents.Remove(component.Tag);
 			}
 		}
-
-
 
 
 

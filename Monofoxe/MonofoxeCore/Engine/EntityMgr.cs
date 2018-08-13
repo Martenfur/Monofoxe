@@ -65,6 +65,7 @@ namespace Monofoxe.Engine
 				var overflow = (int)(_fixedUpdateTimer / GameMgr.FixedUpdateRate); // In case of lags.
 				_fixedUpdateTimer -= GameMgr.FixedUpdateRate * overflow;
 
+				ECSMgr.FixedUpdate();
 				foreach(Entity obj in _entities)
 				{
 					if (obj.Active)
@@ -73,6 +74,7 @@ namespace Monofoxe.Engine
 					}
 				}
 
+				ECSMgr.FixedUpdateBegin();
 				foreach(Entity obj in _entities)
 				{
 					if (obj.Active)
@@ -81,6 +83,7 @@ namespace Monofoxe.Engine
 					}
 				}
 
+				ECSMgr.FixedUpdateEnd();
 				foreach(Entity obj in _entities)
 				{
 					if (obj.Active)
@@ -93,6 +96,7 @@ namespace Monofoxe.Engine
 
 
 			// Normal updates.
+			ECSMgr.UpdateBegin();
 			foreach(Entity obj in _entities)
 			{
 				if (obj.Active)
@@ -110,6 +114,7 @@ namespace Monofoxe.Engine
 				}
 			}
 
+			ECSMgr.UpdateEnd();
 			foreach(Entity obj in _entities)
 			{
 				if (obj.Active)
@@ -122,12 +127,14 @@ namespace Monofoxe.Engine
 
 			// Updating depth list for drawing stuff.
 			_depthSortedEntities = _entities.OrderByDescending(o => o.Depth).ToList();
+			ECSMgr.SortComponentsByDepth();
 		}
 
 
 
 		internal static void Draw()
 		{
+			ECSMgr.DrawBegin();
 			foreach(Entity obj in _depthSortedEntities)
 			{
 				if (obj.Active)
@@ -144,7 +151,8 @@ namespace Monofoxe.Engine
 					obj.Draw();
 				}
 			}
-					
+			
+			ECSMgr.DrawEnd();
 			foreach(Entity obj in _depthSortedEntities)
 			{
 				if (obj.Active)
@@ -157,6 +165,7 @@ namespace Monofoxe.Engine
 
 		internal static void DrawGUI()
 		{
+			ECSMgr.DrawGUI();
 			foreach(Entity obj in _depthSortedEntities)
 			{
 				if (obj.Active)

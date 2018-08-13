@@ -62,7 +62,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Effects.cs" />
-    <Compile Include="Resources\Entites.cs" />
+    <Compile Include="Resources\Entities.cs" />
     <Compile Include="Resources\Sounds.cs" />
     <Compile Include="Resources\Sprites\SpritesDefault.cs" />
     <Compile Include="Resources\Fonts.cs" />
