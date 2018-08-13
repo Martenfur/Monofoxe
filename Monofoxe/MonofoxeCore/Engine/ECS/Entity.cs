@@ -37,10 +37,7 @@ namespace Monofoxe.Engine.ECS
 		}
 
 
-
 		
-
-
 		#region Events.
 
 		/// <summary>
@@ -105,6 +102,8 @@ namespace Monofoxe.Engine.ECS
 		public virtual void Destroy() {}
 
 		#endregion Events.
+
+
 
 		#region Components.
 

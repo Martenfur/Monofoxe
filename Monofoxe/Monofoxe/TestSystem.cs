@@ -9,7 +9,7 @@ using Monofoxe.Engine;
 
 namespace Monofoxe
 {
-	class TestSystem : ISystem
+	class TestSystem : ISystem, ISystemDrawGUIEvents
 	{
 		public string Tag => "test";
 
@@ -20,6 +20,7 @@ namespace Monofoxe
 		}
 
 
+
 		public void Update(List<IComponent> components)
 		{
 			foreach(TestComponent component in components)
@@ -28,40 +29,21 @@ namespace Monofoxe
 			}
 		}
 
-		public void UpdateBegin(List<IComponent> components)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void UpdateEnd(List<IComponent> components)
-		{
-			throw new NotImplementedException();
-		}
-
-
 
 		public void Draw(List<IComponent> components)
+		{
+			
+		}
+
+		public void Destroy(IComponent component) {}
+
+
+		public void DrawGUI(List<IComponent> components)
 		{
 			foreach(TestComponent component in components)
 			{
 				DrawMgr.DrawCircle(component.Position, 32, false);
 			}
-		
-		}
-
-		public void DrawBegin(List<IComponent> components)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void DrawEnd(List<IComponent> components)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void DrawGUI(List<IComponent> components)
-		{
-			throw new NotImplementedException();
 		}
 
 	}
