@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Monofoxe.Engine;
 using Monofoxe.Engine.ECS;
 using Microsoft.Xna.Framework;

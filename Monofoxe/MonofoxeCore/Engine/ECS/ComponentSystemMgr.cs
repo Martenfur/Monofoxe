@@ -226,6 +226,8 @@ namespace Monofoxe.Engine.ECS
 
 
 
+
+
 		/// <summary>
 		/// Filters out inactive components.
 		/// Component is inactive, if its owner is inactive.
@@ -267,6 +269,21 @@ namespace Monofoxe.Engine.ECS
 				}
 				_newComponents.Remove(component.Tag);
 			}
+		}
+
+
+
+		/// <summary>
+		/// Returns list of components with given tag.
+		/// </summary>
+		public static List<Component> GetComponentList(string tag)
+		{
+			if (_components.ContainsKey(tag))
+			{
+				return _components[tag];
+			}
+
+			return new List<Component>();
 		}
 
 	}
