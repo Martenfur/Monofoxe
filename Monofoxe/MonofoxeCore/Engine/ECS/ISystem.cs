@@ -2,61 +2,55 @@
 
 namespace Monofoxe.Engine.ECS
 {
-	/*
+	/// <summary>
+	/// Basic system interface. 
+	/// </summary>
 	public interface ISystem
 	{
+		/// <summary>
+		/// Identifying tag. 
+		/// 
+		/// NOTE: Tags for different systems don't really have to be unique.
+		/// Systems will only process components with matching tags.
+		/// So, different systems with same tags will process same sets of components.
+		/// </summary>
 		string Tag {get;}
-
-		void Create(IComponent component);
-
-		void UpdateEnd(List<IComponent> components);
-		void Update(List<IComponent> components);
-		void UpdateBegin(List<IComponent> components);
-
-		void DrawBegin(List<IComponent> components);
-		void Draw(List<IComponent> components);
-		void DrawEnd(List<IComponent> components);
-
-		void DrawGUI(List<IComponent> components);
-
-		void FixedUpdateEnd(List<IComponent> components);
-		void FixedUpdate(List<IComponent> components);
-		void FixedUpdateBegin(List<IComponent> components);
-
-		void Destroy(IComponent component);
 		
-	}
-	*/
-	public interface ISystem
-	{
-		string Tag {get;}
+		// TODO: Add per-system deactivation, if needed.
 
-		void Create(IComponent component);
-		void Destroy(IComponent component);	
+		/// <summary>
+		/// Create event is called right after new component is created.
+		/// 
+		/// NOTE: This event won't be called right after component creation.
+		/// It will be called in the very beginning of next step, so keep this in mind.
+		/// However, you can speed up this process by calling 
+		/// </summary>
+		void Create(Component component);
+		void Destroy(Component component);	
 		
-		void Update(List<IComponent> components);
-		void Draw(List<IComponent> components);
+		void Update(List<Component> components);
+		void Draw(List<Component> components);
 	}
 	
 	public interface ISystemExtEvents
 	{
-		void UpdateEnd(List<IComponent> components);
-		void UpdateBegin(List<IComponent> components);
+		void UpdateEnd(List<Component> components);
+		void UpdateBegin(List<Component> components);
 
-		void DrawBegin(List<IComponent> components);
-		void DrawEnd(List<IComponent> components);
+		void DrawBegin(List<Component> components);
+		void DrawEnd(List<Component> components);
 	}
 
 	public interface ISystemDrawGUIEvents
 	{
-		void DrawGUI(List<IComponent> components);
+		void DrawGUI(List<Component> components);
 	}
 
 	public interface ISystemFixedUpdateEvents
 	{
-		void FixedUpdateEnd(List<IComponent> components);
-		void FixedUpdate(List<IComponent> components);
-		void FixedUpdateBegin(List<IComponent> components);
+		void FixedUpdateEnd(List<Component> components);
+		void FixedUpdate(List<Component> components);
+		void FixedUpdateBegin(List<Component> components);
 	}
 
 

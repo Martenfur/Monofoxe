@@ -9,15 +9,14 @@ using Microsoft.Xna.Framework;
 
 namespace Monofoxe
 {
-	public class TestComponent : IComponent
+	public class TestComponent : Component
 	{
-		public string Tag => "test";
-		public Entity Owner {get; set;}
 		
 		public Vector2 Position;
 
 		public TestComponent(Vector2 pos)
 		{
+			Tag = "test";
 			Position = pos;
 		}
 

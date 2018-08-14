@@ -5,28 +5,32 @@ using System.Collections;
 
 namespace Monofoxe.Engine.ECS
 {
-	public static class ECSMgr
+	public static class ComponentSystemMgr
 	{
-		public static List<ISystem> Systems = new List<ISystem>();	
-		static Dictionary<string, List<IComponent>> _components = new Dictionary<string, List<IComponent>>();
+		/// <summary>
+		/// List of systems.
+		/// </summary>
+		public static List<ISystem> Systems = new List<ISystem>();
+
+		/// <summary>
+		/// Component dictionary.
+		/// </summary>
+		static Dictionary<string, List<Component>> _components = new Dictionary<string, List<Component>>();
 		
 		/// <summary>
-		/// Used for Create event.
+		/// Newly created components. Used for Create event.
 		/// </summary>
-		static Dictionary<string, List<IComponent>> _newComponents = new Dictionary<string, List<IComponent>>();
+		static Dictionary<string, List<Component>> _newComponents = new Dictionary<string, List<Component>>();
 
-		static Dictionary<string, List<IComponent>> _depthSortedComponents = new Dictionary<string, List<IComponent>>();
-		
-		internal static void SortComponentsByDepth()
-		{
-			_depthSortedComponents.Clear();
-			foreach(KeyValuePair<string, List<IComponent>> list in _components)
-			{
-				_depthSortedComponents.Add(list.Key, list.Value.OrderByDescending(o => o.Owner.Depth).ToList());
-			}
-		}
+		static Dictionary<string, List<Component>> _depthSortedComponents = new Dictionary<string, List<Component>>();
+
+
 
 		#region Events.
+
+		/*
+		 * For event explanation, see Entity. 
+		 */
 
 		internal static void Create()
 		{
@@ -34,7 +38,7 @@ namespace Monofoxe.Engine.ECS
 			{
 				if (_newComponents.ContainsKey(system.Tag))
 				{
-					foreach(IComponent component in _newComponents[system.Tag])
+					foreach(Component component in _newComponents[system.Tag])
 					{
 						system.Create(component);
 					}
@@ -174,22 +178,22 @@ namespace Monofoxe.Engine.ECS
 
 
 
-		internal static void AddComponent(IComponent component)
+		internal static void AddComponent(Component component)
 		{
+			// TODO: Add automatic system management.
 			if (_newComponents.ContainsKey(component.Tag))
 			{
 				_newComponents[component.Tag].Add(component);
 			}
 			else
 			{
-				var list = new List<IComponent>();
+				var list = new List<Component>();
 				list.Add(component);
 				_newComponents.Add(component.Tag, list);
 			}
 		}
 		
-
-		internal static void RemoveComponent(IComponent component)
+		internal static void RemoveComponent(Component component)
 		{
 			// Removing from lists.
 			if (_newComponents.ContainsKey(component.Tag))
@@ -211,6 +215,35 @@ namespace Monofoxe.Engine.ECS
 			}
 		}
 		
+		internal static void SortComponentsByDepth()
+		{
+			_depthSortedComponents.Clear();
+			foreach(KeyValuePair<string, List<Component>> list in _components)
+			{
+				_depthSortedComponents.Add(list.Key, list.Value.OrderByDescending(o => o.Owner.Depth).ToList());
+			}
+		}
+
+
+
+		/// <summary>
+		/// Filters out inactive components.
+		/// Component is inactive, if its owner is inactive.
+		/// </summary>
+		static List<Component> FilterInactiveComponnets(List<Component> components)
+		{
+			var activeComponents = new List<Component>();
+					
+			foreach(Component component in components)
+			{
+				if (component.Owner.Active)
+				{
+					activeComponents.Add(component);
+				}
+			}
+			return activeComponents;	
+		}
+
 
 
 		/// <summary>
@@ -220,7 +253,7 @@ namespace Monofoxe.Engine.ECS
 		/// In most cases it's fine, but you may need to init your component
 		/// right here and right now.
 		/// </summary>
-		public static void InitComponent(IComponent component)
+		public static void InitComponent(Component component)
 		{
 			// If component is even there.
 			if (_newComponents.ContainsKey(component.Tag) && _newComponents[component.Tag].Contains(component))
@@ -234,25 +267,6 @@ namespace Monofoxe.Engine.ECS
 				}
 				_newComponents.Remove(component.Tag);
 			}
-		}
-
-
-
-		/// <summary>
-		/// Filters out inactive components.
-		/// </summary>
-		static List<IComponent> FilterInactiveComponnets(List<IComponent> components)
-		{
-			var activeComponents = new List<IComponent>();
-					
-			foreach(IComponent component in components)
-			{
-				if (component.Owner.Active)
-				{
-					activeComponents.Add(component);
-				}
-			}
-			return activeComponents;	
 		}
 
 	}

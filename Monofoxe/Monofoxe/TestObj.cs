@@ -51,7 +51,7 @@ namespace Monofoxe
 
 		public TestObj()
 		{
-			ECSMgr.Systems.Add(new TestSystem());
+			ComponentSystemMgr.Systems.Add(new TestSystem());
 			
 			snd1 = AudioMgr.LoadStreamedSound("Music/m_mission", FMOD.MODE._3D);
 			snd2 = AudioMgr.LoadStreamedSound("Music/m_peace");
