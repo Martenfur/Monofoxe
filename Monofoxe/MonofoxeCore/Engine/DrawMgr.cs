@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
@@ -599,7 +598,7 @@ namespace Monofoxe.Engine
 		}
 
 		private static int CalculateSpriteFrame(Sprite sprite, float frame) =>
-			Math.Max(0, Math.Min(sprite.Frames.Count() - 1, (int)frame));
+			Math.Max(0, Math.Min(sprite.Frames.Length - 1, (int)frame));
 
 		// Vectors.
 
@@ -1117,7 +1116,7 @@ namespace Monofoxe.Engine
 		public static void PrimitiveSetCustomLineIndices(short[] indices)
 		{ 
 			_primitiveType = PipelineMode.OutlinePrimitives;
-			_primitiveIndices = indices.ToList();
+			_primitiveIndices = new List<short>(indices);
 		}
 		
 		/// <summary>
@@ -1135,7 +1134,7 @@ namespace Monofoxe.Engine
 		public static void PrimitiveSetCustomTriangleIndices(short[] indices)
 		{
 			_primitiveType = PipelineMode.TrianglePrimitives;
-			_primitiveIndices = indices.ToList();
+			_primitiveIndices = new List<short>(indices);
 		}
 		
 		/// <summary>

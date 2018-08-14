@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using System.Diagnostics;
 
 namespace Monofoxe.Engine.Drawing
 {
@@ -44,8 +39,8 @@ namespace Monofoxe.Engine.Drawing
 
 		public Sprite(Frame[] frames, int originX, int originY)
 		{
-			Frames = new Frame[frames.Count()];
-			Array.Copy(frames, Frames, frames.Count());
+			Frames = new Frame[frames.Length];
+			Array.Copy(frames, Frames, frames.Length);
 			Origin = new Vector2(originX, originY);
 			
 			SingleFrameSize = CheckIdenticalFrameSizes(frames);
@@ -53,8 +48,8 @@ namespace Monofoxe.Engine.Drawing
 
 		public Sprite(Frame[] frames, Vector2 origin)
 		{
-			Frames = new Frame[frames.Count()];
-			Array.Copy(frames, Frames, frames.Count());
+			Frames = new Frame[frames.Length];
+			Array.Copy(frames, Frames, frames.Length);
 			Origin = origin;
 			SingleFrameSize = CheckIdenticalFrameSizes(frames);
 		}
@@ -75,7 +70,7 @@ namespace Monofoxe.Engine.Drawing
 		/// <returns></returns>
 		private bool CheckIdenticalFrameSizes(Frame[] frames)
 		{
-			for(var i = 1; i < Frames.Count(); i += 1)
+			for(var i = 1; i < Frames.Length; i += 1)
 			{
 				if (Frames[0].W != Frames[i].W || Frames[0].H != Frames[i].H)
 				{

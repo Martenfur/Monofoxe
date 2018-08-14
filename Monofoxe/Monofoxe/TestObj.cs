@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+//using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Monofoxe.Engine;
@@ -189,7 +189,7 @@ namespace Monofoxe
 
 			fireFrame += 0.1f;
 
-			if (fireFrame >= SpritesDefault.DemonFire.Frames.Count())
+			if (fireFrame >= SpritesDefault.DemonFire.Frames.Length)
 			{
 				fireFrame = 0;
 			}

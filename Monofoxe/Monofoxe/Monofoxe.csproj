@@ -58,6 +58,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ECSTest\Components\CCollision.cs" />
+    <Compile Include="ECSTest\Components\CMovement.cs" />
+    <Compile Include="ECSTest\Systems\SCollision.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
