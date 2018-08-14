@@ -11,15 +11,14 @@ namespace Monofoxe.Engine
 {
 	public static class EntityMgr
 	{
-
 		/// <summary>
-		/// List of all game objects.
+		/// List of all entities.
 		/// </summary>
 		private static List<Entity> _entities = new List<Entity>();
 
 		/// <summary>
-		/// List of newly created game objects. Since it won't be that cool to modify main list 
-		/// in mid-step, they'll be added in next one.
+		/// List of newly created entitiess. Since it won't be that cool 
+		/// to modify main list in mid-step, they'll be added in next one.
 		/// </summary>
 		private static List<Entity> _newEntities = new List<Entity>();
 
@@ -33,6 +32,7 @@ namespace Monofoxe.Engine
 		/// Counts time until next fixed update.
 		/// </summary>
 		private static double _fixedUpdateTimer;
+
 
 
 		internal static void Update(GameTime gameTime)
@@ -55,7 +55,10 @@ namespace Monofoxe.Engine
 			_newEntities.Clear();
 			// Adding new objects to the list.
 
-			ECSMgr.Create();
+
+			// Performing Create event for all newly added componenmts.
+			ComponentSystemMgr.Create();
+
 
 			// Fixed updates.
 			_fixedUpdateTimer += gameTime.ElapsedGameTime.TotalSeconds;
@@ -65,7 +68,7 @@ namespace Monofoxe.Engine
 				var overflow = (int)(_fixedUpdateTimer / GameMgr.FixedUpdateRate); // In case of lags.
 				_fixedUpdateTimer -= GameMgr.FixedUpdateRate * overflow;
 
-				ECSMgr.FixedUpdate();
+				ComponentSystemMgr.FixedUpdate();
 				foreach(Entity obj in _entities)
 				{
 					if (obj.Active)
@@ -74,7 +77,7 @@ namespace Monofoxe.Engine
 					}
 				}
 
-				ECSMgr.FixedUpdateBegin();
+				ComponentSystemMgr.FixedUpdateBegin();
 				foreach(Entity obj in _entities)
 				{
 					if (obj.Active)
@@ -83,7 +86,7 @@ namespace Monofoxe.Engine
 					}
 				}
 
-				ECSMgr.FixedUpdateEnd();
+				ComponentSystemMgr.FixedUpdateEnd();
 				foreach(Entity obj in _entities)
 				{
 					if (obj.Active)
@@ -96,7 +99,7 @@ namespace Monofoxe.Engine
 
 
 			// Normal updates.
-			ECSMgr.UpdateBegin();
+			ComponentSystemMgr.UpdateBegin();
 			foreach(Entity obj in _entities)
 			{
 				if (obj.Active)
@@ -105,7 +108,7 @@ namespace Monofoxe.Engine
 				}
 			}
 
-			ECSMgr.Update();
+			ComponentSystemMgr.Update();
 			foreach(Entity obj in _entities)
 			{
 				if (obj.Active)
@@ -114,7 +117,7 @@ namespace Monofoxe.Engine
 				}
 			}
 
-			ECSMgr.UpdateEnd();
+			ComponentSystemMgr.UpdateEnd();
 			foreach(Entity obj in _entities)
 			{
 				if (obj.Active)
@@ -127,14 +130,13 @@ namespace Monofoxe.Engine
 
 			// Updating depth list for drawing stuff.
 			_depthSortedEntities = _entities.OrderByDescending(o => o.Depth).ToList();
-			ECSMgr.SortComponentsByDepth();
+			ComponentSystemMgr.SortComponentsByDepth();
 		}
-
 
 
 		internal static void Draw()
 		{
-			ECSMgr.DrawBegin();
+			ComponentSystemMgr.DrawBegin();
 			foreach(Entity obj in _depthSortedEntities)
 			{
 				if (obj.Active)
@@ -143,7 +145,7 @@ namespace Monofoxe.Engine
 				}
 			}
 
-			ECSMgr.Draw();
+			ComponentSystemMgr.Draw();
 			foreach(Entity obj in _depthSortedEntities)
 			{
 				if (obj.Active)
@@ -152,7 +154,7 @@ namespace Monofoxe.Engine
 				}
 			}
 			
-			ECSMgr.DrawEnd();
+			ComponentSystemMgr.DrawEnd();
 			foreach(Entity obj in _depthSortedEntities)
 			{
 				if (obj.Active)
@@ -165,7 +167,7 @@ namespace Monofoxe.Engine
 
 		internal static void DrawGUI()
 		{
-			ECSMgr.DrawGUI();
+			ComponentSystemMgr.DrawGUI();
 			foreach(Entity obj in _depthSortedEntities)
 			{
 				if (obj.Active)
@@ -177,32 +179,18 @@ namespace Monofoxe.Engine
 
 
 
-
 		/// <summary>
 		/// Adds object to object list.
 		/// </summary>
 		internal static void AddEntity(Entity obj) => 
 			_newEntities.Add(obj);
 		
+		
 
 		#region User functions. 
 
 		/// <summary>
-		/// Returns list of objects of certain type.
-		/// </summary>
-		public static List<T> GetList<T>() where T : Entity => 
-			_entities.OfType<T>().ToList();
-
-
-		/// <summary>
-		/// Counts amount of objects of certain type.
-		/// </summary>
-		public static int Count<T>() where T : Entity => 
-			_entities.OfType<T>().Count();
-
-		
-		/// <summary>
-		/// Destroys game object.
+		/// Destroys entity and all its components.
 		/// </summary>
 		public static void Destroy(Entity obj)
 		{
@@ -219,9 +207,23 @@ namespace Monofoxe.Engine
 
 
 		/// <summary>
-		/// Checks if given instance exists.
+		/// Returns list of objects of certain type.
 		/// </summary>
-		public static bool ObjExists<T>() where T : Entity
+		public static List<T> GetList<T>() where T : Entity => 
+			_entities.OfType<T>().ToList();
+
+
+		/// <summary>
+		/// Counts amount of objects of certain type.
+		/// </summary>
+		public static int Count<T>() where T : Entity => 
+			_entities.OfType<T>().Count();
+
+
+		/// <summary>
+		/// Checks if any instances of an entity exist.
+		/// </summary>
+		public static bool EntityExists<T>() where T : Entity
 		{
 			foreach(Entity obj in _entities)
 			{
@@ -233,13 +235,11 @@ namespace Monofoxe.Engine
 			return false;
 		}
 
+
 		/// <summary>
-		/// Finds n-th object of given type.
+		/// Finds n-th entity of given type.
 		/// </summary>
-		/// <typeparam name="T">Type to search.</typeparam>
-		/// <param name="count">Number of the object in object list.</param>
-		/// <returns>Returns object if it was found, or null, if it wasn't.</returns>
-		public static T ObjFind<T>(int count) where T : Entity
+		public static T FindEntity<T>(int count) where T : Entity
 		{
 			var counter = 0;
 
@@ -260,10 +260,15 @@ namespace Monofoxe.Engine
 		#endregion User functions.
 
 
-		#region ECS functions.
+
+		#region ECS user functions.
+
+		/// Due to ECS fun, there may be lots of objects with same type, 
+		/// but different component sets. They differ only by their tag.
+		/// This is why we need tag overloads.
 
 		/// <summary>
-		/// Returns list of objects of certain type.
+		/// Returns list of entities with given tag.
 		/// </summary>
 		public static List<Entity> GetList(string tag)
 		{
@@ -281,7 +286,7 @@ namespace Monofoxe.Engine
 		
 
 		/// <summary>
-		/// Counts amount of objects of certain type.
+		/// Counts amount of entities with given tag.
 		/// </summary>
 		public static int Count(string tag)
 		{
@@ -301,7 +306,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Checks if given instance exists.
 		/// </summary>
-		public static bool ObjExists(string tag)
+		public static bool EntityExists(string tag)
 		{
 			foreach(Entity obj in _entities)
 			{
@@ -315,12 +320,9 @@ namespace Monofoxe.Engine
 		
 
 		/// <summary>
-		/// Finds n-th object of given type.
+		/// Finds n-th entities with given tag.
 		/// </summary>
-		/// <typeparam name="T">Type to search.</typeparam>
-		/// <param name="count">Number of the object in object list.</param>
-		/// <returns>Returns object if it was found, or null, if it wasn't.</returns>
-		public static Entity ObjFind(string tag, int count)
+		public static Entity FindEntity(string tag, int count)
 		{
 			var counter = 0;
 
@@ -338,7 +340,7 @@ namespace Monofoxe.Engine
 			return null;
 		}
 
-		#endregion ECS functions.
+		#endregion ECS user functions.
 
 	}
 }

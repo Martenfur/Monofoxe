@@ -5,9 +5,14 @@ namespace Monofoxe.Engine.ECS
 	
 	/// <summary>
 	/// Parent class of every in-game object.
+	/// Can hold components, or implement its own logic.
 	/// </summary>
 	public class Entity
 	{
+		/// <summary>
+		/// Unique tag for identifying entity.
+		/// NOTE: Entity tags should be unique!
+		/// </summary>
 		public readonly string Tag;
 		
 		/// <summary>
@@ -25,20 +30,38 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		public bool Active = true;
 
-
-		private Dictionary<string, IComponent> _components;
+		/// <summary>
+		/// Component hash table.
+		/// </summary>
+		private Dictionary<string, Component> _components;
 
 
 		public Entity(string tag = "entity")
 		{
 			EntityMgr.AddEntity(this);
-			_components = new Dictionary<string, IComponent>();
+			_components = new Dictionary<string, Component>();
 			Tag = tag;
 		}
 
 
 		
 		#region Events.
+
+		/*
+		 * Event order:
+		 * - FixedUpdateBegin
+		 * - FixedUpdate
+		 * - FuxedUpdateEnd
+		 * - UpdateBegin
+		 * - Update
+		 * - UpdateEnd
+		 * - DrawBegin
+		 * - Draw
+		 * - DrawEnd
+		 * - DrawGUI
+		 * 
+		 * NOTE: Component events are executed before entity events.
+		 */
 
 		/// <summary>
 		/// Begin of the update at a fixed rate.
@@ -97,7 +120,7 @@ namespace Monofoxe.Engine.ECS
 
 
 		/// <summary>
-		///	Triggers right before destruction, if object is active. 
+		///	Triggers right before destruction, if entity is active. 
 		/// </summary>
 		public virtual void Destroy() {}
 
@@ -111,18 +134,18 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Adds component to the entity.
 		/// </summary>
-		public void AddComponent(IComponent component)
+		public void AddComponent(Component component)
 		{
 			_components.Add(component.Tag, component);
 			component.Owner = this;
-			ECSMgr.AddComponent(component);
+			ComponentSystemMgr.AddComponent(component);
 		}
 		
 
 		/// <summary>
 		/// Returns component with given tag.
 		/// </summary>
-		public IComponent this[string tag]
+		public Component this[string tag]
 		{
 			get
 			{
@@ -138,9 +161,9 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Returns component of given class.
 		/// </summary>
-		public T GetComponent<T>() where T : IComponent
+		public T GetComponent<T>() where T : Component
 		{
-			foreach(KeyValuePair<string, IComponent> component in _components)
+			foreach(KeyValuePair<string, Component> component in _components)
 			{
 				if (component.Value is T)
 				{
@@ -154,12 +177,12 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Returns all the components. All of them.
 		/// </summary>
-		public IComponent[] GetAllComponents()
+		public Component[] GetAllComponents()
 		{
-			var array = new IComponent[_components.Count];
+			var array = new Component[_components.Count];
 			var id = 0;
 
-			foreach(KeyValuePair<string, IComponent> component in _components)
+			foreach(KeyValuePair<string, Component> component in _components)
 			{
 				array[id] = component.Value;
 				id += 1;
@@ -175,9 +198,9 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		internal void RemoveAllComponents()
 		{
-			foreach(KeyValuePair<string, IComponent> component in _components)
+			foreach(KeyValuePair<string, Component> component in _components)
 			{
-				ECSMgr.RemoveComponent(component.Value);
+				ComponentSystemMgr.RemoveComponent(component.Value);
 			}
 			_components.Clear();
 		}

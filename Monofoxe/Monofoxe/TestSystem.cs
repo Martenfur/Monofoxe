@@ -14,14 +14,14 @@ namespace Monofoxe
 		public string Tag => "test";
 
 		
-		public void Create(IComponent component)
+		public void Create(Component component)
 		{
 			((TestComponent)component).Position += Vector2.One * 32;
 		}
 
 
 
-		public void Update(List<IComponent> components)
+		public void Update(List<Component> components)
 		{
 			foreach(TestComponent component in components)
 			{
@@ -30,15 +30,15 @@ namespace Monofoxe
 		}
 
 
-		public void Draw(List<IComponent> components)
+		public void Draw(List<Component> components)
 		{
 			
 		}
 
-		public void Destroy(IComponent component) {}
+		public void Destroy(Component component) {}
 
 
-		public void DrawGUI(List<IComponent> components)
+		public void DrawGUI(List<Component> components)
 		{
 			foreach(TestComponent component in components)
 			{
