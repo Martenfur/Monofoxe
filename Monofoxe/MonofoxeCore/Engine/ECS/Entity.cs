@@ -192,6 +192,29 @@ namespace Monofoxe.Engine.ECS
 		}
 
 
+		/// <summary>
+		/// Checks of an entity has component with given tag.
+		/// </summary>
+		public bool HasComponent(string tag) =>
+			_components.ContainsKey(tag);
+		
+		
+		/// <summary>
+		/// Removes component from an entity and returns it.
+		/// </summary>
+		public Component RemoveComponent(string tag)
+		{
+			if (_components.ContainsKey(tag))
+			{
+				var component = _components[tag];
+				_components.Remove(tag);
+				ComponentSystemMgr.RemoveComponent(component);
+				component.Owner = null;
+				return component;
+			}
+			return null;
+		}
+
 
 		/// <summary>
 		/// Removes all components.
