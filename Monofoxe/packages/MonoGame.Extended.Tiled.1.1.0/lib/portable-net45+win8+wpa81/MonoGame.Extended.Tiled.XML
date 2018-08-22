@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MonoGame.Extended.Tiled</name>
+    </assembly>
+    <members>
+        <member name="P:MonoGame.Extended.Tiled.Graphics.TiledMapRenderer.GraphicsDevice">
+            <summary>
+                Gets the <see cref="T:Microsoft.Xna.Framework.Graphics.GraphicsDevice" /> associated with this <see cref="T:MonoGame.Extended.Tiled.Graphics.TiledMapRenderer" />.
+            </summary>
+            <value>
+                The <see cref="T:Microsoft.Xna.Framework.Graphics.GraphicsDevice" /> associated with this <see cref="T:MonoGame.Extended.Tiled.Graphics.TiledMapRenderer" />.
+            </value>
+        </member>
+        <member name="M:MonoGame.Extended.Tiled.Graphics.TiledMapRenderer.Dispose">
+            <summary>
+                Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:MonoGame.Extended.Tiled.Graphics.TiledMapRenderer.Dispose(System.Boolean)">
+            <summary>
+                Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="diposing">
+                <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only
+                unmanaged resources.
+            </param>
+        </member>
+    </members>
+</doc>

@@ -8,7 +8,7 @@ namespace Monofoxe.Engine.Drawing
 		public readonly Frame[] Frames;
 		public int W 
 		{
-			get 
+			get
 			{
 				if (SingleFrameSize)
 				{
@@ -20,7 +20,7 @@ namespace Monofoxe.Engine.Drawing
 		
 		public int H
 		{
-			get 
+			get
 			{
 				if (SingleFrameSize)
 				{

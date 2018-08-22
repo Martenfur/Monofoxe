@@ -7,9 +7,6 @@ namespace Monofoxe.ECSTest.Components
 	{
 		public float MaskR = 32;
 
-		public CCollision()
-		{
-			Tag = "Collision";
-		}
+		public override string Tag => "collision";
 	}
 }

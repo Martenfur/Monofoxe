@@ -13,11 +13,21 @@ using Resources.Sprites;
 using Resources;
 using Monofoxe.Engine.Audio;
 using Monofoxe.Engine.ECS;
+using Monofoxe.ECSTest.Systems;
+using Monofoxe.ECSTest.Components;
+using MonoGame.Extended.Tiled;
+using Newtonsoft.Json;
+using System.IO;
+using Newtonsoft.Json.Linq;
+
 
 namespace Monofoxe
 {
 	class TestObj : Entity 
 	{
+		
+		TiledMap map;	
+
 		float x, y;
 		double period = 3; // Seconds.
 		double ang = 0;
@@ -49,10 +59,25 @@ namespace Monofoxe
 
 		Entity entity;
 
+		Sprite testSpr;
+
 		public TestObj()
 		{
+				
+			//map.ObjectLayers[0].Objects[0];
+			
+			var raw = File.ReadAllText("Content/Entities/TestTemplate.json");
+			JToken testData = JObject.Parse(raw);
+			Console.WriteLine(testData["components"][1]);
+			
+			var mov = JsonConvert.DeserializeObject<CMovement>(testData["components"][1].ToString());
+
+			testSpr = mov.Spr;
+
+			ComponentSystemMgr.Systems.Add(new SCollision());
 			ComponentSystemMgr.Systems.Add(new TestSystem());
 			
+
 			snd1 = AudioMgr.LoadStreamedSound("Music/m_mission", FMOD.MODE._3D);
 			snd2 = AudioMgr.LoadStreamedSound("Music/m_peace");
 			snd3 = AudioMgr.LoadSound("Sounds/punch", FMOD.MODE._3D);
@@ -66,6 +91,7 @@ namespace Monofoxe
 			auto1.AffectedBySpeedMultiplier = false;
 
 			GameMgr.MaxGameSpeed = 60;
+			GameMgr.FixedUpdateRate = 1.0 / 30.0;
 			surf = new RenderTarget2D(
 				DrawMgr.Device, 
 				512, 
@@ -111,7 +137,7 @@ namespace Monofoxe
 
 			cam1.PortPos.X = 600;
 			cam1.BackgroundColor = Color.DarkSeaGreen;
-			cam1.Enabled = true;
+			cam1.Enabled = false;
 
 			RasterizerState rasterizerState = new RasterizerState(); // Do something with it, I guees.
 			rasterizerState.CullMode = CullMode.None;
@@ -138,7 +164,6 @@ namespace Monofoxe
 			snd1.Set3DAttributes(Input.ScreenMousePos, Vector2.Zero);
 			snd1.Set3DMinMaxDistance(100, 300);
 
-			Debug.WriteLine(snd1.Volume);
 			GameMgr.WindowManager.WindowTitle = "Draw fps: " + GameMgr.Fps;
 			
 			if (Input.CheckButtonPress(Buttons.A))
@@ -193,6 +218,15 @@ namespace Monofoxe
 			{
 				fireFrame = 0;
 			}
+
+			if (Input.CheckButton(Buttons.MouseRight))
+			{
+				var ball = Entities.CreateBall();
+				ball.GetComponent<CMovement>().Position = Input.MousePos;
+				ball.GetComponent<CCollision>().MaskR = r.Next(32, 64);
+				Console.WriteLine(EntityMgr.Count("ball"));
+			}
+			
 
 			#region Camera. 
 
@@ -259,14 +293,15 @@ namespace Monofoxe
 			
 		}
 
+		string str;
 		
 		public override void Draw()
 		{	
 			if (DrawMgr.CurrentCamera == cam)
 			{
 				//DrawCntrl.BlendState = BlendState.Additive;
-				Effects.Effect.Parameters["test"].SetValue(new Vector4(0.0f, 0.7f, 0.0f, 1.0f));
-				DrawMgr.Effect = Effects.Effect;
+			//	Effects.Effect.Parameters["test"].SetValue(new Vector4(0.0f, 0.7f, 0.0f, 1.0f));
+			//	DrawMgr.Effect = Effects.Effect;
 			}
 			else
 			{
@@ -276,7 +311,6 @@ namespace Monofoxe
 
 			DrawMgr.CurrentColor = Color.Violet;
 			//DrawCntrl.DrawRectangle(-32, -32, 500, 500, false);
-			DrawMgr.DrawSprite(SpritesDefault.BstGam, 0, Vector2.Zero);
 			
 			DrawMgr.DrawSprite(SpritesDefault.DemonFire, (int)fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
 
@@ -284,57 +318,20 @@ namespace Monofoxe
 			Frame f = SpritesDefault.DemonFire.Frames[(int)fireFrame];
 			DrawMgr.CurrentColor = Color.White;
 			DrawMgr.DrawRectangle(0, 0, SpritesDefault.DemonFire.W, SpritesDefault.DemonFire.H, true);
-			
-			DrawMgr.CurrentColor = Color.BlueViolet;
-			DrawMgr.DrawRectangle(f.Origin.X, f.Origin.Y, f.TexturePosition.Width + f.Origin.X, f.TexturePosition.Height + f.Origin.Y, true);
-
-			DrawMgr.DrawCircle(Input.MousePos, 4, true);
-			
-			Vector2 p1 = new Vector2(300, 400);
-			Vector2 p2 = new Vector2(300 + 100, 400 + 32);
-			Vector2 p3 = new Vector2(300 + 200, 400 - 50);
-			Vector2 s = new Vector2(30, 40);
-			
-
-			if (GameMath.LinesCross(Input.MousePos, p2, p1, p3, ref s) == 1)//GameMath.RectangleInRectangle(Input.MousePos, Input.MousePos + s, p1, p2))
-			{
-				DrawMgr.CurrentColor = Color.Red;
-			}
-			else
-			{
-				DrawMgr.CurrentColor = Color.Black;
-			}
-
-			//DrawCntrl.DrawRectangle(p1, p2, true);
-			//DrawCntrl.DrawRectangle(Input.MousePos, Input.MousePos + s, true);
-			DrawMgr.DrawLine(p1, p3);
-			DrawMgr.DrawLine(Input.MousePos, p2);
 		
 			DrawMgr.CurrentColor = Color.White;
 			
-			DrawMgr.DrawCircle(s, 8, true);
-			
-			DrawMgr.DrawSprite(SpritesDefault.Boss, new Vector2(200, 200));
-			DrawMgr.DrawSprite(SpritesDefault.Boulder3, new Vector2(400, 200));
-			
-			DrawMgr.DrawSurface(surf, 128, 128);
-
 			DrawMgr.Effect = null;
 			
-			
-			DrawMgr.CurrentColor = new Color(Color.Azure, 0.1f);
-			/*
-			DrawCntrl.DrawCircle(
-				entity.GetComponent<TestComponent>().Position, 
-				100, 
-				false
-			);
-			*/
-			DrawMgr.DrawCircle(120, 100, 100, false);
-			DrawMgr.CurrentColor = Color.White;
-			
 
-
+			var p = new Vector2(50, 200);
+			for(var i = 0; i < 8; i += 1)
+				DrawMgr.DrawSprite(testSpr, 0, p + Vector2.UnitX * i * 16, Vector2.One, i * 5, new Color(Color.White, 0.5f));
+			
+			DrawMgr.CurrentColor = Color.Black;
+			DrawMgr.CurrentFont = Fonts.Def;
+			str += Input.KeyboardString;
+			DrawMgr.DrawText(str, 400, 300);
 		}
 
 		public override void DrawGUI()
@@ -352,6 +349,7 @@ namespace Monofoxe
 			//DrawCntrl.CurrentColor = new Color(Color.White, 0.5f);
 			//DrawCntrl.DrawSprite(spr, 0, 0);
 			
+
 			DrawMgr.CurrentColor = Color.White;
 			DrawMgr.DrawSurface(surfForDrawing, new Rectangle(32, 32, 32, 48), new Rectangle(32, 32, 32, 48));
 

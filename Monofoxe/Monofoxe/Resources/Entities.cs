@@ -2,6 +2,7 @@
 using Monofoxe.Engine.ECS;
 using Microsoft.Xna.Framework;
 using Monofoxe;
+using Monofoxe.ECSTest.Components;
 
 namespace Resources
 {
@@ -32,5 +33,15 @@ namespace Resources
 
 			return entity;
 		}
+
+		public static Entity CreateBall()
+		{
+			var entity = new Entity("ball");
+			entity.AddComponent(new CMovement());
+			entity.AddComponent(new CCollision());
+
+			return entity;
+		}
+
 	}
 }

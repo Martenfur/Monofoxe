@@ -1,0 +1,645 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MonoGame.Extended.Graphics</name>
+    </assembly>
+    <members>
+        <member name="T:MonoGame.Extended.Graphics.Batcher`1">
+            <summary>
+                Minimizes draw calls to a <see cref="P:MonoGame.Extended.Graphics.Batcher`1.GraphicsDevice" /> by sorting them and attempting to merge them together
+                before submitting them.
+            </summary>
+            <typeparam name="TDrawCallInfo">The type of the information for a draw call.</typeparam>
+            <seealso cref="T:System.IDisposable" />
+        </member>
+        <member name="F:MonoGame.Extended.Graphics.Batcher`1.DrawCalls">
+            <summary>
+                The array of <see cref="!:TDrawCallInfo" /> structs currently enqueued.
+            </summary>
+        </member>
+        <member name="F:MonoGame.Extended.Graphics.Batcher`1.EnqueuedDrawCallCount">
+            <summary>
+                The number of <see cref="!:TDrawCallInfo" /> structs currently enqueued.
+            </summary>
+        </member>
+        <member name="P:MonoGame.Extended.Graphics.Batcher`1.GraphicsDevice">
+            <summary>
+                Gets the <see cref="P:MonoGame.Extended.Graphics.Batcher`1.GraphicsDevice" /> associated with this <see cref="T:MonoGame.Extended.Graphics.Batcher`1" />.
+            </summary>
+            <value>
+                The <see cref="P:MonoGame.Extended.Graphics.Batcher`1.GraphicsDevice" /> associated with this <see cref="T:MonoGame.Extended.Graphics.Batcher`1" />.
+            </value>
+        </member>
+        <member name="P:MonoGame.Extended.Graphics.Batcher`1.HasBegun">
+            <summary>
+                Gets a value indicating whether batching is currently in progress by being within a <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" /> and
+                <see cref="M:MonoGame.Extended.Graphics.Batcher`1.End" /> pair block of code.
+            </summary>
+            <value>
+                <c>true</c> if batching has begun; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Batcher`1.#ctor(Microsoft.Xna.Framework.Graphics.GraphicsDevice,Microsoft.Xna.Framework.Graphics.Effect,System.Int32)">
+            <summary>
+                Initializes a new instance of the <see cref="T:MonoGame.Extended.Graphics.Batcher`1" /> class.
+            </summary>
+            <param name="graphicsDevice">The graphics device.</param>
+            <param name="defaultEffect">The default effect.</param>
+            <param name="maximumDrawCallsCount">
+                The maximum number of <see cref="!:TDrawCallInfo" /> structs that can be enqueued before a
+                <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Flush" />
+                is required. The default value is <code>2048</code>.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <paramref name="graphicsDevice" /> is
+                null.
+            </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="maximumDrawCallsCount" /> is less than or equal
+                <code>0</code>.
+            </exception>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Batcher`1.Dispose">
+            <summary>
+                Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Batcher`1.Dispose(System.Boolean)">
+            <summary>
+                Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="diposing">
+                <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only
+                unmanaged resources.
+            </param>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Batcher`1.Begin(System.Nullable{Microsoft.Xna.Framework.Matrix},System.Nullable{Microsoft.Xna.Framework.Matrix},Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)">
+            <summary>
+                Begins the batch operation using an optional <see cref="T:Microsoft.Xna.Framework.Graphics.BlendState" />, <see cref="T:Microsoft.Xna.Framework.Graphics.SamplerState" />,
+                <see cref="T:Microsoft.Xna.Framework.Graphics.DepthStencilState" />, <see cref="T:Microsoft.Xna.Framework.Graphics.RasterizerState" />, <see cref="T:Microsoft.Xna.Framework.Graphics.Effect" />, world-to-view
+                <see cref="T:Microsoft.Xna.Framework.Matrix" />, or view-to-projection <see cref="T:Microsoft.Xna.Framework.Matrix" />.
+            </summary>
+            <remarks>
+                <para>
+                    The default objects for <paramref name="blendState" />, <paramref name="samplerState" />,
+                    <paramref name="depthStencilState" />, and <paramref name="rasterizerState" /> are
+                    <see cref="F:Microsoft.Xna.Framework.Graphics.BlendState.AlphaBlend" />, <see cref="F:Microsoft.Xna.Framework.Graphics.SamplerState.LinearClamp" />,
+                    <see cref="F:Microsoft.Xna.Framework.Graphics.DepthStencilState.None" /> and <see cref="F:Microsoft.Xna.Framework.Graphics.RasterizerState.CullCounterClockwise" /> respectively.
+                    Passing
+                    <code>null</code> for any of the previously mentioned parameters result in using their default object.
+                </para>
+            </remarks>
+            <param name="blendState">The <see cref="T:Microsoft.Xna.Framework.Graphics.BlendState" /> to use for the <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" />, <see cref="M:MonoGame.Extended.Graphics.Batcher`1.End" /> pair.</param>
+            <param name="samplerState">
+                The texture <see cref="T:Microsoft.Xna.Framework.Graphics.SamplerState" /> to use for the <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" /> and
+                <see cref="M:MonoGame.Extended.Graphics.Batcher`1.End" /> pair.
+            </param>
+            <param name="depthStencilState">
+                The <see cref="T:Microsoft.Xna.Framework.Graphics.DepthStencilState" /> to use for the <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" /> and
+                <see cref="M:MonoGame.Extended.Graphics.Batcher`1.End" /> pair.
+            </param>
+            <param name="rasterizerState">
+                The <see cref="T:Microsoft.Xna.Framework.Graphics.RasterizerState" /> to use for the <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" /> and
+                <see cref="M:MonoGame.Extended.Graphics.Batcher`1.End" /> pair.
+            </param>
+            <param name="effect">The <see cref="T:Microsoft.Xna.Framework.Graphics.Effect" /> to use for the <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" /> and <see cref="M:MonoGame.Extended.Graphics.Batcher`1.End" /> pair.</param>
+            <param name="viewMatrix">
+                The world-to-view transformation matrix to use for the <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" /> and
+                <see cref="M:MonoGame.Extended.Graphics.Batcher`1.End" /> pair.
+            </param>
+            <param name="projectionMatrix">
+                The view-to-projection transformation matrix to use for the <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" /> and
+                <see cref="M:MonoGame.Extended.Graphics.Batcher`1.End" /> pair.
+            </param>
+            <exception cref="T:System.InvalidOperationException">
+                <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" /> cannot be invoked again until <see cref="M:MonoGame.Extended.Graphics.Batcher`1.End" /> has been invoked.
+            </exception>
+            <remarks>
+                <para>
+                    This method must be called before any enqueuing of draw calls. When all the geometry have been enqueued for
+                    drawing, call <see cref="M:MonoGame.Extended.Graphics.Batcher`1.End" />.
+                </para>
+            </remarks>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)">
+            <summary>
+                Begins the batch operation using an optional <see cref="T:Microsoft.Xna.Framework.Graphics.BlendState" />, <see cref="T:Microsoft.Xna.Framework.Graphics.SamplerState" />,
+                <see cref="T:Microsoft.Xna.Framework.Graphics.DepthStencilState" />, <see cref="T:Microsoft.Xna.Framework.Graphics.RasterizerState" />, <see cref="T:Microsoft.Xna.Framework.Graphics.Effect" />, world-to-view
+                <see cref="T:Microsoft.Xna.Framework.Matrix" />, or view-to-projection <see cref="T:Microsoft.Xna.Framework.Matrix" />.
+            </summary>
+            <remarks>
+                <para>
+                    The default objects for <paramref name="blendState" />, <paramref name="samplerState" />,
+                    <paramref name="depthStencilState" />, and <paramref name="rasterizerState" /> are
+                    <see cref="F:Microsoft.Xna.Framework.Graphics.BlendState.AlphaBlend" />, <see cref="F:Microsoft.Xna.Framework.Graphics.SamplerState.LinearClamp" />,
+                    <see cref="F:Microsoft.Xna.Framework.Graphics.DepthStencilState.None" /> and <see cref="F:Microsoft.Xna.Framework.Graphics.RasterizerState.CullCounterClockwise" /> respectively.
+                    Passing
+                    <code>null</code> for any of the previously mentioned parameters result in using their default object.
+                </para>
+            </remarks>
+            <param name="blendState">The <see cref="T:Microsoft.Xna.Framework.Graphics.BlendState" /> to use for the <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" />, <see cref="M:MonoGame.Extended.Graphics.Batcher`1.End" /> pair.</param>
+            <param name="samplerState">
+                The texture <see cref="T:Microsoft.Xna.Framework.Graphics.SamplerState" /> to use for the <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" /> and
+                <see cref="M:MonoGame.Extended.Graphics.Batcher`1.End" /> pair.
+            </param>
+            <param name="depthStencilState">
+                The <see cref="T:Microsoft.Xna.Framework.Graphics.DepthStencilState" /> to use for the <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" /> and
+                <see cref="M:MonoGame.Extended.Graphics.Batcher`1.End" /> pair.
+            </param>
+            <param name="rasterizerState">
+                The <see cref="T:Microsoft.Xna.Framework.Graphics.RasterizerState" /> to use for the <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" /> and
+                <see cref="M:MonoGame.Extended.Graphics.Batcher`1.End" /> pair.
+            </param>
+            <param name="effect">The <see cref="T:Microsoft.Xna.Framework.Graphics.Effect" /> to use for the <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" /> and <see cref="M:MonoGame.Extended.Graphics.Batcher`1.End" /> pair.</param>
+            <param name="viewMatrix">
+                The world-to-view transformation matrix to use for the <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" /> and
+                <see cref="M:MonoGame.Extended.Graphics.Batcher`1.End" /> pair.
+            </param>
+            <param name="projectionMatrix">
+                The view-to-projection transformation matrix to use for the <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" /> and
+                <see cref="M:MonoGame.Extended.Graphics.Batcher`1.End" /> pair.
+            </param>
+            <exception cref="T:System.InvalidOperationException">
+                <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" /> cannot be invoked again until <see cref="M:MonoGame.Extended.Graphics.Batcher`1.End" /> has been invoked.
+            </exception>
+            <remarks>
+                <para>
+                    This method must be called before any enqueuing of draw calls. When all the geometry have been enqueued for
+                    drawing, call <see cref="M:MonoGame.Extended.Graphics.Batcher`1.End" />.
+                </para>
+            </remarks>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Batcher`1.End">
+            <summary>
+                Flushes the batched geometry to the <see cref="P:MonoGame.Extended.Graphics.Batcher`1.GraphicsDevice" /> and restores it's state to how it was before
+                <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" /> was called.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">
+                <see cref="M:MonoGame.Extended.Graphics.Batcher`1.End" /> cannot be invoked until <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" /> has been invoked.
+            </exception>
+            <remarks>
+                <para>
+                    This method must be called after all enqueuing of draw calls.
+                </para>
+            </remarks>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Batcher`1.Flush">
+            <summary>
+                Sorts then submits the (sorted) enqueued draw calls to the <see cref="P:MonoGame.Extended.Graphics.Batcher`1.GraphicsDevice" /> for
+                rendering without ending the <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" /> and <see cref="M:MonoGame.Extended.Graphics.Batcher`1.End" /> pair.
+            </summary>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Batcher`1.SortDrawCallsAndBindBuffers">
+            <summary>
+                Sorts the enqueued draw calls and binds any used <see cref="T:Microsoft.Xna.Framework.Graphics.VertexBuffer" /> or <see cref="T:Microsoft.Xna.Framework.Graphics.IndexBuffer" /> to the <see cref="P:MonoGame.Extended.Graphics.Batcher`1.GraphicsDevice" />.
+            </summary>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Batcher`1.Enqueue(`0@)">
+            <summary>
+                Enqueues draw call information.
+            </summary>
+            <param name="drawCall">The draw call information.</param>
+            <remarks>
+                <para>
+                    If possible, the <paramref name="drawCall" /> is merged with the last enqueued draw call information instead of
+                    being
+                    enqueued.
+                </para>
+                <para>
+                    If the enqueue buffer is full, a <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Flush" /> is invoked and then afterwards
+                    <paramref name="drawCall" /> is enqueued.
+                </para>
+            </remarks>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Batcher`1.InvokeDrawCall(`0@)">
+            <summary>
+                Submits a draw operation to the <see cref="P:MonoGame.Extended.Graphics.Batcher`1.GraphicsDevice" /> using the specified <see cref="!:TDrawCallInfo"/>.
+            </summary>
+            <param name="drawCall">The draw call information.</param>
+        </member>
+        <member name="T:MonoGame.Extended.Graphics.IBatchDrawCallInfo`1">
+            <summary>
+                Defines the for a deferred draw call when batching.
+            </summary>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.IBatchDrawCallInfo`1.SetState(Microsoft.Xna.Framework.Graphics.Effect)">
+            <summary>
+                Applies any state from the <see cref="T:MonoGame.Extended.Graphics.IBatchDrawCallInfo`1" /> to the
+                <see cref="T:Microsoft.Xna.Framework.Graphics.Effect" /> or <see cref="!:Effect.GraphicsDevice"/>.
+            </summary>
+            <param name="effect">The effect.</param>
+        </member>
+        <member name="T:MonoGame.Extended.Graphics.Batcher2D">
+            <summary>
+                A general purpose <see cref="T:MonoGame.Extended.Graphics.Batcher`1" /> for two-dimensional geometry that change
+                frequently between frames such as sprites and shapes.
+            </summary>
+            <seealso cref="T:System.IDisposable" />
+            <remarks>
+                <para>For drawing user interfaces, consider using <see cref="!:UIBatcher(ref Matrix, ref Matrix, BlendState, SamplerState, DepthStencilState, RasterizerState, Effect)" /> instead because it supports scissor rectangles.</para>
+            </remarks>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Batcher2D.#ctor(Microsoft.Xna.Framework.Graphics.GraphicsDevice,System.UInt16,System.UInt16,System.Int32)">
+            <summary>
+                Initializes a new instance of the <see cref="T:MonoGame.Extended.Graphics.Batcher2D" /> class.
+            </summary>
+            <param name="graphicsDevice">The graphics device.</param>
+            <param name="maximumVerticesCount">
+                The maximum number of vertices that can be enqueued before a
+                <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Flush" /> is required. The default value is <code>8192</code>.
+            </param>
+            <param name="maximumIndicesCount">
+                The maximum number of indices that can be enqueued before a
+                <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Flush" /> is required. The default value is <code>12288</code>.
+            </param>
+            <param name="maximumDrawCallsCount">
+                The maximum number of <see cref="T:MonoGame.Extended.Graphics.Batcher2D.DrawCallInfo" /> structs that can be enqueued before a
+                <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Flush" /> is required. The default value is <code>2048</code>.
+            </param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="graphicsDevice" />.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="maximumDrawCallsCount" /> is less than or equal
+                <code>0</code>, or <paramref name="maximumVerticesCount" /> is less than or equal to <code>0</code>, or,
+                <paramref name="maximumVerticesCount" /> is less than or equal to <code>0</code>.
+            </exception>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Batcher2D.InvokeDrawCall(MonoGame.Extended.Graphics.Batcher2D.DrawCallInfo@)">
+            <summary>
+                Submits a draw operation to the <see cref="T:Microsoft.Xna.Framework.Graphics.GraphicsDevice" /> using the specified <see cref="T:MonoGame.Extended.Graphics.Batcher2D.DrawCallInfo"/>.
+            </summary>
+            <param name="drawCall">The draw call information.</param>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Batcher2D.DrawSprite(Microsoft.Xna.Framework.Graphics.Texture2D,MonoGame.Extended.Matrix2D@,Microsoft.Xna.Framework.Rectangle@,System.Nullable{Microsoft.Xna.Framework.Color},MonoGame.Extended.Graphics.FlipFlags,System.Single)">
+            <summary>
+                Draws a sprite using a specified <see cref="T:Microsoft.Xna.Framework.Graphics.Texture" />, transform <see cref="T:MonoGame.Extended.Matrix2D" />, source
+                <see cref="T:Microsoft.Xna.Framework.Rectangle" />, and an optional
+                <see cref="T:Microsoft.Xna.Framework.Color" />, origin <see cref="T:Microsoft.Xna.Framework.Vector2" />, <see cref="T:MonoGame.Extended.Graphics.FlipFlags" />, and depth <see cref="T:System.Single" />.
+            </summary>
+            <param name="texture">The <see cref="T:Microsoft.Xna.Framework.Graphics.Texture" />.</param>
+            <param name="transformMatrix">The transform <see cref="T:MonoGame.Extended.Matrix2D" />.</param>
+            <param name="sourceRectangle">
+                The texture region <see cref="T:Microsoft.Xna.Framework.Rectangle" /> of the <paramref name="texture" />. Use
+                <code>null</code> to use the entire <see cref="T:Microsoft.Xna.Framework.Graphics.Texture2D" />.
+            </param>
+            <param name="color">The <see cref="T:Microsoft.Xna.Framework.Color" />. Use <code>null</code> to use the default <see cref="P:Microsoft.Xna.Framework.Color.White" />.</param>
+            <param name="flags">The <see cref="T:MonoGame.Extended.Graphics.FlipFlags" />. The default value is <see cref="F:MonoGame.Extended.Graphics.FlipFlags.None" />.</param>
+            <param name="depth">The depth <see cref="T:System.Single" />. The default value is <code>0</code>.</param>
+            <exception cref="T:System.InvalidOperationException">The <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" /> method has not been called.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="texture" /> is null.</exception>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Batcher2D.DrawTexture(Microsoft.Xna.Framework.Graphics.Texture2D,MonoGame.Extended.Matrix2D@,System.Nullable{Microsoft.Xna.Framework.Color},MonoGame.Extended.Graphics.FlipFlags,System.Single)">
+            <summary>
+                Draws a <see cref="T:Microsoft.Xna.Framework.Graphics.Texture" /> using the specified transform <see cref="T:MonoGame.Extended.Matrix2D" /> and an optional
+                <see cref="T:Microsoft.Xna.Framework.Color" />, origin <see cref="T:Microsoft.Xna.Framework.Vector2" />, <see cref="T:MonoGame.Extended.Graphics.FlipFlags" />, and depth <see cref="T:System.Single" />.
+            </summary>
+            <param name="texture">The <see cref="T:Microsoft.Xna.Framework.Graphics.Texture" />.</param>
+            <param name="transformMatrix">The transform <see cref="T:MonoGame.Extended.Matrix2D" />.</param>
+            <param name="color">The <see cref="T:Microsoft.Xna.Framework.Color" />. Use <code>null</code> to use the default <see cref="P:Microsoft.Xna.Framework.Color.White" />.</param>
+            <param name="flags">The <see cref="T:MonoGame.Extended.Graphics.FlipFlags" />. The default value is <see cref="F:MonoGame.Extended.Graphics.FlipFlags.None" />.</param>
+            <param name="depth">The depth <see cref="T:System.Single" />. The default value is <code>0</code>.</param>
+            <exception cref="T:System.InvalidOperationException">The <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" /> method has not been called.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="texture" /> is null.</exception>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Batcher2D.DrawString(MonoGame.Extended.BitmapFonts.BitmapFont,System.Text.StringBuilder,MonoGame.Extended.Matrix2D@,System.Nullable{Microsoft.Xna.Framework.Color},MonoGame.Extended.Graphics.FlipFlags,System.Single)">
+            <summary>
+                Draws unicode (UTF-16) characters as sprites using the specified <see cref="T:MonoGame.Extended.BitmapFonts.BitmapFont" />, text
+                <see cref="T:System.Text.StringBuilder" />, transform <see cref="T:MonoGame.Extended.Matrix2D" /> and optional <see cref="T:Microsoft.Xna.Framework.Color" />, origin
+                <see cref="T:Microsoft.Xna.Framework.Vector2" />, <see cref="T:MonoGame.Extended.Graphics.FlipFlags" />, and depth <see cref="T:System.Single" />.
+            </summary>
+            <param name="bitmapFont">The <see cref="T:MonoGame.Extended.BitmapFonts.BitmapFont" />.</param>
+            <param name="text">The text <see cref="T:System.Text.StringBuilder" />.</param>
+            <param name="transformMatrix">The transform <see cref="T:MonoGame.Extended.Matrix2D" />.</param>
+            <param name="color">
+                The <see cref="T:Microsoft.Xna.Framework.Color" />. Use <code>null</code> to use the default
+                <see cref="P:Microsoft.Xna.Framework.Color.White" />.
+            </param>
+            <param name="flags">The <see cref="T:MonoGame.Extended.Graphics.FlipFlags" />. The default value is <see cref="F:MonoGame.Extended.Graphics.FlipFlags.None" />.</param>
+            <param name="depth">The depth <see cref="T:System.Single" />. The default value is <code>0f</code>.</param>
+            <exception cref="T:System.InvalidOperationException">The <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" /> method has not been called.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="bitmapFont" /> is null or <paramref name="text" /> is null.</exception>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Batcher2D.DrawString(MonoGame.Extended.BitmapFonts.BitmapFont,System.Text.StringBuilder,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Single,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{Microsoft.Xna.Framework.Vector2},MonoGame.Extended.Graphics.FlipFlags,System.Single)">
+            <summary>
+                Draws unicode (UTF-16) characters as sprites using the specified <see cref="T:MonoGame.Extended.BitmapFonts.BitmapFont" />, text
+                <see cref="T:System.Text.StringBuilder" />, position <see cref="T:Microsoft.Xna.Framework.Vector2" /> and optional <see cref="T:Microsoft.Xna.Framework.Color" />, rotation
+                <see cref="T:System.Single" />, origin <see cref="T:Microsoft.Xna.Framework.Vector2" />, scale <see cref="T:Microsoft.Xna.Framework.Vector2" /> <see cref="T:MonoGame.Extended.Graphics.FlipFlags" />, and
+                depth <see cref="T:System.Single" />.
+            </summary>
+            <param name="bitmapFont">The <see cref="T:MonoGame.Extended.BitmapFonts.BitmapFont" />.</param>
+            <param name="text">The text <see cref="T:System.String" />.</param>
+            <param name="position">The position <see cref="T:Microsoft.Xna.Framework.Vector2" />.</param>
+            <param name="color">
+                The <see cref="T:Microsoft.Xna.Framework.Color" />. Use <code>null</code> to use the default
+                <see cref="P:Microsoft.Xna.Framework.Color.White" />.
+            </param>
+            <param name="rotation">
+                The angle <see cref="T:System.Single" /> (in radians) to rotate each sprite about its <paramref name="origin" />. The default
+                value is <code>0f</code>.
+            </param>
+            <param name="origin">
+                The origin <see cref="T:Microsoft.Xna.Framework.Vector2" />. Use <code>null</code> to use the default
+                <see cref="P:Microsoft.Xna.Framework.Vector2.Zero" />.
+            </param>
+            <param name="scale">
+                The scale <see cref="T:Microsoft.Xna.Framework.Vector2" />. Use <code>null</code> to use the default
+                <see cref="P:Microsoft.Xna.Framework.Vector2.One" />.
+            </param>
+            <param name="flags">The <see cref="T:MonoGame.Extended.Graphics.FlipFlags" />. The default value is <see cref="F:MonoGame.Extended.Graphics.FlipFlags.None" />.</param>
+            <param name="depth">The depth <see cref="T:System.Single" />. The default value is <code>0f</code></param>
+            <exception cref="T:System.InvalidOperationException">The <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" /> method has not been called.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="bitmapFont" /> is null or <paramref name="text" /> is null.</exception>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Batcher2D.DrawString(MonoGame.Extended.BitmapFonts.BitmapFont,System.String,MonoGame.Extended.Matrix2D@,System.Nullable{Microsoft.Xna.Framework.Color},MonoGame.Extended.Graphics.FlipFlags,System.Single)">
+            <summary>
+                Draws unicode (UTF-16) characters as sprites using the specified <see cref="T:MonoGame.Extended.BitmapFonts.BitmapFont" />, text
+                <see cref="T:System.String" />, transform <see cref="T:MonoGame.Extended.Matrix2D" /> and optional <see cref="T:Microsoft.Xna.Framework.Color" />, origin
+                <see cref="T:Microsoft.Xna.Framework.Vector2" />, <see cref="T:MonoGame.Extended.Graphics.FlipFlags" />, and depth <see cref="T:System.Single" />.
+            </summary>
+            <param name="bitmapFont">The <see cref="T:MonoGame.Extended.BitmapFonts.BitmapFont" />.</param>
+            <param name="text">The text <see cref="T:System.String" />.</param>
+            <param name="transformMatrix">The transform <see cref="T:MonoGame.Extended.Matrix2D" />.</param>
+            <param name="color">
+                The <see cref="T:Microsoft.Xna.Framework.Color" />. Use <code>null</code> to use the default
+                <see cref="P:Microsoft.Xna.Framework.Color.White" />.
+            </param>
+            <param name="flags">The <see cref="T:MonoGame.Extended.Graphics.FlipFlags" />. The default value is <see cref="F:MonoGame.Extended.Graphics.FlipFlags.None" />.</param>
+            <param name="depth">The depth <see cref="T:System.Single" />. The default value is <code>0f</code></param>
+            <exception cref="T:System.InvalidOperationException">The <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" /> method has not been called.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="bitmapFont" /> is null or <paramref name="text" /> is null.</exception>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Batcher2D.DrawString(MonoGame.Extended.BitmapFonts.BitmapFont,System.String,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Single,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{Microsoft.Xna.Framework.Vector2},MonoGame.Extended.Graphics.FlipFlags,System.Single)">
+            <summary>
+                Draws unicode (UTF-16) characters as sprites using the specified <see cref="T:MonoGame.Extended.BitmapFonts.BitmapFont" />, text
+                <see cref="T:System.String" />, position <see cref="T:Microsoft.Xna.Framework.Vector2" /> and optional <see cref="T:Microsoft.Xna.Framework.Color" />, rotation
+                <see cref="T:System.Single" />, origin <see cref="T:Microsoft.Xna.Framework.Vector2" />, scale <see cref="T:Microsoft.Xna.Framework.Vector2" /> <see cref="T:MonoGame.Extended.Graphics.FlipFlags" />, and
+                depth <see cref="T:System.Single" />.
+            </summary>
+            <param name="bitmapFont">The <see cref="T:MonoGame.Extended.BitmapFonts.BitmapFont" />.</param>
+            <param name="text">The text <see cref="T:System.String" />.</param>
+            <param name="position">The position <see cref="T:Microsoft.Xna.Framework.Vector2" />.</param>
+            <param name="color">
+                The <see cref="T:Microsoft.Xna.Framework.Color" />. Use <code>null</code> to use the default
+                <see cref="P:Microsoft.Xna.Framework.Color.White" />.
+            </param>
+            <param name="rotation">
+                The angle <see cref="T:System.Single" /> (in radians) to rotate each sprite about its <paramref name="origin" />. The default
+                value is <code>0f</code>.
+            </param>
+            <param name="origin">
+                The origin <see cref="T:Microsoft.Xna.Framework.Vector2" />. Use <code>null</code> to use the default
+                <see cref="P:Microsoft.Xna.Framework.Vector2.Zero" />.
+            </param>
+            <param name="scale">
+                The scale <see cref="T:Microsoft.Xna.Framework.Vector2" />. Use <code>null</code> to use the default
+                <see cref="P:Microsoft.Xna.Framework.Vector2.One" />.
+            </param>
+            <param name="flags">The <see cref="T:MonoGame.Extended.Graphics.FlipFlags" />. The default value is <see cref="F:MonoGame.Extended.Graphics.FlipFlags.None" />.</param>
+            <param name="depth">The depth <see cref="T:System.Single" />. The default value is <code>0f</code></param>
+            <exception cref="T:System.InvalidOperationException">The <see cref="M:MonoGame.Extended.Graphics.Batcher`1.Begin(Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Matrix@,Microsoft.Xna.Framework.Graphics.BlendState,Microsoft.Xna.Framework.Graphics.SamplerState,Microsoft.Xna.Framework.Graphics.DepthStencilState,Microsoft.Xna.Framework.Graphics.RasterizerState,Microsoft.Xna.Framework.Graphics.Effect)" /> method has not been called.</exception>
+            <exception cref="T:System.ArgumentNullException"><paramref name="bitmapFont" /> is null or <paramref name="text" /> is null.</exception>
+        </member>
+        <member name="T:MonoGame.Extended.Graphics.Effects.DefaultEffect">
+            <summary>
+                An <see cref="T:Microsoft.Xna.Framework.Graphics.Effect" /> that allows objects, within a 3D context, to be represented on a 2D monitor.
+            </summary>
+            <seealso cref="T:MonoGame.Extended.Graphics.Effects.MatrixChainEffect" />
+            <seealso cref="T:MonoGame.Extended.Graphics.Effects.ITextureEffect" />
+        </member>
+        <member name="F:MonoGame.Extended.Graphics.Effects.DefaultEffect.DirtyTextureBitMask">
+            <summary>
+                The bitmask for use with <see cref="F:MonoGame.Extended.Graphics.Effects.MatrixChainEffect.Flags" /> indicating wether <see cref="P:MonoGame.Extended.Graphics.Effects.DefaultEffect.Texture" /> has
+                changed in the last frame.
+            </summary>
+        </member>
+        <member name="F:MonoGame.Extended.Graphics.Effects.DefaultEffect.DirtyShaderIndexBitMask">
+            <summary>
+                The bitmask for use with <see cref="F:MonoGame.Extended.Graphics.Effects.MatrixChainEffect.Flags" /> indicating wether the underlying vertex shader and
+                fragment (pixel) shaders have changed to one of the pre-defined shaders in the last frame.
+            </summary>
+        </member>
+        <member name="F:MonoGame.Extended.Graphics.Effects.DefaultEffect.DirtyMaterialColorBitMask">
+            <summary>
+                The bitmask for use with <see cref="F:MonoGame.Extended.Graphics.Effects.MatrixChainEffect.Flags" /> indicating wether the material color has changed in
+                the last frame.
+            </summary>
+        </member>
+        <member name="P:MonoGame.Extended.Graphics.Effects.DefaultEffect.Texture">
+            <summary>
+                Gets or sets the material <see cref="T:Microsoft.Xna.Framework.Graphics.Texture2D" />.
+            </summary>
+            <value>
+                The material <see cref="T:Microsoft.Xna.Framework.Graphics.Texture2D" />.
+            </value>
+        </member>
+        <member name="P:MonoGame.Extended.Graphics.Effects.DefaultEffect.Alpha">
+            <summary>
+                Gets or sets the material color alpha.
+            </summary>
+            <remarks>
+                <para>
+                    The alpha channel uses the premultiplied (associated) representation. This means that the RGB components of a
+                    color represent
+                    the color of the object of pixel, adjusted for its opacity by multiplication of <see cref="P:MonoGame.Extended.Graphics.Effects.DefaultEffect.Alpha" />.
+                </para>
+            </remarks>
+        </member>
+        <member name="P:MonoGame.Extended.Graphics.Effects.DefaultEffect.TextureEnabled">
+            <summary>
+                Gets or sets whether texturing is enabled.
+            </summary>
+        </member>
+        <member name="P:MonoGame.Extended.Graphics.Effects.DefaultEffect.VertexColorEnabled">
+            <summary>
+                Gets or sets whether vertex color is enabled.
+            </summary>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Effects.DefaultEffect.#ctor(Microsoft.Xna.Framework.Graphics.GraphicsDevice)">
+            <summary>
+                Initializes a new instance of the <see cref="T:MonoGame.Extended.Graphics.Effects.DefaultEffect" /> class.
+            </summary>
+            <param name="graphicsDevice">The graphics device.</param>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Effects.DefaultEffect.#ctor(Microsoft.Xna.Framework.Graphics.GraphicsDevice,System.Byte[])">
+            <summary>
+                Initializes a new instance of the <see cref="T:MonoGame.Extended.Graphics.Effects.DefaultEffect" /> class.
+            </summary>
+            <param name="graphicsDevice">The graphics device.</param>
+            <param name="byteCode">The byte code of the shader program.</param>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Effects.DefaultEffect.#ctor(Microsoft.Xna.Framework.Graphics.Effect)">
+            <summary>
+                Initializes a new instance of the <see cref="T:MonoGame.Extended.Graphics.Effects.DefaultEffect" /> class.
+            </summary>
+            <param name="cloneSource">The clone source.</param>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Effects.DefaultEffect.OnApply">
+            <summary>
+                Computes derived parameter values immediately before applying the effect.
+            </summary>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Effects.DefaultEffect.UpdateMaterialColor">
+            <summary>
+                Updates the material color parameters associated with this <see cref="T:MonoGame.Extended.Graphics.Effects.DefaultEffect" />.
+            </summary>
+        </member>
+        <member name="T:MonoGame.Extended.Graphics.Effects.EffectResource">
+            <summary>
+                Reperesents the bytecode of an <see cref="T:Microsoft.Xna.Framework.Graphics.Effect" /> that is encapsulated inside a compiled assembly.
+            </summary>
+            <remarks>
+                <para>
+                    Files that are encapsulated inside a compiled assembly are commonly known as Manifiest or embedded resources.
+                    Since embedded resources are added to the assembly at compiled time, they can not be accidentally deleted or
+                    misplaced. However, if the file needs to be changed, the assembly will need to be re-compiled with the changed
+                    file.
+                </para>
+                <para>
+                    To add an embedded resource file to an assembly, first add it to the project and then change the Build Action
+                    in the Properties of the file to <code>Embedded Resource</code>. The next time the project is compiled, the
+                    compiler will add the file to the assembly as an embedded resource. The compiler adds namespace(s) to the
+                    embedded resource so it matches with the path of where the file was added to the project.
+                </para>
+            </remarks>
+        </member>
+        <member name="P:MonoGame.Extended.Graphics.Effects.EffectResource.DefaultEffect">
+            <summary>
+                Gets the <see cref="T:MonoGame.Extended.Graphics.Effects.DefaultEffect" /> embedded into the MonoGame.Extended.Graphics library.
+            </summary>
+        </member>
+        <member name="P:MonoGame.Extended.Graphics.Effects.EffectResource.Bytecode">
+            <summary>
+                Gets the bytecode of the <see cref="T:Microsoft.Xna.Framework.Graphics.Effect" /> file.
+            </summary>
+            <value>
+                The bytecode of the <see cref="T:Microsoft.Xna.Framework.Graphics.Effect" /> file.
+            </value>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Effects.EffectResource.#ctor(System.String,System.Reflection.Assembly)">
+            <summary>
+                Initializes a new instance of the <see cref="T:MonoGame.Extended.Graphics.Effects.EffectResource" /> class.
+            </summary>
+            <param name="resourceName">The name of the embedded resource. This must include the namespace(s).</param>
+            <param name="assembly">The assembly which the embedded resource is apart of.</param>
+        </member>
+        <member name="T:MonoGame.Extended.Graphics.Effects.ITextureEffect">
+            <summary>
+                Defines an <see cref="T:Microsoft.Xna.Framework.Graphics.Effect" /> that uses a <see cref="T:Microsoft.Xna.Framework.Graphics.Texture2D" />.
+            </summary>
+        </member>
+        <member name="P:MonoGame.Extended.Graphics.Effects.ITextureEffect.Texture">
+            <summary>
+                Gets or sets the <see cref="T:Microsoft.Xna.Framework.Graphics.Texture2D" />.
+            </summary>
+            <value>
+                The <see cref="T:Microsoft.Xna.Framework.Graphics.Texture2D" />.
+            </value>
+        </member>
+        <member name="T:MonoGame.Extended.Graphics.Effects.MatrixChainEffect">
+            <summary>
+                An <see cref="T:Microsoft.Xna.Framework.Graphics.Effect" /> that uses the standard chain of matrix transformations to represent a 3D object on a 2D
+                monitor.
+            </summary>
+            <seealso cref="T:Microsoft.Xna.Framework.Graphics.Effect" />
+            <seealso cref="T:Microsoft.Xna.Framework.Graphics.IEffectMatrices" />
+        </member>
+        <member name="F:MonoGame.Extended.Graphics.Effects.MatrixChainEffect.DirtyWorldViewProjectionBitMask">
+            <summary>
+                The bitmask for use with <see cref="F:MonoGame.Extended.Graphics.Effects.MatrixChainEffect.Flags"/> indicating wether <see cref="P:MonoGame.Extended.Graphics.Effects.MatrixChainEffect.World"/>, <see cref="P:MonoGame.Extended.Graphics.Effects.MatrixChainEffect.View"/>, or <see cref="P:MonoGame.Extended.Graphics.Effects.MatrixChainEffect.Projection"/> has changed in the last frame.
+            </summary>
+        </member>
+        <member name="F:MonoGame.Extended.Graphics.Effects.MatrixChainEffect.UseDefaultProjectionBitMask">
+            <summary>
+                The bitmask for use with <see cref="F:MonoGame.Extended.Graphics.Effects.MatrixChainEffect.Flags"/> indicating wether to use a default projection matrix or a custom projection matrix.
+            </summary>
+        </member>
+        <member name="F:MonoGame.Extended.Graphics.Effects.MatrixChainEffect.Flags">
+            <summary>
+                The dirty flags associated with this <see cref="T:MonoGame.Extended.Graphics.Effects.MatrixChainEffect"/>.
+            </summary>
+        </member>
+        <member name="P:MonoGame.Extended.Graphics.Effects.MatrixChainEffect.World">
+            <summary>
+                Gets or sets the model-to-world <see cref="T:Microsoft.Xna.Framework.Matrix" />.
+            </summary>
+            <value>
+                The model-to-world <see cref="T:Microsoft.Xna.Framework.Matrix" />.
+            </value>
+        </member>
+        <member name="P:MonoGame.Extended.Graphics.Effects.MatrixChainEffect.View">
+            <summary>
+                Gets or sets the world-to-view <see cref="T:Microsoft.Xna.Framework.Matrix" />.
+            </summary>
+            <value>
+                The world-to-view <see cref="T:Microsoft.Xna.Framework.Matrix" />.
+            </value>
+        </member>
+        <member name="P:MonoGame.Extended.Graphics.Effects.MatrixChainEffect.Projection">
+            <summary>
+                Gets or sets the view-to-projection <see cref="T:Microsoft.Xna.Framework.Matrix" />.
+            </summary>
+            <value>
+                The view-to-projection <see cref="T:Microsoft.Xna.Framework.Matrix" />.
+            </value>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Effects.MatrixChainEffect.#ctor(Microsoft.Xna.Framework.Graphics.GraphicsDevice,System.Byte[])">
+            <summary>
+                Initializes a new instance of the <see cref="T:MonoGame.Extended.Graphics.Effects.MatrixChainEffect" /> class.
+            </summary>
+            <param name="graphicsDevice">The graphics device.</param>
+            <param name="byteCode">The effect code.</param>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Effects.MatrixChainEffect.#ctor(Microsoft.Xna.Framework.Graphics.Effect)">
+            <summary>
+                Initializes a new instance of the <see cref="T:MonoGame.Extended.Graphics.Effects.MatrixChainEffect" /> class.
+            </summary>
+            <param name="cloneSource">The clone source.</param>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Effects.MatrixChainEffect.SetWorld(Microsoft.Xna.Framework.Matrix@)">
+            <summary>
+                Sets the model-to-world <see cref="T:Microsoft.Xna.Framework.Matrix" />.
+            </summary>
+            <param name="world">The model-to-world <see cref="T:Microsoft.Xna.Framework.Matrix" />.</param>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Effects.MatrixChainEffect.SetView(Microsoft.Xna.Framework.Matrix@)">
+            <summary>
+                Sets the world-to-view <see cref="T:Microsoft.Xna.Framework.Matrix" />.
+            </summary>
+            <param name="view">The world-to-view <see cref="T:Microsoft.Xna.Framework.Matrix" />.</param>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Effects.MatrixChainEffect.SetProjection(Microsoft.Xna.Framework.Matrix@)">
+            <summary>
+                Sets the view-to-projection <see cref="T:Microsoft.Xna.Framework.Matrix" />.
+            </summary>
+            <param name="projection">The view-to-projection <see cref="T:Microsoft.Xna.Framework.Matrix" />.</param>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.Effects.MatrixChainEffect.OnApply">
+            <summary>
+                Computes derived parameter values immediately before applying the effect.
+            </summary>
+        </member>
+        <member name="T:MonoGame.Extended.Graphics.IMatrixChainEffect">
+            <summary>
+                Defines an <see cref="T:Microsoft.Xna.Framework.Graphics.Effect" /> that uses the standard chain of matrix transformations to represent a 3D object on
+                a 2D monitor.
+            </summary>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.IMatrixChainEffect.SetWorld(Microsoft.Xna.Framework.Matrix@)">
+            <summary>
+                Sets the model-to-world <see cref="T:Microsoft.Xna.Framework.Matrix" />.
+            </summary>
+            <param name="world">The model-to-world <see cref="T:Microsoft.Xna.Framework.Matrix" />.</param>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.IMatrixChainEffect.SetView(Microsoft.Xna.Framework.Matrix@)">
+            <summary>
+                Sets the world-to-view <see cref="T:Microsoft.Xna.Framework.Matrix" />.
+            </summary>
+            <param name="view">The world-to-view <see cref="T:Microsoft.Xna.Framework.Matrix" />.</param>
+        </member>
+        <member name="M:MonoGame.Extended.Graphics.IMatrixChainEffect.SetProjection(Microsoft.Xna.Framework.Matrix@)">
+            <summary>
+                Sets the view-to-projection <see cref="T:Microsoft.Xna.Framework.Matrix" />.
+            </summary>
+            <param name="projection">The view-to-projection <see cref="T:Microsoft.Xna.Framework.Matrix" />.</param>
+        </member>
+    </members>
+</doc>

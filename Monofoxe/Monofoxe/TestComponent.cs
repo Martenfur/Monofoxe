@@ -11,9 +11,10 @@ namespace Monofoxe
 		
 		public Vector2 Position;
 
+		public override string Tag => "test";
+
 		public TestComponent(Vector2 pos)
 		{
-			Tag = "test";
 			Position = pos;
 		}
 
