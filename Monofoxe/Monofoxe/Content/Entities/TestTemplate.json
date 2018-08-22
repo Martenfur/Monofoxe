@@ -1,0 +1,19 @@
+﻿{
+	"tag": "ball",
+	"components": 
+	[
+		{
+			"tag": "collision",
+			"maskR": 32
+		},
+		{
+			"tag": "movement",
+			"position": 
+			{
+				"x": 16, 
+				"y": 45
+			},
+			"spr": "Resources.Sprites.SpritesDefault.Bench"
+		}
+	]
+}

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Monofoxe.Engine.ECS
 {
@@ -145,17 +146,7 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Returns component with given tag.
 		/// </summary>
-		public Component this[string tag]
-		{
-			get
-			{
-				if (_components.ContainsKey(tag))
-				{
-					return _components[tag];
-				}
-				return null;
-			}
-		}
+		public Component this[string tag] => _components[tag];
 
 
 		/// <summary>
@@ -170,7 +161,7 @@ namespace Monofoxe.Engine.ECS
 					return (T)component.Value;
 				}
 			}
-			return default(T);
+			throw(new Exception("Entity doesn't contain this component!"));
 		}
 
 		

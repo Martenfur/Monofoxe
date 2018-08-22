@@ -276,14 +276,31 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Returns list of components with given tag.
 		/// </summary>
-		public static List<Component> GetComponentList(string tag)
+		public static List<Component> GetComponentList(string tag, List<Component> components)
 		{
-			if (_components.ContainsKey(tag))
+			var list = new List<Component>();
+
+			foreach(Component component in components)
 			{
-				return _components[tag];
+				list.Add(component.Owner[tag]);
 			}
 
-			return new List<Component>();
+			return list;
+		}
+
+
+		/// <summary>
+		/// Returns list of components with given tag.
+		/// </summary>
+		public static List<T> GetComponentList<T>(List<Component> components) where T : Component
+		{
+			var list = new List<T>();
+
+			foreach(Component component in components)
+			{
+				list.Add(component.Owner.GetComponent<T>());
+			}
+			return list;
 		}
 
 	}

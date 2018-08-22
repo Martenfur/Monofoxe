@@ -11,6 +11,11 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Audio\AudioMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Audio\Sound.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\BasicConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\RectangleConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\SpriteConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\Vector2Converter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\Vector3Converter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\ComponentSystemMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\Component.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\ISystem.cs" />

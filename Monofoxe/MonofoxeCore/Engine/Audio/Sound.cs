@@ -45,7 +45,7 @@ namespace Monofoxe.Engine.Audio
 			get;
 			private set;
 		}
-		private FMOD.Channel _channel; // Can't use out on properties. 
+		private FMOD.Channel _channel; // Can't use "out" on properties. 
 
 
 		#region Properties.

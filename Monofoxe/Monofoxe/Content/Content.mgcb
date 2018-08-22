@@ -41,3 +41,6 @@
 #begin Audio/Sounds/punch.wav
 /copy:Audio/Sounds/punch.wav
 
+#begin Entities/TestTemplate.json
+/copy:Entities/TestTemplate.json
+
