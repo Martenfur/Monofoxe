@@ -73,6 +73,16 @@ namespace Monofoxe
 			var mov = JsonConvert.DeserializeObject<CMovement>(testData["components"][1].ToString());
 
 			testSpr = mov.Spr;
+			var color = mov.PrettyBoi;
+
+			Console.WriteLine(
+				'#' 
+				+ color.R.ToString("X2") 
+				+ color.G.ToString("X2") 
+				+ color.B.ToString("X2") 
+				+ color.A.ToString("X2")  
+			);
+
 
 			ComponentSystemMgr.Systems.Add(new SCollision());
 			ComponentSystemMgr.Systems.Add(new TestSystem());

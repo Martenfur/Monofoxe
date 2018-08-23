@@ -30,8 +30,8 @@ namespace Monofoxe.Engine.Converters
 
 			var x = GetInt(o, "x");
 			var y = GetInt(o, "y");
-			var width = GetInt(o, "width");
-			var height = GetInt(o, "height");
+			var width = GetInt(o, "w");
+			var height = GetInt(o, "h");
 
 			return new Rectangle(x, y, width, height);
 		}

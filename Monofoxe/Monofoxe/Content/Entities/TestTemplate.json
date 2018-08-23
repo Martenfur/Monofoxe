@@ -10,10 +10,12 @@
 			"tag": "movement",
 			"position": 
 			{
-				"x": 16, 
-				"y": 45
+				"x": 16.5, 
+				"y": 45.12
 			},
-			"spr": "Resources.Sprites.SpritesDefault.Bench"
+			"spr": "Resources.Sprites.SpritesDefault.Bench",
+			"prettyBoi": "#05DAFF"
+
 		}
 	]
 }
