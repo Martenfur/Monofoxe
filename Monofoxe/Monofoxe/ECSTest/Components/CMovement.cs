@@ -16,6 +16,8 @@ namespace Monofoxe.ECSTest.Components
 
 		[JsonConverter(typeof(SpriteConverter))]
 		public Sprite Spr = SpritesDefault.Bench;
-		
+
+		[JsonConverter(typeof(ColorConverter))]
+		public Color PrettyBoi = Color.Blue;
 	}
 }

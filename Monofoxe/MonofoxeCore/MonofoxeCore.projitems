@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Audio\AudioMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Audio\Sound.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\BasicConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\ColorConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\RectangleConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\SpriteConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\Vector2Converter.cs" />
