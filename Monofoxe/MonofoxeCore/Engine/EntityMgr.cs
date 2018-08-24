@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine;
 using System.Diagnostics;
 using Monofoxe.Engine.ECS;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.IO;
 
 namespace Monofoxe.Engine
 {
@@ -32,6 +35,11 @@ namespace Monofoxe.Engine
 		/// Counts time until next fixed update.
 		/// </summary>
 		private static double _fixedUpdateTimer;
+
+
+		private const string _entityTemplatesLocation = "Content/Entities";
+		private static Dictionary<string, Component[]> _entityTemplates = new Dictionary<string, Component[]>();
+
 
 
 
@@ -185,7 +193,27 @@ namespace Monofoxe.Engine
 		internal static void AddEntity(Entity obj) => 
 			_newEntities.Add(obj);
 		
-		
+
+
+		private static void LoadEntityTemplates()
+		{
+			//TODO: Load through pipeline.
+			var info = new DirectoryInfo(_entityTemplatesLocation);
+
+			foreach(FileInfo file in info.GetFiles())
+			{
+				
+			}
+
+			var raw = File.ReadAllText("Content/Entities/TestTemplate.json");
+			JToken testData = JObject.Parse(raw);
+			
+			//var mov = JsonConvert.DeserializeObject<CMovement>(testData["components"]["movement"].ToString());
+		}
+
+
+
+
 
 		#region User functions. 
 
@@ -262,6 +290,23 @@ namespace Monofoxe.Engine
 
 
 		#region ECS user functions.
+
+		public static Entity CreateEntity(string tag)
+		{
+			if (_entityTemplates.ContainsKey(tag))
+			{
+				var entity = new Entity(tag);
+
+				foreach(Component component in _entityTemplates[tag])
+				{
+					entity.AddComponent((Component)component.Clone());
+				}
+				return entity;
+			}
+
+			return null;
+		}
+
 
 		/// Due to ECS fun, there may be lots of objects with same type, 
 		/// but different component sets. They differ only by their tag.

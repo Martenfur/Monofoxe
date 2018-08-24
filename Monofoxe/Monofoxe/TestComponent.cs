@@ -18,5 +18,8 @@ namespace Monofoxe
 			Position = pos;
 		}
 
+		public override object Clone() =>
+			new TestComponent(Position);
+		
 	}
 }

@@ -1,21 +1,20 @@
 ﻿{
 	"tag": "ball",
 	"components": 
-	[
+	{
+		"Monofoxe.ECSTest.Components.CCollision":
 		{
-			"tag": "collision",
 			"maskR": 32
 		},
+		"Monofoxe.ECSTest.Components.CMovement":
 		{
-			"tag": "movement",
-			"position": 
+			"position":
 			{
 				"x": 16.5, 
 				"y": 45.12
 			},
-			"spr": "Resources.Sprites.SpritesDefault.Bench",
+			"spr": "Resources.Sprites.SpritesDefault.Basket",
 			"prettyBoi": "#05DAFF"
-
 		}
-	]
+	}
 }

@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Audio\AudioMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Audio\Sound.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\ContentReaders\EntityTemplateReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\BasicConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\ColorConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\RectangleConverter.cs" />
@@ -51,6 +52,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Engine\Audio\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Engine\ContentReaders\" />
   </ItemGroup>
 </Project>

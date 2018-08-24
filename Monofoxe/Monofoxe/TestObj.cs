@@ -19,7 +19,7 @@ using MonoGame.Extended.Tiled;
 using Newtonsoft.Json;
 using System.IO;
 using Newtonsoft.Json.Linq;
-
+using Microsoft.Xna.Framework.Content;
 
 namespace Monofoxe
 {
@@ -65,25 +65,21 @@ namespace Monofoxe
 		{
 				
 			//map.ObjectLayers[0].Objects[0];
-			
+			/*
 			var raw = File.ReadAllText("Content/Entities/TestTemplate.json");
 			JToken testData = JObject.Parse(raw);
-			Console.WriteLine(testData["components"][1]);
 			
-			var mov = JsonConvert.DeserializeObject<CMovement>(testData["components"][1].ToString());
-
-			testSpr = mov.Spr;
-			var color = mov.PrettyBoi;
-
-			Console.WriteLine(
-				'#' 
-				+ color.R.ToString("X2") 
-				+ color.G.ToString("X2") 
-				+ color.B.ToString("X2") 
-				+ color.A.ToString("X2")  
-			);
 
 
+			var mov = JsonConvert.DeserializeObject<CMovement>(testData["components"]["movement"].ToString());
+			*/
+
+			ContentManager _content = new ContentManager(GameMgr.Game.Services);
+			
+			var obj = _content.Load<JObject>("Content/Entities/TestTemplate");
+			Console.WriteLine("BOI:" + obj.ToString());
+
+			
 			ComponentSystemMgr.Systems.Add(new SCollision());
 			ComponentSystemMgr.Systems.Add(new TestSystem());
 			

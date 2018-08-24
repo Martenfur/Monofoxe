@@ -4,6 +4,8 @@ using Newtonsoft.Json.Linq;
 using Microsoft.Xna.Framework;
 using System.Globalization;
 
+//TODO: Comment, comment, comment. :S
+
 namespace Monofoxe.Engine.Converters
 {
 	public class ColorConverter : BasicConverter
