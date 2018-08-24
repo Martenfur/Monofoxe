@@ -145,7 +145,7 @@ namespace Monofoxe.Utils
 		}
 		
 		/// <summary>
-		/// Checks if two linew cross. Returns 1 if lines cross, 0 if not and 2 if lines overlap.
+		/// Checks if two lines cross. Returns 1 if lines cross, 0 if not and 2 if lines overlap.
 		/// </summary>
 		public static int LinesCross(Vector2 line1Pt1, Vector2 line1Pt2, Vector2 line2Pt1, Vector2 line2Pt2)
 		{

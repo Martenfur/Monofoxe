@@ -1,5 +1,4 @@
 ﻿using Monofoxe.Engine.ECS;
-using Microsoft.Xna.Framework;
 
 namespace Monofoxe.ECSTest.Components
 {
@@ -8,5 +7,13 @@ namespace Monofoxe.ECSTest.Components
 		public float MaskR = 32;
 
 		public override string Tag => "collision";
+
+		public override object Clone()
+		{
+			var component = new CCollision();
+			component.MaskR = MaskR;
+			
+			return component;
+		}
 	}
 }
