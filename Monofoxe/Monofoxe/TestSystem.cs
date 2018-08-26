@@ -8,12 +8,12 @@ namespace Monofoxe
 {
 	class TestSystem : ISystem, ISystemDrawGUIEvents
 	{
-		public string Tag => "test";
+		public string Tag => "test1";
 
 		
 		public void Create(Component component)
 		{
-			((TestComponent)component).Position += Vector2.One * 32;
+		//	((TestComponent)component).Position += Vector2.One * 32;
 		}
 
 

@@ -196,7 +196,6 @@ namespace Monofoxe.Engine
 
 		public static void LoadEntityTemplates()
 		{
-			//TODO: Load through pipeline.
 			var info = AssetMgr.GetAssetPaths(AssetMgr.EntityTemplatesDir);
 
 			_entityTemplatesContent.RootDirectory = AssetMgr.ContentDir;

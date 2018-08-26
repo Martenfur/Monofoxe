@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="ECSTest\Components\CCollision.cs" />
     <Compile Include="ECSTest\Components\CMovement.cs" />
+    <Compile Include="ECSTest\Components\CTest.cs" />
     <Compile Include="ECSTest\Systems\SCollision.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Program.cs" />
