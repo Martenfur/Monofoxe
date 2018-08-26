@@ -6,7 +6,7 @@
 /platform:DesktopGL
 /config:
 /profile:Reach
-/compress:True
+/compress:False
 
 #-------------------------------- References --------------------------------#
 
@@ -41,7 +41,7 @@
 /build:Entities/TestTemplate.json
 
 #begin Content.mgcb
-/importer:MGCBImporter
+/importer:AssetInfoImporter
 /processor:PassThroughProcessor
 /build:Content.mgcb
 

@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Monofoxe.Engine.Audio;
-using MonoGame.AssetInfo;
 using System.Collections.Generic;
 using System;
 using System.IO;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Monofoxe.Engine
 {
@@ -48,11 +49,10 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// List of all game ssets.
 		/// </summary>
-		public static IReadOnlyList<AssetInfo> AssetInfo;
+		public static IReadOnlyCollection<string> AssetPaths;
 
 		internal static void Init() =>
-			AssetInfo = GameMgr.Game.Content.LoadMGCB(ContentDir);
-
+			AssetPaths = GameMgr.Game.Content.Load<string[]>(ContentDir);
 
 		public static List<string> GetAssetPaths(string path = "")
 		{
@@ -65,19 +65,19 @@ namespace Monofoxe.Engine
 				{
 					path += '/';
 				}
-				foreach(AssetInfo info in AssetInfo)
+				foreach(string info in AssetPaths)
 				{
-					if (info.OutputPath.StartsWith(path))
+					if (info.StartsWith(path))
 					{
-						list.Add(info.OutputPath);
+						list.Add(info);
 					}
 				}
 			}
 			else
 			{
-				foreach(AssetInfo info in AssetInfo)
+				foreach(string info in AssetPaths)
 				{
-					list.Add(info.OutputPath);
+					list.Add(info);
 				}
 			}
 
