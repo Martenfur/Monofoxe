@@ -11,7 +11,7 @@ namespace Monofoxe
 	{
 		public Game1()
 		{
-			Content.RootDirectory = GameMgr.ContentDir;
+			Content.RootDirectory = AssetMgr.ContentDir;
 			GameMgr.Init(this);
 		}
 
@@ -35,8 +35,9 @@ namespace Monofoxe
 		protected override void LoadContent()
 		{
 			Resources.Sprites.SpritesDefault.Load();	
-			Resources.Fonts.Load(Content);
-			Resources.Effects.Load(Content);
+			Resources.Fonts.Load();
+			Resources.Effects.Load();
+			EntityMgr.LoadEntityTemplates();
 			DrawMgr.Init(GraphicsDevice);
 		}
 

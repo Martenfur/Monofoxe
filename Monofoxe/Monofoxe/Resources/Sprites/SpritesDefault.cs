@@ -90,7 +90,7 @@ namespace Resources.Sprites
 		public static void Load()
 		{
 			Loaded = true;
-			var graphicsPath = GameMgr.ContentDir + '/' + GameMgr.GraphicsDir +  '/' + _groupName;
+			var graphicsPath = AssetMgr.ContentDir + '/' + AssetMgr.GraphicsDir +  '/' + _groupName;
 			var sprites = _content.Load<Dictionary<string, Sprite>>(graphicsPath);
 			
 			#region Sprite constructors.

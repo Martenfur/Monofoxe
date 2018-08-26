@@ -1,15 +1,10 @@
 ﻿using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
-using System;
-using System.Collections.Generic;
 
-namespace Pipefoxe.SpriteGroup
+namespace Pipefoxe.EntityTemplate
 {
 	/// <summary>
-	/// Atlas writer. Gets sprite data from processor and writes it into a file. 
 	/// </summary>
 	[ContentTypeWriter]
 	public class EntityTemplateWriter : ContentTypeWriter<byte[]>

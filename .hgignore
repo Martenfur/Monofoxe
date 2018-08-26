@@ -35,3 +35,4 @@ _ReSharper*\*
 desktop.ini
 *\.vs\*
 temp\*
+Monofoxe\packages\*

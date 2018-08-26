@@ -1,13 +1,17 @@
 ﻿{
-	"tag": "test",
+	"tag": "ball",
 	"components": 
 	{
+		"Monofoxe.ECSTest.Components.CCollision":
+		{
+			"maskR": 8
+		},
 		"Monofoxe.ECSTest.Components.CMovement":
 		{
 			"position":
 			{
-				"x": 16.5, 
-				"y": 45.12
+				"x": 0, 
+				"y": 0
 			},
 			"spr": "Resources.Sprites.SpritesDefault.Basket",
 			"prettyBoi": "#05DAFF"

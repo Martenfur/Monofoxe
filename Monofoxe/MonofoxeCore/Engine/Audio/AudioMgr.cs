@@ -18,10 +18,10 @@ namespace Monofoxe.Engine.Audio
 	/// </summary>
 	public static class AudioMgr
 	{
-		public static FMOD.System FMODSystem;// {get; private set;}
+		public static FMOD.System FMODSystem;
 		public static FMOD.RESULT LastResult {get; internal set;}
 
-		private static string _audioPath = "Content/Audio/";
+		private static string _audioPath = AssetMgr.ContentDir + '/' + AssetMgr.AudioDir + '/'; // TODO: Remove this.
 		private static string _sfxExtension = ".wav";
 		private static string _musicExtension = ".ogg";
 

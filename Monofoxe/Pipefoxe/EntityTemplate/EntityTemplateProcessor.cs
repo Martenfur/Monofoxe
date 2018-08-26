@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Content.Pipeline;
 
-namespace Pipefoxe.SpriteGroup
+namespace Pipefoxe.EntityTemplate
 {
 	[ContentProcessor(DisplayName = "Entity Template Processor - Monofoxe")]
 	public class EntityTemplateProcessor : ContentProcessor<byte[], byte[]>
@@ -12,9 +12,7 @@ namespace Pipefoxe.SpriteGroup
 
 			for(var i = 1; i < bytes.Length; i += 1)
 			{
-				var incI = i - 1;
-				
-				encodedBytes[i] = (byte)((bytes[i]) ^ (bytes[incI]));
+				encodedBytes[i] = (byte)((bytes[i]) ^ (bytes[i - 1]));
 			}
 
 			return encodedBytes;

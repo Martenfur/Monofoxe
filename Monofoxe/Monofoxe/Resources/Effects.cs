@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Resources.Sprites;
 using Monofoxe.Engine.Drawing;
+using Monofoxe.Engine;
 
 namespace Resources
 {
@@ -11,12 +12,12 @@ namespace Resources
 		
 		public static Effect Effect;
 		
-		public static void Load(ContentManager content)
+		public static void Load()
 		{
-			_content = new ContentManager(content.ServiceProvider);
-			_content.RootDirectory = content.RootDirectory;
+			_content = new ContentManager(GameMgr.Game.Services);
+			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.EffectsDir;
 			
-			Effect = _content.Load<Effect>("Effects/effect");
+			Effect = _content.Load<Effect>("effect");
 		}
 
 		public static void Unload()

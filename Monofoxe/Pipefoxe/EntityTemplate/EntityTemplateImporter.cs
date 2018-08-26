@@ -14,13 +14,11 @@ using System.IO;
  * To add library to pipeline project, reference
  * dll with project name.
  */
-namespace Pipefoxe.SpriteGroup
+namespace Pipefoxe.EntityTemplate
 {
 	/// <summary>
-	/// Sprite group importer. Parses json config, and loads textures,
-	/// which will be passed to AtlasProcessor.
 	/// </summary>
-	[ContentImporter(".entity", DefaultProcessor = "EntityTempleteProcessor", 
+	[ContentImporter(".json", DefaultProcessor = "EntityTemplateProcessor", 
 	DisplayName = "Entity Template Importer - Monofoxe")]
 	public class EntityTemplateImporter : ContentImporter<byte[]>
 	{
