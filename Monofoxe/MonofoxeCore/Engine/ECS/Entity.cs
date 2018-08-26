@@ -146,7 +146,8 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Returns component with given tag.
 		/// </summary>
-		public Component this[string tag] => _components[tag];
+		public Component this[string tag] => 
+			_components[tag];
 
 
 		/// <summary>
