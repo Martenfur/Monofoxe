@@ -9,6 +9,7 @@
     <Import_RootNamespace>Monofoxe</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\AssetMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Audio\AudioMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Audio\Sound.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ContentReaders\EntityTemplateReader.cs" />
@@ -20,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\Vector3Converter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\ComponentSystemMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\Component.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\EntityTemplate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\ISystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ContentReaders\SpriteGroupReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Camera.cs" />

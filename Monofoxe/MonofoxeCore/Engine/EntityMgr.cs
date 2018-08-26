@@ -9,6 +9,7 @@ using Monofoxe.Engine.ECS;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO;
+using Microsoft.Xna.Framework.Content;
 
 namespace Monofoxe.Engine
 {
@@ -37,10 +38,8 @@ namespace Monofoxe.Engine
 		private static double _fixedUpdateTimer;
 
 
-		private const string _entityTemplatesLocation = "Content/Entities";
-		private static Dictionary<string, Component[]> _entityTemplates = new Dictionary<string, Component[]>();
-
-
+		private static Dictionary<string, EntityTemplate> _entityTemplates = new Dictionary<string, EntityTemplate>();
+		private static ContentManager _entityTemplatesContent = new ContentManager(GameMgr.Game.Services);
 
 
 		internal static void Update(GameTime gameTime)
@@ -195,20 +194,18 @@ namespace Monofoxe.Engine
 		
 
 
-		private static void LoadEntityTemplates()
+		public static void LoadEntityTemplates()
 		{
 			//TODO: Load through pipeline.
-			var info = new DirectoryInfo(_entityTemplatesLocation);
+			var info = AssetMgr.GetAssetPaths(AssetMgr.EntityTemplatesDir);
 
-			foreach(FileInfo file in info.GetFiles())
+			_entityTemplatesContent.RootDirectory = AssetMgr.ContentDir;
+
+			foreach(string entityPath in info)
 			{
-				
+				var template = _entityTemplatesContent.Load<EntityTemplate>(entityPath);
+				_entityTemplates.Add(template.Tag, template);
 			}
-
-			var raw = File.ReadAllText("Content/Entities/TestTemplate.json");
-			JToken testData = JObject.Parse(raw);
-			
-			//var mov = JsonConvert.DeserializeObject<CMovement>(testData["components"]["movement"].ToString());
 		}
 
 
@@ -297,7 +294,7 @@ namespace Monofoxe.Engine
 			{
 				var entity = new Entity(tag);
 
-				foreach(Component component in _entityTemplates[tag])
+				foreach(Component component in _entityTemplates[tag].Components)
 				{
 					entity.AddComponent((Component)component.Clone());
 				}

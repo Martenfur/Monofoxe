@@ -59,26 +59,10 @@ namespace Monofoxe
 
 		Entity entity;
 
-		Sprite testSpr;
+		Sprite testSpr = SpritesDefault.Chiggin;
 
 		public TestObj()
 		{
-				
-			//map.ObjectLayers[0].Objects[0];
-			/*
-			var raw = File.ReadAllText("Content/Entities/TestTemplate.json");
-			JToken testData = JObject.Parse(raw);
-			
-
-
-			var mov = JsonConvert.DeserializeObject<CMovement>(testData["components"]["movement"].ToString());
-			*/
-
-			ContentManager _content = new ContentManager(GameMgr.Game.Services);
-			
-			var obj = _content.Load<JObject>("Content/Entities/TestTemplate");
-			Console.WriteLine("BOI:" + obj.ToString());
-
 			
 			ComponentSystemMgr.Systems.Add(new SCollision());
 			ComponentSystemMgr.Systems.Add(new TestSystem());
@@ -143,7 +127,7 @@ namespace Monofoxe
 
 			cam1.PortPos.X = 600;
 			cam1.BackgroundColor = Color.DarkSeaGreen;
-			cam1.Enabled = false;
+			cam1.Enabled = true;
 
 			RasterizerState rasterizerState = new RasterizerState(); // Do something with it, I guees.
 			rasterizerState.CullMode = CullMode.None;
@@ -174,9 +158,7 @@ namespace Monofoxe
 			
 			if (Input.CheckButtonPress(Buttons.A))
 			{
-				//snd1.Play(group);
-				entity = Entities.CreateSomething();
-				((TestComponent)entity["test"]).Position = new Vector2(32, 32);
+				snd1.Play(group);
 			}
 			if (Input.CheckButtonPress(Buttons.S))
 			{
@@ -227,9 +209,9 @@ namespace Monofoxe
 
 			if (Input.CheckButton(Buttons.MouseRight))
 			{
-				var ball = Entities.CreateBall();
+				var ball = EntityMgr.CreateEntity("ball");
 				ball.GetComponent<CMovement>().Position = Input.MousePos;
-				ball.GetComponent<CCollision>().MaskR = r.Next(32, 64);
+				//ball.GetComponent<CCollision>().MaskR = r.Next(32, 64);
 				Console.WriteLine(EntityMgr.Count("ball"));
 			}
 			
@@ -335,7 +317,7 @@ namespace Monofoxe
 				DrawMgr.DrawSprite(testSpr, 0, p + Vector2.UnitX * i * 16, Vector2.One, i * 5, new Color(Color.White, 0.5f));
 			
 			DrawMgr.CurrentColor = Color.Black;
-			DrawMgr.CurrentFont = Fonts.Def;
+			DrawMgr.CurrentFont = Fonts.Arial;
 			str += Input.KeyboardString;
 			DrawMgr.DrawText(str, 400, 300);
 		}

@@ -1,38 +1,39 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using Monofoxe.Engine.Drawing;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Microsoft.Xna.Framework.Content;
 using System.Text;
 using System;
-using System.IO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Monofoxe.Engine.ECS;
+using System.Collections.Generic;
 
 namespace Monofoxe.Engine.ContentReaders
 {
 	/// <summary>
 	/// Reads sprite group file.
 	/// </summary>
-	internal class EntityTemplateReader : ContentTypeReader<JObject>
+	internal class EntityTemplateReader : ContentTypeReader<EntityTemplate>
 	{
-		protected override JObject Read(ContentReader input, JObject existingInstance)
+		protected override EntityTemplate Read(ContentReader input, EntityTemplate existingInstance)
 		{
 			var l = input.ReadInt32();
 			var json = Decode(input.ReadBytes(l));
 
-			JToken testData = JObject.Parse(raw);
+			var entityData = JObject.Parse(json);
 			
-			var mov = JsonConvert.DeserializeObject<CMovement>(testData["components"]["movement"].ToString());
-			
-			return JObject.Parse(json);
+			var components = new List<Component>();
+
+			foreach(JProperty prop in ((JObject)entityData["components"]).Properties())
+			{
+				components.Add((Component)JsonConvert.DeserializeObject(prop.Value.ToString(), Type.GetType(prop.Name)));
+			}
+
+			return new EntityTemplate(entityData["tag"].ToString(), components.ToArray());
 		}
 
 
 		private string Decode(byte[] encodedBytes)
 		{
-			var bytes = new byte[l];
+			var bytes = new byte[encodedBytes.Length];
 
 			bytes[0] = encodedBytes[0];
 

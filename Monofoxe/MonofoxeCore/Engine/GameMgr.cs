@@ -1,22 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Monofoxe.Engine.Audio;
+using MonoGame.AssetInfo;
+using System.Collections.Generic;
 
 namespace Monofoxe.Engine
 {
 	public static class GameMgr
 	{
-		/// <summary>
-		/// Root directory of the game content.
-		/// </summary>
-		public static string ContentDir = "Content";
 		
-		/// <summary>
-		/// Root directory of the graphics.
-		/// NOTE: This directory is located inside ContentDir.
-		/// </summary>
-		public static string GraphicsDir = "Graphics";
-
 		/// <summary>
 		/// Main Game class.
 		/// </summary>
@@ -90,7 +82,6 @@ namespace Monofoxe.Engine
 		}
 		private static double _minGameSpeed = 30;
 
-
 		
 		/// <summary>
 		/// Counts frames per second.
@@ -120,13 +111,14 @@ namespace Monofoxe.Engine
 		public static void Init(Game game)
 		{
 			Game = game;
-			game.IsMouseVisible = true;
+			Game.IsMouseVisible = true;
 			
-			game.Window.TextInput += Input.TextInput;
+			Game.Window.TextInput += Input.TextInput;
 			Input.MaxGamepadCount = 2;
-
+			
 			WindowManager = new WindowMgr(game);
 
+			AssetMgr.Init();
 			AudioMgr.Init();
 		}
 

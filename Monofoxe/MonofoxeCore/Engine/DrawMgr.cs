@@ -765,11 +765,12 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static void DrawLine(float x1, float y1, float x2, float y2, Color c1, Color c2)
 		{
-			var vertices = new List<VertexPositionColorTexture>();
+			var vertices = new List<VertexPositionColorTexture>
+			{
+				new VertexPositionColorTexture(new Vector3(x1, y1, 0), c1, Vector2.Zero),
+				new VertexPositionColorTexture(new Vector3(x2, y2, 0), c2, Vector2.Zero)
+			};
 
-			vertices.Add(new VertexPositionColorTexture(new Vector3(x1, y1, 0), c1, Vector2.Zero));
-			vertices.Add(new VertexPositionColorTexture(new Vector3(x2, y2, 0), c2, Vector2.Zero));
-			
 			AddVertices(PipelineMode.OutlinePrimitives, null, vertices, new short[]{0, 1});
 		}
 
@@ -778,17 +779,18 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static void DrawLine(float x1, float y1, float x2, float y2, float w, Color c1, Color c2)
 		{
-			var vertices = new List<VertexPositionColorTexture>();
-
-			Vector3 normal = new Vector3(y2 - y1, x1 - x2, 0);
+			var normal = new Vector3(y2 - y1, x1 - x2, 0);
 			normal.Normalize(); // The result is a unit vector rotated by 90 degrees.
 			normal *= w / 2;
-			
-			vertices.Add(new VertexPositionColorTexture(new Vector3(x1, y1, 0) + normal, c1, Vector2.Zero));
-			vertices.Add(new VertexPositionColorTexture(new Vector3(x1, y1, 0) - normal, c1, Vector2.Zero));
-			vertices.Add(new VertexPositionColorTexture(new Vector3(x2, y2, 0) - normal, c2, Vector2.Zero));
-			vertices.Add(new VertexPositionColorTexture(new Vector3(x2, y2, 0) + normal, c2, Vector2.Zero));
-			
+
+			var vertices = new List<VertexPositionColorTexture>
+			{
+				new VertexPositionColorTexture(new Vector3(x1, y1, 0) + normal, c1, Vector2.Zero),
+				new VertexPositionColorTexture(new Vector3(x1, y1, 0) - normal, c1, Vector2.Zero),
+				new VertexPositionColorTexture(new Vector3(x2, y2, 0) - normal, c2, Vector2.Zero),
+				new VertexPositionColorTexture(new Vector3(x2, y2, 0) + normal, c2, Vector2.Zero)
+			};
+
 			AddVertices(PipelineMode.TrianglePrimitives, null, vertices, _rectangleIndices[1]); // Thick line is in fact just a rotated rectangle.
 		}
 
@@ -821,12 +823,14 @@ namespace Monofoxe.Engine
 		public static void DrawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, bool isOutline, Color c1, Color c2, Color c3)
 		{
 			int isOutlineInt = Convert.ToInt32(isOutline); // We need to convert true/false to 1/0 to be able to get different sets of values from arrays. 
-			
-			var vertices = new List<VertexPositionColorTexture>();
-			vertices.Add(new VertexPositionColorTexture(new Vector3(x1, y1, 0), c1, Vector2.Zero));
-			vertices.Add(new VertexPositionColorTexture(new Vector3(x2, y2, 0), c2, Vector2.Zero));
-			vertices.Add(new VertexPositionColorTexture(new Vector3(x3, y3, 0), c3, Vector2.Zero));
-			
+
+			var vertices = new List<VertexPositionColorTexture>
+			{
+				new VertexPositionColorTexture(new Vector3(x1, y1, 0), c1, Vector2.Zero),
+				new VertexPositionColorTexture(new Vector3(x2, y2, 0), c2, Vector2.Zero),
+				new VertexPositionColorTexture(new Vector3(x3, y3, 0), c3, Vector2.Zero)
+			};
+
 			AddVertices(_pipelineModes[isOutlineInt], null, vertices, _triangleIndices[isOutlineInt]);
 		}
 
@@ -861,13 +865,14 @@ namespace Monofoxe.Engine
 		{
 			int isOutlineInt = Convert.ToInt32(isOutline); // We need to convert true/false to 1/0 to be able to get different sets of values from arrays. 
 
-			var vertices = new List<VertexPositionColorTexture>();
-			
-			vertices.Add(new VertexPositionColorTexture(new Vector3(x1, y1, 0), c1, Vector2.Zero));
-			vertices.Add(new VertexPositionColorTexture(new Vector3(x2, y1, 0), c2, Vector2.Zero));
-			vertices.Add(new VertexPositionColorTexture(new Vector3(x2, y2, 0), c3, Vector2.Zero));
-			vertices.Add(new VertexPositionColorTexture(new Vector3(x1, y2, 0), c4, Vector2.Zero));
-			
+			var vertices = new List<VertexPositionColorTexture>
+			{
+				new VertexPositionColorTexture(new Vector3(x1, y1, 0), c1, Vector2.Zero),
+				new VertexPositionColorTexture(new Vector3(x2, y1, 0), c2, Vector2.Zero),
+				new VertexPositionColorTexture(new Vector3(x2, y2, 0), c3, Vector2.Zero),
+				new VertexPositionColorTexture(new Vector3(x1, y2, 0), c4, Vector2.Zero)
+			};
+
 			AddVertices(_pipelineModes[isOutlineInt], null, vertices, _rectangleIndices[isOutlineInt]);
 		}
 
