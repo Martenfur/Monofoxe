@@ -1,11 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using Monofoxe.Engine.Audio;
-using System.Collections.Generic;
-using System;
-using System.IO;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Monofoxe.Engine
 {
@@ -46,42 +39,50 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static string EntityTemplatesDir = "Entities";
 		
+
 		/// <summary>
 		/// List of all game ssets.
 		/// </summary>
-		public static IReadOnlyCollection<string> AssetPaths;
+		private static string[] _assetPaths;
+
+
 
 		internal static void Init() =>
-			AssetPaths = GameMgr.Game.Content.Load<string[]>(ContentDir);
-
-		public static List<string> GetAssetPaths(string path = "")
+			_assetPaths = GameMgr.Game.Content.Load<string[]>(ContentDir); // Maybe make new content instance?
+		
+		
+		
+		/// <summary>
+		/// Returns list of asset paths that match input path.
+		/// </summary>
+		public static string[] GetAssetPaths(string path = "")
 		{
-			var list = new List<string>();
 			path = path.Replace('\\', '/');	
 			
 			if (path != "")
 			{
+				var list = new List<string>();
+				
 				if (!path.EndsWith("/"))
 				{
 					path += '/';
 				}
-				foreach(string info in AssetPaths)
+				foreach(string info in _assetPaths)
 				{
 					if (info.StartsWith(path))
 					{
 						list.Add(info);
 					}
 				}
+				
+				return list.ToArray();
 			}
 			else
 			{
-				foreach(string info in AssetPaths)
-				{
-					list.Add(info);
-				}
+				var assetPathsCopy = new string[_assetPaths.Length];
+				_assetPaths.CopyTo(assetPathsCopy, 0);
+				return assetPathsCopy;
 			}
-
-			return list;
 		}
 		
 	}

@@ -61,9 +61,14 @@ namespace Monofoxe
 
 		Sprite testSpr = SpritesDefault.Chiggin;
 
+		Entity testEntity;
+
 		public TestObj()
 		{
 			
+			testEntity = EntityMgr.CreateEntity("test");
+
+
 			ComponentSystemMgr.Systems.Add(new SCollision());
 			ComponentSystemMgr.Systems.Add(new TestSystem());
 			
@@ -262,7 +267,7 @@ namespace Monofoxe
 				GameMgr.ExitGame();
 			}
 			
-			if (Input.CheckButtonPress(Buttons.F))
+			if (Input.CheckButtonPress(testEntity.GetComponent<CTest>().Button))//(Buttons.F))
 			{
 				GameMgr.WindowManager.SetFullScreen(!GameMgr.WindowManager.IsFullScreen);	
 			}

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Diagnostics;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Utils;
 
@@ -11,7 +10,7 @@ namespace Monofoxe.Engine
 
 	public static class DrawMgr
 	{
-		private const int BUFFER_SIZE = 320000;	
+		private const int BUFFER_SIZE = 320000;	// TODO: Figure out, if this value is actually ok.
 
 		public static SpriteBatch Batch {get; private set;}
 		public static GraphicsDevice Device {get; private set;}

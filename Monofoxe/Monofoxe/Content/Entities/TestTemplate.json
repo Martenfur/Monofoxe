@@ -2,7 +2,7 @@
 	"tag": "test",
 	"components": 
 	{
-		"Monofoxe.ECSTest.Components.CMovement":
+		"Monofoxe.ECSTest.Components.CTest":
 		{
 			"position":
 			{
@@ -10,7 +10,8 @@
 				"y": 45.12
 			},
 			"spr": "Resources.Sprites.SpritesDefault.Basket",
-			"prettyBoi": "#05DAFF"
+			"color": "#05DAFF",
+			"button": "L",
 		}
 	}
 }
