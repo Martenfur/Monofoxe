@@ -13,7 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonofoxeLib", "MonofoxeLib\
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		MonofoxeCore\MonofoxeCore.projitems*{4d25c21f-b886-428d-98eb-641b65e9a1a0}*SharedItemsImports = 4
 		MonofoxeCore\MonofoxeCore.projitems*{738d5ca0-fb57-45c1-a577-a99a0b6b051b}*SharedItemsImports = 13
 		MonofoxeCore\MonofoxeCore.projitems*{94153186-e889-4e3e-979f-4c35819c5c21}*SharedItemsImports = 4
 	EndGlobalSection

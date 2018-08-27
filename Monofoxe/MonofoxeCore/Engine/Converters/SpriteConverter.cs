@@ -1,6 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Reflection;
 
 namespace Monofoxe.Engine.Converters
 {
@@ -17,7 +18,7 @@ namespace Monofoxe.Engine.Converters
 			var fieldName = words[words.Length - 1];
 			var className = name.Substring(0, name.Length - fieldName.Length - 1);
 
-			var type = Type.GetType(className, true);
+			var type = Type.GetType(className + ", " + Assembly.GetEntryAssembly(), true);
 			
 			return type.GetField(fieldName).GetValue(null);
 		}

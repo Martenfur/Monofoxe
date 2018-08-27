@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Monofoxe.Engine.ECS;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Monofoxe.Engine.ContentReaders
 {
@@ -21,10 +22,17 @@ namespace Monofoxe.Engine.ContentReaders
 			var entityData = JObject.Parse(json);
 			
 			var components = new List<Component>();
+			var settings = new JsonSerializerSettings();
+			
 
 			foreach(JProperty prop in ((JObject)entityData["components"]).Properties())
 			{
-				components.Add((Component)JsonConvert.DeserializeObject(prop.Value.ToString(), Type.GetType(prop.Name)));
+				components.Add(
+					(Component)JsonConvert.DeserializeObject(
+						prop.Value.ToString(), 
+						Type.GetType(prop.Name + ", " + Assembly.GetEntryAssembly())
+					)
+				);
 			}
 
 			return new EntityTemplate(entityData["tag"].ToString(), components.ToArray());
