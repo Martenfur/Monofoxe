@@ -25,6 +25,49 @@ namespace Monofoxe.Engine.ECS
 		static Dictionary<string, List<Component>> _depthSortedComponents = new Dictionary<string, List<Component>>();
 
 
+		class ComponentCollection
+		{
+			Dictionary<string, List<Component>> _newComponents, _components;
+			
+			public ComponentCollection()
+			{
+				_newComponents = new Dictionary<string, List<Component>>();
+				_components = new Dictionary<string, List<Component>>();
+			}
+			
+
+			internal void AddComponent(Component component)
+			{
+				if (_newComponents.ContainsKey(component.Tag))
+				{
+					_newComponents[component.Tag].Add(component);
+				}
+				else
+				{
+					var list = new List<Component>();
+					list.Add(component);
+					_newComponents.Add(component.Tag, list);
+				}
+			}
+
+
+
+		}
+
+		public static void Implementing()
+		{
+			var items = 
+			AppDomain.CurrentDomain.GetAssemblies().SelectMany(
+				x => x.GetTypes()
+			).Where(
+				mytype => typeof(ISystem).IsAssignableFrom(mytype) 
+				&& mytype.GetInterfaces().Contains(typeof(ISystem))
+			); 
+			foreach(var item in items) 
+			{
+				Console.WriteLine(item.Name); 
+			}
+		}
 
 		#region Events.
 
@@ -193,6 +236,7 @@ namespace Monofoxe.Engine.ECS
 			}
 		}
 		
+
 		internal static void RemoveComponent(Component component)
 		{
 			// Removing from lists.
@@ -215,6 +259,7 @@ namespace Monofoxe.Engine.ECS
 			}
 		}
 		
+
 		internal static void SortComponentsByDepth()
 		{
 			_depthSortedComponents.Clear();
@@ -223,8 +268,6 @@ namespace Monofoxe.Engine.ECS
 				_depthSortedComponents.Add(list.Key, list.Value.OrderByDescending(o => o.Owner.Depth).ToList());
 			}
 		}
-
-
 
 
 

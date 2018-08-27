@@ -11,7 +11,7 @@
 			},
 			"spr": "Resources.Sprites.SpritesDefault.Basket",
 			"color": "#05DAFF",
-			"button": "L",
+			"button": "L"
 		}
 	}
 }

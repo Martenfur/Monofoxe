@@ -261,7 +261,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Performs Draw events for all objects.
 		/// </summary>
-		internal static void Update(GameTime gameTime)
+		public static void Update(GameTime gameTime)
 		{
 			__drawcalls = 0;
 			

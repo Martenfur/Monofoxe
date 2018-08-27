@@ -65,7 +65,8 @@ namespace Monofoxe
 
 		public TestObj()
 		{
-			
+			ComponentSystemMgr.Implementing();
+
 			testEntity = EntityMgr.CreateEntity("test");
 
 
