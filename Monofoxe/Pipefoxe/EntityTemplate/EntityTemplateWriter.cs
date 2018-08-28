@@ -4,8 +4,6 @@ using Newtonsoft.Json.Linq;
 
 namespace Pipefoxe.EntityTemplate
 {
-	/// <summary>
-	/// </summary>
 	[ContentTypeWriter]
 	public class EntityTemplateWriter : ContentTypeWriter<byte[]>
 	{
@@ -18,7 +16,7 @@ namespace Pipefoxe.EntityTemplate
 
 
 		public override string GetRuntimeType(TargetPlatform targetPlatform) =>
-			typeof (JObject).AssemblyQualifiedName;
+			typeof (byte[]).AssemblyQualifiedName;
 
 
 

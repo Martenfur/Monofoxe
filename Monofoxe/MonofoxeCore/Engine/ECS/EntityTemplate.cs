@@ -2,6 +2,9 @@
 
 namespace Monofoxe.Engine.ECS
 {
+	/// <summary>
+	/// Entity template. Used to store info about entities.
+	/// </summary>
 	public class EntityTemplate
 	{
 		public readonly string Tag;

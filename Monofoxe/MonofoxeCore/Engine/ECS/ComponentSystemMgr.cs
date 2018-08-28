@@ -24,7 +24,7 @@ namespace Monofoxe.Engine.ECS
 
 		static Dictionary<string, List<Component>> _depthSortedComponents = new Dictionary<string, List<Component>>();
 
-
+		// TODO: Clean up this shit.
 		class ComponentCollection
 		{
 			Dictionary<string, List<Component>> _newComponents, _components;
