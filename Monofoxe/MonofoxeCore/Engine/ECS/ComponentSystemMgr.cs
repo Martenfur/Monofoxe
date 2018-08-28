@@ -12,6 +12,9 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		public static List<ISystem> Systems = new List<ISystem>();
 
+		public static List<ISystem> SystemPool = new List<ISystem>();
+
+
 		/// <summary>
 		/// Component dictionary.
 		/// </summary>
@@ -55,19 +58,27 @@ namespace Monofoxe.Engine.ECS
 		}
 
 
-		public static void Implementing()
+		/// <summary>
+		/// Creates an instance of each ISystem implementing class.
+		/// </summary>
+		public static void LoadSystemPool()
 		{
-			var items = 
-			AppDomain.CurrentDomain.GetAssemblies().SelectMany(
-				x => x.GetTypes()
-			).Where(
+			/* 
+			 * ZOMG TEH DRAMA :o
+			 * This ancient horror gets list of all classes, which implement
+			 * ISystem interface.
+			 */
+			var systemTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes());
+			systemTypes = systemTypes.Where(
 				mytype => typeof(ISystem).IsAssignableFrom(mytype) 
 				&& mytype.GetInterfaces().Contains(typeof(ISystem))
-			); 
-			foreach(var item in items) 
+			);
+
+			foreach(Type systemType in systemTypes)
 			{
-				Console.WriteLine(item.FullName); 
+				SystemPool.Add((ISystem)Activator.CreateInstance(systemType));
 			}
+
 		}
 
 		#region Events.

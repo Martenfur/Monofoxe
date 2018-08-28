@@ -78,7 +78,7 @@ namespace Monofoxe.Engine
 				ComponentSystemMgr.FixedUpdate();
 				foreach(Entity obj in _entities)
 				{
-					if (obj.Active)
+					if (obj.Active && !obj.Destroyed)
 					{
 						obj.FixedUpdateBegin();
 					}
@@ -87,7 +87,7 @@ namespace Monofoxe.Engine
 				ComponentSystemMgr.FixedUpdateBegin();
 				foreach(Entity obj in _entities)
 				{
-					if (obj.Active)
+					if (obj.Active && !obj.Destroyed)
 					{
 						obj.FixedUpdate();
 					}
@@ -96,7 +96,7 @@ namespace Monofoxe.Engine
 				ComponentSystemMgr.FixedUpdateEnd();
 				foreach(Entity obj in _entities)
 				{
-					if (obj.Active)
+					if (obj.Active && !obj.Destroyed)
 					{
 						obj.FixedUpdateEnd(); 
 					}
@@ -109,7 +109,7 @@ namespace Monofoxe.Engine
 			ComponentSystemMgr.UpdateBegin();
 			foreach(Entity obj in _entities)
 			{
-				if (obj.Active)
+				if (obj.Active && !obj.Destroyed)
 				{
 					obj.UpdateBegin();
 				}
@@ -118,7 +118,7 @@ namespace Monofoxe.Engine
 			ComponentSystemMgr.Update();
 			foreach(Entity obj in _entities)
 			{
-				if (obj.Active)
+				if (obj.Active && !obj.Destroyed)
 				{ 
 					obj.Update(); 
 				}
@@ -127,7 +127,7 @@ namespace Monofoxe.Engine
 			ComponentSystemMgr.UpdateEnd();
 			foreach(Entity obj in _entities)
 			{
-				if (obj.Active)
+				if (obj.Active && !obj.Destroyed)
 				{ 
 					obj.UpdateEnd();
 				}
@@ -146,7 +146,7 @@ namespace Monofoxe.Engine
 			ComponentSystemMgr.DrawBegin();
 			foreach(Entity obj in _depthSortedEntities)
 			{
-				if (obj.Active)
+				if (obj.Active && !obj.Destroyed)
 				{
 					obj.DrawBegin();
 				}
@@ -155,7 +155,7 @@ namespace Monofoxe.Engine
 			ComponentSystemMgr.Draw();
 			foreach(Entity obj in _depthSortedEntities)
 			{
-				if (obj.Active)
+				if (obj.Active && !obj.Destroyed)
 				{
 					obj.Draw();
 				}
@@ -164,7 +164,7 @@ namespace Monofoxe.Engine
 			ComponentSystemMgr.DrawEnd();
 			foreach(Entity obj in _depthSortedEntities)
 			{
-				if (obj.Active)
+				if (obj.Active && !obj.Destroyed)
 				{
 					obj.DrawEnd();
 				}
@@ -177,7 +177,7 @@ namespace Monofoxe.Engine
 			ComponentSystemMgr.DrawGUI();
 			foreach(Entity obj in _depthSortedEntities)
 			{
-				if (obj.Active)
+				if (obj.Active && !obj.Destroyed)
 				{
 					obj.DrawGUI();
 				}
@@ -192,7 +192,7 @@ namespace Monofoxe.Engine
 		internal static void AddEntity(Entity obj) => 
 			_newEntities.Add(obj);
 		
-
+		
 
 		public static void LoadEntityTemplates()
 		{

@@ -27,6 +27,7 @@ namespace Monofoxe.Utils
 		public StateMachine(T _defaultState) 
 		{
 			_states = new Dictionary<T, StateMachineDelegate<T>>();
+			_stateStack = new Stack<T>();
 			DefaultState = _defaultState;
 			_stateStack.Push(_defaultState);
 		}
