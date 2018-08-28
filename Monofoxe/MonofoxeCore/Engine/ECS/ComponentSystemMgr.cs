@@ -54,6 +54,7 @@ namespace Monofoxe.Engine.ECS
 
 		}
 
+
 		public static void Implementing()
 		{
 			var items = 
@@ -65,7 +66,7 @@ namespace Monofoxe.Engine.ECS
 			); 
 			foreach(var item in items) 
 			{
-				Console.WriteLine(item.Name); 
+				Console.WriteLine(item.FullName); 
 			}
 		}
 

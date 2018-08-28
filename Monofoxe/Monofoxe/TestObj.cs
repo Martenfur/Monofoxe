@@ -21,6 +21,7 @@ using System.IO;
 using Newtonsoft.Json.Linq;
 using Microsoft.Xna.Framework.Content;
 
+
 namespace Monofoxe
 {
 	class TestObj : Entity 
@@ -63,8 +64,18 @@ namespace Monofoxe
 
 		Entity testEntity;
 
+		StateMachine<string> _testMachine;
+
+
+
 		public TestObj()
 		{
+			_testMachine = new StateMachine<string>();
+
+
+			_testMachine.AddState("test", TestState);
+			_testMachine.CurrentState = "test";
+
 			ComponentSystemMgr.Implementing();
 
 			testEntity = EntityMgr.CreateEntity("test");
@@ -156,7 +167,9 @@ namespace Monofoxe
 		
 		public override void Update()
 		{
-			
+			_testMachine.Update();
+
+
 			snd1.Set3DAttributes(Input.ScreenMousePos, Vector2.Zero);
 			snd1.Set3DMinMaxDistance(100, 300);
 
@@ -348,6 +361,16 @@ namespace Monofoxe
 			DrawMgr.DrawSurface(surfForDrawing, new Rectangle(32, 32, 32, 48), new Rectangle(32, 32, 32, 48));
 
 		}
+
+
+
+		private void TestState(StateMachine<string> owner)
+		{
+			Console.WriteLine(_testMachine.CurrentState);
+		}
+
+
+
 
 		private void TestDrawPrimitives()
 		{

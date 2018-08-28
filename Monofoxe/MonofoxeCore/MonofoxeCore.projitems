@@ -42,6 +42,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utils\AutoAlarm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\GameMath.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\RandomExt.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\StateMachine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Timer.cs" />
   </ItemGroup>
   <ItemGroup>
