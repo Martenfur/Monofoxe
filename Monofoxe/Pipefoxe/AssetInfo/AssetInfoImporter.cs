@@ -8,6 +8,9 @@ using System.IO;
 
 namespace Pipefoxe.AssetInfo
 {
+	/// <summary>
+	/// Asset info importer. Reads .mcgb file and extracts all asset paths.
+	/// </summary>
 	[ContentImporter(".mgcb", DisplayName = "Asset Info Importer - Monofoxe", DefaultProcessor = "PassThroughProcessor")]
 	public class AssetInfoImporter : ContentImporter<string[]>
 	{
@@ -26,6 +29,7 @@ namespace Pipefoxe.AssetInfo
 				{
 					var assetPath = lines[i].Remove(0, _beginTag.Length);
 
+					// If asset is being copied, we'll need to leave its extension.
 					if (i + 1 < lines.Length && !lines[i + 1].StartsWith(_copyTag))
 					{
 						assetPath = Path.GetDirectoryName(assetPath) + '/' + Path.GetFileNameWithoutExtension(assetPath);

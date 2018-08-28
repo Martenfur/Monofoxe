@@ -17,6 +17,7 @@ using System.IO;
 namespace Pipefoxe.EntityTemplate
 {
 	/// <summary>
+	/// Imports entity template json. 
 	/// </summary>
 	[ContentImporter(".json", DefaultProcessor = "EntityTemplateProcessor", 
 	DisplayName = "Entity Template Importer - Monofoxe")]

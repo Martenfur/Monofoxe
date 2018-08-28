@@ -10,7 +10,7 @@ using System.Reflection;
 namespace Monofoxe.Engine.ContentReaders
 {
 	/// <summary>
-	/// Reads sprite group file.
+	/// Reads and unencrypts entity templates.
 	/// </summary>
 	internal class EntityTemplateReader : ContentTypeReader<EntityTemplate>
 	{
@@ -24,7 +24,7 @@ namespace Monofoxe.Engine.ContentReaders
 			var components = new List<Component>();
 			var settings = new JsonSerializerSettings();
 			
-
+			// Converting from json to entity template object.
 			foreach(JProperty prop in ((JObject)entityData["components"]).Properties())
 			{
 				components.Add(
@@ -39,6 +39,9 @@ namespace Monofoxe.Engine.ContentReaders
 		}
 
 
+		/// <summary>
+		/// Decrypting entity template json.
+		/// </summary>
 		private string Decode(byte[] encodedBytes)
 		{
 			var bytes = new byte[encodedBytes.Length];
