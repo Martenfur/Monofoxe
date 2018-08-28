@@ -10,9 +10,9 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// List of systems.
 		/// </summary>
-		public static List<ISystem> Systems = new List<ISystem>();
+		static Dictionary<string, ISystem> _activeSystems = new Dictionary<string, ISystem>();
 
-		public static List<ISystem> SystemPool = new List<ISystem>();
+		static Dictionary<string, ISystem> _systemPool = new Dictionary<string, ISystem>();
 
 
 		/// <summary>
@@ -23,40 +23,9 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Newly created components. Used for Create event.
 		/// </summary>
-		static Dictionary<string, List<Component>> _newComponents = new Dictionary<string, List<Component>>();
+		static List<Component> _newComponents = new List<Component>();
 
 		static Dictionary<string, List<Component>> _depthSortedComponents = new Dictionary<string, List<Component>>();
-
-		// TODO: Clean up this shit.
-		class ComponentCollection
-		{
-			Dictionary<string, List<Component>> _newComponents, _components;
-			
-			public ComponentCollection()
-			{
-				_newComponents = new Dictionary<string, List<Component>>();
-				_components = new Dictionary<string, List<Component>>();
-			}
-			
-
-			internal void AddComponent(Component component)
-			{
-				if (_newComponents.ContainsKey(component.Tag))
-				{
-					_newComponents[component.Tag].Add(component);
-				}
-				else
-				{
-					var list = new List<Component>();
-					list.Add(component);
-					_newComponents.Add(component.Tag, list);
-				}
-			}
-
-
-
-		}
-
 
 		/// <summary>
 		/// Creates an instance of each ISystem implementing class.
@@ -76,7 +45,8 @@ namespace Monofoxe.Engine.ECS
 
 			foreach(Type systemType in systemTypes)
 			{
-				SystemPool.Add((ISystem)Activator.CreateInstance(systemType));
+				var newSystem = (ISystem)Activator.CreateInstance(systemType);
+				_systemPool.Add(newSystem.Tag, newSystem);
 			}
 
 		}
@@ -89,34 +59,55 @@ namespace Monofoxe.Engine.ECS
 
 		internal static void Create()
 		{
-			foreach(ISystem system in Systems)
+			// Managing new components.
+			if (_newComponents.Count > 0)
 			{
-				if (_newComponents.ContainsKey(system.Tag))
+				foreach(var component in _newComponents)
 				{
-					foreach(Component component in _newComponents[system.Tag])
+					if (!_activeSystems.ContainsKey(component.Tag))
 					{
-						system.Create(component);
-					}
-
-					if (_components.ContainsKey(system.Tag))
-					{
-						_components[system.Tag].AddRange(_newComponents[system.Tag]);
+						if (_systemPool.ContainsKey(component.Tag))
+						{
+							var newSystem = _systemPool[component.Tag];
+							_activeSystems.Add(component.Tag, newSystem);
+							newSystem.Create(component);
+						}
 					}
 					else
 					{
-						_components.Add(system.Tag, _newComponents[system.Tag]);
+						_activeSystems[component.Tag].Create(component);
+					}
+
+					if (_components.ContainsKey(component.Tag))
+					{
+						_components[component.Tag].Add(component);
+					}
+					else
+					{
+						var list = new List<Component>(new Component[]{component});
+						_components.Add(component.Tag, list);
 					}
 				}
+				_newComponents.Clear();
 			}
-			_newComponents.Clear();
+
+			// Disabling systems without components.
+			foreach(var componentListPair in _components.ToList())
+			{
+				if (componentListPair.Value.Count == 0)
+				{
+					_components.Remove(componentListPair.Key);
+				}
+			}
 		}
 
 
 
 		internal static void FixedUpdateBegin()
 		{
-			foreach(ISystem system in Systems)
+			foreach(var systemPair in _activeSystems)
 			{
+				var system = systemPair.Value;
 				if (system is ISystemFixedUpdateEvents && _components.ContainsKey(system.Tag))
 				{
 					((ISystemFixedUpdateEvents)system).FixedUpdateBegin(FilterInactiveComponnets(_components[system.Tag]));
@@ -126,8 +117,9 @@ namespace Monofoxe.Engine.ECS
 
 		internal static void FixedUpdate()
 		{
-			foreach(ISystem system in Systems)
+			foreach(var systemPair in _activeSystems)
 			{
+				var system = systemPair.Value;
 				if (system is ISystemFixedUpdateEvents && _components.ContainsKey(system.Tag))
 				{
 					((ISystemFixedUpdateEvents)system).FixedUpdate(FilterInactiveComponnets(_components[system.Tag]));
@@ -137,8 +129,9 @@ namespace Monofoxe.Engine.ECS
 
 		internal static void FixedUpdateEnd()
 		{
-			foreach(ISystem system in Systems)
+			foreach(var systemPair in _activeSystems)
 			{
+				var system = systemPair.Value;
 				if (system is ISystemFixedUpdateEvents && _components.ContainsKey(system.Tag))
 				{
 					((ISystemFixedUpdateEvents)system).FixedUpdateEnd(FilterInactiveComponnets(_components[system.Tag]));
@@ -151,8 +144,9 @@ namespace Monofoxe.Engine.ECS
 
 		internal static void UpdateBegin()
 		{
-			foreach(ISystem system in Systems)
+			foreach(var systemPair in _activeSystems)
 			{
+				var system = systemPair.Value;
 				if (system is ISystemExtEvents &&  _components.ContainsKey(system.Tag))
 				{
 					((ISystemExtEvents)system).UpdateBegin(FilterInactiveComponnets(_components[system.Tag]));
@@ -162,8 +156,9 @@ namespace Monofoxe.Engine.ECS
 
 		internal static void Update()
 		{
-			foreach(ISystem system in Systems)
+			foreach(var systemPair in _activeSystems)
 			{
+				var system = systemPair.Value;
 				if (_components.ContainsKey(system.Tag))
 				{
 					system.Update(FilterInactiveComponnets(_components[system.Tag]));
@@ -173,8 +168,9 @@ namespace Monofoxe.Engine.ECS
 
 		internal static void UpdateEnd()
 		{
-			foreach(ISystem system in Systems)
+			foreach(var systemPair in _activeSystems)
 			{
+				var system = systemPair.Value;
 				if (system is ISystemExtEvents &&  _components.ContainsKey(system.Tag))
 				{
 					((ISystemExtEvents)system).UpdateEnd(FilterInactiveComponnets(_components[system.Tag]));
@@ -186,8 +182,9 @@ namespace Monofoxe.Engine.ECS
 
 		internal static void DrawBegin()
 		{
-			foreach(ISystem system in Systems)
+			foreach(var systemPair in _activeSystems)
 			{
+				var system = systemPair.Value;
 				if (system is ISystemExtEvents && _depthSortedComponents.ContainsKey(system.Tag))
 				{
 					((ISystemExtEvents)system).DrawBegin(FilterInactiveComponnets(_depthSortedComponents[system.Tag]));
@@ -197,8 +194,9 @@ namespace Monofoxe.Engine.ECS
 
 		internal static void Draw()
 		{
-			foreach(ISystem system in Systems)
+			foreach(var systemPair in _activeSystems)
 			{
+				var system = systemPair.Value;
 				if (_depthSortedComponents.ContainsKey(system.Tag))
 				{
 					system.Draw(FilterInactiveComponnets(_depthSortedComponents[system.Tag]));
@@ -208,8 +206,9 @@ namespace Monofoxe.Engine.ECS
 
 		internal static void DrawEnd()
 		{
-			foreach(ISystem system in Systems)
+			foreach(var systemPair in _activeSystems)
 			{
+				var system = systemPair.Value;
 				if (system is ISystemExtEvents && _depthSortedComponents.ContainsKey(system.Tag))
 				{
 					((ISystemExtEvents)system).DrawEnd(FilterInactiveComponnets(_depthSortedComponents[system.Tag]));
@@ -219,8 +218,9 @@ namespace Monofoxe.Engine.ECS
 
 		internal static void DrawGUI()
 		{
-			foreach(ISystem system in Systems)
+			foreach(var systemPair in _activeSystems)
 			{
+				var system = systemPair.Value;
 				if (system is ISystemDrawGUIEvents && _depthSortedComponents.ContainsKey(system.Tag))
 				{
 					((ISystemDrawGUIEvents)system).DrawGUI(FilterInactiveComponnets(_depthSortedComponents[system.Tag]));
@@ -235,39 +235,23 @@ namespace Monofoxe.Engine.ECS
 
 		internal static void AddComponent(Component component)
 		{
-			// TODO: Add automatic system management.
-			if (_newComponents.ContainsKey(component.Tag))
-			{
-				_newComponents[component.Tag].Add(component);
-			}
-			else
-			{
-				var list = new List<Component>();
-				list.Add(component);
-				_newComponents.Add(component.Tag, list);
-			}
+			_newComponents.Add(component);
 		}
 		
 
 		internal static void RemoveComponent(Component component)
 		{
 			// Removing from lists.
-			if (_newComponents.ContainsKey(component.Tag))
-			{
-				_newComponents[component.Tag].Remove(component);
-			}
+			_newComponents.Remove(component);
 			if (_components.ContainsKey(component.Tag))
 			{
 				_components[component.Tag].Remove(component);
 			}
 
 			// Performing Destroy event.
-			foreach(ISystem system in Systems)
+			if (_activeSystems.ContainsKey(component.Tag))
 			{
-				if (component.Tag == system.Tag)
-				{
-					system.Destroy(component);
-				}
+				_activeSystems[component.Tag].Destroy(component);
 			}
 		}
 		
@@ -313,16 +297,10 @@ namespace Monofoxe.Engine.ECS
 		public static void InitComponent(Component component)
 		{
 			// If component is even there.
-			if (_newComponents.ContainsKey(component.Tag) && _newComponents[component.Tag].Contains(component))
+			if (_newComponents.Contains(component) && _activeSystems.ContainsKey(component.Tag))
 			{
-				foreach(ISystem system in Systems)
-				{
-					if (component.Tag == system.Tag)
-					{
-						system.Create(component);
-					}
-				}
-				_newComponents.Remove(component.Tag);
+				_activeSystems[component.Tag].Create(component);
+				_newComponents.Remove(component);
 			}
 		}
 
