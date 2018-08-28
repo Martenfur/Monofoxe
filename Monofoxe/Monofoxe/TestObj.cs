@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-//using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
 using Microsoft.Xna.Framework;
@@ -16,10 +12,6 @@ using Monofoxe.Engine.ECS;
 using Monofoxe.ECSTest.Systems;
 using Monofoxe.ECSTest.Components;
 using MonoGame.Extended.Tiled;
-using Newtonsoft.Json;
-using System.IO;
-using Newtonsoft.Json.Linq;
-using Microsoft.Xna.Framework.Content;
 
 
 namespace Monofoxe
@@ -58,8 +50,6 @@ namespace Monofoxe
 
 		FMOD.ChannelGroup group;//new FMOD.ChannelGroup((IntPtr)0);
 
-		Entity entity;
-
 		Sprite testSpr = SpritesDefault.Chiggin;
 
 		Entity testEntity;
@@ -70,13 +60,13 @@ namespace Monofoxe
 
 		public TestObj()
 		{
-			_testMachine = new StateMachine<string>();
-
+			_testMachine = new StateMachine<string>("none");
 
 			_testMachine.AddState("test", TestState);
-			_testMachine.CurrentState = "test";
+			_testMachine.PushState("test");
 
-			ComponentSystemMgr.Implementing();
+			ComponentSystemMgr.LoadSystemPool();
+
 
 			testEntity = EntityMgr.CreateEntity("test");
 
