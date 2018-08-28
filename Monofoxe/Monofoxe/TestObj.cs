@@ -71,8 +71,8 @@ namespace Monofoxe
 			testEntity = EntityMgr.CreateEntity("test");
 
 
-			ComponentSystemMgr.Systems.Add(new SCollision());
-			ComponentSystemMgr.Systems.Add(new TestSystem());
+			//ComponentSystemMgr.Systems.Add(new SCollision());
+			//ComponentSystemMgr.Systems.Add(new TestSystem());
 			
 
 			snd1 = AudioMgr.LoadStreamedSound("Music/m_mission", FMOD.MODE._3D);
@@ -356,7 +356,7 @@ namespace Monofoxe
 
 		private void TestState(StateMachine<string> owner)
 		{
-			Console.WriteLine(_testMachine.CurrentState);
+		//	Console.WriteLine(_testMachine.CurrentState);
 		}
 
 
