@@ -52,7 +52,7 @@ namespace Monofoxe
 
 		Sprite testSpr = SpritesDefault.Chiggin;
 
-		Entity testEntity;
+		//Entity testEntity;
 
 		StateMachine<string> _testMachine;
 
@@ -64,11 +64,8 @@ namespace Monofoxe
 
 			_testMachine.AddState("test", TestState);
 			_testMachine.PushState("test");
-
-			ComponentSystemMgr.LoadSystemPool();
-
-
-			testEntity = EntityMgr.CreateEntity("test");
+			
+			//testEntity = EntityMgr.CreateEntity("test");
 
 
 			//ComponentSystemMgr.Systems.Add(new SCollision());
@@ -220,10 +217,18 @@ namespace Monofoxe
 			{
 				var ball = EntityMgr.CreateEntity("ball");
 				ball.GetComponent<CMovement>().Position = Input.MousePos;
-				//ball.GetComponent<CCollision>().MaskR = r.Next(32, 64);
+				ball.GetComponent<CCollision>().MaskR = r.Next(32, 64);
 				Console.WriteLine(EntityMgr.Count("ball"));
 			}
+			if (Input.CheckButton(Buttons.MouseMiddle))
+			{
+				foreach(var entity in EntityMgr.GetList("ball"))
+				{
+					EntityMgr.DestroyEntity(entity);
+				}
+			}
 			
+
 
 			#region Camera. 
 
@@ -271,7 +276,7 @@ namespace Monofoxe
 				GameMgr.ExitGame();
 			}
 			
-			if (Input.CheckButtonPress(testEntity.GetComponent<CTest>().Button))//(Buttons.F))
+			if (Input.CheckButtonPress(Buttons.F))
 			{
 				GameMgr.WindowManager.SetFullScreen(!GameMgr.WindowManager.IsFullScreen);	
 			}

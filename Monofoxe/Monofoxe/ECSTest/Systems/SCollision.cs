@@ -23,7 +23,7 @@ namespace Monofoxe.ECSTest.Systems
 		{
 		
 			var movement = ComponentSystemMgr.GetComponentList<CMovement>(components);
-			/*
+			
 			var id = 0;
 			var otherId = 0;
 			foreach(CCollision collider in components)
@@ -48,7 +48,7 @@ namespace Monofoxe.ECSTest.Systems
 					otherId += 1;
 				}
 				id += 1;
-			}*/
+			}
 		}
 
 		public void FixedUpdateBegin(List<Component> components) {}
@@ -61,7 +61,7 @@ namespace Monofoxe.ECSTest.Systems
 			var id = 0;
 			foreach(CCollision collider in components)
 			{
-		//		DrawMgr.DrawCircle(movement[id].Position, collider.MaskR, true);
+				DrawMgr.DrawCircle(movement[id].Position, collider.MaskR, true);
 				id += 1;
 			}
 		}

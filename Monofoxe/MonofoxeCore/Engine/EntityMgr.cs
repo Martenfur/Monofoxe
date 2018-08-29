@@ -63,8 +63,7 @@ namespace Monofoxe.Engine
 			// Adding new objects to the list.
 
 
-			// Performing Create event for all newly added componenmts.
-			ComponentSystemMgr.Create();
+			ComponentSystemMgr.UpdateSystems();
 
 
 			// Fixed updates.
@@ -193,7 +192,7 @@ namespace Monofoxe.Engine
 			_newEntities.Add(obj);
 		
 		
-
+		
 		public static void LoadEntityTemplates()
 		{
 			var info = AssetMgr.GetAssetPaths(AssetMgr.EntityTemplatesDir);
@@ -214,9 +213,9 @@ namespace Monofoxe.Engine
 		#region User functions. 
 
 		/// <summary>
-		/// Destroys entity and all its components.
+		/// Destroys entity and all of its components.
 		/// </summary>
-		public static void Destroy(Entity obj)
+		public static void DestroyEntity(Entity obj)
 		{
 			if (!obj.Destroyed)
 			{
