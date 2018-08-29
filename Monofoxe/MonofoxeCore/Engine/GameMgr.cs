@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Monofoxe.Engine.Audio;
-using System.Collections.Generic;
+using Monofoxe.Engine.ECS;
 
 namespace Monofoxe.Engine
 {
@@ -117,6 +117,7 @@ namespace Monofoxe.Engine
 			
 			WindowManager = new WindowMgr(game);
 
+			ComponentSystemMgr.InitSystemPool();
 			AssetMgr.Init();
 			AudioMgr.Init();
 		}
