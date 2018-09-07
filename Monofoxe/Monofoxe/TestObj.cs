@@ -13,7 +13,6 @@ using Monofoxe.ECSTest.Systems;
 using Monofoxe.ECSTest.Components;
 using MonoGame.Extended.Tiled;
 
-
 namespace Monofoxe
 {
 	class TestObj : Entity 
@@ -58,19 +57,12 @@ namespace Monofoxe
 
 
 
-		public TestObj()
+		public TestObj() : base(DrawMgr.Layers[0])
 		{
 			_testMachine = new StateMachine<string>("none");
 
 			_testMachine.AddState("test", TestState);
 			_testMachine.PushState("test");
-			
-			//testEntity = EntityMgr.CreateEntity("test");
-
-
-			//ComponentSystemMgr.Systems.Add(new SCollision());
-			//ComponentSystemMgr.Systems.Add(new TestSystem());
-			
 
 			snd1 = AudioMgr.LoadStreamedSound("Music/m_mission", FMOD.MODE._3D);
 			snd2 = AudioMgr.LoadStreamedSound("Music/m_peace");
@@ -215,7 +207,7 @@ namespace Monofoxe
 
 			if (Input.CheckButton(Buttons.MouseRight))
 			{
-				var ball = EntityMgr.CreateEntity("ball");
+				var ball = EntityMgr.CreateEntity(DrawMgr.Layers[0], "ball");
 				ball.GetComponent<CMovement>().Position = Input.MousePos;
 				ball.GetComponent<CCollision>().MaskR = r.Next(32, 64);
 				Console.WriteLine(EntityMgr.Count("ball"));

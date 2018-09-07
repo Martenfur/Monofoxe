@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO;
 using Microsoft.Xna.Framework.Content;
+using Monofoxe.Engine.Drawing;
 
 namespace Monofoxe.Engine
 {
@@ -62,8 +63,11 @@ namespace Monofoxe.Engine
 			_newEntities.Clear();
 			// Adding new objects to the list.
 
-
-			ComponentSystemMgr.UpdateSystems();
+			foreach(var layer in DrawMgr.Layers)
+			{
+				layer.UpdateSystems();
+			}
+			//ComponentSystemMgr.UpdateSystems();
 
 
 			// Fixed updates.
@@ -136,10 +140,10 @@ namespace Monofoxe.Engine
 
 			// Updating depth list for drawing stuff.
 			_depthSortedEntities = _entities.OrderByDescending(o => o.Depth).ToList();
-			ComponentSystemMgr.SortComponentsByDepth();
+			//ComponentSystemMgr.SortComponentsByDepth();
 		}
 
-
+		/*
 		internal static void Draw()
 		{
 			ComponentSystemMgr.DrawBegin();
@@ -182,7 +186,7 @@ namespace Monofoxe.Engine
 				}
 			}
 		}
-
+		*/
 
 
 		/// <summary>
@@ -286,11 +290,11 @@ namespace Monofoxe.Engine
 
 		#region ECS user functions.
 
-		public static Entity CreateEntity(string tag)
+		public static Entity CreateEntity(Layer layer, string tag)
 		{
 			if (_entityTemplates.ContainsKey(tag))
 			{
-				var entity = new Entity(tag);
+				var entity = new Entity(layer, tag);
 
 				foreach(Component component in _entityTemplates[tag].Components)
 				{

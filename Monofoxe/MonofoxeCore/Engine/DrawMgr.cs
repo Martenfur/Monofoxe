@@ -230,6 +230,8 @@ namespace Monofoxe.Engine
 		public static TextAlign VerAlign = TextAlign.Top;
 		// Text.
 
+		public static List<Layer> Layers = new List<Layer>();
+
 
 		/// <summary>
 		/// Initialization function for draw controller. 
@@ -246,8 +248,6 @@ namespace Monofoxe.Engine
 			_basicEffect = new BasicEffect(Device);
 			_basicEffect.VertexColorEnabled = true;
 			
-			
-
 			_vertexBuffer = new DynamicVertexBuffer(Device, typeof(VertexPositionColorTexture), BUFFER_SIZE, BufferUsage.WriteOnly);
 			_indexBuffer = new DynamicIndexBuffer(Device, IndexElementSize.SixteenBits, BUFFER_SIZE, BufferUsage.WriteOnly);
 			
@@ -255,6 +255,8 @@ namespace Monofoxe.Engine
 			Device.Indices = _indexBuffer;
 			
 			CircleVerticesCount = 16;
+
+			Layers.Add(new Layer());
 		}
 
 
@@ -341,7 +343,11 @@ namespace Monofoxe.Engine
 						Device.Clear(camera.BackgroundColor);
 					}
 
-					EntityMgr.Draw();
+					//EntityMgr.Draw();
+					foreach(var layer in Layers)
+					{
+						layer.Draw();
+					}
 
 					ResetSurfaceTarget();
 					
@@ -374,8 +380,12 @@ namespace Monofoxe.Engine
 			// Drawing GUI stuff.
 			_currentPipelineMode = PipelineMode.None;
 			
-			EntityMgr.DrawGUI();
-			
+			//EntityMgr.DrawGUI();
+			foreach(var layer in Layers)
+			{
+				layer.DrawGUI();
+			}
+
 			if (_currentPipelineMode == PipelineMode.Sprites) // If there's something left in batch or vertex buffer, we should draw it.
 			{
 				Batch.End();

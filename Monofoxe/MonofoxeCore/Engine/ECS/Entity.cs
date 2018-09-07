@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Monofoxe.Engine.Drawing;
 
 namespace Monofoxe.Engine.ECS
 {
@@ -30,6 +31,8 @@ namespace Monofoxe.Engine.ECS
 		/// If false, Update and Draw events won't be executed.
 		/// </summary>
 		public bool Active = true;
+		
+		public Layer Layer;
 
 		/// <summary>
 		/// Component hash table.
@@ -37,11 +40,13 @@ namespace Monofoxe.Engine.ECS
 		private Dictionary<string, Component> _components;
 
 
-		public Entity(string tag = "entity")
+		public Entity(Layer layer, string tag = "entity")
 		{
 			EntityMgr.AddEntity(this);
 			_components = new Dictionary<string, Component>();
 			Tag = tag;
+			Layer = layer;
+			Layer.AddEntity(this);
 		}
 
 
@@ -139,7 +144,7 @@ namespace Monofoxe.Engine.ECS
 		{
 			_components.Add(component.Tag, component);
 			component.Owner = this;
-			ComponentSystemMgr.AddComponent(component);
+			Layer.AddComponent(component);
 		}
 		
 
@@ -200,7 +205,7 @@ namespace Monofoxe.Engine.ECS
 			{
 				var component = _components[tag];
 				_components.Remove(tag);
-				ComponentSystemMgr.RemoveComponent(component);
+				Layer.RemoveComponent(component);
 				component.Owner = null;
 				return component;
 			}
@@ -215,7 +220,7 @@ namespace Monofoxe.Engine.ECS
 		{
 			foreach(KeyValuePair<string, Component> component in _components)
 			{
-				ComponentSystemMgr.RemoveComponent(component.Value);
+				Layer.RemoveComponent(component.Value);
 			}
 			_components.Clear();
 		}

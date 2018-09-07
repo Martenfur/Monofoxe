@@ -11,7 +11,7 @@
 #-------------------------------- References --------------------------------#
 
 /reference:..\..\Pipefoxe\bin\Release\Pipefoxe.dll
-/reference:dlls\MonoGame.AssetInfo.Pipeline.dll
+/reference:dlls\MonoGame.Extended.Content.Pipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 
