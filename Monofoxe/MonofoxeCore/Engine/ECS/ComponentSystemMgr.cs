@@ -10,12 +10,12 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// List of currently active systems.
 		/// </summary>
-		static Dictionary<string, ISystem> _activeSystems = new Dictionary<string, ISystem>();
+		internal static Dictionary<string, ISystem> _activeSystems = new Dictionary<string, ISystem>();
 
 		/// <summary>
 		/// Pool of all game systems.
 		/// </summary>
-		static Dictionary<string, ISystem> _systemPool = new Dictionary<string, ISystem>();
+		internal static Dictionary<string, ISystem> _systemPool = new Dictionary<string, ISystem>();
 
 		public static int __dbgSysCount => _activeSystems.Count; // REMOVE
 		public static int __dbgSysPoolCount => _systemPool.Count; // REMOVE
@@ -24,13 +24,13 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Component dictionary.
 		/// </summary>
-		static Dictionary<string, List<Component>> _components = new Dictionary<string, List<Component>>();
+		//static Dictionary<string, List<Component>> _components = new Dictionary<string, List<Component>>();
 		
 		/// <summary>
 		/// Newly created components. Used for Create event.
 		/// </summary>
-		static List<Component> _newComponents = new List<Component>();
-		static Dictionary<string, List<Component>> _depthSortedComponents = new Dictionary<string, List<Component>>();
+		//static List<Component> _newComponents = new List<Component>();
+		//static Dictionary<string, List<Component>> _depthSortedComponents = new Dictionary<string, List<Component>>();
 
 
 		/// <summary>
@@ -42,7 +42,7 @@ namespace Monofoxe.Engine.ECS
 			set
 			{
 				_autoSystemManagement = value;
-				_componentsWereRemoved = true;
+		//		_componentsWereRemoved = true; // TODO: Figure something out.
 			}
 		}
 		static bool _autoSystemManagement = true;
@@ -50,7 +50,7 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Tells if any components were removed in the current step.
 		/// </summary>
-		static bool _componentsWereRemoved = false;
+		//static bool _componentsWereRemoved = false;
 
 
 
@@ -62,36 +62,39 @@ namespace Monofoxe.Engine.ECS
 		
 		internal static void FixedUpdateBegin()
 		{
+			var components = GetActiveComponents();
 			foreach(var systemPair in _activeSystems)
 			{
 				var system = systemPair.Value;
-				if (system is ISystemFixedUpdateEvents && _components.ContainsKey(system.Tag))
+				if (system is ISystemFixedUpdateEvents && components.ContainsKey(system.Tag))
 				{
-					((ISystemFixedUpdateEvents)system).FixedUpdateBegin(FilterInactiveComponnets(_components[system.Tag]));
+					((ISystemFixedUpdateEvents)system).FixedUpdateBegin(components[system.Tag]);
 				}
 			}
 		}
 
 		internal static void FixedUpdate()
 		{
+			var components = GetActiveComponents();
 			foreach(var systemPair in _activeSystems)
 			{
 				var system = systemPair.Value;
-				if (system is ISystemFixedUpdateEvents && _components.ContainsKey(system.Tag))
+				if (system is ISystemFixedUpdateEvents && components.ContainsKey(system.Tag))
 				{
-					((ISystemFixedUpdateEvents)system).FixedUpdate(FilterInactiveComponnets(_components[system.Tag]));
+					((ISystemFixedUpdateEvents)system).FixedUpdate(components[system.Tag]);
 				}
 			}
 		}
 
 		internal static void FixedUpdateEnd()
 		{
+			var components = GetActiveComponents();
 			foreach(var systemPair in _activeSystems)
 			{
 				var system = systemPair.Value;
-				if (system is ISystemFixedUpdateEvents && _components.ContainsKey(system.Tag))
+				if (system is ISystemFixedUpdateEvents && components.ContainsKey(system.Tag))
 				{
-					((ISystemFixedUpdateEvents)system).FixedUpdateEnd(FilterInactiveComponnets(_components[system.Tag]));
+					((ISystemFixedUpdateEvents)system).FixedUpdateEnd(components[system.Tag]);
 				}
 			}
 		}
@@ -101,86 +104,89 @@ namespace Monofoxe.Engine.ECS
 
 		internal static void UpdateBegin()
 		{
+			var components = GetActiveComponents();
 			foreach(var systemPair in _activeSystems)
 			{
 				var system = systemPair.Value;
-				if (system is ISystemExtEvents &&  _components.ContainsKey(system.Tag))
+				if (system is ISystemExtEvents &&  components.ContainsKey(system.Tag))
 				{
-					((ISystemExtEvents)system).UpdateBegin(FilterInactiveComponnets(_components[system.Tag]));
+					((ISystemExtEvents)system).UpdateBegin(components[system.Tag]);
 				}
 			}
 		}
 
 		internal static void Update()
 		{
+			var components = GetActiveComponents();
 			foreach(var systemPair in _activeSystems)
 			{
 				var system = systemPair.Value;
-				if (_components.ContainsKey(system.Tag))
+				if (components.ContainsKey(system.Tag))
 				{
-					system.Update(FilterInactiveComponnets(_components[system.Tag]));
+					system.Update(components[system.Tag]);
 				}
 			}
 		}
 
 		internal static void UpdateEnd()
 		{
+			var components = GetActiveComponents();
 			foreach(var systemPair in _activeSystems)
 			{
 				var system = systemPair.Value;
-				if (system is ISystemExtEvents &&  _components.ContainsKey(system.Tag))
+				if (system is ISystemExtEvents &&  components.ContainsKey(system.Tag))
 				{
-					((ISystemExtEvents)system).UpdateEnd(FilterInactiveComponnets(_components[system.Tag]));
+					((ISystemExtEvents)system).UpdateEnd(components[system.Tag]);
 				}
 			}
 		}
 
 		
 
-		internal static void DrawBegin()
+		internal static void DrawBegin(Dictionary<string, List<Component>> components)
 		{
 			foreach(var systemPair in _activeSystems)
 			{
 				var system = systemPair.Value;
-				if (system is ISystemExtEvents && _depthSortedComponents.ContainsKey(system.Tag))
+				if (system is ISystemExtEvents && components.ContainsKey(system.Tag))
 				{
-					((ISystemExtEvents)system).DrawBegin(FilterInactiveComponnets(_depthSortedComponents[system.Tag]));
+					((ISystemExtEvents)system).DrawBegin(FilterInactiveComponents(components[system.Tag]));
 				}
 			}
 		}
 
-		internal static void Draw()
+		internal static void Draw(Dictionary<string, List<Component>> components)
 		{
 			foreach(var systemPair in _activeSystems)
 			{
 				var system = systemPair.Value;
-				if (_depthSortedComponents.ContainsKey(system.Tag))
+				if (components.ContainsKey(system.Tag))
 				{
-					system.Draw(FilterInactiveComponnets(_depthSortedComponents[system.Tag]));
+					system.Draw(FilterInactiveComponents(components[system.Tag]));
 				}
 			}
 		}
 
-		internal static void DrawEnd()
+		internal static void DrawEnd(Dictionary<string, List<Component>> components)
 		{
 			foreach(var systemPair in _activeSystems)
 			{
 				var system = systemPair.Value;
-				if (system is ISystemExtEvents && _depthSortedComponents.ContainsKey(system.Tag))
+				if (system is ISystemExtEvents && components.ContainsKey(system.Tag))
 				{
-					((ISystemExtEvents)system).DrawEnd(FilterInactiveComponnets(_depthSortedComponents[system.Tag]));
+					((ISystemExtEvents)system).DrawEnd(FilterInactiveComponents(components[system.Tag]));
 				}
 			}
 		}
 
-		internal static void DrawGUI()
+		internal static void DrawGUI(Dictionary<string, List<Component>> components)
 		{
 			foreach(var systemPair in _activeSystems)
 			{
 				var system = systemPair.Value;
-				if (system is ISystemDrawGUIEvents && _depthSortedComponents.ContainsKey(system.Tag))
+				if (system is ISystemDrawGUIEvents && components.ContainsKey(system.Tag))
 				{
-					((ISystemDrawGUIEvents)system).DrawGUI(FilterInactiveComponnets(_depthSortedComponents[system.Tag]));
+					((ISystemDrawGUIEvents)system).DrawGUI(FilterInactiveComponents(components[system.Tag]));
 				}
 			}
 		}
@@ -213,68 +219,71 @@ namespace Monofoxe.Engine.ECS
 
 		}
 
-
-
+		/*
+		/// <summary>
+		/// Enables and disables systems depending on if there are any components for them.
+		/// </summary>
 		internal static void UpdateSystems()
 		{
-			if(_autoSystemManagement)
-			{
-				// Managing new components.
-				if(_newComponents.Count > 0)
-				{
-					foreach(var component in _newComponents)
-					{
-						if(!_activeSystems.ContainsKey(component.Tag))
-						{
-							if(_systemPool.ContainsKey(component.Tag))
-							{
-								var newSystem = _systemPool[component.Tag];
-								_activeSystems.Add(component.Tag, newSystem);
-								newSystem.Create(component);
-							}
-						}
-						else
-						{
-							_activeSystems[component.Tag].Create(component);
-						}
 
-						if(_components.ContainsKey(component.Tag))
+			// Managing new components.
+			if (_newComponents.Count > 0)
+			{
+				foreach(var component in _newComponents)
+				{
+					if (_autoSystemManagement && !_activeSystems.ContainsKey(component.Tag))
+					{
+						if (_systemPool.ContainsKey(component.Tag))
 						{
-							_components[component.Tag].Add(component);
-						}
-						else
-						{
-							var list = new List<Component>(new Component[] {component});
-							_components.Add(component.Tag, list);
+							var newSystem = _systemPool[component.Tag];
+							_activeSystems.Add(component.Tag, newSystem);
+							newSystem.Create(component);
 						}
 					}
-					_newComponents.Clear();
+					else
+					{
+						_activeSystems[component.Tag].Create(component);
+					}
+
+					if (_components.ContainsKey(component.Tag))
+					{
+						_components[component.Tag].Add(component);
+					}
+					else
+					{
+						var list = new List<Component>(new Component[] {component});
+						_components.Add(component.Tag, list);
+					}
 				}
-				// Managing new components.
+				_newComponents.Clear();
+			}
+			// Managing new components.
 				
 
-				// Disabling systems without components.
-				if(_componentsWereRemoved)
+			// Disabling systems without components.
+			if (_componentsWereRemoved)
+			{
+				foreach(var componentListPair in _components.ToList())
 				{
-					foreach(var componentListPair in _components.ToList())
+					if (componentListPair.Value.Count == 0)
 					{
-						if(componentListPair.Value.Count == 0)
+						_components.Remove(componentListPair.Key);
+						if (_autoSystemManagement)
 						{
-							_components.Remove(componentListPair.Key);
 							_activeSystems.Remove(componentListPair.Key);
 						}
 					}
-					_componentsWereRemoved = false;
 				}
-				// Disabling systems without components.
+				_componentsWereRemoved = false;
 			}
+			// Disabling systems without components.
 		}
-
-
+		*/
+		/*
 		internal static void AddComponent(Component component) =>
 			_newComponents.Add(component);
 		
-
+		
 		internal static void RemoveComponent(Component component)
 		{
 			// Removing from lists.
@@ -292,8 +301,8 @@ namespace Monofoxe.Engine.ECS
 
 			_componentsWereRemoved = true;
 		}
-		
-
+		*/
+		/*
 		internal static void SortComponentsByDepth()
 		{
 			_depthSortedComponents.Clear();
@@ -302,14 +311,14 @@ namespace Monofoxe.Engine.ECS
 				_depthSortedComponents.Add(list.Key, list.Value.OrderByDescending(o => o.Owner.Depth).ToList());
 			}
 		}
-
+		*/
 
 
 		/// <summary>
 		/// Filters out inactive components.
 		/// Component is inactive, if its owner is inactive.
 		/// </summary>
-		static List<Component> FilterInactiveComponnets(List<Component> components)
+		internal static List<Component> FilterInactiveComponents(List<Component> components)
 		{
 			var activeComponents = new List<Component>();
 					
@@ -334,11 +343,15 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		public static void InitComponent(Component component)
 		{
-			// If component is even there.
-			if (_newComponents.Contains(component) && _activeSystems.ContainsKey(component.Tag))
+			foreach(var layer in DrawMgr.Layers)
 			{
-				_activeSystems[component.Tag].Create(component);
-				_newComponents.Remove(component);
+				// If component is even there.
+				if (layer._newComponents.Contains(component) && _activeSystems.ContainsKey(component.Tag))
+				{
+					_activeSystems[component.Tag].Create(component);
+					layer._newComponents.Remove(component);
+					return;
+				}
 			}
 		}
 
@@ -441,6 +454,36 @@ namespace Monofoxe.Engine.ECS
 			}
 		}
 
+
+		static Dictionary<string, List<Component>> GetActiveComponents()
+		{
+			var list = new Dictionary<string, List<Component>>();
+			foreach(var layer in DrawMgr.Layers)
+			{
+				foreach(var componentsPair in layer._components)
+				{
+					if (list.ContainsKey(componentsPair.Key))
+					{
+						list[componentsPair.Key].AddRange(FilterInactiveComponents(componentsPair.Value));
+					}
+					else
+					{
+						list.Add(componentsPair.Key, FilterInactiveComponents(componentsPair.Value));
+					}
+				}
+			}
+			return list;
+		}
+
+		static List<Component> GetNewComponents()
+		{
+			var list = new List<Component>();
+			foreach(var layer in DrawMgr.Layers)
+			{	
+				list.AddRange(FilterInactiveComponents(layer._newComponents));
+			}
+			return list;
+		}
 
 	}
 }

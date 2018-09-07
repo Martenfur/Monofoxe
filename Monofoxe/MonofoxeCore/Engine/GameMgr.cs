@@ -116,7 +116,7 @@ namespace Monofoxe.Engine
 			Input.MaxGamepadCount = 2;
 			
 			WindowManager = new WindowMgr(game);
-
+			
 			ComponentSystemMgr.InitSystemPool();
 			AssetMgr.Init();
 			AudioMgr.Init();

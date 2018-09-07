@@ -25,7 +25,6 @@ namespace Monofoxe.Engine.Audio
 		private static string _sfxExtension = ".wav";
 		private static string _musicExtension = ".ogg";
 
-
 		public static int ListenerCount 
 		{
 			get 
@@ -37,21 +36,36 @@ namespace Monofoxe.Engine.Audio
 			set => LastResult = FMODSystem.set3DNumListeners(value);
 		}
 
+		static bool _isWindows = true; // Temporary var. 
 
 		[DllImport("kernel32.dll")]
 		public static extern IntPtr LoadLibrary(string dllToLoad);
 
+		//[DllImport("libdl.so.2")] // UNTESTED
+		//static extern IntPtr dlopen(string filename, int flags);
+
+
 		internal static void Init()
 		{
-			if (Environment.Is64BitProcess)
+			if (_isWindows)
 			{
-				LoadLibrary(Path.GetFullPath("FMOD/x64/fmod.dll"));
+				if (Environment.Is64BitProcess)
+				{
+					LoadLibrary(Path.GetFullPath("FMOD/x64/fmod.dll"));
+				}
+				else
+				{
+					LoadLibrary(Path.GetFullPath("FMOD/x32/fmod.dll"));
+				}
 			}
 			else
 			{
-				LoadLibrary(Path.GetFullPath("FMOD/x32/fmod.dll"));
+			//	Console.WriteLine("BOI" + Environment.CurrentDirectory + "/FMOD/x64/fmod.so");
+			//	dlopen(Environment.CurrentDirectory + "/FMOD/x64/fmod.so", 1);
 			}
 
+			//System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+			
 			FMOD.System system;
 			FMOD.Factory.System_Create(out system);
 			FMODSystem = system;

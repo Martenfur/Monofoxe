@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\SpriteConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\Vector2Converter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\Vector3Converter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\Layer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\ComponentSystemMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\Component.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\EntityTemplate.cs" />
@@ -43,6 +44,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utils\GameMath.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\RandomExt.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\StateMachine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\Tiled\ITiledEntityFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Timer.cs" />
   </ItemGroup>
   <ItemGroup>
