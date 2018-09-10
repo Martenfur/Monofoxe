@@ -10,7 +10,7 @@ namespace Monofoxe.Engine
 
 	public static class DrawMgr
 	{
-		private const int BUFFER_SIZE = 320000;	// TODO: Figure out, if this value is actually ok.
+		private const int _vertexBufferSize = 320000;	// TODO: Figure out, if this value is actually ok.
 
 		public static SpriteBatch Batch {get; private set;}
 		public static GraphicsDevice Device {get; private set;}
@@ -230,9 +230,6 @@ namespace Monofoxe.Engine
 		public static TextAlign VerAlign = TextAlign.Top;
 		// Text.
 
-		public static List<Layer> Layers = new List<Layer>();
-
-
 		/// <summary>
 		/// Initialization function for draw controller. 
 		/// Should be called only once, by Game class.
@@ -248,15 +245,15 @@ namespace Monofoxe.Engine
 			_basicEffect = new BasicEffect(Device);
 			_basicEffect.VertexColorEnabled = true;
 			
-			_vertexBuffer = new DynamicVertexBuffer(Device, typeof(VertexPositionColorTexture), BUFFER_SIZE, BufferUsage.WriteOnly);
-			_indexBuffer = new DynamicIndexBuffer(Device, IndexElementSize.SixteenBits, BUFFER_SIZE, BufferUsage.WriteOnly);
+			_vertexBuffer = new DynamicVertexBuffer(Device, typeof(VertexPositionColorTexture), _vertexBufferSize, BufferUsage.WriteOnly);
+			_indexBuffer = new DynamicIndexBuffer(Device, IndexElementSize.SixteenBits, _vertexBufferSize, BufferUsage.WriteOnly);
 			
 			Device.SetVertexBuffer(_vertexBuffer);
 			Device.Indices = _indexBuffer;
 			
 			CircleVerticesCount = 16;
 
-			Layers.Add(new Layer());
+			Layer.Create("default");
 		}
 
 
@@ -344,10 +341,8 @@ namespace Monofoxe.Engine
 					}
 
 					//EntityMgr.Draw();
-					foreach(var layer in Layers)
-					{
-						layer.Draw();
-					}
+					Layer.CallDrawEvents();
+					
 
 					ResetSurfaceTarget();
 					
@@ -381,10 +376,7 @@ namespace Monofoxe.Engine
 			_currentPipelineMode = PipelineMode.None;
 			
 			//EntityMgr.DrawGUI();
-			foreach(var layer in Layers)
-			{
-				layer.DrawGUI();
-			}
+			Layer.CallDrawGUIEvents();
 
 			if (_currentPipelineMode == PipelineMode.Sprites) // If there's something left in batch or vertex buffer, we should draw it.
 			{
@@ -455,7 +447,7 @@ namespace Monofoxe.Engine
 		/// <param name="indices">List of indices.</param>
 		private static void AddVertices(PipelineMode mode, Texture2D texture, List<VertexPositionColorTexture> vertices, short[] indices)
 		{
-			if (_indices.Count + indices.Length >= BUFFER_SIZE)
+			if (_indices.Count + indices.Length >= _vertexBufferSize)
 			{
 				DrawVertices(); // If buffer overflows, we need to empty it.
 			}
@@ -1410,6 +1402,5 @@ namespace Monofoxe.Engine
 
 
 		#endregion Surfaces.
-
 	}
 }

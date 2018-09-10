@@ -20,7 +20,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\Vector2Converter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\Vector3Converter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\Layer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\ComponentSystemMgr.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\ComponentMgr.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\SystemMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\Component.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\EntityTemplate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\ISystem.cs" />

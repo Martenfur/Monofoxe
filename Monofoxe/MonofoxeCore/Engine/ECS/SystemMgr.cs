@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Collections;
+using Monofoxe.Engine.Drawing;
 
 namespace Monofoxe.Engine.ECS
 {
-	public static class ComponentSystemMgr
+	public static class SystemMgr
 	{
 		/// <summary>
 		/// List of currently active systems.
@@ -22,18 +22,6 @@ namespace Monofoxe.Engine.ECS
 
 
 		/// <summary>
-		/// Component dictionary.
-		/// </summary>
-		//static Dictionary<string, List<Component>> _components = new Dictionary<string, List<Component>>();
-		
-		/// <summary>
-		/// Newly created components. Used for Create event.
-		/// </summary>
-		//static List<Component> _newComponents = new List<Component>();
-		//static Dictionary<string, List<Component>> _depthSortedComponents = new Dictionary<string, List<Component>>();
-
-
-		/// <summary>
 		/// If true, systems will be enabled and disabled automatically.
 		/// </summary>
 		public static bool AutoSystemManagement 
@@ -42,16 +30,13 @@ namespace Monofoxe.Engine.ECS
 			set
 			{
 				_autoSystemManagement = value;
-		//		_componentsWereRemoved = true; // TODO: Figure something out.
+				foreach(var layer in Layer.Layers)
+				{
+					layer._componentsWereRemoved = true;
+				}
 			}
 		}
 		static bool _autoSystemManagement = true;
-
-		/// <summary>
-		/// Tells if any components were removed in the current step.
-		/// </summary>
-		//static bool _componentsWereRemoved = false;
-
 
 
 		#region Events.
@@ -219,100 +204,6 @@ namespace Monofoxe.Engine.ECS
 
 		}
 
-		/*
-		/// <summary>
-		/// Enables and disables systems depending on if there are any components for them.
-		/// </summary>
-		internal static void UpdateSystems()
-		{
-
-			// Managing new components.
-			if (_newComponents.Count > 0)
-			{
-				foreach(var component in _newComponents)
-				{
-					if (_autoSystemManagement && !_activeSystems.ContainsKey(component.Tag))
-					{
-						if (_systemPool.ContainsKey(component.Tag))
-						{
-							var newSystem = _systemPool[component.Tag];
-							_activeSystems.Add(component.Tag, newSystem);
-							newSystem.Create(component);
-						}
-					}
-					else
-					{
-						_activeSystems[component.Tag].Create(component);
-					}
-
-					if (_components.ContainsKey(component.Tag))
-					{
-						_components[component.Tag].Add(component);
-					}
-					else
-					{
-						var list = new List<Component>(new Component[] {component});
-						_components.Add(component.Tag, list);
-					}
-				}
-				_newComponents.Clear();
-			}
-			// Managing new components.
-				
-
-			// Disabling systems without components.
-			if (_componentsWereRemoved)
-			{
-				foreach(var componentListPair in _components.ToList())
-				{
-					if (componentListPair.Value.Count == 0)
-					{
-						_components.Remove(componentListPair.Key);
-						if (_autoSystemManagement)
-						{
-							_activeSystems.Remove(componentListPair.Key);
-						}
-					}
-				}
-				_componentsWereRemoved = false;
-			}
-			// Disabling systems without components.
-		}
-		*/
-		/*
-		internal static void AddComponent(Component component) =>
-			_newComponents.Add(component);
-		
-		
-		internal static void RemoveComponent(Component component)
-		{
-			// Removing from lists.
-			_newComponents.Remove(component);
-			if (_components.ContainsKey(component.Tag))
-			{
-				_components[component.Tag].Remove(component);
-			}
-
-			// Performing Destroy event.
-			if (_activeSystems.ContainsKey(component.Tag))
-			{
-				_activeSystems[component.Tag].Destroy(component);
-			}
-
-			_componentsWereRemoved = true;
-		}
-		*/
-		/*
-		internal static void SortComponentsByDepth()
-		{
-			_depthSortedComponents.Clear();
-			foreach(KeyValuePair<string, List<Component>> list in _components)
-			{
-				_depthSortedComponents.Add(list.Key, list.Value.OrderByDescending(o => o.Owner.Depth).ToList());
-			}
-		}
-		*/
-
 
 		/// <summary>
 		/// Filters out inactive components.
@@ -334,59 +225,7 @@ namespace Monofoxe.Engine.ECS
 
 
 
-		/// <summary>
-		/// Invokes Create event for corresponding system.
-		/// Create events are usually executed at the beginning of each step,
-		/// so components stay uninitialized for a bit right after creation.
-		/// In most cases it's fine, but you may need to init your component
-		/// right here and right now.
-		/// </summary>
-		public static void InitComponent(Component component)
-		{
-			foreach(var layer in DrawMgr.Layers)
-			{
-				// If component is even there.
-				if (layer._newComponents.Contains(component) && _activeSystems.ContainsKey(component.Tag))
-				{
-					_activeSystems[component.Tag].Create(component);
-					layer._newComponents.Remove(component);
-					return;
-				}
-			}
-		}
-
-
-
-		/// <summary>
-		/// Returns list of components with given tag.
-		/// </summary>
-		public static List<Component> GetComponentList(string tag, List<Component> components)
-		{
-			var list = new List<Component>();
-
-			foreach(Component component in components)
-			{
-				list.Add(component.Owner[tag]);
-			}
-
-			return list;
-		}
-
-
-		/// <summary>
-		/// Returns list of components with given tag.
-		/// </summary>
-		public static List<T> GetComponentList<T>(List<Component> components) where T : Component
-		{
-			var list = new List<T>();
-
-			foreach(Component component in components)
-			{
-				list.Add(component.Owner.GetComponent<T>());
-			}
-			return list;
-		}
-
+		
 
 
 		/// <summary>
@@ -455,10 +294,11 @@ namespace Monofoxe.Engine.ECS
 		}
 
 
-		static Dictionary<string, List<Component>> GetActiveComponents()
+
+		private static Dictionary<string, List<Component>> GetActiveComponents()
 		{
 			var list = new Dictionary<string, List<Component>>();
-			foreach(var layer in DrawMgr.Layers)
+			foreach(var layer in Layer.Layers)
 			{
 				foreach(var componentsPair in layer._components)
 				{
@@ -475,15 +315,80 @@ namespace Monofoxe.Engine.ECS
 			return list;
 		}
 
-		static List<Component> GetNewComponents()
+		private static List<Component> GetNewComponents()
 		{
 			var list = new List<Component>();
-			foreach(var layer in DrawMgr.Layers)
+			foreach(var layer in Layer.Layers)
 			{	
 				list.AddRange(FilterInactiveComponents(layer._newComponents));
 			}
 			return list;
 		}
+
+
+		/// <summary>
+		/// Enables and disables systems depending on if there are any components for them.
+		/// </summary>
+		internal static void UpdateSystems()
+		{
+			foreach(var layer in Layer.Layers)
+			{
+				// Managing new components.
+				if (layer._newComponents.Count > 0)
+				{
+					foreach(var component in layer._newComponents)
+					{
+						if (AutoSystemManagement && !_activeSystems.ContainsKey(component.Tag))
+						{
+							if (_systemPool.ContainsKey(component.Tag))
+							{
+								var newSystem = _systemPool[component.Tag];
+								_activeSystems.Add(component.Tag, newSystem);
+								newSystem.Create(component);
+							}
+						}
+						else
+						{
+							_activeSystems[component.Tag].Create(component);
+						}
+
+						if (layer._components.ContainsKey(component.Tag))
+						{
+							layer._components[component.Tag].Add(component);
+						}
+						else
+						{
+							var list = new List<Component>(new Component[] { component });
+							layer._components.Add(component.Tag, list);
+						}
+					}
+					layer._newComponents.Clear();
+				}
+				// Managing new components.
+
+
+				// Disabling systems without components.
+				if (layer._componentsWereRemoved)
+				{
+					foreach(var componentListPair in layer._components.ToList())
+					{
+						if (componentListPair.Value.Count == 0)
+						{
+							layer._components.Remove(componentListPair.Key);
+							if (AutoSystemManagement)
+							{
+								_activeSystems.Remove(componentListPair.Key);
+							}
+						}
+					}
+					layer._componentsWereRemoved = false;
+				}
+				// Disabling systems without components.
+
+			}
+		}
+		
+
 
 	}
 }

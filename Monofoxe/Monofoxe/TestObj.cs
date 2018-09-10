@@ -57,7 +57,7 @@ namespace Monofoxe
 
 
 
-		public TestObj() : base(DrawMgr.Layers[0])
+		public TestObj() : base(Layer.Get("default"))
 		{
 			_testMachine = new StateMachine<string>("none");
 
@@ -207,9 +207,9 @@ namespace Monofoxe
 
 			if (Input.CheckButton(Buttons.MouseRight))
 			{
-				var ball = EntityMgr.CreateEntity(DrawMgr.Layers[0], "ball");
+				var ball = EntityMgr.CreateEntity(Layer.Get("default"), "ball");
 				ball.GetComponent<CMovement>().Position = Input.MousePos;
-				ball.GetComponent<CCollision>().MaskR = r.Next(32, 64);
+				ball.GetComponent<CCollision>().MaskR = 20;//r.Next(10, 16);
 				Console.WriteLine(EntityMgr.Count("ball"));
 			}
 			if (Input.CheckButton(Buttons.MouseMiddle))
@@ -220,6 +220,11 @@ namespace Monofoxe
 				}
 			}
 			
+			if (Input.CheckButtonPress(Buttons.G))
+			{
+				var l = Layer.Get("default");
+				l.DepthSorting = !l.DepthSorting;
+			}
 
 
 			#region Camera. 
