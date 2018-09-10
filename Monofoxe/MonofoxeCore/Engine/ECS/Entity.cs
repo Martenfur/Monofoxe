@@ -25,14 +25,35 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Tells f object was destroyed.
 		/// </summary>
-		public bool Destroyed = false;
+		public bool Destroyed {get; internal set;} = false;
 
 		/// <summary>
 		/// If false, Update and Draw events won't be executed.
 		/// </summary>
 		public bool Active = true;
 		
-		public Layer Layer;
+		public Layer Layer
+		{
+			get => _layer;
+			set
+			{
+				if (_layer != null)
+				{
+					foreach(var componentPair in _components)
+					{
+						_layer.RemoveComponent(componentPair.Value);
+					}
+					_layer.RemoveEntity(this);
+				}
+				_layer = value;
+				foreach(var componentPair in _components)
+				{
+					_layer.AddComponent(componentPair.Value);
+				}
+				_layer.AddEntity(this);
+			}
+		}
+		private Layer _layer;
 
 		/// <summary>
 		/// Component hash table.

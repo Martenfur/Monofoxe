@@ -117,7 +117,7 @@ namespace Monofoxe.Engine
 			
 			WindowManager = new WindowMgr(game);
 			
-			ComponentSystemMgr.InitSystemPool();
+			SystemMgr.InitSystemPool();
 			AssetMgr.Init();
 			AudioMgr.Init();
 		}

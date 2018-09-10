@@ -1,22 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Monofoxe.Engine;
-using Microsoft.Xna.Framework;
 using Monofoxe.Engine.ECS;
 using System.Linq;
-using System.Collections;
 
 
 namespace Monofoxe.Engine.Drawing
 {
 	public class Layer
 	{
-		public int Depth;
 
-		public bool DepthSorting = false;
+		public static IReadOnlyCollection<Layer> Layers => _layers;
+
+		private static List<Layer> _layers = new List<Layer>();
+
+
+		public readonly string Name;
+
+		public int Depth 
+		{
+			get => _depth;
+
+			set
+			{
+				_depth = value;
+				_layers.Remove(this);
+				AddLayerToList(this);
+			}
+		}
+		private int _depth;
+
+		public bool DepthSorting 
+		{
+			get => _depthSorting;
+			set
+			{
+				_depthSorting = value;
+				if (value)
+				{
+					_depthSortedComponents = new Dictionary<string, List<Component>>();
+				}
+				else
+				{
+					_depthSortedComponents = _components;
+				}
+			}
+		}
+		private bool _depthSorting = false;
 
 		private List<Entity> _entities = new List<Entity>();
+		private List<Entity> _depthSortedEntities;
+
 
 		/// <summary>
 		/// Component dictionary.
@@ -27,67 +60,130 @@ namespace Monofoxe.Engine.Drawing
 		/// Newly created components. Used for Create event.
 		/// </summary>
 		internal List<Component> _newComponents = new List<Component>();
-		Dictionary<string, List<Component>> _depthSortedComponents = new Dictionary<string, List<Component>>();
+		Dictionary<string, List<Component>> _depthSortedComponents;
 
 
 		/// <summary>
 		/// Tells if any components were removed in the current step.
 		/// </summary>
-		bool _componentsWereRemoved = false;
+		internal bool _componentsWereRemoved = false;
 
 
 
-		internal void Draw()
+		private Layer(string name, int depth)
 		{
-			ComponentSystemMgr.DrawBegin(_components);
-			foreach(Entity obj in _entities)
-			{
-				if (obj.Active && !obj.Destroyed)
-				{
-					obj.DrawBegin();
-				}
-			}
+			Name = name;
+			Depth = depth;
 
-			ComponentSystemMgr.Draw(_components);
-			foreach(Entity obj in _entities)
+			_depthSortedEntities = _entities;
+			_depthSortedComponents = _components;
+		}
+		
+		
+		// TODO: Add depth sorting mode.
+
+		
+		/// <summary>
+		/// Creates new layer with given name.
+		/// </summary>
+		public static Layer Create(string name, int depth = 0)
+		{
+			if (Exists(name))
 			{
-				if (obj.Active && !obj.Destroyed)
-				{
-					obj.Draw();
-				}
+				throw(new Exception("Layer with such name already exists!"));
 			}
 			
-			ComponentSystemMgr.DrawEnd(_components);
-			foreach(Entity obj in _entities)
-			{
-				if (obj.Active && !obj.Destroyed)
-				{
-					obj.DrawEnd();
-				}
-			}
+			return new Layer(name, depth);
 		}
 
-
-		internal void DrawGUI()
+		
+		/// <summary>
+		/// Destroys given layer.
+		/// </summary>
+		public static void Destroy(Layer layer)
 		{
-			ComponentSystemMgr.DrawGUI(_components);
-			foreach(Entity obj in _entities)
+			if (_layers.Remove(layer))
 			{
-				if (obj.Active && !obj.Destroyed)
+				foreach(var entity in layer._entities)
 				{
-					obj.DrawGUI();
+					EntityMgr.DestroyEntity(entity);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Destroys layer with given name.
+		/// </summary>
+		public static void Destroy(string name)
+		{
+			foreach(var layer in _layers)
+			{
+				if (layer.Name == name)
+				{
+					 _layers.Remove(layer);
+					foreach(var entity in layer._entities)
+					{
+						EntityMgr.DestroyEntity(entity);
+					}
 				}
 			}
 		}
 
 
-		public void AddEntity(Entity entity) =>
+		/// <summary>
+		/// Returns layer with given name.
+		/// </summary>
+		public static Layer Get(string name)
+		{
+			foreach(var layer in _layers)
+			{
+				if (layer.Name == name)
+				{
+					return layer;
+				}
+			}
+			return null;
+		}
+
+
+		/// <summary>
+		/// Returns true, if there is a layer with given name. 
+		/// </summary>
+		public static bool Exists(string name)
+		{
+			foreach(var layer in _layers)
+			{
+				if (layer.Name == name)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
+
+		internal void SortByDepth()
+		{
+			if (DepthSorting)
+			{
+				_depthSortedEntities = _entities.OrderByDescending(o => o.Depth).ToList();
+
+				_depthSortedComponents.Clear();
+				foreach(KeyValuePair<string, List<Component>> list in _components)
+				{
+					_depthSortedComponents.Add(list.Key, list.Value.OrderByDescending(o => o.Owner.Depth).ToList());
+				}
+			}
+		}
+
+
+		internal void AddEntity(Entity entity) =>
 			_entities.Add(entity);
 		
-		public void RemoveEntity(Entity entity) =>
+		internal void RemoveEntity(Entity entity) =>
 			_entities.Remove(entity);
-
 		
+
 
 		internal void AddComponent(Component component) =>
 			_newComponents.Add(component);
@@ -102,73 +198,83 @@ namespace Monofoxe.Engine.Drawing
 			}
 
 			// Performing Destroy event.
-			if (ComponentSystemMgr._activeSystems.ContainsKey(component.Tag))
+			if (SystemMgr._activeSystems.ContainsKey(component.Tag))
 			{
-				ComponentSystemMgr._activeSystems[component.Tag].Destroy(component);
+				SystemMgr._activeSystems[component.Tag].Destroy(component);
 			}
 
 			_componentsWereRemoved = true;
 		}
 
 
-		/// <summary>
-		/// Enables and disables systems depending on if there are any components for them.
-		/// </summary>
-		internal void UpdateSystems()
-		{
 
-			// Managing new components.
-			if (_newComponents.Count > 0)
-			{
-				foreach(var component in _newComponents)
-				{
-					if (ComponentSystemMgr.AutoSystemManagement && !ComponentSystemMgr._activeSystems.ContainsKey(component.Tag))
-					{
-						if (ComponentSystemMgr._systemPool.ContainsKey(component.Tag))
-						{
-							var newSystem = ComponentSystemMgr._systemPool[component.Tag];
-							ComponentSystemMgr._activeSystems.Add(component.Tag, newSystem);
-							newSystem.Create(component);
-						}
-					}
-					else
-					{
-						ComponentSystemMgr._activeSystems[component.Tag].Create(component);
-					}
-
-					if (_components.ContainsKey(component.Tag))
-					{
-						_components[component.Tag].Add(component);
-					}
-					else
-					{
-						var list = new List<Component>(new Component[] {component});
-						_components.Add(component.Tag, list);
-					}
-				}
-				_newComponents.Clear();
-			}
-			// Managing new components.
-			
-
-			// Disabling systems without components.
-			if (_componentsWereRemoved)
-			{
-				foreach(var componentListPair in _components.ToList())
-				{
-					if (componentListPair.Value.Count == 0)
-					{
-						_components.Remove(componentListPair.Key);
-						if (ComponentSystemMgr.AutoSystemManagement)
-						{
-							ComponentSystemMgr._activeSystems.Remove(componentListPair.Key);
-						}
-					}
-				}
-				_componentsWereRemoved = false;
-			}
-			// Disabling systems without components.
-		}
 		
+
+
+		internal static void CallDrawEvents()
+		{
+			foreach(var layer in _layers)
+			{
+				SystemMgr.DrawBegin(layer._depthSortedComponents);
+				foreach(Entity obj in layer._depthSortedEntities)
+				{
+					if (obj.Active && !obj.Destroyed)
+					{
+						obj.DrawBegin();
+					}
+				}
+
+				SystemMgr.Draw(layer._depthSortedComponents);
+				foreach(Entity obj in layer._depthSortedEntities)
+				{
+					if (obj.Active && !obj.Destroyed)
+					{
+						obj.Draw();
+					}
+				}
+				
+				SystemMgr.DrawEnd(layer._depthSortedComponents);
+				foreach(Entity obj in layer._depthSortedEntities)
+				{
+					if (obj.Active && !obj.Destroyed)
+					{
+						obj.DrawEnd();
+					}
+				}
+			}
+		}
+
+
+
+		internal static void CallDrawGUIEvents()
+		{
+			foreach(var layer in _layers)
+			{
+				SystemMgr.DrawGUI(layer._depthSortedComponents);
+				foreach(Entity obj in layer._depthSortedEntities)
+				{
+					if (obj.Active && !obj.Destroyed)
+					{
+						obj.DrawGUI();
+					}
+				}
+			}
+		}
+
+
+
+		private static void AddLayerToList(Layer layer)
+		{
+			for(var i = 0; i < _layers.Count; i += 1)
+			{
+				if (layer.Depth > _layers[i].Depth)
+				{
+					_layers.Insert(i, layer);
+					return;
+				}
+			}
+			_layers.Add(layer);
+		}
+
 	}
 }

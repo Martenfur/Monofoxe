@@ -22,7 +22,7 @@ namespace Monofoxe.ECSTest.Systems
 		public void FixedUpdate(List<Component> components) 
 		{
 		
-			var movement = ComponentSystemMgr.GetComponentList<CMovement>(components);
+			var movement = ComponentMgr.GetComponentList<CMovement>(components);
 			
 			var id = 0;
 			var otherId = 0;
@@ -49,6 +49,13 @@ namespace Monofoxe.ECSTest.Systems
 				}
 				id += 1;
 			}
+
+			id = 0;
+			foreach(CCollision collider in components)
+			{
+				collider.Owner.Depth = -(int)movement[id].Position.Y;
+				id += 1;
+			}
 		}
 
 		public void FixedUpdateBegin(List<Component> components) {}
@@ -56,12 +63,13 @@ namespace Monofoxe.ECSTest.Systems
 
 		public void Draw(List<Component> components) 
 		{
-			var movement = ComponentSystemMgr.GetComponentList<CMovement>(components);
-			DrawMgr.CurrentColor = Color.Black;
+			var movement = ComponentMgr.GetComponentList<CMovement>(components);
+			DrawMgr.CurrentColor = Color.White;
 			var id = 0;
 			foreach(CCollision collider in components)
 			{
-				DrawMgr.DrawCircle(movement[id].Position, collider.MaskR, true);
+				//DrawMgr.DrawCircle(movement[id].Position, collider.MaskR, true);
+				DrawMgr.DrawSprite(Resources.Sprites.SpritesDefault.Barrel, movement[id].Position);
 				id += 1;
 			}
 		}

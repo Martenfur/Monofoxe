@@ -30,7 +30,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Entity list sorted by depth.
 		/// </summary>
-		private static List<Entity> _depthSortedEntities = new List<Entity>();
+		//private static List<Entity> _depthSortedEntities = new List<Entity>();
 
 
 		/// <summary>
@@ -63,12 +63,9 @@ namespace Monofoxe.Engine
 			_newEntities.Clear();
 			// Adding new objects to the list.
 
-			foreach(var layer in DrawMgr.Layers)
-			{
-				layer.UpdateSystems();
-			}
-			//ComponentSystemMgr.UpdateSystems();
-
+			
+			SystemMgr.UpdateSystems();
+			
 
 			// Fixed updates.
 			_fixedUpdateTimer += gameTime.ElapsedGameTime.TotalSeconds;
@@ -78,7 +75,7 @@ namespace Monofoxe.Engine
 				var overflow = (int)(_fixedUpdateTimer / GameMgr.FixedUpdateRate); // In case of lags.
 				_fixedUpdateTimer -= GameMgr.FixedUpdateRate * overflow;
 
-				ComponentSystemMgr.FixedUpdate();
+				SystemMgr.FixedUpdate();
 				foreach(Entity obj in _entities)
 				{
 					if (obj.Active && !obj.Destroyed)
@@ -87,7 +84,7 @@ namespace Monofoxe.Engine
 					}
 				}
 
-				ComponentSystemMgr.FixedUpdateBegin();
+				SystemMgr.FixedUpdateBegin();
 				foreach(Entity obj in _entities)
 				{
 					if (obj.Active && !obj.Destroyed)
@@ -96,7 +93,7 @@ namespace Monofoxe.Engine
 					}
 				}
 
-				ComponentSystemMgr.FixedUpdateEnd();
+				SystemMgr.FixedUpdateEnd();
 				foreach(Entity obj in _entities)
 				{
 					if (obj.Active && !obj.Destroyed)
@@ -109,7 +106,7 @@ namespace Monofoxe.Engine
 
 
 			// Normal updates.
-			ComponentSystemMgr.UpdateBegin();
+			SystemMgr.UpdateBegin();
 			foreach(Entity obj in _entities)
 			{
 				if (obj.Active && !obj.Destroyed)
@@ -118,7 +115,7 @@ namespace Monofoxe.Engine
 				}
 			}
 
-			ComponentSystemMgr.Update();
+			SystemMgr.Update();
 			foreach(Entity obj in _entities)
 			{
 				if (obj.Active && !obj.Destroyed)
@@ -127,7 +124,7 @@ namespace Monofoxe.Engine
 				}
 			}
 
-			ComponentSystemMgr.UpdateEnd();
+			SystemMgr.UpdateEnd();
 			foreach(Entity obj in _entities)
 			{
 				if (obj.Active && !obj.Destroyed)
@@ -139,54 +136,11 @@ namespace Monofoxe.Engine
 
 
 			// Updating depth list for drawing stuff.
-			_depthSortedEntities = _entities.OrderByDescending(o => o.Depth).ToList();
-			//ComponentSystemMgr.SortComponentsByDepth();
-		}
-
-		/*
-		internal static void Draw()
-		{
-			ComponentSystemMgr.DrawBegin();
-			foreach(Entity obj in _depthSortedEntities)
+			foreach(var layer in Layer.Layers)
 			{
-				if (obj.Active && !obj.Destroyed)
-				{
-					obj.DrawBegin();
-				}
-			}
-
-			ComponentSystemMgr.Draw();
-			foreach(Entity obj in _depthSortedEntities)
-			{
-				if (obj.Active && !obj.Destroyed)
-				{
-					obj.Draw();
-				}
-			}
-			
-			ComponentSystemMgr.DrawEnd();
-			foreach(Entity obj in _depthSortedEntities)
-			{
-				if (obj.Active && !obj.Destroyed)
-				{
-					obj.DrawEnd();
-				}
+				layer.SortByDepth();
 			}
 		}
-
-
-		internal static void DrawGUI()
-		{
-			ComponentSystemMgr.DrawGUI();
-			foreach(Entity obj in _depthSortedEntities)
-			{
-				if (obj.Active && !obj.Destroyed)
-				{
-					obj.DrawGUI();
-				}
-			}
-		}
-		*/
 
 
 		/// <summary>
@@ -239,7 +193,7 @@ namespace Monofoxe.Engine
 		public static List<T> GetList<T>() where T : Entity => 
 			_entities.OfType<T>().ToList();
 
-
+		
 		/// <summary>
 		/// Counts amount of objects of certain type.
 		/// </summary>
