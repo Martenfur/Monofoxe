@@ -1,68 +1,90 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Monofoxe.Engine;
+﻿using Monofoxe.Engine;
 
 namespace Monofoxe.Utils
 {
+	
+	/// <summary>
+	/// Calculates elapsed time based on multiplier.
+	/// </summary>
 	public class TimeKeeper
 	{
-
-		public static readonly TimeKeeper Global = new TimeKeeper();
+		/// <summary>
+		/// If more than one, time will speed up.
+		/// If less than one, time will slow down.
+		/// </summary>
+		public static double GlobalTimeMultiplier
+		{
+			get => _globalTimeMultiplier;
+			
+			set 
+			{
+				if (value > 0)
+				{
+					_globalTimeMultiplier = value;
+				}
+			}
+		}
+		private static double _globalTimeMultiplier = 1; 
+		
 
 		/// <summary>
-		/// If more than one, game will speed up.
-		/// If less than one, game will slow down.
+		/// If more than one, time will speed up.
+		/// If less than one, time will slow down.
 		/// </summary>
-		public static double GlobalGameSpeedMultiplier
+		public double TimeMultiplier
 		{
-			get => _globalGameSpeedMultiplier;
+			get => _timeMultiplier;
 			
 			set 
 			{
 				if (value > 0)
 				{
-					_globalGameSpeedMultiplier = value;
+					_timeMultiplier = value;
 				}
 			}
 		}
-		private static double _globalGameSpeedMultiplier = 1; 
+		private double _timeMultiplier = 1; 
 		
 
-		public double GameSpeedMultiplier
-		{
-			get => _gameSpeedMultiplier;
-			
-			set 
-			{
-				if (value > 0)
-				{
-					_gameSpeedMultiplier = value;
-				}
-			}
-		}
-		private double _gameSpeedMultiplier = 1; 
-		
-
-
+		/// <summary>
+		/// Returns GameMgr.ElapsedTime, multiplied by global time multiplier.
+		/// </summary>
 		public static double GlobalTime() => 
-			GameMgr.ElapsedTime * _globalGameSpeedMultiplier;
+			GameMgr.ElapsedTime * _globalTimeMultiplier;
 		
+		/// <summary>
+		/// Returns GameMgr.ElapsedTime, multiplied by global time multiplier.
+		/// </summary>
 		public static float GlobalTime(float val) => 
-			val * (float)(GameMgr.ElapsedTime * _globalGameSpeedMultiplier);
+			val * (float)(GameMgr.ElapsedTime * _globalTimeMultiplier);
 		
+		/// <summary>
+		/// Returns GameMgr.ElapsedTime, multiplied by global time multiplier.
+		/// </summary>
 		public static double GlobalTime(double val) => 
-			val * GameMgr.ElapsedTime * _globalGameSpeedMultiplier;
-	
+			val * GameMgr.ElapsedTime * _globalTimeMultiplier;
 		
+		
+		/// <summary>
+		/// Returns GameMgr.ElapsedTime, multiplied by both 
+		/// global time multiplier and local time multiplier.
+		/// </summary>
 		public double Time() => 
-			GameMgr.ElapsedTime * _gameSpeedMultiplier * _globalGameSpeedMultiplier;
-	
+			GameMgr.ElapsedTime * _timeMultiplier * _globalTimeMultiplier;
+			
+		/// <summary>
+		/// Returns GameMgr.ElapsedTime, multiplied by both 
+		/// global time multiplier and local time multiplier.
+		/// </summary>
 		public float Time(float val) => 
-			val * (float)(GameMgr.ElapsedTime * _gameSpeedMultiplier * _globalGameSpeedMultiplier);
+			val * (float)(GameMgr.ElapsedTime * _timeMultiplier * _globalTimeMultiplier);
 
+		/// <summary>
+		/// Returns GameMgr.ElapsedTime, multiplied by both 
+		/// global time multiplier and local time multiplier.
+		/// </summary>
 		public double Time(double val) => 
-			val * GameMgr.ElapsedTime * _gameSpeedMultiplier * _globalGameSpeedMultiplier;
+			val * GameMgr.ElapsedTime * _timeMultiplier * _globalTimeMultiplier;
 		
 	}
 }
