@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine;
 using Monofoxe.Engine.Audio;
+using Monofoxe.Test;
 
 namespace Monofoxe
 {
@@ -25,7 +26,7 @@ namespace Monofoxe
 		{
 			base.Initialize();
 			
-			new TestObj();
+			new MainTester();
 		}
 
 		/// <summary>

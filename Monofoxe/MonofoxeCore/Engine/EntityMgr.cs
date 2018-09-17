@@ -16,22 +16,6 @@ namespace Monofoxe.Engine
 {
 	public static class EntityMgr
 	{
-		/// <summary>
-		/// List of all entities.
-		/// </summary>
-		private static List<Entity> _entities = new List<Entity>();
-
-		/// <summary>
-		/// List of newly created entitiess. Since it won't be that cool 
-		/// to modify main list in mid-step, they'll be added in next one.
-		/// </summary>
-		private static List<Entity> _newEntities = new List<Entity>();
-
-		/// <summary>
-		/// Entity list sorted by depth.
-		/// </summary>
-		//private static List<Entity> _depthSortedEntities = new List<Entity>();
-
 
 		/// <summary>
 		/// Counts time until next fixed update.
@@ -44,25 +28,27 @@ namespace Monofoxe.Engine
 
 
 		internal static void Update(GameTime gameTime)
-		{		
+		{
 			// Clearing main list from destroyed objects.
-			var updatedList = new List<Entity>();
-			foreach(Entity obj in _entities)
+			foreach(var layer in Layer.Layers)
 			{
-				if (!obj.Destroyed)
+				var updatedList = new List<Entity>();
+				foreach(Entity obj in layer._entities)
 				{
-					updatedList.Add(obj);
+					if (!obj.Destroyed)
+					{
+						updatedList.Add(obj);
+					}
 				}
+				layer._entities = updatedList;
+				// Clearing main list from destroyed objects.
+
+
+				// Adding new objects to the list.
+				layer._entities.AddRange(layer._newEntities);		
+				layer._newEntities.Clear();
+				// Adding new objects to the list.
 			}
-			_entities = updatedList;
-			// Clearing main list from destroyed objects.
-
-
-			// Adding new objects to the list.
-			_entities.AddRange(_newEntities);		
-			_newEntities.Clear();
-			// Adding new objects to the list.
-
 			
 			SystemMgr.UpdateSystems();
 			
@@ -75,30 +61,15 @@ namespace Monofoxe.Engine
 				var overflow = (int)(_fixedUpdateTimer / GameMgr.FixedUpdateRate); // In case of lags.
 				_fixedUpdateTimer -= GameMgr.FixedUpdateRate * overflow;
 
-				SystemMgr.FixedUpdate();
-				foreach(Entity obj in _entities)
+				SystemMgr.FixedUpdate(GetActiveComponents());
+				foreach(var layer in Layer.Layers)
 				{
-					if (obj.Active && !obj.Destroyed)
+					foreach(var entity in layer._entities)
 					{
-						obj.FixedUpdateBegin();
-					}
-				}
-
-				SystemMgr.FixedUpdateBegin();
-				foreach(Entity obj in _entities)
-				{
-					if (obj.Active && !obj.Destroyed)
-					{
-						obj.FixedUpdate();
-					}
-				}
-
-				SystemMgr.FixedUpdateEnd();
-				foreach(Entity obj in _entities)
-				{
-					if (obj.Active && !obj.Destroyed)
-					{
-						obj.FixedUpdateEnd(); 
+						if (entity.Active && !entity.Destroyed)
+						{
+							entity.FixedUpdate();
+						}
 					}
 				}
 			}
@@ -106,30 +77,15 @@ namespace Monofoxe.Engine
 
 
 			// Normal updates.
-			SystemMgr.UpdateBegin();
-			foreach(Entity obj in _entities)
+			SystemMgr.Update(GetActiveComponents());
+			foreach(var layer in Layer.Layers)
 			{
-				if (obj.Active && !obj.Destroyed)
+				foreach(var entity in layer._entities)
 				{
-					obj.UpdateBegin();
-				}
-			}
-
-			SystemMgr.Update();
-			foreach(Entity obj in _entities)
-			{
-				if (obj.Active && !obj.Destroyed)
-				{ 
-					obj.Update(); 
-				}
-			}
-
-			SystemMgr.UpdateEnd();
-			foreach(Entity obj in _entities)
-			{
-				if (obj.Active && !obj.Destroyed)
-				{ 
-					obj.UpdateEnd();
+					if (entity.Active && !entity.Destroyed)
+					{
+						entity.Update(); 
+					}
 				}
 			}
 			// Normal updates.
@@ -141,14 +97,6 @@ namespace Monofoxe.Engine
 				layer.SortByDepth();
 			}
 		}
-
-
-		/// <summary>
-		/// Adds object to object list.
-		/// </summary>
-		internal static void AddEntity(Entity obj) => 
-			_newEntities.Add(obj);
-		
 		
 		
 		public static void LoadEntityTemplates()
@@ -173,16 +121,16 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Destroys entity and all of its components.
 		/// </summary>
-		public static void DestroyEntity(Entity obj)
+		public static void DestroyEntity(Entity entity)
 		{
-			if (!obj.Destroyed)
+			if (!entity.Destroyed)
 			{
-				obj.Destroyed = true;
-				if (obj.Active)
+				entity.Destroyed = true;
+				if (entity.Active)
 				{
-					obj.Destroy();
+					entity.Destroy();
 				}
-				obj.RemoveAllComponents();
+				entity.RemoveAllComponents();
 			}
 		}
 
@@ -190,27 +138,42 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Returns list of objects of certain type.
 		/// </summary>
-		public static List<T> GetList<T>() where T : Entity => 
-			_entities.OfType<T>().ToList();
-
+		public static List<T> GetList<T>() where T : Entity
+		{ 
+			var entities = new List<T>();
+			foreach(var layer in Layer.Layers)
+			{
+				entities.AddRange(layer._entities.OfType<T>());
+			}
+			return entities;
+		}
 		
 		/// <summary>
 		/// Counts amount of objects of certain type.
 		/// </summary>
-		public static int Count<T>() where T : Entity => 
-			_entities.OfType<T>().Count();
-
+		public static int Count<T>() where T : Entity
+		{
+			var count = 0;
+			foreach(var layer in Layer.Layers)
+			{
+				count += layer._entities.OfType<T>().Count();
+			}
+			return count;
+		}
 
 		/// <summary>
 		/// Checks if any instances of an entity exist.
 		/// </summary>
 		public static bool EntityExists<T>() where T : Entity
 		{
-			foreach(Entity obj in _entities)
+			foreach(var layer in Layer.Layers)
 			{
-				if (obj is T)
+				foreach(var entity in layer._entities)
 				{
-					return true;
+					if (entity is T)
+					{
+						return true;
+					}
 				}
 			}
 			return false;
@@ -224,15 +187,18 @@ namespace Monofoxe.Engine
 		{
 			var counter = 0;
 
-			foreach(Entity obj in _entities)
+			foreach(var layer in Layer.Layers)
 			{
-				if (obj is T)
+				foreach(var entity in layer._entities)
 				{
-					if (counter >= count)
+					if (entity is T)
 					{
-						return (T)obj;
+						if (counter >= count)
+						{
+							return (T)entity;
+						}
+						counter += 1;
 					}
-					counter += 1;
 				}
 			}
 			return null;
@@ -250,7 +216,7 @@ namespace Monofoxe.Engine
 			{
 				var entity = new Entity(layer, tag);
 
-				foreach(Component component in _entityTemplates[tag].Components)
+				foreach(var component in _entityTemplates[tag].Components)
 				{
 					entity.AddComponent((Component)component.Clone());
 				}
@@ -272,11 +238,14 @@ namespace Monofoxe.Engine
 		{
 			var list = new List<Entity>();
 
-			foreach(Entity obj in _entities)
+			foreach(var layer in Layer.Layers)
 			{
-				if (obj.Tag == tag)
+				foreach(var entity in layer._entities)
 				{
-					list.Add(obj);
+					if (entity.Tag == tag)
+					{
+						list.Add(entity);
+					}
 				}
 			}
 			return list;
@@ -290,11 +259,14 @@ namespace Monofoxe.Engine
 		{
 			var counter = 0;
 
-			foreach(Entity obj in _entities)
+			foreach(var layer in Layer.Layers)
 			{
-				if (obj.Tag == tag)
+				foreach(var entity in layer._entities)
 				{
-					counter += 1;
+					if (entity.Tag == tag)
+					{
+						counter += 1;
+					}
 				}
 			}
 			return counter;
@@ -306,11 +278,14 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static bool EntityExists(string tag)
 		{
-			foreach(Entity obj in _entities)
+			foreach(var layer in Layer.Layers)
 			{
-				if (obj.Tag == tag)
+				foreach(var entity in layer._entities)
 				{
-					return true;
+					if (entity.Tag == tag)
+					{
+						return true;
+					}
 				}
 			}
 			return false;
@@ -324,21 +299,48 @@ namespace Monofoxe.Engine
 		{
 			var counter = 0;
 
-			foreach(Entity obj in _entities)
+			foreach(var layer in Layer.Layers)
 			{
-				if (obj.Tag == tag)
+				foreach(var entity in layer._entities)
 				{
-					if (counter >= count)
+					if (entity.Tag == tag)
 					{
-						return obj;
+						if (counter >= count)
+						{
+							return entity;
+						}
+						counter += 1;
 					}
-					counter += 1;
 				}
 			}
 			return null;
 		}
 
 		#endregion ECS user functions.
+
+
+
+		
+		private static Dictionary<string, List<Component>> GetActiveComponents()
+		{
+			var list = new Dictionary<string, List<Component>>();
+			foreach(var layer in Layer.Layers)
+			{
+				foreach(var componentsPair in layer._components)
+				{
+					if (list.ContainsKey(componentsPair.Key))
+					{
+						list[componentsPair.Key].AddRange(ComponentMgr.FilterInactiveComponents(componentsPair.Value));
+					}
+					else
+					{
+						list.Add(componentsPair.Key, ComponentMgr.FilterInactiveComponents(componentsPair.Value));
+					}
+				}
+			}
+			return list;
+		}
+
 
 	}
 }

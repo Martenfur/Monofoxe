@@ -11,6 +11,7 @@ namespace Monofoxe.Engine.ECS
 		/// List of currently active systems.
 		/// </summary>
 		internal static Dictionary<string, ISystem> _activeSystems = new Dictionary<string, ISystem>();
+		// TODO: Add system priorities.
 
 		/// <summary>
 		/// Pool of all game systems.
@@ -41,26 +42,13 @@ namespace Monofoxe.Engine.ECS
 
 		#region Events.
 
+		// TODO: Add a description, I dunno.
 		/*
 		 * For event explanation, see Entity. 
 		 */
 		
-		internal static void FixedUpdateBegin()
+		internal static void FixedUpdate(Dictionary<string, List<Component>> components)
 		{
-			var components = GetActiveComponents();
-			foreach(var systemPair in _activeSystems)
-			{
-				var system = systemPair.Value;
-				if (system is ISystemFixedUpdateEvents && components.ContainsKey(system.Tag))
-				{
-					((ISystemFixedUpdateEvents)system).FixedUpdateBegin(components[system.Tag]);
-				}
-			}
-		}
-
-		internal static void FixedUpdate()
-		{
-			var components = GetActiveComponents();
 			foreach(var systemPair in _activeSystems)
 			{
 				var system = systemPair.Value;
@@ -71,38 +59,9 @@ namespace Monofoxe.Engine.ECS
 			}
 		}
 
-		internal static void FixedUpdateEnd()
+
+		internal static void Update(Dictionary<string, List<Component>> components)
 		{
-			var components = GetActiveComponents();
-			foreach(var systemPair in _activeSystems)
-			{
-				var system = systemPair.Value;
-				if (system is ISystemFixedUpdateEvents && components.ContainsKey(system.Tag))
-				{
-					((ISystemFixedUpdateEvents)system).FixedUpdateEnd(components[system.Tag]);
-				}
-			}
-		}
-
-
-
-
-		internal static void UpdateBegin()
-		{
-			var components = GetActiveComponents();
-			foreach(var systemPair in _activeSystems)
-			{
-				var system = systemPair.Value;
-				if (system is ISystemExtEvents &&  components.ContainsKey(system.Tag))
-				{
-					((ISystemExtEvents)system).UpdateBegin(components[system.Tag]);
-				}
-			}
-		}
-
-		internal static void Update()
-		{
-			var components = GetActiveComponents();
 			foreach(var systemPair in _activeSystems)
 			{
 				var system = systemPair.Value;
@@ -112,33 +71,7 @@ namespace Monofoxe.Engine.ECS
 				}
 			}
 		}
-
-		internal static void UpdateEnd()
-		{
-			var components = GetActiveComponents();
-			foreach(var systemPair in _activeSystems)
-			{
-				var system = systemPair.Value;
-				if (system is ISystemExtEvents &&  components.ContainsKey(system.Tag))
-				{
-					((ISystemExtEvents)system).UpdateEnd(components[system.Tag]);
-				}
-			}
-		}
-
 		
-
-		internal static void DrawBegin(Dictionary<string, List<Component>> components)
-		{
-			foreach(var systemPair in _activeSystems)
-			{
-				var system = systemPair.Value;
-				if (system is ISystemExtEvents && components.ContainsKey(system.Tag))
-				{
-					((ISystemExtEvents)system).DrawBegin(FilterInactiveComponents(components[system.Tag]));
-				}
-			}
-		}
 
 		internal static void Draw(Dictionary<string, List<Component>> components)
 		{
@@ -147,35 +80,10 @@ namespace Monofoxe.Engine.ECS
 				var system = systemPair.Value;
 				if (components.ContainsKey(system.Tag))
 				{
-					system.Draw(FilterInactiveComponents(components[system.Tag]));
+					system.Draw(ComponentMgr.FilterInactiveComponents(components[system.Tag]));
 				}
 			}
 		}
-
-		internal static void DrawEnd(Dictionary<string, List<Component>> components)
-		{
-			foreach(var systemPair in _activeSystems)
-			{
-				var system = systemPair.Value;
-				if (system is ISystemExtEvents && components.ContainsKey(system.Tag))
-				{
-					((ISystemExtEvents)system).DrawEnd(FilterInactiveComponents(components[system.Tag]));
-				}
-			}
-		}
-
-		internal static void DrawGUI(Dictionary<string, List<Component>> components)
-		{
-			foreach(var systemPair in _activeSystems)
-			{
-				var system = systemPair.Value;
-				if (system is ISystemDrawGUIEvents && components.ContainsKey(system.Tag))
-				{
-					((ISystemDrawGUIEvents)system).DrawGUI(FilterInactiveComponents(components[system.Tag]));
-				}
-			}
-		}
-
 
 		#endregion Events.
 
@@ -203,28 +111,6 @@ namespace Monofoxe.Engine.ECS
 			}
 
 		}
-
-
-		/// <summary>
-		/// Filters out inactive components.
-		/// Component is inactive, if its owner is inactive.
-		/// </summary>
-		internal static List<Component> FilterInactiveComponents(List<Component> components)
-		{
-			var activeComponents = new List<Component>();
-					
-			foreach(Component component in components)
-			{
-				if (component.Owner.Active)
-				{
-					activeComponents.Add(component);
-				}
-			}
-			return activeComponents;	
-		}
-
-
-
 		
 
 
@@ -295,26 +181,8 @@ namespace Monofoxe.Engine.ECS
 
 
 
-		private static Dictionary<string, List<Component>> GetActiveComponents()
-		{
-			var list = new Dictionary<string, List<Component>>();
-			foreach(var layer in Layer.Layers)
-			{
-				foreach(var componentsPair in layer._components)
-				{
-					if (list.ContainsKey(componentsPair.Key))
-					{
-						list[componentsPair.Key].AddRange(FilterInactiveComponents(componentsPair.Value));
-					}
-					else
-					{
-						list.Add(componentsPair.Key, FilterInactiveComponents(componentsPair.Value));
-					}
-				}
-			}
-			return list;
-		}
 
+		/* TODO: Remove, if not needed.
 		private static List<Component> GetNewComponents()
 		{
 			var list = new List<Component>();
@@ -324,7 +192,7 @@ namespace Monofoxe.Engine.ECS
 			}
 			return list;
 		}
-
+		*/
 
 		/// <summary>
 		/// Enables and disables systems depending on if there are any components for them.

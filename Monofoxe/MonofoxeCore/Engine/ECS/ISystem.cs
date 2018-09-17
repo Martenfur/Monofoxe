@@ -16,8 +16,7 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		string Tag {get;}
 		
-		// TODO: Add per-system deactivation, if needed.
-
+		
 		/// <summary>
 		/// Create event is called right after new component is created.
 		/// 
@@ -32,25 +31,10 @@ namespace Monofoxe.Engine.ECS
 		void Draw(List<Component> components);
 	}
 	
-	public interface ISystemExtEvents
-	{
-		void UpdateEnd(List<Component> components);
-		void UpdateBegin(List<Component> components);
 
-		void DrawBegin(List<Component> components);
-		void DrawEnd(List<Component> components);
-	}
-
-	public interface ISystemDrawGUIEvents
+	public interface ISystemFixedUpdateEvents // TODO: Move back to ISystem.
 	{
-		void DrawGUI(List<Component> components);
-	}
-
-	public interface ISystemFixedUpdateEvents
-	{
-		void FixedUpdateEnd(List<Component> components);
 		void FixedUpdate(List<Component> components);
-		void FixedUpdateBegin(List<Component> components);
 	}
 
 

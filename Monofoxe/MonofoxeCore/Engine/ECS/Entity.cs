@@ -63,11 +63,9 @@ namespace Monofoxe.Engine.ECS
 
 		public Entity(Layer layer, string tag = "entity")
 		{
-			EntityMgr.AddEntity(this);
 			_components = new Dictionary<string, Component>();
 			Tag = tag;
 			Layer = layer;
-			Layer.AddEntity(this);
 		}
 
 
@@ -76,74 +74,34 @@ namespace Monofoxe.Engine.ECS
 
 		/*
 		 * Event order:
-		 * - FixedUpdateBegin
 		 * - FixedUpdate
-		 * - FuxedUpdateEnd
-		 * - UpdateBegin
 		 * - Update
-		 * - UpdateEnd
-		 * - DrawBegin
 		 * - Draw
-		 * - DrawEnd
 		 * - DrawGUI
 		 * 
 		 * NOTE: Component events are executed before entity events.
 		 */
 
-		/// <summary>
-		/// Begin of the update at a fixed rate.
-		/// </summary>
-		public virtual void FixedUpdateBegin() {}		
-
+		
 		/// <summary>
 		/// Update at a fixed rate.
 		/// </summary>
 		public virtual void FixedUpdate() {}
 		
-		/// <summary>
-		/// End of the update at a fixed rate.
-		/// </summary>
-		public virtual void FixedUpdateEnd() {}
-
 		
-
-		/// <summary>
-		/// Begin of the update at every frame.
-		/// </summary>
-		public virtual void UpdateBegin() {}		
-
+		
 		/// <summary>
 		/// Update at every frame.
 		/// </summary>
 		public virtual void Update() {}
 		
-		/// <summary>
-		/// End of the update at every frame.
-		/// </summary>
-		public virtual void UpdateEnd() {}
-
 		
 
-		/// <summary>
-		/// Begin of the draw event.
-		/// </summary>
-		public virtual void DrawBegin() {}		
-		
 		/// <summary>
 		/// Draw event.
 		/// </summary>
 		public virtual void Draw() {}
 		
-		/// <summary>
-		/// End of the draw event.
-		/// </summary>
-		public virtual void DrawEnd() {}
-
-		/// <summary>
-		///	Drawing on a GUI layer. 
-		/// </summary>
-		public virtual void DrawGUI() {}
-
 
 
 		/// <summary>

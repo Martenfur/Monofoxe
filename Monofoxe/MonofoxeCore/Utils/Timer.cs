@@ -10,7 +10,7 @@ namespace Monofoxe.Utils
 		/// <summary>
 		/// Tells how much time has passed in seconds.
 		/// </summary>
-		public double Counter {get; protected set;} = 0;
+		public virtual double Counter {get; protected set;} = 0;
 		
 		/// <summary>
 		/// Timer won't update if it's inactive.
@@ -27,7 +27,7 @@ namespace Monofoxe.Utils
 		/// <summary>
 		/// Resets timer.
 		/// </summary>
-		public void Reset()
+		public virtual void Reset()
 		{
 			Active = false;
 			Counter = 0;

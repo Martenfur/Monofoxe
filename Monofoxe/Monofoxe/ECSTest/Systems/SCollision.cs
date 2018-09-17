@@ -23,7 +23,7 @@ namespace Monofoxe.ECSTest.Systems
 		{
 		
 			var movement = ComponentMgr.GetComponentList<CMovement>(components);
-			
+		/*	
 			var id = 0;
 			var otherId = 0;
 			foreach(CCollision collider in components)
@@ -49,8 +49,8 @@ namespace Monofoxe.ECSTest.Systems
 				}
 				id += 1;
 			}
-
-			id = 0;
+			*/
+			var id = 0;
 			foreach(CCollision collider in components)
 			{
 				collider.Owner.Depth = -(int)movement[id].Position.Y;
@@ -58,9 +58,7 @@ namespace Monofoxe.ECSTest.Systems
 			}
 		}
 
-		public void FixedUpdateBegin(List<Component> components) {}
-		public void FixedUpdateEnd(List<Component> components) {}
-
+		
 		public void Draw(List<Component> components) 
 		{
 			var movement = ComponentMgr.GetComponentList<CMovement>(components);
