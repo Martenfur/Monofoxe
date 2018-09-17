@@ -5,17 +5,17 @@ namespace Monofoxe.Utils
 	/// <summary>
 	/// Counts down seconds. Needs to be updated manually.
 	/// </summary>
-	public class Alarm
+	public class Alarm : Timer
 	{
 		/// <summary>
 		/// Tells how much time is left in seconds.
 		/// </summary>
-		public double Counter;
+		public new double Counter;
 		
 		/// <summary>
 		/// Alarm won't update if it's inactive.
 		/// </summary>
-		public bool Active = false;
+		//public bool Active = false;
 
 		/// <summary>
 		/// Tells if alarm was triggered.
@@ -23,9 +23,9 @@ namespace Monofoxe.Utils
 		public bool Triggered {get; protected set;} = false;
 
 		/// <summary>
-		/// Tells if alarm is affected by GameCntrl.GameSpeedMultiplier.
+		/// Tells if alarm is affected by GameMgr.GameSpeedMultiplier.
 		/// </summary>
-		public bool AffectedBySpeedMultiplier = true;
+		//public bool AffectedBySpeedMultiplier = true;
 
 
 
@@ -45,7 +45,7 @@ namespace Monofoxe.Utils
 		/// <summary>
 		/// Resets alarm.
 		/// </summary>
-		public void Reset()
+		public override void Reset()
 		{
 			Active = false;
 			Triggered = false;
@@ -57,7 +57,7 @@ namespace Monofoxe.Utils
 		/// <summary>
 		/// Updates alarm. Also can be used to check for triggering.
 		/// </summary>
-		public virtual bool Update()
+		public new virtual bool Update()
 		{
 			Triggered = false;
 			if (Active)

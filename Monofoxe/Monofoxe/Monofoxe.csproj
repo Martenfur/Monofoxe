@@ -69,9 +69,10 @@
     <Compile Include="Resources\Sounds.cs" />
     <Compile Include="Resources\Sprites\SpritesDefault.cs" />
     <Compile Include="Resources\Fonts.cs" />
-    <Compile Include="TestComponent.cs" />
-    <Compile Include="TestObj.cs" />
-    <Compile Include="TestSystem.cs" />
+    <Compile Include="Test\AudioTester.cs" />
+    <Compile Include="Test\DrawingTester.cs" />
+    <Compile Include="Test\ECSTester.cs" />
+    <Compile Include="Test\MainTester.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Monofoxe, Version=0.7.0.0, Culture=neutral, processorArchitecture=MSIL">

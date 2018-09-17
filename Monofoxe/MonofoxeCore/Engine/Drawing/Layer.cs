@@ -8,27 +8,43 @@ namespace Monofoxe.Engine.Drawing
 {
 	public class Layer
 	{
+		//TODO: Add new entity management.	
 
+		/// <summary>
+		/// List of all existing layers.
+		/// </summary>
 		public static IReadOnlyCollection<Layer> Layers => _layers;
 
+		/// <summary>
+		/// List of all existing layers.
+		/// </summary>
 		private static List<Layer> _layers = new List<Layer>();
 
-
+		/// <summary>
+		/// Layer's name. Used for searching.
+		/// NOTE: All layers should have unique names!
+		/// </summary>
 		public readonly string Name;
 
-		public int Depth 
+		/// <summary>
+		/// Priority of a layer.
+		/// </summary>
+		public int Priority
 		{
-			get => _depth;
+			get => _priority;
 
 			set
 			{
-				_depth = value;
+				_priority = value;
 				_layers.Remove(this);
 				AddLayerToList(this);
 			}
 		}
-		private int _depth;
+		private int _priority;
 
+		/// <summary>
+		/// If true, entities and components will be sorted by their depth.
+		/// </summary>
 		public bool DepthSorting 
 		{
 			get => _depthSorting;
@@ -37,31 +53,47 @@ namespace Monofoxe.Engine.Drawing
 				_depthSorting = value;
 				if (value)
 				{
+					_depthSortedEntities = new List<Entity>();
 					_depthSortedComponents = new Dictionary<string, List<Component>>();
 				}
 				else
 				{
+					// Linking "sorted" lists directly to primary lists.
+					_depthSortedEntities = _entities;
 					_depthSortedComponents = _components;
 				}
 			}
 		}
-		private bool _depthSorting = false;
+		private bool _depthSorting;
 
-		private List<Entity> _entities = new List<Entity>();
+
+		/// <summary>
+		/// If true, draws everything directly to the backbuffer instead of cameras.
+		/// </summary>
+		public bool IsGUI = false;
+
+
+		/// <summary>
+		/// List of all layer's entities.
+		/// </summary>
+		internal List<Entity> _entities = new List<Entity>();
 		private List<Entity> _depthSortedEntities;
 
+		internal List<Entity> _newEntities = new List<Entity>();
+		
 
 		/// <summary>
 		/// Component dictionary.
 		/// </summary>
 		internal Dictionary<string, List<Component>> _components = new Dictionary<string, List<Component>>();
-		
+		private Dictionary<string, List<Component>> _depthSortedComponents;
+
+
 		/// <summary>
 		/// Newly created components. Used for Create event.
 		/// </summary>
 		internal List<Component> _newComponents = new List<Component>();
-		Dictionary<string, List<Component>> _depthSortedComponents;
-
+		
 
 		/// <summary>
 		/// Tells if any components were removed in the current step.
@@ -73,14 +105,11 @@ namespace Monofoxe.Engine.Drawing
 		private Layer(string name, int depth)
 		{
 			Name = name;
-			Depth = depth;
+			Priority = depth;
 
-			_depthSortedEntities = _entities;
-			_depthSortedComponents = _components;
+			DepthSorting = false;
 		}
 		
-		
-		// TODO: Add depth sorting mode.
 
 		
 		/// <summary>
@@ -162,6 +191,9 @@ namespace Monofoxe.Engine.Drawing
 		}
 
 
+		/// <summary>
+		/// Sorts entites and components by depth, if depth sorting is enabled.
+		/// </summary>
 		internal void SortByDepth()
 		{
 			if (DepthSorting)
@@ -174,16 +206,20 @@ namespace Monofoxe.Engine.Drawing
 					_depthSortedComponents.Add(list.Key, list.Value.OrderByDescending(o => o.Owner.Depth).ToList());
 				}
 			}
+			else
+			{
+				_depthSortedEntities = _entities;
+				_depthSortedComponents = _components;
+			}
 		}
 
 
 		internal void AddEntity(Entity entity) =>
-			_entities.Add(entity);
+			_newEntities.Add(entity);
 		
 		internal void RemoveEntity(Entity entity) =>
 			_entities.Remove(entity);
 		
-
 
 		internal void AddComponent(Component component) =>
 			_newComponents.Add(component);
@@ -207,55 +243,43 @@ namespace Monofoxe.Engine.Drawing
 		}
 
 
-
-		
-
-
+		/// <summary>
+		/// Executes Draw, DrawBegin and DrawEnd events.
+		/// </summary>
 		internal static void CallDrawEvents()
 		{
 			foreach(var layer in _layers)
 			{
-				SystemMgr.DrawBegin(layer._depthSortedComponents);
-				foreach(Entity obj in layer._depthSortedEntities)
+				if (!layer.IsGUI)
 				{
-					if (obj.Active && !obj.Destroyed)
+					SystemMgr.Draw(layer._depthSortedComponents);
+					foreach(var entity in layer._depthSortedEntities)
 					{
-						obj.DrawBegin();
-					}
-				}
-
-				SystemMgr.Draw(layer._depthSortedComponents);
-				foreach(Entity obj in layer._depthSortedEntities)
-				{
-					if (obj.Active && !obj.Destroyed)
-					{
-						obj.Draw();
-					}
-				}
-				
-				SystemMgr.DrawEnd(layer._depthSortedComponents);
-				foreach(Entity obj in layer._depthSortedEntities)
-				{
-					if (obj.Active && !obj.Destroyed)
-					{
-						obj.DrawEnd();
+						if (entity.Active && !entity.Destroyed)
+						{
+							entity.Draw();
+						}
 					}
 				}
 			}
 		}
-
-
-
+		
+		/// <summary>
+		/// Executes Draw GUI events.
+		/// </summary>
 		internal static void CallDrawGUIEvents()
 		{
 			foreach(var layer in _layers)
 			{
-				SystemMgr.DrawGUI(layer._depthSortedComponents);
-				foreach(Entity obj in layer._depthSortedEntities)
+				if (layer.IsGUI)
 				{
-					if (obj.Active && !obj.Destroyed)
+					SystemMgr.Draw(layer._depthSortedComponents);
+					foreach(var entity in layer._depthSortedEntities)
 					{
-						obj.DrawGUI();
+						if (entity.Active && !entity.Destroyed)
+						{
+							entity.Draw();
+						}
 					}
 				}
 			}
@@ -263,11 +287,14 @@ namespace Monofoxe.Engine.Drawing
 
 
 
+		/// <summary>
+		/// Adds new layer to main layer list, taking in account its proirity.
+		/// </summary>
 		private static void AddLayerToList(Layer layer)
 		{
 			for(var i = 0; i < _layers.Count; i += 1)
 			{
-				if (layer.Depth > _layers[i].Depth)
+				if (layer.Priority > _layers[i].Priority)
 				{
 					_layers.Insert(i, layer);
 					return;

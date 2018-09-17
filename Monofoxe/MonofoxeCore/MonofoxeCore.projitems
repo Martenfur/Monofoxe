@@ -46,6 +46,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utils\RandomExt.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\StateMachine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Tiled\ITiledEntityFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\TimeKeeper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Timer.cs" />
   </ItemGroup>
   <ItemGroup>
