@@ -69,6 +69,7 @@
     <Compile Include="Resources\Sounds.cs" />
     <Compile Include="Resources\Sprites\SpritesDefault.cs" />
     <Compile Include="Resources\Fonts.cs" />
+    <Compile Include="Test\AlarmTester.cs" />
     <Compile Include="Test\AudioTester.cs" />
     <Compile Include="Test\DrawingTester.cs" />
     <Compile Include="Test\ECSTester.cs" />

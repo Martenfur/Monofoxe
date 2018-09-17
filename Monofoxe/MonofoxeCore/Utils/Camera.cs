@@ -85,11 +85,12 @@ namespace Monofoxe.Utils
 				h, 
 				false,
 				DrawMgr.Device.PresentationParameters.BackBufferFormat,
-				DepthFormat.Depth24, 
+				DrawMgr.Device.PresentationParameters.DepthStencilFormat, 
 				0, 
 				RenderTargetUsage.PreserveContents
 			);
 			DrawMgr.Cameras.Add(this);
+			
 		}
 
 		/// <summary>

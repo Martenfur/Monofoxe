@@ -28,6 +28,9 @@ namespace Monofoxe.Utils
 		//public bool AffectedBySpeedMultiplier = true;
 
 
+		public Alarm() {}
+		public Alarm(TimeKeeper timeKeeper) : base(timeKeeper) {}
+
 
 		/// <summary>
 		/// Sets alarm to given time.
@@ -64,7 +67,14 @@ namespace Monofoxe.Utils
 			{
 				if (AffectedBySpeedMultiplier)
 				{
-					Counter -= GameMgr.Time();
+					if (TimeKeeper == null)
+					{
+						Counter -= TimeKeeper.GlobalTime();
+					}
+					else
+					{
+						Counter -= TimeKeeper.Time();
+					}
 				}
 				else
 				{

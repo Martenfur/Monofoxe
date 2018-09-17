@@ -43,7 +43,7 @@ namespace Monofoxe.Test
 				Effects.Effect.Parameters["test"].SetValue(new Vector4(0.0f, 0.7f, 0.0f, 1.0f));
 				DrawMgr.Effect = Effects.Effect;
 			}
-			*/		
+			*/
 
 			DrawMgr.CurrentColor = Color.Violet;
 			
@@ -61,12 +61,19 @@ namespace Monofoxe.Test
 			var p = new Vector2(50, 200);
 			for(var i = 0; i < 8; i += 1)
 			{
-				DrawMgr.DrawSprite(testSpr, 0, p + Vector2.UnitX * i * 16, Vector2.One, i * 5, new Color(Color.White, 0.5f));
+				DrawMgr.DrawSprite(testSpr, 0, p + Vector2.UnitX * i * 16, Vector2.One, i * 5, Color.White * 0.5f);
 			}
 			
+
 			DrawMgr.Effect = null;
-			DrawMgr.CurrentColor = Color.Black;
 			DrawMgr.CurrentFont = Fonts.Arial;
+			
+			DrawMgr.CurrentColor = Color.White * 0.5f;//new Color(0.5f, 0.5f, 0.5f, 0.5f);
+			DrawMgr.DrawCircle(200, 200, 32, false);
+			DrawMgr.DrawCircle(200, 216, 32, false);
+			DrawMgr.CurrentColor = Color.White;
+
+			DrawMgr.DrawText("test", 100, 100);
 		}
 
 

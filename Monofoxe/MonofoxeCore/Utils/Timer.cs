@@ -23,7 +23,13 @@ namespace Monofoxe.Utils
 		public bool AffectedBySpeedMultiplier = true;
 
 
-		
+		public TimeKeeper TimeKeeper;
+
+		public Timer() {}
+		public Timer(TimeKeeper timeKeeper) => 
+			TimeKeeper = timeKeeper;
+
+
 		/// <summary>
 		/// Resets timer.
 		/// </summary>
@@ -44,7 +50,14 @@ namespace Monofoxe.Utils
 			{
 				if (AffectedBySpeedMultiplier)
 				{
-					Counter += GameMgr.Time();
+					if (TimeKeeper == null)
+					{
+						Counter += TimeKeeper.GlobalTime();
+					}
+					else
+					{
+						Counter += TimeKeeper.Time();
+					}
 				}
 				else
 				{

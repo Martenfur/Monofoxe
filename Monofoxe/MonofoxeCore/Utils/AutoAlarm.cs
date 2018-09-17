@@ -14,6 +14,13 @@ namespace Monofoxe.Utils
 			Set(Time);
 		}
 
+		public AutoAlarm(double time, TimeKeeper timeKeeper) : base(timeKeeper)
+		{
+			Time = time;
+			Set(Time);
+		}
+
+
 		/// <summary>
 		/// Updates alarm. Also can be used to check for triggering.
 		/// </summary>

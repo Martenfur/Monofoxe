@@ -32,26 +32,7 @@ namespace Monofoxe.Engine
 
 		public static double FixedUpdateRate = 0.5; // Seconds.
 		
-		// TODO: Remove.
-		/// <summary>
-		/// If more than one, game will speed up.
-		/// If less than one, game will slow down.
-		/// </summary>
-		public static double GameSpeedMultiplier
-		{
-			get => _gameSpeedMultiplier;
-			
-			set 
-			{
-				if (value > 0)
-				{
-					_gameSpeedMultiplier = value;
-				}
-			}
-		}
-		private static double _gameSpeedMultiplier = 1; 
 		
-
 		public static double MaxGameSpeed
 		{
 			get => (int)(1.0 / Game.TargetElapsedTime.TotalSeconds);
@@ -155,12 +136,6 @@ namespace Monofoxe.Engine
 
 		public static void UpdateFps(GameTime gameTime) => 
 			_fpsCounter.Update(gameTime);
-
-
-		// TODO: Remove.
-		public static double Time(double val = 1) => 
-			val * ElapsedTime * GameSpeedMultiplier;
-
 
 
 		/// <summary>

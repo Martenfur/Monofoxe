@@ -45,10 +45,12 @@ namespace Monofoxe.Test
 			GameMgr.MaxGameSpeed = 60;
 			GameMgr.FixedUpdateRate = 1.0 / 30.0;
 			
-
+			//Layer.Get("default").IsGUI = true;
 
 			new DrawingTester();
 			new ECSTester(Layer.Get("balls"));
+			//new AlarmTester(Layer.Get("balls"));
+
 		}
 
 
@@ -145,12 +147,12 @@ namespace Monofoxe.Test
 
 		void InitRasterizer()
 		{
-			DrawMgr.BlendState = BlendState.NonPremultiplied; // Makes alpha magically work.
 			
-			RasterizerState rasterizerState = new RasterizerState(); // Do something with it, I guees.
+			RasterizerState rasterizerState = new RasterizerState();
 			rasterizerState.CullMode = CullMode.None;
-			rasterizerState.ScissorTestEnable = false;//(_scissorRectangle != Rectangle.Empty);
+			rasterizerState.ScissorTestEnable = false;
 			rasterizerState.FillMode = FillMode.Solid;
+			
 			
 			DrawMgr.Rasterizer = rasterizerState;
 
