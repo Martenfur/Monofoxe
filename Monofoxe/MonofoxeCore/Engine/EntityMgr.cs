@@ -320,7 +320,9 @@ namespace Monofoxe.Engine
 
 
 
-		
+		/// <summary>
+		/// Returns a list of all active components in all layers.
+		/// </summary>
 		private static Dictionary<string, List<Component>> GetActiveComponents()
 		{
 			var list = new Dictionary<string, List<Component>>();

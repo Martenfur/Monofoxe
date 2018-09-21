@@ -5,6 +5,10 @@ using Microsoft.Xna.Framework;
 
 namespace Monofoxe.Engine.Converters
 {
+	/// <summary>
+	/// Vector2 JSON converter.
+	/// JSON format for vectors is: {x: 0, y: 0}.
+	/// </summary>
 	public class Vector2Converter : BasicConverter
 	{
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

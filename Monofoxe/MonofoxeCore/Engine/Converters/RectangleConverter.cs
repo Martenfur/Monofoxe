@@ -5,6 +5,10 @@ using Microsoft.Xna.Framework;
 
 namespace Monofoxe.Engine.Converters
 {
+	/// <summary>
+	/// Rectangle JSON converter.
+	/// JSON format for rectangles is: {x: 0, y: 0, w: 0, h: 0}.
+	/// </summary>
 	public class RectangleConverter : BasicConverter
 	{
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
