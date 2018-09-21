@@ -20,8 +20,21 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Depth of Draw event. Objects with the lowest depth draw the last.
 		/// </summary>
-		public int Depth;
-	
+		public int Depth
+		{
+			get => _depth;
+			set
+			{
+				if (value != _depth)
+				{
+					_depth = value;
+					Layer._depthListOutdated = true;
+				}
+			}
+		}
+		private int _depth;
+
+
 		/// <summary>
 		/// Tells f object was destroyed.
 		/// </summary>

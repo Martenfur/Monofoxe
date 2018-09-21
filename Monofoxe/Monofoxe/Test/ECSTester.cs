@@ -23,14 +23,15 @@ namespace Monofoxe.Test
 
 		public override void Update()
 		{
-			if (Input.CheckButton(Buttons.MouseRight))
+			if (Input.CheckButton(Buttons.MouseLeft))
 			{
 				var ball = EntityMgr.CreateEntity(Layer.Get("balls"), "ball");
 				ball.GetComponent<CMovement>().Position = Input.ScreenMousePos;
 				ball.GetComponent<CCollision>().MaskR = 20;//r.Next(10, 16);
-				Console.WriteLine(EntityMgr.Count("ball"));
+				//Console.WriteLine(EntityMgr.Count("ball"));
 			}
-			if (Input.CheckButton(Buttons.MouseMiddle))
+
+			if (Input.CheckButton(Buttons.MouseRight))
 			{
 				foreach(var entity in EntityMgr.GetList("ball"))
 				{
@@ -41,6 +42,10 @@ namespace Monofoxe.Test
 			if (Input.CheckButtonPress(Buttons.G))
 			{
 				Layer.DepthSorting = !Layer.DepthSorting;
+			}
+			if (Input.CheckButtonPress(Buttons.H))
+			{
+				Layer.IsGUI = !Layer.IsGUI;
 			}
 		}
 	}
