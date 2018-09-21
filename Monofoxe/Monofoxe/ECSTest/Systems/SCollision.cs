@@ -23,7 +23,7 @@ namespace Monofoxe.ECSTest.Systems
 		{
 		
 			var movement = ComponentMgr.GetComponentList<CMovement>(components);
-		/*	
+			
 			var id = 0;
 			var otherId = 0;
 			foreach(CCollision collider in components)
@@ -49,8 +49,8 @@ namespace Monofoxe.ECSTest.Systems
 				}
 				id += 1;
 			}
-			*/
-			var id = 0;
+			
+			id = 0;
 			foreach(CCollision collider in components)
 			{
 				collider.Owner.Depth = -(int)movement[id].Position.Y;
@@ -61,6 +61,8 @@ namespace Monofoxe.ECSTest.Systems
 		
 		public void Draw(List<Component> components) 
 		{
+			// Game crashes, if entities are deleted.
+			/*
 			var movement = ComponentMgr.GetComponentList<CMovement>(components);
 			DrawMgr.CurrentColor = Color.White;
 			var id = 0;
@@ -69,7 +71,7 @@ namespace Monofoxe.ECSTest.Systems
 				//DrawMgr.DrawCircle(movement[id].Position, collider.MaskR, true);
 				DrawMgr.DrawSprite(Resources.Sprites.SpritesDefault.Barrel, movement[id].Position);
 				id += 1;
-			}
+			}*/
 		}
 	}
 }

@@ -39,8 +39,8 @@ namespace Monofoxe.Test
 
 			InitRasterizer();
 
-			var layer = Layer.Create("balls", 0);
-			layer.IsGUI = true;
+			var layer = Layer.Create("balls", -1);
+			layer.IsGUI = false;
 
 			GameMgr.MaxGameSpeed = 60;
 			GameMgr.FixedUpdateRate = 1.0 / 30.0;
@@ -61,6 +61,7 @@ namespace Monofoxe.Test
 				GameMgr.ExitGame();
 			}
 			
+			//Console.WriteLine(Layer.__GetLayerInfo());
 			
 			#region Camera. 
 
@@ -147,7 +148,6 @@ namespace Monofoxe.Test
 
 		void InitRasterizer()
 		{
-			
 			RasterizerState rasterizerState = new RasterizerState();
 			rasterizerState.CullMode = CullMode.None;
 			rasterizerState.ScissorTestEnable = false;
@@ -157,7 +157,6 @@ namespace Monofoxe.Test
 			DrawMgr.Rasterizer = rasterizerState;
 
 			DrawMgr.Sampler = SamplerState.PointClamp;
-
 		}
 
 	}

@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using Monofoxe.Engine.ECS;
 using System.Linq;
-
+using System.Text;
 
 namespace Monofoxe.Engine.Drawing
 {
+	/// <summary>
+	/// A layer is a container for entities and components.
+	/// </summary>
 	public class Layer
 	{
-		//TODO: Add new entity management.	
-
 		/// <summary>
 		/// List of all existing layers.
 		/// </summary>
@@ -26,8 +27,10 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public readonly string Name;
 
+		internal bool _depthListOutdated = false;
+
 		/// <summary>
-		/// Priority of a layer.
+		/// Priority of a layer. 
 		/// </summary>
 		public int Priority
 		{
@@ -198,12 +201,18 @@ namespace Monofoxe.Engine.Drawing
 		{
 			if (DepthSorting)
 			{
-				_depthSortedEntities = _entities.OrderByDescending(o => o.Depth).ToList();
-
-				_depthSortedComponents.Clear();
-				foreach(KeyValuePair<string, List<Component>> list in _components)
+				if (_depthListOutdated)
 				{
-					_depthSortedComponents.Add(list.Key, list.Value.OrderByDescending(o => o.Owner.Depth).ToList());
+					Console.WriteLine("Sorting the list...");
+					_depthSortedEntities = _entities.OrderByDescending(o => o.Depth).ToList();
+
+					_depthSortedComponents.Clear();
+					foreach(KeyValuePair<string, List<Component>> list in _components)
+					{
+						_depthSortedComponents.Add(list.Key, list.Value.OrderByDescending(o => o.Owner.Depth).ToList());
+					}
+
+					_depthListOutdated = false;
 				}
 			}
 			else
@@ -212,18 +221,25 @@ namespace Monofoxe.Engine.Drawing
 				_depthSortedComponents = _components;
 			}
 		}
-
-
-		internal void AddEntity(Entity entity) =>
-			_newEntities.Add(entity);
 		
+
+		internal void AddEntity(Entity entity)
+		{
+			_newEntities.Add(entity);
+			_depthListOutdated = true;
+		}
+
 		internal void RemoveEntity(Entity entity) =>
 			_entities.Remove(entity);
 		
 
-		internal void AddComponent(Component component) =>
+		internal void AddComponent(Component component)
+		{
 			_newComponents.Add(component);
-		
+			_depthListOutdated = true;
+		}
+
+
 		internal void RemoveComponent(Component component)
 		{
 			// Removing from lists.
@@ -301,6 +317,29 @@ namespace Monofoxe.Engine.Drawing
 				}
 			}
 			_layers.Add(layer);
+		}
+
+
+
+		/// <summary>
+		/// Returns info about layers.
+		/// </summary>
+		public static string __GetLayerInfo()
+		{
+			var str = new StringBuilder();
+
+			foreach(var layer in Layers)
+			{
+				str.Append(
+					layer.Name + 
+					"; Priority: " + layer.Priority + 
+					"; is GUI: " + layer.IsGUI + 
+					"; Ent: " + layer._entities.Count +
+					Environment.NewLine
+				);
+			}
+
+			return str.ToString();
 		}
 
 	}

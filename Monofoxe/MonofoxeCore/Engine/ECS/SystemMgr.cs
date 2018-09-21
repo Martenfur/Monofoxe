@@ -181,19 +181,6 @@ namespace Monofoxe.Engine.ECS
 
 
 
-
-		/* TODO: Remove, if not needed.
-		private static List<Component> GetNewComponents()
-		{
-			var list = new List<Component>();
-			foreach(var layer in Layer.Layers)
-			{	
-				list.AddRange(FilterInactiveComponents(layer._newComponents));
-			}
-			return list;
-		}
-		*/
-
 		/// <summary>
 		/// Enables and disables systems depending on if there are any components for them.
 		/// </summary>
