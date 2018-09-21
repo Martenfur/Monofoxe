@@ -203,7 +203,6 @@ namespace Monofoxe.Engine.Drawing
 			{
 				if (_depthListOutdated)
 				{
-					Console.WriteLine("Sorting the list...");
 					_depthSortedEntities = _entities.OrderByDescending(o => o.Depth).ToList();
 
 					_depthSortedComponents.Clear();

@@ -18,7 +18,7 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		internal static Dictionary<string, ISystem> _systemPool = new Dictionary<string, ISystem>();
 
-		public static int __dbgSysCount => _activeSystems.Count; // REMOVE
+		public static int __dbgSysCount => _activeSystems.Count; // TODO: REMOVE
 		public static int __dbgSysPoolCount => _systemPool.Count; // REMOVE
 
 
