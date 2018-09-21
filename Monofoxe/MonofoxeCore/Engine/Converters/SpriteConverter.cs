@@ -5,6 +5,13 @@ using System.Reflection;
 
 namespace Monofoxe.Engine.Converters
 {
+	/// <summary>
+	/// Sprite JSON converter.
+	/// Sprites can only be deserialized as static fields in some class.
+	/// For example: Resources.Sprites.SpritesDefault.Foxe.
+	/// 
+	/// NOTE: Sprites cannot be serialized!
+	/// </summary>
 	public class SpriteConverter : BasicConverter
 	{
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>

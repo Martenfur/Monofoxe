@@ -4,6 +4,9 @@ using Newtonsoft.Json.Linq;
 
 namespace Monofoxe.Engine.Converters
 {
+	/// <summary>
+	/// Basic abstract json converter. Can be inherited to create new converters. 
+	/// </summary>
 	public abstract class BasicConverter : JsonConverter
 	{
 		public override bool CanConvert(Type objectType) =>

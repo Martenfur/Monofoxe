@@ -4,10 +4,12 @@ using Newtonsoft.Json.Linq;
 using Microsoft.Xna.Framework;
 using System.Globalization;
 
-//TODO: Comment, comment, comment. :S
-
 namespace Monofoxe.Engine.Converters
 {
+	/// <summary>
+	/// Color JSON converter.
+	/// Colors can be written as #RRGGBBAA or #RRGGBB.
+	/// </summary>
 	public class ColorConverter : BasicConverter
 	{
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
@@ -46,9 +48,10 @@ namespace Monofoxe.Engine.Converters
 				
 				return new Color(r, g, b, a);
 			}
-			catch(Exception) {}
-
-			throw(new Exception("Incorrect color format! Use #RRGGBB or #RRGGBBAA"));
+			catch(Exception) 
+			{	
+				throw(new Exception("Incorrect color format! Use #RRGGBB or #RRGGBBAA"));
+			}
 		}
 	}
 }
