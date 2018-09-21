@@ -59,10 +59,10 @@ namespace Monofoxe.ECSTest.Systems
 		}
 
 		
-		public void Draw(List<Component> components) 
+		public void Draw(List<Component> components)
 		{
 			// Game crashes, if entities are deleted.
-			/*
+			
 			var movement = ComponentMgr.GetComponentList<CMovement>(components);
 			DrawMgr.CurrentColor = Color.White;
 			var id = 0;
@@ -71,7 +71,7 @@ namespace Monofoxe.ECSTest.Systems
 				//DrawMgr.DrawCircle(movement[id].Position, collider.MaskR, true);
 				DrawMgr.DrawSprite(Resources.Sprites.SpritesDefault.Barrel, movement[id].Position);
 				id += 1;
-			}*/
+			}
 		}
 	}
 }

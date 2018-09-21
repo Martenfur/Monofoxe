@@ -68,7 +68,7 @@ namespace Monofoxe.Engine.ECS
 					
 			foreach(Component component in components)
 			{
-				if (component.Owner.Active)
+				if (component.Owner.Active && !component.Owner.Destroyed)
 				{
 					activeComponents.Add(component);
 				}
