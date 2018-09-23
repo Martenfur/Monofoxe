@@ -31,7 +31,7 @@ namespace Monofoxe.Engine.ECS
 			set
 			{
 				_autoSystemManagement = value;
-				foreach(var layer in Layer.Layers)
+				foreach(var layer in LayerMgr.Layers)
 				{
 					layer._componentsWereRemoved = true;
 				}
@@ -186,7 +186,7 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		internal static void UpdateSystems()
 		{
-			foreach(var layer in Layer.Layers)
+			foreach(var layer in LayerMgr.Layers)
 			{
 				// Managing new components.
 				if (layer._newComponents.Count > 0)

@@ -14,6 +14,7 @@ namespace Monofoxe.Engine
 
 		public static SpriteBatch Batch {get; private set;}
 		public static GraphicsDevice Device {get; private set;}
+		public static GraphicsDeviceManager DeviceManager {get; private set;}
 		
 		/// <summary>
 		/// List of all cameras.
@@ -253,7 +254,7 @@ namespace Monofoxe.Engine
 			
 			CircleVerticesCount = 16;
 
-			Layer.Create("default");
+			LayerMgr.Create("default");
 		}
 
 
@@ -341,7 +342,7 @@ namespace Monofoxe.Engine
 					}
 
 					//EntityMgr.Draw();
-					Layer.CallDrawEvents();
+					LayerMgr.CallDrawEvents();
 					
 
 					ResetSurfaceTarget();
@@ -376,7 +377,7 @@ namespace Monofoxe.Engine
 			_currentPipelineMode = PipelineMode.None;
 			
 			//EntityMgr.DrawGUI();
-			Layer.CallDrawGUIEvents();
+			LayerMgr.CallDrawGUIEvents();
 
 			if (_currentPipelineMode == PipelineMode.Sprites) // If there's something left in batch or vertex buffer, we should draw it.
 			{

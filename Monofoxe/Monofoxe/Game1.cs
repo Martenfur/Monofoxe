@@ -71,7 +71,7 @@ namespace Monofoxe
 		{
 			GameMgr.UpdateFps(gameTime);
 			DrawMgr.Update(gameTime);
-
+			
 			base.Draw(gameTime);
 		}
 	}

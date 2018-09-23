@@ -18,7 +18,7 @@ namespace Monofoxe.Test
 		float fireFrame = 0;
 	
 
-		public DrawingTester() : base(Layer.Get("default"))
+		public DrawingTester() : base(LayerMgr.Get("default"))
 		{
 			
 		}
