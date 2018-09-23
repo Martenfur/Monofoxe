@@ -25,7 +25,7 @@ namespace Monofoxe.Test
 
 		FMOD.ChannelGroup group;//new FMOD.ChannelGroup((IntPtr)0);
 
-		public AudioTester() : base(LayerMgr.Get("default"))
+		public AudioTester() : base(LayerMgr.GetLayer("default"))
 		{
 			snd1 = AudioMgr.LoadStreamedSound("Music/m_mission", FMOD.MODE._3D);
 			snd2 = AudioMgr.LoadStreamedSound("Music/m_peace");

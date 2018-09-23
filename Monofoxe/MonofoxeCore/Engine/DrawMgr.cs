@@ -254,7 +254,7 @@ namespace Monofoxe.Engine
 			
 			CircleVerticesCount = 16;
 
-			LayerMgr.Create("default");
+			LayerMgr.CreateLayer("default");
 		}
 
 

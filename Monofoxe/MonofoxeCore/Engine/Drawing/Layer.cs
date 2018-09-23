@@ -31,7 +31,7 @@ namespace Monofoxe.Engine.Drawing
 			set
 			{
 				_priority = value;
-				LayerMgr.AddLayerToList(this);
+				LayerMgr.UpdateLayerPlace(this);
 			}
 		}
 		private int _priority;

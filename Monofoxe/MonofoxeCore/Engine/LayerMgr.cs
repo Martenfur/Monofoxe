@@ -22,9 +22,9 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Creates new layer with given name.
 		/// </summary>
-		public static Layer Create(string name, int depth = 0)
+		public static Layer CreateLayer(string name, int depth = 0)
 		{
-			if (Exists(name))
+			if (LayerExists(name))
 			{
 				throw(new Exception("Layer with such name already exists!"));
 			}
@@ -35,7 +35,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Destroys given layer.
 		/// </summary>
-		public static void Destroy(Layer layer)
+		public static void DestroyLayer(Layer layer)
 		{
 			if (_layers.Remove(layer))
 			{
@@ -49,7 +49,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Destroys layer with given name.
 		/// </summary>
-		public static void Destroy(string name)
+		public static void DestroyLayer(string name)
 		{
 			foreach(var layer in _layers)
 			{
@@ -68,7 +68,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Returns layer with given name.
 		/// </summary>
-		public static Layer Get(string name)
+		public static Layer GetLayer(string name)
 		{
 			foreach(var layer in _layers)
 			{
@@ -84,7 +84,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Returns true, if there is a layer with given name. 
 		/// </summary>
-		public static bool Exists(string name)
+		public static bool LayerExists(string name)
 		{
 			foreach(var layer in _layers)
 			{
@@ -142,9 +142,9 @@ namespace Monofoxe.Engine
 
 
 		/// <summary>
-		/// Adds new layer to main layer list, taking in account its proirity.
+		/// Removes layer from list and adds it again, taking in account its proirity.
 		/// </summary>
-		internal static void AddLayerToList(Layer layer)
+		internal static void UpdateLayerPlace(Layer layer)
 		{
 			_layers.Remove(layer);
 			for(var i = 0; i < _layers.Count; i += 1)
