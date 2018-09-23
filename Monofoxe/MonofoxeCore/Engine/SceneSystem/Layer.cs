@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Monofoxe.Engine.ECS;
-using Monofoxe.Engine;
 using System.Linq;
-using System.Text;
 
-namespace Monofoxe.Engine.Drawing
+namespace Monofoxe.Engine.SceneSystem
 {
 	/// <summary>
 	/// A layer is a container for entities and components.
@@ -31,7 +28,7 @@ namespace Monofoxe.Engine.Drawing
 			set
 			{
 				_priority = value;
-				LayerMgr.UpdateLayerPlace(this);
+				LayerMgr.UpdateLayerPriority(this);
 			}
 		}
 		private int _priority;

@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO;
 using Microsoft.Xna.Framework.Content;
-using Monofoxe.Engine.Drawing;
+using Monofoxe.Engine.SceneSystem;
 
 namespace Monofoxe.Engine
 {
