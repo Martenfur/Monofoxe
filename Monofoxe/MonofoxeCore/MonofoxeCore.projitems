@@ -19,15 +19,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\SpriteConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\Vector2Converter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\Vector3Converter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\Layer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\SceneSystem\Layer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\ComponentMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\SystemMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\Component.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\EntityTemplate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\ISystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ContentReaders\SpriteGroupReader.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Engine\LayerMgr.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Engine\Scene.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\SceneSystem\LayerMgr.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\SceneSystem\Scene.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\SceneSystem\SceneMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Camera.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\DrawMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\Font.cs" />
@@ -61,6 +62,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Engine\Audio\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Engine\SceneSystem\" />
   </ItemGroup>
 </Project>

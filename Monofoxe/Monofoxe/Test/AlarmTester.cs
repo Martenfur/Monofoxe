@@ -10,6 +10,7 @@ using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.Drawing;
 using Microsoft.Xna.Framework;
 using Resources.Sprites;
+using Monofoxe.Engine.SceneSystem;
 
 
 namespace Monofoxe.Test

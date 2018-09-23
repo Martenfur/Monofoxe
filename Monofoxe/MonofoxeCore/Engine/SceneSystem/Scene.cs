@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Monofoxe.Engine.Drawing;
-using Monofoxe.Engine.ECS;
 
-namespace Monofoxe.Engine
+namespace Monofoxe.Engine.SceneSystem
 {
 	public class Scene
 	{

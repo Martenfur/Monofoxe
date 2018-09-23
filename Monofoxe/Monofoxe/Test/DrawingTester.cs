@@ -9,6 +9,8 @@ using Resources;
 using Monofoxe.Engine.ECS;
 using Monofoxe.ECSTest.Systems;
 using Monofoxe.ECSTest.Components;
+using Monofoxe.Engine.SceneSystem;
+
 
 namespace Monofoxe.Test
 {

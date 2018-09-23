@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 using Monofoxe.Utils;
 using Monofoxe.Engine.ECS;
-
+using Monofoxe.Engine.SceneSystem;
 
 namespace Monofoxe.Test
 {

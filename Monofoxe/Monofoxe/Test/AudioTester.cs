@@ -9,6 +9,7 @@ using Resources.Sprites;
 using Resources;
 using Monofoxe.Engine.Audio;
 using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.SceneSystem;
 using Monofoxe.ECSTest.Systems;
 using Monofoxe.ECSTest.Components;
 

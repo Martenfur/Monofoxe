@@ -4,7 +4,7 @@ using System.Text;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.ECS;
 
-namespace Monofoxe.Engine
+namespace Monofoxe.Engine.SceneSystem
 {
 	public static class LayerMgr
 	{
@@ -144,7 +144,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Removes layer from list and adds it again, taking in account its proirity.
 		/// </summary>
-		internal static void UpdateLayerPlace(Layer layer)
+		internal static void UpdateLayerPriority(Layer layer)
 		{
 			_layers.Remove(layer);
 			for(var i = 0; i < _layers.Count; i += 1)
