@@ -12,7 +12,7 @@ namespace Monofoxe.Test
 {
 	public class MainTester : Entity
 	{
-		public static Camera MainCamera = new Camera(600, 600);
+		public static Camera MainCamera = new Camera(1440, 900);
 		public static Camera SecondCamera = new Camera(600, 600);	
 
 		public RandomExt Random = new RandomExt();
@@ -31,7 +31,7 @@ namespace Monofoxe.Test
 		 */
 
 
-		public MainTester() : base(Layer.Get("default"))
+		public MainTester() : base(LayerMgr.Get("default"))
 		{
 			InitCameras();
 
@@ -39,7 +39,7 @@ namespace Monofoxe.Test
 
 			InitRasterizer();
 
-			var layer = Layer.Create("balls", -1);
+			var layer = LayerMgr.Create("balls", -1);
 			layer.IsGUI = false;
 
 			GameMgr.MaxGameSpeed = 60;
@@ -48,7 +48,7 @@ namespace Monofoxe.Test
 			//Layer.Get("default").IsGUI = true;
 
 			new DrawingTester();
-			new ECSTester(Layer.Get("balls"));
+			new ECSTester(LayerMgr.Get("balls"));
 			//new AlarmTester(Layer.Get("balls"));
 
 		}
@@ -131,7 +131,7 @@ namespace Monofoxe.Test
 
 			SecondCamera.PortPos.X = 600;
 			SecondCamera.BackgroundColor = Color.DarkSeaGreen;
-			SecondCamera.Enabled = true;
+			SecondCamera.Enabled = false;
 		}
 
 
@@ -142,7 +142,7 @@ namespace Monofoxe.Test
 			GameMgr.WindowManager.ApplyChanges();
 			GameMgr.WindowManager.CenterWindow();
 			
-			GameMgr.WindowManager.CanvasMode = CanvasMode.None; 
+			GameMgr.WindowManager.CanvasMode = CanvasMode.Fill; 
 		}
 
 

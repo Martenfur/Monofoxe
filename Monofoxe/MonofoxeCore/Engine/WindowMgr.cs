@@ -16,6 +16,8 @@ namespace Monofoxe.Engine
 	/// </summary>
 	public class WindowMgr : GraphicsDeviceManager
 	{
+		// NOTE: To control VSync, use SynchronizeWithVerticalRetrace.
+
 		#region Window properties.
 		/// <summary>
 		/// Width of the screen.
@@ -80,6 +82,8 @@ namespace Monofoxe.Engine
 				CanvasH = (int)value.Y;
 			}
 		}
+
+
 
 		/// <summary>
 		/// Window position.

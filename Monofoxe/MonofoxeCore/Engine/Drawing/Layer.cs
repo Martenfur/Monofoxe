@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Monofoxe.Engine.ECS;
+using Monofoxe.Engine;
 using System.Linq;
 using System.Text;
 
@@ -11,16 +12,7 @@ namespace Monofoxe.Engine.Drawing
 	/// </summary>
 	public class Layer
 	{
-		/// <summary>
-		/// List of all existing layers.
-		/// </summary>
-		public static IReadOnlyCollection<Layer> Layers => _layers;
-
-		/// <summary>
-		/// List of all existing layers.
-		/// </summary>
-		private static List<Layer> _layers = new List<Layer>();
-
+		
 		/// <summary>
 		/// Layer's name. Used for searching.
 		/// NOTE: All layers should have unique names!
@@ -39,8 +31,7 @@ namespace Monofoxe.Engine.Drawing
 			set
 			{
 				_priority = value;
-				_layers.Remove(this);
-				AddLayerToList(this);
+				LayerMgr.AddLayerToList(this);
 			}
 		}
 		private int _priority;
@@ -80,7 +71,7 @@ namespace Monofoxe.Engine.Drawing
 		/// List of all layer's entities.
 		/// </summary>
 		internal List<Entity> _entities = new List<Entity>();
-		private List<Entity> _depthSortedEntities;
+		internal List<Entity> _depthSortedEntities;
 
 		internal List<Entity> _newEntities = new List<Entity>();
 		
@@ -89,7 +80,7 @@ namespace Monofoxe.Engine.Drawing
 		/// Component dictionary.
 		/// </summary>
 		internal Dictionary<string, List<Component>> _components = new Dictionary<string, List<Component>>();
-		private Dictionary<string, List<Component>> _depthSortedComponents;
+		internal Dictionary<string, List<Component>> _depthSortedComponents;
 
 
 		/// <summary>
@@ -105,94 +96,15 @@ namespace Monofoxe.Engine.Drawing
 
 
 
-		private Layer(string name, int depth)
+		internal Layer(string name, int depth)
 		{
 			Name = name;
-			Priority = depth;
+			Priority = depth; // Also adds layer to priority list.
 
 			DepthSorting = false;
 		}
 		
-
 		
-		/// <summary>
-		/// Creates new layer with given name.
-		/// </summary>
-		public static Layer Create(string name, int depth = 0)
-		{
-			if (Exists(name))
-			{
-				throw(new Exception("Layer with such name already exists!"));
-			}
-			
-			return new Layer(name, depth);
-		}
-
-		
-		/// <summary>
-		/// Destroys given layer.
-		/// </summary>
-		public static void Destroy(Layer layer)
-		{
-			if (_layers.Remove(layer))
-			{
-				foreach(var entity in layer._entities)
-				{
-					EntityMgr.DestroyEntity(entity);
-				}
-			}
-		}
-
-		/// <summary>
-		/// Destroys layer with given name.
-		/// </summary>
-		public static void Destroy(string name)
-		{
-			foreach(var layer in _layers)
-			{
-				if (layer.Name == name)
-				{
-					 _layers.Remove(layer);
-					foreach(var entity in layer._entities)
-					{
-						EntityMgr.DestroyEntity(entity);
-					}
-				}
-			}
-		}
-
-
-		/// <summary>
-		/// Returns layer with given name.
-		/// </summary>
-		public static Layer Get(string name)
-		{
-			foreach(var layer in _layers)
-			{
-				if (layer.Name == name)
-				{
-					return layer;
-				}
-			}
-			return null;
-		}
-
-
-		/// <summary>
-		/// Returns true, if there is a layer with given name. 
-		/// </summary>
-		public static bool Exists(string name)
-		{
-			foreach(var layer in _layers)
-			{
-				if (layer.Name == name)
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-
 
 		/// <summary>
 		/// Sorts entites and components by depth, if depth sorting is enabled.
@@ -258,88 +170,6 @@ namespace Monofoxe.Engine.Drawing
 		}
 
 
-		/// <summary>
-		/// Executes Draw, DrawBegin and DrawEnd events.
-		/// </summary>
-		internal static void CallDrawEvents()
-		{
-			foreach(var layer in _layers)
-			{
-				if (!layer.IsGUI)
-				{
-					SystemMgr.Draw(layer._depthSortedComponents);
-					foreach(var entity in layer._depthSortedEntities)
-					{
-						if (entity.Active && !entity.Destroyed)
-						{
-							entity.Draw();
-						}
-					}
-				}
-			}
-		}
 		
-		/// <summary>
-		/// Executes Draw GUI events.
-		/// </summary>
-		internal static void CallDrawGUIEvents()
-		{
-			foreach(var layer in _layers)
-			{
-				if (layer.IsGUI)
-				{
-					SystemMgr.Draw(layer._depthSortedComponents);
-					foreach(var entity in layer._depthSortedEntities)
-					{
-						if (entity.Active && !entity.Destroyed)
-						{
-							entity.Draw();
-						}
-					}
-				}
-			}
-		}
-
-
-
-		/// <summary>
-		/// Adds new layer to main layer list, taking in account its proirity.
-		/// </summary>
-		private static void AddLayerToList(Layer layer)
-		{
-			for(var i = 0; i < _layers.Count; i += 1)
-			{
-				if (layer.Priority > _layers[i].Priority)
-				{
-					_layers.Insert(i, layer);
-					return;
-				}
-			}
-			_layers.Add(layer);
-		}
-
-
-
-		/// <summary>
-		/// Returns info about layers.
-		/// </summary>
-		public static string __GetLayerInfo()
-		{
-			var str = new StringBuilder();
-
-			foreach(var layer in Layers)
-			{
-				str.Append(
-					layer.Name + 
-					"; Priority: " + layer.Priority + 
-					"; is GUI: " + layer.IsGUI + 
-					"; Ent: " + layer._entities.Count +
-					Environment.NewLine
-				);
-			}
-
-			return str.ToString();
-		}
-
 	}
 }

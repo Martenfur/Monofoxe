@@ -14,7 +14,7 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		public static void InitComponent(Component component)
 		{
-			foreach(var layer in Layer.Layers)
+			foreach(var layer in LayerMgr.Layers)
 			{
 				// If component is even there.
 				if (layer._newComponents.Contains(component) && SystemMgr._activeSystems.ContainsKey(component.Tag))

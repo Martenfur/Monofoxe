@@ -26,6 +26,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\EntityTemplate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\ISystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ContentReaders\SpriteGroupReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\LayerMgr.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Scene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Camera.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\DrawMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\Font.cs" />
@@ -59,5 +61,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Engine\Audio\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Engine\SceneSystem\" />
   </ItemGroup>
 </Project>
