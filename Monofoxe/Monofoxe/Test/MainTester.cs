@@ -31,7 +31,7 @@ namespace Monofoxe.Test
 		 */
 
 
-		public MainTester() : base(LayerMgr.Get("default"))
+		public MainTester() : base(LayerMgr.GetLayer("default"))
 		{
 			InitCameras();
 
@@ -39,16 +39,16 @@ namespace Monofoxe.Test
 
 			InitRasterizer();
 
-			var layer = LayerMgr.Create("balls", -1);
+			var layer = LayerMgr.CreateLayer("balls", -1);
 			layer.IsGUI = false;
 
 			GameMgr.MaxGameSpeed = 60;
 			GameMgr.FixedUpdateRate = 1.0 / 30.0;
 			
-			//Layer.Get("default").IsGUI = true;
+			//LayerMgrs.Get("default").IsGUI = true;
 
 			new DrawingTester();
-			new ECSTester(LayerMgr.Get("balls"));
+			new ECSTester(LayerMgr.GetLayer("balls"));
 			//new AlarmTester(Layer.Get("balls"));
 
 		}

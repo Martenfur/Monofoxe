@@ -25,7 +25,7 @@ namespace Monofoxe.Test
 		{
 			if (Input.CheckButton(Buttons.MouseLeft))
 			{
-				var ball = EntityMgr.CreateEntity(LayerMgr.Get("balls"), "ball");
+				var ball = EntityMgr.CreateEntity(LayerMgr.GetLayer("balls"), "ball");
 				ball.GetComponent<CMovement>().Position = Input.ScreenMousePos;
 				ball.GetComponent<CCollision>().MaskR = 20;//r.Next(10, 16);
 				//Console.WriteLine(EntityMgr.Count("ball"));
