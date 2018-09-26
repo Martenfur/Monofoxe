@@ -322,7 +322,7 @@ namespace Monofoxe.Engine
 			
 			#region Main draw events
 			
-			foreach(Camera camera in Cameras)
+			foreach(var camera in Cameras)
 			{
 				if (camera.Enabled)
 				{
@@ -342,8 +342,7 @@ namespace Monofoxe.Engine
 						Device.Clear(camera.BackgroundColor);
 					}
 
-					//EntityMgr.Draw();
-					LayerMgr.CallDrawEvents();
+					SceneMgr.CallDrawEvents();
 					
 
 					ResetSurfaceTarget();
@@ -363,7 +362,7 @@ namespace Monofoxe.Engine
 			Device.Clear(Color.TransparentBlack);
 			
 			SwitchPipelineMode(PipelineMode.Sprites, null);
-			foreach(Camera camera in Cameras)
+			foreach(var camera in Cameras)
 			{
 				if (camera.Autodraw && camera.Enabled)
 				{
@@ -377,8 +376,7 @@ namespace Monofoxe.Engine
 			// Drawing GUI stuff.
 			_currentPipelineMode = PipelineMode.None;
 			
-			//EntityMgr.DrawGUI();
-			LayerMgr.CallDrawGUIEvents();
+			SceneMgr.CallDrawGUIEvents();
 
 			if (_currentPipelineMode == PipelineMode.Sprites) // If there's something left in batch or vertex buffer, we should draw it.
 			{

@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Monofoxe.Engine;
-using System.Diagnostics;
 using Monofoxe.Engine.ECS;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.IO;
 using Microsoft.Xna.Framework.Content;
 using Monofoxe.Engine.SceneSystem;
 
@@ -30,24 +23,27 @@ namespace Monofoxe.Engine
 		internal static void Update(GameTime gameTime)
 		{
 			// Clearing main list from destroyed objects.
-			foreach(var layer in LayerMgr.Layers)
+			foreach(var scene in SceneMgr.Scenes)
 			{
-				var updatedList = new List<Entity>();
-				foreach(Entity obj in layer._entities)
+				foreach(var layer in scene.Layers)
 				{
-					if (!obj.Destroyed)
+					var updatedList = new List<Entity>();
+					foreach(var entity in layer._entities)
 					{
-						updatedList.Add(obj);
+						if (!entity.Destroyed)
+						{
+							updatedList.Add(entity);
+						}
 					}
+					layer._entities = updatedList;
+					// Clearing main list from destroyed objects.
+
+
+					// Adding new objects to the list.
+					layer._entities.AddRange(layer._newEntities);		
+					layer._newEntities.Clear();
+					// Adding new objects to the list.
 				}
-				layer._entities = updatedList;
-				// Clearing main list from destroyed objects.
-
-
-				// Adding new objects to the list.
-				layer._entities.AddRange(layer._newEntities);		
-				layer._newEntities.Clear();
-				// Adding new objects to the list.
 			}
 			
 			SystemMgr.UpdateSystems();
@@ -61,14 +57,20 @@ namespace Monofoxe.Engine
 				var overflow = (int)(_fixedUpdateTimer / GameMgr.FixedUpdateRate); // In case of lags.
 				_fixedUpdateTimer -= GameMgr.FixedUpdateRate * overflow;
 
-				SystemMgr.FixedUpdate(GetActiveComponents());
-				foreach(var layer in LayerMgr.Layers)
+				foreach(var scene in SceneMgr.Scenes)
 				{
-					foreach(var entity in layer._entities)
+					SystemMgr.FixedUpdate(GetActiveComponents(scene));
+				}
+				foreach(var scene in SceneMgr.Scenes)
+				{
+					foreach(var layer in scene.Layers)
 					{
-						if (entity.Active && !entity.Destroyed)
+						foreach(var entity in layer._entities)
 						{
-							entity.FixedUpdate();
+							if (entity.Active && !entity.Destroyed)
+							{
+								entity.FixedUpdate();
+							}
 						}
 					}
 				}
@@ -77,14 +79,20 @@ namespace Monofoxe.Engine
 
 
 			// Normal updates.
-			SystemMgr.Update(GetActiveComponents());
-			foreach(var layer in LayerMgr.Layers)
+			foreach(var scene in SceneMgr.Scenes)
 			{
-				foreach(var entity in layer._entities)
+				SystemMgr.Update(GetActiveComponents(scene));
+			}
+			foreach(var scene in SceneMgr.Scenes)
+			{
+				foreach(var layer in scene.Layers)
 				{
-					if (entity.Active && !entity.Destroyed)
+					foreach(var entity in layer._entities)
 					{
-						entity.Update(); 
+						if (entity.Active && !entity.Destroyed)
+						{
+							entity.Update(); 
+						}
 					}
 				}
 			}
@@ -92,9 +100,12 @@ namespace Monofoxe.Engine
 
 
 			// Updating depth list for drawing stuff.
-			foreach(var layer in LayerMgr.Layers)
+			foreach(var scene in SceneMgr.Scenes)
 			{
-				layer.SortByDepth();
+				foreach(var layer in scene.Layers)
+				{
+					layer.SortByDepth();
+				}
 			}
 		}
 		
@@ -141,9 +152,12 @@ namespace Monofoxe.Engine
 		public static List<T> GetList<T>() where T : Entity
 		{ 
 			var entities = new List<T>();
-			foreach(var layer in LayerMgr.Layers)
+			foreach(var scene in SceneMgr.Scenes)
 			{
-				entities.AddRange(layer._entities.OfType<T>());
+				foreach(var layer in scene.Layers)
+				{
+					entities.AddRange(layer._entities.OfType<T>());
+				}
 			}
 			return entities;
 		}
@@ -154,9 +168,12 @@ namespace Monofoxe.Engine
 		public static int Count<T>() where T : Entity
 		{
 			var count = 0;
-			foreach(var layer in LayerMgr.Layers)
+			foreach(var scene in SceneMgr.Scenes)
 			{
-				count += layer._entities.OfType<T>().Count();
+				foreach(var layer in scene.Layers)
+				{
+					count += layer._entities.OfType<T>().Count();
+				}
 			}
 			return count;
 		}
@@ -166,13 +183,16 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static bool EntityExists<T>() where T : Entity
 		{
-			foreach(var layer in LayerMgr.Layers)
+			foreach(var scene in SceneMgr.Scenes)
 			{
-				foreach(var entity in layer._entities)
+				foreach(var layer in scene.Layers)
 				{
-					if (entity is T)
+					foreach(var entity in layer._entities)
 					{
-						return true;
+						if (entity is T)
+						{
+							return true;
+						}
 					}
 				}
 			}
@@ -187,17 +207,20 @@ namespace Monofoxe.Engine
 		{
 			var counter = 0;
 
-			foreach(var layer in LayerMgr.Layers)
+			foreach(var scene in SceneMgr.Scenes)
 			{
-				foreach(var entity in layer._entities)
+				foreach(var layer in scene.Layers)
 				{
-					if (entity is T)
+					foreach(var entity in layer._entities)
 					{
-						if (counter >= count)
+						if (entity is T)
 						{
-							return (T)entity;
+							if (counter >= count)
+							{
+								return (T)entity;
+							}
+							counter += 1;
 						}
-						counter += 1;
 					}
 				}
 			}
@@ -238,13 +261,16 @@ namespace Monofoxe.Engine
 		{
 			var list = new List<Entity>();
 
-			foreach(var layer in LayerMgr.Layers)
+			foreach(var scene in SceneMgr.Scenes)
 			{
-				foreach(var entity in layer._entities)
+				foreach(var layer in scene.Layers)
 				{
-					if (entity.Tag == tag)
+					foreach(var entity in layer._entities)
 					{
-						list.Add(entity);
+						if (entity.Tag == tag)
+						{
+							list.Add(entity);
+						}
 					}
 				}
 			}
@@ -259,13 +285,16 @@ namespace Monofoxe.Engine
 		{
 			var counter = 0;
 
-			foreach(var layer in LayerMgr.Layers)
+			foreach(var scene in SceneMgr.Scenes)
 			{
-				foreach(var entity in layer._entities)
+				foreach(var layer in scene.Layers)
 				{
-					if (entity.Tag == tag)
+					foreach(var entity in layer._entities)
 					{
-						counter += 1;
+						if (entity.Tag == tag)
+						{
+							counter += 1;
+						}
 					}
 				}
 			}
@@ -278,13 +307,16 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static bool EntityExists(string tag)
 		{
-			foreach(var layer in LayerMgr.Layers)
+			foreach(var scene in SceneMgr.Scenes)
 			{
-				foreach(var entity in layer._entities)
+				foreach(var layer in scene.Layers)
 				{
-					if (entity.Tag == tag)
+					foreach(var entity in layer._entities)
 					{
-						return true;
+						if (entity.Tag == tag)
+						{
+							return true;
+						}
 					}
 				}
 			}
@@ -299,17 +331,20 @@ namespace Monofoxe.Engine
 		{
 			var counter = 0;
 
-			foreach(var layer in LayerMgr.Layers)
+			foreach(var scene in SceneMgr.Scenes)
 			{
-				foreach(var entity in layer._entities)
+				foreach(var layer in scene.Layers)
 				{
-					if (entity.Tag == tag)
+					foreach(var entity in layer._entities)
 					{
-						if (counter >= count)
+						if (entity.Tag == tag)
 						{
-							return entity;
+							if (counter >= count)
+							{
+								return entity;
+							}
+							counter += 1;
 						}
-						counter += 1;
 					}
 				}
 			}
@@ -323,10 +358,11 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Returns a list of all active components in all layers.
 		/// </summary>
-		private static Dictionary<string, List<Component>> GetActiveComponents()
+		private static Dictionary<string, List<Component>> GetActiveComponents(Scene scene)
 		{
 			var list = new Dictionary<string, List<Component>>();
-			foreach(var layer in LayerMgr.Layers)
+			
+			foreach(var layer in scene.Layers)
 			{
 				foreach(var componentsPair in layer._components)
 				{

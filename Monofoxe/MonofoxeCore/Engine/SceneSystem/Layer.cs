@@ -9,7 +9,9 @@ namespace Monofoxe.Engine.SceneSystem
 	/// </summary>
 	public class Layer
 	{
-		
+	
+		public Scene Scene {get; private set;}
+
 		/// <summary>
 		/// Layer's name. Used for searching.
 		/// NOTE: All layers should have unique names!

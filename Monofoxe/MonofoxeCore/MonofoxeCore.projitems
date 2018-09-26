@@ -24,7 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\SystemMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\Component.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\EntityTemplate.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\ISystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\AbstractSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ContentReaders\SpriteGroupReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\SceneSystem\LayerMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\SceneSystem\Scene.cs" />

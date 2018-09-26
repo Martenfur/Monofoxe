@@ -14,18 +14,18 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		public static void InitComponent(Component component)
 		{
-			foreach(var layer in LayerMgr.Layers)
-			{
-				// If component is even there.
-				if (layer._newComponents.Contains(component) && SystemMgr._activeSystems.ContainsKey(component.Tag))
-				{
-					SystemMgr._activeSystems[component.Tag].Create(component);
-					layer._newComponents.Remove(component);
-					return;
-				}
-			}
-		}
+			// TODO: Test!
+			var layer = component.Owner.Layer;	
 
+			// If component is even there.
+			if (layer._newComponents.Contains(component) && SystemMgr._activeSystems.ContainsKey(component.Tag))
+			{
+				SystemMgr._activeSystems[component.Tag].Create(component);
+				layer._newComponents.Remove(component);
+				return;
+			}
+			
+		}
 
 
 		/// <summary>
@@ -35,7 +35,7 @@ namespace Monofoxe.Engine.ECS
 		{
 			var list = new List<Component>();
 
-			foreach(Component component in components)
+			foreach(var component in components)
 			{
 				list.Add(component.Owner[tag]);
 			}
@@ -50,7 +50,7 @@ namespace Monofoxe.Engine.ECS
 		{
 			var list = new List<T>();
 
-			foreach(Component component in components)
+			foreach(var component in components)
 			{
 				list.Add(component.Owner.GetComponent<T>());
 			}
@@ -66,7 +66,7 @@ namespace Monofoxe.Engine.ECS
 		{
 			var activeComponents = new List<Component>();
 					
-			foreach(Component component in components)
+			foreach(var component in components)
 			{
 				if (component.Owner.Active && !component.Owner.Destroyed)
 				{
