@@ -86,13 +86,6 @@ namespace Monofoxe.Engine.SceneSystem
 		/// Newly created components. Used for Create event.
 		/// </summary>
 		internal List<Component> _newComponents = new List<Component>();
-		
-
-		/// <summary>
-		/// Tells if any components were removed in the current step.
-		/// </summary>
-		internal bool _componentsWereRemoved = false;
-
 
 
 		internal Layer(string name, int depth)
@@ -156,7 +149,16 @@ namespace Monofoxe.Engine.SceneSystem
 			_newComponents.Remove(component);
 			if (_components.ContainsKey(component.Tag))
 			{
-				_components[component.Tag].Remove(component);
+				var componentList = _components[component.Tag];
+				if (componentList.Count == 1)
+				{
+					// Removing whole list, because it's empty.
+					_components.Remove(component.Tag);
+				}
+				else
+				{
+					componentList.Remove(component);
+				}
 			}
 
 			// Performing Destroy event.
@@ -165,7 +167,7 @@ namespace Monofoxe.Engine.SceneSystem
 				SystemMgr._activeSystems[component.Tag].Destroy(component);
 			}
 
-			_componentsWereRemoved = true;
+			SystemMgr._componentsWereRemoved = true;
 		}
 
 
