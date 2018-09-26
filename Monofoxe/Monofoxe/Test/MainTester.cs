@@ -29,12 +29,12 @@ namespace Monofoxe.Test
 				RenderTargetUsage.PreserveContents
 			);
 		 */
-
-
+		
+		
 		public MainTester() : base(LayerMgr.GetLayer("default"))
 		{
 			InitCameras();
-
+			
 			InitWindow();
 
 			InitRasterizer();
@@ -128,7 +128,7 @@ namespace Monofoxe.Test
 			MainCamera.Offset = MainCamera.Size / 2;
 
 			MainCamera.Pos = MainCamera.Size / 2;
-
+			
 			SecondCamera.PortPos.X = 600;
 			SecondCamera.BackgroundColor = Color.DarkSeaGreen;
 			SecondCamera.Enabled = false;

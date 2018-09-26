@@ -8,20 +8,19 @@ using Microsoft.Xna.Framework;
 
 namespace Monofoxe.ECSTest.Systems
 {
-	public class SCollision : ISystem, ISystemFixedUpdateEvents
+	public class SCollision : AbstractSystem
 	{
-		public string Tag => "collision";
+		public readonly new string Tag = "collision";
 
-		public void Create(Component component) {}
+		public override void Create(Component component) {}
 
-		public void Destroy(Component component) {}
+		public override void Destroy(Component component) {}
 
-		public void Update(List<Component> components) {}
+		public override void Update(List<Component> components) {}
 
 
-		public void FixedUpdate(List<Component> components) 
+		public override void FixedUpdate(List<Component> components) 
 		{
-		
 			var movement = ComponentMgr.GetComponentList<CMovement>(components);
 			
 			var id = 0;
@@ -59,7 +58,7 @@ namespace Monofoxe.ECSTest.Systems
 		}
 
 		
-		public void Draw(List<Component> components)
+		public override void Draw(List<Component> components)
 		{
 			// Game crashes, if entities are deleted.
 			

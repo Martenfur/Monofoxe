@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.ECS;
 
 namespace Monofoxe.Engine.SceneSystem
@@ -11,12 +10,12 @@ namespace Monofoxe.Engine.SceneSystem
 		/// <summary>
 		/// List of all existing layers.
 		/// </summary>
-		public static IReadOnlyCollection<Layer> Layers => _layers;
+		//public static IReadOnlyCollection<Layer> Layers => _layers;
 
 		/// <summary>
 		/// List of all existing layers.
 		/// </summary>
-		private static List<Layer> _layers = new List<Layer>();
+		//private static List<Layer> _layers = new List<Layer>();
 		
 
 		/// <summary>
@@ -97,48 +96,7 @@ namespace Monofoxe.Engine.SceneSystem
 		}
 
 
-		/// <summary>
-		/// Executes Draw, DrawBegin and DrawEnd events.
-		/// </summary>
-		internal static void CallDrawEvents()
-		{
-			foreach(var layer in _layers)
-			{
-				if (!layer.IsGUI)
-				{
-					SystemMgr.Draw(layer._depthSortedComponents);
-					foreach(var entity in layer._depthSortedEntities)
-					{
-						if (entity.Active && !entity.Destroyed)
-						{
-							entity.Draw();
-						}
-					}
-				}
-			}
-		}
 		
-		/// <summary>
-		/// Executes Draw GUI events.
-		/// </summary>
-		internal static void CallDrawGUIEvents()
-		{
-			foreach(var layer in _layers)
-			{
-				if (layer.IsGUI)
-				{
-					SystemMgr.Draw(layer._depthSortedComponents);
-					foreach(var entity in layer._depthSortedEntities)
-					{
-						if (entity.Active && !entity.Destroyed)
-						{
-							entity.Draw();
-						}
-					}
-				}
-			}
-		}
-
 
 
 		/// <summary>
