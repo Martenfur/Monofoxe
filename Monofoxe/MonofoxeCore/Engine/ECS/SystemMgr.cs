@@ -21,6 +21,11 @@ namespace Monofoxe.Engine.ECS
 		public static int __dbgSysCount => _activeSystems.Count; // TODO: REMOVE
 		public static int __dbgSysPoolCount => _systemPool.Count; // REMOVE
 
+		/// <summary>
+		/// Tells if any components were removed in the current step.
+		/// </summary>
+		internal static bool _componentsWereRemoved = false;
+
 
 		/// <summary>
 		/// If true, systems will be enabled and disabled automatically.
@@ -31,13 +36,7 @@ namespace Monofoxe.Engine.ECS
 			set
 			{
 				_autoSystemManagement = value;
-				foreach(var scene in SceneMgr.Scenes)
-				{
-					foreach(var layer in scene.Layers)
-					{	
-						layer._componentsWereRemoved = true;
-					}
-				}
+				_componentsWereRemoved = true;
 			}
 		}
 		static bool _autoSystemManagement = true;
@@ -70,7 +69,12 @@ namespace Monofoxe.Engine.ECS
 				var system = systemPair.Value;
 				if (components.ContainsKey(system.Tag))
 				{
-					system.Update(components[system.Tag]);
+					var componentList = components[system.Tag];
+					if (componentList.Count > 0)
+					{
+						system._usedLayersCount += 1; // Telling that a layer is using this system.
+						system.Update(components[system.Tag]);
+					}
 				}
 			}
 		}
@@ -189,6 +193,26 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		internal static void UpdateSystems()
 		{
+			// Disabling systems without components.
+			if (AutoSystemManagement && _componentsWereRemoved)
+			{
+				var unusedSystems = new List<string>();
+				foreach(var systemPair in _activeSystems)
+				{
+					if (systemPair.Value._usedLayersCount == 0)
+					{
+						unusedSystems.Add(systemPair.Key);
+					}
+				}
+				foreach(var systemName in unusedSystems)
+				{
+					_activeSystems.Remove(systemName);
+				}
+				// TODO: Test.
+				_componentsWereRemoved = false;
+			}
+			// Disabling systems without components.
+
 			foreach(var scene in SceneMgr.Scenes)
 			{
 				foreach(var layer in scene.Layers)
@@ -225,26 +249,6 @@ namespace Monofoxe.Engine.ECS
 						layer._newComponents.Clear();
 					}
 					// Managing new components.
-
-					// Disabling systems without components.
-					if (layer._componentsWereRemoved)
-					{
-						foreach(var componentListPair in layer._components.ToList())
-						{
-							if (componentListPair.Value.Count == 0)
-							{
-								layer._components.Remove(componentListPair.Key);
-								if (AutoSystemManagement)
-								{
-									// This won't work with multiple layers.
-									// TODO: Need to figure out a way to quickly check if system has no components.
-									_activeSystems.Remove(componentListPair.Key);
-								}
-							}
-						}
-						layer._componentsWereRemoved = false;
-					}
-					// Disabling systems without components.
 				}
 			}
 		}
