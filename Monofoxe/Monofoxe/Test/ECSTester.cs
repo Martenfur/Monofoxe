@@ -24,20 +24,24 @@ namespace Monofoxe.Test
 
 		public override void Update()
 		{
+			Console.WriteLine(Layer.Count("ball") + " " + SystemMgr.__dbgSysCount);
+		
 			if (Input.CheckButton(Buttons.MouseLeft))
 			{
-				var ball = EntityMgr.CreateEntity(LayerMgr.GetLayer("balls"), "ball");
+				var ball = EntityMgr.CreateEntity(Layer, "ball");
 				ball.GetComponent<CMovement>().Position = Input.ScreenMousePos;
 				ball.GetComponent<CCollision>().MaskR = 20;//r.Next(10, 16);
-				//Console.WriteLine(EntityMgr.Count("ball"));
 			}
-
+			
 			if (Input.CheckButton(Buttons.MouseRight))
 			{
-				foreach(var entity in EntityMgr.GetList("ball"))
+				foreach(var entity in Layer.GetList("ball"))
 				{
 					EntityMgr.DestroyEntity(entity);
 				}
+				var ball = EntityMgr.CreateEntity(Layer, "ball");
+				ball.GetComponent<CMovement>().Position = Input.ScreenMousePos;
+				ball.GetComponent<CCollision>().MaskR = 20;//r.Next(10, 16);
 			}
 			
 			if (Input.CheckButtonPress(Buttons.G))

@@ -20,7 +20,7 @@ namespace Monofoxe.Test
 		float fireFrame = 0;
 	
 
-		public DrawingTester() : base(LayerMgr.GetLayer("default"))
+		public DrawingTester() : base(SceneMgr.GetScene("default")["default"])
 		{
 			
 		}

@@ -254,8 +254,9 @@ namespace Monofoxe.Engine
 			Device.Indices = _indexBuffer;
 			
 			CircleVerticesCount = 16;
-
-			LayerMgr.CreateLayer("default");
+			
+			var defScene = SceneMgr.CreateScene("default");
+			defScene.CreateLayer("default");
 		}
 
 
