@@ -5,7 +5,7 @@ namespace Monofoxe.Engine.ECS
 	/// <summary>
 	/// Basic system interface. 
 	/// </summary>
-	public abstract class AbstractSystem
+	public class BaseSystem
 	{
 		/// <summary>
 		/// Identifying tag. 
@@ -14,7 +14,7 @@ namespace Monofoxe.Engine.ECS
 		/// Systems will only process components with matching tags.
 		/// So, different systems with same tags will process same sets of components.
 		/// </summary>
-		public readonly string Tag;
+		public virtual string Tag => "system";
 		
 		/// <summary>
 		/// Tells, how many layers are using this system.
@@ -28,12 +28,12 @@ namespace Monofoxe.Engine.ECS
 		/// It will be called in the very beginning of next step, so keep this in mind.
 		/// However, you can speed up this process by calling InitComponent.
 		/// </summary>
-		public abstract void Create(Component component);
-		public abstract void Destroy(Component component);	
+		public virtual void Create(Component component) {}
+		public virtual void Destroy(Component component) {}
 		
-		public abstract void FixedUpdate(List<Component> components);
-		public abstract void Update(List<Component> components);
-		public abstract void Draw(List<Component> components);
+		public virtual void FixedUpdate(List<Component> components) {}
+		public virtual void Update(List<Component> components) {}
+		public virtual void Draw(List<Component> components) {}
 	}
 
 }

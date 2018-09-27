@@ -27,22 +27,7 @@ namespace Monofoxe.Engine
 			{
 				foreach(var layer in scene.Layers)
 				{
-					var updatedList = new List<Entity>();
-					foreach(var entity in layer._entities)
-					{
-						if (!entity.Destroyed)
-						{
-							updatedList.Add(entity);
-						}
-					}
-					layer._entities = updatedList;
-					// Clearing main list from destroyed objects.
-
-
-					// Adding new objects to the list.
-					layer._entities.AddRange(layer._newEntities);		
-					layer._newEntities.Clear();
-					// Adding new objects to the list.
+					layer.UpdateEntities();
 				}
 			}
 			
@@ -65,7 +50,7 @@ namespace Monofoxe.Engine
 				{
 					foreach(var layer in scene.Layers)
 					{
-						foreach(var entity in layer._entities)
+						foreach(var entity in layer.Entities)
 						{
 							if (entity.Active && !entity.Destroyed)
 							{
@@ -87,7 +72,7 @@ namespace Monofoxe.Engine
 			{
 				foreach(var layer in scene.Layers)
 				{
-					foreach(var entity in layer._entities)
+					foreach(var entity in layer.Entities)
 					{
 						if (entity.Active && !entity.Destroyed)
 						{
@@ -126,113 +111,6 @@ namespace Monofoxe.Engine
 
 
 
-
-		#region User functions. 
-
-		/// <summary>
-		/// Destroys entity and all of its components.
-		/// </summary>
-		public static void DestroyEntity(Entity entity)
-		{
-			if (!entity.Destroyed)
-			{
-				entity.Destroyed = true;
-				if (entity.Active)
-				{
-					entity.Destroy();
-				}
-				entity.RemoveAllComponents();
-			}
-		}
-
-
-		/// <summary>
-		/// Returns list of objects of certain type.
-		/// </summary>
-		public static List<T> GetList<T>() where T : Entity
-		{ 
-			var entities = new List<T>();
-			foreach(var scene in SceneMgr.Scenes)
-			{
-				foreach(var layer in scene.Layers)
-				{
-					entities.AddRange(layer._entities.OfType<T>());
-				}
-			}
-			return entities;
-		}
-		
-		/// <summary>
-		/// Counts amount of objects of certain type.
-		/// </summary>
-		public static int Count<T>() where T : Entity
-		{
-			var count = 0;
-			foreach(var scene in SceneMgr.Scenes)
-			{
-				foreach(var layer in scene.Layers)
-				{
-					count += layer._entities.OfType<T>().Count();
-				}
-			}
-			return count;
-		}
-
-		/// <summary>
-		/// Checks if any instances of an entity exist.
-		/// </summary>
-		public static bool EntityExists<T>() where T : Entity
-		{
-			foreach(var scene in SceneMgr.Scenes)
-			{
-				foreach(var layer in scene.Layers)
-				{
-					foreach(var entity in layer._entities)
-					{
-						if (entity is T)
-						{
-							return true;
-						}
-					}
-				}
-			}
-			return false;
-		}
-
-
-		/// <summary>
-		/// Finds n-th entity of given type.
-		/// </summary>
-		public static T FindEntity<T>(int count) where T : Entity
-		{
-			var counter = 0;
-
-			foreach(var scene in SceneMgr.Scenes)
-			{
-				foreach(var layer in scene.Layers)
-				{
-					foreach(var entity in layer._entities)
-					{
-						if (entity is T)
-						{
-							if (counter >= count)
-							{
-								return (T)entity;
-							}
-							counter += 1;
-						}
-					}
-				}
-			}
-			return null;
-		}
-
-		#endregion User functions.
-
-
-
-		#region ECS user functions.
-
 		public static Entity CreateEntity(Layer layer, string tag)
 		{
 			if (_entityTemplates.ContainsKey(tag))
@@ -249,109 +127,21 @@ namespace Monofoxe.Engine
 			return null;
 		}
 
-
-		/// Due to ECS fun, there may be lots of objects with same type, 
-		/// but different component sets. They differ only by their tag.
-		/// This is why we need tag overloads.
-
 		/// <summary>
-		/// Returns list of entities with given tag.
+		/// Destroys entity and all of its components.
 		/// </summary>
-		public static List<Entity> GetList(string tag)
+		public static void DestroyEntity(Entity entity)
 		{
-			var list = new List<Entity>();
-
-			foreach(var scene in SceneMgr.Scenes)
+			if (!entity.Destroyed)
 			{
-				foreach(var layer in scene.Layers)
+				entity.Destroyed = true;
+				if (entity.Active)
 				{
-					foreach(var entity in layer._entities)
-					{
-						if (entity.Tag == tag)
-						{
-							list.Add(entity);
-						}
-					}
+					entity.Destroy();
 				}
+				entity.RemoveAllComponents();
 			}
-			return list;
 		}
-		
-
-		/// <summary>
-		/// Counts amount of entities with given tag.
-		/// </summary>
-		public static int Count(string tag)
-		{
-			var counter = 0;
-
-			foreach(var scene in SceneMgr.Scenes)
-			{
-				foreach(var layer in scene.Layers)
-				{
-					foreach(var entity in layer._entities)
-					{
-						if (entity.Tag == tag)
-						{
-							counter += 1;
-						}
-					}
-				}
-			}
-			return counter;
-		}
-		
-
-		/// <summary>
-		/// Checks if given instance exists.
-		/// </summary>
-		public static bool EntityExists(string tag)
-		{
-			foreach(var scene in SceneMgr.Scenes)
-			{
-				foreach(var layer in scene.Layers)
-				{
-					foreach(var entity in layer._entities)
-					{
-						if (entity.Tag == tag)
-						{
-							return true;
-						}
-					}
-				}
-			}
-			return false;
-		}
-		
-
-		/// <summary>
-		/// Finds n-th entities with given tag.
-		/// </summary>
-		public static Entity FindEntity(string tag, int count)
-		{
-			var counter = 0;
-
-			foreach(var scene in SceneMgr.Scenes)
-			{
-				foreach(var layer in scene.Layers)
-				{
-					foreach(var entity in layer._entities)
-					{
-						if (entity.Tag == tag)
-						{
-							if (counter >= count)
-							{
-								return entity;
-							}
-							counter += 1;
-						}
-					}
-				}
-			}
-			return null;
-		}
-
-		#endregion ECS user functions.
 
 
 

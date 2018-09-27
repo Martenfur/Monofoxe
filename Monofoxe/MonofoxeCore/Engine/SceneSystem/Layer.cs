@@ -10,7 +10,7 @@ namespace Monofoxe.Engine.SceneSystem
 	public class Layer
 	{
 	
-		public Scene Scene {get; private set;}
+		public readonly Scene Scene;
 
 		/// <summary>
 		/// Layer's name. Used for searching.
@@ -30,7 +30,7 @@ namespace Monofoxe.Engine.SceneSystem
 			set
 			{
 				_priority = value;
-				LayerMgr.UpdateLayerPriority(this);
+				Scene.UpdateLayerPriority(this);
 			}
 		}
 		private int _priority;
@@ -69,10 +69,12 @@ namespace Monofoxe.Engine.SceneSystem
 		/// <summary>
 		/// List of all layer's entities.
 		/// </summary>
-		internal List<Entity> _entities = new List<Entity>();
+		public IReadOnlyCollection<Entity> Entities => _entities;
+
+		private List<Entity> _entities = new List<Entity>();
 		internal List<Entity> _depthSortedEntities;
 
-		internal List<Entity> _newEntities = new List<Entity>();
+		private List<Entity> _newEntities = new List<Entity>();
 		
 
 		/// <summary>
@@ -88,11 +90,12 @@ namespace Monofoxe.Engine.SceneSystem
 		internal List<Component> _newComponents = new List<Component>();
 
 
-		internal Layer(string name, int depth)
+		internal Layer(string name, int priority, Scene scene)
 		{
 			Name = name;
-			Priority = depth; // Also adds layer to priority list.
-
+			Scene = scene;
+			Priority = priority; // Also adds layer to priority list.
+			
 			DepthSorting = false;
 		}
 		
@@ -170,7 +173,146 @@ namespace Monofoxe.Engine.SceneSystem
 			SystemMgr._componentsWereRemoved = true;
 		}
 
+		internal void UpdateEntities()
+		{
+			// Clearing main list from destroyed objects.
+			var updatedList = new List<Entity>();
+			foreach(var entity in _entities)
+			{
+				if (!entity.Destroyed)
+				{
+					updatedList.Add(entity);
+				}
+			}
+			_entities = updatedList;
+			// Clearing main list from destroyed objects.
 
+
+			// Adding new objects to the list.
+			_entities.AddRange(_newEntities);		
+			_newEntities.Clear();
+			// Adding new objects to the list.
+		}
+
+
+
+		#region Entity methods.
+
+		/// <summary>
+		/// Returns list of objects of certain type.
+		/// </summary>
+		public List<T> GetList<T>() where T : Entity =>
+			_entities.OfType<T>().ToList();
+		
+		/// <summary>
+		/// Counts amount of objects of certain type.
+		/// </summary>
+		public int Count<T>() where T : Entity =>
+			_entities.OfType<T>().Count();
+
+		/// <summary>
+		/// Checks if any instances of an entity exist.
+		/// </summary>
+		public bool EntityExists<T>() where T : Entity
+		{
+			foreach(var entity in _entities)
+			{
+				if (entity is T)
+				{
+					return true;
+				}
+			}			
+			return false;
+		}
+
+
+		/// <summary>
+		/// Finds first entity of given type.
+		/// </summary>
+		public T FindEntity<T>() where T : Entity
+		{
+			foreach(var entity in _entities)
+			{
+				if (entity is T)
+				{
+					return (T)entity;
+				}
+			}
+			return null;
+		}
+		
+
+
+		/// <summary>
+		/// Returns list of entities with given tag.
+		/// </summary>
+		public List<Entity> GetList(string tag)
+		{
+			var list = new List<Entity>();
+			
+			foreach(var entity in _entities)
+			{
+				if (entity.Tag == tag)
+				{
+					list.Add(entity);
+				}
+			}
+			return list;
+		}
+		
+
+		/// <summary>
+		/// Counts amount of entities with given tag.
+		/// </summary>
+		public int Count(string tag)
+		{
+			var counter = 0;
+
+			foreach(var entity in _entities)
+			{
+				if (entity.Tag == tag)
+				{
+					counter += 1;
+				}
+			}
+			
+			return counter;
+		}
+		
+
+		/// <summary>
+		/// Checks if given instance exists.
+		/// </summary>
+		public bool EntityExists(string tag)
+		{
+			foreach(var entity in _entities)
+			{
+				if (entity.Tag == tag)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		
+
+		/// <summary>
+		/// Finds first entity with given tag.
+		/// </summary>
+		public Entity FindEntity(string tag)
+		{
+			foreach(var entity in _entities)
+			{
+				if (entity.Tag == tag)
+				{
+					return entity;
+				}
+			}
+			
+			return null;
+		}
+
+		#endregion Entity methods.
 		
 	}
 }

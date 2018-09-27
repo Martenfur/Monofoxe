@@ -8,9 +8,9 @@ using Microsoft.Xna.Framework;
 
 namespace Monofoxe.ECSTest.Systems
 {
-	public class SCollision : AbstractSystem
+	public class SCollision : BaseSystem
 	{
-		public readonly new string Tag = "collision";
+		public override string Tag => "collision";
 
 		public override void Create(Component component) {}
 

@@ -10,13 +10,13 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// List of currently active systems.
 		/// </summary>
-		internal static Dictionary<string, AbstractSystem> _activeSystems = new Dictionary<string, AbstractSystem>();
+		internal static Dictionary<string, BaseSystem> _activeSystems = new Dictionary<string, BaseSystem>();
 		// TODO: Add system priorities.
 
 		/// <summary>
 		/// Pool of all game systems.
 		/// </summary>
-		internal static Dictionary<string, AbstractSystem> _systemPool = new Dictionary<string, AbstractSystem>();
+		internal static Dictionary<string, BaseSystem> _systemPool = new Dictionary<string, BaseSystem>();
 
 		public static int __dbgSysCount => _activeSystems.Count; // TODO: REMOVE
 		public static int __dbgSysPoolCount => _systemPool.Count; // REMOVE
@@ -103,18 +103,20 @@ namespace Monofoxe.Engine.ECS
 			/* 
 			 * ZOMG TEH DRAMA :o
 			 * This ancient horror gets list of all classes, which implement
-			 * ISystem interface.
+			 * BaseSystem.
 			 */
 			var systemTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes());
 			systemTypes = systemTypes.Where(
-				mytype => typeof(AbstractSystem).IsAssignableFrom(mytype) 
-				&& mytype.GetInterfaces().Contains(typeof(AbstractSystem))
+				mytype => typeof(BaseSystem).IsAssignableFrom(mytype) 
 			);
-
-			foreach(Type systemType in systemTypes)
+			
+			foreach(var systemType in systemTypes)
 			{
-				var newSystem = (AbstractSystem)Activator.CreateInstance(systemType);
-				_systemPool.Add(newSystem.Tag, newSystem);
+				if (systemType != typeof(BaseSystem))
+				{
+					var newSystem = (BaseSystem)Activator.CreateInstance(systemType);
+					_systemPool.Add(newSystem.Tag, newSystem);
+				}
 			}
 
 		}
@@ -124,7 +126,7 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Puts system in active system list from system pool.
 		/// </summary>
-		public static void EnableSystem<T>() where T : AbstractSystem
+		public static void EnableSystem<T>() where T : BaseSystem
 		{
 			foreach(var systemPair in _systemPool)
 			{
@@ -140,7 +142,7 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Removes system from active system list and puts it back in pool.
 		/// </summary>
-		public static void DisableSystem<T>() where T : AbstractSystem
+		public static void DisableSystem<T>() where T : BaseSystem
 		{
 			foreach(var systemPair in _activeSystems.ToList()) // Quick way to clone list.
 			{
@@ -201,23 +203,29 @@ namespace Monofoxe.Engine.ECS
 				{
 					if (systemPair.Value._usedLayersCount == 0)
 					{
-						unusedSystems.Add(systemPair.Key);
+						unusedSystems.Add(systemPair.Key);	
+						_componentsWereRemoved = false;
 					}
 				}
 				foreach(var systemName in unusedSystems)
 				{
 					_activeSystems.Remove(systemName);
 				}
-				// TODO: Test.
-				_componentsWereRemoved = false;
 			}
 			// Disabling systems without components.
+			
+			// Resetting system counters.
+			foreach(var systemPair in _activeSystems)
+			{
+				systemPair.Value._usedLayersCount = 0;
+			}
+			// Resetting system counters.
 
+			// Managing new components.
 			foreach(var scene in SceneMgr.Scenes)
 			{
 				foreach(var layer in scene.Layers)
 				{
-					// Managing new components.
 					if (layer._newComponents.Count > 0)
 					{
 						foreach(var component in layer._newComponents)
@@ -248,9 +256,9 @@ namespace Monofoxe.Engine.ECS
 						}
 						layer._newComponents.Clear();
 					}
-					// Managing new components.
 				}
-			}
+			}	
+			// Managing new components.
 		}
 		
 
