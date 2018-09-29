@@ -10,6 +10,7 @@ using Monofoxe.Engine.ECS;
 using Monofoxe.ECSTest.Systems;
 using Monofoxe.ECSTest.Components;
 using Monofoxe.Engine.SceneSystem;
+using Monofoxe.Utils;
 
 
 namespace Monofoxe.Test
@@ -17,7 +18,7 @@ namespace Monofoxe.Test
 	public class DrawingTester : Entity
 	{
 		Sprite testSpr = SpritesDefault.Chiggin;
-		float fireFrame = 0;
+		double fireFrame = 0;
 	
 
 		public DrawingTester() : base(SceneMgr.GetScene("default")["default"])
@@ -27,12 +28,20 @@ namespace Monofoxe.Test
 
 		public override void Update()
 		{
-			fireFrame += 0.1f;
+			fireFrame += TimeKeeper.GlobalTime(0.5);
 
-			if (fireFrame >= SpritesDefault.DemonFire.Frames.Length)
+			if (fireFrame > 1)
 			{
-				fireFrame = 0;
+				fireFrame -= 1;
 			}
+
+			var frame = Math.Max(0, Math.Min(SpritesDefault.DemonFire.Frames.Length - 1, (int)(fireFrame * SpritesDefault.DemonFire.Frames.Length)));
+
+			Console.WriteLine(
+				fireFrame + " " + 
+				frame + " " + 
+				SpritesDefault.DemonFire.Frames.Length
+			);
 
 			GameMgr.WindowManager.WindowTitle = "Draw fps: " + GameMgr.Fps;
 		}
@@ -49,12 +58,12 @@ namespace Monofoxe.Test
 
 			DrawMgr.CurrentColor = Color.Violet;
 			
-			DrawMgr.DrawSprite(SpritesDefault.DemonFire, (int)fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
+			DrawMgr.DrawSprite(SpritesDefault.DemonFire, fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
 
 			
-			Frame f = SpritesDefault.DemonFire.Frames[(int)fireFrame];
-			DrawMgr.CurrentColor = Color.White;
-			DrawMgr.DrawRectangle(0, 0, SpritesDefault.DemonFire.W, SpritesDefault.DemonFire.H, true);
+			//Frame f = SpritesDefault.DemonFire.Frames[(int)fireFrame];
+			//DrawMgr.CurrentColor = Color.White;
+			//DrawMgr.DrawRectangle(0, 0, SpritesDefault.DemonFire.W, SpritesDefault.DemonFire.H, true);
 		
 			DrawMgr.CurrentColor = Color.White;
 			

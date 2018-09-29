@@ -582,7 +582,15 @@ namespace Monofoxe.Engine
 
 		#region Sprites.
 
-		private static void DrawFrame(Frame frame, Vector2 pos, Vector2 scale, float rotation, Vector2 offset, Color color, SpriteEffects effect)
+		private static void BaseDrawFrame(
+			Frame frame, 
+			Vector2 pos, 
+			Vector2 scale, 
+			float rotation, 
+			Vector2 offset, 
+			Color color, 
+			SpriteEffects effect
+		)
 		{
 			SwitchPipelineMode(PipelineMode.Sprites, null);
 
@@ -592,128 +600,120 @@ namespace Monofoxe.Engine
 				frame.TexturePosition, 
 				color, 
 				MathHelper.ToRadians(rotation), 
-				offset - frame.Origin,
+				offset + frame.Origin,
 				scale,
 				effect, 
 				0
 			);
 		}
 
-		private static int CalculateSpriteFrame(Sprite sprite, float frame) =>
-			Math.Max(0, Math.Min(sprite.Frames.Length - 1, (int)frame));
-
+		public static Frame CalculateSpriteFrame(Sprite sprite, double animation) =>
+			sprite.Frames[Math.Max(0, Math.Min(sprite.Frames.Length - 1, (int)(animation * sprite.Frames.Length)))];
+		
 		// Vectors.
 
 		public static void DrawSprite(Sprite sprite, Vector2 pos) =>
-			DrawFrame(sprite.Frames[0], pos, Vector2.One, 0, sprite.Origin, CurrentColor, SpriteEffects.None);
+			BaseDrawFrame(sprite.Frames[0], pos, Vector2.One, 0, sprite.Origin, CurrentColor, SpriteEffects.None);
 		
-		public static void DrawSprite(Sprite sprite, float frameId, Vector2 pos)
-		{			
-			var frame = CalculateSpriteFrame(sprite, frameId);
-			DrawFrame(sprite.Frames[frame], pos, Vector2.One, 0, sprite.Origin, CurrentColor, SpriteEffects.None);
-		}
+		public static void DrawSprite(Sprite sprite, double animation, Vector2 pos) =>
+			DrawFrame(CalculateSpriteFrame(sprite, animation), pos, sprite.Origin);
+		
+		public static void DrawSprite(Sprite sprite, double animation, Vector2 pos, Vector2 scale, float rotation, Color color) =>
+			DrawFrame(CalculateSpriteFrame(sprite, animation), pos, sprite.Origin, scale, rotation, color);
+		
+		public static void DrawSprite(Sprite sprite, double animation, Vector2 pos, Vector2 offset, Vector2 scale, float rotation, Color color) =>
+			DrawFrame(CalculateSpriteFrame(sprite, animation), pos, sprite.Origin + offset, scale, rotation, color);
 
-
-		public static void DrawSprite(Sprite sprite, float frameId, Vector2 pos, Vector2 scale, float rotation, Color color)
+		public static void DrawFrame(Frame frame, Vector2 pos, Vector2 offset) =>
+			BaseDrawFrame(frame, pos, Vector2.One, 0, offset, CurrentColor, SpriteEffects.None);
+		
+		public static void DrawFrame(Frame frame, Vector2 pos, Vector2 offset, Vector2 scale, float rotation, Color color)
 		{
-			SwitchPipelineMode(PipelineMode.Sprites, null);
-			
-			var frame = CalculateSpriteFrame(sprite, frameId);
-			
 			var mirroring = SpriteEffects.None;
 
 			// Proper negative scaling.
-			var offset = Vector2.Zero;
-
+			
 			if (scale.X < 0)
 			{
 				mirroring = mirroring | SpriteEffects.FlipHorizontally;
 				scale.X *= -1;
-				offset.X = sprite.W;
+				offset.X += frame.W;
 			}
 
 			if (scale.Y < 0)
 			{
 				mirroring = mirroring | SpriteEffects.FlipVertically;
 				scale.Y *= -1;
-				offset.Y = sprite.H;
+				offset.Y += frame.H;
 			}
 			// Proper negative scaling.
 
-			DrawFrame(sprite.Frames[frame], pos, scale, rotation, sprite.Origin + offset, color, mirroring);
+			BaseDrawFrame(frame, pos, scale, rotation, frame.Origin + offset, color, mirroring);
 		}
-		
+
 		// Vectors.
 		
-		// Floats.
-
 		public static void DrawSprite(Sprite sprite, float x, float y) =>
 			DrawSprite(sprite, new Vector2(x, y));
 		
-		public static void DrawSprite(Sprite sprite, float frameId, float x, float y) =>
-			DrawSprite(sprite, frameId, new Vector2(x, y));
+		public static void DrawSprite(Sprite sprite, double animation, float x, float y) =>
+			DrawSprite(sprite, animation, new Vector2(x, y));
 		
-		public static void DrawSprite(Sprite sprite, float frameId, float x, float y, float scaleX, float scaleY, float rotation, Color color) =>
-			DrawSprite(sprite, frameId, new Vector2(x, y), new Vector2(scaleX, scaleY), rotation, color);
-
+		public static void DrawSprite(Sprite sprite, double animation, float x, float y, float scaleX, float scaleY, float rotation, Color color) =>
+			DrawSprite(sprite, animation, new Vector2(x, y), new Vector2(scaleX, scaleY), rotation, color);
+		
+		public static void DrawFrame(Frame frame, float x, float y, float offsetX, float offsetY) =>
+			DrawFrame(frame, new Vector2(x, y), new Vector2(offsetX, offsetY));
+		
+		public static void DrawFrame(Frame frame, float x, float y, float offsetX, float offsetY, float scaleX, float scaleY, float rotation, Color color) =>
+			DrawFrame(frame, new Vector2(x, y), new Vector2(offsetX, offsetY), new Vector2(scaleX, scaleY), rotation, color);
+		
 		// Floats.
 
 		// Rectangles.
 
-		public static void DrawSprite(Sprite sprite, float frameId, Rectangle destRect)
-		{
-			SwitchPipelineMode(PipelineMode.Sprites, null);
-			
-			var frame = CalculateSpriteFrame(sprite, frameId);
-			Batch.Draw(sprite.Frames[frame].Texture, destRect, sprite.Frames[frame].TexturePosition, CurrentColor);
-		}
+		public static void DrawSprite(Sprite sprite, double animation, Rectangle destRect) =>
+			DrawFrame(CalculateSpriteFrame(sprite, animation), sprite.Origin, destRect, 0, CurrentColor);
+
+		public static void DrawSprite(Sprite sprite, double animation, Rectangle destRect, float rotation, Color color) =>
+			DrawFrame(CalculateSpriteFrame(sprite, animation), sprite.Origin, destRect, rotation, color);
+
+		public static void DrawSprite(Sprite sprite, double animation, Rectangle destRect, Rectangle srcRect) =>
+			DrawFrame(CalculateSpriteFrame(sprite, animation), sprite.Origin, destRect, srcRect, 0, CurrentColor);
+
+		public static void DrawSprite(Sprite sprite, double animation, Rectangle destRect, Rectangle srcRect, float rotation, Color color) =>
+			DrawFrame(CalculateSpriteFrame(sprite, animation), sprite.Origin, destRect, srcRect, rotation, color);
 		
-		public static void DrawSprite(Sprite sprite, float frameId, Rectangle destRect, float rotation, Color color)
+		public static void DrawFrame(Frame frame, Vector2 offset, Rectangle destRect, float rotation, Color color)
 		{
 			SwitchPipelineMode(PipelineMode.Sprites, null);
-			
-			var frame = CalculateSpriteFrame(sprite, frameId);
 			
 			Batch.Draw(
-				sprite.Frames[frame].Texture, 
+				frame.Texture, 
 				destRect, 
-				sprite.Frames[frame].TexturePosition, 
+				frame.TexturePosition, 
 				color, 
-				rotation, 
-				sprite.Origin - sprite.Frames[frame].Origin,
+				rotation,
+				offset + frame.Origin, 
 				SpriteEffects.None, 
 				0
 			);
 		}
 
-		public static void DrawSprite(Sprite sprite, float frameId, Rectangle destRect, Rectangle srcRect)
+		public static void DrawFrame(Frame frame, Vector2 offset, Rectangle destRect, Rectangle srcRect, float rotation, Color color)
 		{
 			SwitchPipelineMode(PipelineMode.Sprites, null);
 			
-			var frame = CalculateSpriteFrame(sprite, frameId);
-			
-			srcRect.X += sprite.Frames[frame].TexturePosition.X;
-			srcRect.Y += sprite.Frames[frame].TexturePosition.Y;
-
-			Batch.Draw(sprite.Frames[frame].Texture, destRect, srcRect, CurrentColor);
-		}
-		
-		public static void DrawSprite(Sprite sprite, float frameId, Rectangle destRect, Rectangle srcRect, float rotation, Color color)
-		{
-			SwitchPipelineMode(PipelineMode.Sprites, null);
-			
-			var frame = CalculateSpriteFrame(sprite, frameId);
-			
-			srcRect.X += sprite.Frames[frame].TexturePosition.X;
-			srcRect.Y += sprite.Frames[frame].TexturePosition.Y;
+			srcRect.X += frame.TexturePosition.X;
+			srcRect.Y += frame.TexturePosition.Y;
 
 			Batch.Draw(
-				sprite.Frames[frame].Texture, 
+				frame.Texture,
 				destRect, 
-				sprite.Frames[frame].TexturePosition, 
+				srcRect, 
 				color, 
 				rotation, 
-				sprite.Origin - sprite.Frames[frame].Origin,
+				offset + frame.Origin,
 				SpriteEffects.None, 
 				0
 			);
