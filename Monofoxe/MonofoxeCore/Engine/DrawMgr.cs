@@ -455,16 +455,16 @@ namespace Monofoxe.Engine
 
 			SwitchPipelineMode(mode, texture);
 
-			short[] indexesCopy= new short[indices.Length];
-			Array.Copy(indices, indexesCopy, indices.Length); // We must copy an array to prevent modifying original.
+			short[] indicesCopy= new short[indices.Length];
+			Array.Copy(indices, indicesCopy, indices.Length); // We must copy an array to prevent modifying original.
 
 			for(var i = 0; i < indices.Length; i += 1)
 			{
-				indexesCopy[i] += (short)_vertices.Count; // We need to offset each index because of single buffer for everything.
+				indicesCopy[i] += (short)_vertices.Count; // We need to offset each index because of single buffer for everything.
 			} 
 
 			_vertices.AddRange(vertices);
-			_indices.AddRange(indexesCopy);
+			_indices.AddRange(indicesCopy);
 		}
 
 
@@ -966,6 +966,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static void PrimitiveSetTexture(Sprite sprite, float frameId)
 		{
+			SwitchPipelineMode(PipelineMode.None, null);
 			var frame = sprite.Frames[(int)frameId];
 
 			_primitiveTexture = frame.Texture;
@@ -994,7 +995,7 @@ namespace Monofoxe.Engine
 			PrimitiveAddVertex(pos.X, pos.Y, CurrentColor, texturePos);
 
 		public static void PrimitiveAddVertex(Vector2 pos, Color color, Vector2 texturePos) =>
-			_primitiveVertices.Add(new VertexPositionColorTexture(new Vector3(pos.X, pos.Y, 0), color, texturePos));
+			PrimitiveAddVertex(pos.X, pos.Y, color, texturePos);
 
 		public static void PrimitiveAddVertex(float x, float y) =>
 			PrimitiveAddVertex(x, y, CurrentColor, Vector2.Zero);
@@ -1009,10 +1010,8 @@ namespace Monofoxe.Engine
 
 		public static void PrimitiveAddVertex(float x, float y, Color color, Vector2 texturePos)
 		{
-			/*
-			 * Since we may work with sprites, which are only little parts of whole texture atlas,
-			 * we need to convert local sprite coordinates to global atlas coordinates.
-			 */
+			// Since we may work with sprites, which are only little parts of whole texture atlas,
+			// we need to convert local sprite coordinates to global atlas coordinates.
 			Vector2 atlasPos = _primitiveTextureOffset + texturePos * _primitiveTextureRatio;
 			_primitiveVertices.Add(new VertexPositionColorTexture(new Vector3(x, y, 0), color, atlasPos));
 		}
