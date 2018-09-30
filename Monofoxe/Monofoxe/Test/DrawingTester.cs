@@ -55,7 +55,7 @@ namespace Monofoxe.Test
 				DrawMgr.Effect = Effects.Effect;
 			}
 			*/
-
+			/*
 			DrawMgr.CurrentColor = Color.Violet;
 			
 			DrawMgr.DrawSprite(SpritesDefault.DemonFire, fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
@@ -85,12 +85,15 @@ namespace Monofoxe.Test
 			DrawMgr.CurrentColor = Color.White;
 
 			DrawMgr.DrawText("test", 100, 100);
+			*/
+			TestDrawPrimitives();
 		}
 
 
 
 		private void TestDrawPrimitives()
-		{
+		{/*
+			DrawMgr.PrimitiveBegin();
 			DrawMgr.PrimitiveAddVertex(new Vector2(64, 64), Color.DarkOrange);
 			DrawMgr.PrimitiveAddVertex(new Vector2(70, 70), Color.Aquamarine);
 			DrawMgr.PrimitiveAddVertex(new Vector2(100, 80), Color.DarkBlue);
@@ -99,7 +102,7 @@ namespace Monofoxe.Test
 			DrawMgr.PrimitiveEnd();
 			
 			//DrawCntrl.DrawTriangle(0,0,32,32,64,100,true);
-
+			DrawMgr.PrimitiveBegin();
 			DrawMgr.PrimitiveAddVertex(new Vector2(120, 54), Color.DarkOrange);
 			DrawMgr.PrimitiveAddVertex(new Vector2(150, 60), Color.Aquamarine);
 			DrawMgr.PrimitiveAddVertex(new Vector2(180, 60), Color.DarkBlue);
@@ -107,17 +110,21 @@ namespace Monofoxe.Test
 			DrawMgr.PrimitiveSetTriangleFanIndices();
 			DrawMgr.PrimitiveEnd();
 			
-			
+			DrawMgr.PrimitiveBegin();
+			DrawMgr.PrimitiveSetTexture(SpritesDefault.BirdieBody, 0);
 			DrawMgr.PrimitiveAddVertex(0, 0, new Vector2(0, 0));
 			DrawMgr.PrimitiveAddVertex(32, 32, new Color(56, 135, 255, 0), new Vector2(0, 1));
 			DrawMgr.PrimitiveAddVertex(64, 0,new Color(56, 135, 255, 0) , new Vector2(1, 0));
 			DrawMgr.PrimitiveAddVertex(96, 32, new Color(56, 135, 255, 0), new Vector2(1, 1));
 			DrawMgr.PrimitiveSetTriangleStripIndices();
-			DrawMgr.PrimitiveSetTexture(SpritesDefault.BirdieBody, 0);
 			DrawMgr.PrimitiveEnd();
 			
+			*/
 			
 
+			DrawMgr.PrimitiveBegin();
+			DrawMgr.PrimitiveSetTexture(SpritesDefault.Boulder3, 0);
+			
 			int _x = 0;
 			int _y = 100;
 
@@ -128,10 +135,9 @@ namespace Monofoxe.Test
 			{
 				for(var i = 0; i < w; i += 1)
 				{			
-					DrawMgr.PrimitiveAddVertex(_x + 8 * i + i * i * k, _y + 8 * k + k * k * i, Color.White, new Vector2(i / (float)(w - 1), k / (float)(h - 1)));	
+					DrawMgr.PrimitiveAddVertex(new Vector2(_x + 8 * i, _y + 8 * k), Color.White, new Vector2(i / (float)(w - 1), k / (float)(h - 1)));	
 				}
 			}
-			DrawMgr.PrimitiveSetTexture(SpritesDefault.Boulder3, 0);
 			DrawMgr.PrimitiveSetMeshIndices(w, h);
 			DrawMgr.PrimitiveEnd();
 		}
