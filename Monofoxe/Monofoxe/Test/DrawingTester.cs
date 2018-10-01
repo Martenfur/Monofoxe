@@ -55,7 +55,7 @@ namespace Monofoxe.Test
 				DrawMgr.Effect = Effects.Effect;
 			}
 			*/
-			/*
+			
 			DrawMgr.CurrentColor = Color.Violet;
 			
 			DrawMgr.DrawSprite(SpritesDefault.DemonFire, fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
@@ -85,7 +85,7 @@ namespace Monofoxe.Test
 			DrawMgr.CurrentColor = Color.White;
 
 			DrawMgr.DrawText("test", 100, 100);
-			*/
+			
 			TestDrawPrimitives();
 		}
 
