@@ -18,6 +18,7 @@ using System.Text.RegularExpressions;
  */
 namespace Pipefoxe.SpriteGroup
 {
+	
 	/// <summary>
 	/// Sprite group importer. Parses json config, and loads textures,
 	/// which will be passed to AtlasProcessor.
@@ -26,6 +27,18 @@ namespace Pipefoxe.SpriteGroup
 	DisplayName = "Sprite Group Importer - Monofoxe")]
 	public class SpriteGroupImporter : ContentImporter<SpriteGroupData>
 	{
+		/*
+		 * Offset keywords are used to quickly set 
+		 * sprite offsets to center or any side, without
+		 * knowing actual sprite size.
+		 */
+		const string keywordCenter = "center";
+		const string keywordTop = "top";
+		const string keywordBottom = "bottom";
+		const string keywordLeft = "left";
+		const string keywordRight = "right";
+
+
 		public override SpriteGroupData Import(string filename, ContentImporterContext context)
 		{
 			var groupData = new SpriteGroupData();
@@ -38,8 +51,8 @@ namespace Pipefoxe.SpriteGroup
 				var json = File.ReadAllText(filename);
 				JToken configData = JObject.Parse(json);
 
-				groupData.AtlasSize = Int32.Parse(configData["atlasSize"].ToString());
-				groupData.TexturePadding = Int32.Parse(configData["texturePadding"].ToString());
+				groupData.AtlasSize = int.Parse(configData["atlasSize"].ToString());
+				groupData.TexturePadding = int.Parse(configData["texturePadding"].ToString());
 				groupData.RootDir = Path.GetDirectoryName(filename) + '/' + configData["rootDir"].ToString();
 				groupData.GroupName = Path.GetFileNameWithoutExtension(filename);
 				groupData.ClassTemplatePath = configData["classTemplatePath"].ToString();
@@ -103,15 +116,55 @@ namespace Pipefoxe.SpriteGroup
 						var conf = File.ReadAllText(configPath);
 						JToken confData = JObject.Parse(conf); 			
 
-						spr.FramesH = Int32.Parse(confData["h"].ToString());
-						spr.FramesV = Int32.Parse(confData["v"].ToString());
+						spr.FramesH = int.Parse(confData["h"].ToString());
+						spr.FramesV = int.Parse(confData["v"].ToString());
 						
 						if (spr.FramesH < 1 || spr.FramesV < 1) // Frame amount cannot be lesser than 1.
 						{
 							throw(new Exception());
 						}
 
-						spr.Offset = new Point(Int32.Parse(confData["offset_x"].ToString()), Int32.Parse(confData["offset_y"].ToString()));
+						var xOffsetRaw = confData["offset_x"].ToString().ToLower();
+						var yOffsetRaw = confData["offset_y"].ToString().ToLower();
+
+						int xOffset, yOffset;
+
+						// Parsing offset keywords.
+						switch(xOffsetRaw)
+						{
+							case keywordCenter:
+								xOffset = spr.RawTexture.Width / spr.FramesH / 2;
+							break;
+							case keywordLeft:
+								xOffset = 0;
+							break;
+							case keywordRight:
+								xOffset = spr.RawTexture.Width / spr.FramesH;
+							break;
+							default:
+								xOffset = int.Parse(xOffsetRaw);
+							break;
+						}
+
+						switch(yOffsetRaw)
+						{
+							case keywordCenter:
+								yOffset = spr.RawTexture.Height / spr.FramesV / 2;
+							break;
+							case keywordTop:
+								yOffset = 0;
+							break;
+							case keywordBottom:
+								yOffset = spr.RawTexture.Height / spr.FramesV;
+							break;
+							default:
+								yOffset = int.Parse(yOffsetRaw);
+							break;
+						}
+						// Parsing offset keywords.
+
+						spr.Offset = new Point(xOffset, yOffset);
+
 					}
 					catch(Exception)
 					{
