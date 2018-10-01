@@ -21,20 +21,31 @@ namespace Monofoxe.Utils
 
 		/// <summary>
 		/// View size.
-		/// NOTE: To change view size, call Resize function.
 		/// </summary>
-		public Vector2 Size => new Vector2(ViewSurface.Width, ViewSurface.Height);
-		
+		public Vector2 Size 
+		{
+			get =>	new Vector2(ViewSurface.Width, ViewSurface.Height);
+			set
+			{
+				ViewSurface.Dispose();
+				ViewSurface = new RenderTarget2D(
+					DrawMgr.Device, 
+					(int)value.X, 
+					(int)value.Y, 
+					false,
+					DrawMgr.Device.PresentationParameters.BackBufferFormat,
+					DepthFormat.Depth24, 
+					0, 
+					RenderTargetUsage.PreserveContents
+				);
+			}
+		}
+
 		/// <summary>
 		/// Camera offset.
 		/// </summary>
 		public Vector2 Offset;
 
-		/// <summary>
-		/// Viewport coordinates. Sets where on screen view will be drawn.
-		/// </summary>
-		public Vector2 PortPos;
-		
 		/// <summary>
 		/// View rotation. Measured in degrees.
 		/// </summary>
@@ -44,6 +55,29 @@ namespace Monofoxe.Utils
 		/// View zoom.
 		/// </summary>
 		public float Zoom = 1;
+
+
+		/// <summary>
+		/// Viewport coordinates. Sets where on screen view will be drawn.
+		/// </summary>
+		public Vector2 PortPos;
+		
+		/// <summary>
+		/// Viewport coordinates. Sets where on screen view will be drawn.
+		/// </summary>
+		public Vector2 PortOffset;
+
+		/// <summary>
+		/// Viewport scale.
+		/// </summary>
+		public float PortScale = 1;
+		
+		/// <summary>
+		/// Viewport rotation.
+		/// </summary>
+		public float PortRotation = 0;
+		
+
 
 		/// <summary>
 		/// View surface. Everything will be drawn on it.
@@ -91,24 +125,6 @@ namespace Monofoxe.Utils
 			);
 			DrawMgr.Cameras.Add(this);
 			
-		}
-
-		/// <summary>
-		/// Resizes camera.
-		/// </summary>
-		public void Resize(int w, int h)
-		{
-			ViewSurface.Dispose();
-			ViewSurface = new RenderTarget2D(
-				DrawMgr.Device, 
-				w, 
-				h, 
-				false,
-				DrawMgr.Device.PresentationParameters.BackBufferFormat,
-				DepthFormat.Depth24, 
-				0, 
-				RenderTargetUsage.PreserveContents
-			);
 		}
 
 		/// <summary>

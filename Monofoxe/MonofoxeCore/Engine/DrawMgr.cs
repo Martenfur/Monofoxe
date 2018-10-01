@@ -160,6 +160,10 @@ namespace Monofoxe.Engine
 		/// </summary>
 		private static BasicEffect _basicEffect;
 		
+		/// <summary>
+		/// Used for drawing cameras.
+		/// </summary>
+		private static RasterizerState _cameraRasterizerState;
 
 		#endregion Modifiers.
 
@@ -257,6 +261,12 @@ namespace Monofoxe.Engine
 			
 			var defScene = SceneMgr.CreateScene("default");
 			defScene.CreateLayer("default");
+
+
+			_cameraRasterizerState = new RasterizerState();
+			_cameraRasterizerState.CullMode = CullMode.None;
+			_cameraRasterizerState.ScissorTestEnable = false;
+			_cameraRasterizerState.FillMode = FillMode.Solid;
 		}
 
 
@@ -269,7 +279,7 @@ namespace Monofoxe.Engine
 			
 			#region Canvas matrix 
 
-			WindowMgr windowManager = GameMgr.WindowManager;
+			var windowManager = GameMgr.WindowManager;
 			if (!windowManager.IsFullScreen || windowManager.CanvasMode == CanvasMode.None)
 			{
 				CanvasMatrix = Matrix.CreateTranslation(Vector3.Zero);
@@ -362,15 +372,31 @@ namespace Monofoxe.Engine
 			// Drawing camera surfaces.
 			Device.Clear(Color.TransparentBlack);
 			
+			// We don't need in-game rasterizer to apply to camera surfaces.
+			var oldRasterizerState = _rasterizer;
+
+			_rasterizer = _cameraRasterizerState;
 			SwitchPipelineMode(PipelineMode.Sprites, null);
+
 			foreach(var camera in Cameras)
 			{
 				if (camera.Autodraw && camera.Enabled)
 				{
-					Batch.Draw(camera.ViewSurface, camera.PortPos, Color.White);
+					Batch.Draw(
+						camera.ViewSurface, 
+						camera.PortPos, 
+						null,
+						Color.White, 
+						MathHelper.ToRadians(camera.PortRotation), 
+						camera.PortOffset, 
+						Vector2.One * camera.PortScale,
+						SpriteEffects.None,
+						0
+					);
 				}
 			}
 			SwitchPipelineMode(PipelineMode.None, null);
+			_rasterizer = oldRasterizerState;
 			// Drawing camera surfaces.
 
 			

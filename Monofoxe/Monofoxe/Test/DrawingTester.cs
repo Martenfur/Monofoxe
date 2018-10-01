@@ -55,7 +55,10 @@ namespace Monofoxe.Test
 				DrawMgr.Effect = Effects.Effect;
 			}
 			*/
-			
+			DrawMgr.CurrentCamera.PortScale = 2;
+			DrawMgr.CurrentCamera.PortRotation = 0;
+
+
 			DrawMgr.CurrentColor = Color.Violet;
 			
 			DrawMgr.DrawSprite(SpritesDefault.DemonFire, fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);

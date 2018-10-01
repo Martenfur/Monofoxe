@@ -153,7 +153,7 @@ namespace Monofoxe.Test
 			RasterizerState rasterizerState = new RasterizerState();
 			rasterizerState.CullMode = CullMode.None;
 			rasterizerState.ScissorTestEnable = false;
-			rasterizerState.FillMode = FillMode.Solid;
+			rasterizerState.FillMode = FillMode.WireFrame;
 			
 			
 			DrawMgr.Rasterizer = rasterizerState;
