@@ -37,12 +37,6 @@ namespace Monofoxe.Test
 
 			var frame = Math.Max(0, Math.Min(SpritesDefault.DemonFire.Frames.Length - 1, (int)(fireFrame * SpritesDefault.DemonFire.Frames.Length)));
 
-			Console.WriteLine(
-				fireFrame + " " + 
-				frame + " " + 
-				SpritesDefault.DemonFire.Frames.Length
-			);
-
 			GameMgr.WindowManager.WindowTitle = "Draw fps: " + GameMgr.Fps;
 		}
 
@@ -55,8 +49,13 @@ namespace Monofoxe.Test
 				DrawMgr.Effect = Effects.Effect;
 			}
 			*/
+
+			Console.WriteLine(Input.MousePos);
+
 			DrawMgr.CurrentCamera.PortScale = 2;
-			DrawMgr.CurrentCamera.PortRotation = 0;
+			DrawMgr.CurrentCamera.PortPos = new Vector2(0, 0);
+			DrawMgr.CurrentCamera.PortRotation = 5;
+			//DrawMgr.CurrentCamera.PortOffset = Vector2.One * -32;
 
 
 			DrawMgr.CurrentColor = Color.Violet;
@@ -84,7 +83,7 @@ namespace Monofoxe.Test
 			
 			DrawMgr.CurrentColor = Color.White * 0.5f;//new Color(0.5f, 0.5f, 0.5f, 0.5f);
 			DrawMgr.DrawCircle(200, 200, 32, false);
-			DrawMgr.DrawCircle(200, 216, 32, false);
+			DrawMgr.DrawCircle(Input.MousePos, 2, false);
 			DrawMgr.CurrentColor = Color.White;
 
 			DrawMgr.DrawText("test", 100, 100);

@@ -346,7 +346,7 @@ namespace Monofoxe.Engine
 
 					Input.UpdateMouseWorldPosition();
 
-					SetSurfaceTarget(camera.ViewSurface, camera.TransformMatrix);
+					SetSurfaceTarget(camera.Surface, camera.TransformMatrix);
 
 					if (camera.ClearBackground)
 					{
@@ -380,10 +380,10 @@ namespace Monofoxe.Engine
 
 			foreach(var camera in Cameras)
 			{
-				if (camera.Autodraw && camera.Enabled)
+				if (camera.Visible && camera.Enabled)
 				{
 					Batch.Draw(
-						camera.ViewSurface, 
+						camera.Surface, 
 						camera.PortPos, 
 						null,
 						Color.White, 

@@ -24,11 +24,11 @@ namespace Monofoxe.Utils
 		/// </summary>
 		public Vector2 Size 
 		{
-			get =>	new Vector2(ViewSurface.Width, ViewSurface.Height);
+			get =>	new Vector2(Surface.Width, Surface.Height);
 			set
 			{
-				ViewSurface.Dispose();
-				ViewSurface = new RenderTarget2D(
+				Surface.Dispose();
+				Surface = new RenderTarget2D(
 					DrawMgr.Device, 
 					(int)value.X, 
 					(int)value.Y, 
@@ -80,9 +80,9 @@ namespace Monofoxe.Utils
 
 
 		/// <summary>
-		/// View surface. Everything will be drawn on it.
+		/// Camera surface. Everything will be drawn on it.
 		/// </summary>
-		public RenderTarget2D ViewSurface;
+		public RenderTarget2D Surface;
 
 		/// <summary>
 		/// Background color for a view surface.
@@ -93,7 +93,7 @@ namespace Monofoxe.Utils
 		/// <summary>
 		/// If true, camera surface will be drawn automatically.
 		/// </summary>
-		public bool Autodraw = true;
+		public bool Visible = true;
 
 		/// <summary>
 		/// If false, camera won't trigger any Draw events.
@@ -113,7 +113,7 @@ namespace Monofoxe.Utils
 
 		public Camera(int w, int h)
 		{
-			ViewSurface = new RenderTarget2D(
+			Surface = new RenderTarget2D(
 				DrawMgr.Device, 
 				w, 
 				h, 
@@ -133,7 +133,7 @@ namespace Monofoxe.Utils
 		public void Destroy()
 		{
 			DrawMgr.Cameras.Remove(this);
-			ViewSurface.Dispose();
+			Surface.Dispose();
 		}
 		
 		public void UpdateTransformMatrix()
