@@ -29,7 +29,7 @@ namespace Monofoxe.Utils
 		public Timer(TimeKeeper timeKeeper) => 
 			TimeKeeper = timeKeeper;
 
-
+		
 		/// <summary>
 		/// Resets timer.
 		/// </summary>

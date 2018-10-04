@@ -50,7 +50,7 @@ namespace Monofoxe.Test
 			//LayerMgrs.Get("default").IsGUI = true;
 
 			new DrawingTester();
-			new ECSTester(scene["balls"]);
+			//new ECSTester(scene["balls"]);
 			//new AlarmTester(Layer.Get("balls"));
 
 		}
@@ -153,7 +153,7 @@ namespace Monofoxe.Test
 			RasterizerState rasterizerState = new RasterizerState();
 			rasterizerState.CullMode = CullMode.None;
 			rasterizerState.ScissorTestEnable = false;
-			rasterizerState.FillMode = FillMode.WireFrame;
+			rasterizerState.FillMode = FillMode.Solid;
 			
 			
 			DrawMgr.Rasterizer = rasterizerState;
