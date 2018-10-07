@@ -1049,7 +1049,8 @@ namespace Monofoxe.Engine
 
 
 		/// <summary>
-		/// Sets indexes according to trianglestrip pattern.
+		/// Sets indices according to trianglestrip pattern.
+		/// NOTE: Use counter-clockwise culling.
 		/// </summary>
 		public static void PrimitiveSetTriangleStripIndices()
 		{
@@ -1059,16 +1060,27 @@ namespace Monofoxe.Engine
 			
 			_primitiveType = PipelineMode.TrianglePrimitives;
 
+			var flip = true;
 			for(var i = 0; i < _primitiveVertices.Count - 2; i += 1)
 			{
 				_primitiveIndices.Add((short)i);
-				_primitiveIndices.Add((short)(i + 1));
-				_primitiveIndices.Add((short)(i + 2));
+				if (flip) // Taking in account counter-clockwise culling.
+				{
+					_primitiveIndices.Add((short)(i + 2));
+					_primitiveIndices.Add((short)(i + 1));
+				}
+				else
+				{
+					_primitiveIndices.Add((short)(i + 1));
+					_primitiveIndices.Add((short)(i + 2));
+				}
+				flip = !flip;
 			}
 		}
 		
 		/// <summary>
 		/// Sets indexes according to trianglefan pattern.
+		/// NOTE: Use counter-clockwise culling.
 		/// </summary>
 		public static void PrimitiveSetTriangleFanIndices()
 		{
@@ -1090,7 +1102,8 @@ namespace Monofoxe.Engine
 		
 		/// <summary>
 		/// Sets indexes according to mesh pattern.
-		/// IMPORTANT: Make sure there's enough vertices for width and height of the mesh.
+		/// NOTE: Make sure there's enough vertices for width and height of the mesh.
+		/// NOTE: Use counter-clockwise culling.
 		/// </summary>
 		/// <param name="w">Width of the mesh.</param>
 		/// <param name="h">Height of the mesh.</param>
@@ -1115,8 +1128,8 @@ namespace Monofoxe.Engine
 					_primitiveIndices.Add((short)(x + w + offset));
 
 					_primitiveIndices.Add((short)(x + w + offset));
-					_primitiveIndices.Add((short)(x + w + 1 + offset));
 					_primitiveIndices.Add((short)(x + 1 + offset));
+					_primitiveIndices.Add((short)(x + w + 1 + offset));
 				}
 				offset += w;
 			}
