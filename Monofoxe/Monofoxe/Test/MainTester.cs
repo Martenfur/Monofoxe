@@ -47,6 +47,7 @@ namespace Monofoxe.Test
 			GameMgr.MaxGameSpeed = 60;
 			GameMgr.FixedUpdateRate = 1.0 / 30.0;
 			
+			
 			//LayerMgrs.Get("default").IsGUI = true;
 
 			new DrawingTester();

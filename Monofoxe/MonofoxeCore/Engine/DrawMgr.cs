@@ -344,7 +344,7 @@ namespace Monofoxe.Engine
 					CurrentProjection = Matrix.CreateOrthographicOffCenter(0, camera.Size.X, camera.Size.Y, 0, 0, 1);
 					// Updating current transform matrix and camera.
 
-					Input.UpdateMouseWorldPosition();
+					Input.MousePos = camera.GetRelativeMousePosition();
 
 					SetSurfaceTarget(camera.Surface, camera.TransformMatrix);
 
@@ -363,10 +363,11 @@ namespace Monofoxe.Engine
 			#endregion Main draw events
 
 
-			// Resetting camera and transform matrix.
+			// Resetting camera, transform matrix and mouse position.
 			CurrentCamera = null;
 			CurrentTransformMatrix = CanvasMatrix;
-			// Resetting camera and transform matrix.
+			Input.MousePos = Input.ScreenMousePos;
+			// Resetting camera, transform matrix and mouse position
 			
 
 			// Drawing camera surfaces.

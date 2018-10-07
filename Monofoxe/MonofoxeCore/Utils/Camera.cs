@@ -74,6 +74,7 @@ namespace Monofoxe.Utils
 		
 		/// <summary>
 		/// Viewport rotation.
+		/// NOTE: Changing it will break mouse position!
 		/// </summary>
 		public float PortRotation = 0;
 		
@@ -142,6 +143,32 @@ namespace Monofoxe.Utils
 				Matrix.CreateRotationZ(MathHelper.ToRadians(-Rotation)) *                  // Rotation.
 				Matrix.CreateScale(Vector3.One * Zoom) *                                   // Scale.
 				Matrix.CreateTranslation(new Vector3(Offset.X, Offset.Y, 0));              // Offset.									
+		}
+
+
+		/// <summary>
+		/// Returns mouse position relative to the camera.
+		/// </summary>
+		public Vector2 GetRelativeMousePosition()
+		{
+			/*
+			 * Well, I am giving up.
+			 * Mouse *works* with port position, offset and scale,
+			 * but rotation breaks everything for some reason.
+			 * Maybe a hero of the future will fix it, but this is 
+			 * so rare usecase, that it doesn't really worth the hassle. :S
+			 * TODO: Fix port rotation problems.
+			 */
+			var transformMatrix = Matrix.CreateTranslation(new Vector3(-Pos.X, -Pos.Y, 0)) *
+				Matrix.CreateRotationZ(MathHelper.ToRadians(PortRotation - Rotation)) *            
+				Matrix.CreateScale(Vector3.One * Zoom) *
+				Matrix.CreateTranslation(new Vector3(Offset.X, Offset.Y, 0));
+			
+			var matrix =  Matrix.Invert(transformMatrix);
+			var mouseVec = (Input.ScreenMousePos - PortPos) / PortScale + PortOffset;
+
+			var transformedMouseVec = Vector3.Transform(new Vector3(mouseVec.X, mouseVec.Y, 0), matrix);
+			return new Vector2(transformedMouseVec.X, transformedMouseVec.Y);
 		}
 
 	}
