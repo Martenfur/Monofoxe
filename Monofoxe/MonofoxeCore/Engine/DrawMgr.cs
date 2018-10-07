@@ -375,8 +375,10 @@ namespace Monofoxe.Engine
 			
 			// We don't need in-game rasterizer to apply to camera surfaces.
 			var oldRasterizerState = _rasterizer;
+			var oldBlendState = _blendState;
 
 			_rasterizer = _cameraRasterizerState;
+			_blendState = BlendState.AlphaBlend;
 			SwitchPipelineMode(PipelineMode.Sprites, null);
 
 			foreach(var camera in Cameras)
@@ -398,6 +400,7 @@ namespace Monofoxe.Engine
 			}
 			SwitchPipelineMode(PipelineMode.None, null);
 			_rasterizer = oldRasterizerState;
+			_blendState = oldBlendState;
 			// Drawing camera surfaces.
 
 			
