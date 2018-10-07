@@ -54,7 +54,7 @@ namespace Monofoxe.Test
 
 			DrawMgr.CurrentCamera.PortScale = 2;
 			DrawMgr.CurrentCamera.PortPos = new Vector2(0, 0);
-			DrawMgr.CurrentCamera.PortRotation = 5;
+			DrawMgr.CurrentCamera.PortRotation = 0;
 			//DrawMgr.CurrentCamera.PortOffset = Vector2.One * -32;
 
 

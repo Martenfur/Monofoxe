@@ -220,7 +220,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Cursor position in the world. Depends on current camera.
 		/// </summary>
-		public static Vector2 MousePos {get; private set;} = Vector2.Zero;
+		public static Vector2 MousePos {get; internal set;} = Vector2.Zero;
 
 
 		private static List<Buttons> _mouseButtons = new List<Buttons>(),
@@ -532,35 +532,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static void MouseClear() =>
 			_mouseCleared = true;
-
 		
-		/// <summary>
-		/// Updates mouse position in the world.
-		/// </summary>
-		internal static void UpdateMouseWorldPosition()
-		{
-			var camera = DrawMgr.CurrentCamera;
-			
-			/*
-			 * Well, I am giving up.
-			 * Mouse *works* with port position, offset and scale,
-			 * but rotation breaks everything for some reason.
-			 * Maybe a hero of the future will fix it, but this is 
-			 * so rare usecase, that it doesn't really worth the hassle. :S
-			 * TODO: Fix port rotation problems.
-			 */
-			var transformMatrix = Matrix.CreateTranslation(new Vector3(-camera.Pos.X, -camera.Pos.Y, 0)) *
-				Matrix.CreateRotationZ(MathHelper.ToRadians(camera.PortRotation - camera.Rotation)) *            
-				Matrix.CreateScale(Vector3.One * camera.Zoom) *
-				Matrix.CreateTranslation(new Vector3(camera.Offset.X, camera.Offset.Y, 0));
-			
-			var matrix =  Matrix.Invert(transformMatrix);
-			var mouseVec = (ScreenMousePos - camera.PortPos) / camera.PortScale + camera.PortOffset;
-
-			var transformedMouseVec = Vector3.Transform(new Vector3(mouseVec.X, mouseVec.Y, 0), matrix);
-			MousePos = new Vector2(transformedMouseVec.X, transformedMouseVec.Y);
-		}
-
 		#endregion Mouse.
 
 
