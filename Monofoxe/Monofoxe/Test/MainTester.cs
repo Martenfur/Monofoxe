@@ -126,8 +126,8 @@ namespace Monofoxe.Test
 
 		void InitCameras()
 		{
-			MainCamera.BackgroundColor = Color.DarkSeaGreen;
-
+			MainCamera.BackgroundColor = Color.Transparent;
+			MainCamera.ClearBackground = false;
 			MainCamera.Offset = MainCamera.Size / 2;
 
 			MainCamera.Pos = MainCamera.Size / 2;

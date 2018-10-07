@@ -20,6 +20,7 @@ namespace Monofoxe.Test
 		Sprite testSpr = SpritesDefault.Chiggin;
 		double fireFrame = 0;
 	
+		double chigginWave = 0;
 
 		public DrawingTester() : base(SceneMgr.GetScene("default")["default"])
 		{
@@ -38,6 +39,12 @@ namespace Monofoxe.Test
 			var frame = Math.Max(0, Math.Min(SpritesDefault.DemonFire.Frames.Length - 1, (int)(fireFrame * SpritesDefault.DemonFire.Frames.Length)));
 
 			GameMgr.WindowManager.WindowTitle = "Draw fps: " + GameMgr.Fps;
+
+			chigginWave += TimeKeeper.GlobalTime();
+			if (chigginWave > 1)
+			{
+				chigginWave -= 1;
+			}
 		}
 
 		public override void Draw()
@@ -50,16 +57,6 @@ namespace Monofoxe.Test
 			}
 			*/
 
-			Console.WriteLine(Input.MousePos);
-
-			DrawMgr.CurrentCamera.PortScale = 2;
-			DrawMgr.CurrentCamera.PortPos = new Vector2(0, 0);
-			DrawMgr.CurrentCamera.PortRotation = 0;
-			//DrawMgr.CurrentCamera.PortOffset = Vector2.One * -32;
-
-
-			DrawMgr.CurrentColor = Color.Violet;
-			
 			DrawMgr.DrawSprite(SpritesDefault.DemonFire, fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
 
 			
@@ -74,9 +71,20 @@ namespace Monofoxe.Test
 			var p = new Vector2(50, 200);
 			for(var i = 0; i < 8; i += 1)
 			{
-				DrawMgr.DrawSprite(testSpr, 0, p + Vector2.UnitX * i * 16, Vector2.One, i * 5, Color.White * 0.5f);
+				DrawMgr.DrawSprite(
+					testSpr, 
+					0, 
+					p + 
+						Vector2.UnitX * i * 16 + 
+						Vector2.UnitY * (float)Math.Sin(Math.PI * 2 * (chigginWave + 1f / 8f * i)) * 8, 
+						Vector2.One, 
+						i * 5, 
+						Color.White * 0.1f
+				);
 			}
 			
+			DrawMgr.CurrentColor = Color.Violet * 0.5f;
+			//DrawMgr.DrawRectangle(0, 0, 300, 300, false);
 
 			DrawMgr.Effect = null;
 			DrawMgr.CurrentFont = Fonts.Arial;

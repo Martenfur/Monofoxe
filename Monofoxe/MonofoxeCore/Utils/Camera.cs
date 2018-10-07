@@ -87,7 +87,6 @@ namespace Monofoxe.Utils
 
 		/// <summary>
 		/// Background color for a view surface.
-		/// NOTE: It is not recommended to set transparent colors.
 		/// </summary>
 		public Color BackgroundColor = Color.Azure;
 
