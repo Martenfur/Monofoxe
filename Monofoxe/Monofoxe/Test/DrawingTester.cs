@@ -90,12 +90,18 @@ namespace Monofoxe.Test
 			DrawMgr.CurrentFont = Fonts.Arial;
 			
 			DrawMgr.CurrentColor = Color.White * 0.5f;//new Color(0.5f, 0.5f, 0.5f, 0.5f);
-			DrawMgr.DrawCircle(200, 200, 32, false);
 			DrawMgr.DrawCircle(Input.MousePos, 2, false);
 			DrawMgr.CurrentColor = Color.White;
 
 			DrawMgr.DrawText("test", 100, 100);
 			
+
+			DrawMgr.CurrentColor = Color.Green;
+			DrawMgr.DrawCircle(500, 100, 32, false);
+			DrawMgr.DrawRectangle(500, 200, 532, 232, false);
+			DrawMgr.DrawLine(500, 300, 532, 300);
+			DrawMgr.DrawLine(532, 400, 500, 400);
+
 			TestDrawPrimitives();
 		}
 
@@ -110,26 +116,34 @@ namespace Monofoxe.Test
 			DrawMgr.PrimitiveAddVertex(new Vector2(64, 80), new Color(76, 135, 255, 128));
 			DrawMgr.PrimitiveSetLineStripIndices(true);
 			DrawMgr.PrimitiveEnd();
-			
-			//DrawCntrl.DrawTriangle(0,0,32,32,64,100,true);
+			*/
+
 			DrawMgr.PrimitiveBegin();
 			DrawMgr.PrimitiveAddVertex(new Vector2(120, 54), Color.DarkOrange);
-			DrawMgr.PrimitiveAddVertex(new Vector2(150, 60), Color.Aquamarine);
+			DrawMgr.PrimitiveAddVertex(new Vector2(150, 30), Color.Aquamarine);
 			DrawMgr.PrimitiveAddVertex(new Vector2(180, 60), Color.DarkBlue);
 			DrawMgr.PrimitiveAddVertex(new Vector2(130, 80), Color.Chartreuse);
+			//DrawMgr.PrimitiveSetLineStripIndices(true);
+			
 			DrawMgr.PrimitiveSetTriangleFanIndices();
 			DrawMgr.PrimitiveEnd();
 			
+
 			DrawMgr.PrimitiveBegin();
-			DrawMgr.PrimitiveSetTexture(SpritesDefault.BirdieBody, 0);
+			//DrawMgr.PrimitiveSetTexture(SpritesDefault.BirdieBody, 0);
 			DrawMgr.PrimitiveAddVertex(0, 0, new Vector2(0, 0));
-			DrawMgr.PrimitiveAddVertex(32, 32, new Color(56, 135, 255, 0), new Vector2(0, 1));
-			DrawMgr.PrimitiveAddVertex(64, 0,new Color(56, 135, 255, 0) , new Vector2(1, 0));
-			DrawMgr.PrimitiveAddVertex(96, 32, new Color(56, 135, 255, 0), new Vector2(1, 1));
+			DrawMgr.PrimitiveAddVertex(32, 32, new Color(56, 135, 255), new Vector2(0, 1));
+			DrawMgr.PrimitiveAddVertex(64, 0,new Color(56, 135, 255) , new Vector2(1, 0));
+			DrawMgr.PrimitiveAddVertex(96, 32, new Color(56, 135, 255), new Vector2(1, 1));
+			DrawMgr.PrimitiveAddVertex(64+32, 0,new Color(56, 135, 255) , new Vector2(1, 0));
+			DrawMgr.PrimitiveAddVertex(96+32, 32, new Color(56, 135, 255), new Vector2(1, 1));
+			DrawMgr.PrimitiveAddVertex(64+64, 0,new Color(56, 135, 255) , new Vector2(1, 0));
+			DrawMgr.PrimitiveAddVertex(96+64, 32, new Color(56, 135, 255), new Vector2(1, 1));
+
 			DrawMgr.PrimitiveSetTriangleStripIndices();
 			DrawMgr.PrimitiveEnd();
 			
-			*/
+			
 			
 
 			DrawMgr.PrimitiveBegin();

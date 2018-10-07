@@ -126,8 +126,8 @@ namespace Monofoxe.Test
 
 		void InitCameras()
 		{
-			MainCamera.BackgroundColor = Color.Transparent;
-			MainCamera.ClearBackground = false;
+			MainCamera.BackgroundColor = Color.AntiqueWhite;//Color.Transparent;
+			MainCamera.ClearBackground = true;
 			MainCamera.Offset = MainCamera.Size / 2;
 
 			MainCamera.Pos = MainCamera.Size / 2;
@@ -152,7 +152,7 @@ namespace Monofoxe.Test
 		void InitRasterizer()
 		{
 			RasterizerState rasterizerState = new RasterizerState();
-			rasterizerState.CullMode = CullMode.None;
+			rasterizerState.CullMode = CullMode.CullCounterClockwiseFace;
 			rasterizerState.ScissorTestEnable = false;
 			rasterizerState.FillMode = FillMode.Solid;
 			
