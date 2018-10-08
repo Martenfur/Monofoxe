@@ -123,8 +123,7 @@ namespace Monofoxe.Utils
 				0, 
 				RenderTargetUsage.PreserveContents
 			);
-			DrawMgr.Cameras.Add(this);
-			
+			DrawMgr.Cameras.Add(this);	
 		}
 
 		/// <summary>
