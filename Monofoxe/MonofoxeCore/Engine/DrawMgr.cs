@@ -17,13 +17,9 @@ namespace Monofoxe.Engine
 		public static GraphicsDevice Device {get; private set;}
 		public static GraphicsDeviceManager DeviceManager {get; private set;}
 		
-		/// <summary>
-		/// List of all cameras.
-		/// </summary>
-		public static List<Camera> Cameras {get; private set;} = new List<Camera>();
 
 		/// <summary>
-		/// Current enabled camera.
+		/// Currently enabled camera.
 		/// </summary>
 		public static Camera CurrentCamera {get; private set;}
 
@@ -333,7 +329,7 @@ namespace Monofoxe.Engine
 			
 			#region Main draw events
 			
-			foreach(var camera in Cameras)
+			foreach(var camera in CameraMgr.Cameras)
 			{
 				if (camera.Enabled)
 				{
@@ -381,7 +377,7 @@ namespace Monofoxe.Engine
 			_blendState = BlendState.AlphaBlend;
 			SwitchPipelineMode(PipelineMode.Sprites, null);
 
-			foreach(var camera in Cameras)
+			foreach(var camera in CameraMgr.Cameras)
 			{
 				if (camera.Visible && camera.Enabled)
 				{

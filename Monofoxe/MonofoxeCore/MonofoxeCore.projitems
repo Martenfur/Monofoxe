@@ -45,6 +45,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)FMOD\fmod_dsp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Alarm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\AutoAlarm.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\CameraMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\GameMath.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\RandomExt.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\StateMachine.cs" />

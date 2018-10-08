@@ -1,32 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine;
-using System.Collections.Generic;
 
 namespace Monofoxe.Utils
 {
-
-	/// <summary>
-	/// Type of filtering for camera.
-	/// </summary>
-	public enum FilterType
-	{
-		/// <summary>
-		/// Triggers rendering, if filter DOES contain layer.
-		/// </summary>
-		Inclusive,
-	
-		/// <summary>
-		/// Triggers rendering, if filter DOES NOT contain layer.
-		/// </summary>
-		Exclusive,
-
-		/// <summary>
-		/// Renders all layers.
-		/// </summary>
-		None,
-	}
-
 
 	/// <summary>
 	/// Game cameras. Support positioning, rotating and scaling.
@@ -35,6 +13,23 @@ namespace Monofoxe.Utils
 	/// </summary>
 	public class Camera
 	{
+
+		/// <summary>
+		/// Priority of a camera. 
+		/// Higher priority = earlier drawing.
+		/// </summary>
+		public int Priority
+		{
+			get => _priority;
+
+			set
+			{
+				_priority = value;
+				CameraMgr.UpdateCameraPriority(this);
+			}
+		}
+		private int _priority;
+
 
 		/// <summary>
 		/// View coordinates.
@@ -140,7 +135,7 @@ namespace Monofoxe.Utils
 		public FilterType FilterType = FilterType.None;
 
 
-		public Camera(int w, int h)
+		public Camera(int w, int h, int priority = 0)
 		{
 			Surface = new RenderTarget2D(
 				DrawMgr.Device, 
@@ -152,7 +147,8 @@ namespace Monofoxe.Utils
 				0, 
 				RenderTargetUsage.PreserveContents
 			);
-			DrawMgr.Cameras.Add(this);	
+			
+			Priority = priority; // Also adds camera to camera list.
 		}
 
 		/// <summary>
@@ -160,7 +156,7 @@ namespace Monofoxe.Utils
 		/// </summary>
 		public void Destroy()
 		{
-			DrawMgr.Cameras.Remove(this);
+			CameraMgr.RemoveCamera(this);
 			Surface.Dispose();
 		}
 		

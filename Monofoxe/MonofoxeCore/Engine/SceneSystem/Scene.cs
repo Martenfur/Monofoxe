@@ -50,7 +50,7 @@ namespace Monofoxe.Engine.SceneSystem
 					return;
 				}
 			}
-			_layers.Add(layer);
+			_layers.Add(layer); // Adding a layer at the end, if it has lowest priority.
 		}
 
 		#region Layer methods.
