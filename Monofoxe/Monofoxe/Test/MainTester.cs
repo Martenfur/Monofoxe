@@ -51,7 +51,7 @@ namespace Monofoxe.Test
 			//LayerMgrs.Get("default").IsGUI = true;
 
 			new DrawingTester();
-			//new ECSTester(scene["balls"]);
+			new ECSTester(scene["balls"]);
 			//new AlarmTester(Layer.Get("balls"));
 
 		}
@@ -64,6 +64,17 @@ namespace Monofoxe.Test
 				GameMgr.ExitGame();
 			}
 			
+			if (Input.CheckButtonPress(Buttons.L))
+			{
+				var scene = SceneMgr.GetScene("default");
+				
+				//scene["balls"].Enabled = !scene["balls"].Enabled;
+				foreach(var entity in scene.GetList("ball"))
+				{
+					entity.Enabled = !entity.Enabled;
+				}
+			}
+
 			//Console.WriteLine(Layer.__GetLayerInfo());
 			
 			#region Camera. 

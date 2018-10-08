@@ -27,7 +27,7 @@ namespace Monofoxe.Engine
 			{
 				foreach(var layer in scene.Layers)
 				{
-					layer.UpdateEntities();
+					layer.UpdateEntityList();
 				}
 			}
 			
@@ -44,17 +44,29 @@ namespace Monofoxe.Engine
 
 				foreach(var scene in SceneMgr.Scenes)
 				{
-					SystemMgr.FixedUpdate(GetActiveComponents(scene));
+					if (scene.Enabled)
+					{
+						SceneMgr.CurrentScene = scene;
+						SystemMgr.FixedUpdate(GetActiveComponents(scene));
+					}
 				}
 				foreach(var scene in SceneMgr.Scenes)
 				{
-					foreach(var layer in scene.Layers)
+					if (scene.Enabled)
 					{
-						foreach(var entity in layer.Entities)
+						SceneMgr.CurrentScene = scene;
+						foreach(var layer in scene.Layers)
 						{
-							if (entity.Active && !entity.Destroyed)
+							if (layer.Enabled)
 							{
-								entity.FixedUpdate();
+								SceneMgr.CurrentLayer = layer;
+								foreach(var entity in layer.Entities)
+								{
+									if (entity.Enabled && !entity.Destroyed)
+									{
+										entity.FixedUpdate();
+									}
+								}
 							}
 						}
 					}
@@ -66,17 +78,29 @@ namespace Monofoxe.Engine
 			// Normal updates.
 			foreach(var scene in SceneMgr.Scenes)
 			{
-				SystemMgr.Update(GetActiveComponents(scene));
+				if (scene.Enabled)
+				{
+					SceneMgr.CurrentScene = scene;
+					SystemMgr.Update(GetActiveComponents(scene));
+				}
 			}
 			foreach(var scene in SceneMgr.Scenes)
-			{
-				foreach(var layer in scene.Layers)
+			{		
+				if (scene.Enabled)
 				{
-					foreach(var entity in layer.Entities)
+					SceneMgr.CurrentScene = scene;
+					foreach(var layer in scene.Layers)
 					{
-						if (entity.Active && !entity.Destroyed)
+						if (layer.Enabled)
 						{
-							entity.Update(); 
+							SceneMgr.CurrentLayer = layer;
+							foreach(var entity in layer.Entities)
+							{
+								if (entity.Enabled && !entity.Destroyed)
+								{
+									entity.Update(); 
+								}
+							}
 						}
 					}
 				}
@@ -135,7 +159,7 @@ namespace Monofoxe.Engine
 			if (!entity.Destroyed)
 			{
 				entity.Destroyed = true;
-				if (entity.Active)
+				if (entity.Enabled)
 				{
 					entity.Destroy();
 				}
@@ -154,15 +178,18 @@ namespace Monofoxe.Engine
 			
 			foreach(var layer in scene.Layers)
 			{
-				foreach(var componentsPair in layer._components)
+				if (layer.Enabled)
 				{
-					if (list.ContainsKey(componentsPair.Key))
+					foreach(var componentsPair in layer._components)
 					{
-						list[componentsPair.Key].AddRange(ComponentMgr.FilterInactiveComponents(componentsPair.Value));
-					}
-					else
-					{
-						list.Add(componentsPair.Key, ComponentMgr.FilterInactiveComponents(componentsPair.Value));
+						if (list.ContainsKey(componentsPair.Key))
+						{
+							list[componentsPair.Key].AddRange(ComponentMgr.FilterInactiveComponents(componentsPair.Value));
+						}
+						else
+						{
+							list.Add(componentsPair.Key, ComponentMgr.FilterInactiveComponents(componentsPair.Value));
+						}
 					}
 				}
 			}

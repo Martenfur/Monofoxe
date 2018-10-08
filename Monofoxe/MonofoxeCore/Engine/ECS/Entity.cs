@@ -41,10 +41,16 @@ namespace Monofoxe.Engine.ECS
 		public bool Destroyed {get; internal set;} = false;
 
 		/// <summary>
-		/// If false, Update and Draw events won't be executed.
+		/// If false, Update events won't be executed.
 		/// </summary>
-		public bool Active = true;
+		public bool Enabled = true;
 		
+		/// <summary>
+		/// If false, Draw events won't be executed.
+		/// </summary>
+		public bool Visible = true;
+		
+
 		public Layer Layer
 		{
 			get => _layer;
