@@ -135,7 +135,7 @@ namespace Monofoxe.Utils
 
 
 
-		private Dictionary<string, HashSet<string>> _filter;
+		private Dictionary<string, HashSet<string>> _filter = new Dictionary<string, HashSet<string>>();
 
 		public FilterType FilterType = FilterType.None;
 
