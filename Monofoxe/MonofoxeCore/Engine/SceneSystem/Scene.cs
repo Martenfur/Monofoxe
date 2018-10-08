@@ -12,9 +12,20 @@ namespace Monofoxe.Engine.SceneSystem
 		public IReadOnlyCollection<Layer> Layers => _layers;
 		private List<Layer> _layers = new List<Layer>();
 
+		/// <summary>
+		/// If false, scene won't be rendered.
+		/// </summary>
+		public bool Visible = true;
+
+		/// <summary>
+		/// If true, scene won't be updated.
+		/// </summary>
+		public bool Enabled = true;
+
+
 		public Scene(string name) =>
 			Name = name;
-
+		
 
 		internal void Destroy()
 		{

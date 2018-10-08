@@ -18,7 +18,20 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public readonly string Name;
 
+		/// <summary>
+		/// If false, layer won't be rendered.
+		/// </summary>
+		public bool Visible = true;
+
+		/// <summary>
+		/// If true, layer won't be updated.
+		/// </summary>
+		public bool Enabled = true;
+
+
 		internal bool _depthListOutdated = false;
+
+
 
 		/// <summary>
 		/// Priority of a layer. 
@@ -173,7 +186,7 @@ namespace Monofoxe.Engine.SceneSystem
 			SystemMgr._componentsWereRemoved = true;
 		}
 
-		internal void UpdateEntities()
+		internal void UpdateEntityList()
 		{
 			// Clearing main list from destroyed objects.
 			var updatedList = new List<Entity>();

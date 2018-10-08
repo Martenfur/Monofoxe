@@ -1,9 +1,32 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine;
+using System.Collections.Generic;
 
 namespace Monofoxe.Utils
 {
+
+	/// <summary>
+	/// Type of filtering for camera.
+	/// </summary>
+	public enum FilterType
+	{
+		/// <summary>
+		/// Triggers rendering, if filter DOES contain layer.
+		/// </summary>
+		Inclusive,
+	
+		/// <summary>
+		/// Triggers rendering, if filter DOES NOT contain layer.
+		/// </summary>
+		Exclusive,
+
+		/// <summary>
+		/// Renders all layers.
+		/// </summary>
+		None,
+	}
+
 
 	/// <summary>
 	/// Game cameras. Support positioning, rotating and scaling.
@@ -111,6 +134,12 @@ namespace Monofoxe.Utils
 		public Matrix TransformMatrix;
 
 
+
+		private Dictionary<string, HashSet<string>> _filter;
+
+		public FilterType FilterType = FilterType.None;
+
+
 		public Camera(int w, int h)
 		{
 			Surface = new RenderTarget2D(
@@ -167,6 +196,62 @@ namespace Monofoxe.Utils
 
 			var transformedMouseVec = Vector3.Transform(new Vector3(mouseVec.X, mouseVec.Y, 0), matrix);
 			return new Vector2(transformedMouseVec.X, transformedMouseVec.Y);
+		}
+
+
+		public void AddFilterEntry(string sceneName, string layerName)
+		{
+			if (_filter.ContainsKey(sceneName))
+			{
+				_filter[sceneName].Add(layerName);
+			}
+			else
+			{
+				var newSet = new HashSet<string>();
+				newSet.Add(layerName);
+				_filter.Add(sceneName, newSet);
+			}
+		}
+
+		public void RemoveFilterEntry(string sceneName, string layerName)
+		{
+			if (_filter.ContainsKey(sceneName))
+			{
+				_filter[sceneName].Remove(layerName);
+				if (_filter[sceneName].Count == 0)
+				{
+					_filter.Remove(sceneName);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Returns true, if given layer is filtered out.
+		/// </summary>
+		public bool Filter(string sceneName, string layerName)
+		{
+			if (FilterType == FilterType.None)
+			{
+				return false;
+			}
+
+			var result = false;
+
+			if (_filter.ContainsKey(sceneName))
+			{
+				result = _filter[sceneName].Contains(layerName);
+			}
+
+			if (FilterType == FilterType.Inclusive)
+			{
+				return !result;
+			}
+			else
+			{
+				// NOTE: Add additional check here, if any other filter types will be created.
+				return result;
+			}
+
 		}
 
 	}

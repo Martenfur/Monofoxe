@@ -87,7 +87,7 @@ namespace Monofoxe.Engine.ECS
 				var system = systemPair.Value;
 				if (components.ContainsKey(system.Tag))
 				{
-					system.Draw(ComponentMgr.FilterInactiveComponents(components[system.Tag]));
+					system.Draw(ComponentMgr.FilterInvisibleComponents(components[system.Tag]));
 				}
 			}
 		}

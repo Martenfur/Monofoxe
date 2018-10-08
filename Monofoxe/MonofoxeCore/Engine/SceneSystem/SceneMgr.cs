@@ -8,9 +8,12 @@ namespace Monofoxe.Engine.SceneSystem
 	{
 		public static IReadOnlyCollection<Scene> Scenes => _scenes;
 
+		public static Scene CurrentScene {get; internal set;}
+		public static Layer CurrentLayer {get; internal set;}
+
 		private static List<Scene> _scenes = new List<Scene>();
 
-
+		
 		/// <summary>
 		/// Creates new scene with given name.
 		/// </summary>
@@ -87,18 +90,28 @@ namespace Monofoxe.Engine.SceneSystem
 		{
 			foreach(var scene in _scenes)
 			{
-				foreach(var layer in scene.Layers)
+				if (scene.Visible)
 				{
-					if (!layer.IsGUI)
+					CurrentScene = scene;
+					foreach(var layer in scene.Layers)
 					{
-						SystemMgr.Draw(layer._depthSortedComponents);
-						foreach(var entity in layer._depthSortedEntities)
+						if (
+							layer.Visible && 
+							!layer.IsGUI && 
+							!DrawMgr.CurrentCamera.Filter(scene.Name, layer.Name)
+						)
 						{
-							if (entity.Active && !entity.Destroyed)
+							CurrentLayer = layer;
+							SystemMgr.Draw(layer._depthSortedComponents);
+							foreach(var entity in layer._depthSortedEntities)
 							{
-								entity.Draw();
+								if (entity.Visible && !entity.Destroyed)
+								{
+									entity.Draw();
+								}
 							}
 						}
+
 					}
 				}
 			}
@@ -111,18 +124,24 @@ namespace Monofoxe.Engine.SceneSystem
 		{
 			foreach(var scene in _scenes)
 			{
-				foreach(var layer in scene.Layers)
+				if (scene.Visible)
 				{
-					if (layer.IsGUI)
+					CurrentScene = scene;
+					foreach(var layer in scene.Layers)
 					{
-						SystemMgr.Draw(layer._depthSortedComponents);
-						foreach(var entity in layer._depthSortedEntities)
+						if (layer.Visible && layer.IsGUI)
 						{
-							if (entity.Active && !entity.Destroyed)
+							CurrentLayer = layer;
+							SystemMgr.Draw(layer._depthSortedComponents);
+							foreach(var entity in layer._depthSortedEntities)
 							{
-								entity.Draw();
+								if (entity.Visible && !entity.Destroyed)
+								{
+									entity.Draw();
+								}
 							}
 						}
+
 					}
 				}
 			}
