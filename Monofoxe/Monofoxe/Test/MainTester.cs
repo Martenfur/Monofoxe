@@ -12,7 +12,7 @@ namespace Monofoxe.Test
 {
 	public class MainTester : Entity
 	{
-		public static Camera MainCamera = new Camera(1440, 900);
+		public static Camera MainCamera = new Camera(600, 600);
 		public static Camera SecondCamera = new Camera(600, 600);	
 
 		public RandomExt Random = new RandomExt();
@@ -145,7 +145,9 @@ namespace Monofoxe.Test
 			
 			SecondCamera.PortPos.X = 600;
 			SecondCamera.BackgroundColor = Color.DarkSeaGreen;
-			SecondCamera.Enabled = false;
+			SecondCamera.Enabled = true;
+			SecondCamera.AddFilterEntry("default", "balls");
+			SecondCamera.FilterType = FilterType.Exclusive;
 		}
 
 
