@@ -68,6 +68,9 @@ namespace Monofoxe.Engine.ECS
 		}
 		private Layer _layer;
 
+		public Scene Scene => _layer.Scene;
+
+
 		/// <summary>
 		/// Component hash table.
 		/// </summary>

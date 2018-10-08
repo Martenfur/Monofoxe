@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Monofoxe.Engine.ECS;
-using System.Linq;
 
 namespace Monofoxe.Engine.SceneSystem
 {
