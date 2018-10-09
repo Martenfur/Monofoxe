@@ -101,7 +101,7 @@ namespace Monofoxe.Utils
 		/// <summary>
 		/// Camera surface. Everything will be drawn on it.
 		/// </summary>
-		public RenderTarget2D Surface;
+		public RenderTarget2D Surface {get; private set;}
 
 		/// <summary>
 		/// Background color for a view surface.
@@ -126,13 +126,16 @@ namespace Monofoxe.Utils
 		/// <summary>
 		/// Transformation matrix.
 		/// </summary>
-		public Matrix TransformMatrix;
+		public Matrix TransformMatrix {get; private set;}
 
 
 
 		private Dictionary<string, HashSet<string>> _filter = new Dictionary<string, HashSet<string>>();
 
 		public FilterType FilterType = FilterType.None;
+
+
+		public List<Effect> PostproccessorEffects {get; private set;} = new List<Effect>();
 
 
 		public Camera(int w, int h, int priority = 0)
