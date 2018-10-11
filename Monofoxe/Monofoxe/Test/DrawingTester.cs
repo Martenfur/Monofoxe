@@ -56,15 +56,16 @@ namespace Monofoxe.Test
 				DrawMgr.Effect = Effects.Effect;
 			}
 			*/
-
+			//Effects.Effect.Parameters["test"].SetValue(new Vector4(0.0f, 0.7f, 0.0f, 1.0f));
+			DrawMgr.Effect = Effects.BW;
 			DrawMgr.DrawSprite(SpritesDefault.DemonFire, fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
-
+			DrawMgr.Effect = null;
 			
 			//Frame f = SpritesDefault.DemonFire.Frames[(int)fireFrame];
 			//DrawMgr.CurrentColor = Color.White;
 			//DrawMgr.DrawRectangle(0, 0, SpritesDefault.DemonFire.W, SpritesDefault.DemonFire.H, true);
-		
-			DrawMgr.CurrentColor = Color.White;
+		/*
+			DrawMgr.CurrentColor = Color.Aqua;
 			
 			
 
@@ -102,7 +103,7 @@ namespace Monofoxe.Test
 			DrawMgr.DrawLine(500, 300, 532, 300);
 			DrawMgr.DrawLine(532, 400, 500, 400);
 
-			TestDrawPrimitives();
+			TestDrawPrimitives();*/
 		}
 
 

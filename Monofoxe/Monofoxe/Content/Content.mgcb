@@ -15,17 +15,6 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Effects/effect.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:Effects/effect.fx
-
-#begin Graphics/default.atlas
-/importer:SpriteGroupImporter
-/processor:SpriteGroupProcessor
-/build:Graphics/default.atlas
-
 #begin Audio/Music/m_mission.ogg
 /copy:Audio/Music/m_mission.ogg
 
@@ -35,15 +24,32 @@
 #begin Audio/Sounds/punch.wav
 /copy:Audio/Sounds/punch.wav
 
-#begin Entities/TestTemplate.json
-/importer:EntityTemplateImporter
-/processor:EntityTemplateProcessor
-/build:Entities/TestTemplate.json
-
 #begin Content.mgcb
 /importer:AssetInfoImporter
 /processor:PassThroughProcessor
 /build:Content.mgcb
+
+#begin Effects/BW.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/BW.fx
+
+#begin Effects/effect.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/effect.fx
+
+#begin Entities/Ball.json
+/importer:EntityTemplateImporter
+/processor:EntityTemplateProcessor
+/build:Entities/Ball.json
+
+#begin Entities/TestTemplate.json
+/importer:EntityTemplateImporter
+/processor:EntityTemplateProcessor
+/build:Entities/TestTemplate.json
 
 #begin Fonts/Arial.spritefont
 /importer:FontDescriptionImporter
@@ -52,8 +58,8 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/Arial.spritefont
 
-#begin Entities/Ball.json
-/importer:EntityTemplateImporter
-/processor:EntityTemplateProcessor
-/build:Entities/Ball.json
+#begin Graphics/default.atlas
+/importer:SpriteGroupImporter
+/processor:SpriteGroupProcessor
+/build:Graphics/default.atlas
 

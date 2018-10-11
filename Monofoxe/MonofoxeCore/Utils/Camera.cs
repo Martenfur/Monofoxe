@@ -135,7 +135,48 @@ namespace Monofoxe.Utils
 		public FilterType FilterType = FilterType.None;
 
 
-		public List<Effect> PostproccessorEffects {get; private set;} = new List<Effect>();
+		public List<Effect> PostprocessorEffects {get; private set;} = new List<Effect>();
+
+		public bool PostprocessingEnabled
+		{
+			get => _postprocessingEnabled;
+
+			set
+			{
+				if (_postprocessingEnabled != value)
+				{
+					_postprocessingEnabled = value;
+					if (value)
+					{
+						for(var i = 0; i < _postprocessorBuffers.Length; i += 1)
+						{
+							_postprocessorBuffers[i] = Surface = new RenderTarget2D(
+								DrawMgr.Device, 
+								Surface.Width, 
+								Surface.Height, 
+								false,
+								DrawMgr.Device.PresentationParameters.BackBufferFormat,
+								DrawMgr.Device.PresentationParameters.DepthStencilFormat, 
+								0, 
+								RenderTargetUsage.PreserveContents
+							);
+						}
+					}
+					else
+					{
+						for(var i = 0; i < _postprocessorBuffers.Length; i += 1)
+						{
+							_postprocessorBuffers[i].Dispose();
+							_postprocessorBuffers[i] = null;
+						}
+					}
+				}
+			}
+		}
+
+		private bool _postprocessingEnabled = false;
+
+		internal RenderTarget2D[] _postprocessorBuffers = new RenderTarget2D[2];
 
 
 		public Camera(int w, int h, int priority = 0)
@@ -251,6 +292,45 @@ namespace Monofoxe.Utils
 				return result;
 			}
 
+		}
+
+
+		public void ApplyPostprocessing()
+		{
+			if (PostprocessingEnabled)
+			{
+				var sufraceChooser = false;//((PostprocessorEffects.Count % 2) == 0);
+				
+				foreach(var effect in PostprocessorEffects)
+				{
+					DrawMgr.Effect = effect;
+					if (sufraceChooser)
+					{
+						DrawMgr.SetSurfaceTarget(Surface);
+						DrawMgr.Device.Clear(Color.TransparentBlack);
+						DrawMgr.DrawSurface(_postprocessorBuffers[0], Vector2.Zero);
+					}
+					else
+					{
+						DrawMgr.SetSurfaceTarget(_postprocessorBuffers[0]);
+						DrawMgr.Device.Clear(Color.TransparentBlack);
+						DrawMgr.DrawSurface(Surface, Vector2.Zero);
+					}
+					
+					DrawMgr.ResetSurfaceTarget();
+					DrawMgr.Effect = null;
+					sufraceChooser = !sufraceChooser;
+				}
+
+				if ((PostprocessorEffects.Count % 2) != 0)
+				{
+					DrawMgr.SetSurfaceTarget(Surface);
+					DrawMgr.Device.Clear(Color.TransparentBlack);
+					DrawMgr.DrawSurface(_postprocessorBuffers[0], Vector2.Zero);
+					
+					DrawMgr.ResetSurfaceTarget();
+				}
+			}
 		}
 
 	}
