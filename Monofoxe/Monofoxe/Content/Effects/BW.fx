@@ -53,9 +53,8 @@ float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
 {
 
   float4 color = tex2D(s0, coords);
-
-  if (coords.y > 0.5)
-    color = float4(0, 0, 0, 0);
+  float s = (color.r + color.g + color.b) / 3.0;
+  return float4(s, s, s, 1.0f);
 
   return color;
 }
