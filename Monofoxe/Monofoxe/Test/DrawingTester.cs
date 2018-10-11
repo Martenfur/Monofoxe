@@ -57,9 +57,9 @@ namespace Monofoxe.Test
 			}
 			*/
 			//Effects.Effect.Parameters["test"].SetValue(new Vector4(0.0f, 0.7f, 0.0f, 1.0f));
-			DrawMgr.Effect = Effects.BW;
+			//DrawMgr.Effect = Effects.Effect;
 			DrawMgr.DrawSprite(SpritesDefault.DemonFire, fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
-			DrawMgr.Effect = null;
+			//DrawMgr.Effect = null;
 			
 			//Frame f = SpritesDefault.DemonFire.Frames[(int)fireFrame];
 			//DrawMgr.CurrentColor = Color.White;

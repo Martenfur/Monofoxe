@@ -141,10 +141,11 @@ namespace Monofoxe.Test
 			MainCamera.ClearBackground = true;
 			MainCamera.Offset = MainCamera.Size / 2;
 			MainCamera.Pos = MainCamera.Size / 2;
-			//MainCamera.PostprocessingEnabled = true;
-			MainCamera.PostprocessorEffects.Add(Resources.Effects.BW);
+			MainCamera.PostprocessingEnabled = true;
 
-
+			MainCamera.PostprocessorEffects.Add(Resources.Effects.Effect);
+			//MainCamera.PostprocessorEffects.Add(Resources.Effects.BW);
+			
 			SecondCamera.PortPos.X = 600;
 			SecondCamera.BackgroundColor = Color.DarkSeaGreen;
 			SecondCamera.Enabled = true;

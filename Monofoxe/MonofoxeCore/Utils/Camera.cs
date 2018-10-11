@@ -318,9 +318,9 @@ namespace Monofoxe.Utils
 					}
 					
 					DrawMgr.ResetSurfaceTarget();
-					DrawMgr.Effect = null;
 					sufraceChooser = !sufraceChooser;
 				}
+				DrawMgr.Effect = null;
 
 				if ((PostprocessorEffects.Count % 2) != 0)
 				{
