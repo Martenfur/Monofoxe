@@ -375,12 +375,15 @@ namespace Monofoxe.Engine
 
 			_rasterizer = _cameraRasterizerState;
 			_blendState = BlendState.AlphaBlend;
-			SwitchPipelineMode(PipelineMode.Sprites, null);
+			//SwitchPipelineMode(PipelineMode.Sprites, null);
 
 			foreach(var camera in CameraMgr.Cameras)
 			{
 				if (camera.Visible && camera.Enabled)
 				{
+					camera.ApplyPostprocessing(); // Applying shaders.
+					SwitchPipelineMode(PipelineMode.Sprites, null);
+
 					Batch.Draw(
 						camera.Surface, 
 						camera.PortPos, 
@@ -547,7 +550,7 @@ namespace Monofoxe.Engine
 
 				Device.ScissorRectangle = _scissorRectangle;
 		
-				// Replace _basicEffect with custom effect system. Or not. We'll see. :V
+				// TODO: Replace _basicEffect with custom effect system. Or not. We'll see. :V
 				foreach(EffectPass pass in _basicEffect.CurrentTechnique.Passes)
 				{
 					pass.Apply();

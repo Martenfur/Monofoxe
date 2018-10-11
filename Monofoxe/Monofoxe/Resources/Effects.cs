@@ -11,6 +11,7 @@ namespace Resources
 		private static ContentManager _content;
 		
 		public static Effect Effect;
+		public static Effect BW;
 		
 		public static void Load()
 		{
@@ -18,6 +19,7 @@ namespace Resources
 			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.EffectsDir;
 			
 			Effect = _content.Load<Effect>("effect");
+			Effect = _content.Load<Effect>("BW");
 		}
 
 		public static void Unload()
