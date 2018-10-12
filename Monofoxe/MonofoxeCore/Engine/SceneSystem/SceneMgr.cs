@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Monofoxe.Engine.ECS;
+using Monofoxe.Utils.Cameras;
+using Microsoft.Xna.Framework;
 
 namespace Monofoxe.Engine.SceneSystem
 {
@@ -102,6 +104,18 @@ namespace Monofoxe.Engine.SceneSystem
 						)
 						{
 							CurrentLayer = layer;
+
+							bool hasPostprocessing = (
+								DrawMgr.CurrentCamera.PostprocessingMode == PostprocessingMode.CameraAndLayers 
+								&& layer.PostprocessorEffects.Count > 0
+							);
+
+							if (hasPostprocessing)
+							{
+								DrawMgr.SetSurfaceTarget(DrawMgr.CurrentCamera._postprocessorLayerBuffer, DrawMgr.CurrentTransformMatrix);
+								DrawMgr.Device.Clear(Color.TransparentBlack);
+							}
+
 							SystemMgr.Draw(layer._depthSortedComponents);
 							foreach(var entity in layer._depthSortedEntities)
 							{
@@ -110,6 +124,20 @@ namespace Monofoxe.Engine.SceneSystem
 									entity.Draw();
 								}
 							}
+
+							if (hasPostprocessing)
+							{
+								DrawMgr.ResetSurfaceTarget();
+
+								var oldRasterizer = DrawMgr.Rasterizer;
+								DrawMgr.Rasterizer = DrawMgr._cameraRasterizerState;
+								//DrawMgr.CurrentColor = Color.White;
+								DrawMgr.SetTransformMatrix(Matrix.CreateTranslation(Vector3.Zero));
+								layer.ApplyPostprocessing();
+								DrawMgr.ResetTransformMatrix();
+								DrawMgr.Rasterizer = oldRasterizer;
+							}
+
 						}
 
 					}

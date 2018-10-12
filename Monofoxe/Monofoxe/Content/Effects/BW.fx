@@ -54,15 +54,17 @@ float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
 
   float4 color = tex2D(s0, coords);
   float s = (color.r + color.g + color.b) / 3.0;
-  return float4(s, s, s, 1.0f);
-
-  return color;
+  return float4(s, s, s, color.a);
 }
 
 technique Technique1
 {
   pass Pass1
   {
+   // AlphaBlendEnable = true;
+   // DestBlend = DESTALPHA;
+   // SrcBlend = SRCALPHA;
+    
     PixelShader = compile ps_2_0 PixelShaderFunction();
   }
 }

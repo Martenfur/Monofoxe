@@ -133,8 +133,8 @@ namespace Monofoxe.Utils.Cameras
 		public List<Effect> PostprocessorEffects {get; private set;} = new List<Effect>();
 
 		/// <summary>
-		/// Enables usage of shaders on camera surface.
-		/// NOTE: Additional surface will be created.
+		/// Enables usage of shaders on camera surface and layers.
+		/// NOTE: Additional surfaces will be created.
 		/// </summary>
 		public PostprocessingMode PostprocessingMode
 		{
