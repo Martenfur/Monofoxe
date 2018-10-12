@@ -1,30 +1,8 @@
 ﻿using System.Collections.Generic;
 
 
-namespace Monofoxe.Utils
+namespace Monofoxe.Utils.Cameras
 {
-
-	/// <summary>
-	/// Type of filtering for camera.
-	/// </summary>
-	public enum FilterType
-	{
-		/// <summary>
-		/// Triggers rendering, if filter DOES contain layer.
-		/// </summary>
-		Inclusive,
-	
-		/// <summary>
-		/// Triggers rendering, if filter DOES NOT contain layer.
-		/// </summary>
-		Exclusive,
-
-		/// <summary>
-		/// Renders all layers.
-		/// </summary>
-		None,
-	}
-
 
 	public static class CameraMgr
 	{

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 using Monofoxe.Utils;
+using Monofoxe.Utils.Cameras;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.SceneSystem;
 
@@ -137,20 +138,22 @@ namespace Monofoxe.Test
 
 		void InitCameras()
 		{
-			MainCamera.BackgroundColor = Color.AntiqueWhite;//Color.Transparent;
+			MainCamera.BackgroundColor = Color.Transparent;
 			MainCamera.ClearBackground = true;
 			MainCamera.Offset = MainCamera.Size / 2;
 			MainCamera.Pos = MainCamera.Size / 2;
-			MainCamera.PostprocessingEnabled = true;
+			//MainCamera.PortOffset = Vector2.One * 32;
 
+			MainCamera.PostprocessingMode = PostprocessingMode.Camera;
 			MainCamera.PostprocessorEffects.Add(Resources.Effects.Effect);
-			//MainCamera.PostprocessorEffects.Add(Resources.Effects.BW);
+			MainCamera.PostprocessorEffects.Add(Resources.Effects.BW);
 			
+
 			SecondCamera.PortPos.X = 600;
 			SecondCamera.BackgroundColor = Color.DarkSeaGreen;
 			SecondCamera.Enabled = true;
 			SecondCamera.AddFilterEntry("default", "balls");
-			SecondCamera.FilterType = FilterType.Exclusive;
+			SecondCamera.FilterMode = FilterMode.Exclusive;
 		}
 
 
