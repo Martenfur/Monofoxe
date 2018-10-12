@@ -63,7 +63,7 @@ namespace Monofoxe.ECSTest.Systems
 			// Game crashes, if entities are deleted.
 			
 			var movement = ComponentMgr.GetComponentList<CMovement>(components);
-			DrawMgr.CurrentColor = Color.White;
+			DrawMgr.CurrentColor = Color.White * 0.5f;
 			var id = 0;
 			foreach(CCollision collider in components)
 			{

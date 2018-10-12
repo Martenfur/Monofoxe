@@ -159,7 +159,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Used for drawing cameras.
 		/// </summary>
-		private static RasterizerState _cameraRasterizerState;
+		internal static RasterizerState _cameraRasterizerState;
 
 		#endregion Modifiers.
 

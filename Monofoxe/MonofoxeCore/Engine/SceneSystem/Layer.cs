@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using Monofoxe.Engine.ECS;
 using System.Linq;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
+using Monofoxe.Utils.Cameras;
 
 namespace Monofoxe.Engine.SceneSystem
 {
@@ -101,6 +104,15 @@ namespace Monofoxe.Engine.SceneSystem
 		/// Newly created components. Used for Create event.
 		/// </summary>
 		internal List<Component> _newComponents = new List<Component>();
+
+
+
+		/// <summary>
+		/// Shaders applied to the layer.
+		/// NOTE: You should enable postprocessing in camera.
+		/// NOTE: Shaders won't be applied, if layer is GUI.
+		/// </summary>
+		public List<Effect> PostprocessorEffects {get; private set;} = new List<Effect>();
 
 
 		internal Layer(string name, int priority, Scene scene)
@@ -327,5 +339,48 @@ namespace Monofoxe.Engine.SceneSystem
 
 		#endregion Entity methods.
 		
+		/// <summary>
+		/// Applies shaders to the camera surface.
+		/// </summary>
+		internal void ApplyPostprocessing()
+		{
+			var camera = DrawMgr.CurrentCamera;
+			
+			var sufraceChooser = false;
+				
+			for(var i = 0; i < PostprocessorEffects.Count - 1; i += 1)
+			{
+				DrawMgr.Effect = PostprocessorEffects[i];
+				if (sufraceChooser)
+				{
+					DrawMgr.SetSurfaceTarget(camera._postprocessorLayerBuffer);
+					DrawMgr.Device.Clear(Color.TransparentBlack);
+					DrawMgr.DrawSurface(camera._postprocessorBuffer, Vector2.Zero);
+				}
+				else
+				{
+					DrawMgr.SetSurfaceTarget(camera._postprocessorBuffer);
+					DrawMgr.Device.Clear(Color.TransparentBlack);
+					DrawMgr.DrawSurface(camera._postprocessorLayerBuffer, Vector2.Zero);
+				}
+				
+				DrawMgr.ResetSurfaceTarget();
+				sufraceChooser = !sufraceChooser;
+			}
+			
+			DrawMgr.Effect = PostprocessorEffects[PostprocessorEffects.Count - 1];
+			if ((PostprocessorEffects.Count % 2) != 0)
+			{
+				DrawMgr.DrawSurface(camera._postprocessorLayerBuffer, Vector2.Zero);
+			}
+			else
+			{
+				DrawMgr.DrawSurface(camera._postprocessorBuffer, Vector2.Zero);
+			}
+
+			DrawMgr.Effect = null;
+		}
+
+
 	}
 }

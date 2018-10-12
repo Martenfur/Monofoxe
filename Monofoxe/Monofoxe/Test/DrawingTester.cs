@@ -80,7 +80,7 @@ namespace Monofoxe.Test
 						Vector2.UnitY * (float)Math.Sin(Math.PI * 2 * (chigginWave + 1f / 8f * i)) * 8, 
 						Vector2.One, 
 						i * 5, 
-						Color.White * 0.1f
+						Color.White * 0.5f
 				);
 			}
 			

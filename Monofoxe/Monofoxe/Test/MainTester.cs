@@ -34,17 +34,18 @@ namespace Monofoxe.Test
 		
 		public MainTester() : base(SceneMgr.GetScene("default")["default"])
 		{
+			var scene = SceneMgr.GetScene("default");
+			var layer = scene.CreateLayer("balls", -1);
+			layer.IsGUI = false;
+
 			InitCameras();
 			
 			InitWindow();
 
 			InitRasterizer();
 
-			var scene = SceneMgr.GetScene("default");
 
-			var layer = scene.CreateLayer("balls", -1);
-			layer.IsGUI = false;
-
+			
 			GameMgr.MaxGameSpeed = 60;
 			GameMgr.FixedUpdateRate = 1.0 / 30.0;
 			
@@ -138,21 +139,31 @@ namespace Monofoxe.Test
 
 		void InitCameras()
 		{
-			MainCamera.BackgroundColor = Color.Transparent;
+			MainCamera.BackgroundColor = Color.DarkSeaGreen;
 			MainCamera.ClearBackground = true;
 			MainCamera.Offset = MainCamera.Size / 2;
 			MainCamera.Pos = MainCamera.Size / 2;
 			//MainCamera.PortOffset = Vector2.One * 32;
 
-			MainCamera.PostprocessingMode = PostprocessingMode.Camera;
-			MainCamera.PostprocessorEffects.Add(Resources.Effects.Effect);
-			MainCamera.PostprocessorEffects.Add(Resources.Effects.BW);
+			var layer = SceneMgr.GetScene("default")["balls"];
+			var layer1 = SceneMgr.GetScene("default")["default"];
+
+			MainCamera.PostprocessingMode = PostprocessingMode.CameraAndLayers;
+			//MainCamera.PostprocessorEffects.Add(Resources.Effects.BW);
+			//MainCamera.PostprocessorEffects.Add(Resources.Effects.Effect);
+			
+			//layer.PostprocessorEffects.Add(Resources.Effects.BW);
+			layer.PostprocessorEffects.Add(Resources.Effects.BW);
+			
+			//layer.PostprocessorEffects.Add(Resources.Effects.Effect);
+			//layer.PostprocessorEffects.Add(Resources.Effects.Effect);
+			layer1.PostprocessorEffects.Add(Resources.Effects.Effect);
 			
 
 			SecondCamera.PortPos.X = 600;
 			SecondCamera.BackgroundColor = Color.DarkSeaGreen;
 			SecondCamera.Enabled = true;
-			SecondCamera.AddFilterEntry("default", "balls");
+			//SecondCamera.AddFilterEntry("default", "balls");
 			SecondCamera.FilterMode = FilterMode.Exclusive;
 		}
 
