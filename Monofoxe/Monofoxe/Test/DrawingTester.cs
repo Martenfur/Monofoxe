@@ -64,7 +64,7 @@ namespace Monofoxe.Test
 			//Frame f = SpritesDefault.DemonFire.Frames[(int)fireFrame];
 			//DrawMgr.CurrentColor = Color.White;
 			//DrawMgr.DrawRectangle(0, 0, SpritesDefault.DemonFire.W, SpritesDefault.DemonFire.H, true);
-		/*
+		
 			DrawMgr.CurrentColor = Color.Aqua;
 			
 			
@@ -103,7 +103,7 @@ namespace Monofoxe.Test
 			DrawMgr.DrawLine(500, 300, 532, 300);
 			DrawMgr.DrawLine(532, 400, 500, 400);
 
-			TestDrawPrimitives();*/
+			TestDrawPrimitives();
 		}
 
 

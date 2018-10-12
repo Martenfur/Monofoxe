@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine.Drawing;
-using Monofoxe.Utils;
+using Monofoxe.Utils.Cameras;
 using Monofoxe.Engine.SceneSystem;
 
 namespace Monofoxe.Engine
@@ -381,20 +381,7 @@ namespace Monofoxe.Engine
 			{
 				if (camera.Visible && camera.Enabled)
 				{
-					camera.ApplyPostprocessing(); // Applying shaders.
-					SwitchPipelineMode(PipelineMode.Sprites, null);
-
-					Batch.Draw(
-						camera.Surface, 
-						camera.PortPos, 
-						null,
-						Color.White, 
-						MathHelper.ToRadians(camera.PortRotation), 
-						camera.PortOffset, 
-						Vector2.One * camera.PortScale,
-						SpriteEffects.None,
-						0
-					);
+					camera.Render();
 				}
 			}
 			SwitchPipelineMode(PipelineMode.None, null);
@@ -1376,6 +1363,33 @@ namespace Monofoxe.Engine
 			DrawRenderTarget(surf, pos, scale, rotation, offset, color, mirroring);
 		}
 		
+		public static void DrawSurface(RenderTarget2D surf, Vector2 pos, Vector2 scale, float rotation, Vector2 offset, Color color)
+		{
+			SwitchPipelineMode(PipelineMode.Sprites, null);
+			
+			var mirroring = SpriteEffects.None;
+
+			// Proper negative scaling.
+			var scaleOffset = Vector2.Zero;
+
+			if (scale.X < 0)
+			{
+				mirroring = mirroring | SpriteEffects.FlipHorizontally;
+				scale.X *= -1;
+				scaleOffset.X = surf.Width;
+			}
+
+			if (scale.Y < 0)
+			{
+				mirroring = mirroring | SpriteEffects.FlipVertically;
+				scale.Y *= -1;
+				scaleOffset.Y = surf.Height;
+			}
+			// Proper negative scaling.
+
+			DrawRenderTarget(surf, pos, scale, rotation, scaleOffset + offset, color, mirroring);
+		}
+
 		// Vectors.
 		
 		// Floats.

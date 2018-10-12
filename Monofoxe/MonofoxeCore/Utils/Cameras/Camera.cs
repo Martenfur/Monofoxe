@@ -3,17 +3,16 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine;
 
-namespace Monofoxe.Utils
+namespace Monofoxe.Utils.Cameras
 {
 
 	/// <summary>
-	/// Game cameras. Support positioning, rotating and scaling.
+	/// Game camera. Support positioning, rotating and scaling.
 	/// NOTE: There always should be at least one camera, 
 	/// otherwise Draw events won't be triggered.
 	/// </summary>
 	public class Camera
 	{
-
 		/// <summary>
 		/// Priority of a camera. 
 		/// Higher priority = earlier drawing.
@@ -46,16 +45,7 @@ namespace Monofoxe.Utils
 			set
 			{
 				Surface.Dispose();
-				Surface = new RenderTarget2D(
-					DrawMgr.Device, 
-					(int)value.X, 
-					(int)value.Y, 
-					false,
-					DrawMgr.Device.PresentationParameters.BackBufferFormat,
-					DepthFormat.Depth24, 
-					0, 
-					RenderTargetUsage.PreserveContents
-				);
+				Surface = CreateSurface((int)value.X, (int)value.Y);
 			}
 		}
 
@@ -100,6 +90,7 @@ namespace Monofoxe.Utils
 
 		/// <summary>
 		/// Camera surface. Everything will be drawn on it.
+		/// NOTE: This reference can change to another surface!
 		/// </summary>
 		public RenderTarget2D Surface {get; private set;}
 
@@ -132,65 +123,61 @@ namespace Monofoxe.Utils
 
 		private Dictionary<string, HashSet<string>> _filter = new Dictionary<string, HashSet<string>>();
 
-		public FilterType FilterType = FilterType.None;
+		public FilterMode FilterMode = FilterMode.None;
 
-
+		/// <summary>
+		/// Shaders applied to the surface.
+		/// NOTE: Last shader will be applied directly during drawing of the surface.
+		/// If you draw it yourself, don't forget to apply last shader.
+		/// </summary>
 		public List<Effect> PostprocessorEffects {get; private set;} = new List<Effect>();
 
-		public bool PostprocessingEnabled
+		/// <summary>
+		/// Enables usage of shaders on camera surface.
+		/// NOTE: Additional surface will be created.
+		/// </summary>
+		public PostprocessingMode PostprocessingMode
 		{
-			get => _postprocessingEnabled;
+			get => _postprocessingMode;
 
 			set
 			{
-				if (_postprocessingEnabled != value)
+				if (_postprocessingMode != value)
 				{
-					_postprocessingEnabled = value;
-					if (value)
+					_postprocessingMode = value;
+
+					if (_postprocessingMode != PostprocessingMode.None)
 					{
-						for(var i = 0; i < _postprocessorBuffers.Length; i += 1)
-						{
-							_postprocessorBuffers[i] = Surface = new RenderTarget2D(
-								DrawMgr.Device, 
-								Surface.Width, 
-								Surface.Height, 
-								false,
-								DrawMgr.Device.PresentationParameters.BackBufferFormat,
-								DrawMgr.Device.PresentationParameters.DepthStencilFormat, 
-								0, 
-								RenderTargetUsage.PreserveContents
-							);
-						}
+						_postprocessorBuffer = CreateSurface(Surface.Width, Surface.Height);
+					}
+					else
+					{	
+						_postprocessorBuffer?.Dispose();
+						_postprocessorBuffer = null;
+					}
+
+					if (_postprocessingMode == PostprocessingMode.CameraAndLayers)
+					{
+						_postprocessorLayerBuffer = CreateSurface(Surface.Width, Surface.Height);
 					}
 					else
 					{
-						for(var i = 0; i < _postprocessorBuffers.Length; i += 1)
-						{
-							_postprocessorBuffers[i].Dispose();
-							_postprocessorBuffers[i] = null;
-						}
+						_postprocessorLayerBuffer?.Dispose();
+						_postprocessorLayerBuffer = null;
 					}
 				}
 			}
 		}
 
-		private bool _postprocessingEnabled = false;
+		private PostprocessingMode _postprocessingMode = PostprocessingMode.None;
 
-		internal RenderTarget2D[] _postprocessorBuffers = new RenderTarget2D[2];
+		internal RenderTarget2D _postprocessorBuffer;
+		internal RenderTarget2D _postprocessorLayerBuffer;
 
 
 		public Camera(int w, int h, int priority = 0)
 		{
-			Surface = new RenderTarget2D(
-				DrawMgr.Device, 
-				w, 
-				h, 
-				false,
-				DrawMgr.Device.PresentationParameters.BackBufferFormat,
-				DrawMgr.Device.PresentationParameters.DepthStencilFormat, 
-				0, 
-				RenderTargetUsage.PreserveContents
-			);
+			Surface = CreateSurface(w, h);
 			
 			Priority = priority; // Also adds camera to camera list.
 		}
@@ -270,7 +257,7 @@ namespace Monofoxe.Utils
 		/// </summary>
 		public bool Filter(string sceneName, string layerName)
 		{
-			if (FilterType == FilterType.None)
+			if (FilterMode == FilterMode.None)
 			{
 				return false;
 			}
@@ -282,7 +269,7 @@ namespace Monofoxe.Utils
 				result = _filter[sceneName].Contains(layerName);
 			}
 
-			if (FilterType == FilterType.Inclusive)
+			if (FilterMode == FilterMode.Inclusive)
 			{
 				return !result;
 			}
@@ -295,24 +282,28 @@ namespace Monofoxe.Utils
 		}
 
 
-		public void ApplyPostprocessing()
+
+		/// <summary>
+		/// Applies shaders to the camera surface.
+		/// </summary>
+		private void ApplyPostprocessing()
 		{
-			if (PostprocessingEnabled)
+			if (PostprocessingMode != PostprocessingMode.None && PostprocessorEffects.Count > 0)
 			{
-				var sufraceChooser = false;//((PostprocessorEffects.Count % 2) == 0);
+				var sufraceChooser = false;
 				
-				foreach(var effect in PostprocessorEffects)
+				for(var i = 0; i < PostprocessorEffects.Count - 1; i += 1)
 				{
-					DrawMgr.Effect = effect;
+					DrawMgr.Effect = PostprocessorEffects[i];
 					if (sufraceChooser)
 					{
 						DrawMgr.SetSurfaceTarget(Surface);
 						DrawMgr.Device.Clear(Color.TransparentBlack);
-						DrawMgr.DrawSurface(_postprocessorBuffers[0], Vector2.Zero);
+						DrawMgr.DrawSurface(_postprocessorBuffer, Vector2.Zero);
 					}
 					else
 					{
-						DrawMgr.SetSurfaceTarget(_postprocessorBuffers[0]);
+						DrawMgr.SetSurfaceTarget(_postprocessorBuffer);
 						DrawMgr.Device.Clear(Color.TransparentBlack);
 						DrawMgr.DrawSurface(Surface, Vector2.Zero);
 					}
@@ -320,17 +311,44 @@ namespace Monofoxe.Utils
 					DrawMgr.ResetSurfaceTarget();
 					sufraceChooser = !sufraceChooser;
 				}
-				DrawMgr.Effect = null;
-
-				if ((PostprocessorEffects.Count % 2) != 0)
+				
+				if ((PostprocessorEffects.Count % 2) == 0)
 				{
-					DrawMgr.SetSurfaceTarget(Surface);
-					DrawMgr.Device.Clear(Color.TransparentBlack);
-					DrawMgr.DrawSurface(_postprocessorBuffers[0], Vector2.Zero);
-					
-					DrawMgr.ResetSurfaceTarget();
+					// Swapping surfaces.
+					var buffer = Surface;
+					Surface = _postprocessorBuffer;
+					_postprocessorBuffer = buffer;
 				}
+				DrawMgr.Effect = PostprocessorEffects[PostprocessorEffects.Count - 1];
 			}
+		}
+
+		internal void Render()
+		{
+			ApplyPostprocessing();
+
+			DrawMgr.DrawSurface(
+				Surface, 
+				PortPos, 
+				Vector2.One * PortScale,
+				PortRotation, 
+				PortOffset, 
+				Color.White
+			);
+			DrawMgr.Effect = null;
+		}
+
+		private RenderTarget2D CreateSurface(int w, int h)
+		{
+			return new RenderTarget2D(
+				DrawMgr.Device, 
+				w, h, 
+				false,
+				DrawMgr.Device.PresentationParameters.BackBufferFormat,
+				DrawMgr.Device.PresentationParameters.DepthStencilFormat, 
+				0, 
+				RenderTargetUsage.PreserveContents
+			);
 		}
 
 	}
