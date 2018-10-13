@@ -148,16 +148,9 @@ namespace Monofoxe.Test
 			var layer = SceneMgr.GetScene("default")["balls"];
 			var layer1 = SceneMgr.GetScene("default")["default"];
 
-			MainCamera.PostprocessingMode = PostprocessingMode.CameraAndLayers;
-			//MainCamera.PostprocessorEffects.Add(Resources.Effects.BW);
-			//MainCamera.PostprocessorEffects.Add(Resources.Effects.Effect);
-			
+			//MainCamera.PostprocessingMode = PostprocessingMode.CameraAndLayers;
 			//layer.PostprocessorEffects.Add(Resources.Effects.BW);
-			layer.PostprocessorEffects.Add(Resources.Effects.BW);
-			
-			//layer.PostprocessorEffects.Add(Resources.Effects.Effect);
-			//layer.PostprocessorEffects.Add(Resources.Effects.Effect);
-			layer1.PostprocessorEffects.Add(Resources.Effects.Effect);
+			//layer1.PostprocessorEffects.Add(Resources.Effects.Effect);
 			
 
 			SecondCamera.PortPos.X = 600;
@@ -185,7 +178,6 @@ namespace Monofoxe.Test
 			rasterizerState.CullMode = CullMode.CullCounterClockwiseFace;
 			rasterizerState.ScissorTestEnable = false;
 			rasterizerState.FillMode = FillMode.Solid;
-			
 			
 			DrawMgr.Rasterizer = rasterizerState;
 

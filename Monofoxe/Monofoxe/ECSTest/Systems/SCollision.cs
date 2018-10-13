@@ -5,6 +5,7 @@ using Monofoxe.ECSTest.Components;
 using Monofoxe.Utils;
 using Monofoxe.Engine;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Monofoxe.ECSTest.Systems
 {
@@ -30,7 +31,7 @@ namespace Monofoxe.ECSTest.Systems
 				otherId = 0;
 				foreach(CCollision otherCollider in components)
 				{
-					if (id != otherId && GameMath.Distance(movement[id].Position, movement[otherId].Position) < collider.MaskR + otherCollider.MaskR - 1)
+					if (false)//id != otherId && GameMath.Distance(movement[id].Position, movement[otherId].Position) < collider.MaskR + otherCollider.MaskR - 1)
 					{
 						var rSum = collider.MaskR + otherCollider.MaskR;
 						var dist = GameMath.Distance(movement[id].Position, movement[otherId].Position);
@@ -61,16 +62,28 @@ namespace Monofoxe.ECSTest.Systems
 		public override void Draw(List<Component> components)
 		{
 			// Game crashes, if entities are deleted.
-			
 			var movement = ComponentMgr.GetComponentList<CMovement>(components);
-			DrawMgr.CurrentColor = Color.White * 0.5f;
+
+			DrawMgr.BlendState = BlendState.AlphaBlend;//BlendState.NonPremultiplied;
+			DrawMgr.CurrentColor = Color.Red * 0.5f;//new Color(255, 255, 255, 255);
+			
+			Resources.Effects.AlphaBlend.Parameters["World"].SetValue(Matrix.CreateTranslation(Vector3.Zero));
+			
+			Resources.Effects.AlphaBlend.Parameters["Projection"].SetValue(DrawMgr.CurrentProjection);
+			Resources.Effects.AlphaBlend.Parameters["View"].SetValue(DrawMgr.CurrentTransformMatrix);
+			//Resources.Effects.AlphaBlend.Parameters["AmbientColor"].SetValue(DrawMgr.CurrentColor);
+			Resources.Effects.AlphaBlend.CurrentTechnique = Resources.Effects.AlphaBlend.Techniques["Textured"];
+			DrawMgr.Effect = Resources.Effects.AlphaBlend;
 			var id = 0;
 			foreach(CCollision collider in components)
 			{
 				//DrawMgr.DrawCircle(movement[id].Position, collider.MaskR, true);
-				DrawMgr.DrawSprite(Resources.Sprites.SpritesDefault.Barrel, movement[id].Position);
+				DrawMgr.DrawSprite(Resources.Sprites.SpritesDefault.Flare, movement[id].Position);
 				id += 1;
 			}
+			DrawMgr.Effect = null;
+			DrawMgr.BlendState = BlendState.AlphaBlend;//BlendState.NonPremultiplied;
+			
 		}
 	}
 }

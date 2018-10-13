@@ -120,10 +120,12 @@ namespace Monofoxe.Test
 			*/
 
 			DrawMgr.PrimitiveBegin();
-			DrawMgr.PrimitiveAddVertex(new Vector2(120, 54), Color.DarkOrange);
-			DrawMgr.PrimitiveAddVertex(new Vector2(150, 30), Color.Aquamarine);
-			DrawMgr.PrimitiveAddVertex(new Vector2(180, 60), Color.DarkBlue);
-			DrawMgr.PrimitiveAddVertex(new Vector2(130, 80), Color.Chartreuse);
+			DrawMgr.PrimitiveSetTexture(SpritesDefault.Flare, 0);
+			DrawMgr.PrimitiveAddVertex(new Vector2(120, 64), Color.White * 0.5f, new Vector2(0, 0));
+			DrawMgr.PrimitiveAddVertex(new Vector2(120+32, 64), Color.Green * 1.0f, new Vector2(1, 0));
+			DrawMgr.PrimitiveAddVertex(new Vector2(120+32, 64+32), Color.Blue, new Vector2(1, 1));
+			DrawMgr.PrimitiveAddVertex(new Vector2(120, 64+32), Color.Red, new Vector2(0, 1));
+			
 			//DrawMgr.PrimitiveSetLineStripIndices(true);
 			
 			DrawMgr.PrimitiveSetTriangleFanIndices();
@@ -133,10 +135,10 @@ namespace Monofoxe.Test
 			DrawMgr.PrimitiveBegin();
 			//DrawMgr.PrimitiveSetTexture(SpritesDefault.BirdieBody, 0);
 			DrawMgr.PrimitiveAddVertex(0, 0, new Vector2(0, 0));
-			DrawMgr.PrimitiveAddVertex(32, 32, new Color(56, 135, 255), new Vector2(0, 1));
-			DrawMgr.PrimitiveAddVertex(64, 0,new Color(56, 135, 255) , new Vector2(1, 0));
-			DrawMgr.PrimitiveAddVertex(96, 32, new Color(56, 135, 255), new Vector2(1, 1));
-			DrawMgr.PrimitiveAddVertex(64+32, 0,new Color(56, 135, 255) , new Vector2(1, 0));
+			DrawMgr.PrimitiveAddVertex(32, 32, new Color(56, 135, 255) * 0.1f, new Vector2(0, 1));
+			DrawMgr.PrimitiveAddVertex(64, 0,new Color(56, 135, 255) * 0.1f, new Vector2(1, 0));
+			DrawMgr.PrimitiveAddVertex(96, 32, new Color(56, 135, 255) * 0.1f, new Vector2(1, 1));
+			DrawMgr.PrimitiveAddVertex(64+32, 0,new Color(56, 135, 255) * 0.1f, new Vector2(1, 0));
 			DrawMgr.PrimitiveAddVertex(96+32, 32, new Color(56, 135, 255), new Vector2(1, 1));
 			DrawMgr.PrimitiveAddVertex(64+64, 0,new Color(56, 135, 255) , new Vector2(1, 0));
 			DrawMgr.PrimitiveAddVertex(96+64, 32, new Color(56, 135, 255), new Vector2(1, 1));
@@ -148,7 +150,7 @@ namespace Monofoxe.Test
 			
 
 			DrawMgr.PrimitiveBegin();
-			DrawMgr.PrimitiveSetTexture(SpritesDefault.Boulder3, 0);
+			DrawMgr.PrimitiveSetTexture(SpritesDefault.Barrel, 0);
 			
 			int _x = 0;
 			int _y = 100;

@@ -58,6 +58,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="Content\Effects\AlphaBlend.fx" />
     <Content Include="Content\Effects\BW.fx" />
     <Compile Include="ECSTest\Components\CCollision.cs" />
     <Compile Include="ECSTest\Components\CMovement.cs" />

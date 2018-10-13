@@ -25,6 +25,7 @@ namespace Resources.Sprites
 		public static Sprite Scene1KnightBody;
 		public static Sprite Scene2Knight;
 		public static Sprite Scene1Knight;
+		public static Sprite Flare;
 		public static Sprite ClericBench;
 		public static Sprite Boss;
 		public static Sprite TestKitten;
@@ -106,6 +107,7 @@ namespace Resources.Sprites
 			Scene1KnightBody = sprites["outro/scene1_knight_body"];
 			Scene2Knight = sprites["outro/scene2_knight"];
 			Scene1Knight = sprites["intro/scene1_knight"];
+			Flare = sprites["flare"];
 			ClericBench = sprites["cleric_bench"];
 			Boss = sprites["Stuff/boss"];
 			TestKitten = sprites["test kitten"];
