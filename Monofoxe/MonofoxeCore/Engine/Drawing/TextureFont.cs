@@ -230,7 +230,7 @@ namespace Monofoxe.Engine.Drawing
 
 
 		/// <summary>
-		/// Draws text. Not recommended to call on its own, use DrawCntrl functions instead.
+		/// Draws text. Not recommended to call on its own, use DrawMgr functions instead.
 		/// </summary>
 		/// <param name="text"></param>
 		/// <param name="pos"></param>
@@ -242,8 +242,8 @@ namespace Monofoxe.Engine.Drawing
 
 			float textH = MeasureStringHeight(text);
 
-			Vector2 align = new Vector2((float)halign, (float)valign) / 2f;
-			Vector2 offset = Vector2.Zero;
+			var align = new Vector2((float)halign, (float)valign) / 2f;
+			var offset = Vector2.Zero;
 
 			
 			foreach(string line in lines)
@@ -265,8 +265,8 @@ namespace Monofoxe.Engine.Drawing
 						glyph = _glyphs[(char)DefaultCharacter];
 					}
 
-					Vector2 border = new Vector2(-glyph.LeftSideBearing, 0);
-					Vector2 lineOffset = new Vector2(strSize.X * align.X, textH * align.Y);
+					var border = new Vector2(-glyph.LeftSideBearing, 0);
+					var lineOffset = new Vector2(strSize.X * align.X, textH * align.Y);
 					
 					batch.Draw(frame.Texture, pos + offset + frame.Origin + border - lineOffset, frame.TexturePosition, DrawMgr.CurrentColor);
 					offset.X += glyph.Width + Spacing;

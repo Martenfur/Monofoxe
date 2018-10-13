@@ -1,11 +1,18 @@
 sampler s0;
-float param1;
 
-float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
+struct VertexShaderOutput
 {
-  float4 color = tex2D(s0, coords);
+  float4 Position : POSITION0;
+  float2 TexCoords : TEXCOORD0;
+  float4 Color : COLOR0;
+};
 
-  return float4(color.r, color.g, color.b, 1) * color.a; //float4(1 - color.r, 1 - color.g, 1 - color.b, 1) * color.a;
+
+float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
+{
+  float4 color = tex2D(s0, input.TexCoords);
+  
+  return float4(1.0 - color.r, 1.0 - color.g, 1.0 - color.b, 1) * color.a; //float4(1 - color.r, 1 - color.g, 1 - color.b, 1) * color.a;
 }
 
 technique Technique1

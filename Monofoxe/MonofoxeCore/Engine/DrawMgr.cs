@@ -152,11 +152,9 @@ namespace Monofoxe.Engine
 		}
 		private static Effect _effect;
 		
-		/// <summary>
-		/// Just a placeholder for shaders for primitives.
-		/// </summary>
-		private static BasicEffect _basicEffect;
+		private static Effect _alphaBlendShader;
 		
+
 		/// <summary>
 		/// Used for drawing cameras.
 		/// </summary>
@@ -234,8 +232,7 @@ namespace Monofoxe.Engine
 		// Text.
 
 		private static ContentManager _content;
-		private static Effect _alphaBlendShader;
-
+		
 		/// <summary>
 		/// Initialization function for draw controller. 
 		/// Should be called only once, by Game class.
@@ -254,9 +251,6 @@ namespace Monofoxe.Engine
 			_alphaBlendShader.Parameters["World"].SetValue(Matrix.CreateTranslation(Vector3.Zero));
 			
 
-			_basicEffect = new BasicEffect(Device);
-			_basicEffect.VertexColorEnabled = true;
-			
 			_vertexBuffer = new DynamicVertexBuffer(Device, typeof(VertexPositionColorTexture), _vertexBufferSize, BufferUsage.WriteOnly);
 			_indexBuffer = new DynamicIndexBuffer(Device, IndexElementSize.SixteenBits, _vertexBufferSize, BufferUsage.WriteOnly);
 			
@@ -456,7 +450,21 @@ namespace Monofoxe.Engine
 				{
 					Device.ScissorRectangle = _scissorRectangle;
 					
-					Batch.Begin(SpriteSortMode.Deferred, _blendState, _sampler, null, _rasterizer, _effect, CurrentTransformMatrix);
+					Effect resultingEffect;
+
+					if (_effect == null)
+					{
+						resultingEffect = _alphaBlendShader;
+						resultingEffect.Parameters["View"].SetValue(CurrentTransformMatrix);
+						resultingEffect.Parameters["Projection"].SetValue(CurrentProjection);
+						resultingEffect.CurrentTechnique = _alphaBlendShader.Techniques["Textured"];
+					}
+					else
+					{
+						resultingEffect = _effect;
+					}
+
+					Batch.Begin(SpriteSortMode.Deferred, _blendState, _sampler, null, _rasterizer, resultingEffect, CurrentTransformMatrix);
 				}
 				_currentPipelineMode = mode;
 				_currentTexture = texture;
@@ -500,29 +508,33 @@ namespace Monofoxe.Engine
 		/// </summary>
 		private static void DrawVertices()
 		{
-			_basicEffect.View = CurrentTransformMatrix;
-			_basicEffect.Projection = CurrentProjection;
+			Effect resultingEffect;
 
-			_alphaBlendShader.Parameters["View"].SetValue(CurrentTransformMatrix);
-			_alphaBlendShader.Parameters["Projection"].SetValue(CurrentProjection);
-			
+			if (_effect == null)
+			{
+				resultingEffect = _alphaBlendShader;
+			}
+			else
+			{
+				resultingEffect = _effect;
+			}
+
+			resultingEffect.Parameters["View"].SetValue(CurrentTransformMatrix);
+			resultingEffect.Parameters["Projection"].SetValue(CurrentProjection);
 
 			__drawcalls += 1;
 
 			if (_vertices.Count > 0)
 			{
-				_basicEffect.Texture = _currentTexture;
-				_basicEffect.TextureEnabled = (_currentTexture != null);
-
 				if (_currentTexture != null)
 				{
-					_alphaBlendShader.Parameters["BasicTexture"].SetValue(_currentTexture);
-					_alphaBlendShader.CurrentTechnique = _alphaBlendShader.Techniques["Textured"];
+					resultingEffect.Parameters["BasicTexture"].SetValue(_currentTexture);
+					resultingEffect.CurrentTechnique = _alphaBlendShader.Techniques["Textured"];
 				}
 				else
 				{
-					_alphaBlendShader.Parameters["BasicTexture"].SetValue((Texture2D)null);
-					_alphaBlendShader.CurrentTechnique = _alphaBlendShader.Techniques["Basic"];
+					resultingEffect.Parameters["BasicTexture"].SetValue((Texture2D)null);
+					resultingEffect.CurrentTechnique = _alphaBlendShader.Techniques["Basic"];
 				}
 
 				PrimitiveType type;
