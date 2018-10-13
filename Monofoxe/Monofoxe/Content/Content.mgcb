@@ -63,3 +63,9 @@
 /processor:SpriteGroupProcessor
 /build:Graphics/default.atlas
 
+#begin Effects/AlphaBlend.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/AlphaBlend.fx
+

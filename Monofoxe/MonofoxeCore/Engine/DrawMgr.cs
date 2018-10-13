@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Utils.Cameras;
 using Monofoxe.Engine.SceneSystem;
@@ -232,6 +233,9 @@ namespace Monofoxe.Engine
 		public static TextAlign VerAlign = TextAlign.Top;
 		// Text.
 
+		private static ContentManager _content;
+		private static Effect _alphaBlendShader;
+
 		/// <summary>
 		/// Initialization function for draw controller. 
 		/// Should be called only once, by Game class.
@@ -243,6 +247,12 @@ namespace Monofoxe.Engine
 			Device.DepthStencilState = DepthStencilState.DepthRead;
 		
 			Batch = new SpriteBatch(Device);
+
+			_content = new ContentManager(GameMgr.Game.Services);
+			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.EffectsDir;
+			_alphaBlendShader = _content.Load<Effect>("AlphaBlend");
+			_alphaBlendShader.Parameters["World"].SetValue(Matrix.CreateTranslation(Vector3.Zero));
+			
 
 			_basicEffect = new BasicEffect(Device);
 			_basicEffect.VertexColorEnabled = true;
@@ -493,6 +503,10 @@ namespace Monofoxe.Engine
 			_basicEffect.View = CurrentTransformMatrix;
 			_basicEffect.Projection = CurrentProjection;
 
+			_alphaBlendShader.Parameters["View"].SetValue(CurrentTransformMatrix);
+			_alphaBlendShader.Parameters["Projection"].SetValue(CurrentProjection);
+			
+
 			__drawcalls += 1;
 
 			if (_vertices.Count > 0)
@@ -500,6 +514,16 @@ namespace Monofoxe.Engine
 				_basicEffect.Texture = _currentTexture;
 				_basicEffect.TextureEnabled = (_currentTexture != null);
 
+				if (_currentTexture != null)
+				{
+					_alphaBlendShader.Parameters["BasicTexture"].SetValue(_currentTexture);
+					_alphaBlendShader.CurrentTechnique = _alphaBlendShader.Techniques["Textured"];
+				}
+				else
+				{
+					_alphaBlendShader.Parameters["BasicTexture"].SetValue((Texture2D)null);
+					_alphaBlendShader.CurrentTechnique = _alphaBlendShader.Techniques["Basic"];
+				}
 
 				PrimitiveType type;
 				int prCount;
@@ -538,7 +562,7 @@ namespace Monofoxe.Engine
 				Device.ScissorRectangle = _scissorRectangle;
 		
 				// TODO: Replace _basicEffect with custom effect system. Or not. We'll see. :V
-				foreach(EffectPass pass in _basicEffect.CurrentTechnique.Passes)
+				foreach(EffectPass pass in _alphaBlendShader.CurrentTechnique.Passes)
 				{
 					pass.Apply();
 					Device.DrawIndexedPrimitives(type, 0, 0, prCount);
@@ -1078,7 +1102,7 @@ namespace Monofoxe.Engine
 
 			_primitiveType = PipelineMode.TrianglePrimitives;
 
-			for(var i = 0; i < _primitiveVertices.Count - 1; i += 1)
+			for(var i = 1; i < _primitiveVertices.Count - 1; i += 1)
 			{
 				_primitiveIndices.Add(0);
 				_primitiveIndices.Add((short)i);
