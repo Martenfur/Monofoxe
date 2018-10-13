@@ -64,16 +64,10 @@ namespace Monofoxe.ECSTest.Systems
 			// Game crashes, if entities are deleted.
 			var movement = ComponentMgr.GetComponentList<CMovement>(components);
 
-			DrawMgr.BlendState = BlendState.AlphaBlend;//BlendState.NonPremultiplied;
-			DrawMgr.CurrentColor = Color.Red * 0.5f;//new Color(255, 255, 255, 255);
+			DrawMgr.BlendState = BlendState.AlphaBlend;
+			DrawMgr.CurrentColor = Color.Red * 0.5f;
 			
-			Resources.Effects.AlphaBlend.Parameters["World"].SetValue(Matrix.CreateTranslation(Vector3.Zero));
-			
-			Resources.Effects.AlphaBlend.Parameters["Projection"].SetValue(DrawMgr.CurrentProjection);
-			Resources.Effects.AlphaBlend.Parameters["View"].SetValue(DrawMgr.CurrentTransformMatrix);
-			//Resources.Effects.AlphaBlend.Parameters["AmbientColor"].SetValue(DrawMgr.CurrentColor);
-			Resources.Effects.AlphaBlend.CurrentTechnique = Resources.Effects.AlphaBlend.Techniques["Textured"];
-			DrawMgr.Effect = Resources.Effects.AlphaBlend;
+			//DrawMgr.Effect = Resources.Effects.Effect;
 			var id = 0;
 			foreach(CCollision collider in components)
 			{
@@ -82,7 +76,6 @@ namespace Monofoxe.ECSTest.Systems
 				id += 1;
 			}
 			DrawMgr.Effect = null;
-			DrawMgr.BlendState = BlendState.AlphaBlend;//BlendState.NonPremultiplied;
 			
 		}
 	}

@@ -54,7 +54,7 @@ float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
 
   float4 color = tex2D(s0, coords);
   float s = (color.r + color.g + color.b) / 3.0;
-  return float4(s, s, s, color.a);
+  return float4(s, s, s, 1) * color.a;
 }
 
 technique Technique1

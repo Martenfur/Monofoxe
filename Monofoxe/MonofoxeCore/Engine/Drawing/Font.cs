@@ -113,7 +113,7 @@ namespace Monofoxe.Engine.Drawing
 			_spriteFont.MeasureString(text).Y;
 
 		/// <summary>
-		/// Draws text. Not recommended to call on its own, use DrawCntrl functions instead.
+		/// Draws text. Not recommended to call on its own, use DrawMgr functions instead.
 		/// </summary>
 		/// <param name="text"></param>
 		/// <param name="pos"></param>
@@ -125,8 +125,8 @@ namespace Monofoxe.Engine.Drawing
 
 			float textH = _spriteFont.MeasureString(text).Y;
 
-			Vector2 align = new Vector2((float)halign, (float)valign) / 2f;
-			Vector2 offset = Vector2.Zero;
+			var align = new Vector2((float)halign, (float)valign) / 2f;
+			var offset = Vector2.Zero;
 
 			
 			foreach(string line in lines)

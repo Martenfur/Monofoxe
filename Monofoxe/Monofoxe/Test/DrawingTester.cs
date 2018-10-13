@@ -93,10 +93,9 @@ namespace Monofoxe.Test
 			DrawMgr.CurrentColor = Color.White * 0.5f;//new Color(0.5f, 0.5f, 0.5f, 0.5f);
 			DrawMgr.DrawCircle(Input.MousePos, 2, false);
 			DrawMgr.CurrentColor = Color.White;
-
+			
 			DrawMgr.DrawText("test", 100, 100);
 			
-
 			DrawMgr.CurrentColor = Color.Green;
 			DrawMgr.DrawCircle(500, 100, 32, false);
 			DrawMgr.DrawRectangle(500, 200, 532, 232, false);
