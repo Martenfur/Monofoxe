@@ -12,7 +12,6 @@ namespace Resources
 		
 		public static Effect Effect;
 		public static Effect BW;
-		public static Effect AlphaBlend;
 		
 
 		public static void Load()
@@ -22,7 +21,6 @@ namespace Resources
 			
 			Effect = _content.Load<Effect>("effect");
 			BW = _content.Load<Effect>("BW");
-			AlphaBlend = _content.Load<Effect>("AlphaBlend");
 		}
 
 		public static void Unload()
