@@ -11,8 +11,10 @@ struct VertexShaderOutput
 float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
   float4 color = tex2D(s0, input.TexCoords);
-  
-  return float4(1.0 - color.r, 1.0 - color.g, 1.0 - color.b, 1) * color.a; //float4(1 - color.r, 1 - color.g, 1 - color.b, 1) * color.a;
+  float alpha = color.a;
+  color = color / alpha; // Taking in account, that alpha is premultiplied.
+
+  return float4(1.0 - color.r, 1.0 - color.g, 1.0 - color.b, 1) * alpha;
 }
 
 technique Technique1

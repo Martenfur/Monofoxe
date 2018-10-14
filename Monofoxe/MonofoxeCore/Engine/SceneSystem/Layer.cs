@@ -350,7 +350,7 @@ namespace Monofoxe.Engine.SceneSystem
 				
 			for(var i = 0; i < PostprocessorEffects.Count - 1; i += 1)
 			{
-				DrawMgr.Effect = PostprocessorEffects[i];
+				DrawMgr.CurrentEffect = PostprocessorEffects[i];
 				if (sufraceChooser)
 				{
 					DrawMgr.SetSurfaceTarget(camera._postprocessorLayerBuffer);
@@ -368,7 +368,7 @@ namespace Monofoxe.Engine.SceneSystem
 				sufraceChooser = !sufraceChooser;
 			}
 			
-			DrawMgr.Effect = PostprocessorEffects[PostprocessorEffects.Count - 1];
+			DrawMgr.CurrentEffect = PostprocessorEffects[PostprocessorEffects.Count - 1];
 			if ((PostprocessorEffects.Count % 2) != 0)
 			{
 				DrawMgr.DrawSurface(camera._postprocessorLayerBuffer, Vector2.Zero);
@@ -378,7 +378,7 @@ namespace Monofoxe.Engine.SceneSystem
 				DrawMgr.DrawSurface(camera._postprocessorBuffer, Vector2.Zero);
 			}
 
-			DrawMgr.Effect = null;
+			DrawMgr.CurrentEffect = null;
 		}
 
 

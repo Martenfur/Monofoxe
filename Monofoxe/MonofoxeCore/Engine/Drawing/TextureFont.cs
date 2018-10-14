@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using System.Diagnostics;
 
 namespace Monofoxe.Engine.Drawing
 {

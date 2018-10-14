@@ -49,19 +49,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static int __drawcalls {get; private set;}
 
-		/// <summary>
-		/// Every time we want to draw primitive of a new type
-		/// or switch texture, we need to empty vertex buffer
-		/// and switch pipeline mode.
-		/// </summary>
-		private enum PipelineMode
-		{
-			None,               // No mode set.
-			Sprites,            // Sprite batch.
-			TrianglePrimitives, // Triangle list.
-			OutlinePrimitives,  // Line list.
-		}
-
+		
 		private static PipelineMode _currentPipelineMode = PipelineMode.None;
 		private static Texture2D _currentTexture;
 		
@@ -81,7 +69,7 @@ namespace Monofoxe.Engine
 		{
 			set
 			{
-				SwitchPipelineMode(PipelineMode.None, null);
+				SwitchPipelineMode(PipelineMode.None);
 				_scissorRectangle = value;
 			}
 			get => _scissorRectangle;
@@ -96,7 +84,7 @@ namespace Monofoxe.Engine
 		{
 			set
 			{
-				SwitchPipelineMode(PipelineMode.None, null); 
+				SwitchPipelineMode(PipelineMode.None); 
 				_rasterizer = value;
 			}
 			get => _rasterizer;
@@ -111,7 +99,7 @@ namespace Monofoxe.Engine
 		{
 			set
 			{
-				SwitchPipelineMode(PipelineMode.None, null); 
+				SwitchPipelineMode(PipelineMode.None); 
 				_sampler = value;
 			}
 			get => _sampler;
@@ -126,7 +114,7 @@ namespace Monofoxe.Engine
 		{
 			set
 			{
-				SwitchPipelineMode(PipelineMode.None, null); 
+				SwitchPipelineMode(PipelineMode.None); 
 				_blendState = value;
 			}
 			get => _blendState;
@@ -136,22 +124,22 @@ namespace Monofoxe.Engine
 
 		/// <summary>
 		/// Current shader. Set to null to reset.
-		/// NOTE: Shader won't be applied to primitives.
-		/// If you really want this, you have to implement it yourself. 
-		/// : - )
-		/// ( - :
 		/// </summary>
-		public static Effect Effect
+		public static Effect CurrentEffect
 		{
 			set
 			{
-				SwitchPipelineMode(PipelineMode.None, null);
-				_effect = value;
+				SwitchPipelineMode(PipelineMode.None);
+				_currentEffect = value;
 			}
-			get => _effect;
+			get => _currentEffect;
 		}
-		private static Effect _effect;
+		private static Effect _currentEffect;
 		
+		/// <summary>
+		/// Default shader with proper alpha blending. 
+		/// Replaces BasicEffect. Applied, when CurrentEffect is null.
+		/// </summary>
 		private static Effect _alphaBlendShader;
 		
 
@@ -379,7 +367,6 @@ namespace Monofoxe.Engine
 
 			_rasterizer = _cameraRasterizerState;
 			_blendState = BlendState.AlphaBlend;
-			//SwitchPipelineMode(PipelineMode.Sprites, null);
 
 			foreach(var camera in CameraMgr.Cameras)
 			{
@@ -388,7 +375,7 @@ namespace Monofoxe.Engine
 					camera.Render();
 				}
 			}
-			SwitchPipelineMode(PipelineMode.None, null);
+			SwitchPipelineMode(PipelineMode.None);
 			_rasterizer = oldRasterizerState;
 			_blendState = oldBlendState;
 			// Drawing camera surfaces.
@@ -429,14 +416,13 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Switches graphics pipeline mode.
 		/// </summary>
-		/// <param name="mode"></param>
-		private static void SwitchPipelineMode(PipelineMode mode, Texture2D texture)
+		public static void SwitchPipelineMode(PipelineMode mode, Texture2D texture = null)
 		{
 			if (mode != _currentPipelineMode || texture != _currentTexture)
 			{
 				if (_currentPipelineMode != PipelineMode.None)
 				{
-					if (_currentPipelineMode == PipelineMode.Sprites)
+					if (_currentPipelineMode == PipelineMode.Sprites || _currentPipelineMode == PipelineMode.SpritesNonPremultiplied)
 					{
 						Batch.End();
 					}
@@ -446,22 +432,29 @@ namespace Monofoxe.Engine
 					}
 				}
 
-				if (mode == PipelineMode.Sprites)
+				if (mode == PipelineMode.Sprites || mode == PipelineMode.SpritesNonPremultiplied)
 				{
 					Device.ScissorRectangle = _scissorRectangle;
 					
 					Effect resultingEffect;
 
-					if (_effect == null)
+					if (_currentEffect == null)
 					{
 						resultingEffect = _alphaBlendShader;
 						resultingEffect.Parameters["View"].SetValue(CurrentTransformMatrix);
 						resultingEffect.Parameters["Projection"].SetValue(CurrentProjection);
-						resultingEffect.CurrentTechnique = _alphaBlendShader.Techniques["Textured"];
+						if (mode == PipelineMode.Sprites)
+						{
+							resultingEffect.CurrentTechnique = _alphaBlendShader.Techniques["TexturePremultiplied"];
+						}
+						else
+						{
+							resultingEffect.CurrentTechnique = _alphaBlendShader.Techniques["TextureNonPremultiplied"];
+						}
 					}
 					else
 					{
-						resultingEffect = _effect;
+						resultingEffect = _currentEffect;
 					}
 
 					Batch.Begin(SpriteSortMode.Deferred, _blendState, _sampler, null, _rasterizer, resultingEffect, CurrentTransformMatrix);
@@ -510,13 +503,13 @@ namespace Monofoxe.Engine
 		{
 			Effect resultingEffect;
 
-			if (_effect == null)
+			if (_currentEffect == null)
 			{
 				resultingEffect = _alphaBlendShader;
 			}
 			else
 			{
-				resultingEffect = _effect;
+				resultingEffect = _currentEffect;
 			}
 
 			resultingEffect.Parameters["View"].SetValue(CurrentTransformMatrix);
@@ -529,7 +522,7 @@ namespace Monofoxe.Engine
 				if (_currentTexture != null)
 				{
 					resultingEffect.Parameters["BasicTexture"].SetValue(_currentTexture);
-					resultingEffect.CurrentTechnique = _alphaBlendShader.Techniques["Textured"];
+					resultingEffect.CurrentTechnique = _alphaBlendShader.Techniques["TexturePremultiplied"];
 				}
 				else
 				{
@@ -598,7 +591,7 @@ namespace Monofoxe.Engine
 		/// <param name="matrix">Transform matrix.</param>
 		public static void SetTransformMatrix(Matrix matrix)
 		{
-			SwitchPipelineMode(PipelineMode.None, null);
+			SwitchPipelineMode(PipelineMode.None);
 			_transformMatrixStack.Push(CurrentTransformMatrix);
 			CurrentTransformMatrix = matrix;
 		}
@@ -609,7 +602,7 @@ namespace Monofoxe.Engine
 		/// <param name="matrix"></param>
 		public static void AddTransformMatrix(Matrix matrix)
 		{
-			SwitchPipelineMode(PipelineMode.None, null);
+			SwitchPipelineMode(PipelineMode.None);
 			_transformMatrixStack.Push(CurrentTransformMatrix);
 			CurrentTransformMatrix = matrix * CurrentTransformMatrix;
 		}
@@ -624,7 +617,7 @@ namespace Monofoxe.Engine
 				throw(new InvalidOperationException("Matrix stack is empty! Did you forgot to set a matrix somewhere?"));
 			}
 
-			SwitchPipelineMode(PipelineMode.None, null); 
+			SwitchPipelineMode(PipelineMode.None); 
 			CurrentTransformMatrix = _transformMatrixStack.Pop();
 		}
 
@@ -644,7 +637,7 @@ namespace Monofoxe.Engine
 			SpriteEffects effect
 		)
 		{
-			SwitchPipelineMode(PipelineMode.Sprites, null);
+			SwitchPipelineMode(PipelineMode.Sprites);
 
 			Batch.Draw(
 				frame.Texture, 
@@ -738,7 +731,7 @@ namespace Monofoxe.Engine
 		
 		public static void DrawFrame(Frame frame, Vector2 offset, Rectangle destRect, float rotation, Color color)
 		{
-			SwitchPipelineMode(PipelineMode.Sprites, null);
+			SwitchPipelineMode(PipelineMode.Sprites);
 			
 			Batch.Draw(
 				frame.Texture, 
@@ -754,7 +747,7 @@ namespace Monofoxe.Engine
 
 		public static void DrawFrame(Frame frame, Vector2 offset, Rectangle destRect, Rectangle srcRect, float rotation, Color color)
 		{
-			SwitchPipelineMode(PipelineMode.Sprites, null);
+			SwitchPipelineMode(PipelineMode.Sprites);
 			
 			srcRect.X += frame.TexturePosition.X;
 			srcRect.Y += frame.TexturePosition.Y;
@@ -1018,7 +1011,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static void PrimitiveSetTexture(Sprite sprite, float frameId)
 		{
-			SwitchPipelineMode(PipelineMode.None, null);
+			SwitchPipelineMode(PipelineMode.None);
 			var frame = sprite.Frames[(int)frameId];
 
 			_primitiveTexture = frame.Texture;
@@ -1259,7 +1252,20 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static void DrawText(string text, Vector2 pos)
 		{
-			SwitchPipelineMode(PipelineMode.Sprites, null);
+			/*
+			 * Font is a wrapper for MG's SpriteFont, which uses non-premultiplied alpha.
+			 * Using PipelineMode.Sprites will result in black pixels everywhere.
+			 * TextureFont, on the other hand, is just regular sprites, so it's fine to 
+			 * draw with sprite mode.
+			 */
+			if (CurrentFont is Font)
+			{
+				SwitchPipelineMode(PipelineMode.SpritesNonPremultiplied);
+			}
+			else
+			{
+				SwitchPipelineMode(PipelineMode.Sprites);	
+			}
 			CurrentFont.Draw(Batch, text, pos, HorAlign, VerAlign);
 		}
 
@@ -1281,8 +1287,24 @@ namespace Monofoxe.Engine
 				Matrix.CreateTranslation(new Vector3(x, y, 0));                // Position.
 												
 			AddTransformMatrix(transformMatrix);
-			SwitchPipelineMode(PipelineMode.Sprites, null);
+			
+			/*
+			 * Font is a wrapper for MG's SpriteFont, which uses non-premultiplied alpha.
+			 * Using PipelineMode.Sprites will result in black pixels everywhere.
+			 * TextureFont, on the other hand, is just regular sprites, so it's fine to 
+			 * draw with sprite mode.
+			 */
+			if (CurrentFont is Font)
+			{
+				SwitchPipelineMode(PipelineMode.SpritesNonPremultiplied);
+			}
+			else
+			{
+				SwitchPipelineMode(PipelineMode.Sprites);	
+			}
+
 			CurrentFont.Draw(Batch, text, Vector2.Zero, HorAlign, VerAlign);
+			
 			ResetTransformMatrix();
 		}
 
@@ -1360,7 +1382,7 @@ namespace Monofoxe.Engine
 			SpriteEffects effect
 		)
 		{
-			SwitchPipelineMode(PipelineMode.Sprites, null);
+			SwitchPipelineMode(PipelineMode.Sprites);
 			Batch.Draw(renderTarget, pos, renderTarget.Bounds, color, MathHelper.ToRadians(rotation), offset, scale, effect, 0);
 		}
 		
@@ -1368,13 +1390,13 @@ namespace Monofoxe.Engine
 
 		public static void DrawSurface(RenderTarget2D surf, Vector2 pos)
 		{
-			SwitchPipelineMode(PipelineMode.Sprites, null);
+			SwitchPipelineMode(PipelineMode.Sprites);
 			Batch.Draw(surf, pos, CurrentColor);
 		}
 		
 		public static void DrawSurface(RenderTarget2D surf, Vector2 pos, Vector2 scale, float rotation, Color color)
 		{
-			SwitchPipelineMode(PipelineMode.Sprites, null);
+			SwitchPipelineMode(PipelineMode.Sprites);
 			
 			var mirroring = SpriteEffects.None;
 
@@ -1401,7 +1423,7 @@ namespace Monofoxe.Engine
 		
 		public static void DrawSurface(RenderTarget2D surf, Vector2 pos, Vector2 scale, float rotation, Vector2 offset, Color color)
 		{
-			SwitchPipelineMode(PipelineMode.Sprites, null);
+			SwitchPipelineMode(PipelineMode.Sprites);
 			
 			var mirroring = SpriteEffects.None;
 
@@ -1442,13 +1464,13 @@ namespace Monofoxe.Engine
 
 		public static void DrawSurface(RenderTarget2D surf, Rectangle destRect)
 		{
-			SwitchPipelineMode(PipelineMode.Sprites, null);
+			SwitchPipelineMode(PipelineMode.Sprites);
 			Batch.Draw(surf, destRect, surf.Bounds, CurrentColor);
 		}
 		
 		public static void DrawSurface(RenderTarget2D surf, Rectangle destRect, float rotation, Color color)
 		{
-			SwitchPipelineMode(PipelineMode.Sprites, null);
+			SwitchPipelineMode(PipelineMode.Sprites);
 			Batch.Draw(
 				surf, 
 				destRect, 
@@ -1463,7 +1485,7 @@ namespace Monofoxe.Engine
 
 		public static void DrawSurface(RenderTarget2D surf, Rectangle destRect, Rectangle srcRect)
 		{
-			SwitchPipelineMode(PipelineMode.Sprites, null);
+			SwitchPipelineMode(PipelineMode.Sprites);
 			
 			srcRect.X += surf.Bounds.X;
 			srcRect.Y += surf.Bounds.Y;
@@ -1473,7 +1495,7 @@ namespace Monofoxe.Engine
 		
 		public static void DrawSurface(RenderTarget2D surf, Rectangle destRect, Rectangle srcRect, float rotation, Color color)
 		{
-			SwitchPipelineMode(PipelineMode.Sprites, null);
+			SwitchPipelineMode(PipelineMode.Sprites);
 						
 			srcRect.X += surf.Bounds.X;
 			srcRect.Y += surf.Bounds.Y;
