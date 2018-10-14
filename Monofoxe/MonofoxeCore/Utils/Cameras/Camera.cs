@@ -294,7 +294,7 @@ namespace Monofoxe.Utils.Cameras
 				
 				for(var i = 0; i < PostprocessorEffects.Count - 1; i += 1)
 				{
-					DrawMgr.Effect = PostprocessorEffects[i];
+					DrawMgr.CurrentEffect = PostprocessorEffects[i];
 					if (sufraceChooser)
 					{
 						DrawMgr.SetSurfaceTarget(Surface);
@@ -319,7 +319,7 @@ namespace Monofoxe.Utils.Cameras
 					Surface = _postprocessorBuffer;
 					_postprocessorBuffer = buffer;
 				}
-				DrawMgr.Effect = PostprocessorEffects[PostprocessorEffects.Count - 1];
+				DrawMgr.CurrentEffect = PostprocessorEffects[PostprocessorEffects.Count - 1];
 			}
 		}
 
@@ -335,7 +335,7 @@ namespace Monofoxe.Utils.Cameras
 				PortOffset, 
 				Color.White
 			);
-			DrawMgr.Effect = null;
+			DrawMgr.CurrentEffect = null;
 		}
 
 		private RenderTarget2D CreateSurface(int w, int h)

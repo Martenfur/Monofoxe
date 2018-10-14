@@ -75,7 +75,7 @@ namespace Monofoxe.ECSTest.Systems
 				DrawMgr.DrawSprite(Resources.Sprites.SpritesDefault.Flare, movement[id].Position);
 				id += 1;
 			}
-			DrawMgr.Effect = null;
+			DrawMgr.CurrentEffect = null;
 			
 		}
 	}

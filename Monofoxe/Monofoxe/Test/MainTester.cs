@@ -147,9 +147,9 @@ namespace Monofoxe.Test
 
 			var layer = SceneMgr.GetScene("default")["balls"];
 			var layer1 = SceneMgr.GetScene("default")["default"];
-
+			layer1.IsGUI = false;
 			MainCamera.PostprocessingMode = PostprocessingMode.CameraAndLayers;
-			//layer.PostprocessorEffects.Add(Resources.Effects.BW);
+			layer.PostprocessorEffects.Add(Resources.Effects.Effect);
 			layer1.PostprocessorEffects.Add(Resources.Effects.Effect);
 			
 
