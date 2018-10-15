@@ -4,13 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Monofoxe.Engine
 {
-	public enum CanvasMode
-	{
-		KeepAspectRatio,
-		Fill,
-		None,
-	}
-
 	/// <summary>
 	/// Merging of GraphicsDeviveManager and WindowManager.
 	/// </summary>

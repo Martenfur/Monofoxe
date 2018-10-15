@@ -12,6 +12,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Engine\AssetMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Audio\AudioMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Audio\Sound.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Buttons.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\CanvasMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ContentReaders\EntityTemplateReader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\BasicConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\ColorConverter.cs" />
@@ -19,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\SpriteConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\Vector2Converter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Converters\Vector3Converter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Engine\Drawing\TextAlign.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ECS\IEntityMethods.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\PipelineMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\SceneSystem\Layer.cs" />
