@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pipefoxe", "Pipefoxe\Pipefo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonofoxeLib", "MonofoxeLib\MonofoxeLib.csproj", "{94153186-E889-4E3E-979F-4C35819C5C21}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monofoxe.Tiled", "Monofoxe.Tiled\Monofoxe.Tiled.csproj", "{1EDA060A-DFE0-460E-9DAA-CB8D6D046411}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		MonofoxeCore\MonofoxeCore.projitems*{738d5ca0-fb57-45c1-a577-a99a0b6b051b}*SharedItemsImports = 13
@@ -33,6 +35,10 @@ Global
 		{94153186-E889-4E3E-979F-4C35819C5C21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94153186-E889-4E3E-979F-4C35819C5C21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94153186-E889-4E3E-979F-4C35819C5C21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EDA060A-DFE0-460E-9DAA-CB8D6D046411}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EDA060A-DFE0-460E-9DAA-CB8D6D046411}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EDA060A-DFE0-460E-9DAA-CB8D6D046411}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EDA060A-DFE0-460E-9DAA-CB8D6D046411}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

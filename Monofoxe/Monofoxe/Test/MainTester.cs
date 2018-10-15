@@ -34,6 +34,9 @@ namespace Monofoxe.Test
 		
 		public MainTester() : base(SceneMgr.GetScene("default")["default"])
 		{
+			Resources.Maps.Load();
+
+
 			var scene = SceneMgr.GetScene("default");
 			var layer = scene.CreateLayer("balls", -1);
 			layer.IsGUI = false;
@@ -149,10 +152,10 @@ namespace Monofoxe.Test
 			var layer1 = SceneMgr.GetScene("default")["default"];
 			layer.IsGUI = false;
 			MainCamera.PostprocessingMode = PostprocessingMode.CameraAndLayers;
-			layer.PostprocessorEffects.Add(Resources.Effects.Effect);
-			layer.PostprocessorEffects.Add(Resources.Effects.BW);
+			MainCamera.PostprocessorEffects.Add(Resources.Effects.Effect);
+			//layer.PostprocessorEffects.Add(Resources.Effects.BW);
 			
-			layer1.PostprocessorEffects.Add(Resources.Effects.Effect);
+			//layer1.PostprocessorEffects.Add(Resources.Effects.BW);
 			
 
 			SecondCamera.PortPos.X = 600;
