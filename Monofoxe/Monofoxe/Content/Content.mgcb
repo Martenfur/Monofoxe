@@ -69,3 +69,13 @@
 /processorParam:DebugMode=Auto
 /build:Effects/AlphaBlend.fx
 
+#begin Maps/test.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:Maps/test.tmx
+
+#begin Maps/testTileset.tsx
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:Maps/testTileset.tsx
+

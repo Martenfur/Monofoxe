@@ -68,6 +68,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Effects.cs" />
+    <Compile Include="Resources\Maps.cs" />
     <Compile Include="Resources\Sounds.cs" />
     <Compile Include="Resources\Sprites\SpritesDefault.cs" />
     <Compile Include="Resources\Fonts.cs" />
@@ -81,6 +82,9 @@
     <Reference Include="Monofoxe, Version=0.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MonofoxeLib\bin\DesktopGL\AnyCPU\Debug\Monofoxe.dll</HintPath>
+    </Reference>
+    <Reference Include="Monofoxe.Tiled">
+      <HintPath>..\Monofoxe.Tiled\bin\Debug\Monofoxe.Tiled.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Extended, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MonoGame.Extended.1.1.0\lib\portable-net45+win8+wpa81\MonoGame.Extended.dll</HintPath>

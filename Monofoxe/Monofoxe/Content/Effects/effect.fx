@@ -15,6 +15,7 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
   color = color / alpha; // Taking in account, that alpha is premultiplied.
 
   return float4(1.0 - color.r, 1.0 - color.g, 1.0 - color.b, 1) * alpha;
+
 }
 
 technique Technique1

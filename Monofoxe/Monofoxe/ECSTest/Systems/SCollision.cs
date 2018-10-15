@@ -65,7 +65,7 @@ namespace Monofoxe.ECSTest.Systems
 			var movement = ComponentMgr.GetComponentList<CMovement>(components);
 
 			DrawMgr.BlendState = BlendState.AlphaBlend;
-			DrawMgr.CurrentColor = Color.Green;//Red * 0.5f;
+			DrawMgr.CurrentColor = new Color(255, 0, 255, 255);//Red * 0.5f;
 			
 			//DrawMgr.Effect = Resources.Effects.Effect;
 			var id = 0;

@@ -92,7 +92,7 @@ namespace Monofoxe.Test
 			
 			DrawMgr.CurrentColor = Color.White * 0.5f;//new Color(0.5f, 0.5f, 0.5f, 0.5f);
 			DrawMgr.DrawCircle(Input.MousePos, 2, false);
-			DrawMgr.CurrentColor = Color.Red * 0.5f;
+			DrawMgr.CurrentColor = Color.Green;//Color.Red * 0.5f;
 			
 
 			DrawMgr.DrawSprite(SpritesDefault.Flare, 400, 100);
@@ -100,14 +100,15 @@ namespace Monofoxe.Test
 			DrawMgr.DrawSprite(SpritesDefault.Flare, 400, 200);
 
 			
-			DrawMgr.CurrentColor = Color.Green;
+			DrawMgr.CurrentColor = new Color(255, 0, 255, 255);
+			DrawMgr.DrawSprite(SpritesDefault.Flare, 400, 300);
+
 			DrawMgr.DrawCircle(500, 100, 32, false);
 			DrawMgr.DrawRectangle(500, 200, 532, 232, false);
 			DrawMgr.DrawLine(500, 300, 532, 300);
 			DrawMgr.DrawLine(532, 400, 500, 400);
 
-			DrawMgr.DrawSprite(SpritesDefault.Flare, 400, 300);
-
+			
 
 			TestDrawPrimitives();
 		}
