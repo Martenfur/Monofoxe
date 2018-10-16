@@ -20,7 +20,11 @@ namespace Resources
 			_content.RootDirectory = AssetMgr.ContentDir + '/' + "Maps";
 			
 			Test = _content.Load<TiledMap>("test");
-			Console.WriteLine(Test.Layers[0].Name);
+			var tile = Test.TileLayers[0].Tiles[0];
+			
+			var tileset = Test.GetTilesetByTileGlobalIdentifier(tile.GlobalIdentifier);
+
+			Console.WriteLine(tileset.Name + " " + tile.GlobalIdentifier);
 		}
 
 		public static void Unload()

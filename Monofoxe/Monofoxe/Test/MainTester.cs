@@ -34,8 +34,6 @@ namespace Monofoxe.Test
 		
 		public MainTester() : base(SceneMgr.GetScene("default")["default"])
 		{
-			Resources.Maps.Load();
-
 
 			var scene = SceneMgr.GetScene("default");
 			var layer = scene.CreateLayer("balls", -1);
@@ -55,10 +53,10 @@ namespace Monofoxe.Test
 			
 			//LayerMgrs.Get("default").IsGUI = true;
 
-			new DrawingTester();
-			new ECSTester(scene["balls"]);
+			//new DrawingTester();
+			//new ECSTester(scene["balls"]);
 			//new AlarmTester(Layer.Get("balls"));
-
+			new TileTester(scene["balls"]);
 		}
 
 
