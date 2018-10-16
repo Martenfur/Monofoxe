@@ -31,7 +31,7 @@ namespace Monofoxe.ECSTest.Systems
 				otherId = 0;
 				foreach(CCollision otherCollider in components)
 				{
-					if (false)//id != otherId && GameMath.Distance(movement[id].Position, movement[otherId].Position) < collider.MaskR + otherCollider.MaskR - 1)
+					if (id != otherId && GameMath.Distance(movement[id].Position, movement[otherId].Position) < collider.MaskR + otherCollider.MaskR - 1)
 					{
 						var rSum = collider.MaskR + otherCollider.MaskR;
 						var dist = GameMath.Distance(movement[id].Position, movement[otherId].Position);

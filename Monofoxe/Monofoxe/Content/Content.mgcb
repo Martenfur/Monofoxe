@@ -10,8 +10,8 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:..\..\Pipefoxe\bin\Release\Pipefoxe.dll
 /reference:dlls\MonoGame.Extended.Content.Pipeline.dll
+/reference:..\..\Pipefoxe\bin\Debug\Pipefoxe.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -74,8 +74,27 @@
 /processor:TiledMapProcessor
 /build:Maps/test.tmx
 
-#begin Maps/testTileset.tsx
-/importer:XmlImporter
-/processor:PassThroughProcessor
-/build:Maps/testTileset.tsx
+#begin Maps/testTileset.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/testTileset.png
+
+#begin Maps/mahBoi.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/mahBoi.png
 
