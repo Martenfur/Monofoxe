@@ -58,14 +58,14 @@ namespace Monofoxe.Engine.SceneSystem
 		/// <summary>
 		/// Creates new layer with given name.
 		/// </summary>
-		public Layer CreateLayer(string name, int depth = 0)
+		public Layer CreateLayer(string name, int priority = 0)
 		{
 			if (LayerExists(name))
 			{
 				throw(new Exception("Layer with such name already exists!"));
 			}
 			
-			return new Layer(name, depth, this);
+			return new Layer(name, priority, this);
 		}
 
 		/// <summary>
