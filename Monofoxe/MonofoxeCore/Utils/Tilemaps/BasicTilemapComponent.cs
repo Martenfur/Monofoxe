@@ -20,16 +20,47 @@ namespace Monofoxe.Utils.Tilemaps
 		public int Height {get; protected set;}
 
 		
-		public BasicTile GetTile(int x, int y) => 
-			_tileGrid[x, y]; 
+		public BasicTile? GetTile(int x, int y)
+		{
+			if (InBounds(x, y))
+			{
+				return _tileGrid[x, y]; 
+			}
+			return null;
+		}
 
-		public void SetTile(int x, int y, BasicTile tile) => 
+		public void SetTile(int x, int y, BasicTile tile)
+		{
+			if (InBounds(x, y))
+			{
+				_tileGrid[x, y] = tile;
+			}
+		}
+
+		/// <summary>
+		/// Returns tile without out-of-bounds check.
+		/// WARNING: This method will throw an exception, if coordinates are out of bounds.
+		/// </summary>
+		public BasicTile GetTileUnsafe(int x, int y) =>
+			_tileGrid[x, y];
+		
+		/// <summary>
+		/// Sets tile without out-of-bounds check.
+		/// WARNING: This method will throw an exception, if coordinates are out of bounds.
+		/// </summary>
+		public BasicTile SetTileUnsafe(int x, int y, BasicTile tile) =>
 			_tileGrid[x, y] = tile;
+		
+		
+		public bool InBounds(int x, int y) =>
+			x >= 0 && y >= 0 && x < Width && y < Height;
+		
 
 		/// <summary>
 		/// Used, if there was an error.
 		/// </summary>
 		public Frame DefaultTile;
+
 
 		public BasicTilemapComponent(int width, int height, int tileWidth, int tileHeight)
 		{

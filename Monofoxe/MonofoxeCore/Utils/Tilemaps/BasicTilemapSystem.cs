@@ -14,6 +14,7 @@ namespace Monofoxe.Utils.Tilemaps
 		
 		public override void Draw(List<Component> tilemaps)
 		{
+			DrawMgr.CurrentColor = Color.White;
 			foreach(BasicTilemapComponent tilemap in tilemaps)
 			{
 				var offsetCameraPos = DrawMgr.CurrentCamera.Pos - DrawMgr.CurrentCamera.Offset / DrawMgr.CurrentCamera.Zoom;
@@ -22,9 +23,12 @@ namespace Monofoxe.Utils.Tilemaps
 				var startX = (int)(offsetCameraPos.X / tilemap.TileWidth);
 				var startY = (int)(offsetCameraPos.Y / tilemap.TileHeight);
 				
-				var endX = startX + (int)scaledCameraSize.X / tilemap.TileWidth + 2;
+				var endX = startX + (int)scaledCameraSize.X / tilemap.TileWidth + 2; // One for mama, one for papa.
 				var endY = startY + (int)scaledCameraSize.Y / tilemap.TileHeight + 2;
+				
+				// It's faster to determine bounds for whole region.
 
+				// Bounding.
 				if (startX < 0)
 				{
 					startX = 0;
@@ -33,23 +37,34 @@ namespace Monofoxe.Utils.Tilemaps
 				{
 					startY = 0;
 				}
+				if (endX >= tilemap.Width)
+				{
+					endX = tilemap.Width - 1;
+				}
+				if (endY >= tilemap.Height)
+				{
+					endY = tilemap.Height - 1;
+				}
+				// Bounding.
 
 				for(var y = startY; y < endY; y += 1)
 				{
 					for(var x = startX; x < endX; x += 1)
 					{
-						var tile = tilemap.GetTile(x, y);
-
+						// It's fine to use unsafe get, since we know for sure, we are in bounds.
+						var tile = tilemap.GetTileUnsafe(x, y);
+						
 						if (!tile.IsBlank)
 						{
 							DrawMgr.DrawFrame(
-								tile.GetFrame(), 
+								tile.GetFrame(),
 								tilemap.Offset + new Vector2(tilemap.TileWidth * x, tilemap.TileHeight * y), 
 								Vector2.Zero
 							);
 						}
 					}
 				}
+				
 			}
 		}
 
