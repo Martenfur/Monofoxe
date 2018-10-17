@@ -16,14 +16,14 @@ namespace Monofoxe.Test
 {
 	public class TileTester : Entity
 	{
-	
-		Tilemap _tilemap;
+		
+		Scene _scene;
 
 		public TileTester(Layer layer) : base(layer)
 		{
 			Resources.Maps.Load();
 
-			_tilemap = MapLoader.LoadMap(Resources.Maps.Test);
+			_scene = MapLoader.LoadMap(Resources.Maps.Test);
 
 		}
 
@@ -33,7 +33,7 @@ namespace Monofoxe.Test
 
 		public override void Draw()
 		{
-			for(var y = 0; y < 100; y += 1)	
+			/*for(var y = 0; y < 100; y += 1)	
 			{
 				for(var x = 0; x < 100; x += 1)
 				{	
@@ -44,7 +44,7 @@ namespace Monofoxe.Test
 						Vector2.Zero
 					);
 				}
-			}
+			}*/
 		}
 
 	}

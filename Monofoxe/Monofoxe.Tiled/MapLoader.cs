@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Content;
 using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.SceneSystem;
+using Monofoxe.Engine.ECS;
 using Monofoxe.Utils.Tilemaps;
 
 
@@ -14,30 +15,35 @@ namespace Monofoxe.Tiled
 {
 	public class MapLoader
 	{
-		public static Tilemap LoadMap(TiledMap map)
+		public static Scene LoadMap(TiledMap map)
 		{
 			var scene = SceneMgr.CreateScene(map.Name);
 
 			var tilesets =  ConvertTilesets(map.Tilesets);//scene;
 
-			foreach(var layer in map.TileLayers)
+			foreach(var tileLayer in map.TileLayers)
 			{
-				var tilemap = new Tilemap((uint)layer.Width, (uint)layer.Height, (uint)layer.TileWidth, (uint)layer.TileHeight);
+				var layer = scene.CreateLayer(tileLayer.Name);
+
+				var tilemap = new BasicTilemapComponent((uint)tileLayer.Width, (uint)tileLayer.Height, (uint)tileLayer.TileWidth, (uint)tileLayer.TileHeight);
 				for(var y = 0; y < tilemap.Height; y += 1)	
 				{
 					for(var x = 0; x < tilemap.Width; x += 1)
 					{		
 						var tileNum = y * tilemap.Width + x;
 
-						var tileIndex = layer.Tiles[(int)tileNum].GlobalIdentifier;
+						var tileIndex = tileLayer.Tiles[(int)tileNum].GlobalIdentifier;
 
 						tilemap.SetTile(x, y, new BasicTile((uint)tileIndex, GetTilesetFromIndex(tileIndex, tilesets)));
 					}
 				}
-				return tilemap;
+				//return tilemap;
+
+				var tilemapEntity = new Entity(layer, tilemap.Tag);
+				tilemapEntity.AddComponent(tilemap);
 			}
 
-			return null;
+			return scene;
 		}
 
 		static List<Tileset> ConvertTilesets(ReadOnlyCollection<TiledMapTileset> tilesets)

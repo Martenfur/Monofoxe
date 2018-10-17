@@ -1,20 +1,23 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Monofoxe.Engine.Drawing;
+using Monofoxe.Engine.ECS;
 
 namespace Monofoxe.Utils.Tilemaps
 {
-	public class Tilemap : ITilemap<BasicTile>
+	public class BasicTilemapComponent : Component, ITilemap<BasicTile>
 	{
+		public override string Tag => "basicTilemap";
+
 		protected BasicTile[,] _tileGrid;
 
 		public Vector2 Offset {get; set;} = Vector2.Zero;
 
-		public uint TileWidth {get; protected set;}
-		public uint TileHeight {get; protected set;}
+		public int TileWidth {get; protected set;}
+		public int TileHeight {get; protected set;}
 
-		public uint Width {get; protected set;}
-		public uint Height {get; protected set;}
+		public int Width {get; protected set;}
+		public int Height {get; protected set;}
 
 		
 		public BasicTile GetTile(int x, int y) => 
@@ -28,7 +31,7 @@ namespace Monofoxe.Utils.Tilemaps
 		/// </summary>
 		public Frame DefaultTile;
 
-		public Tilemap(uint width, uint height, uint tileWidth, uint tileHeight)
+		public BasicTilemapComponent(int width, int height, int tileWidth, int tileHeight)
 		{
 			Width = width;
 			Height = height;
@@ -37,14 +40,9 @@ namespace Monofoxe.Utils.Tilemaps
 			_tileGrid = new BasicTile[Width, Height];
 		}
 
-		public void Draw()
-		{
-			throw new NotImplementedException();
-		}
 
-		public void Update()
-		{
+		public override object Clone() =>
 			throw new NotImplementedException();
-		}
+
 	}
 }
