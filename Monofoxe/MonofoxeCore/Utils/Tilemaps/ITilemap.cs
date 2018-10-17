@@ -12,8 +12,13 @@ namespace Monofoxe.Utils.Tilemaps
 		int Width {get;}
 		int Height {get;}
 
-		T GetTile(int x, int y);
+		T? GetTile(int x, int y);
 		void SetTile(int x, int y, T tile);
+
+		/// <summary>
+		/// Tells, if given coodrinates are in tilemap's bounds.
+		/// </summary>
+		bool InBounds(int x, int y);
 		
 	}
 }

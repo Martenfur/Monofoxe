@@ -25,16 +25,16 @@ namespace Monofoxe.Tiled
 			{
 				var layer = scene.CreateLayer(tileLayer.Name);
 
-				var tilemap = new BasicTilemapComponent((uint)tileLayer.Width, (uint)tileLayer.Height, (uint)tileLayer.TileWidth, (uint)tileLayer.TileHeight);
+				var tilemap = new BasicTilemapComponent(tileLayer.Width, tileLayer.Height, tileLayer.TileWidth, tileLayer.TileHeight);
 				for(var y = 0; y < tilemap.Height; y += 1)	
 				{
 					for(var x = 0; x < tilemap.Width; x += 1)
 					{		
 						var tileNum = y * tilemap.Width + x;
 
-						var tileIndex = tileLayer.Tiles[(int)tileNum].GlobalIdentifier;
+						var tileIndex = tileLayer.Tiles[tileNum].GlobalIdentifier;
 
-						tilemap.SetTile(x, y, new BasicTile((uint)tileIndex, GetTilesetFromIndex(tileIndex, tilesets)));
+						tilemap.SetTile(x, y, new BasicTile(tileIndex, GetTilesetFromIndex(tileIndex, tilesets)));
 					}
 				}
 				//return tilemap;
@@ -78,7 +78,7 @@ namespace Monofoxe.Tiled
 				var tiles = new Sprite(frames.ToArray(), Vector2.Zero);
 				// Creating sprite from raw texture.
 
-				convertedTilesets.Add(new Tileset(tiles, (uint)tileset.FirstGlobalIdentifier));
+				convertedTilesets.Add(new Tileset(tiles, tileset.FirstGlobalIdentifier));
 			}
 
 			return convertedTilesets;

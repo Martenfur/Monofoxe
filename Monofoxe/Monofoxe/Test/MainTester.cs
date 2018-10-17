@@ -53,7 +53,7 @@ namespace Monofoxe.Test
 			
 			//LayerMgrs.Get("default").IsGUI = true;
 
-			//new DrawingTester();
+			new DrawingTester();
 			//new ECSTester(scene["balls"]);
 			//new AlarmTester(Layer.Get("balls"));
 			new TileTester(scene["balls"]);
