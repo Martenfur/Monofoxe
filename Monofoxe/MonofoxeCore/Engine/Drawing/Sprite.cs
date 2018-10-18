@@ -40,6 +40,10 @@ namespace Monofoxe.Engine.Drawing
 		public Sprite(Frame[] frames, int originX, int originY)
 		{
 			Frames = new Frame[frames.Length];
+			foreach(var frame in frames)
+			{
+				frame.ParentSprite = this;
+			}
 			Array.Copy(frames, Frames, frames.Length);
 			Origin = new Vector2(originX, originY);
 			
@@ -49,6 +53,10 @@ namespace Monofoxe.Engine.Drawing
 		public Sprite(Frame[] frames, Vector2 origin)
 		{
 			Frames = new Frame[frames.Length];
+			foreach(var frame in frames)
+			{
+				frame.ParentSprite = this;
+			}
 			Array.Copy(frames, Frames, frames.Length);
 			Origin = origin;
 			SingleFrameSize = CheckIdenticalFrameSizes(frames);
@@ -57,6 +65,7 @@ namespace Monofoxe.Engine.Drawing
 		public Sprite(Frame frame, int originX, int originY)
 		{
 			Frames = new Frame[]{frame};
+			frame.ParentSprite = this;
 			Origin = new Vector2(originX, originY);
 			
 			SingleFrameSize = true;

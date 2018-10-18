@@ -56,7 +56,7 @@ namespace Monofoxe.Test
 			new DrawingTester();
 			//new ECSTester(scene["balls"]);
 			//new AlarmTester(Layer.Get("balls"));
-			new TileTester(scene["balls"]);
+			//new TileTester(scene["balls"]);
 		}
 
 

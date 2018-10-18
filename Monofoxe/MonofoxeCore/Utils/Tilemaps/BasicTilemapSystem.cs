@@ -54,12 +54,30 @@ namespace Monofoxe.Utils.Tilemaps
 						// It's fine to use unsafe get, since we know for sure, we are in bounds.
 						var tile = tilemap.GetTileUnsafe(x, y);
 						
-						if (!tile.IsBlank)
+						if (!tile.IsBlank && tile.GetFrame() != null)
 						{
+							Vector2 scale = Vector2.One;
+							Vector2 offset = Vector2.Zero;
+
+							if (tile.FlipHor)
+							{
+								offset.X = tilemap.TileWidth;
+								scale.X = -1;
+							}
+							if (tile.FlipVer)
+							{
+								offset.Y = tilemap.TileHeight;
+								scale.Y = -1;
+							}
+
+
 							DrawMgr.DrawFrame(
 								tile.GetFrame(),
-								tilemap.Offset + new Vector2(tilemap.TileWidth * x, tilemap.TileHeight * y), 
-								Vector2.Zero
+								tilemap.Offset + new Vector2(tilemap.TileWidth * x, tilemap.TileHeight * y),
+								offset,
+								scale,
+								0,
+								Color.White
 							);
 						}
 					}
