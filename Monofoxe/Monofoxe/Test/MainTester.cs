@@ -56,7 +56,7 @@ namespace Monofoxe.Test
 			new DrawingTester();
 			//new ECSTester(scene["balls"]);
 			//new AlarmTester(Layer.Get("balls"));
-			//new TileTester(scene["balls"]);
+			new TileTester(scene["balls"]);
 		}
 
 
@@ -150,7 +150,7 @@ namespace Monofoxe.Test
 			var layer1 = SceneMgr.GetScene("default")["default"];
 			layer.IsGUI = false;
 			MainCamera.PostprocessingMode = PostprocessingMode.CameraAndLayers;
-			MainCamera.PostprocessorEffects.Add(Resources.Effects.Effect);
+			//MainCamera.PostprocessorEffects.Add(Resources.Effects.Effect);
 			//layer.PostprocessorEffects.Add(Resources.Effects.BW);
 			
 			//layer1.PostprocessorEffects.Add(Resources.Effects.BW);

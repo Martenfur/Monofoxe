@@ -33,7 +33,7 @@ namespace Monofoxe.Engine.Drawing
 		public Vector2 Origin;
 
 		/// <summary>
-		/// True, is size of every frame is identical.
+		/// True, if size of every frame is identical.
 		/// </summary>
 		public bool SingleFrameSize;
 

@@ -54,31 +54,36 @@ namespace Monofoxe.Utils.Tilemaps
 						// It's fine to use unsafe get, since we know for sure, we are in bounds.
 						var tile = tilemap.GetTileUnsafe(x, y);
 						
-						if (!tile.IsBlank && tile.GetFrame() != null)
+						if (!tile.IsBlank)
 						{
-							Vector2 scale = Vector2.One;
-							Vector2 offset = Vector2.Zero;
+							var tileFrame = tile.GetFrame();
 
-							if (tile.FlipHor)
+							if (tile.GetFrame() != null)
 							{
-								offset.X = tilemap.TileWidth;
-								scale.X = -1;
+								Vector2 scale = Vector2.One;
+								Vector2 offset = Vector2.Zero;
+	
+								if (tile.FlipHor)
+								{
+									offset.X = -tileFrame.W;
+									scale.X = -1;
+								}
+								if (tile.FlipVer)
+								{
+									offset.Y = -tileFrame.H;
+									scale.Y = -1;
+								}
+								
+								DrawMgr.DrawFrame(
+									tileFrame,
+									tilemap.Offset + new Vector2(tilemap.TileWidth * x, tilemap.TileHeight * y),
+									// We need to subtract image height, because Tiled does so. : - )
+									offset - Vector2.UnitY * tilemap.TileHeight + tileFrame.ParentSprite.Origin, 
+									scale,
+									0,
+									Color.White
+								);
 							}
-							if (tile.FlipVer)
-							{
-								offset.Y = tilemap.TileHeight;
-								scale.Y = -1;
-							}
-
-
-							DrawMgr.DrawFrame(
-								tile.GetFrame(),
-								tilemap.Offset + new Vector2(tilemap.TileWidth * x, tilemap.TileHeight * y),
-								offset,
-								scale,
-								0,
-								Color.White
-							);
 						}
 					}
 				}
