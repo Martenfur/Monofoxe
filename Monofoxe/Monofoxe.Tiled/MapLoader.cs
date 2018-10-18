@@ -63,7 +63,7 @@ namespace Monofoxe.Tiled
 				// Creating sprite from raw texture.
 				var framesW = tileset.Columns;
 				var framesH = tileset.TileCount / tileset.Columns;
-
+				
 				var frames = new List<Frame>();
 				Console.WriteLine("MARGIN:" + tileset.Margin + " " + tileset.Name);
 				for(var y = 0; y < framesH; y += 1)	
@@ -84,6 +84,7 @@ namespace Monofoxe.Tiled
 				}
 
 				var tiles = new Sprite(frames.ToArray(), Vector2.Zero);
+				tiles.Origin = Vector2.UnitY * tiles.H; // Tileset origins in Tiled are in the left bottom corner. Derp.
 				// Creating sprite from raw texture.
 
 				convertedTilesets.Add(new Tileset(tiles, tileset.FirstGlobalIdentifier));

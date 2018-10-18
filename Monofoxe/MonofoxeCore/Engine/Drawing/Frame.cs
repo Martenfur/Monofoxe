@@ -44,6 +44,7 @@ namespace Monofoxe.Engine.Drawing
 				{
 					throw new Exception("This frame already belongs to a sprite!");
 				}
+				_parentSprite = value;
 			}
 		}
 		private Sprite _parentSprite = null;
