@@ -1,10 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 
 namespace Monofoxe.Engine.Drawing
 {
-	public class Frame
+	public class Frame : ICloneable
 	{
 		/// <summary>
 		/// Texture atlas where frame is stored.
@@ -26,16 +27,38 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public readonly int H;
 		
+		/// <summary>
+		/// Origin point of the frame.
+		/// </summary>
 		public readonly Vector2 Origin;
+
+		/// <summary>
+		/// Frame's parent sprite.
+		/// </summary>
+		public Sprite ParentSprite 
+		{
+			get => _parentSprite;
+			internal set
+			{
+				if (_parentSprite != null)
+				{
+					throw new Exception("This frame already belongs to a sprite!");
+				}
+			}
+		}
+		private Sprite _parentSprite = null;
 
 		public Frame(Texture2D texture, Rectangle texturePosition, Vector2 origin, int w, int h)
 		{
 			Texture = texture;
 			TexturePosition = texturePosition;
 			
+			Origin = origin;
 			W = w;
 			H = h;
-			Origin = origin;
 		}
+
+		public object Clone() =>
+			new Frame(Texture, TexturePosition, Origin, W, H);
 	}
 }

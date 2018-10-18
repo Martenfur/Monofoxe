@@ -23,8 +23,7 @@ namespace Resources
 			var tile = Test.TileLayers[0].Tiles[0];
 			
 			var tileset = Test.GetTilesetByTileGlobalIdentifier(tile.GlobalIdentifier);
-
-			Console.WriteLine(tileset.Name + " " + tile.GlobalIdentifier);
+			
 		}
 
 		public static void Unload()

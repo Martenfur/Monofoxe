@@ -5,6 +5,7 @@ namespace Monofoxe.Utils.Tilemaps
 	{
 		int Index {get;}
 		bool IsBlank {get;}
-
+		bool FlipHor {get; set;}
+		bool FlipVer {get; set;}
 	}
 }

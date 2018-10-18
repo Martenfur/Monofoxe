@@ -34,7 +34,15 @@ namespace Monofoxe.Tiled
 
 						var tileIndex = tileLayer.Tiles[tileNum].GlobalIdentifier;
 
-						tilemap.SetTile(x, y, new BasicTile(tileIndex, GetTilesetFromIndex(tileIndex, tilesets)));
+						tilemap.SetTile(
+							x, y, 
+							new BasicTile(
+								tileIndex, 
+								GetTilesetFromIndex(tileIndex, tilesets),
+								tileLayer.Tiles[tileNum].IsFlippedHorizontally,
+								tileLayer.Tiles[tileNum].IsFlippedVertically
+							)
+						);
 					}
 				}
 				//return tilemap;
