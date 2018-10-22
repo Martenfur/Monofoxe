@@ -18,12 +18,23 @@ namespace Monofoxe.Tiled
 		public static Scene LoadMap(TiledMap map)
 		{
 			var scene = SceneMgr.CreateScene(map.Name);
+			//map.ObjectLayers
+			var tilesets = ConvertTilesets(map.Tilesets);
 
-			var tilesets =  ConvertTilesets(map.Tilesets);//scene;
+			// TODO: Add image layer support? I guess?
 
 			foreach(var tileLayer in map.TileLayers)
 			{
 				var layer = scene.CreateLayer(tileLayer.Name);
+				try
+				{
+					layer.Priority = int.Parse(tileLayer.Properties["priority"]);
+				}
+				catch(Exception)
+				{
+					layer.Priority = 0;
+				}
+				Console.WriteLine(layer.Priority);
 
 				var tilemap = new BasicTilemapComponent(tileLayer.Width, tileLayer.Height, tileLayer.TileWidth, tileLayer.TileHeight);
 				for(var y = 0; y < tilemap.Height; y += 1)	
@@ -33,6 +44,10 @@ namespace Monofoxe.Tiled
 						var tileNum = y * tilemap.Width + x;
 
 						var tileIndex = tileLayer.Tiles[tileNum].GlobalIdentifier;
+						if (x == 0 && y == 0)
+						{
+							Console.WriteLine("INDEX:" + GetTilesetFromIndex(tileIndex, tilesets).StartingIndex + " " + tileIndex);
+						}
 
 						tilemap.SetTile(
 							x, y, 
@@ -49,6 +64,7 @@ namespace Monofoxe.Tiled
 
 				var tilemapEntity = new Entity(layer, tilemap.Tag);
 				tilemapEntity.AddComponent(tilemap);
+				//tilemap.Offset = Vector2.One * 32;
 			}
 
 			return scene;
@@ -65,7 +81,7 @@ namespace Monofoxe.Tiled
 				var framesH = tileset.TileCount / tileset.Columns;
 				
 				var frames = new List<Frame>();
-				Console.WriteLine("MARGIN:" + tileset.Margin + " " + tileset.Name);
+				Console.WriteLine("MARGIN:" + tileset.Margin + " " + tileset.Name + " " + framesW + ";" + framesH);
 				for(var y = 0; y < framesH; y += 1)	
 				{
 					for(var x = 0; x < framesW; x += 1)
@@ -76,7 +92,7 @@ namespace Monofoxe.Tiled
 							tileset.TileWidth, 
 							tileset.TileHeight
 						);
-
+						Console.WriteLine(texPos + " " + tileset.TileWidth + " " + tileset.TileHeight);
 						var frame = new Frame(tileset.Texture, texPos, Vector2.Zero, tileset.TileWidth, tileset.TileHeight);
 
 						frames.Add(frame);

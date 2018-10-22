@@ -106,5 +106,6 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
+  <Import Project="..\Monofoxe.Tiled.MapStructure\Monofoxe.Tiled.MapStructure.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>785e8147-0e69-45df-92f7-b4f315739d0c</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Monofoxe.Tiled.MapStructure</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Orientation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RenderOrder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TiledMap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TiledMapLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TiledMapTile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TiledMapTileLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TiledMapTileset.cs" />
+  </ItemGroup>
+</Project>

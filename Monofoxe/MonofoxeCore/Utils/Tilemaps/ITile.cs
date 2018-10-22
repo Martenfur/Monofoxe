@@ -1,6 +1,9 @@
 ﻿
 namespace Monofoxe.Utils.Tilemaps
 {
+	/// <summary>
+	/// Tile interface. 
+	/// </summary>
 	public interface ITile
 	{
 		int Index {get;}
