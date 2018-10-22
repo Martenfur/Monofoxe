@@ -8,23 +8,29 @@ using System.Collections.Generic;
 
 namespace Monofoxe.Utils.Tilemaps
 {
+	/// <summary>
+	/// System for basic tilemap. Based on Monofoxe.ECS.
+	/// Draws tilemaps in camera's bounds.
+	/// </summary>
 	public class BasicTilemapSystem : BaseSystem
 	{
 		public override string Tag => "basicTilemap";
-		
+
 		public override void Draw(List<Component> tilemaps)
 		{
-			DrawMgr.CurrentColor = Color.White;
 			foreach(BasicTilemapComponent tilemap in tilemaps)
 			{
-				var offsetCameraPos = DrawMgr.CurrentCamera.Pos - DrawMgr.CurrentCamera.Offset / DrawMgr.CurrentCamera.Zoom;
+				var offsetCameraPos = DrawMgr.CurrentCamera.Pos 
+					- tilemap.Offset 
+					- DrawMgr.CurrentCamera.Offset / DrawMgr.CurrentCamera.Zoom;
+
 				var scaledCameraSize = DrawMgr.CurrentCamera.Size / DrawMgr.CurrentCamera.Zoom;
 
-				var startX = (int)(offsetCameraPos.X / tilemap.TileWidth);
-				var startY = (int)(offsetCameraPos.Y / tilemap.TileHeight);
+				var startX = (int)(offsetCameraPos.X / tilemap.TileWidth) - tilemap.Padding;
+				var startY = (int)(offsetCameraPos.Y / tilemap.TileHeight) - tilemap.Padding;
 				
-				var endX = startX + (int)scaledCameraSize.X / tilemap.TileWidth + 2; // One for mama, one for papa.
-				var endY = startY + (int)scaledCameraSize.Y / tilemap.TileHeight + 2;
+				var endX = startX + (int)scaledCameraSize.X / tilemap.TileWidth + tilemap.Padding + 2; // One for mama, one for papa.
+				var endY = startY + (int)scaledCameraSize.Y / tilemap.TileHeight + tilemap.Padding + 2;
 				
 				// It's faster to determine bounds for whole region.
 
@@ -56,12 +62,20 @@ namespace Monofoxe.Utils.Tilemaps
 						
 						if (!tile.IsBlank)
 						{
+							
 							var tileFrame = tile.GetFrame();
 
-							if (tile.GetFrame() != null)
+							if (x == 0 && y == 0)
 							{
-								Vector2 scale = Vector2.One;
-								Vector2 offset = Vector2.Zero;
+								//Console.WriteLine(tileFrame.W + " " + tileFrame.H + " " + tileFrame.TexturePosition);
+								var f = new Frame(tileFrame.Texture, tileFrame.Texture.Bounds, Vector2.Zero, tileFrame.Texture.Width, tileFrame.Texture.Height);
+								DrawMgr.DrawFrame(f, -Vector2.One * 320, Vector2.Zero);
+							}
+
+							if (tileFrame != null)
+							{
+								var scale = Vector2.One;
+								var offset = Vector2.Zero;
 	
 								if (tile.FlipHor)
 								{

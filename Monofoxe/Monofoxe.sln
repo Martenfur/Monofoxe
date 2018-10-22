@@ -13,10 +13,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonofoxeLib", "MonofoxeLib\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monofoxe.Tiled", "Monofoxe.Tiled\Monofoxe.Tiled.csproj", "{1EDA060A-DFE0-460E-9DAA-CB8D6D046411}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Monofoxe.Tiled.MapStructure", "Monofoxe.Tiled.MapStructure\Monofoxe.Tiled.MapStructure.shproj", "{785E8147-0E69-45DF-92F7-B4F315739D0C}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Monofoxe.Tiled.MapStructure\Monofoxe.Tiled.MapStructure.projitems*{1eda060a-dfe0-460e-9daa-cb8d6d046411}*SharedItemsImports = 4
 		MonofoxeCore\MonofoxeCore.projitems*{738d5ca0-fb57-45c1-a577-a99a0b6b051b}*SharedItemsImports = 13
+		Monofoxe.Tiled.MapStructure\Monofoxe.Tiled.MapStructure.projitems*{785e8147-0e69-45df-92f7-b4f315739d0c}*SharedItemsImports = 13
 		MonofoxeCore\MonofoxeCore.projitems*{94153186-e889-4e3e-979f-4c35819c5c21}*SharedItemsImports = 4
+		Monofoxe.Tiled.MapStructure\Monofoxe.Tiled.MapStructure.projitems*{d59079b2-cc07-4783-9c7f-05e78ebbc5fd}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

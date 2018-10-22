@@ -10,7 +10,6 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:dlls\MonoGame.Extended.Content.Pipeline.dll
 /reference:..\..\Pipefoxe\bin\Debug\Pipefoxe.dll
 
 #---------------------------------- Content ---------------------------------#
@@ -71,7 +70,7 @@
 
 #begin Maps/test.tmx
 /importer:TiledMapImporter
-/processor:TiledMapProcessor
+/processor:PassThroughProcessor
 /build:Maps/test.tmx
 
 #begin Maps/testTileset.png
@@ -109,4 +108,28 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Maps/dirt.png
+
+#begin Maps/barrel.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/barrel.png
+
+#begin Maps/bench.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/bench.png
 

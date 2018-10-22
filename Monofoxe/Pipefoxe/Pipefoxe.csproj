@@ -74,10 +74,13 @@
     <Compile Include="SpriteGroup\SpriteGroupWriter.cs" />
     <Compile Include="SpriteGroup\TextureGrid.cs" />
     <Compile Include="SpriteGroup\TexturePacker.cs" />
+    <Compile Include="TiledMap\TiledMapImporter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
+  <Import Project="..\Monofoxe.Tiled.MapStructure\Monofoxe.Tiled.MapStructure.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

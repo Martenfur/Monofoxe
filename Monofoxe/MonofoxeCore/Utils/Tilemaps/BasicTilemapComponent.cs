@@ -5,6 +5,10 @@ using Monofoxe.Engine.ECS;
 
 namespace Monofoxe.Utils.Tilemaps
 {
+	/// <summary>
+	/// Basic tilemap class. Provides basic functionality,
+	/// supports camera zooming.
+	/// </summary>
 	public class BasicTilemapComponent : Component, ITilemap<BasicTile>
 	{
 		public override string Tag => "basicTilemap";
@@ -18,6 +22,12 @@ namespace Monofoxe.Utils.Tilemaps
 
 		public int Width {get; protected set;}
 		public int Height {get; protected set;}
+
+		/// <summary>
+		/// Tells how many tile rows and columns will be drawn outside of camera's bounds.
+		/// May be useful for tiles larger than the grid. 
+		/// </summary>
+		public int Padding = 0;
 
 		
 		public BasicTile? GetTile(int x, int y)
