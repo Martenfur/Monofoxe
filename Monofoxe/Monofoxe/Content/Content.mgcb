@@ -57,11 +57,6 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/Arial.spritefont
 
-#begin Graphics/default.atlas
-/importer:SpriteGroupImporter
-/processor:SpriteGroupProcessor
-/build:Graphics/default.atlas
-
 #begin Effects/AlphaBlend.fx
 /importer:EffectImporter
 /processor:EffectProcessor

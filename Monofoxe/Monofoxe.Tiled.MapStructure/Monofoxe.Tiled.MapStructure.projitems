@@ -16,5 +16,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)TiledMapTile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TiledMapTileLayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TiledMapTileset.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TiledMapTilesetTile.cs" />
   </ItemGroup>
 </Project>
