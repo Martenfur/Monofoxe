@@ -9,6 +9,8 @@ namespace Monofoxe.Tiled.MapStructure
 	{
 		public string Name;
 		public Texture2D[] Textures;
+		public string[] TexturePaths;
+		
 		public int FirstGID;
 		public int TileWidth;
 		public int TileHeight;
@@ -17,10 +19,22 @@ namespace Monofoxe.Tiled.MapStructure
 		public int TileCount;
 		public int Columns;
 
+		/* 
+		 * More convenient way of getting tileset sizes.
+		 * Tile count and columns are left just for compatibility
+		 * with... whatever.
+		 */
+		public int Width => Columns;
+		public int Height => TileCount / Columns;
+
+
 		public Vector2 Offset;
 
 		public TiledMapTile[] Tiles;
 		
+		public Color? BackgroundColor;
+
+
 		//TODO: Add animated tiles.
 
 		public Dictionary<string, string> Properties;
