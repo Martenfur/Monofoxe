@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace Monofoxe.Tiled.MapStructure
 {
+	[Serializable()]
 	public class TiledMapTileset
 	{
 		public string Name;

@@ -3,7 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Resources.Sprites;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine;
-using MonoGame.Extended.Tiled;
+//using MonoGame.Extended.Tiled;
+using Monofoxe.Tiled.MapStructure;
+using Monofoxe.Tiled.ContentReaders;
+
 using System;
 
 namespace Resources
@@ -19,10 +22,12 @@ namespace Resources
 			_content = new ContentManager(GameMgr.Game.Services);
 			_content.RootDirectory = AssetMgr.ContentDir + '/' + "Maps";
 			
-			Test = _content.Load<TiledMap>("test");
-			var tile = Test.TileLayers[0].Tiles[0];
+			Monofoxe.Tiled.MapLoader.TestLoadMap(_content);
+			//Test = _content.Load<TiledMap>("test");
+			//Console.WriteLine("Mapwidth: " + Test.Width);
+			//var tile = Test.TileLayers[0].Tiles[0];
 			
-			var tileset = Test.GetTilesetByTileGlobalIdentifier(tile.GlobalIdentifier);
+			//var tileset = Test.GetTilesetByTileGlobalIdentifier(tile.GlobalIdentifier);
 			
 		}
 

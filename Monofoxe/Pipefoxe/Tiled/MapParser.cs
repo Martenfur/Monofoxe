@@ -18,7 +18,8 @@ namespace Pipefoxe.Tiled
 			XmlNodeList tilesetsXml = xml["map"].SelectNodes("tileset");
 			
 			map.Tilesets = TilesetParser.Parse(tilesetsXml);
-
+			
+			LayerParser.Parse(xml["map"], map);
 
 
 			return map;

@@ -65,7 +65,7 @@
 
 #begin Maps/test.tmx
 /importer:TiledMapImporter
-/processor:PassThroughProcessor
+/processor:TiledMapProcessor
 /build:Maps/test.tmx
 
 #begin Maps/testTileset.png
@@ -127,4 +127,9 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Maps/bench.png
+
+#begin Graphics/default.atlas
+/importer:SpriteGroupImporter
+/processor:SpriteGroupProcessor
+/build:Graphics/default.atlas
 

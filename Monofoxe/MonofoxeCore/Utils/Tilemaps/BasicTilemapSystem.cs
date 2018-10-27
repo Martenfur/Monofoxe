@@ -87,7 +87,7 @@ namespace Monofoxe.Utils.Tilemaps
 									offset.Y = -tileFrame.H;
 									scale.Y = -1;
 								}
-								
+								// TODO: Add tile rotation.
 								DrawMgr.DrawFrame(
 									tileFrame,
 									tilemap.Offset + new Vector2(tilemap.TileWidth * x, tilemap.TileHeight * y),

@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Monofoxe.Tiled.MapStructure
 {
+	[Serializable()]
 	public class TiledMapTilesetTile
 	{
 		public int GID;

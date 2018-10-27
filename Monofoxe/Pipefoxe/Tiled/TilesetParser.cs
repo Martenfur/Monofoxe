@@ -7,9 +7,11 @@ using System.Text;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Globalization;
 
 namespace Pipefoxe.Tiled
 {
+	
 	static class TilesetParser
 	{
 		/// <summary>
@@ -75,18 +77,10 @@ namespace Pipefoxe.Tiled
 			tileset.TileHeight = int.Parse(tilesetXml.Attributes["tileheight"].Value);
 			tileset.TileCount = int.Parse(tilesetXml.Attributes["tilecount"].Value);
 			tileset.Columns = int.Parse(tilesetXml.Attributes["columns"].Value);
+				
+			tileset.Margin = TiledMapImporter.GetXmlIntSafe(tilesetXml, "margin");
+			tileset.Spacing = TiledMapImporter.GetXmlIntSafe(tilesetXml, "spacing");
 			
-
-			if (tilesetXml.Attributes["margin"] != null)
-			{
-				tileset.Spacing = int.Parse(tilesetXml.Attributes["margin"].Value);
-			}
-
-			if (tilesetXml.Attributes["spacing"] != null)
-			{
-				tileset.Spacing = int.Parse(tilesetXml.Attributes["spacing"].Value);
-			}
-
 			if (tilesetXml.Attributes["backgroundcolor"] != null)
 			{
 				tileset.BackgroundColor = TiledMapImporter.StringToColor(tilesetXml.Attributes["backgroundcolor"].Value);
@@ -95,8 +89,8 @@ namespace Pipefoxe.Tiled
 			if (tilesetXml["tileoffset"] != null)
 			{
 				tileset.Offset = new Vector2(
-					float.Parse(tilesetXml["tileoffset"].Attributes["x"].Value),
-					float.Parse(tilesetXml["tileoffset"].Attributes["y"].Value)
+					float.Parse(tilesetXml["tileoffset"].Attributes["x"].Value, CultureInfo.InvariantCulture),
+					float.Parse(tilesetXml["tileoffset"].Attributes["y"].Value, CultureInfo.InvariantCulture)
 				);
 			}
 			#endregion Main fields.
@@ -191,7 +185,7 @@ namespace Pipefoxe.Tiled
 						int.Parse(nodePair.Value["image"].Attributes["width"].Value),
 						int.Parse(nodePair.Value["image"].Attributes["height"].Value)
 					);
-
+					
 					tile.Properties = TiledMapImporter.GetProperties(nodePair.Value);
 				}
 				tileset.TexturePaths = texturePaths.ToArray();
