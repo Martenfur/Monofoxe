@@ -74,8 +74,11 @@
     <Compile Include="SpriteGroup\SpriteGroupWriter.cs" />
     <Compile Include="SpriteGroup\TextureGrid.cs" />
     <Compile Include="SpriteGroup\TexturePacker.cs" />
+    <Compile Include="Tiled\LayerParser.cs" />
     <Compile Include="Tiled\MapParser.cs" />
     <Compile Include="Tiled\TiledMapImporter.cs" />
+    <Compile Include="Tiled\TiledMapProcessor.cs" />
+    <Compile Include="Tiled\TiledMapWriter.cs" />
     <Compile Include="Tiled\TilesetParser.cs" />
   </ItemGroup>
   <ItemGroup>

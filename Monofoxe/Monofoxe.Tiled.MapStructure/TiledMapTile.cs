@@ -1,15 +1,16 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
+﻿using System;
 
 namespace Monofoxe.Tiled.MapStructure
 {
+	[Serializable()]	
 	public struct TiledMapTile
 	{
 		public int GID;
 		public bool FlipHor;
 		public bool FlipVer;
-		public bool IsBlank;
+		public bool FlipDiag;
 
-		public TiledMapTileset Tileset;
+		public bool IsBlank => GID == 0;
+		
 	}
 }

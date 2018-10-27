@@ -23,7 +23,7 @@ namespace Monofoxe.Test
 		{
 			Resources.Maps.Load();
 
-			_scene = MapLoader.LoadMap(Resources.Maps.Test);
+			//_scene = MapLoader.LoadMap(Resources.Maps.Test);
 
 		}
 

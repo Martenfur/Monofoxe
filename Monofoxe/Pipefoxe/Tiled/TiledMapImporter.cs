@@ -6,10 +6,11 @@ using System.Xml;
 using System.Text;
 using System.IO;
 using Microsoft.Xna.Framework;
+using System.Globalization;
 
 namespace Pipefoxe.Tiled
 {
-	[ContentImporter(".tmx", DefaultProcessor = "PassThroughProcessor", 
+	[ContentImporter(".tmx", DefaultProcessor = "TiledMapProcessor",//"PassThroughProcessor", 
 	DisplayName = "Tiled Map Importer - Monofoxe")]
 	public class TiledMapImporter : ContentImporter<TiledMap>
 	{
@@ -28,13 +29,13 @@ namespace Pipefoxe.Tiled
 			{
 				var map = MapParser.Parse(xml);
 
-				__SaveLog(RootDir);
+			//	__SaveLog(RootDir);
 				return map;
 			}
 			catch(Exception e)
 			{
-				__SaveLog(RootDir);
-				throw e;
+				//__SaveLog(RootDir);
+				throw new Exception(e.StackTrace);
 			}
 		}
 
@@ -105,6 +106,42 @@ namespace Pipefoxe.Tiled
 			}
 			
 			return dictionary;
+		}
+
+		public static string GetXmlStringSafe(XmlNode node, string attribute)
+		{
+			if (node.Attributes[attribute] != null)
+			{
+				return node.Attributes[attribute].Value;
+			}
+			return "";
+		}
+
+		public static int GetXmlIntSafe(XmlNode node, string attribute)
+		{
+			if (node.Attributes[attribute] != null)
+			{
+				return int.Parse(node.Attributes[attribute].Value);
+			}
+			return 0;
+		}
+
+		public static float GetXmlFloatSafe(XmlNode node, string attribute)
+		{
+			if (node.Attributes[attribute] != null)
+			{
+				return float.Parse(node.Attributes[attribute].Value, CultureInfo.InvariantCulture);
+			}
+			return 0f;
+		}
+
+		public static bool GetXmlBoolSafe(XmlNode node, string attribute)
+		{
+			if (node.Attributes[attribute] != null)
+			{
+				return node.Attributes[attribute].Value == "1" || node.Attributes[attribute].Value == "true";
+			}
+			return true;
 		}
 
 	}

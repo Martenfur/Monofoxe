@@ -7,6 +7,7 @@ namespace Monofoxe.Tiled.MapStructure
 	/// <summary>
 	/// Data structure for Tiled map.
 	/// </summary>
+	[Serializable()]	
 	public class TiledMap
 	{
 		public Color? BackgroundColor;
@@ -19,7 +20,7 @@ namespace Monofoxe.Tiled.MapStructure
 
 		public TiledMapTileset[] Tilesets;
 
-		public TiledMapLayer[] Layers;
+		public TiledMapTileLayer[] TileLayers;
 
 		public Dictionary<string, string> Properties;
 	}

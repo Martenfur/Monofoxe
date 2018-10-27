@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using MonoGame.Extended.Tiled;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Monofoxe.Engine;
@@ -9,12 +8,24 @@ using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Utils.Tilemaps;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Monofoxe.Engine.Drawing;
+using Monofoxe.Engine;
+//using MonoGame.Extended.Tiled;
+using Monofoxe.Tiled.MapStructure;
+using Monofoxe.Tiled.ContentReaders;
 
 
 namespace Monofoxe.Tiled
 {
 	public class MapLoader
 	{
+		public static void TestLoadMap(ContentManager mgr)	
+		{
+			mgr.Load<TiledMap>("test");
+		}
+		/*
 		public static Scene LoadMap(TiledMap map)
 		{
 			var scene = SceneMgr.CreateScene(map.Name);
@@ -120,6 +131,6 @@ namespace Monofoxe.Tiled
 			}
 
 			return null;
-		}
+		}*/
 	}
 }

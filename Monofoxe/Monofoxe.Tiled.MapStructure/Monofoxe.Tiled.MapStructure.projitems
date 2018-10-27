@@ -9,6 +9,7 @@
     <Import_RootNamespace>Monofoxe.Tiled.MapStructure</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)FlipFlags.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Orientation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RenderOrder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TiledMap.cs" />
