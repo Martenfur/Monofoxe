@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 
 namespace Monofoxe.Tiled.MapStructure
 {
-	[Serializable()]
 	public class TiledMapTileset
 	{
 		public string Name;
@@ -31,7 +30,7 @@ namespace Monofoxe.Tiled.MapStructure
 
 		public Vector2 Offset;
 
-		public TiledMapTile[] Tiles;
+		public TiledMapTilesetTile[] Tiles;
 		
 		public Color? BackgroundColor;
 

@@ -1,8 +1,6 @@
-﻿using System;
-
+﻿
 namespace Monofoxe.Tiled.MapStructure
 {
-	[Serializable()]	
 	public struct TiledMapTile
 	{
 		public int GID;
@@ -10,7 +8,6 @@ namespace Monofoxe.Tiled.MapStructure
 		public bool FlipVer;
 		public bool FlipDiag;
 
-		public bool IsBlank => GID == 0;
-		
+		public bool IsBlank => GID == 0;	
 	}
 }
