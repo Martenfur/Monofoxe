@@ -47,13 +47,32 @@ namespace Pipefoxe.Tiled
 
 				foreach(var tile in tileset.Tiles)
 				{
-					output.WriteObject(tile);
+					WriteTilesetTile(output, tile);
 				}
 				
 				output.WriteObject(tileset.BackgroundColor);
 				output.WriteObject(tileset.Properties);
 			}
 		}
+
+
+
+		void WriteTilesetTile(ContentWriter output, TiledMapTilesetTile tile)
+		{
+			output.Write(tile.GID);
+			output.Write(tile.TextureID);
+			output.WriteObject(tile.TexturePosition);
+			output.WriteObject(tile.Properties);
+		}
+
+		void WriteTile(ContentWriter output, TiledMapTile tile)
+		{
+			output.Write(tile.GID);
+			output.Write(tile.FlipHor);
+			output.Write(tile.FlipVer);
+			output.Write(tile.FlipDiag);
+		}
+
 
 
 		void WriteLayer(ContentWriter output, TiledMapLayer layer)
@@ -82,7 +101,7 @@ namespace Pipefoxe.Tiled
 				{
 					for(var x = 0; x < layer.Width; x += 1)
 					{
-						output.WriteObject(layer.Tiles[x][y]);
+						WriteTile(output, layer.Tiles[x][y]);
 					}
 				}
 			}
