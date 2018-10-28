@@ -1,8 +1,6 @@
-﻿using System;
-
+﻿
 namespace Monofoxe.Tiled.MapStructure
 {
-	[Serializable()]	
 	public class TiledMapTileLayer : TiledMapLayer
 	{
 		public int Width;

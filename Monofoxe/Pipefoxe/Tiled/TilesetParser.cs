@@ -95,14 +95,12 @@ namespace Pipefoxe.Tiled
 			}
 			#endregion Main fields.
 			
+
 			// Turning tile xml into usable dictionary. 
-			var tilesXml = tilesetXml.SelectNodes("tile");
-			
-			// List won't suit, because some tile ids may be skipped.
-			var tiles = new Dictionary<int, XmlNode>();
-			foreach(XmlNode tile in tilesXml)
+			var tiles = new Dictionary<int, XmlNode>(); // List won't suit, because some tile ids may be skipped.
+			foreach(XmlNode tileXml in tilesetXml.SelectNodes("tile"))
 			{
-				tiles.Add(int.Parse(tile.Attributes["id"].Value), tile);
+				tiles.Add(int.Parse(tileXml.Attributes["id"].Value), tileXml);
 			}
 			// Turning tile xml into usable dictionary.
 
@@ -113,6 +111,9 @@ namespace Pipefoxe.Tiled
 			 * relative paths, and will pick textures up later.
 			 */
 			TiledMapImporter.__Log(tileset.Name + ":");
+
+			tileset.Tiles = new TiledMapTilesetTile[tileset.TileCount];
+
 			if (tilesetXml["image"] != null)
 			{
 				/*
@@ -133,7 +134,7 @@ namespace Pipefoxe.Tiled
 					for(var x = 0; x < tileset.Width; x += 1)
 					{
 						var tile = new TiledMapTilesetTile();	
-						tile.Tileset = tileset;
+						//tile.Tileset = tileset; // Assigning tileset here is useless - loopback link will be lost during serialization.
 						tile.GID = tileset.FirstGID + currentID;
 						tile.TextureID = 0;
 						tile.TexturePosition = new Rectangle(
@@ -151,6 +152,7 @@ namespace Pipefoxe.Tiled
 						{
 							tileset.Properties = new Dictionary<string, string>();
 						}
+						tileset.Tiles[currentID] = tile;
 						currentID += 1;
 					}
 				}
@@ -161,10 +163,11 @@ namespace Pipefoxe.Tiled
 				// Image collection tileset.
 				var texturePaths = new List<string>();
 				
+				var currentID = 0;
 				foreach(KeyValuePair<int, XmlNode> nodePair in tiles)
 				{
 					var tile = new TiledMapTilesetTile();	
-					tile.Tileset = tileset;
+					//tile.Tileset = tileset;
 					tile.GID = tileset.FirstGID + nodePair.Key;
 					
 					var texturePath = nodePair.Value["image"].Attributes["source"].Value;
@@ -187,6 +190,9 @@ namespace Pipefoxe.Tiled
 					);
 					
 					tile.Properties = TiledMapImporter.GetProperties(nodePair.Value);
+
+					tileset.Tiles[currentID] = tile;
+					currentID += 1;
 				}
 				tileset.TexturePaths = texturePaths.ToArray();
 				// Image collection tileset.	

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 namespace Monofoxe.Tiled.MapStructure
@@ -7,7 +6,6 @@ namespace Monofoxe.Tiled.MapStructure
 	/// <summary>
 	/// Data structure for Tiled map.
 	/// </summary>
-	[Serializable()]	
 	public class TiledMap
 	{
 		public Color? BackgroundColor;
