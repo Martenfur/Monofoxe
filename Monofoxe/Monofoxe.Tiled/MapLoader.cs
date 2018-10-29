@@ -21,14 +21,11 @@ namespace Monofoxe.Tiled
 {
 	public class MapLoader
 	{
-		public static void TestLoadMap(ContentManager mgr)	
-		{
-			mgr.Load<TiledMap>("test");
-		}
-		/*
+		
+		
 		public static Scene LoadMap(TiledMap map)
 		{
-			var scene = SceneMgr.CreateScene(map.Name);
+			var scene = SceneMgr.CreateScene("New map");//map.Name);
 			//map.ObjectLayers
 			var tilesets = ConvertTilesets(map.Tilesets);
 
@@ -54,7 +51,7 @@ namespace Monofoxe.Tiled
 					{		
 						var tileNum = y * tilemap.Width + x;
 
-						var tileIndex = tileLayer.Tiles[tileNum].GlobalIdentifier;
+						var tileIndex = tileLayer.Tiles[x][y].GID;
 						if (x == 0 && y == 0)
 						{
 							Console.WriteLine("INDEX:" + GetTilesetFromIndex(tileIndex, tilesets).StartingIndex + " " + tileIndex);
@@ -65,8 +62,8 @@ namespace Monofoxe.Tiled
 							new BasicTile(
 								tileIndex, 
 								GetTilesetFromIndex(tileIndex, tilesets),
-								tileLayer.Tiles[tileNum].IsFlippedHorizontally,
-								tileLayer.Tiles[tileNum].IsFlippedVertically
+								tileLayer.Tiles[x][y].FlipHor,
+								tileLayer.Tiles[x][y].FlipVer
 							)
 						);
 					}
@@ -81,40 +78,31 @@ namespace Monofoxe.Tiled
 			return scene;
 		}
 
-		static List<Tileset> ConvertTilesets(ReadOnlyCollection<TiledMapTileset> tilesets)
+		static List<Tileset> ConvertTilesets(TiledMapTileset[] tilesets)
 		{
 			var convertedTilesets = new List<Tileset>();
 
 			foreach(var tileset in tilesets)
 			{
 				// Creating sprite from raw texture.
-				var framesW = tileset.Columns;
-				var framesH = tileset.TileCount / tileset.Columns;
-				
 				var frames = new List<Frame>();
-				Console.WriteLine("MARGIN:" + tileset.Margin + " " + tileset.Name + " " + framesW + ";" + framesH);
-				for(var y = 0; y < framesH; y += 1)	
+				Console.WriteLine("MARGIN:" + tileset.Margin + " " + tileset.Name);
+				for(var y = 0; y < tileset.Height; y += 1)
 				{
-					for(var x = 0; x < framesW; x += 1)
+					for(var x = 0; x < tileset.Width; x += 1)
 					{		
-						var texPos = new Rectangle(
-							tileset.Margin + x * (tileset.TileWidth + tileset.Spacing), 
-							tileset.Margin + y * (tileset.TileHeight + tileset.Spacing), 
-							tileset.TileWidth, 
-							tileset.TileHeight
-						);
-						Console.WriteLine(texPos + " " + tileset.TileWidth + " " + tileset.TileHeight);
-						var frame = new Frame(tileset.Texture, texPos, Vector2.Zero, tileset.TileWidth, tileset.TileHeight);
-
+						var tile = tileset.Tiles[y * tileset.Width + x];
+						var frame = new Frame(tileset.Textures[tile.TextureID], tile.TexturePosition, Vector2.Zero, tileset.TileWidth, tileset.TileHeight);
+						
 						frames.Add(frame);
 					}
 				}
-
+				Console.WriteLine(frames.Count + " " + tileset.Width);
 				var tiles = new Sprite(frames.ToArray(), Vector2.Zero);
 				tiles.Origin = Vector2.UnitY * tiles.H; // Tileset origins in Tiled are in the left bottom corner. Derp.
 				// Creating sprite from raw texture.
 
-				convertedTilesets.Add(new Tileset(tiles, tileset.FirstGlobalIdentifier));
+				convertedTilesets.Add(new Tileset(tiles, tileset.FirstGID));
 			}
 
 			return convertedTilesets;
@@ -131,6 +119,6 @@ namespace Monofoxe.Tiled
 			}
 
 			return null;
-		}*/
+		}
 	}
 }

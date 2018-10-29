@@ -24,8 +24,29 @@ namespace Monofoxe.Tiled.MapStructure
 		 * Tile count and columns are left just for compatibility
 		 * with... whatever.
 		 */
-		public int Width => Columns;
-		public int Height => TileCount / Columns;
+		public int Width
+		{
+			get 
+			{
+				if (Columns == 0)
+				{
+					return TileCount;
+				}
+				return Columns;
+			}
+		}
+		public int Height
+		{
+			get 
+			{
+				if (Columns == 0)
+				{
+					return 1;
+				}
+
+				return TileCount / Columns;
+			}
+		}
 
 
 		public Vector2 Offset;

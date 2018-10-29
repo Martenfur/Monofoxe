@@ -18,7 +18,7 @@ namespace Pipefoxe.Tiled
 		/// Tells pipeline, that this tileset won't be used in the game completely.
 		/// If this tileset property is set to "true", tileset won't be loaded into final map.
 		/// </summary>
-		const string _ignoreTilesetFlag = "__ignoreTileset";
+		public const string IgnoreTilesetFlag = "__ignoreTileset";
 
 		/// <summary>
 		/// Tells pipeline, that this tileset won't need Tiled texture.
@@ -26,7 +26,7 @@ namespace Pipefoxe.Tiled
 		/// map loading.
 		/// NOTE: You should still provide the texture to the tileset on your own, if you want to use it in game with default tilesets.
 		/// </summary>
-		const string _ignoreTilesetTextureFlag = "__ignoreTilesetTexture";
+		public const string IgnoreTilesetTextureFlag = "__ignoreTilesetTexture";
 
 
 		public static TiledMapTileset[] Parse(XmlNodeList nodes)
@@ -66,7 +66,10 @@ namespace Pipefoxe.Tiled
 			tileset.Properties = TiledMapImporter.GetProperties(tilesetXml);
 
 			// This means, that tileset won't be used in the game and should be ignored.
-			if (tileset.Properties.ContainsKey(_ignoreTilesetFlag) && tileset.Properties[_ignoreTilesetFlag] == "true")
+			if (
+				tileset.Properties.ContainsKey(IgnoreTilesetFlag) 
+				&& tileset.Properties[IgnoreTilesetFlag].ToLower() == "true"
+			)
 			{
 				return null;
 			}

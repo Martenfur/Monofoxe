@@ -58,10 +58,6 @@ namespace Monofoxe.Test
 			*/
 			//Effects.Effect.Parameters["test"].SetValue(new Vector4(0.0f, 0.7f, 0.0f, 1.0f));
 			//DrawMgr.Effect = Effects.Effect;
-			var s = new BlendState();
-			s.AlphaDestinationBlend = Blend.Zero;
-			DrawMgr.BlendState = s;
-
 
 			DrawMgr.DrawSprite(SpritesDefault.DemonFire, fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
 			//DrawMgr.Effect = null;
@@ -73,7 +69,7 @@ namespace Monofoxe.Test
 			DrawMgr.CurrentColor = Color.Aqua;
 			
 			
-
+			DrawMgr.CurrentEffect = Effects.Effect;
 			var p = new Vector2(50, 200);
 			for(var i = 0; i < 8; i += 1)
 			{
