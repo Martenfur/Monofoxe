@@ -55,7 +55,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Cameras\PostprocessingMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\RandomExt.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\StateMachine.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utils\Tiled\ITiledEntityFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Tilemaps\ITile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Tilemaps\ITilemap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Tilemaps\BasicTile.cs" />

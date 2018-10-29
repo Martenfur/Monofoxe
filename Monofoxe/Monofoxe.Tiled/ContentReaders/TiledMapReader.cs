@@ -25,29 +25,32 @@ namespace Monofoxe.Tiled.ContentReaders
 			map.TileHeight = input.ReadInt32();
 
 			ReadTilesets(input, map);
-			
+			ReadTileLayers(input, map);
+
 			return map;
 		}
 
 		void ReadTilesets(ContentReader input, TiledMap map)
 		{
-			var tilesetCount = input.ReadInt32();
-			var tilesets = new TiledMapTileset[tilesetCount];
+			var tilesetsCount = input.ReadInt32();
+			Console.WriteLine("Tilesets: " + tilesetsCount);
+			var tilesets = new TiledMapTileset[tilesetsCount];
 
-			// Reader:
-			//var texture = reader.ReadExternalReference<Texture2D>();
-
-			// Writer:
-			//var externalReference = _contentItem.GetExternalReference<Texture2DContent>(imageLayer.Image.Source);
-			//writer.WriteExternalReference(externalReference);
-
-
-			for(var i = 0; i < tilesetCount; i += 1)
+			for(var i = 0; i < tilesetsCount; i += 1)
 			{
 				tilesets[i] = new TiledMapTileset();
 
 				tilesets[i].Name = input.ReadString();
-				tilesets[i].TexturePaths = input.ReadObject<string[]>();
+				//tilesets[i].TexturePaths = input.ReadObject<string[]>(); // TODO: Remove paths.
+				if (input.ReadBoolean())
+				{
+					var texturesCount = input.ReadInt32();
+					tilesets[i].Textures = new Texture2D[texturesCount];
+					for(var k = 0; k < texturesCount; k += 1)
+					{
+						tilesets[i].Textures[k] = input.ReadExternalReference<Texture2D>();
+					}
+				}
 
 				tilesets[i].FirstGID = input.ReadInt32();
 				tilesets[i].TileWidth = input.ReadInt32();
@@ -84,7 +87,65 @@ namespace Monofoxe.Tiled.ContentReaders
 			
 			return tile;
 		}
+		
+		TiledMapTile ReadTile(ContentReader input)
+		{
+			var tile = new TiledMapTile();
+			tile.GID = input.ReadInt32();
+			tile.FlipHor = input.ReadBoolean();
+			tile.FlipVer = input.ReadBoolean();
+			tile.FlipDiag = input.ReadBoolean();
 
+			return tile;
+		}
+
+
+
+		void ReadLayer(ContentReader input, TiledMapLayer layer)
+		{
+			layer.Name = input.ReadString();
+			layer.ID = input.ReadInt32();
+			layer.Visible = input.ReadBoolean();
+			layer.Opacity = input.ReadSingle();
+			layer.Offset = input.ReadVector2();
+
+			layer.Properties = input.ReadObject<Dictionary<string, string>>();
+		}
+
+		void ReadTileLayers(ContentReader input, TiledMap map)
+		{
+			var layersCount = input.ReadInt32();
+			var layers = new TiledMapTileLayer[layersCount];
+
+			for(var i = 0; i < layersCount; i += 1)
+			{
+				var layer = new TiledMapTileLayer();
+				ReadLayer(input, layer);
+				layer.Width = input.ReadInt32();
+				layer.Height = input.ReadInt32();
+				layer.TileWidth = input.ReadInt32();
+				layer.TileHeight = input.ReadInt32(); //TODO: Remove!
+				layer.TileWidth = map.TileWidth;
+				layer.TileHeight = map.TileHeight;
+			
+				var tiles = new TiledMapTile[layer.Width][];
+				for(var x = 0; x < layer.Width; x += 1)
+				{
+					tiles[x] = new TiledMapTile[layer.Height];
+				}
+				for(var y = 0; y < layer.Height; y += 1)
+				{
+					for(var x = 0; x < layer.Width; x += 1)
+					{
+						tiles[x][y] = ReadTile(input);
+					}
+				}
+				layer.Tiles = tiles;
+
+				layers[i] = layer;
+			}
+			map.TileLayers = layers;
+		}
 
 	}
 }

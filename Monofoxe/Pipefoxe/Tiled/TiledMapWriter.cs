@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
+using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
+
 using Monofoxe.Tiled.MapStructure;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using Microsoft.Xna.Framework;
+
 
 namespace Pipefoxe.Tiled
 {
@@ -21,7 +22,7 @@ namespace Pipefoxe.Tiled
 			
 			WriteTilesets(output, map.Tilesets);
 			WriteTileLayers(output, map.TileLayers);
-
+			
 			output.WriteObject(map.Properties);
 		}
 
@@ -33,8 +34,26 @@ namespace Pipefoxe.Tiled
 			foreach(var tileset in tilesets)
 			{
 				output.Write(tileset.Name);
-				output.WriteObject(tileset.TexturePaths);
-		
+				//output.WriteObject(tileset.TexturePaths);
+				
+				if (
+					tileset.Properties.ContainsKey(TilesetParser.IgnoreTilesetTextureFlag) 
+					&& tileset.Properties[TilesetParser.IgnoreTilesetTextureFlag].ToLower() == "true"
+				)
+				{
+					output.Write(false);
+				}
+				else
+				{
+					output.Write(true);
+					output.Write(tileset.TexturePaths.Length);
+					for(var i = 0; i < tileset.TexturePaths.Length; i += 1)
+					{
+						var externalReference = TiledMapProcessor.TextureReferences[tileset.TexturePaths[i]];
+						output.WriteExternalReference(externalReference);
+					}
+				}
+
 				output.Write(tileset.FirstGID);
 				output.Write(tileset.TileWidth);
 				output.Write(tileset.TileHeight);

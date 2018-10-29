@@ -22,8 +22,8 @@ namespace Resources
 			_content = new ContentManager(GameMgr.Game.Services);
 			_content.RootDirectory = AssetMgr.ContentDir + '/' + "Maps";
 			
-			Monofoxe.Tiled.MapLoader.TestLoadMap(_content);
-			//Test = _content.Load<TiledMap>("test");
+			//Monofoxe.Tiled.MapLoader.TestLoadMap(_content);
+			Test = _content.Load<TiledMap>("test");
 			//Console.WriteLine("Mapwidth: " + Test.Width);
 			//var tile = Test.TileLayers[0].Tiles[0];
 			

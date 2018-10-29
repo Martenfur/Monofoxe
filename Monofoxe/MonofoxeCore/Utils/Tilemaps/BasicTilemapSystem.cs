@@ -25,7 +25,7 @@ namespace Monofoxe.Utils.Tilemaps
 					- DrawMgr.CurrentCamera.Offset / DrawMgr.CurrentCamera.Zoom;
 
 				var scaledCameraSize = DrawMgr.CurrentCamera.Size / DrawMgr.CurrentCamera.Zoom;
-
+				Console.WriteLine("www:" + tilemap.TileWidth);
 				var startX = (int)(offsetCameraPos.X / tilemap.TileWidth) - tilemap.Padding;
 				var startY = (int)(offsetCameraPos.Y / tilemap.TileHeight) - tilemap.Padding;
 				

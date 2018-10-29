@@ -9,7 +9,9 @@ using Microsoft.Xna.Framework;
 using Resources.Sprites;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Tiled;
+using Monofoxe.Tiled.MapStructure;
 using Monofoxe.Utils.Tilemaps;
+
 
 
 namespace Monofoxe.Test
@@ -18,10 +20,18 @@ namespace Monofoxe.Test
 	{
 		
 		Scene _scene;
+		TiledMap _map;
+		Frame frame;
 
 		public TileTester(Layer layer) : base(layer)
 		{
 			Resources.Maps.Load();
+
+			_map = Resources.Maps.Test;
+			MapLoader.LoadMap(_map);
+
+			Console.WriteLine(_map.Tilesets[0].Textures == null);
+			//frame = new Frame(_map.Tilesets[0].Textures[0], new Rectangle(0, 0, 128, 128), Vector2.Zero, 128, 128);
 
 			//_scene = MapLoader.LoadMap(Resources.Maps.Test);
 
@@ -32,7 +42,7 @@ namespace Monofoxe.Test
 		}
 
 		public override void Draw()
-		{
+		{//DrawMgr.DrawFrame(frame, Vector2.One * 80, Vector2.Zero);
 			/*for(var y = 0; y < 100; y += 1)	
 			{
 				for(var x = 0; x < 100; x += 1)
