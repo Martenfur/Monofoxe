@@ -627,7 +627,7 @@ namespace Monofoxe.Engine
 
 		#region Sprites.
 
-		private static void BaseDrawFrame(
+		public static void DrawFrame(
 			Frame frame, 
 			Vector2 pos, 
 			Vector2 scale, 
@@ -646,7 +646,7 @@ namespace Monofoxe.Engine
 				color, 
 				MathHelper.ToRadians(rotation), 
 				offset + frame.Origin,
-				scale,
+				scale, 
 				effect, 
 				0
 			);
@@ -658,7 +658,7 @@ namespace Monofoxe.Engine
 		// Vectors.
 
 		public static void DrawSprite(Sprite sprite, Vector2 pos) =>
-			BaseDrawFrame(sprite.Frames[0], pos, Vector2.One, 0, sprite.Origin, CurrentColor, SpriteEffects.None);
+			DrawFrame(sprite.Frames[0], pos, Vector2.One, 0, sprite.Origin, CurrentColor, SpriteEffects.None);
 		
 		public static void DrawSprite(Sprite sprite, double animation, Vector2 pos) =>
 			DrawFrame(CalculateSpriteFrame(sprite, animation), pos, sprite.Origin);
@@ -670,7 +670,7 @@ namespace Monofoxe.Engine
 			DrawFrame(CalculateSpriteFrame(sprite, animation), pos, sprite.Origin + offset, scale, rotation, color);
 
 		public static void DrawFrame(Frame frame, Vector2 pos, Vector2 offset) =>
-			BaseDrawFrame(frame, pos, Vector2.One, 0, offset, CurrentColor, SpriteEffects.None);
+			DrawFrame(frame, pos, Vector2.One, 0, offset, CurrentColor, SpriteEffects.None);
 		
 		public static void DrawFrame(Frame frame, Vector2 pos, Vector2 offset, Vector2 scale, float rotation, Color color)
 		{
@@ -693,7 +693,7 @@ namespace Monofoxe.Engine
 			}
 			// Proper negative scaling.
 
-			BaseDrawFrame(frame, pos, scale, rotation, frame.Origin + offset, color, mirroring);
+			DrawFrame(frame, pos, scale, rotation, frame.Origin + offset, color, mirroring);
 		}
 
 		// Vectors.

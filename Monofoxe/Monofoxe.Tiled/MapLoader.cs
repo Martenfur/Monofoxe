@@ -1,20 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
-using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.ECS;
-using Monofoxe.Utils.Tilemaps;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using Monofoxe.Engine.Drawing;
-using Monofoxe.Engine;
-//using MonoGame.Extended.Tiled;
+using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Tiled.MapStructure;
-using Monofoxe.Tiled.ContentReaders;
+using Monofoxe.Utils.Tilemaps;
 
 
 namespace Monofoxe.Tiled
@@ -52,10 +43,6 @@ namespace Monofoxe.Tiled
 						var tileNum = y * tilemap.Width + x;
 
 						var tileIndex = tileLayer.Tiles[x][y].GID;
-						if (x == 0 && y == 0)
-						{
-							Console.WriteLine("INDEX:" + GetTilesetFromIndex(tileIndex, tilesets).StartingIndex + " " + tileIndex);
-						}
 
 						tilemap.SetTile(
 							x, y, 
@@ -63,7 +50,8 @@ namespace Monofoxe.Tiled
 								tileIndex, 
 								GetTilesetFromIndex(tileIndex, tilesets),
 								tileLayer.Tiles[x][y].FlipHor,
-								tileLayer.Tiles[x][y].FlipVer
+								tileLayer.Tiles[x][y].FlipVer,
+								tileLayer.Tiles[x][y].FlipDiag
 							)
 						);
 					}
@@ -86,7 +74,6 @@ namespace Monofoxe.Tiled
 			{
 				// Creating sprite from raw texture.
 				var frames = new List<Frame>();
-				Console.WriteLine("MARGIN:" + tileset.Margin + " " + tileset.Name);
 				for(var y = 0; y < tileset.Height; y += 1)
 				{
 					for(var x = 0; x < tileset.Width; x += 1)

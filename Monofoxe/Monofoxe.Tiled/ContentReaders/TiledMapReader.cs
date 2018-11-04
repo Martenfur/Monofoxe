@@ -1,12 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Monofoxe.Engine.Drawing;
-using System.Collections.Generic;
-using System.Diagnostics;
 using Monofoxe.Tiled.MapStructure;
-using System;
-using System.Diagnostics;
 
 namespace Monofoxe.Tiled.ContentReaders
 {
@@ -23,6 +20,14 @@ namespace Monofoxe.Tiled.ContentReaders
 			map.Height = input.ReadInt32();
 			map.TileWidth = input.ReadInt32();
 			map.TileHeight = input.ReadInt32();
+
+			map.RenderOrder = (RenderOrder)input.ReadByte();
+			map.Orientation = (Orientation)input.ReadByte();
+
+			map.StaggerAxis = (StaggerAxis)input.ReadByte();
+			map.StaggerIndex = (StaggerIndex)input.ReadByte();
+
+			map.HexSideLength = input.ReadInt32();
 
 			ReadTilesets(input, map);
 			ReadTileLayers(input, map);

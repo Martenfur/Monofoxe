@@ -29,12 +29,12 @@ namespace Pipefoxe.Tiled
 			{
 				var map = MapParser.Parse(xml);
 
-			//	__SaveLog(RootDir);
+				__SaveLog(RootDir);
 				return map;
 			}
 			catch(Exception e)
 			{
-				//__SaveLog(RootDir);
+				__SaveLog(RootDir);
 				throw new Exception(e.StackTrace);
 			}
 		}

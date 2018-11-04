@@ -12,6 +12,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)FlipFlags.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Orientation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RenderOrder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StaggerAxis.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StaggerIndex.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TiledMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TiledMapLayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TiledMapTile.cs" />

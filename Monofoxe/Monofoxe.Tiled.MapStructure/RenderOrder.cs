@@ -1,11 +1,11 @@
 ﻿
 namespace Monofoxe.Tiled.MapStructure
 {
-	public enum RenderOrder
+	public enum RenderOrder : byte
 	{
-		RightDown,
-		RightUp,
-		LeftDown,
-		LeftUp,
+		RightDown = 0,
+		RightUp = 1,
+		LeftDown = 2,
+		LeftUp = 3,
 	}
 }

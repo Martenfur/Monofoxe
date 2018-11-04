@@ -30,7 +30,7 @@ namespace Monofoxe.Test
 			_map = Resources.Maps.Test;
 			MapLoader.LoadMap(_map);
 
-			Console.WriteLine(_map.Tilesets[0].Textures == null);
+			//Console.WriteLine(_map.Tilesets[0].Textures == null);
 			//frame = new Frame(_map.Tilesets[0].Textures[0], new Rectangle(0, 0, 128, 128), Vector2.Zero, 128, 128);
 
 			//_scene = MapLoader.LoadMap(Resources.Maps.Test);
