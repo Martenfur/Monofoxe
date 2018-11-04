@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Engine;
@@ -15,9 +16,9 @@ namespace Monofoxe.Utils.Tilemaps
 	public class BasicTilemapSystem : BaseSystem
 	{
 		public override string Tag => "basicTilemap";
-
+		int ang = 0;
 		public override void Draw(List<Component> tilemaps)
-		{
+		{ang += 1;
 			foreach(BasicTilemapComponent tilemap in tilemaps)
 			{
 				var offsetCameraPos = DrawMgr.CurrentCamera.Pos 
@@ -25,7 +26,6 @@ namespace Monofoxe.Utils.Tilemaps
 					- DrawMgr.CurrentCamera.Offset / DrawMgr.CurrentCamera.Zoom;
 
 				var scaledCameraSize = DrawMgr.CurrentCamera.Size / DrawMgr.CurrentCamera.Zoom;
-				Console.WriteLine("www:" + tilemap.TileWidth);
 				var startX = (int)(offsetCameraPos.X / tilemap.TileWidth) - tilemap.Padding;
 				var startY = (int)(offsetCameraPos.Y / tilemap.TileHeight) - tilemap.Padding;
 				
@@ -65,37 +65,68 @@ namespace Monofoxe.Utils.Tilemaps
 							
 							var tileFrame = tile.GetFrame();
 
-							if (x == 0 && y == 0)
-							{
-								//Console.WriteLine(tileFrame.W + " " + tileFrame.H + " " + tileFrame.TexturePosition);
-								var f = new Frame(tileFrame.Texture, tileFrame.Texture.Bounds, Vector2.Zero, tileFrame.Texture.Width, tileFrame.Texture.Height);
-								DrawMgr.DrawFrame(f, -Vector2.One * 320, Vector2.Zero);
-							}
-
 							if (tileFrame != null)
 							{
-								var scale = Vector2.One;
+								var scale = SpriteEffects.None;
 								var offset = Vector2.Zero;
-	
+								var rotation = 0;
+
+								// A bunch of Tiled magic.
+								/*
+								 * Ok, so here's the deal.
+								 * Monogame, understandibly, has no diagonal flip,
+								 * so it's implemented by offsetting, and rotating, and horizontal flipping.
+								 * Also, order actually matters. Diagonal flip should always go first.
+								 * 
+								 * Yes, this can be implemented with primitives. 
+								 * If you've got nothing better to do -- go bananas.
+								 * 
+								 * I'm really sorry, if you'll need to modify this.
+								 */
+								if (tile.FlipDiag)
+								{
+									rotation = -90;
+									offset.Y -= tilemap.TileHeight;
+									offset.X -= tileFrame.W - tilemap.TileWidth;
+
+									scale |= SpriteEffects.FlipHorizontally;
+								}
+
 								if (tile.FlipHor)
 								{
-									offset.X = -tileFrame.W;
-									scale.X = -1;
+									// Sprite is rotated by 90 degrees, so X axis becomes Y.
+									if (tile.FlipDiag)
+									{
+										scale ^= SpriteEffects.FlipVertically;
+									}
+									else
+									{
+										scale ^= SpriteEffects.FlipHorizontally;
+									}
 								}
+
 								if (tile.FlipVer)
 								{
-									offset.Y = -tileFrame.H;
-									scale.Y = -1;
+									if (!tile.FlipDiag)
+									{
+										scale ^= SpriteEffects.FlipVertically;
+									}
+									else
+									{
+										scale ^= SpriteEffects.FlipHorizontally;
+									}
 								}
-								// TODO: Add tile rotation.
+								// A bunch of Tiled magic.
+
+
 								DrawMgr.DrawFrame(
-									tileFrame,
-									tilemap.Offset + new Vector2(tilemap.TileWidth * x, tilemap.TileHeight * y),
-									// We need to subtract image height, because Tiled does so. : - )
-									offset - Vector2.UnitY * tilemap.TileHeight + tileFrame.ParentSprite.Origin, 
-									scale,
-									0,
-									Color.White
+									tileFrame, 
+									tilemap.Offset + new Vector2(tilemap.TileWidth * x, tilemap.TileHeight * y) - offset,
+									Vector2.One,
+									rotation,
+									- Vector2.UnitY * tilemap.TileHeight + tileFrame.ParentSprite.Origin,
+									Color.White, 
+									scale
 								);
 							}
 						}

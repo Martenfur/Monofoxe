@@ -1,10 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
-using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
-
 using Monofoxe.Tiled.MapStructure;
-using System.IO;
-using Microsoft.Xna.Framework;
 
 
 namespace Pipefoxe.Tiled
@@ -19,7 +15,15 @@ namespace Pipefoxe.Tiled
 			output.Write(map.Height);
 			output.Write(map.TileWidth);
 			output.Write(map.TileHeight);
-			
+
+			output.Write((byte)map.RenderOrder);
+			output.Write((byte)map.Orientation);
+
+			output.Write((byte)map.StaggerAxis);
+			output.Write((byte)map.StaggerIndex);
+
+			output.Write(map.HexSideLength);
+
 			WriteTilesets(output, map.Tilesets);
 			WriteTileLayers(output, map.TileLayers);
 			

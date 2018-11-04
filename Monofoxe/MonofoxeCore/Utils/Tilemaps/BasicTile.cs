@@ -9,15 +9,17 @@ namespace Monofoxe.Utils.Tilemaps
 
 		public bool FlipHor {get; set;}
 		public bool FlipVer {get; set;}
+		public bool FlipDiag {get; set;}
 
 		public Tileset Tileset;
 
-		public BasicTile(int index, Tileset tileset, bool flipHor = false, bool flipVer = false)
+		public BasicTile(int index, Tileset tileset, bool flipHor = false, bool flipVer = false, bool flipDiag = false)
 		{
 			Index = index;
 			Tileset = tileset;
 			FlipHor = flipHor;
 			FlipVer = flipVer;
+			FlipDiag = flipDiag;
 		}
 
 		public Frame GetFrame() =>

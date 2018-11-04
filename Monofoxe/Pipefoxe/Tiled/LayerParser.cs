@@ -70,13 +70,19 @@ namespace Pipefoxe.Tiled
 			}
 			// Parsing csv tile values.
 
+			// Initing tile array.
+			/*
+			 * Pipeline cannot work with 2-dimensional arrays,
+			 * so we're stuck arrays of arrays.
+			 */
 			var tiles = new TiledMapTile[layer.Width][];
-
 			for(var x = 0; x < layer.Width; x += 1)
 			{
 				tiles[x] = new TiledMapTile[layer.Height];
 			}
+			// Initing tile array.
 
+			// Filling tilemap with tiles.
 			for(var y = 0; y < layer.Height; y += 1)
 			{
 				for(var x = 0; x < layer.Width; x += 1)
@@ -84,12 +90,14 @@ namespace Pipefoxe.Tiled
 					tiles[x][y] = new TiledMapTile();
 					var tilemapValue = tilemapValues[y * layer.Width + x];
 
+					// Tile flip flags are stored in the tile value itself as 3 highest bits.
 					tiles[x][y].FlipHor = ((tilemapValue & (uint)FlipFlags.FlipHor) != 0);
 					tiles[x][y].FlipVer = ((tilemapValue & (uint)FlipFlags.FlipVer) != 0);
 					tiles[x][y].FlipDiag = ((tilemapValue & (uint)FlipFlags.FlipDiag) != 0);
 					tiles[x][y].GID = (int)(tilemapValue & (~(uint)FlipFlags.All));
 				}
 			}
+			// Filling tilemap with tiles.
 
 			layer.Tiles = tiles;
 

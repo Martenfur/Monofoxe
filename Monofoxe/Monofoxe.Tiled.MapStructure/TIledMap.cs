@@ -16,10 +16,20 @@ namespace Monofoxe.Tiled.MapStructure
 		public int TileWidth;
 		public int TileHeight;
 
+		public RenderOrder RenderOrder;
+		public Orientation Orientation;
+
+		public StaggerAxis StaggerAxis = StaggerAxis.None;
+		public StaggerIndex StaggerIndex = StaggerIndex.None;
+
+		public int HexSideLength;
+
 		public TiledMapTileset[] Tilesets;
 
 		public TiledMapTileLayer[] TileLayers;
 
 		public Dictionary<string, string> Properties;
+
+		// TODO: Add infinite map support.
 	}
 }

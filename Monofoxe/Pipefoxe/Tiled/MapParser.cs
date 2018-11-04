@@ -15,17 +15,31 @@ namespace Pipefoxe.Tiled
 		{
 			var map = new TiledMap();
 			var mapXml = xml["map"];
-			// TODO: Add properties here.
-			
-			if (mapXml.Attributes["infinite"].Value == "1")
+			var mapAttributes = xml["map"].Attributes;
+
+			if (mapAttributes["infinite"].Value == "1")
 			{
-				throw new Exception("Infinite tilemaps are not supported yet!");
+				throw new Exception("Infinite maps are not supported yet!");
 			}
 
-			map.Width = int.Parse(mapXml.Attributes["width"].Value);
-			map.Height = int.Parse(mapXml.Attributes["height"].Value);
-			map.TileWidth = int.Parse(mapXml.Attributes["tilewidth"].Value);
-			map.TileHeight = int.Parse(mapXml.Attributes["tileheight"].Value);
+			map.Width = int.Parse(mapAttributes["width"].Value);
+			map.Height = int.Parse(mapAttributes["height"].Value);
+			map.TileWidth = int.Parse(mapAttributes["tilewidth"].Value);
+			map.TileHeight = int.Parse(mapAttributes["tileheight"].Value);
+			
+			Enum.TryParse(mapAttributes["renderorder"].Value.Replace("-", ""), true, out map.RenderOrder);
+			Enum.TryParse(mapAttributes["orientation"].Value, true, out map.Orientation);
+
+			if (mapAttributes["staggeraxis"] != null)
+			{
+				Enum.TryParse(mapAttributes["staggeraxis"].Value, true, out map.StaggerAxis);
+			}
+			if (mapAttributes["staggerindex"] != null)
+			{
+				Enum.TryParse(mapAttributes["staggerindex"].Value, true, out map.StaggerIndex);
+			}
+
+			map.HexSideLength = TiledMapImporter.GetXmlIntSafe(mapXml, "hexsidelength");
 
 
 			XmlNodeList tilesetsXml = mapXml.SelectNodes("tileset");
