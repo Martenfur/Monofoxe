@@ -74,6 +74,16 @@ namespace Pipefoxe.Tiled
 				return null;
 			}
 
+			if (tileset.Properties.ContainsKey(TilesetParser.IgnoreTilesetTextureFlag))
+			{
+				TiledMapImporter.__Log(tileset.Name + ": ignored");
+			}
+			else
+			{
+				TiledMapImporter.__Log(tileset.Name + ": not");
+			}
+
+
 			#region Main fields.
 			tileset.Name = tilesetXml.Attributes["name"].Value;
 			tileset.TileWidth = int.Parse(tilesetXml.Attributes["tilewidth"].Value);
@@ -149,11 +159,11 @@ namespace Pipefoxe.Tiled
 
 						if (tiles.ContainsKey(currentID))
 						{
-							tileset.Properties = TiledMapImporter.GetProperties(tiles[currentID]);
+							tile.Properties = TiledMapImporter.GetProperties(tiles[currentID]);
 						}
 						else
 						{
-							tileset.Properties = new Dictionary<string, string>();
+							tile.Properties = new Dictionary<string, string>();
 						}
 						tileset.Tiles[currentID] = tile;
 						currentID += 1;

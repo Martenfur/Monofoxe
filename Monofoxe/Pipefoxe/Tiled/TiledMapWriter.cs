@@ -38,8 +38,9 @@ namespace Pipefoxe.Tiled
 			foreach(var tileset in tilesets)
 			{
 				output.Write(tileset.Name);
-				//output.WriteObject(tileset.TexturePaths);
 				
+				
+
 				if (
 					tileset.Properties.ContainsKey(TilesetParser.IgnoreTilesetTextureFlag) 
 					&& tileset.Properties[TilesetParser.IgnoreTilesetTextureFlag].ToLower() == "true"
