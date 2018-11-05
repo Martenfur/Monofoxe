@@ -46,7 +46,8 @@ namespace Monofoxe.Tiled.ContentReaders
 				tilesets[i] = new TiledMapTileset();
 
 				tilesets[i].Name = input.ReadString();
-				//tilesets[i].TexturePaths = input.ReadObject<string[]>(); // TODO: Remove paths.
+				tilesets[i].TexturePaths = input.ReadObject<string[]>();
+
 				if (input.ReadBoolean())
 				{
 					var texturesCount = input.ReadInt32();

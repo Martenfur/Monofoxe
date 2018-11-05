@@ -84,7 +84,7 @@ namespace Monofoxe.Tiled
 						frames.Add(frame);
 					}
 				}
-				Console.WriteLine(frames.Count + " " + tileset.Width);
+
 				var tiles = new Sprite(frames.ToArray(), Vector2.Zero);
 				tiles.Origin = Vector2.UnitY * tiles.H; // Tileset origins in Tiled are in the left bottom corner. Derp.
 				// Creating sprite from raw texture.
