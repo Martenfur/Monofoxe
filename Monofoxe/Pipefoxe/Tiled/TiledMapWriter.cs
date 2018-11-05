@@ -38,8 +38,7 @@ namespace Pipefoxe.Tiled
 			foreach(var tileset in tilesets)
 			{
 				output.Write(tileset.Name);
-				
-				
+				output.WriteObject(tileset.TexturePaths);
 
 				if (
 					tileset.Properties.ContainsKey(TilesetParser.IgnoreTilesetTextureFlag) 
@@ -118,8 +117,6 @@ namespace Pipefoxe.Tiled
 				WriteLayer(output, layer);
 				output.Write(layer.Width);
 				output.Write(layer.Height);
-				output.Write(layer.TileWidth);
-				output.Write(layer.TileHeight);
 				
 				for(var y = 0; y < layer.Height; y += 1)
 				{
