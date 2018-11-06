@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="10">
+<map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="33">
  <tileset firstgid="1" source="testTileset.tsx"/>
  <tileset firstgid="17" source="mahBoi.tsx"/>
  <tileset firstgid="21" source="dirt.tsx"/>
@@ -13,20 +13,34 @@
  <tileset firstgid="38" source="Objects/objects.tsx"/>
  <imagelayer id="7" name="img"/>
  <group id="5" name="folder">
-  <objectgroup id="6" name="objects" offsetx="-12.1212" offsety="51.5152">
-   <object id="4" x="1184" y="608" width="478.788" height="339.394"/>
-   <object id="6" x="1664" y="608" width="490.909" height="360.606" rotation="-29.6086"/>
-   <object id="7" name="polyboi" x="928" y="544">
-    <polygon points="0,0 384,-128 512,-288 1280,-320 1440,320 640,576 32,416"/>
+  <objectgroup id="6" name="objects">
+   <object id="13" name="Rectangley" x="613.121" y="155.485" width="117" height="114"/>
+   <object id="14" name="Pointy" x="623.121" y="330.485">
+    <point/>
    </object>
-   <object id="8" x="636.121" y="444.485" width="768" height="768">
+   <object id="15" name="Ellipse" x="538.121" y="385.485" width="197" height="68">
     <ellipse/>
    </object>
-   <object id="9" x="1220.62" y="198.985" width="83" height="19">
-    <text wrap="1">Hello World</text>
+   <object id="16" name="Poly" x="554.121" y="302.485">
+    <polygon points="0,0 -107,-33 -106,63"/>
+   </object>
+   <object id="23" template="Objects/BarrelBoi.tx" x="791.121" y="119.485"/>
+   <object id="24" template="Objects/BarrelBoi.tx" name="BarrelBoi2" type="barrel2" x="854.121" y="165.485"/>
+   <object id="25" template="Objects/BarrelBoi.tx" x="961.121" y="117.485"/>
+   <object id="26" template="Objects/BarrelBoi.tx" x="775.121" y="239.485"/>
+   <object id="27" template="Objects/BarrelBoi.tx" x="731.121" y="65.4848"/>
+   <object id="28" x="579" y="487.5" width="152.5" height="66.5">
+    <text fontfamily="Arial Rounded MT Bold" pixelsize="19" wrap="1" color="#a4aba5" underline="1" strikeout="1">BOI
+LET'S MAKE SOME FOXES TONIGHT</text>
+   </object>
+   <object id="31" x="432.5" y="443">
+    <polyline points="0,0 48,75.5 89.5,20 58,-35"/>
+   </object>
+   <object id="32" x="512" y="640">
+    <polyline points="0,0 64,64 0,128 -64,96"/>
    </object>
   </objectgroup>
-  <layer id="2" name="Tile Layer 1" width="200" height="200" opacity="0.99">
+  <layer id="2" name="Tile Layer 1" width="200" height="200" visible="0" locked="1" opacity="0.99">
    <properties>
     <property name="priority" type="int" value="-2"/>
    </properties>

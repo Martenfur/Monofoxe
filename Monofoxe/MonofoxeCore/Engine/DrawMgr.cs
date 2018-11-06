@@ -566,7 +566,6 @@ namespace Monofoxe.Engine
 
 				Device.ScissorRectangle = _scissorRectangle;
 		
-				// TODO: Replace _basicEffect with custom effect system. Or not. We'll see. :V
 				foreach(EffectPass pass in _alphaBlendShader.CurrentTechnique.Passes)
 				{
 					pass.Apply();

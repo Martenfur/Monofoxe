@@ -33,7 +33,6 @@ namespace Monofoxe.Tiled
 				{
 					layer.Priority = 0;
 				}
-				Console.WriteLine(layer.Priority);
 
 				var tilemap = new BasicTilemapComponent(tileLayer.Width, tileLayer.Height, tileLayer.TileWidth, tileLayer.TileHeight);
 				for(var y = 0; y < tilemap.Height; y += 1)	
