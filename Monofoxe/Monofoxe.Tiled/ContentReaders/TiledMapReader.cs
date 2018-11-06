@@ -129,8 +129,6 @@ namespace Monofoxe.Tiled.ContentReaders
 				ReadLayer(input, layer);
 				layer.Width = input.ReadInt32();
 				layer.Height = input.ReadInt32();
-				layer.TileWidth = input.ReadInt32();
-				layer.TileHeight = input.ReadInt32(); //TODO: Remove!
 				layer.TileWidth = map.TileWidth;
 				layer.TileHeight = map.TileHeight;
 			
