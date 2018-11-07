@@ -22,6 +22,7 @@ namespace Pipefoxe.Tiled
 				throw new Exception("Infinite maps are not supported yet!");
 			}
 
+			// Properties.
 			map.Width = int.Parse(mapAttributes["width"].Value);
 			map.Height = int.Parse(mapAttributes["height"].Value);
 			map.TileWidth = int.Parse(mapAttributes["tilewidth"].Value);
@@ -40,12 +41,13 @@ namespace Pipefoxe.Tiled
 			}
 
 			map.HexSideLength = TiledMapImporter.GetXmlIntSafe(mapXml, "hexsidelength");
+			// Properties.
+			
 
-
-			XmlNodeList tilesetsXml = mapXml.SelectNodes("tileset");
-			map.Tilesets = TilesetParser.Parse(tilesetsXml);
+			// Tilesets and layers.
+			map.Tilesets = TilesetParser.Parse(mapXml.SelectNodes("tileset"));
 			LayerParser.Parse(mapXml, map);
-
+			// Tilesets and layers.
 
 			return map;
 		}

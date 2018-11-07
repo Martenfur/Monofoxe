@@ -25,18 +25,18 @@ namespace Pipefoxe.Tiled
 			var xml = new XmlDocument();
 			xml.Load(filename);
 
-			try
-			{
+			//try
+			//{
 				var map = MapParser.Parse(xml);
 
 				__SaveLog(RootDir);
 				return map;
-			}
-			catch(Exception e)
-			{
-				__SaveLog(RootDir);
-				throw new Exception(e.StackTrace);
-			}
+			//}
+			//catch(Exception e)
+		//	{
+		//		__SaveLog(RootDir);
+		//		throw new Exception(e.StackTrace);
+			//}
 		}
 
 

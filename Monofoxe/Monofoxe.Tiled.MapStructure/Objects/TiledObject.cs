@@ -10,6 +10,7 @@ namespace Monofoxe.Tiled.MapStructure.Objects
 	/// </summary>
 	public class TiledObject
 	{
+		
 		public string Name;
 		public int ID;
 		public Vector2 Position;
@@ -19,5 +20,19 @@ namespace Monofoxe.Tiled.MapStructure.Objects
 		public bool Visible;
 
 		public Dictionary<string, string> Properties;
+
+		public TiledObject(){}
+		public TiledObject(TiledObject obj)
+		{
+			// Just copying everything.
+			Name = obj.Name;
+			ID = obj.ID;
+			Position = obj.Position;
+			Size = obj.Size;
+			Rotation = obj.Rotation;
+			Visible = obj.Visible;
+			Properties = new Dictionary<string, string>(obj.Properties);
+		}
+
 	}
 }

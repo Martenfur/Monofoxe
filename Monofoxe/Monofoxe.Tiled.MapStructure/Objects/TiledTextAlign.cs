@@ -1,7 +1,7 @@
 ﻿
 namespace Monofoxe.Tiled.MapStructure.Objects
 {
-	public enum TiledTextAlign : int
+	public enum TiledTextAlign : byte
 	{
 		Left = 0,
 		Right = 2,

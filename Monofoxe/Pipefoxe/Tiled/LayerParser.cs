@@ -7,17 +7,21 @@ using System.Text;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Monofoxe.Tiled.MapStructure.Objects;
 
 namespace Pipefoxe.Tiled
 {
 	static class LayerParser
 	{
 		static List<TiledMapTileLayer> _tileLayers;
-		// TODO: Add image and object layers.
+		static List<TiledMapObjectLayer> _objectLayers;
+		
+		// TODO: Add image layers.
 
 		public static void Parse(XmlNode mapXml, TiledMap map)
 		{
 			_tileLayers = new List<TiledMapTileLayer>();
+			_objectLayers = new List<TiledMapObjectLayer>();
 
 			ParseGroup(mapXml);
 
@@ -37,7 +41,14 @@ namespace Pipefoxe.Tiled
 			{
 				_tileLayers.Add(ParseTileLayer(layer));
 			}
+
+			var objectLayers = groupXml.SelectNodes("objectgroup");
+			foreach(XmlNode layer in objectLayers)
+			{
+				_objectLayers.Add(ParseObjectLayer(layer));
+			}
 		}
+
 
 
 		static TiledMapTileLayer ParseTileLayer(XmlNode layerXml)
@@ -105,5 +116,108 @@ namespace Pipefoxe.Tiled
 
 			return layer;
 		}
+
+
+
+		static TiledMapObjectLayer ParseObjectLayer(XmlNode layerXml)
+		{
+			var layer = new TiledMapObjectLayer();
+			
+			layer.ID = int.Parse(layerXml.Attributes["id"].Value);
+			layer.Name = layerXml.Attributes["name"].Value;
+			layer.Opacity = TiledMapImporter.GetXmlFloatSafe(layerXml, "opacity");
+			layer.Visible = TiledMapImporter.GetXmlBoolSafe(layerXml, "visible");
+			layer.Offset = new Vector2(
+				TiledMapImporter.GetXmlFloatSafe(layerXml, "offsetx"),
+				TiledMapImporter.GetXmlFloatSafe(layerXml, "offsety")
+			);
+
+			var objectsXml = layerXml.SelectNodes("object");
+
+			foreach(XmlNode obj in objectsXml)
+			{
+				ParseObject(obj);
+			}
+
+			return layer;
+		}
+
+		static TiledObject ParseObject(XmlNode node)
+		{
+			var obj = new TiledObject();
+
+			if (node.Attributes["template"] == null)
+			{
+				obj.Name = TiledMapImporter.GetXmlStringSafe(node, "name");
+				obj.Position = new Vector2(
+					TiledMapImporter.GetXmlFloatSafe(node, "x"),
+					TiledMapImporter.GetXmlFloatSafe(node, "y")
+				);
+			}
+			else
+			{
+				MergeWithTemplate(node);
+			}
+
+			return obj;
+		}
+
+		static XmlNode MergeWithTemplate(XmlNode node)
+		{
+			// Loading template.
+			var doc = new XmlDocument();
+			XmlNode template;
+			try
+			{
+				doc.Load(TiledMapImporter.RootDir + node.Attributes["template"].Value);
+				template = doc["template"]["object"];
+			}
+			catch(Exception e)
+			{
+				throw new Exception("Error loading object template! " + e.StackTrace);
+			}
+			// Loading template.
+
+
+			/*
+			 * So, now we need to read the template and take attributes, 
+			 * which are not present in current object.
+			 */
+			
+			var owner = node.OwnerDocument;
+			
+			foreach(XmlAttribute attribute in template.Attributes)
+			{
+				if (node.Attributes[attribute.Name] == null)
+				{
+					var newAttr = owner.CreateAttribute(attribute.Name);
+					newAttr.Value = attribute.Value;
+					node.Attributes.Append(newAttr);
+				}
+			}
+			node.Attributes.RemoveNamedItem("template");
+			foreach(XmlNode child in template.ChildNodes)
+			{
+				if (node[child.Name] == null)
+				{
+					var newChild = owner.CreateElement(child.Name);
+					newChild.InnerText = child.InnerText;
+					newChild.InnerXml = child.InnerXml;
+					foreach(XmlAttribute attribute in template[child.Name].Attributes)
+					{
+						var newAttr = owner.CreateAttribute(attribute.Name);
+						newAttr.Value = attribute.Value;
+						newChild.Attributes.Append(newAttr);
+					}
+					node.AppendChild(newChild);
+				}
+			}
+
+			TiledMapImporter.__Log(node.OuterXml);
+
+			return node;
+		}
+
+		
 	}
 }

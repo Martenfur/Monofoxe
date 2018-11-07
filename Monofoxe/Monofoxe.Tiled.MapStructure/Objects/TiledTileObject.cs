@@ -8,5 +8,8 @@ namespace Monofoxe.Tiled.MapStructure.Objects
 		/// </summary>
 		public int GID;
 		public TiledMapTileset Tileset;
+
+		public TiledTileObject() {}
+		public TiledTileObject(TiledObject obj) : base(obj) {}
 	}
 }

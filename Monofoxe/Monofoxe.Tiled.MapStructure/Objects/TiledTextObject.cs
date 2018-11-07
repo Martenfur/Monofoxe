@@ -14,5 +14,9 @@ namespace Monofoxe.Tiled.MapStructure.Objects
 
 		public bool Underlined;
 		public bool StrikedOut;
+
+		
+		public TiledTextObject() {}
+		public TiledTextObject(TiledObject obj) : base(obj) {}
 	}
 }
