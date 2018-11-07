@@ -6,5 +6,8 @@ namespace Monofoxe.Tiled.MapStructure.Objects
 	{
 		public bool Closed;
 		public Vector2[] Points;
+
+		public TiledPolygonObject() {}
+		public TiledPolygonObject(TiledObject obj) : base(obj) {}
 	}
 }
