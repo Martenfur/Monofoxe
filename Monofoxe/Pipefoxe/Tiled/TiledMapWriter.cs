@@ -26,7 +26,8 @@ namespace Pipefoxe.Tiled
 
 			WriteTilesets(output, map.Tilesets);
 			WriteTileLayers(output, map.TileLayers);
-			
+			WriteObjectLayers(output, map.ObjectLayers);
+
 			output.WriteObject(map.Properties);
 		}
 
@@ -88,7 +89,8 @@ namespace Pipefoxe.Tiled
 		}
 
 		
-		#region Tilesets.
+		#endregion Tilesets.
+
 
 		void WriteLayer(ContentWriter output, TiledMapLayer layer)
 		{
@@ -102,7 +104,7 @@ namespace Pipefoxe.Tiled
 		}
 
 
-		#endregion Tiles.
+		#region Tiles.
 
 		void WriteTileLayers(ContentWriter output, TiledMapTileLayer[] layers)
 		{
@@ -222,7 +224,7 @@ namespace Pipefoxe.Tiled
 		{
 			output.Write((byte)TiledObjectType.Polygon);
 			output.Write(obj.Closed);
-			output.WriteObject(obj.Points);
+			//output.WriteObject(obj.Points);
 		}
 
 		void WriteEllipseObject(ContentWriter output) =>
