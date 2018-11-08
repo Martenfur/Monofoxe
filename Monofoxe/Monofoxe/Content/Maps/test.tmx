@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="36">
+<map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="37">
  <tileset firstgid="1" source="testTileset.tsx"/>
  <tileset firstgid="17" source="mahBoi.tsx"/>
  <tileset firstgid="21" source="dirt.tsx"/>
@@ -27,8 +27,11 @@
    <object id="25" template="Objects/BarrelBoi.tx" x="961.121" y="117.485"/>
    <object id="26" template="Objects/BarrelBoi.tx" x="771.121" y="232.818"/>
    <object id="27" template="Objects/BarrelBoi.tx" x="731.121" y="65.4848"/>
-   <object id="28" template="Objects/text.tx" x="579" y="487.5"/>
-   <object id="31" x="432.5" y="443">
+   <object id="28" template="Objects/text.tx" x="579" y="487.5">
+    <text fontfamily="Arial Rounded MT Bold" pixelsize="19" wrap="1" color="#a4aba5" underline="1" strikeout="1" halign="center">BOI
+LET'S MAKE SOME FOXES TONIGHT</text>
+   </object>
+   <object id="31" name="Kokek" x="432.5" y="443">
     <polyline points="0,0 48,75.5 89.5,20 58,-35"/>
    </object>
    <object id="32" x="502.667" y="628">
@@ -42,6 +45,7 @@
     <text fontfamily="Arial Rounded MT Bold" pixelsize="19" wrap="1" color="#a4aba5" underline="1" strikeout="1">BOI
 LET'S MAKE SOME FOXES </text>
    </object>
+   <object id="36" name="TileyTile" gid="15" x="878.667" y="653.333" width="32" height="32"/>
   </objectgroup>
   <layer id="2" name="Tile Layer 1" width="200" height="200" visible="0" locked="1" opacity="0.99">
    <properties>

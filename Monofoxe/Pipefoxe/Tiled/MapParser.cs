@@ -40,7 +40,7 @@ namespace Pipefoxe.Tiled
 				Enum.TryParse(mapAttributes["staggerindex"].Value, true, out map.StaggerIndex);
 			}
 
-			map.HexSideLength = TiledMapImporter.GetXmlIntSafe(mapXml, "hexsidelength");
+			map.HexSideLength = XmlHelper.GetXmlIntSafe(mapXml, "hexsidelength");
 			// Properties.
 			
 

@@ -7,7 +7,8 @@ namespace Monofoxe.Tiled.MapStructure.Objects
 		public string Text;
 		public Color Color;
 		public bool WordWrap;
-		public TiledTextAlign TextAlign;
+		public TiledTextAlign HorAlign;
+		public TiledTextAlign VerAlign;
 
 		public string Font;
 		public int FontSize = 12;
