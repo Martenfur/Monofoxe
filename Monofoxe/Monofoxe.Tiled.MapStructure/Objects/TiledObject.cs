@@ -12,6 +12,7 @@ namespace Monofoxe.Tiled.MapStructure.Objects
 	{
 		
 		public string Name;
+		public string Type;
 		public int ID;
 		public Vector2 Position;
 		public Vector2 Size;

@@ -8,6 +8,7 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Tiled.MapStructure.Objects;
+using System.Globalization;
 
 namespace Pipefoxe.Tiled
 {
@@ -59,11 +60,11 @@ namespace Pipefoxe.Tiled
 			layer.Width = int.Parse(layerXml.Attributes["width"].Value);
 			layer.Height = int.Parse(layerXml.Attributes["height"].Value);
 			layer.Name = layerXml.Attributes["name"].Value;
-			layer.Opacity = TiledMapImporter.GetXmlFloatSafe(layerXml, "opacity");
-			layer.Visible = TiledMapImporter.GetXmlBoolSafe(layerXml, "visible");
+			layer.Opacity = XmlHelper.GetXmlFloatSafe(layerXml, "opacity");
+			layer.Visible = XmlHelper.GetXmlBoolSafe(layerXml, "visible");
 			layer.Offset = new Vector2(
-				TiledMapImporter.GetXmlFloatSafe(layerXml, "offsetx"),
-				TiledMapImporter.GetXmlFloatSafe(layerXml, "offsety")
+				XmlHelper.GetXmlFloatSafe(layerXml, "offsetx"),
+				XmlHelper.GetXmlFloatSafe(layerXml, "offsety")
 			);
 
 			if (layerXml["data"].Attributes["encoding"].Value != "csv")
@@ -112,7 +113,7 @@ namespace Pipefoxe.Tiled
 
 			layer.Tiles = tiles;
 
-			layer.Properties = TiledMapImporter.GetProperties(layerXml);
+			layer.Properties = XmlHelper.GetProperties(layerXml);
 
 			return layer;
 		}
@@ -125,11 +126,11 @@ namespace Pipefoxe.Tiled
 			
 			layer.ID = int.Parse(layerXml.Attributes["id"].Value);
 			layer.Name = layerXml.Attributes["name"].Value;
-			layer.Opacity = TiledMapImporter.GetXmlFloatSafe(layerXml, "opacity");
-			layer.Visible = TiledMapImporter.GetXmlBoolSafe(layerXml, "visible");
+			layer.Opacity = XmlHelper.GetXmlFloatSafe(layerXml, "opacity");
+			layer.Visible = XmlHelper.GetXmlBoolSafe(layerXml, "visible");
 			layer.Offset = new Vector2(
-				TiledMapImporter.GetXmlFloatSafe(layerXml, "offsetx"),
-				TiledMapImporter.GetXmlFloatSafe(layerXml, "offsety")
+				XmlHelper.GetXmlFloatSafe(layerXml, "offsetx"),
+				XmlHelper.GetXmlFloatSafe(layerXml, "offsety")
 			);
 
 			var objectsXml = layerXml.SelectNodes("object");
@@ -144,24 +145,170 @@ namespace Pipefoxe.Tiled
 
 		static TiledObject ParseObject(XmlNode node)
 		{
+			
+			// If there is a template, we need to merge it with object.
+			if (node.Attributes["template"] != null)
+			{
+				node = MergeWithTemplate(node);
+			}
+
+			TiledMapImporter.__Log(node.OuterXml);
+
+			// Determining object type.
+			var obj = ParseBaseObject(node);
+			
+			// Yes, this is horrible. But there's no better way, as far, as I know.
+
+			if (node.Attributes["gid"] != null)
+			{
+				return ParseTileObject(node, obj);
+			}
+
+			if (node["point"] != null)
+			{
+				return ParsePointObject(obj);
+			}
+
+			if (node["polygon"] != null || node["polyline"] != null)
+			{
+				return ParsePolygonObject(node, obj);
+			}
+
+			if (node["ellipse"] != null)
+			{
+				return ParseEllipseObject(obj);
+			}
+
+			if(node["text"] != null)
+			{
+				return ParseTextObject(node, obj);
+			}
+
+			return ParseRectangleObject(obj);
+			// Determining object type.
+		}
+
+
+
+		/// <summary>
+		/// Parses basic object properties, common to all object types.
+		/// </summary>
+		static TiledObject ParseBaseObject(XmlNode node)
+		{
 			var obj = new TiledObject();
 
-			if (node.Attributes["template"] == null)
-			{
-				obj.Name = TiledMapImporter.GetXmlStringSafe(node, "name");
-				obj.Position = new Vector2(
-					TiledMapImporter.GetXmlFloatSafe(node, "x"),
-					TiledMapImporter.GetXmlFloatSafe(node, "y")
-				);
-			}
-			else
-			{
-				MergeWithTemplate(node);
-			}
+			obj.Name = XmlHelper.GetXmlStringSafe(node, "name");
+			obj.Type = XmlHelper.GetXmlStringSafe(node, "type");
+			obj.ID = int.Parse(node.Attributes["id"].Value);
+			obj.Position = new Vector2(
+				XmlHelper.GetXmlFloatSafe(node, "x"),
+				XmlHelper.GetXmlFloatSafe(node, "y")
+			);
+			obj.Size = new Vector2(
+				XmlHelper.GetXmlFloatSafe(node, "width"),
+				XmlHelper.GetXmlFloatSafe(node, "height")
+			);
+			obj.Rotation = XmlHelper.GetXmlFloatSafe(node, "rotation");
+			obj.Visible = XmlHelper.GetXmlBoolSafe(node, "visible");
+			
+			obj.Properties = XmlHelper.GetProperties(node);
 
 			return obj;
 		}
 
+
+		static TiledRectangleObject ParseRectangleObject(TiledObject baseObj) =>
+			new TiledRectangleObject(baseObj);
+		
+		static TiledEllipseObject ParseEllipseObject(TiledObject baseObj) =>
+			new TiledEllipseObject(baseObj);
+
+		static TiledPointObject ParsePointObject(TiledObject baseObj) =>
+			new TiledPointObject(baseObj);
+		
+		static TiledTileObject ParseTileObject(XmlNode node, TiledObject baseObj)
+		{
+			var obj = new TiledTileObject(baseObj);
+
+			var gid = uint.Parse(node.Attributes["gid"].Value);
+
+			obj.FlipHor = ((gid & (uint)FlipFlags.FlipHor) != 0);
+			obj.FlipVer = ((gid & (uint)FlipFlags.FlipVer) != 0);
+			obj.GID = (int)(gid & (~(uint)FlipFlags.All));			
+
+			return obj;
+		}
+		
+		static TiledTextObject ParseTextObject(XmlNode node, TiledObject baseObj)
+		{
+			var textXml = node["text"];
+			var obj = new TiledTextObject(baseObj);
+			obj.Text = textXml.InnerText;
+			if (textXml.Attributes["color"] != null)
+			{
+				obj.Color = XmlHelper.StringToColor(textXml.Attributes["color"].Value);
+			}
+			obj.WordWrap = XmlHelper.GetXmlBoolSafe(textXml, "color", false);
+			
+			obj.HorAlign = (TiledTextAlign)XmlHelper.GetXmlEnumSafe(
+				textXml, 
+				"halign", 
+				TiledTextAlign.Left
+			);
+			obj.VerAlign = (TiledTextAlign)XmlHelper.GetXmlEnumSafe(
+				textXml, 
+				"valign", 
+				TiledTextAlign.Left
+			);
+
+			obj.Font = XmlHelper.GetXmlStringSafe(textXml, "fontfamily");
+			obj.FontSize = XmlHelper.GetXmlIntSafe(textXml, "pixelsize");
+			obj.Underlined = XmlHelper.GetXmlBoolSafe(textXml, "underline");
+			obj.StrikedOut = XmlHelper.GetXmlBoolSafe(textXml, "strikeout");
+
+			return obj;
+		}
+
+		static TiledPolygonObject ParsePolygonObject(XmlNode node, TiledObject baseObj)
+		{
+			var obj = new TiledPolygonObject(baseObj);
+			XmlNode polyXml;
+
+			if (node["polygon"] != null)
+			{
+				polyXml = node["polygon"];
+				obj.Closed = true;
+			}
+			else
+			{
+				polyXml = node["polyline"];
+				obj.Closed = false;
+			}
+
+			var pointStrings = polyXml.Attributes["points"].Value.Split(' ');
+
+			var points = new Vector2[pointStrings.Length];
+
+			for(var i = 0; i < points.Length; i += 1)
+			{
+				var vecStr = pointStrings[i].Split(',');
+				points[i] = new Vector2(
+					float.Parse(vecStr[0], CultureInfo.InvariantCulture),
+					float.Parse(vecStr[1], CultureInfo.InvariantCulture)
+				);
+				TiledMapImporter.__Log(points[i].ToString());
+			}
+			obj.Points = points;
+
+			return obj;
+		}
+
+		/// <summary>
+		/// Some objects are referencing templates, 
+		/// and can override some parameters.
+		/// 
+		/// Method merges object and template, overriding existing template parameters.
+		/// </summary>
 		static XmlNode MergeWithTemplate(XmlNode node)
 		{
 			// Loading template.
@@ -213,11 +360,7 @@ namespace Pipefoxe.Tiled
 				}
 			}
 
-			TiledMapImporter.__Log(node.OuterXml);
-
 			return node;
 		}
-
-		
 	}
 }

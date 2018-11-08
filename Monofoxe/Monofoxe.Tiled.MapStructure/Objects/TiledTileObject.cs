@@ -7,6 +7,10 @@ namespace Monofoxe.Tiled.MapStructure.Objects
 		/// Tile GID.
 		/// </summary>
 		public int GID;
+
+		public bool FlipHor;
+		public bool FlipVer;
+
 		public TiledMapTileset Tileset;
 
 		public TiledTileObject() {}

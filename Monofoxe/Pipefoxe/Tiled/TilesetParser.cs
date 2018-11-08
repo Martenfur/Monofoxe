@@ -63,7 +63,7 @@ namespace Pipefoxe.Tiled
 					throw new Exception("Error loading external tileset! " + e.StackTrace);
 				}
 			}
-			tileset.Properties = TiledMapImporter.GetProperties(tilesetXml);
+			tileset.Properties = XmlHelper.GetProperties(tilesetXml);
 
 			// This means, that tileset won't be used in the game and should be ignored.
 			if (
@@ -73,16 +73,7 @@ namespace Pipefoxe.Tiled
 			{
 				return null;
 			}
-
-			if (tileset.Properties.ContainsKey(TilesetParser.IgnoreTilesetTextureFlag))
-			{
-				TiledMapImporter.__Log(tileset.Name + ": ignored");
-			}
-			else
-			{
-				TiledMapImporter.__Log(tileset.Name + ": not");
-			}
-
+			
 
 			#region Main fields.
 			tileset.Name = tilesetXml.Attributes["name"].Value;
@@ -91,12 +82,12 @@ namespace Pipefoxe.Tiled
 			tileset.TileCount = int.Parse(tilesetXml.Attributes["tilecount"].Value);
 			tileset.Columns = int.Parse(tilesetXml.Attributes["columns"].Value);
 				
-			tileset.Margin = TiledMapImporter.GetXmlIntSafe(tilesetXml, "margin");
-			tileset.Spacing = TiledMapImporter.GetXmlIntSafe(tilesetXml, "spacing");
+			tileset.Margin = XmlHelper.GetXmlIntSafe(tilesetXml, "margin");
+			tileset.Spacing = XmlHelper.GetXmlIntSafe(tilesetXml, "spacing");
 			
 			if (tilesetXml.Attributes["backgroundcolor"] != null)
 			{
-				tileset.BackgroundColor = TiledMapImporter.StringToColor(tilesetXml.Attributes["backgroundcolor"].Value);
+				tileset.BackgroundColor = XmlHelper.StringToColor(tilesetXml.Attributes["backgroundcolor"].Value);
 			}
 
 			if (tilesetXml["tileoffset"] != null)
@@ -159,7 +150,7 @@ namespace Pipefoxe.Tiled
 
 						if (tiles.ContainsKey(currentID))
 						{
-							tile.Properties = TiledMapImporter.GetProperties(tiles[currentID]);
+							tile.Properties = XmlHelper.GetProperties(tiles[currentID]);
 						}
 						else
 						{
@@ -202,7 +193,7 @@ namespace Pipefoxe.Tiled
 						int.Parse(nodePair.Value["image"].Attributes["height"].Value)
 					);
 					
-					tile.Properties = TiledMapImporter.GetProperties(nodePair.Value);
+					tile.Properties = XmlHelper.GetProperties(nodePair.Value);
 
 					tileset.Tiles[currentID] = tile;
 					currentID += 1;

@@ -80,6 +80,7 @@
     <Compile Include="Tiled\TiledMapProcessor.cs" />
     <Compile Include="Tiled\TiledMapWriter.cs" />
     <Compile Include="Tiled\TilesetParser.cs" />
+    <Compile Include="Tiled\XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
