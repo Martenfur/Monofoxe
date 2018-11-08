@@ -148,6 +148,8 @@ namespace Pipefoxe.Tiled
 				layer.DrawingOrder = TiledMapObjectDrawingOrder.TopDown;
 			}
 
+			layer.Properties = XmlHelper.GetProperties(layerXml);
+
 			// Parsing objects.
 			var objectsXml = layerXml.SelectNodes("object");
 			var objects = new List<TiledObject>();

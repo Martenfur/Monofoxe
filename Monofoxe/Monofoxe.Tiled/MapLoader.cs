@@ -16,13 +16,13 @@ namespace Monofoxe.Tiled
 		public static Scene LoadMap(TiledMap map)
 		{
 			var scene = SceneMgr.CreateScene("New map");//map.Name);
-			/*
+			
 			foreach(var layer in map.ObjectLayers)
 			{
 				foreach(var obj in layer.Objects)
 					Console.WriteLine(obj.Name + " " + obj.Position + " " + obj.Size);
 			}
-			*/
+			
 			var tilesets = ConvertTilesets(map.Tilesets);
 
 			// TODO: Add image layer support? I guess?
