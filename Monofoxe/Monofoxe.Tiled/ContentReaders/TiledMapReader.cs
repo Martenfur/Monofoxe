@@ -228,8 +228,8 @@ namespace Monofoxe.Tiled.ContentReaders
 			{
 				return ReadRectangleObject(obj);
 			}
-
-			return null;
+			
+			return obj;
 		}
 
 
@@ -242,6 +242,7 @@ namespace Monofoxe.Tiled.ContentReaders
 			obj.Position = input.ReadVector2();
 			obj.Size = input.ReadVector2();
 			obj.Rotation = input.ReadSingle();
+			obj.Visible = input.ReadBoolean();
 			obj.Properties = input.ReadObject<Dictionary<string, string>>();
 
 			return obj;
@@ -266,7 +267,7 @@ namespace Monofoxe.Tiled.ContentReaders
 			var obj = new TiledPolygonObject(baseObj);
 
 			obj.Closed = input.ReadBoolean();
-			//obj.Points = input.ReadObject<Vector2[]>();
+			obj.Points = input.ReadObject<Vector2[]>();
 
 			return obj;
 		}

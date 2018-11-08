@@ -166,7 +166,7 @@ namespace Pipefoxe.Tiled
 				WriteTileObject(output, (TiledTileObject)obj);
 				return;
 			}
-
+			
 			if (obj is TiledPointObject)
 			{
 				WritePointObject(output);
@@ -224,7 +224,7 @@ namespace Pipefoxe.Tiled
 		{
 			output.Write((byte)TiledObjectType.Polygon);
 			output.Write(obj.Closed);
-			//output.WriteObject(obj.Points);
+			output.WriteObject(obj.Points);
 		}
 
 		void WriteEllipseObject(ContentWriter output) =>
