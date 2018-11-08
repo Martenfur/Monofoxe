@@ -5,6 +5,7 @@ using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Tiled.MapStructure;
+using Monofoxe.Tiled.MapStructure.Objects;
 using Monofoxe.Utils.Tilemaps;
 
 
@@ -12,12 +13,16 @@ namespace Monofoxe.Tiled
 {
 	public class MapLoader
 	{
-		
-		
 		public static Scene LoadMap(TiledMap map)
 		{
 			var scene = SceneMgr.CreateScene("New map");//map.Name);
-			//map.ObjectLayers
+			/*
+			foreach(var layer in map.ObjectLayers)
+			{
+				foreach(var obj in layer.Objects)
+					Console.WriteLine(obj.Name + " " + obj.Position + " " + obj.Size);
+			}
+			*/
 			var tilesets = ConvertTilesets(map.Tilesets);
 
 			// TODO: Add image layer support? I guess?

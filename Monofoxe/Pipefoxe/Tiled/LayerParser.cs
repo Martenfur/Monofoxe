@@ -27,6 +27,7 @@ namespace Pipefoxe.Tiled
 			ParseGroup(mapXml);
 
 			map.TileLayers = _tileLayers.ToArray();
+			map.ObjectLayers = _objectLayers.ToArray();
 		}
 
 		static void ParseGroup(XmlNode groupXml)

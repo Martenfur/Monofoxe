@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Tiled.MapStructure;
+using Monofoxe.Tiled.MapStructure.Objects;
 
 namespace Monofoxe.Tiled.ContentReaders
 {
@@ -31,9 +32,12 @@ namespace Monofoxe.Tiled.ContentReaders
 
 			ReadTilesets(input, map);
 			ReadTileLayers(input, map);
+			ReadObjectLayers(input, map);
 
 			return map;
 		}
+
+		#region Tilesets.
 
 		void ReadTilesets(ContentReader input, TiledMap map)
 		{
@@ -93,18 +97,8 @@ namespace Monofoxe.Tiled.ContentReaders
 			
 			return tile;
 		}
-		
-		TiledMapTile ReadTile(ContentReader input)
-		{
-			var tile = new TiledMapTile();
-			tile.GID = input.ReadInt32();
-			tile.FlipHor = input.ReadBoolean();
-			tile.FlipVer = input.ReadBoolean();
-			tile.FlipDiag = input.ReadBoolean();
 
-			return tile;
-		}
-
+		#endregion Tilesets.
 
 
 		void ReadLayer(ContentReader input, TiledMapLayer layer)
@@ -117,6 +111,9 @@ namespace Monofoxe.Tiled.ContentReaders
 
 			layer.Properties = input.ReadObject<Dictionary<string, string>>();
 		}
+
+
+		#region Tiles.
 
 		void ReadTileLayers(ContentReader input, TiledMap map)
 		{
@@ -150,6 +147,155 @@ namespace Monofoxe.Tiled.ContentReaders
 			}
 			map.TileLayers = layers;
 		}
+
+		TiledMapTile ReadTile(ContentReader input)
+		{
+			var tile = new TiledMapTile();
+			tile.GID = input.ReadInt32();
+			tile.FlipHor = input.ReadBoolean();
+			tile.FlipVer = input.ReadBoolean();
+			tile.FlipDiag = input.ReadBoolean();
+
+			return tile;
+		}
+
+		#endregion Tiles.
+
+		
+		#region Objects.
+
+		void ReadObjectLayers(ContentReader input, TiledMap map)
+		{
+			var layersCount = input.ReadInt32();
+			var layers = new TiledMapObjectLayer[layersCount];
+			
+			for(var i = 0; i < layersCount; i += 1)
+			{
+				var layer = new TiledMapObjectLayer();
+				ReadLayer(input, layer);
+
+				layer.DrawingOrder = (TiledMapObjectDrawingOrder)input.ReadByte();
+				layer.Color = input.ReadColor();
+
+				var objectsCount = input.ReadInt32();
+				var objects = new TiledObject[objectsCount];
+
+				for(var k = 0; k < objectsCount; k += 1)
+				{
+					objects[k] = ReadObject(input);
+				}
+
+				layer.Objects = objects;
+
+				layers[i] = layer;
+			}
+
+			map.ObjectLayers = layers;
+		}
+
+
+		TiledObject ReadObject(ContentReader input)
+		{
+			var obj = ReadBaseObject(input);
+			var objType = (TiledObjectType)input.ReadByte();
+
+			if (objType == TiledObjectType.Tile)
+			{
+				return ReadTileObject(input, obj);
+			}
+
+			if (objType == TiledObjectType.Point)
+			{
+				return ReadPointObject(obj);
+			}
+
+			if (objType == TiledObjectType.Polygon)
+			{
+				return ReadPolygonObject(input, obj);
+			}
+
+			if (objType == TiledObjectType.Ellipse)
+			{
+				return ReadEllipseObject(obj);
+			}
+
+			if (objType == TiledObjectType.Text)
+			{
+				return ReadTextObject(input, obj);
+			}
+
+			if (objType == TiledObjectType.Rectangle)
+			{
+				return ReadRectangleObject(obj);
+			}
+
+			return null;
+		}
+
+
+		TiledObject ReadBaseObject(ContentReader input)
+		{
+			var obj = new TiledObject();
+
+			obj.Name = input.ReadString();
+			obj.ID = input.ReadInt32();
+			obj.Position = input.ReadVector2();
+			obj.Size = input.ReadVector2();
+			obj.Rotation = input.ReadSingle();
+			obj.Properties = input.ReadObject<Dictionary<string, string>>();
+
+			return obj;
+		}
+
+		TiledObject ReadTileObject(ContentReader input, TiledObject baseObj)
+		{
+			var obj = new TiledTileObject(baseObj);
+
+			obj.GID = input.ReadInt32();
+			obj.FlipHor = input.ReadBoolean();
+			obj.FlipVer = input.ReadBoolean();
+
+			return obj;
+		}
+		
+		TiledObject ReadPointObject(TiledObject baseObj) =>
+			new TiledPointObject(baseObj);
+		
+		TiledObject ReadPolygonObject(ContentReader input, TiledObject baseObj)
+		{
+			var obj = new TiledPolygonObject(baseObj);
+
+			obj.Closed = input.ReadBoolean();
+			//obj.Points = input.ReadObject<Vector2[]>();
+
+			return obj;
+		}
+
+		TiledObject ReadEllipseObject(TiledObject baseObj) =>
+			new TiledEllipseObject(baseObj);
+		
+		TiledObject ReadTextObject(ContentReader input, TiledObject baseObj)
+		{
+			var obj = new TiledTextObject(baseObj);
+
+			obj.Text = input.ReadString();
+			obj.Color = input.ReadColor();
+			obj.WordWrap = input.ReadBoolean();
+			obj.HorAlign = (TiledTextAlign)input.ReadByte();
+			obj.VerAlign = (TiledTextAlign)input.ReadByte();
+			obj.Font = input.ReadString();
+			obj.FontSize = input.ReadInt32();
+			obj.Underlined = input.ReadBoolean();
+			obj.StrikedOut = input.ReadBoolean();
+
+			return obj;
+		}
+
+
+		TiledObject ReadRectangleObject(TiledObject baseObj) =>
+			new TiledRectangleObject(baseObj);
+
+		#endregion Objects.
 
 	}
 }
