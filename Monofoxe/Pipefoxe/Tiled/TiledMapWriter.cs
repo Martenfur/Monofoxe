@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 using Monofoxe.Tiled.MapStructure;
-
+using Monofoxe.Tiled.MapStructure.Objects;
 
 namespace Pipefoxe.Tiled
 {
@@ -30,7 +30,7 @@ namespace Pipefoxe.Tiled
 			output.WriteObject(map.Properties);
 		}
 
-		
+		#region Tilesets.
 
 		void WriteTilesets(ContentWriter output, TiledMapTileset[] tilesets)
 		{
@@ -79,7 +79,6 @@ namespace Pipefoxe.Tiled
 		}
 
 
-
 		void WriteTilesetTile(ContentWriter output, TiledMapTilesetTile tile)
 		{
 			output.Write(tile.GID);
@@ -88,15 +87,8 @@ namespace Pipefoxe.Tiled
 			output.WriteObject(tile.Properties);
 		}
 
-		void WriteTile(ContentWriter output, TiledMapTile tile)
-		{
-			output.Write(tile.GID);
-			output.Write(tile.FlipHor);
-			output.Write(tile.FlipVer);
-			output.Write(tile.FlipDiag);
-		}
-
-
+		
+		#region Tilesets.
 
 		void WriteLayer(ContentWriter output, TiledMapLayer layer)
 		{
@@ -108,6 +100,9 @@ namespace Pipefoxe.Tiled
 			
 			output.WriteObject(layer.Properties);
 		}
+
+
+		#endregion Tiles.
 
 		void WriteTileLayers(ContentWriter output, TiledMapTileLayer[] layers)
 		{
@@ -130,7 +125,128 @@ namespace Pipefoxe.Tiled
 
 
 
+		void WriteTile(ContentWriter output, TiledMapTile tile)
+		{
+			output.Write(tile.GID);
+			output.Write(tile.FlipHor);
+			output.Write(tile.FlipVer);
+			output.Write(tile.FlipDiag);
+		}
+
+		#endregion Tiles.
+
+
+
+		#region Objects.
+
+		void WriteObjectLayers(ContentWriter output, TiledMapObjectLayer[] layers)
+		{
+			output.Write(layers.Length);
+			foreach(var layer in layers)
+			{
+				WriteLayer(output, layer);
+				output.Write((byte)layer.DrawingOrder);
+				output.Write(layer.Color);
+
+				output.Write(layer.Objects.Length);
+				foreach(var obj in layer.Objects)
+				{
+					WriteObject(output, obj);
+				}
+			}
+		}
+
+		void WriteObject(ContentWriter output, TiledObject obj)
+		{
+			WriteBaseObject(output, obj);
+			if (obj is TiledTileObject)
+			{
+				WriteTileObject(output, (TiledTileObject)obj);
+				return;
+			}
+
+			if (obj is TiledPointObject)
+			{
+				WritePointObject(output);
+				return;
+			}
+
+			if (obj is TiledPolygonObject)
+			{
+				WritePolygonObject(output, (TiledPolygonObject)obj);
+				return;
+			}
+
+			if (obj is TiledEllipseObject)
+			{
+				WriteEllipseObject(output);
+				return;
+			}
+
+			if (obj is TiledTextObject)
+			{
+				WriteTextObject(output, (TiledTextObject)obj);
+				return;
+			}
+
+			if (obj is TiledRectangleObject)
+			{
+				WriteRectangleObject(output);
+			}
+		}
+
+
+		void WriteBaseObject(ContentWriter output, TiledObject obj)
+		{
+			output.Write(obj.Name);
+			output.Write(obj.ID);
+			output.Write(obj.Position);
+			output.Write(obj.Size);
+			output.Write(obj.Rotation);
+			output.Write(obj.Visible);
+			output.WriteObject(obj.Properties);
+		}
 		
+		void WriteTileObject(ContentWriter output, TiledTileObject obj)
+		{
+			output.Write((byte)TiledObjectType.Tile);
+			output.Write(obj.GID);
+			output.Write(obj.FlipHor);
+			output.Write(obj.FlipVer);
+		}
+
+		void WritePointObject(ContentWriter output) =>
+			output.Write((byte)TiledObjectType.Point);
+
+		void WritePolygonObject(ContentWriter output, TiledPolygonObject obj)
+		{
+			output.Write((byte)TiledObjectType.Polygon);
+			output.Write(obj.Closed);
+			output.WriteObject(obj.Points);
+		}
+
+		void WriteEllipseObject(ContentWriter output) =>
+			output.Write((byte)TiledObjectType.Ellipse);
+		
+		void WriteTextObject(ContentWriter output, TiledTextObject obj)
+		{
+			output.Write((byte)TiledObjectType.Text);
+			output.Write(obj.Text);
+			output.Write(obj.Color);
+			output.Write(obj.WordWrap);
+			output.Write((byte)obj.HorAlign);
+			output.Write((byte)obj.VerAlign);
+			output.Write(obj.Font);
+			output.Write(obj.FontSize);
+			output.Write(obj.Underlined);
+			output.Write(obj.StrikedOut);
+		}
+
+		void WriteRectangleObject(ContentWriter output) =>
+			output.Write((byte)TiledObjectType.Rectangle);
+
+		#endregion Objects.
+
 
 		public override string GetRuntimeType(TargetPlatform targetPlatform) =>
 			"Monofoxe.Tiled.MapStructure.TiledMap, Monofoxe.Tiled";
