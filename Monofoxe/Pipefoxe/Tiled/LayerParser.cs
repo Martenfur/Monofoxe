@@ -133,12 +133,31 @@ namespace Pipefoxe.Tiled
 				XmlHelper.GetXmlFloatSafe(layerXml, "offsety")
 			);
 
+			if (layerXml.Attributes["color"] != null)
+			{
+				layer.Color = XmlHelper.StringToColor(layerXml.Attributes["color"].Value);
+			}
+
+			if (XmlHelper.GetXmlStringSafe(layerXml, "draworder") == "index")
+			{
+				layer.DrawingOrder = TiledMapObjectDrawingOrder.Manual;
+			}
+			else
+			{
+				layer.DrawingOrder = TiledMapObjectDrawingOrder.TopDown;
+			}
+
+			// Parsing objects.
 			var objectsXml = layerXml.SelectNodes("object");
+			var objects = new List<TiledObject>();
 
 			foreach(XmlNode obj in objectsXml)
 			{
-				ParseObject(obj);
+				objects.Add(ParseObject(obj));
 			}
+
+			layer.Objects = objects.ToArray();
+			// Parsing objects.
 
 			return layer;
 		}

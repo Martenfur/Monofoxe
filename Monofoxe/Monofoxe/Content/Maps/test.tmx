@@ -13,7 +13,7 @@
  <tileset firstgid="38" source="Objects/objects.tsx"/>
  <imagelayer id="7" name="img"/>
  <group id="5" name="folder">
-  <objectgroup id="6" name="objects">
+  <objectgroup color="#55aa00" draworder="index" id="6" name="objects">
    <object id="13" template="Objects/Rectangley.tx" x="758.454" y="339.485"/>
    <object id="14" name="Pointy" x="623.121" y="330.485">
     <point/>

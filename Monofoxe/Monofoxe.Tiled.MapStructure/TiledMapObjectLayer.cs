@@ -5,7 +5,7 @@ namespace Monofoxe.Tiled.MapStructure
 {
 	public class TiledMapObjectLayer : TiledMapLayer
 	{
-		public TiledObject[] Object;
+		public TiledObject[] Objects;
 		public TiledMapObjectDrawingOrder DrawingOrder;
 		public Color Color;
 	}
