@@ -128,14 +128,10 @@ namespace Monofoxe.Engine
 
 		public static void Draw(GameTime gameTime)
 		{
-			UpdateFps(gameTime);
+			_fpsCounter.Update(gameTime);
 			DrawMgr.Update(gameTime);
 		}
-
 		
-
-		public static void UpdateFps(GameTime gameTime) => 
-			_fpsCounter.Update(gameTime);
 
 
 		/// <summary>

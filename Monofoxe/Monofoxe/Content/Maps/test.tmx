@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#0a0000" nextlayerid="9" nextobjectid="37">
+<map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#0a0000" nextlayerid="9" nextobjectid="54">
  <tileset firstgid="1" source="testTileset.tsx"/>
  <tileset firstgid="17" source="mahBoi.tsx"/>
  <tileset firstgid="21" source="dirt.tsx"/>
@@ -14,6 +14,9 @@
  <imagelayer id="7" name="img"/>
  <group id="5" name="folder">
   <objectgroup color="#55aa00" draworder="index" id="6" name="objects">
+   <properties>
+    <property name="priority" type="int" value="-999"/>
+   </properties>
    <object id="13" template="Objects/Rectangley.tx" x="758.454" y="339.485"/>
    <object id="14" name="Pointy" x="623.121" y="330.485">
     <point/>
@@ -46,6 +49,22 @@ LET'S MAKE SOME FOXES TONIGHT</text>
 LET'S MAKE SOME FOXES </text>
    </object>
    <object id="36" name="TileyTile" gid="15" x="878.667" y="653.333" width="32" height="32"/>
+   <object id="37" template="Objects/BarrelBoi.tx" x="36" y="70.6667"/>
+   <object id="38" template="Objects/BarrelBoi.tx" x="26.6667" y="129.333"/>
+   <object id="39" template="Objects/BarrelBoi.tx" x="29.3333" y="185.333"/>
+   <object id="40" template="Objects/BarrelBoi.tx" x="90.6667" y="189.333"/>
+   <object id="41" template="Objects/BarrelBoi.tx" x="90.6667" y="189.333"/>
+   <object id="42" template="Objects/BarrelBoi.tx" x="162.667" y="190.667"/>
+   <object id="43" template="Objects/BarrelBoi.tx" x="105.333" y="69.3333" width="323.333" height="57"/>
+   <object id="44" template="Objects/BarrelBoi.tx" x="178.667" y="61.3333"/>
+   <object id="45" template="Objects/BarrelBoi.tx" x="178.667" y="61.3333"/>
+   <object id="46" template="Objects/BarrelBoi.tx" x="184" y="128"/>
+   <object id="48" template="Objects/BarrelBoi.tx" x="-184" y="70.6667"/>
+   <object id="49" template="Objects/BarrelBoi.tx" x="-132" y="77.3333"/>
+   <object id="50" template="Objects/BarrelBoi.tx" x="-232" y="66.6667"/>
+   <object id="51" template="Objects/BarrelBoi.tx" x="-281.333" y="72"/>
+   <object id="52" template="Objects/BarrelBoi.tx" x="-338.667" y="73.3333"/>
+   <object id="53" template="Objects/BarrelBoi.tx" x="-84" y="81.3333"/>
   </objectgroup>
   <layer id="2" name="Tile Layer 1" width="200" height="200" visible="0" locked="1" opacity="0.99">
    <properties>

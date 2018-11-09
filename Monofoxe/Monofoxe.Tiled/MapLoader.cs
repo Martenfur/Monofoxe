@@ -7,7 +7,7 @@ using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Tiled.MapStructure;
 using Monofoxe.Tiled.MapStructure.Objects;
 using Monofoxe.Utils.Tilemaps;
-
+using System.Linq;
 
 namespace Monofoxe.Tiled
 {
@@ -19,8 +19,21 @@ namespace Monofoxe.Tiled
 			
 			foreach(var layer in map.ObjectLayers)
 			{
+				var currentLayer = scene.CreateLayer(layer.Name);
+				try
+				{
+					currentLayer.Priority = int.Parse(layer.Properties["priority"]);
+				}
+				catch(Exception)
+				{
+					currentLayer.Priority = 0;
+				}
+
 				foreach(var obj in layer.Objects)
-					Console.WriteLine(obj.Name + " " + obj.Position + " " + obj.Size);
+				{
+					Console.WriteLine(obj.Name + " " + obj.Type);
+					MapMgr.MakeEntity(obj, currentLayer);
+				}
 			}
 			
 			var tilesets = ConvertTilesets(map.Tilesets);
@@ -111,5 +124,9 @@ namespace Monofoxe.Tiled
 
 			return null;
 		}
+
+		
+		
+
 	}
 }

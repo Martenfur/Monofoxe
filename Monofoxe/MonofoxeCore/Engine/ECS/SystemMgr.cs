@@ -118,7 +118,6 @@ namespace Monofoxe.Engine.ECS
 					_systemPool.Add(newSystem.Tag, newSystem);
 				}
 			}
-
 		}
 		
 

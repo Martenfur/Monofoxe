@@ -26,6 +26,8 @@ namespace Monofoxe
 		{
 			base.Initialize();
 			
+			Tiled.MapMgr.Init();
+
 			new MainTester();
 		}
 
@@ -69,8 +71,7 @@ namespace Monofoxe
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw(GameTime gameTime)
 		{
-			GameMgr.UpdateFps(gameTime);
-			DrawMgr.Update(gameTime);
+			GameMgr.Draw(gameTime);
 			
 			base.Draw(gameTime);
 		}

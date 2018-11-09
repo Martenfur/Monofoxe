@@ -5,8 +5,6 @@ namespace Monofoxe.Tiled.MapStructure.Objects
 {
 	/// <summary>
 	/// Base tiled object.
-	/// 
-	/// NOTE: Also represents rectangle and ellipse objects.
 	/// </summary>
 	public class TiledObject
 	{
@@ -27,6 +25,7 @@ namespace Monofoxe.Tiled.MapStructure.Objects
 		{
 			// Just copying everything.
 			Name = obj.Name;
+			Type = obj.Type;
 			ID = obj.ID;
 			Position = obj.Position;
 			Size = obj.Size;

@@ -59,6 +59,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Test\MapFactories\BarrelMapFactory.cs" />
     <Compile Include="Test\TileTester.cs" />
     <Content Include="Content\Effects\AlphaBlend.fx" />
     <Content Include="Content\Effects\BW.fx" />

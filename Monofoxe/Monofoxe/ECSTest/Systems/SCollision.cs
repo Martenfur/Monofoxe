@@ -26,6 +26,7 @@ namespace Monofoxe.ECSTest.Systems
 			
 			var id = 0;
 			var otherId = 0;
+			/*
 			foreach(CCollision collider in components)
 			{
 				otherId = 0;
@@ -49,7 +50,7 @@ namespace Monofoxe.ECSTest.Systems
 				}
 				id += 1;
 			}
-			
+			*/
 			id = 0;
 			foreach(CCollision collider in components)
 			{
@@ -71,8 +72,8 @@ namespace Monofoxe.ECSTest.Systems
 			var id = 0;
 			foreach(CCollision collider in components)
 			{
-				//DrawMgr.DrawCircle(movement[id].Position, collider.MaskR, true);
-				DrawMgr.DrawSprite(Resources.Sprites.SpritesDefault.Flare, movement[id].Position);
+				DrawMgr.DrawCircle(movement[id].Position, collider.MaskR, true);
+				DrawMgr.DrawSprite(Resources.Sprites.SpritesDefault.Barrel, movement[id].Position);
 				id += 1;
 			}
 			DrawMgr.CurrentEffect = null;
