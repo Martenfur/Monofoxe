@@ -34,7 +34,7 @@ namespace Monofoxe.Test
 		
 		public MainTester() : base(SceneMgr.GetScene("default")["default"])
 		{
-
+			
 			var scene = SceneMgr.GetScene("default");
 			var layer = scene.CreateLayer("balls", -1);
 			layer.IsGUI = false;

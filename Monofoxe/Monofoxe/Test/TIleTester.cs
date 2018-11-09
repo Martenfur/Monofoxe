@@ -28,7 +28,8 @@ namespace Monofoxe.Test
 			Resources.Maps.Load();
 
 			_map = Resources.Maps.Test;
-			MapLoader.LoadMap(_map);
+			var loader = new MapLoader();
+			loader.LoadMap(_map);
 
 			//Console.WriteLine(_map.Tilesets[0].Textures == null);
 			//frame = new Frame(_map.Tilesets[0].Textures[0], new Rectangle(0, 0, 128, 128), Vector2.Zero, 128, 128);
