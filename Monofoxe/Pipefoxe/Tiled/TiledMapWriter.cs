@@ -201,6 +201,7 @@ namespace Pipefoxe.Tiled
 		void WriteBaseObject(ContentWriter output, TiledObject obj)
 		{
 			output.Write(obj.Name);
+			output.Write(obj.Type);
 			output.Write(obj.ID);
 			output.Write(obj.Position);
 			output.Write(obj.Size);

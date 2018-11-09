@@ -238,6 +238,8 @@ namespace Monofoxe.Tiled.ContentReaders
 			var obj = new TiledObject();
 
 			obj.Name = input.ReadString();
+			obj.Type = input.ReadString();
+			Console.WriteLine("READING " + obj.Type);
 			obj.ID = input.ReadInt32();
 			obj.Position = input.ReadVector2();
 			obj.Size = input.ReadVector2();
