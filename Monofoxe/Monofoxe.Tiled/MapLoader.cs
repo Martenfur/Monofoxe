@@ -13,77 +13,22 @@ namespace Monofoxe.Tiled
 {
 	public class MapLoader
 	{
-		public static Scene LoadMap(TiledMap map)
+		public virtual Scene LoadMap(TiledMap map)
 		{
-			var scene = SceneMgr.CreateScene("New map");//map.Name);
-			
-			foreach(var layer in map.ObjectLayers)
-			{
-				var currentLayer = scene.CreateLayer(layer.Name);
-				try
-				{
-					currentLayer.Priority = int.Parse(layer.Properties["priority"]);
-				}
-				catch(Exception)
-				{
-					currentLayer.Priority = 0;
-				}
-
-				foreach(var obj in layer.Objects)
-				{
-					Console.WriteLine(obj.Name + " " + obj.Type);
-					MapMgr.MakeEntity(obj, currentLayer);
-				}
-			}
+			var scene = SceneMgr.CreateScene("New map");//map.Name); // TODO: Add map name.
 			
 			var tilesets = ConvertTilesets(map.Tilesets);
 
-			// TODO: Add image layer support? I guess?
-
-			foreach(var tileLayer in map.TileLayers)
-			{
-				var layer = scene.CreateLayer(tileLayer.Name);
-				try
-				{
-					layer.Priority = int.Parse(tileLayer.Properties["priority"]);
-				}
-				catch(Exception)
-				{
-					layer.Priority = 0;
-				}
-
-				var tilemap = new BasicTilemapComponent(tileLayer.Width, tileLayer.Height, tileLayer.TileWidth, tileLayer.TileHeight);
-				for(var y = 0; y < tilemap.Height; y += 1)	
-				{
-					for(var x = 0; x < tilemap.Width; x += 1)
-					{		
-						var tileNum = y * tilemap.Width + x;
-
-						var tileIndex = tileLayer.Tiles[x][y].GID;
-
-						tilemap.SetTile(
-							x, y, 
-							new BasicTile(
-								tileIndex, 
-								GetTilesetFromIndex(tileIndex, tilesets),
-								tileLayer.Tiles[x][y].FlipHor,
-								tileLayer.Tiles[x][y].FlipVer,
-								tileLayer.Tiles[x][y].FlipDiag
-							)
-						);
-					}
-				}
-				//return tilemap;
-
-				var tilemapEntity = new Entity(layer, tilemap.Tag);
-				tilemapEntity.AddComponent(tilemap);
-				//tilemap.Offset = Vector2.One * 32;
-			}
+			LoadTileLayers(map, scene, tilesets);
+			LoadObjectLayers(map, scene);
+			LoadImageLayers(map, scene);
 
 			return scene;
 		}
 
-		static List<Tileset> ConvertTilesets(TiledMapTileset[] tilesets)
+
+		
+		protected virtual List<Tileset> ConvertTilesets(TiledMapTileset[] tilesets)
 		{
 			var convertedTilesets = new List<Tileset>();
 
@@ -112,7 +57,7 @@ namespace Monofoxe.Tiled
 			return convertedTilesets;
 		}
 
-		static Tileset GetTilesetFromIndex(int index, List<Tileset> tilesets)
+		protected Tileset GetTilesetFromIndex(int index, List<Tileset> tilesets)
 		{
 			foreach(var tileset in tilesets)
 			{
@@ -125,7 +70,79 @@ namespace Monofoxe.Tiled
 			return null;
 		}
 
+
+
+		protected virtual void LoadTileLayers(TiledMap map, Scene scene, List<Tileset> tilesets)
+		{
+			foreach(var tileLayer in map.TileLayers)
+			{
+				var layer = scene.CreateLayer(tileLayer.Name);
+				layer.Priority = GetLayerPriority(tileLayer);
+				
+				var tilemap = new BasicTilemapComponent(tileLayer.Width, tileLayer.Height, tileLayer.TileWidth, tileLayer.TileHeight);
+				for(var y = 0; y < tilemap.Height; y += 1)	
+				{
+					for(var x = 0; x < tilemap.Width; x += 1)
+					{
+						var tileIndex = tileLayer.Tiles[x][y].GID;
+
+						tilemap.SetTile(
+							x, y, 
+							new BasicTile(
+								tileIndex, 
+								GetTilesetFromIndex(tileIndex, tilesets),
+								tileLayer.Tiles[x][y].FlipHor,
+								tileLayer.Tiles[x][y].FlipVer,
+								tileLayer.Tiles[x][y].FlipDiag
+							)
+						);
+					}
+				}
+				
+				var tilemapEntity = new Entity(layer, tilemap.Tag);
+				tilemapEntity.AddComponent(tilemap);
+			}
+		}
 		
+
+
+		protected virtual void LoadObjectLayers(TiledMap map, Scene scene)
+		{
+			foreach(var objectLayer in map.ObjectLayers)
+			{
+				var layer = scene.CreateLayer(objectLayer.Name);
+				layer.Priority = GetLayerPriority(objectLayer);
+
+				foreach(var obj in objectLayer.Objects)
+				{
+					Console.WriteLine(obj.Name + " " + obj.Type);
+					MapMgr.MakeEntity(obj, layer);
+				}
+			}
+		}
+
+		protected virtual void LoadImageLayers(TiledMap map, Scene scene)
+		{
+			// TODO: Add image layer support.
+		}
+
+
+		/// <summary>
+		/// Returns Tiled layer priority, which is stored in its properties.
+		/// If no such property was found, returns 0.
+		/// </summary>
+		protected int GetLayerPriority(TiledMapLayer layer)
+		{
+			try
+			{
+				return int.Parse(layer.Properties["priority"]);
+			}
+			catch(Exception)
+			{
+				return 0;
+			}
+		}
+
 		
 
 	}
