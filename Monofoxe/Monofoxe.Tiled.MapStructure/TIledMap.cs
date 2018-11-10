@@ -8,6 +8,8 @@ namespace Monofoxe.Tiled.MapStructure
 	/// </summary>
 	public class TiledMap
 	{
+		public string Name;
+
 		public Color? BackgroundColor;
 
 		public int Width;

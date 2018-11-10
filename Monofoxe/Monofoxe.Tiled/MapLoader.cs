@@ -5,9 +5,7 @@ using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Tiled.MapStructure;
-using Monofoxe.Tiled.MapStructure.Objects;
 using Monofoxe.Utils.Tilemaps;
-using System.Linq;
 
 namespace Monofoxe.Tiled
 {
@@ -15,7 +13,7 @@ namespace Monofoxe.Tiled
 	{
 		public virtual Scene LoadMap(TiledMap map)
 		{
-			var scene = SceneMgr.CreateScene("New map");//map.Name); // TODO: Add map name.
+			var scene = SceneMgr.CreateScene(map.Name);
 			
 			var tilesets = ConvertTilesets(map.Tilesets);
 
@@ -115,7 +113,6 @@ namespace Monofoxe.Tiled
 
 				foreach(var obj in objectLayer.Objects)
 				{
-					Console.WriteLine(obj.Name + " " + obj.Type);
 					MapMgr.MakeEntity(obj, layer);
 				}
 			}
