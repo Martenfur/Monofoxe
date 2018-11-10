@@ -16,6 +16,8 @@ namespace Monofoxe.Tiled.ContentReaders
 		protected override TiledMap Read(ContentReader input, TiledMap existingInstance)
 		{
 			var map = new TiledMap();
+			map.Name = input.AssetName;
+			Console.WriteLine(map.Name);
 			map.BackgroundColor = input.ReadObject<Color?>();
 			map.Width = input.ReadInt32();
 			map.Height = input.ReadInt32();
@@ -239,7 +241,6 @@ namespace Monofoxe.Tiled.ContentReaders
 
 			obj.Name = input.ReadString();
 			obj.Type = input.ReadString();
-			Console.WriteLine("READING " + obj.Type);
 			obj.ID = input.ReadInt32();
 			obj.Position = input.ReadVector2();
 			obj.Size = input.ReadVector2();

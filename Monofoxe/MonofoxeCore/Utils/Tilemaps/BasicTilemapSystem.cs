@@ -75,7 +75,7 @@ namespace Monofoxe.Utils.Tilemaps
 								/*
 								 * Ok, so here's the deal.
 								 * Monogame, understandibly, has no diagonal flip,
-								 * so it's implemented by offsetting, and rotating, and horizontal flipping.
+								 * so it's implemented by offsetting, rotating, and horizontal flipping.
 								 * Also, order actually matters. Diagonal flip should always go first.
 								 * 
 								 * Yes, this can be implemented with primitives. 
