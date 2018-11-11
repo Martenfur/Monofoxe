@@ -11,7 +11,9 @@
   <image source="man.png" width="62" height="83"/>
  </tileset>
  <tileset firstgid="38" source="Objects/objects.tsx"/>
- <imagelayer id="7" name="img"/>
+ <imagelayer id="7" name="img" offsetx="-142.667" offsety="-133.333">
+  <image source="man.png" width="62" height="83"/>
+ </imagelayer>
  <group id="5" name="folder">
   <objectgroup color="#55aa00" draworder="index" id="6" name="objects">
    <properties>

@@ -30,6 +30,7 @@ namespace Monofoxe.Tiled.MapStructure
 
 		public TiledMapTileLayer[] TileLayers;
 		public TiledMapObjectLayer[] ObjectLayers;
+		public TiledMapImageLayer[] ImageLayers;
 
 
 		public Dictionary<string, string> Properties;

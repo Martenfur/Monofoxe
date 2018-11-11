@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Monofoxe.Tiled.MapStructure;
-using Microsoft.Xna.Framework.Content.Pipeline;
-using System.Xml;
-using System.Text;
-using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System.Globalization;
+using System.Xml;
+using Microsoft.Xna.Framework;
+using Monofoxe.Tiled.MapStructure;
 
 namespace Pipefoxe.Tiled
 {
-	
+
 	static class TilesetParser
 	{
 		/// <summary>
@@ -29,6 +25,7 @@ namespace Pipefoxe.Tiled
 		public const string IgnoreTilesetTextureFlag = "__ignoreTilesetTexture";
 
 
+
 		public static TiledMapTileset[] Parse(XmlNodeList nodes)
 		{
 			var tilesets = new List<TiledMapTileset>();
@@ -43,6 +40,8 @@ namespace Pipefoxe.Tiled
 			}
 			return tilesets.ToArray();
 		}
+
+
 
 		static TiledMapTileset ParseTileset(XmlNode tilesetXml)
 		{
@@ -110,12 +109,11 @@ namespace Pipefoxe.Tiled
 
 			/*
 			 * It is very problematic to load Texture2D without
-			 * GraphicsDevice, so textures are imported separately
-			 * through Pipeline. At this stage map will just remember their 
+			 * GraphicsDevice, so textures are imported later as external references.
+			 * At this stage map will just remember their 
 			 * relative paths, and will pick textures up later.
 			 */
-			TiledMapImporter.__Log(tileset.Name + ":");
-
+			
 			tileset.Tiles = new TiledMapTilesetTile[tileset.TileCount];
 
 			if (tilesetXml["image"] != null)
@@ -129,8 +127,6 @@ namespace Pipefoxe.Tiled
 
 				texturePaths[0] = tilesetXml["image"].Attributes["source"].Value;
 				tileset.TexturePaths = texturePaths;
-
-				TiledMapImporter.__Log("Single image tileset: " + tileset.TexturePaths[0]);
 
 				var currentID = 0;
 				for(var y = 0; y < tileset.Height; y += 1)
@@ -185,8 +181,7 @@ namespace Pipefoxe.Tiled
 						tile.TextureID = texturePaths.Count;
 						texturePaths.Add(texturePath);
 					}
-					TiledMapImporter.__Log("Image collection tileset: " + texturePath);
-
+					
 					tile.TexturePosition = new Rectangle(
 						0, 0,
 						int.Parse(nodePair.Value["image"].Attributes["width"].Value),
