@@ -16,7 +16,9 @@ namespace Pipefoxe.Tiled
 	{
 		static List<TiledMapTileLayer> _tileLayers;
 		static List<TiledMapObjectLayer> _objectLayers;
+		static List<TiledMapImageLayer> _imageLayers;
 		
+
 		// TODO: Add image layers.
 
 		public static void Parse(XmlNode mapXml, TiledMap map)
@@ -173,8 +175,6 @@ namespace Pipefoxe.Tiled
 			{
 				node = MergeWithTemplate(node);
 			}
-
-			TiledMapImporter.__Log(node.OuterXml);
 
 			// Determining object type.
 			var obj = ParseBaseObject(node);

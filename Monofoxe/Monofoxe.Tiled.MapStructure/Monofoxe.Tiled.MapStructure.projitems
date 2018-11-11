@@ -24,6 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)StaggerAxis.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StaggerIndex.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TiledMap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TiledMapImageLayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TiledMapLayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TiledMapObjectDrawingOrder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TiledMapObjectLayer.cs" />
