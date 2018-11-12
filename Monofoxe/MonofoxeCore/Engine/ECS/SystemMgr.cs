@@ -127,6 +127,13 @@ namespace Monofoxe.Engine.ECS
 			*/
 
 			var assemblies = new Dictionary<string, Assembly>();
+
+			foreach(var asm in AppDomain.CurrentDomain.GetAssemblies())
+			{
+				assemblies.Add(asm.FullName, asm);
+			}
+
+
 			LoadAllReferencedAssemblies(Assembly.GetEntryAssembly(), assemblies, 0);
 			/*
 			foreach(var asm in assemblies)
@@ -147,7 +154,7 @@ namespace Monofoxe.Engine.ECS
 			// TODO: Sort all this stuff out.
 
 			var systemTypes = new List<Type>();
-			
+
 			foreach(var asm in assemblies)
 			{
 				foreach(var type in asm.Value.GetTypes())
@@ -158,6 +165,7 @@ namespace Monofoxe.Engine.ECS
 					}
 				}
 			}
+			
 			
 
 			foreach(var systemType in systemTypes)

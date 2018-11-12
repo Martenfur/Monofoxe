@@ -114,6 +114,7 @@ namespace Monofoxe.Tiled
 
 				foreach(var obj in objectLayer.Objects)
 				{
+					Console.WriteLine("Making " + obj.Name);
 					MapMgr.MakeEntity(obj, layer);
 				}
 			}
