@@ -1,6 +1,6 @@
 ﻿using Monofoxe.Engine;
 
-namespace Monofoxe.Utils
+namespace Monofoxe.Engine.Utils
 {
 	/// <summary>
 	/// Counts down seconds. Needs to be updated manually.
@@ -13,20 +13,11 @@ namespace Monofoxe.Utils
 		public new double Counter;
 		
 		/// <summary>
-		/// Alarm won't update if it's inactive.
-		/// </summary>
-		//public bool Active = false;
-
-		/// <summary>
 		/// Tells if alarm was triggered.
 		/// </summary>
 		public bool Triggered {get; protected set;} = false;
 
-		/// <summary>
-		/// Tells if alarm is affected by GameMgr.GameSpeedMultiplier.
-		/// </summary>
-		//public bool AffectedBySpeedMultiplier = true;
-
+		
 
 		public Alarm() {}
 		public Alarm(TimeKeeper timeKeeper) : base(timeKeeper) {}

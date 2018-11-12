@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.ECS;
 
-namespace Monofoxe.Utils.Tilemaps
+namespace Monofoxe.Engine.Utils.Tilemaps
 {
 	/// <summary>
 	/// Component for Tiled image layers.

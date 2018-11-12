@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
-namespace Monofoxe.Utils
+namespace Monofoxe.Engine.Utils
 {
 	/// <summary>
 	/// Extends System.Random.

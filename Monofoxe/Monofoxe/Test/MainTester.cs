@@ -4,8 +4,8 @@ using Monofoxe.Engine.Drawing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
-using Monofoxe.Utils;
-using Monofoxe.Utils.Cameras;
+using Monofoxe.Engine.Utils;
+using Monofoxe.Engine.Utils.Cameras;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.SceneSystem;
 

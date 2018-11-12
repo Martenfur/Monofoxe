@@ -4,7 +4,7 @@ using Monofoxe.Engine;
 using Monofoxe.Engine.ECS;
 
 
-namespace Monofoxe.Utils.Tilemaps
+namespace Monofoxe.Engine.Utils.Tilemaps
 {
 	/// <summary>
 	/// System for Tiled image layers. Just draws all images from components.

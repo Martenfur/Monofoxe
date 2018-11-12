@@ -4,7 +4,7 @@ using Monofoxe.Engine.Drawing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
-using Monofoxe.Utils;
+using Monofoxe.Engine.Utils;
 using Resources.Sprites;
 using Resources;
 using Monofoxe.Engine.FMODAudio;

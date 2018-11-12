@@ -7,7 +7,7 @@ using Monofoxe.Engine;
 using System.Collections.Generic;
 
 
-namespace Monofoxe.Utils.Tilemaps
+namespace Monofoxe.Engine.Utils.Tilemaps
 {
 	/// <summary>
 	/// System for basic tilemap. Based on Monofoxe.ECS.

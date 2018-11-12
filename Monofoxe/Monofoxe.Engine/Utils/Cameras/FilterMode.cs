@@ -1,4 +1,4 @@
-﻿namespace Monofoxe.Utils.Cameras
+﻿namespace Monofoxe.Engine.Utils.Cameras
 {
 	/// <summary>
 	/// filtering modes for camera.

@@ -1,5 +1,5 @@
 ﻿
-namespace Monofoxe.Utils
+namespace Monofoxe.Engine.Utils
 {
 	/// <summary>
 	/// Counts down seconds. Needs to be updated manually. Sets itself automatically after triggering.

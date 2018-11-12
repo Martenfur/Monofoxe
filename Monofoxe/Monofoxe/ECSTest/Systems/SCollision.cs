@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Monofoxe.Engine.ECS;
 using Monofoxe.ECSTest.Components;
-using Monofoxe.Utils;
+using Monofoxe.Engine.Utils;
 using Monofoxe.Engine;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

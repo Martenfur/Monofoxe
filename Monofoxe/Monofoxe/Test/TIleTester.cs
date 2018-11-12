@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Monofoxe.Engine;
-using Monofoxe.Utils;
+using Monofoxe.Engine.Utils;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.Drawing;
@@ -10,7 +10,7 @@ using Resources.Sprites;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Tiled;
 using Monofoxe.Tiled.MapStructure;
-using Monofoxe.Utils.Tilemaps;
+using Monofoxe.Engine.Utils.Tilemaps;
 
 
 

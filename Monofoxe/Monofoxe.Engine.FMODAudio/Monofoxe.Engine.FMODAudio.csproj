@@ -31,9 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Monofoxe, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\MonofoxeLib\bin\DesktopGL\AnyCPU\Debug\Monofoxe.dll</HintPath>
+    <Reference Include="Monofoxe.Engine">
+      <HintPath>..\Monofoxe.Engine\bin\DesktopGL\AnyCPU\Debug\Monofoxe.Engine.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>

@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Monofoxe.Engine.Drawing;
-using Monofoxe.Utils.Cameras;
+using Monofoxe.Engine.Utils.Cameras;
 using Monofoxe.Engine.SceneSystem;
 
 namespace Monofoxe.Engine

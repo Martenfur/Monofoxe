@@ -21,7 +21,7 @@ namespace Pipefoxe.EntityTemplate
 
 
 		public override string GetRuntimeReader(TargetPlatform targetPlatform) =>
-			"Monofoxe.Engine.ContentReaders.EntityTemplateReader, Monofoxe";
+			"Monofoxe.Engine.ContentReaders.EntityTemplateReader, Monofoxe.Engine";
 
 	}
 }

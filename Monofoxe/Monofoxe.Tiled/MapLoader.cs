@@ -5,7 +5,7 @@ using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Tiled.MapStructure;
-using Monofoxe.Utils.Tilemaps;
+using Monofoxe.Engine.Utils.Tilemaps;
 using Monofoxe.Engine;
 
 namespace Monofoxe.Tiled

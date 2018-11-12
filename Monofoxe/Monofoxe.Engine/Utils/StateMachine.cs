@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Monofoxe.Utils
+namespace Monofoxe.Engine.Utils
 {
 	public delegate void StateMachineDelegate<T>(StateMachine<T> caller);
 
