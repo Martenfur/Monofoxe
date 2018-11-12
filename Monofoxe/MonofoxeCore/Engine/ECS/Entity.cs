@@ -99,28 +99,30 @@ namespace Monofoxe.Engine.ECS
 		 * - FixedUpdate
 		 * - Update
 		 * - Draw
-		 * - DrawGUI
 		 * 
 		 * NOTE: Component events are executed before entity events.
 		 */
 
 		
 		/// <summary>
-		/// Update at a fixed rate.
+		/// Updates at a fixed rate.
 		/// </summary>
 		public virtual void FixedUpdate() {}
 		
 		
 		
 		/// <summary>
-		/// Update at every frame.
+		/// Updates every frame.
 		/// </summary>
 		public virtual void Update() {}
 		
 		
 
 		/// <summary>
-		/// Draw event.
+		/// Draw updates.
+		/// 
+		/// NOTE: DO NOT put any significant logic into Draw.
+		/// It may skip frames.
 		/// </summary>
 		public virtual void Draw() {}
 		

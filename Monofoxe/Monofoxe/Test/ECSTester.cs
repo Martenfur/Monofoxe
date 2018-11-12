@@ -24,7 +24,7 @@ namespace Monofoxe.Test
 
 		public override void Update()
 		{
-			Console.WriteLine(Layer.Count("ball") + " " + SystemMgr.__dbgSysCount);
+			Console.WriteLine(Layer.Count("ball"));
 		
 			if (Input.CheckButton(Buttons.MouseLeft))
 			{

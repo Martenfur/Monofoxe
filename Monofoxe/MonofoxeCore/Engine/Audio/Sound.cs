@@ -182,8 +182,7 @@ namespace Monofoxe.Engine.Audio
 			SetLastResult(_channel?.setPosition(position, timeUnit));
 		
 		
-
-		//TODO: Add Vector3 functions, if you will need them.
+		
 
 		/// <summary>
 		/// Sets sound mode to 3D and plays it at the given position.

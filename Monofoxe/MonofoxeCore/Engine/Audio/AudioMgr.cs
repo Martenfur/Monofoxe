@@ -20,8 +20,7 @@ namespace Monofoxe.Engine.Audio
 	{
 		public static FMOD.System FMODSystem;
 		public static FMOD.RESULT LastResult {get; internal set;}
-
-		private static string _audioPath = AssetMgr.ContentDir + '/' + AssetMgr.AudioDir + '/'; // TODO: Remove this.
+		
 		private static string _sfxExtension = ".wav";
 		private static string _musicExtension = ".ogg";
 
@@ -97,7 +96,7 @@ namespace Monofoxe.Engine.Audio
 		public static Sound LoadSound(string name, FMOD.MODE mode = FMOD.MODE.DEFAULT)
 		{
 			FMOD.Sound newSound;
-			LastResult = FMODSystem.createSound(_audioPath + name + _sfxExtension, mode, out newSound);
+			LastResult = FMODSystem.createSound(AssetMgr.ContentDir + '/' + AssetMgr.AudioDir + '/' + name + _sfxExtension, mode, out newSound);
 			
 			return new Sound(FMODSystem, newSound);
 		}
@@ -109,7 +108,7 @@ namespace Monofoxe.Engine.Audio
 		public static Sound LoadStreamedSound(string name, FMOD.MODE mode = FMOD.MODE.DEFAULT)
 		{
 			FMOD.Sound newSound;
-			LastResult = FMODSystem.createStream(_audioPath + name + _musicExtension, mode, out newSound);
+			LastResult = FMODSystem.createStream(AssetMgr.ContentDir + '/' + AssetMgr.AudioDir + '/' + name + _musicExtension, mode, out newSound);
 			
 			return new Sound(FMODSystem, newSound);
 		}
