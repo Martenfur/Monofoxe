@@ -13,6 +13,11 @@ namespace Monofoxe.Utils.Tilemaps
 	{
 		public override string Tag => "imageLayer";
 		
+		public override void Create(Component image)
+		{
+			System.Console.WriteLine("I am create event!");
+		}
+
 		public override void Draw(List<Component> images)
 		{
 			foreach(ImageLayerComponent image in images)
