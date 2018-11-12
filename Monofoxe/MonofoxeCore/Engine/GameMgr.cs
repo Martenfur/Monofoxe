@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
-using Monofoxe.Engine.Audio;
 using Monofoxe.Engine.ECS;
 
 namespace Monofoxe.Engine
@@ -101,7 +100,7 @@ namespace Monofoxe.Engine
 			
 			SystemMgr.InitSystemPool();
 			AssetMgr.Init();
-			AudioMgr.Init();
+			//AudioMgr.Init();
 		}
 
 		
@@ -122,7 +121,7 @@ namespace Monofoxe.Engine
 			
 			Input.Update();
 			EntityMgr.Update(gameTime);
-			AudioMgr.Update();
+			//AudioMgr.Update();
 		}
 
 

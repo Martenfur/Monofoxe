@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine;
-using Monofoxe.Engine.Audio;
+using Monofoxe.Engine.FMODAudio;
 using Monofoxe.Test;
 
 namespace Monofoxe
@@ -14,6 +14,7 @@ namespace Monofoxe
 		{
 			Content.RootDirectory = AssetMgr.ContentDir;
 			GameMgr.Init(this);
+			AudioMgr.Init();
 		}
 
 		/// <summary>
@@ -61,7 +62,8 @@ namespace Monofoxe
 		protected override void Update(GameTime gameTime)
 		{
 			GameMgr.Update(gameTime);
-			
+			AudioMgr.Update();
+
 			base.Update(gameTime);
 		}
 

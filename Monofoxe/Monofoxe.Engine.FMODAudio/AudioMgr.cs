@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 // FMOD classes seriously interfere with System namespace.
 
 
-namespace Monofoxe.Engine.Audio
+namespace Monofoxe.Engine.FMODAudio
 {
 	// TODO: Figure out how to make this stuff cross-platform.
 	// Maybe add an interface and make a singleton?
@@ -44,7 +44,7 @@ namespace Monofoxe.Engine.Audio
 		//static extern IntPtr dlopen(string filename, int flags);
 
 
-		internal static void Init()
+		public static void Init()
 		{
 			if (_isWindows)
 			{
@@ -82,7 +82,7 @@ namespace Monofoxe.Engine.Audio
 		}
 
 
-		internal static void Update() =>
+		public static void Update() =>
 			FMODSystem.update();
 		
 		public static void Unload() =>

@@ -131,6 +131,7 @@ namespace Monofoxe.Engine.ECS
 			foreach(var asm in AppDomain.CurrentDomain.GetAssemblies())
 			{
 				assemblies.Add(asm.FullName, asm);
+				Console.WriteLine("assembly: " + asm.FullName);
 			}
 
 
@@ -173,8 +174,8 @@ namespace Monofoxe.Engine.ECS
 				if (systemType != typeof(BaseSystem))
 				{
 					var newSystem = (BaseSystem)Activator.CreateInstance(systemType);
-					_systemPool.Add(newSystem.Tag, newSystem);
 					Console.WriteLine("System:" + newSystem.Tag);
+					_systemPool.Add(newSystem.Tag, newSystem);
 				}
 			}
 		}
@@ -194,6 +195,7 @@ namespace Monofoxe.Engine.ECS
 				{
 					var asm = Assembly.Load(refAssembly);
 					assemblies.Add(refAssembly.FullName, asm);
+					
 					LoadAllReferencedAssemblies(asm, assemblies, level + 1);
 				}
 			}

@@ -4,15 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1EDA060A-DFE0-460E-9DAA-CB8D6D046411}</ProjectGuid>
+    <ProjectGuid>{34272495-2678-4BBD-B301-3B3BCF94EAC9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Monofoxe.Tiled</RootNamespace>
-    <AssemblyName>Monofoxe.Tiled</AssemblyName>
+    <RootNamespace>Monofoxe.Engine.FMODAudio</RootNamespace>
+    <AssemblyName>Monofoxe.Engine.FMODAudio</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,14 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Monofoxe">
+    <Reference Include="Monofoxe, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MonofoxeLib\bin\DesktopGL\AnyCPU\Debug\Monofoxe.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -51,14 +48,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContentReaders\TiledMapReader.cs" />
-    <Compile Include="ImageLayerComponent.cs" />
-    <Compile Include="ImageLayerSystem.cs" />
-    <Compile Include="ITiledEntityFactory.cs" />
-    <Compile Include="MapLoader.cs" />
-    <Compile Include="MapMgr.cs" />
+    <Compile Include="AudioMgr.cs" />
+    <Compile Include="FMOD\fmod.cs" />
+    <Compile Include="FMOD\fmod_dsp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sound.cs" />
   </ItemGroup>
-  <Import Project="..\Monofoxe.Tiled.MapStructure\Monofoxe.Tiled.MapStructure.projitems" Label="Shared" />
+  <ItemGroup>
+    <None Include="FMOD\x32\fmod.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FMOD\x64\fmod.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
