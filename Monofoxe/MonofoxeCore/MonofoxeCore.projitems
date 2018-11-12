@@ -10,8 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Engine\AssetMgr.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Engine\Audio\AudioMgr.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Engine\Audio\Sound.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Buttons.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\CanvasMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\ContentReaders\EntityTemplateReader.cs" />
@@ -45,8 +43,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Engine\Input.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\EntityMgr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Engine\WindowMgr.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FMOD\fmod.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)FMOD\fmod_dsp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Alarm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\AutoAlarm.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Cameras\CameraMgr.cs" />
@@ -65,15 +61,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Timer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)FMOD\x32\fmod.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="$(MSBuildThisFileDirectory)FMOD\x64\fmod.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Engine\Audio\" />
     <Folder Include="$(MSBuildThisFileDirectory)Utils\Cameras\" />
   </ItemGroup>
 </Project>
