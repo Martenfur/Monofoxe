@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Monofoxe.Engine.SceneSystem;
 
 namespace Monofoxe.Engine.ECS
 {
@@ -14,8 +13,14 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		public static void InitComponent(Component component)
 		{
-			// TODO: Test!
 			var layer = component.Owner.Layer;	
+			
+			if (!SystemMgr._activeSystems.ContainsKey(component.Tag))
+			{
+				// Component may be first one created. In this case, system is disabled and need to be activated.
+				// NOTE: Second ContainsKey check below is necessary, because system may not exist in pool at all. 
+				SystemMgr.EnableSystem(component.Tag);
+			}
 
 			// If component is even there.
 			if (layer._newComponents.Contains(component) && SystemMgr._activeSystems.ContainsKey(component.Tag))
