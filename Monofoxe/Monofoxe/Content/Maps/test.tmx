@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#0a0000" nextlayerid="9" nextobjectid="91">
+<map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#0a0000" nextlayerid="10" nextobjectid="91">
  <tileset firstgid="1" source="testTileset.tsx"/>
  <tileset firstgid="17" source="mahBoi.tsx"/>
  <tileset firstgid="21" source="dirt.tsx"/>
@@ -11,9 +11,6 @@
   <image source="man.png" width="62" height="83"/>
  </tileset>
  <tileset firstgid="38" source="Objects/objects.tsx"/>
- <imagelayer id="7" name="img" offsetx="-142.667" offsety="-133.333">
-  <image source="man.png" width="62" height="83"/>
- </imagelayer>
  <group id="5" name="folder">
   <objectgroup color="#55aa00" draworder="index" id="6" name="objects">
    <properties>
@@ -276,4 +273,8 @@ LET'S MAKE SOME FOXES </text>
 </data>
   </layer>
  </group>
+ <imagelayer id="7" name="img" offsetx="-9.50033" offsety="-205">
+  <image source="man.png" trans="000000" width="62" height="83"/>
+ </imagelayer>
+ <imagelayer id="9" name="Image Layer 2" offsetx="1" offsety="0"/>
 </map>

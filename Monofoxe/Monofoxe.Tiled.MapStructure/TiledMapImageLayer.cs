@@ -5,7 +5,7 @@ namespace Monofoxe.Tiled.MapStructure
 {
 	public class TiledMapImageLayer : TiledMapLayer
 	{
-		public string ImagePath;
+		public string TexturePath;
 		public Texture2D Texture;
 
 		/// <summary>

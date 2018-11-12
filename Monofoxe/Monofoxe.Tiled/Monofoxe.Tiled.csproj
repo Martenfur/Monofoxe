@@ -52,6 +52,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentReaders\TiledMapReader.cs" />
+    <Compile Include="ImageLayerComponent.cs" />
+    <Compile Include="ImageLayerSystem.cs" />
     <Compile Include="ITiledEntityFactory.cs" />
     <Compile Include="MapLoader.cs" />
     <Compile Include="MapMgr.cs" />

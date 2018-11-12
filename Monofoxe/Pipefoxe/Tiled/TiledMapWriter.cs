@@ -27,6 +27,7 @@ namespace Pipefoxe.Tiled
 			WriteTilesets(output, map.Tilesets);
 			WriteTileLayers(output, map.TileLayers);
 			WriteObjectLayers(output, map.ObjectLayers);
+			WriteImageLayers(output, map.ImageLayers);
 
 			output.WriteObject(map.Properties);
 		}
@@ -251,6 +252,26 @@ namespace Pipefoxe.Tiled
 		#endregion Objects.
 
 
+
+		#region Images.
+		
+		void WriteImageLayers(ContentWriter output, TiledMapImageLayer[] layers)
+		{
+			output.Write(layers.Length);
+			foreach(var layer in layers)
+			{
+				WriteLayer(output, layer);
+
+				output.Write(layer.TexturePath);
+				var externalReference = TiledMapProcessor.TextureReferences[layer.TexturePath];
+				output.WriteExternalReference(externalReference);
+				output.Write(layer.TransparentColor);
+			}
+		}
+
+		#endregion Images.
+		
+		
 		public override string GetRuntimeType(TargetPlatform targetPlatform) =>
 			"Monofoxe.Tiled.MapStructure.TiledMap, Monofoxe.Tiled";
 

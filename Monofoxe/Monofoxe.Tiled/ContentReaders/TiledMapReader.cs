@@ -35,7 +35,9 @@ namespace Monofoxe.Tiled.ContentReaders
 			ReadTilesets(input, map);
 			ReadTileLayers(input, map);
 			ReadObjectLayers(input, map);
+			ReadImageLayers(input, map);
 
+			map.Properties = input.ReadObject<Dictionary<string, string>>();
 			return map;
 		}
 
@@ -300,6 +302,31 @@ namespace Monofoxe.Tiled.ContentReaders
 			new TiledRectangleObject(baseObj);
 
 		#endregion Objects.
+		
+		
+		#region Images.
+		
+		void ReadImageLayers(ContentReader input, TiledMap map)
+		{
+			var layersCount = input.ReadInt32();
+			var layers = new TiledMapImageLayer[layersCount];
+			
+			for(var i = 0; i < layersCount; i += 1)
+			{
+				var layer = new TiledMapImageLayer();
+				ReadLayer(input, layer);
+
+				layer.TexturePath = input.ReadString();
+				layer.Texture = input.ReadExternalReference<Texture2D>();	
+				layer.TransparentColor = input.ReadColor();
+
+				layers[i] = layer;
+			}
+
+			map.ImageLayers = layers;
+		}
+		
+		#endregion Images.
 
 	}
 }

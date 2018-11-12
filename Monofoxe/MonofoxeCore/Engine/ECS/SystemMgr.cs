@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Monofoxe.Engine.SceneSystem;
+using System.Reflection;
 
 namespace Monofoxe.Engine.ECS
 {
@@ -110,12 +111,20 @@ namespace Monofoxe.Engine.ECS
 				mytype => typeof(BaseSystem).IsAssignableFrom(mytype) 
 			);
 			
+			
+			foreach(var ass in Assembly.GetEntryAssembly().GetReferencedAssemblies())
+			{
+				Console.WriteLine(ass.FullName);
+			}
+
+			Console.WriteLine(AppDomain.CurrentDomain.GetAssemblies().Count());
 			foreach(var systemType in systemTypes)
 			{
 				if (systemType != typeof(BaseSystem))
 				{
 					var newSystem = (BaseSystem)Activator.CreateInstance(systemType);
 					_systemPool.Add(newSystem.Tag, newSystem);
+					Console.WriteLine("System:" + newSystem.Tag);
 				}
 			}
 		}

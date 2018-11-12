@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
 using Monofoxe.Tiled.MapStructure;
@@ -34,18 +35,23 @@ namespace Pipefoxe.Tiled
 				}
 				foreach(var path in tileset.TexturePaths)
 				{
-					var asserReference = new ExternalReference<Texture2DContent>(TiledMapImporter.RootDir + "/" + path);
-					TextureReferences.Add(path, context.BuildAsset<Texture2DContent, Texture2DContent>(asserReference, "", null, "", ""));
+					if (TextureReferences.ContainsKey(path))
+					{
+						continue;
+					}
+					var assetReference = new ExternalReference<Texture2DContent>(TiledMapImporter.RootDir + "/" + path);
+					TextureReferences.Add(path, context.BuildAsset<Texture2DContent, Texture2DContent>(assetReference, "", null, "", ""));
 				}
 			}
 
 			foreach(var imageLayer in map.ImageLayers)
 			{
-				if (imageLayer.ImagePath != "")
+				if (TextureReferences.ContainsKey(imageLayer.TexturePath))
 				{
-					var asserReference = new ExternalReference<Texture2DContent>(TiledMapImporter.RootDir + "/" + imageLayer.ImagePath);
-					TextureReferences.Add(imageLayer.ImagePath, context.BuildAsset<Texture2DContent, Texture2DContent>(asserReference, "", null, "", ""));
+					continue;
 				}
+				var asserReference = new ExternalReference<Texture2DContent>(TiledMapImporter.RootDir + "/" + imageLayer.TexturePath);
+				TextureReferences.Add(imageLayer.TexturePath, context.BuildAsset<Texture2DContent, Texture2DContent>(asserReference, "", null, "", ""));
 			}
 
 		}

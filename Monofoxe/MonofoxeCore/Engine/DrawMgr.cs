@@ -251,10 +251,12 @@ namespace Monofoxe.Engine
 			defScene.CreateLayer("default");
 
 
-			_cameraRasterizerState = new RasterizerState();
-			_cameraRasterizerState.CullMode = CullMode.None;
-			_cameraRasterizerState.ScissorTestEnable = false;
-			_cameraRasterizerState.FillMode = FillMode.Solid;
+			_cameraRasterizerState = new RasterizerState
+			{
+				CullMode = CullMode.None,
+				ScissorTestEnable = false,
+				FillMode = FillMode.Solid
+			};
 		}
 
 
