@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace Monofoxe.Utils.Tilemaps
+namespace Monofoxe.Engine.Utils.Tilemaps
 {
 	public interface ITilemap<T> where T : struct, ITile
 	{

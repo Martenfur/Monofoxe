@@ -10,7 +10,7 @@ using Monofoxe.Engine.ECS;
 using Monofoxe.ECSTest.Systems;
 using Monofoxe.ECSTest.Components;
 using Monofoxe.Engine.SceneSystem;
-using Monofoxe.Utils;
+using Monofoxe.Engine.Utils;
 
 
 namespace Monofoxe.Test

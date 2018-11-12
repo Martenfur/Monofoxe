@@ -65,7 +65,7 @@ LET'S MAKE SOME FOXES </text>
    <object id="52" template="Objects/BarrelBoi.tx" x="-338.667" y="73.3333"/>
    <object id="53" template="Objects/BarrelBoi.tx" x="-84" y="81.3333"/>
   </objectgroup>
-  <layer id="2" name="Tile Layer 1" width="200" height="200" visible="0" locked="1" opacity="0.99">
+  <layer id="2" name="Tile Layer 1" width="200" height="200" locked="1" opacity="0.99">
    <properties>
     <property name="priority" type="int" value="-2"/>
    </properties>

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 
-namespace Monofoxe.Utils.Cameras
+namespace Monofoxe.Engine.Utils.Cameras
 {
 
 	public static class CameraMgr

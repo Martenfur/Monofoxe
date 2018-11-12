@@ -3,7 +3,7 @@ using Monofoxe.Engine.ECS;
 using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Monofoxe.Utils.Cameras;
+using Monofoxe.Engine.Utils.Cameras;
 
 namespace Monofoxe.Engine.SceneSystem
 {

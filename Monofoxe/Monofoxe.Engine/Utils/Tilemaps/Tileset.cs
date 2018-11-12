@@ -1,6 +1,6 @@
 ﻿using Monofoxe.Engine.Drawing;
 
-namespace Monofoxe.Utils.Tilemaps
+namespace Monofoxe.Engine.Utils.Tilemaps
 {
 	public class Tileset
 	{

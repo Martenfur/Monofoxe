@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 
-namespace Monofoxe.Utils
+namespace Monofoxe.Engine.Utils
 {
 	/// <summary>
 	/// Contains useful math stuff. 

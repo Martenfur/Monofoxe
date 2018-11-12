@@ -1,5 +1,5 @@
 ﻿
-namespace Monofoxe.Utils.Tilemaps
+namespace Monofoxe.Engine.Utils.Tilemaps
 {
 	/// <summary>
 	/// Tile interface. 

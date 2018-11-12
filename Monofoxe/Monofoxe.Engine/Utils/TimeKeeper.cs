@@ -1,6 +1,6 @@
 ﻿using Monofoxe.Engine;
 
-namespace Monofoxe.Utils
+namespace Monofoxe.Engine.Utils
 {
 	
 	/// <summary>

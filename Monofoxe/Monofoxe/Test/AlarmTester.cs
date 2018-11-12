@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Monofoxe.Engine;
-using Monofoxe.Utils;
+using Monofoxe.Engine.Utils;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.Drawing;
