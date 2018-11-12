@@ -17,7 +17,7 @@ namespace Monofoxe.Utils.Tilemaps
 		{
 			foreach(ImageLayerComponent image in images)
 			{
-				DrawMgr.DrawFrame(image.Frame, Vector2.Zero, image.Offset);
+				DrawMgr.DrawFrame(image.Frame, Vector2.Zero, -image.Offset);
 			}
 		}
 
