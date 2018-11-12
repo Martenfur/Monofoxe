@@ -11,7 +11,7 @@ namespace Monofoxe.Tiled.MapStructure.Objects
 		public bool FlipHor;
 		public bool FlipVer;
 
-		public TiledMapTileset Tileset; // TODO: Add loopback on reading.
+		public TiledMapTileset Tileset;
 
 		public TiledTileObject() {}
 		public TiledTileObject(TiledObject obj) : base(obj) {}

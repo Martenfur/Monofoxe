@@ -26,7 +26,7 @@ namespace Monofoxe.Engine.ECS
 		/// 
 		/// NOTE: This event won't be called right after component creation.
 		/// It will be called in the very beginning of next step, so keep this in mind.
-		/// However, you can speed up this process by calling InitComponent.
+		/// However, you can speed up this process by calling InitComponent().
 		/// </summary>
 		public virtual void Create(Component component) {}
 		public virtual void Destroy(Component component) {}

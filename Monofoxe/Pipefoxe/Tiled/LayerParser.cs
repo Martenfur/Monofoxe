@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Monofoxe.Tiled.MapStructure;
-using Microsoft.Xna.Framework.Content.Pipeline;
-using System.Xml;
-using System.Text;
-using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Monofoxe.Tiled.MapStructure.Objects;
 using System.Globalization;
+using System.Xml;
+using Microsoft.Xna.Framework;
+using Monofoxe.Tiled.MapStructure;
+using Monofoxe.Tiled.MapStructure.Objects;
 
 namespace Pipefoxe.Tiled
 {
@@ -19,8 +15,7 @@ namespace Pipefoxe.Tiled
 		static List<TiledMapImageLayer> _imageLayers;
 		
 
-		// TODO: Add image layers.
-
+		
 		public static void Parse(XmlNode mapXml, TiledMap map)
 		{
 			_tileLayers = new List<TiledMapTileLayer>();
@@ -32,7 +27,6 @@ namespace Pipefoxe.Tiled
 			map.TileLayers = _tileLayers.ToArray();
 			map.ObjectLayers = _objectLayers.ToArray();
 			map.ImageLayers = _imageLayers.ToArray();
-
 		}
 
 		static void ParseGroup(XmlNode groupXml)

@@ -186,7 +186,7 @@ namespace Monofoxe.Tiled.ContentReaders
 
 				for(var k = 0; k < objectsCount; k += 1)
 				{
-					objects[k] = ReadObject(input);
+					objects[k] = ReadObject(input, map);
 				}
 
 				layer.Objects = objects;
@@ -198,14 +198,14 @@ namespace Monofoxe.Tiled.ContentReaders
 		}
 
 
-		TiledObject ReadObject(ContentReader input)
+		TiledObject ReadObject(ContentReader input, TiledMap map)
 		{
 			var obj = ReadBaseObject(input);
 			var objType = (TiledObjectType)input.ReadByte();
 
 			if (objType == TiledObjectType.Tile)
 			{
-				return ReadTileObject(input, obj);
+				return ReadTileObject(input, obj, map);
 			}
 
 			if (objType == TiledObjectType.Point)
@@ -253,13 +253,15 @@ namespace Monofoxe.Tiled.ContentReaders
 			return obj;
 		}
 
-		TiledObject ReadTileObject(ContentReader input, TiledObject baseObj)
+		TiledObject ReadTileObject(ContentReader input, TiledObject baseObj, TiledMap map)
 		{
 			var obj = new TiledTileObject(baseObj);
 
 			obj.GID = input.ReadInt32();
 			obj.FlipHor = input.ReadBoolean();
 			obj.FlipVer = input.ReadBoolean();
+
+			obj.Tileset = map.GetTileset(obj.GID);
 
 			return obj;
 		}

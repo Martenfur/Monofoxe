@@ -19,9 +19,6 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		internal static Dictionary<string, BaseSystem> _systemPool = new Dictionary<string, BaseSystem>();
 
-		public static int __dbgSysCount => _activeSystems.Count; // TODO: REMOVE
-		public static int __dbgSysPoolCount => _systemPool.Count; // REMOVE
-
 		/// <summary>
 		/// Tells if any components were removed in the current step.
 		/// </summary>
@@ -44,12 +41,19 @@ namespace Monofoxe.Engine.ECS
 
 
 		#region Events.
-
-		// TODO: Add a description, I dunno.
 		/*
-		 * For event explanation, see Entity. 
+		 * Event order:
+		 * - FixedUpdate
+		 * - Update
+		 * - Draw
+		 * 
+		 * NOTE: Component events are executed before entity events.
 		 */
-		
+
+		/// <summary>
+		/// Updates at a fixed rate.
+		/// </summary>
+		/// <param name="components"></param>
 		internal static void FixedUpdate(Dictionary<string, List<Component>> components)
 		{
 			foreach(var systemPair in _activeSystems)
@@ -63,6 +67,9 @@ namespace Monofoxe.Engine.ECS
 		}
 
 
+		/// <summary>
+		/// Updates every frame.
+		/// </summary>
 		internal static void Update(Dictionary<string, List<Component>> components)
 		{
 			foreach(var systemPair in _activeSystems)
@@ -81,6 +88,12 @@ namespace Monofoxe.Engine.ECS
 		}
 		
 
+		/// <summary>
+		/// Draw updates.
+		/// 
+		/// NOTE: DO NOT put any significant logic into Draw.
+		/// It may skip frames.
+		/// </summary>
 		internal static void Draw(Dictionary<string, List<Component>> components)
 		{
 			foreach(var systemPair in _activeSystems)
