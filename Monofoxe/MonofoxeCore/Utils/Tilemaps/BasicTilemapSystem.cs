@@ -16,9 +16,9 @@ namespace Monofoxe.Utils.Tilemaps
 	public class BasicTilemapSystem : BaseSystem
 	{
 		public override string Tag => "basicTilemap";
-		int ang = 0;
+		
 		public override void Draw(List<Component> tilemaps)
-		{ang += 1;
+		{
 			foreach(BasicTilemapComponent tilemap in tilemaps)
 			{
 				var offsetCameraPos = DrawMgr.CurrentCamera.Pos 

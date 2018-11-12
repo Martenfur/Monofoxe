@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using Monofoxe.Tiled.MapStructure;
-using Microsoft.Xna.Framework.Content.Pipeline;
 using System.Xml;
-using System.Text;
-using System.IO;
-using Microsoft.Xna.Framework;
+using Monofoxe.Tiled.MapStructure;
 
 namespace Pipefoxe.Tiled
 {

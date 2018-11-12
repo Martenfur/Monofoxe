@@ -25,11 +25,14 @@ namespace Pipefoxe.Tiled
 		{
 			_tileLayers = new List<TiledMapTileLayer>();
 			_objectLayers = new List<TiledMapObjectLayer>();
+			_imageLayers = new List<TiledMapImageLayer>();
 
 			ParseGroup(mapXml);
 
 			map.TileLayers = _tileLayers.ToArray();
 			map.ObjectLayers = _objectLayers.ToArray();
+			map.ImageLayers = _imageLayers.ToArray();
+
 		}
 
 		static void ParseGroup(XmlNode groupXml)
@@ -51,17 +54,22 @@ namespace Pipefoxe.Tiled
 			{
 				_objectLayers.Add(ParseObjectLayer(layer));
 			}
+
+			var imageLayers = groupXml.SelectNodes("imagelayer");
+			foreach(XmlNode layer in imageLayers)
+			{
+				var parsedLayer = ParseImageLayer(layer);
+				if (parsedLayer != null)
+				{
+					_imageLayers.Add(parsedLayer);
+				}
+			}
 		}
 
 
-
-		static TiledMapTileLayer ParseTileLayer(XmlNode layerXml)
+		static void ParseBaseLayer(XmlNode layerXml, TiledMapLayer layer)
 		{
-			var layer = new TiledMapTileLayer();	
-
 			layer.ID = int.Parse(layerXml.Attributes["id"].Value);
-			layer.Width = int.Parse(layerXml.Attributes["width"].Value);
-			layer.Height = int.Parse(layerXml.Attributes["height"].Value);
 			layer.Name = layerXml.Attributes["name"].Value;
 			layer.Opacity = XmlHelper.GetXmlFloatSafe(layerXml, "opacity");
 			layer.Visible = XmlHelper.GetXmlBoolSafe(layerXml, "visible");
@@ -69,6 +77,19 @@ namespace Pipefoxe.Tiled
 				XmlHelper.GetXmlFloatSafe(layerXml, "offsetx"),
 				XmlHelper.GetXmlFloatSafe(layerXml, "offsety")
 			);
+			layer.Properties = XmlHelper.GetProperties(layerXml);
+		}
+
+
+		static TiledMapTileLayer ParseTileLayer(XmlNode layerXml)
+		{
+			var layer = new TiledMapTileLayer();	
+
+			ParseBaseLayer(layerXml, layer);
+
+			layer.Width = int.Parse(layerXml.Attributes["width"].Value);
+			layer.Height = int.Parse(layerXml.Attributes["height"].Value);
+
 
 			if (layerXml["data"].Attributes["encoding"].Value != "csv")
 			{
@@ -116,8 +137,6 @@ namespace Pipefoxe.Tiled
 
 			layer.Tiles = tiles;
 
-			layer.Properties = XmlHelper.GetProperties(layerXml);
-
 			return layer;
 		}
 
@@ -127,14 +146,7 @@ namespace Pipefoxe.Tiled
 		{
 			var layer = new TiledMapObjectLayer();
 			
-			layer.ID = int.Parse(layerXml.Attributes["id"].Value);
-			layer.Name = layerXml.Attributes["name"].Value;
-			layer.Opacity = XmlHelper.GetXmlFloatSafe(layerXml, "opacity");
-			layer.Visible = XmlHelper.GetXmlBoolSafe(layerXml, "visible");
-			layer.Offset = new Vector2(
-				XmlHelper.GetXmlFloatSafe(layerXml, "offsetx"),
-				XmlHelper.GetXmlFloatSafe(layerXml, "offsety")
-			);
+			ParseBaseLayer(layerXml, layer);
 
 			if (layerXml.Attributes["color"] != null)
 			{
@@ -149,8 +161,6 @@ namespace Pipefoxe.Tiled
 			{
 				layer.DrawingOrder = TiledMapObjectDrawingOrder.TopDown;
 			}
-
-			layer.Properties = XmlHelper.GetProperties(layerXml);
 
 			// Parsing objects.
 			var objectsXml = layerXml.SelectNodes("object");
@@ -384,5 +394,35 @@ namespace Pipefoxe.Tiled
 
 			return node;
 		}
+
+
+
+		static TiledMapImageLayer ParseImageLayer(XmlNode layerXml)
+		{
+			var imageXml = layerXml["image"];
+			if (imageXml == null)
+			{
+				return null; // Without image, layer is empty, so we won't need it.
+			}
+
+			var layer = new TiledMapImageLayer();
+			
+			ParseBaseLayer(layerXml, layer);
+			
+			layer.TexturePath = XmlHelper.GetXmlStringSafe(imageXml, "source");
+			
+			if (layer.TexturePath == "") 
+			{
+				return null; // Same thing. No path == no image. 
+			}
+
+			if (imageXml.Attributes["trans"] != null)
+			{
+				layer.TransparentColor = XmlHelper.StringToColor(imageXml.Attributes["trans"].Value);
+			}
+
+			return layer;
+		}
+
 	}
 }

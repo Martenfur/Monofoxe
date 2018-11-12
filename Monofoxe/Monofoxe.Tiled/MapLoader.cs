@@ -6,6 +6,7 @@ using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Tiled.MapStructure;
 using Monofoxe.Utils.Tilemaps;
+using Monofoxe.Engine;
 
 namespace Monofoxe.Tiled
 {
@@ -120,7 +121,19 @@ namespace Monofoxe.Tiled
 
 		protected virtual void LoadImageLayers(TiledMap map, Scene scene)
 		{
-			// TODO: Add image layer support.
+			foreach(var imageLayer in map.ImageLayers)
+			{
+				var layer = scene.CreateLayer(imageLayer.Name);
+				var entity = new Entity(layer, "tiledImage");
+				var frame = new Frame(
+					imageLayer.Texture, 
+					imageLayer.Texture.Bounds, 
+					Vector2.Zero, 
+					imageLayer.Texture.Bounds.Width, 
+					imageLayer.Texture.Bounds.Height
+				);
+				entity.AddComponent(new ImageLayerComponent(imageLayer.Offset, frame));
+			}
 		}
 
 
