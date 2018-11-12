@@ -46,6 +46,7 @@ namespace Monofoxe.Tiled
 		/// </summary>
 		private static void InitFactoryPool()
 		{
+			// TODO: This code doesn't work with external libraries. FIX this.
 			_factoryPool = new Dictionary<string, ITiledEntityFactory>();
 			
 			var factoryTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes());
