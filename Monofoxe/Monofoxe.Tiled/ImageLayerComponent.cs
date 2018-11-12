@@ -6,7 +6,7 @@ using Monofoxe.Engine.ECS;
 namespace Monofoxe.Utils.Tilemaps
 {
 	/// <summary>
-	/// 
+	/// Component for Tiled image layers.
 	/// </summary>
 	public class ImageLayerComponent : Component
 	{

@@ -7,22 +7,17 @@ using Monofoxe.Engine.ECS;
 namespace Monofoxe.Utils.Tilemaps
 {
 	/// <summary>
-	/// 
+	/// System for Tiled image layers. Just draws all images from components.
 	/// </summary>
 	public class ImageLayerSystem : BaseSystem
 	{
 		public override string Tag => "imageLayer";
 		
-		public override void Create(Component image)
-		{
-			System.Console.WriteLine("I am create event!");
-		}
-
 		public override void Draw(List<Component> images)
 		{
 			foreach(ImageLayerComponent image in images)
 			{
-				DrawMgr.DrawFrame(image.Frame, Vector2.Zero, -image.Offset);
+				DrawMgr.DrawFrame(image.Frame, image.Offset, Vector2.Zero);
 			}
 		}
 
