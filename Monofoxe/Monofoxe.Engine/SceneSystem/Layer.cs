@@ -36,7 +36,7 @@ namespace Monofoxe.Engine.SceneSystem
 
 
 		/// <summary>
-		/// Priority of a layer. 
+		/// Priority of a layer. Layers with highest priority are processed first.
 		/// </summary>
 		public int Priority
 		{
@@ -45,7 +45,7 @@ namespace Monofoxe.Engine.SceneSystem
 			set
 			{
 				_priority = value;
-				Scene._layers.Remove(this);
+				Scene._layers.Remove(this); // Re-adding element to update its priority.
 				Scene._layers.Add(this);
 			}
 		}

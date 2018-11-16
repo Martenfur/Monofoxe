@@ -25,7 +25,7 @@ namespace Monofoxe.Engine.SceneSystem
 		public bool Enabled = true;
 
 		/// <summary>
-		/// Priority of a scene. 
+		/// Priority of a scene. Scenes with highest priority are processed first.
 		/// </summary>
 		public int Priority
 		{
@@ -34,7 +34,7 @@ namespace Monofoxe.Engine.SceneSystem
 			set
 			{
 				_priority = value;
-				SceneMgr._scenes.Remove(this);
+				SceneMgr._scenes.Remove(this); // Re-adding element to update its priority.
 				SceneMgr._scenes.Add(this);
 			}
 		}

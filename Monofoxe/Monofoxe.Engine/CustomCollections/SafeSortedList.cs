@@ -5,11 +5,13 @@ using System.Collections.Generic;
 namespace Monofoxe.Engine.CustomCollections
 {
 	/// <summary>
-	/// Safe sorted list. Old items are removes and new ones added only after Update is called. 
-	/// This makes possible to safely remove and add items to the list.
+	/// Safe sorted list. Old items are removed and new ones added only after Update is called. 
+	/// This makes possible to safely remove from and add items to the list during for\foreach.
 	/// 
 	/// NOTE: Sorting algorhitm is very basic and must be used only for small amounts (1-5) of new elements.
 	/// DO NOT use this class for frequently updated collections with lots of elements.
+	/// It also does not resort list every update, so be careful with changing item's sorting parameter on the fly.
+	/// Good idea will be to re-add item back to the list.
 	/// </summary>
 	public class SafeSortedList<T> : IEnumerable<T>
 	{
@@ -62,6 +64,9 @@ namespace Monofoxe.Engine.CustomCollections
 			_items.ToArray();
 		
 		
+		/// <summary>
+		/// Removes old elements from the list and adds new ones.
+		/// </summary>
 		public void Update()
 		{
 			// Removing old items.
