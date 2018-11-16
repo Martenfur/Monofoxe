@@ -36,8 +36,8 @@ namespace Monofoxe.Test
 		{
 			
 			var scene = SceneMgr.GetScene("default");
-			var layer = scene.CreateLayer("balls", -1);
-			layer.IsGUI = false;
+			var ballsLayer = scene.CreateLayer("balls", -1);
+			ballsLayer.IsGUI = false;
 
 			InitCameras();
 			
@@ -53,10 +53,10 @@ namespace Monofoxe.Test
 			
 			//LayerMgrs.Get("default").IsGUI = true;
 
-			//new DrawingTester();
+			new DrawingTester();
 			//new ECSTester(scene["balls"]);
 			//new AlarmTester(Layer.Get("balls"));
-			new TileTester(scene["balls"]);
+			new TileTester(ballsLayer);
 		}
 
 
@@ -148,7 +148,7 @@ namespace Monofoxe.Test
 
 			var layer = SceneMgr.GetScene("default")["balls"];
 			var layer1 = SceneMgr.GetScene("default")["default"];
-			layer.IsGUI = false;
+			//layer.IsGUI = false;
 			MainCamera.PostprocessingMode = PostprocessingMode.CameraAndLayers;
 			//MainCamera.PostprocessorEffects.Add(Resources.Effects.Effect);
 			//layer.PostprocessorEffects.Add(Resources.Effects.BW);

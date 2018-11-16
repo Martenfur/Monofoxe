@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Monofoxe.Engine.ECS;
 using Microsoft.Xna.Framework.Content;
@@ -50,11 +49,15 @@ namespace Monofoxe.Engine
 						SystemMgr.FixedUpdate(GetActiveComponents(scene));
 					}
 				}
+
+				SceneMgr._scenes.Update(); // Updating scenes list.
 				foreach(var scene in SceneMgr.Scenes)
 				{
 					if (scene.Enabled)
 					{
 						SceneMgr.CurrentScene = scene;
+						scene._layers.Update(); // Updating layers list.
+
 						foreach(var layer in scene.Layers)
 						{
 							if (layer.Enabled)

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.CustomCollections;
+
 
 namespace Monofoxe.Engine.SceneSystem
 {
@@ -9,8 +11,8 @@ namespace Monofoxe.Engine.SceneSystem
 	{
 		public readonly string Name;
 		
-		public IReadOnlyCollection<Layer> Layers => _layers;
-		private List<Layer> _layers = new List<Layer>();
+		public IReadOnlyCollection<Layer> Layers => _layers.ToList();
+		internal SafeSortedList<Layer> _layers = new SafeSortedList<Layer>(x => x.Priority);
 
 		/// <summary>
 		/// If false, scene won't be rendered.
@@ -22,37 +24,44 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public bool Enabled = true;
 
+		/// <summary>
+		/// Priority of a scene. 
+		/// </summary>
+		public int Priority
+		{
+			get => _priority;
+
+			set
+			{
+				_priority = value;
+				SceneMgr._scenes.Remove(this);
+				SceneMgr._scenes.Add(this);
+			}
+		}
+		private int _priority;
+
 
 		public Scene(string name) =>
 			Name = name;
 		
-		// TODO: Fix scene destruction.
 		internal void Destroy()
 		{
-			while(_layers.Count > 0)
+			foreach(var layer in _layers)
 			{
-				DestroyLayer(_layers[0]);
+				DestroyLayer(layer);
 			}
+			_layers.Clear(); // Also removes newly added layers from the list.
 		}
+
 
 
 		/// <summary>
-		/// Removes layer from list and adds it again, taking in account its proirity.
+		/// Updates layer list.
 		/// </summary>
-		internal void UpdateLayerPriority(Layer layer)
-		{
-			_layers.Remove(layer);
-			for(var i = 0; i < _layers.Count; i += 1)
-			{
-				if (layer.Priority > _layers[i].Priority)
-				{
-					_layers.Insert(i, layer);
-					return;
-				}
-			}
-			_layers.Add(layer); // Adding a layer at the end, if it has lowest priority.
-		}
-
+		internal void UpdateList() =>
+			_layers.Update();
+		
+		
 		#region Layer methods.
 
 		/// <summary>
@@ -73,13 +82,14 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public void DestroyLayer(Layer layer)
 		{
-			if (_layers.Remove(layer))
+			if (_layers.Contains(layer))
 			{
 				foreach(var entity in layer.Entities)
 				{
 					EntityMgr.DestroyEntity(entity);
 				}
 			}
+			_layers.Remove(layer);
 		}
 
 		/// <summary>
@@ -95,7 +105,7 @@ namespace Monofoxe.Engine.SceneSystem
 					{
 						EntityMgr.DestroyEntity(entity);
 					}
-					_layers.RemoveAt(i);
+					_layers.Remove(_layers[i]);
 				}
 			}
 		}

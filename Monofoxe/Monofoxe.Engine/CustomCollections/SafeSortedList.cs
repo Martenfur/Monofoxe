@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Monofoxe.Egine.CustomCollections
+namespace Monofoxe.Engine.CustomCollections
 {
 	/// <summary>
 	/// Safe sorted list. Old items are removes and new ones added only after Update is called. 
@@ -11,7 +11,6 @@ namespace Monofoxe.Egine.CustomCollections
 	/// NOTE: Sorting algorhitm is very basic and must be used only for small amounts (1-5) of new elements.
 	/// DO NOT use this class for frequently updated collections with lots of elements.
 	/// </summary>
-	/// <typeparam name="T"></typeparam>
 	public class SafeSortedList<T> : IEnumerable<T>
 	{
 		private Func<T, int> _sortingParameter;
@@ -36,8 +35,25 @@ namespace Monofoxe.Egine.CustomCollections
 			_removedItems.Add(obj);
 		
 		public bool Contains(T obj) =>
-			_items.Contains(obj) && !_removedItems.Contains(obj);
+			_items.Contains(obj);
 		
+		public int Count =>
+			_items.Count;
+		
+		/// <summary>
+		/// Clears out all current and new items from the list.
+		/// </summary>
+		public void Clear()
+		{
+			_newItems.Clear();
+			_removedItems.AddRange(_items);
+		}
+
+		public T this[int index]
+		{
+			get => _items[index];
+			set => _items[index] = value;
+		}
 		
 		public List<T> ToList() =>
 			new List<T>(_items);
@@ -53,6 +69,7 @@ namespace Monofoxe.Egine.CustomCollections
 			{
 				_items.Remove(item);
 			}
+			_removedItems.Clear();
 			// Removing old items.
 
 			// Adding new items.
@@ -73,6 +90,7 @@ namespace Monofoxe.Egine.CustomCollections
 					_items.Add(item); // Adding an item at the end, if it has lowest priority.
 				}
 			}
+			_newItems.Clear();
 			// Adding new items.
 		}
 
