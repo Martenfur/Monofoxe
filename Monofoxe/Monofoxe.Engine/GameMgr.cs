@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.SceneSystem;
 
 namespace Monofoxe.Engine
 {
@@ -100,7 +101,14 @@ namespace Monofoxe.Engine
 			
 			SystemMgr.InitSystemPool();
 			AssetMgr.Init();
-			//AudioMgr.Init();
+
+			var defScene = SceneMgr.CreateScene("default");
+			defScene.CreateLayer("default");
+
+			// Force updating scenes and layers.
+			SceneMgr._scenes.Update();
+			defScene._layers.Update();
+			// Force updating scenes and layers.
 		}
 
 		

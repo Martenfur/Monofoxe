@@ -35,7 +35,6 @@ namespace Monofoxe.Engine.SceneSystem
 		internal bool _depthListOutdated = false;
 
 
-
 		/// <summary>
 		/// Priority of a layer. 
 		/// </summary>
@@ -46,10 +45,12 @@ namespace Monofoxe.Engine.SceneSystem
 			set
 			{
 				_priority = value;
-				Scene.UpdateLayerPriority(this);
+				Scene._layers.Remove(this);
+				Scene._layers.Add(this);
 			}
 		}
 		private int _priority;
+
 
 		/// <summary>
 		/// If true, entities and components will be sorted by their depth.

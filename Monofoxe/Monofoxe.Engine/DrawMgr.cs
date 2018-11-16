@@ -247,10 +247,6 @@ namespace Monofoxe.Engine
 			
 			CircleVerticesCount = 16;
 			
-			var defScene = SceneMgr.CreateScene("default");
-			defScene.CreateLayer("default");
-
-
 			_cameraRasterizerState = new RasterizerState
 			{
 				CullMode = CullMode.None,

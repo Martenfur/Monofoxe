@@ -76,7 +76,7 @@
     <Compile Include="GameMgr.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="PipelineMode.cs" />
-    <Compile Include="SafeSortedList.cs" />
+    <Compile Include="CustomCollections\SafeSortedList.cs" />
     <Compile Include="SceneSystem\Layer.cs" />
     <Compile Include="SceneSystem\Scene.cs" />
     <Compile Include="SceneSystem\SceneMgr.cs" />

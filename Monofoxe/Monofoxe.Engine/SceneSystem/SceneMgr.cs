@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.Utils.Cameras;
 using Microsoft.Xna.Framework;
+using Monofoxe.Engine.CustomCollections;
 
 namespace Monofoxe.Engine.SceneSystem
 {
 	public static class SceneMgr
 	{
-		public static IReadOnlyCollection<Scene> Scenes => _scenes;
+		public static IReadOnlyCollection<Scene> Scenes => _scenes.ToList();
 
 		public static Scene CurrentScene {get; internal set;}
 		public static Layer CurrentLayer {get; internal set;}
 
-		private static List<Scene> _scenes = new List<Scene>();
+		internal static SafeSortedList<Scene> _scenes = new SafeSortedList<Scene>(x => x.Priority);
 
 		
 		/// <summary>
@@ -46,7 +47,7 @@ namespace Monofoxe.Engine.SceneSystem
 				if (_scenes[i].Name == name)
 				{
 					_scenes[i].Destroy();
-					_scenes.RemoveAt(i);
+					_scenes.Remove(_scenes[i]);
 				}
 			}
 		}
@@ -131,7 +132,7 @@ namespace Monofoxe.Engine.SceneSystem
 
 								var oldRasterizer = DrawMgr.Rasterizer;
 								DrawMgr.Rasterizer = DrawMgr._cameraRasterizerState;
-								//DrawMgr.CurrentColor = Color.White;
+								//DrawMgr.CurrentColor = Color.White; // TODO: Sort this out.
 								DrawMgr.SetTransformMatrix(Matrix.CreateTranslation(Vector3.Zero));
 								layer.ApplyPostprocessing();
 								DrawMgr.ResetTransformMatrix();
