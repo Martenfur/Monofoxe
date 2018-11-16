@@ -41,6 +41,8 @@ namespace Monofoxe
 			Resources.Sprites.SpritesDefault.Load();	
 			Resources.Fonts.Load();
 			Resources.Effects.Load();
+			Resources.Maps.Load();
+
 			EntityMgr.LoadEntityTemplates();
 			DrawMgr.Init(GraphicsDevice);
 		}

@@ -15,30 +15,31 @@ namespace Monofoxe.Tiled.ContentReaders
 	{
 		protected override TiledMap Read(ContentReader input, TiledMap existingInstance)
 		{
-			var map = new TiledMap();
-			map.Name = input.AssetName;
-			Console.WriteLine(map.Name);
-			map.BackgroundColor = input.ReadObject<Color?>();
-			map.Width = input.ReadInt32();
-			map.Height = input.ReadInt32();
-			map.TileWidth = input.ReadInt32();
-			map.TileHeight = input.ReadInt32();
+			var tiledMap = new TiledMap
+			{
+				Name = input.AssetName,
+				BackgroundColor = input.ReadObject<Color?>(),
+				Width = input.ReadInt32(),
+				Height = input.ReadInt32(),
+				TileWidth = input.ReadInt32(),
+				TileHeight = input.ReadInt32(),
 
-			map.RenderOrder = (RenderOrder)input.ReadByte();
-			map.Orientation = (Orientation)input.ReadByte();
+				RenderOrder = (RenderOrder)input.ReadByte(),
+				Orientation = (Orientation)input.ReadByte(),
 
-			map.StaggerAxis = (StaggerAxis)input.ReadByte();
-			map.StaggerIndex = (StaggerIndex)input.ReadByte();
+				StaggerAxis = (StaggerAxis)input.ReadByte(),
+				StaggerIndex = (StaggerIndex)input.ReadByte(),
 
-			map.HexSideLength = input.ReadInt32();
+				HexSideLength = input.ReadInt32()
+			};
 
-			ReadTilesets(input, map);
-			ReadTileLayers(input, map);
-			ReadObjectLayers(input, map);
-			ReadImageLayers(input, map);
+			ReadTilesets(input, tiledMap);
+			ReadTileLayers(input, tiledMap);
+			ReadObjectLayers(input, tiledMap);
+			ReadImageLayers(input, tiledMap);
 
-			map.Properties = input.ReadObject<Dictionary<string, string>>();
-			return map;
+			tiledMap.Properties = input.ReadObject<Dictionary<string, string>>();
+			return tiledMap;
 		}
 
 		#region Tilesets.
