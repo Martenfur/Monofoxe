@@ -10,7 +10,7 @@ namespace Monofoxe.Engine
 		public static string ContentDir = "Content";
 		
 		/// <summary>
-		/// Root directory for the graphics.
+		/// Root directory for graphics.
 		/// NOTE: This directory is located inside ContentDir.
 		/// </summary>
 		public static string GraphicsDir = "Graphics";
@@ -22,23 +22,29 @@ namespace Monofoxe.Engine
 		public static string AudioDir = "Audio";
 		
 		/// <summary>
-		/// Root directory for the shaders.
+		/// Root directory for shaders.
 		/// NOTE: This directory is located inside ContentDir.
 		/// </summary>
 		public static string EffectsDir = "Effects";
 
 		/// <summary>
-		/// Root directory for the fonts.
+		/// Root directory for fonts.
 		/// NOTE: This directory is located inside ContentDir.
 		/// </summary>
 		public static string FontsDir = "Fonts";
 
 		/// <summary>
-		/// Root directory for the entity templates.
+		/// Root directory for entity templates.
 		/// NOTE: This directory is located inside ContentDir.
 		/// </summary>
 		public static string EntityTemplatesDir = "Entities";
 		
+		/// <summary>
+		/// Root directory for maps.
+		/// NOTE: This directory is located inside ContentDir.
+		/// </summary>
+		public static string MapsDir = "Maps";
+
 
 		/// <summary>
 		/// List of all game ssets.

@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Monofoxe.Engine;
-using Monofoxe.Engine.Utils;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Monofoxe.Engine;
 using Monofoxe.Engine.ECS;
-using Monofoxe.Engine.Drawing;
-using Microsoft.Xna.Framework;
-using Resources.Sprites;
 using Monofoxe.Engine.SceneSystem;
-using Monofoxe.Tiled;
-using Monofoxe.Tiled.MapStructure;
-using Monofoxe.Engine.Utils.Tilemaps;
-
 
 
 namespace Monofoxe.Test
@@ -19,18 +8,11 @@ namespace Monofoxe.Test
 	public class TileTester : Entity
 	{
 		
-		Scene _scene;
-		TiledMap _map;
-		Frame frame;
-
 		public TileTester(Layer layer) : base(layer)
 		{
-			Resources.Maps.Load();
-
-			_map = Resources.Maps.Test;
-			var loader = new MapLoader();
-			loader.LoadMap(_map);
-
+		
+			Resources.Maps.Test.Load();
+			
 			//Console.WriteLine(_map.Tilesets[0].Textures == null);
 			//frame = new Frame(_map.Tilesets[0].Textures[0], new Rectangle(0, 0, 128, 128), Vector2.Zero, 128, 128);
 
@@ -40,6 +22,10 @@ namespace Monofoxe.Test
 
 		public override void Update()
 		{
+			if (Input.CheckButtonPress(Buttons.L))
+			{
+				Resources.Maps.Test.Unload();
+			}
 		}
 
 		public override void Draw()

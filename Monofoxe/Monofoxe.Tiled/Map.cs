@@ -4,25 +4,40 @@ using Microsoft.Xna.Framework;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.SceneSystem;
-using Monofoxe.Tiled.MapStructure;
 using Monofoxe.Engine.Utils.Tilemaps;
-using Monofoxe.Engine;
+using Monofoxe.Tiled.MapStructure;
 
 namespace Monofoxe.Tiled
 {
-	public class MapLoader
+	public class Map
 	{
-		public virtual Scene LoadMap(TiledMap map)
+		public readonly TiledMap TiledMap;
+		public Scene MapScene {get; protected set;}
+		public bool Loaded {get; protected set;} = false;
+
+
+		public Map(TiledMap tiledMap) =>
+			TiledMap = tiledMap;
+		
+		public virtual void Load()
 		{
-			var scene = SceneMgr.CreateScene(map.Name);
+			MapScene = SceneMgr.CreateScene(TiledMap.Name);
 			
-			var tilesets = ConvertTilesets(map.Tilesets);
+			var tilesets = ConvertTilesets(TiledMap.Tilesets);
 
-			LoadTileLayers(map, scene, tilesets);
-			LoadObjectLayers(map, scene);
-			LoadImageLayers(map, scene);
+			LoadTileLayers(tilesets);
+			LoadObjectLayers();
+			LoadImageLayers();
 
-			return scene;
+			Loaded = true;
+		}
+
+		public virtual void Unload()
+		{
+			SceneMgr.DestroyScene(MapScene);
+			MapScene = null;
+
+			Loaded = false;
 		}
 
 
@@ -71,11 +86,11 @@ namespace Monofoxe.Tiled
 
 
 
-		protected virtual void LoadTileLayers(TiledMap map, Scene scene, List<Tileset> tilesets)
+		protected virtual void LoadTileLayers(List<Tileset> tilesets)
 		{
-			foreach(var tileLayer in map.TileLayers)
+			foreach(var tileLayer in TiledMap.TileLayers)
 			{
-				var layer = scene.CreateLayer(tileLayer.Name);
+				var layer = MapScene.CreateLayer(tileLayer.Name);
 				layer.Priority = GetLayerPriority(tileLayer);
 				
 				var tilemap = new BasicTilemapComponent(tileLayer.Width, tileLayer.Height, tileLayer.TileWidth, tileLayer.TileHeight);
@@ -105,11 +120,11 @@ namespace Monofoxe.Tiled
 		
 
 
-		protected virtual void LoadObjectLayers(TiledMap map, Scene scene)
+		protected virtual void LoadObjectLayers()
 		{
-			foreach(var objectLayer in map.ObjectLayers)
+			foreach(var objectLayer in TiledMap.ObjectLayers)
 			{
-				var layer = scene.CreateLayer(objectLayer.Name);
+				var layer = MapScene.CreateLayer(objectLayer.Name);
 				layer.Priority = GetLayerPriority(objectLayer);
 
 				foreach(var obj in objectLayer.Objects)
@@ -120,11 +135,13 @@ namespace Monofoxe.Tiled
 			}
 		}
 
-		protected virtual void LoadImageLayers(TiledMap map, Scene scene)
+
+
+		protected virtual void LoadImageLayers()
 		{
-			foreach(var imageLayer in map.ImageLayers)
+			foreach(var imageLayer in TiledMap.ImageLayers)
 			{
-				var layer = scene.CreateLayer(imageLayer.Name);
+				var layer = MapScene.CreateLayer(imageLayer.Name);
 				var entity = new Entity(layer, "tiledImage");
 				var frame = new Frame(
 					imageLayer.Texture, 
@@ -136,6 +153,7 @@ namespace Monofoxe.Tiled
 				entity.AddComponent(new ImageLayerComponent(imageLayer.Offset, frame));
 			}
 		}
+
 
 
 		/// <summary>

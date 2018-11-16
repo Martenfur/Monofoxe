@@ -26,12 +26,12 @@ namespace Monofoxe.Engine.SceneSystem
 		public Scene(string name) =>
 			Name = name;
 		
-
+		// TODO: Fix scene destruction.
 		internal void Destroy()
 		{
-			foreach(var layer in _layers)
+			while(_layers.Count > 0)
 			{
-				DestroyLayer(layer);
+				DestroyLayer(_layers[0]);
 			}
 		}
 

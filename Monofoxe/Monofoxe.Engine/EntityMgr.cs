@@ -74,7 +74,7 @@ namespace Monofoxe.Engine
 			}
 			// Fixed updates.
 
-
+			
 			// Normal updates.
 			foreach(var scene in SceneMgr.Scenes)
 			{
