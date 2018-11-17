@@ -356,13 +356,13 @@ namespace Monofoxe.Engine.SceneSystem
 				{
 					DrawMgr.SetSurfaceTarget(camera._postprocessorLayerBuffer);
 					DrawMgr.Device.Clear(Color.TransparentBlack);
-					DrawMgr.DrawSurface(camera._postprocessorBuffer, Vector2.Zero);
+					DrawMgr.DrawSurface(camera._postprocessorBuffer, Vector2.Zero, Vector2.One, 0, Color.White);
 				}
 				else
 				{
 					DrawMgr.SetSurfaceTarget(camera._postprocessorBuffer);
 					DrawMgr.Device.Clear(Color.TransparentBlack);
-					DrawMgr.DrawSurface(camera._postprocessorLayerBuffer, Vector2.Zero);
+					DrawMgr.DrawSurface(camera._postprocessorLayerBuffer, Vector2.Zero, Vector2.One, 0, Color.White);
 				}
 				
 				DrawMgr.ResetSurfaceTarget();
@@ -372,11 +372,11 @@ namespace Monofoxe.Engine.SceneSystem
 			DrawMgr.CurrentEffect = PostprocessorEffects[PostprocessorEffects.Count - 1];
 			if ((PostprocessorEffects.Count % 2) != 0)
 			{
-				DrawMgr.DrawSurface(camera._postprocessorLayerBuffer, Vector2.Zero);
+				DrawMgr.DrawSurface(camera._postprocessorLayerBuffer, Vector2.Zero, Vector2.One, 0, Color.White);
 			}
 			else
 			{
-				DrawMgr.DrawSurface(camera._postprocessorBuffer, Vector2.Zero);
+				DrawMgr.DrawSurface(camera._postprocessorBuffer, Vector2.Zero, Vector2.One, 0, Color.White);
 			}
 
 			DrawMgr.CurrentEffect = null;

@@ -132,7 +132,6 @@ namespace Monofoxe.Engine.SceneSystem
 
 								var oldRasterizer = DrawMgr.Rasterizer;
 								DrawMgr.Rasterizer = DrawMgr._cameraRasterizerState;
-								//DrawMgr.CurrentColor = Color.White; // TODO: Sort this out.
 								DrawMgr.SetTransformMatrix(Matrix.CreateTranslation(Vector3.Zero));
 								layer.ApplyPostprocessing();
 								DrawMgr.ResetTransformMatrix();
