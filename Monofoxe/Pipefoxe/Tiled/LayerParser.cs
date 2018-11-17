@@ -322,7 +322,6 @@ namespace Pipefoxe.Tiled
 					float.Parse(vecStr[0], CultureInfo.InvariantCulture),
 					float.Parse(vecStr[1], CultureInfo.InvariantCulture)
 				);
-				TiledMapImporter.__Log(points[i].ToString());
 			}
 			obj.Points = points;
 
