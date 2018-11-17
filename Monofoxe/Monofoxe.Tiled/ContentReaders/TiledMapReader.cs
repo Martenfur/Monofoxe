@@ -13,6 +13,12 @@ namespace Monofoxe.Tiled.ContentReaders
 	/// </summary>
 	public class TiledMapReader : ContentTypeReader<TiledMap>
 	{
+		/* 
+		 * Yes, I know, this is horrible. :S	
+		 * 
+		 * [Serializable] is not supported by Vector2, Rectangle and other fluff.
+		 */
+
 		protected override TiledMap Read(ContentReader input, TiledMap existingInstance)
 		{
 			var tiledMap = new TiledMap

@@ -9,6 +9,10 @@ using Monofoxe.Tiled.MapStructure;
 
 namespace Monofoxe.Tiled
 {
+	/// <summary>
+	/// Basic map class. Creates a map from Tiled data structures.
+	/// Can be extended.
+	/// </summary>
 	public class Map
 	{
 		public readonly TiledMap TiledMap;
@@ -19,19 +23,29 @@ namespace Monofoxe.Tiled
 		public Map(TiledMap tiledMap) =>
 			TiledMap = tiledMap;
 		
+		/// <summary>
+		/// Loads map scene.
+		/// </summary>
 		public virtual void Load()
 		{
-			MapScene = SceneMgr.CreateScene(TiledMap.Name);
+			if (!Loaded)
+			{
+				MapScene = SceneMgr.CreateScene(TiledMap.Name);
 			
-			var tilesets = ConvertTilesets(TiledMap.Tilesets);
+				var tilesets = BuildTilesets(TiledMap.Tilesets);
 
-			LoadTileLayers(tilesets);
-			LoadObjectLayers();
-			LoadImageLayers();
+				BuildTileLayers(tilesets);
+				BuildObjectLayers();
+				BuildImageLayers();
 
-			Loaded = true;
+				Loaded = true;
+			}
 		}
 
+		
+		/// <summary>
+		/// Unloads map scene.
+		/// </summary>
 		public virtual void Unload()
 		{
 			SceneMgr.DestroyScene(MapScene);
@@ -41,8 +55,13 @@ namespace Monofoxe.Tiled
 		}
 
 
-		
-		protected virtual List<Tileset> ConvertTilesets(TiledMapTileset[] tilesets)
+
+		#region Map building.
+
+		/// <summary>
+		/// Builds Tiled tilesets to actual tilesets.
+		/// </summary>
+		protected virtual List<Tileset> BuildTilesets(TiledMapTileset[] tilesets)
 		{
 			var convertedTilesets = new List<Tileset>();
 
@@ -86,7 +105,7 @@ namespace Monofoxe.Tiled
 
 
 
-		protected virtual void LoadTileLayers(List<Tileset> tilesets)
+		protected virtual void BuildTileLayers(List<Tileset> tilesets)
 		{
 			foreach(var tileLayer in TiledMap.TileLayers)
 			{
@@ -120,7 +139,7 @@ namespace Monofoxe.Tiled
 		
 
 
-		protected virtual void LoadObjectLayers()
+		protected virtual void BuildObjectLayers()
 		{
 			foreach(var objectLayer in TiledMap.ObjectLayers)
 			{
@@ -129,7 +148,6 @@ namespace Monofoxe.Tiled
 
 				foreach(var obj in objectLayer.Objects)
 				{
-					Console.WriteLine("Making " + obj.Name);
 					MapMgr.MakeEntity(obj, layer);
 				}
 			}
@@ -137,7 +155,7 @@ namespace Monofoxe.Tiled
 
 
 
-		protected virtual void LoadImageLayers()
+		protected virtual void BuildImageLayers()
 		{
 			foreach(var imageLayer in TiledMap.ImageLayers)
 			{
@@ -172,7 +190,7 @@ namespace Monofoxe.Tiled
 			}
 		}
 
-		
+		#endregion Map building.
 
 	}
 }
