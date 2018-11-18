@@ -2,6 +2,9 @@
 using System;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.SceneSystem;
+using System.Linq;
+using System.Reflection;
+using System.Collections.Generic;
 
 namespace Monofoxe.Engine
 {
@@ -63,6 +66,18 @@ namespace Monofoxe.Engine
 		}
 		private static double _minGameSpeed = 30;
 
+
+		/// <summary>
+		/// All game's assemblies, including ones from libraries.
+		/// </summary>
+		public static Dictionary<string, Assembly> Assemblies;
+		
+		/// <summary>
+		/// All of game's types.
+		/// </summary>
+		public static Dictionary<string, Type> Types;
+		
+
 		
 		/// <summary>
 		/// Counts frames per second.
@@ -99,6 +114,8 @@ namespace Monofoxe.Engine
 			
 			WindowManager = new WindowMgr(game);
 			
+			LoadAssembliesAndTypes();
+
 			SystemMgr.InitSystemPool();
 			AssetMgr.Init();
 
@@ -146,6 +163,61 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static void ExitGame() => 
 			Game.Exit();
+
+
+		
+		#region Assembly loading.
+		
+		private static void LoadAssembliesAndTypes()
+		{
+			// Loading all assemblies.
+			Assemblies = new Dictionary<string, Assembly>();
+
+			foreach(var asm in AppDomain.CurrentDomain.GetAssemblies())
+			{
+				Assemblies.Add(asm.FullName, asm);
+			}
+
+			LoadAllReferencedAssemblies(Assembly.GetEntryAssembly(), 0);
+			// Loading all assemblies.
+
+
+			// Extracting all types from assemblies.
+			Types = new Dictionary<string, Type>();
+
+			foreach(var asm in Assemblies)
+			{
+				foreach(var type in asm.Value.GetTypes())
+				{
+					if (!Types.ContainsKey(type.FullName))
+					{
+						Types.Add(type.FullName, type);
+					}
+				}
+			}
+			// Extracting all types from assemblies.
+		}
+		
+		private static void LoadAllReferencedAssemblies(Assembly assembly, int level)
+		{
+			if (level > 128) // Safety check. I must be sure, engine won't do stack overflow at random.
+			{
+				return;
+			}
+
+			foreach(var refAssembly in assembly.GetReferencedAssemblies())
+			{
+				if (!Assemblies.ContainsKey(refAssembly.FullName))
+				{
+					var asm = Assembly.Load(refAssembly);
+					Assemblies.Add(refAssembly.FullName, asm);
+					
+					LoadAllReferencedAssemblies(asm, level + 1);
+				}
+			}
+		}
+
+		#endregion Assembly loading.
 
 	}
 }

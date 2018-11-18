@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Monofoxe.Tiled.MapStructure.Objects;
-using Monofoxe.Tiled.MapStructure;
-using Monofoxe.Engine.SceneSystem;
+using Monofoxe.Engine;
 using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.SceneSystem;
+using Monofoxe.Tiled.MapStructure.Objects;
 
 
 namespace Monofoxe.Tiled
@@ -46,19 +45,16 @@ namespace Monofoxe.Tiled
 		/// </summary>
 		private static void InitFactoryPool()
 		{
-			// TODO: This code doesn't work with external libraries. FIX this.
 			_factoryPool = new Dictionary<string, ITiledEntityFactory>();
 			
-			var factoryTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes());
-			factoryTypes = factoryTypes.Where(
-				mytype => typeof(ITiledEntityFactory).IsAssignableFrom(mytype) // Taking all classes immplementing interface.
-			).Where(mytype => !mytype.IsInterface); // Filtering out interface itself.
-			
-			// Creating one instance of each.
-			foreach(var systemType in factoryTypes)
+			// Creating an instance of each.
+			foreach(var type in GameMgr.Types)
 			{
-				var newFactory = (ITiledEntityFactory)Activator.CreateInstance(systemType);
-				_factoryPool.Add(newFactory.Tag, newFactory);
+				if (typeof(ITiledEntityFactory).IsAssignableFrom(type.Value) && !type.Value.IsInterface)
+				{
+					var newFactory = (ITiledEntityFactory)Activator.CreateInstance(type.Value);
+					_factoryPool.Add(newFactory.Tag, newFactory);
+				}
 			}
 		}
 
