@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Monofoxe.Engine.SceneSystem;
-using System.Reflection;
 
 namespace Monofoxe.Engine.ECS
 {
@@ -119,56 +118,21 @@ namespace Monofoxe.Engine.ECS
 			 * This ancient horror gets list of all classes, which implement
 			 * BaseSystem.
 			 */
-			 /*
-			var systemTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes());
-			systemTypes = systemTypes.Where(
-				mytype => typeof(BaseSystem).IsAssignableFrom(mytype) 
-			);
-			*/
 
-			var assemblies = new Dictionary<string, Assembly>();
-
-			foreach(var asm in AppDomain.CurrentDomain.GetAssemblies())
-			{
-				assemblies.Add(asm.FullName, asm);
-				Console.WriteLine("assembly: " + asm.FullName);
-			}
-
-
-			LoadAllReferencedAssemblies(Assembly.GetEntryAssembly(), assemblies, 0);
-			/*
-			foreach(var asm in assemblies)
-			{
-				Console.WriteLine("ASSEMBLY: " + asm.Value.FullName);
-				var attr = asm.Value.GetCustomAttributes(typeof(AssemblyProductAttribute), false)[0] as AssemblyProductAttribute;
-				Console.WriteLine(attr.Product);
-			}*/
-
-			/*
-			 * Well, we've got a problem. CurrentDomain.GetAssemblies()
-			 * cannot get types from external libraries.
-			 * Right now the only way is to load all referenced assemblies and check their types.
-			 * 
-			 * Before release this code needs to be replaced with another solution, or moved somewhere under 
-			 * GameMgr, to have static list of all assemblies.
-			 */
-			// TODO: Sort all this stuff out.
-
+			// Extracting all types from assemblies.
 			var systemTypes = new List<Type>();
 
-			foreach(var asm in assemblies)
+			foreach(var typePair in GameMgr.Types)
 			{
-				foreach(var type in asm.Value.GetTypes())
+				if (typeof(BaseSystem).IsAssignableFrom(typePair.Value))
 				{
-					if (typeof(BaseSystem).IsAssignableFrom(type))
-					{
-						systemTypes.Add(type);
-					}
+					systemTypes.Add(typePair.Value);
 				}
 			}
+			// Extracting all types from assemblies.
 			
 			
-
+			// Creating an instance of each system.
 			foreach(var systemType in systemTypes)
 			{
 				if (systemType != typeof(BaseSystem))
@@ -178,29 +142,9 @@ namespace Monofoxe.Engine.ECS
 					_systemPool.Add(newSystem.Tag, newSystem);
 				}
 			}
+			// Creating an instance of each system.
 		}
 
-
-
-		private static void LoadAllReferencedAssemblies(Assembly assembly, Dictionary<string, Assembly> assemblies, int level)
-		{
-			if (level > 128) // Safety check. I must be sure, engine won't do stack overflow at random.
-			{
-				return;
-			}
-
-			foreach(var refAssembly in assembly.GetReferencedAssemblies())
-			{
-				if (!assemblies.ContainsKey(refAssembly.FullName))
-				{
-					var asm = Assembly.Load(refAssembly);
-					assemblies.Add(refAssembly.FullName, asm);
-					
-					LoadAllReferencedAssemblies(asm, assemblies, level + 1);
-				}
-			}
-		}
-		
 
 
 		/// <summary>
