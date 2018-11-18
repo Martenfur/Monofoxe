@@ -168,6 +168,9 @@ namespace Monofoxe.Engine
 		
 		#region Assembly loading.
 		
+		/// <summary>
+		/// Loads all assemblies and extracts types form them.
+		/// </summary>
 		private static void LoadAssembliesAndTypes()
 		{
 			// Loading all assemblies.
@@ -198,6 +201,9 @@ namespace Monofoxe.Engine
 			// Extracting all types from assemblies.
 		}
 		
+		/// <summary>
+		/// Loads all referenced assemblies of an assembly.
+		/// </summary>
 		private static void LoadAllReferencedAssemblies(Assembly assembly, int level)
 		{
 			if (level > 128) // Safety check. I must be sure, engine won't do stack overflow at random.
