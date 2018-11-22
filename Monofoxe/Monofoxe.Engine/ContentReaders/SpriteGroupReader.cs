@@ -1,9 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine.Drawing;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Monofoxe.Engine.ContentReaders
 {

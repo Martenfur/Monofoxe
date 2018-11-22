@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Monofoxe.Engine.ECS;
-using Monofoxe.Engine.Utils.Cameras;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Monofoxe.Engine.CustomCollections;
+using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.Utils.Cameras;
 
 namespace Monofoxe.Engine.SceneSystem
 {

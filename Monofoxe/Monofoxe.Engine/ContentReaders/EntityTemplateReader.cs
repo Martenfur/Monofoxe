@@ -1,11 +1,11 @@
-﻿using Microsoft.Xna.Framework.Content;
-using System.Text;
-using System;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Monofoxe.Engine.ECS;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text;
+using Microsoft.Xna.Framework.Content;
+using Monofoxe.Engine.ECS;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Monofoxe.Engine.ContentReaders
 {

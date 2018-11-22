@@ -16,9 +16,7 @@ namespace Monofoxe.Engine.CustomCollections
 	public class SafeSortedList<T> : IEnumerable<T>
 	{
 		private Func<T, int> _sortingParameter;
-		private List<T> _items;
-		private List<T> _newItems;
-		private List<T> _removedItems;
+		private List<T> _items, _newItems, _removedItems;
 
 
 		public SafeSortedList(Func<T, int> sortingParameter)

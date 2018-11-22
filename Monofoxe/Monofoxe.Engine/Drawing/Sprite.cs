@@ -76,7 +76,6 @@ namespace Monofoxe.Engine.Drawing
 		/// Checks if all frames got identical sizes.
 		/// </summary>
 		/// <param name="frames">Array of frames to check.</param>
-		/// <returns></returns>
 		private bool CheckIdenticalFrameSizes(Frame[] frames)
 		{
 			for(var i = 1; i < Frames.Length; i += 1)

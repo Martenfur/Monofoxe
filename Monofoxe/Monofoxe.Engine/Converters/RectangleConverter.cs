@@ -1,7 +1,7 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Microsoft.Xna.Framework;
 
 namespace Monofoxe.Engine.Converters
 {
