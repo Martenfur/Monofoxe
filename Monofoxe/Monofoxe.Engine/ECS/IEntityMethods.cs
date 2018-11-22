@@ -2,7 +2,10 @@
 
 namespace Monofoxe.Engine.ECS
 {
-	public interface IEntityMethods
+	/// <summary>
+	/// Methods for working with entities.
+	/// </summary>
+	interface IEntityMethods
 	{
 		/// <summary>
 		/// Returns list of objects of certain type.

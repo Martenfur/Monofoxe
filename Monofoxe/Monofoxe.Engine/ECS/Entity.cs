@@ -4,7 +4,6 @@ using Monofoxe.Engine.SceneSystem;
 
 namespace Monofoxe.Engine.ECS
 {
-	
 	/// <summary>
 	/// Parent class of every in-game object.
 	/// Can hold components, or implement its own logic.
@@ -139,7 +138,6 @@ namespace Monofoxe.Engine.ECS
 
 		#region Components.
 
-
 		/// <summary>
 		/// Adds component to the entity.
 		/// </summary>
@@ -170,7 +168,7 @@ namespace Monofoxe.Engine.ECS
 					return (T)component.Value;
 				}
 			}
-			throw(new Exception("Entity doesn't contain this component!"));
+			throw new Exception("Entity doesn't contain this component!");
 		}
 
 		
@@ -182,9 +180,9 @@ namespace Monofoxe.Engine.ECS
 			var array = new Component[_components.Count];
 			var id = 0;
 
-			foreach(KeyValuePair<string, Component> component in _components)
+			foreach(var componentPair in _components)
 			{
-				array[id] = component.Value;
+				array[id] = componentPair.Value;
 				id += 1;
 			}
 
@@ -221,9 +219,9 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		internal void RemoveAllComponents()
 		{
-			foreach(KeyValuePair<string, Component> component in _components)
+			foreach(var componentPair in _components)
 			{
-				Layer.RemoveComponent(component.Value);
+				Layer.RemoveComponent(componentPair.Value);
 			}
 			_components.Clear();
 		}

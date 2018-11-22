@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Monofoxe.Engine.Drawing
 {
 	public class TextureFont : IFont
 	{
-		#region fields
-
-		public Texture2D Texture {get;}
+		/// <summary>
+		/// Unused, because TextureFont can have multiple textures.
+		/// </summary>
+		public Texture2D Texture => null;
 		
 		public ReadOnlyCollection<char> Characters {get;}
 		
@@ -21,7 +22,6 @@ namespace Monofoxe.Engine.Drawing
 		
 		public float Spacing {get; set;}
 
-		#endregion fields
 		
 		private Dictionary<char, SpriteFont.Glyph> _glyphs;
 		private Dictionary<char, Frame> _frames;
@@ -45,9 +45,9 @@ namespace Monofoxe.Engine.Drawing
 			Color[] data = null;
 
 			int i = 0;
-			foreach(char ch in Characters)
+			foreach(var ch in Characters)
 			{
-				Frame frame = sprite.Frames[i];
+				var frame = sprite.Frames[i];
 
 				if (frame.Texture != frameTexture)
 				{
@@ -112,13 +112,15 @@ namespace Monofoxe.Engine.Drawing
 				}
 
 
-				SpriteFont.Glyph glyph = new SpriteFont.Glyph();
-				glyph.Character = ch;
-				glyph.BoundsInTexture = frame.TexturePosition;
-				glyph.Width = frame.W - leftBearing - rightBearing;
-				glyph.WidthIncludingBearings = frame.W;
-				glyph.LeftSideBearing = leftBearing;
-				glyph.RightSideBearing = rightBearing;
+				var glyph = new SpriteFont.Glyph
+				{
+					Character = ch,
+					BoundsInTexture = frame.TexturePosition,
+					Width = frame.W - leftBearing - rightBearing,
+					WidthIncludingBearings = frame.W,
+					LeftSideBearing = leftBearing,
+					RightSideBearing = rightBearing
+				};
 
 				_glyphs.Add(ch, glyph);
 				_frames.Add(ch, frame);
@@ -130,48 +132,36 @@ namespace Monofoxe.Engine.Drawing
 
 
 
-		public Dictionary<char, SpriteFont.Glyph> GetGlyphs()
-		{
-			return _glyphs;
-		}
+		public Dictionary<char, SpriteFont.Glyph> GetGlyphs() =>
+			_glyphs;
 		
 
 		/// <summary>
 		/// Measures width and height of the text.
 		/// </summary>
-		/// <param name="text"></param>
-		/// <returns></returns>
-		public Vector2 MeasureString(string text)
-		{
-			return new Vector2(MeasureStringWidth(text), MeasureStringHeight(text));
-		}
+		public Vector2 MeasureString(string text) =>
+			new Vector2(MeasureStringWidth(text), MeasureStringHeight(text));
 
 		/// <summary>
 		/// Measures width and height of the text.
 		/// </summary>
-		/// <param name="text"></param>
-		/// <returns></returns>
-		public Vector2 MeasureString(StringBuilder text)
-		{
-			return MeasureString(text.ToString());
-		}
+		public Vector2 MeasureString(StringBuilder text) =>
+			MeasureString(text.ToString());
 
 		/// <summary>
 		/// Measures width of the text. 
 		/// </summary>
-		/// <param name="text"></param>
-		/// <returns></returns>
 		public float MeasureStringWidth(string text)
 		{
-			string[] lines = text.Split(new []{Environment.NewLine}, StringSplitOptions.None);
+			var lines = text.Split(new []{Environment.NewLine}, StringSplitOptions.None);
 			
 			// Width.
 			float maxWidth = 0;
 
-			foreach(string line in lines)
+			foreach(var line in lines)
 			{
 				float width = 0;
-				foreach(char ch in line)
+				foreach(var ch in line)
 				{
 					try
 					{
@@ -196,19 +186,13 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Measures width of the text. 
 		/// </summary>
-		/// <param name="text"></param>
-		/// <returns></returns>
-		public float MeasureStringWidth(StringBuilder text)
-		{
-			return MeasureStringWidth(text.ToString());
-		}
+		public float MeasureStringWidth(StringBuilder text) =>
+			MeasureStringWidth(text.ToString());
 
 		
 		/// <summary>
 		/// Measures height of the text. 
 		/// </summary>
-		/// <param name="text"></param>
-		/// <returns></returns>
 		public float MeasureStringHeight(string text)
 		{
 			string[] lines = text.Split(new []{Environment.NewLine}, StringSplitOptions.None);
@@ -220,21 +204,13 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Measures height of the text. 
 		/// </summary>
-		/// <param name="text"></param>
-		/// <returns></returns>
-		public float MeasureStringHeight(StringBuilder text)
-		{
-			return MeasureStringHeight(text.ToString());
-		}
+		public float MeasureStringHeight(StringBuilder text) =>
+			MeasureStringHeight(text.ToString());
 
 
 		/// <summary>
 		/// Draws text. Not recommended to call on its own, use DrawMgr functions instead.
 		/// </summary>
-		/// <param name="text"></param>
-		/// <param name="pos"></param>
-		/// <param name="halign"></param>
-		/// <param name="valign"></param>
 		public void Draw(SpriteBatch batch, string text, Vector2 pos, TextAlign halign, TextAlign valign)
 		{
 			string[] lines = text.Split(new []{Environment.NewLine}, StringSplitOptions.None);

@@ -5,6 +5,9 @@ using Monofoxe.Engine.SceneSystem;
 
 namespace Monofoxe.Engine.ECS
 {
+	/// <summary>
+	/// Manages ECS systems.
+	/// </summary>
 	public static class SystemMgr
 	{
 		/// <summary>
@@ -52,7 +55,6 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Updates at a fixed rate.
 		/// </summary>
-		/// <param name="components"></param>
 		internal static void FixedUpdate(Dictionary<string, List<Component>> components)
 		{
 			foreach(var systemPair in _activeSystems)
@@ -168,7 +170,7 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		public static void DisableSystem<T>() where T : BaseSystem
 		{
-			foreach(var systemPair in _activeSystems.ToList()) // Quick way to clone list.
+			foreach(var systemPair in _activeSystems.ToList()) // Quick way to clone collection.
 			{
 				if (systemPair.Value is T)
 				{

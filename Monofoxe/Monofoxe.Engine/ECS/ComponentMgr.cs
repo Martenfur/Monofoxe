@@ -2,6 +2,9 @@
 
 namespace Monofoxe.Engine.ECS
 {
+	/// <summary>
+	/// Set of handy methods for components.
+	/// </summary>
 	public static class ComponentMgr
 	{
 		/// <summary>

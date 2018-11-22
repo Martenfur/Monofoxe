@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Globalization;
+using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Microsoft.Xna.Framework;
-using System.Globalization;
 
 namespace Monofoxe.Engine.Converters
 {

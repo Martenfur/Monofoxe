@@ -7,6 +7,10 @@ using Microsoft.Xna.Framework;
 
 namespace Monofoxe.Engine.Drawing
 {
+	/// <summary>
+	/// XNA's SpriteFont doesn't provide interface for itself, 
+	/// so we have to make our own.
+	/// </summary>
 	public interface IFont
 	{
 		Texture2D Texture {get;}
