@@ -14,7 +14,7 @@ namespace Monofoxe.Engine.Drawing
 				{
 					return Frames[0].W;
 				}	
-				throw(new Exception("To use this variable, all frame sizes must be identical!"));
+				throw new Exception("To use this variable, all frame sizes must be identical!");
 			}
 		}
 		
@@ -26,7 +26,7 @@ namespace Monofoxe.Engine.Drawing
 				{
 					return Frames[0].H;
 				}
-				throw(new Exception("To use this variable, all frame sizes must be identical!"));
+				throw new Exception("To use this variable, all frame sizes must be identical!");
 			}
 		}
 

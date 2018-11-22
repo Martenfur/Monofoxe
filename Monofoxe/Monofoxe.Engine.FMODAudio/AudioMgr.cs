@@ -11,10 +11,11 @@ using Microsoft.Xna.Framework;
 namespace Monofoxe.Engine.FMODAudio
 {
 	// TODO: Figure out how to make this stuff cross-platform.
-	// Maybe add an interface and make a singleton?
-
+	
 	/// <summary>
 	/// Audio manager. Controls main audiosystem parameters.
+	/// 
+	/// NOTE: Right now FMOD only works with Windows. 
 	/// </summary>
 	public static class AudioMgr
 	{
@@ -63,7 +64,6 @@ namespace Monofoxe.Engine.FMODAudio
 			//	dlopen(Environment.CurrentDirectory + "/FMOD/x64/fmod.so", 1);
 			}
 
-			//System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 			
 			FMOD.System system;
 			FMOD.Factory.System_Create(out system);

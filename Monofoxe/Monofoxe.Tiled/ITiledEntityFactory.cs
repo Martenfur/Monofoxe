@@ -1,9 +1,13 @@
 ﻿using Monofoxe.Engine.ECS;
-using Monofoxe.Tiled.MapStructure.Objects;
 using Monofoxe.Engine.SceneSystem;
+using Monofoxe.Tiled.MapStructure.Objects;
 
 namespace Monofoxe.Tiled
 {
+	/// <summary>
+	/// Factory interface for entities. 
+	/// Use it to convert Tiled object structs to actual entities.
+	/// </summary>
 	public interface ITiledEntityFactory
 	{
 		/// <summary>

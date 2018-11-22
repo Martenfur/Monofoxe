@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using Microsoft.Xna.Framework;
 
 namespace Monofoxe.Engine.Utils
@@ -24,7 +23,7 @@ namespace Monofoxe.Engine.Utils
 			(float)Math.Sqrt(x * x + y * y);
 
 
-
+		
 		/// <summary>
 		/// Calculates direction between two points in degrees.
 		/// </summary>
@@ -121,7 +120,6 @@ namespace Monofoxe.Engine.Utils
 			float w2 = (point.Y - triPoint1.Y - w1 * v2.Y) / v3.Y;
 			
 			return (w1 >= 0 && w2 >= 0 && ((w1 + w2) <= 1));
-			
 		}
 
 		/// <summary>
@@ -139,7 +137,7 @@ namespace Monofoxe.Engine.Utils
 		/// </summary>
 		public static int PointSide(Vector2 point, Vector2 linePt1, Vector2 linePt2)
 		{
-			Vector2 v = new Vector2(linePt2.Y - linePt1.Y, linePt1.X - linePt2.X);
+			var v = new Vector2(linePt2.Y - linePt1.Y, linePt1.X - linePt2.X);
 
 			return Math.Sign(Vector2.Dot(point - linePt1, v));
 		}
@@ -149,13 +147,13 @@ namespace Monofoxe.Engine.Utils
 		/// </summary>
 		public static int LinesCross(Vector2 line1Pt1, Vector2 line1Pt2, Vector2 line2Pt1, Vector2 line2Pt2)
 		{
-			Vector2 line1 = new Vector2(line1Pt2.Y - line1Pt1.Y, line1Pt1.X - line1Pt2.X);
-			Vector2 line2 = new Vector2(line2Pt2.Y - line2Pt1.Y, line2Pt1.X - line2Pt2.X);
+			var line1 = new Vector2(line1Pt2.Y - line1Pt1.Y, line1Pt1.X - line1Pt2.X);
+			var line2 = new Vector2(line2Pt2.Y - line2Pt1.Y, line2Pt1.X - line2Pt2.X);
 			
-			int side1 = Math.Sign(Vector2.Dot(line2Pt1 - line1Pt1, line1));
-			int side2 = Math.Sign(Vector2.Dot(line2Pt2 - line1Pt1, line1));
-			int side3 = Math.Sign(Vector2.Dot(line1Pt1 - line2Pt1, line2));
-			int side4 = Math.Sign(Vector2.Dot(line1Pt2 - line2Pt1, line2));
+			var side1 = Math.Sign(Vector2.Dot(line2Pt1 - line1Pt1, line1));
+			var side2 = Math.Sign(Vector2.Dot(line2Pt2 - line1Pt1, line1));
+			var side3 = Math.Sign(Vector2.Dot(line1Pt1 - line2Pt1, line2));
+			var side4 = Math.Sign(Vector2.Dot(line1Pt2 - line2Pt1, line2));
 
 			if (side1 != side2 && side3 != side4)
 			{

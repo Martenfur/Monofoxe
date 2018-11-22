@@ -15,7 +15,7 @@ namespace Monofoxe.Engine.Converters
 	public class SpriteConverter : BasicConverter
 	{
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
-			throw(new InvalidOperationException("Cannot serialize sprites!"));
+			throw new InvalidOperationException("Cannot serialize sprites!");
 
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
 		{

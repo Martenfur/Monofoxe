@@ -1,9 +1,8 @@
-﻿using Monofoxe.Engine;
-
+﻿
 namespace Monofoxe.Engine.Utils
 {
 	/// <summary>
-	/// Counts seconds. Needs to be updated manually.
+	/// Counts seconds. Has to be updated manually.
 	/// </summary>
 	public class Timer
 	{

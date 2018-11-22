@@ -37,8 +37,7 @@ namespace Monofoxe.Tiled.MapStructure
 
 		/* 
 		 * More convenient way of getting tileset sizes.
-		 * Tile count and columns are left just for compatibility
-		 * with... whatever.
+		 * Tile count and columns are left just for compatibility.
 		 */
 		public int Width
 		{
@@ -70,7 +69,7 @@ namespace Monofoxe.Tiled.MapStructure
 		
 		public Color? BackgroundColor;
 
-		//TODO: Add animated tiles.
+		//TODO: Add animated tiles someday.
 
 		public Dictionary<string, string> Properties;
 		

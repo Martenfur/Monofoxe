@@ -50,7 +50,7 @@ namespace Monofoxe.Engine.Converters
 			}
 			catch(Exception) 
 			{	
-				throw(new Exception("Incorrect color format! Use #RRGGBB or #RRGGBBAA"));
+				throw new Exception("Incorrect color format! Use #RRGGBB or #RRGGBBAA");
 			}
 		}
 	}

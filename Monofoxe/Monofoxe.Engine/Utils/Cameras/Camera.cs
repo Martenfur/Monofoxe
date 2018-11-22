@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Monofoxe.Engine;
 
 namespace Monofoxe.Engine.Utils.Cameras
 {
@@ -32,7 +31,7 @@ namespace Monofoxe.Engine.Utils.Cameras
 
 		/// <summary>
 		/// View coordinates.
-		/// NOTE: They don't take in account offset and rotation.
+		/// NOTE: They don't take into account offset and rotation.
 		/// </summary>
 		public Vector2 Pos;
 
@@ -41,7 +40,7 @@ namespace Monofoxe.Engine.Utils.Cameras
 		/// </summary>
 		public Vector2 Size 
 		{
-			get =>	new Vector2(Surface.Width, Surface.Height);
+			get => new Vector2(Surface.Width, Surface.Height);
 			set
 			{
 				Surface.Dispose();
@@ -123,7 +122,11 @@ namespace Monofoxe.Engine.Utils.Cameras
 
 		private Dictionary<string, HashSet<string>> _filter = new Dictionary<string, HashSet<string>>();
 
+		/// <summary>
+		/// Mode for filtering out certain layers.
+		/// </summary>
 		public FilterMode FilterMode = FilterMode.None;
+
 
 		/// <summary>
 		/// Shaders applied to the surface.
@@ -151,7 +154,7 @@ namespace Monofoxe.Engine.Utils.Cameras
 						_postprocessorBuffer = CreateSurface(Surface.Width, Surface.Height);
 					}
 					else
-					{	
+					{
 						_postprocessorBuffer?.Dispose();
 						_postprocessorBuffer = null;
 					}

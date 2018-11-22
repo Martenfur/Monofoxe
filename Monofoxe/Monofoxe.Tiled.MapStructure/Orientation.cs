@@ -1,6 +1,9 @@
 ﻿
 namespace Monofoxe.Tiled.MapStructure
 {
+	/// <summary>
+	/// TIled map tiles orientaion.
+	/// </summary>
 	public enum Orientation : byte
 	{
 		Orthogonal = 0,

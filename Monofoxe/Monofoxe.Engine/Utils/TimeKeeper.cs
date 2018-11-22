@@ -1,10 +1,9 @@
-﻿using Monofoxe.Engine;
-
+﻿
 namespace Monofoxe.Engine.Utils
 {
-	
 	/// <summary>
 	/// Calculates elapsed time based on multiplier.
+	/// Should be used for fps adjusting and slowing down\speeding up time.
 	/// </summary>
 	public class TimeKeeper
 	{

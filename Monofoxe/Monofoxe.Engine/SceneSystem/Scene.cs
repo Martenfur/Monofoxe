@@ -7,10 +7,16 @@ using Monofoxe.Engine.ECS;
 
 namespace Monofoxe.Engine.SceneSystem
 {
+	/// <summary>
+	/// Container for layers.
+	/// </summary>
 	public class Scene : IEntityMethods
 	{
 		public readonly string Name;
 		
+		/// <summary>
+		/// List of all scene's layers.
+		/// </summary>
 		public IReadOnlyCollection<Layer> Layers => _layers.ToList();
 		internal SafeSortedList<Layer> _layers = new SafeSortedList<Layer>(x => x.Priority);
 
@@ -71,7 +77,7 @@ namespace Monofoxe.Engine.SceneSystem
 		{
 			if (LayerExists(name))
 			{
-				throw(new Exception("Layer with such name already exists!"));
+				throw new Exception("Layer with such name already exists!");
 			}
 			
 			return new Layer(name, priority, this);

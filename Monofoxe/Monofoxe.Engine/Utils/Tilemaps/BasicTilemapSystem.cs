@@ -1,10 +1,7 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.ECS;
-using Monofoxe.Engine;
-using System.Collections.Generic;
 
 
 namespace Monofoxe.Engine.Utils.Tilemaps
@@ -52,6 +49,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 					endY = tilemap.Height - 1;
 				}
 				// Bounding.
+				DrawMgr.SwitchPipelineMode(PipelineMode.Sprites);
 
 				for(var y = startY; y < endY; y += 1)
 				{
@@ -117,16 +115,18 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 									}
 								}
 								// A bunch of Tiled magic.
-
-
-								DrawMgr.DrawFrame(
-									tileFrame, 
-									tilemap.Offset + new Vector2(tilemap.TileWidth * x, tilemap.TileHeight * y) - offset,
-									Vector2.One,
-									rotation,
-									- Vector2.UnitY * tilemap.TileHeight + tileFrame.ParentSprite.Origin,
+								
+								// Mass-drawing srpites with spritebatch is a bit faster.
+								DrawMgr.Batch.Draw(
+									tileFrame.Texture, 
+									tilemap.Offset + new Vector2(tilemap.TileWidth * x, tilemap.TileHeight * y) - offset, 
+									tileFrame.TexturePosition, 
 									Color.White, 
-									scale
+									MathHelper.ToRadians(rotation), 
+									- Vector2.UnitY * tilemap.TileHeight + tileFrame.ParentSprite.Origin + tileFrame.Origin,
+									Vector2.One,
+									scale,
+									0
 								);
 							}
 						}

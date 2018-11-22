@@ -75,6 +75,7 @@ namespace Pipefoxe.Tiled
 			
 
 			#region Main fields.
+
 			tileset.Name = tilesetXml.Attributes["name"].Value;
 			tileset.TileWidth = int.Parse(tilesetXml.Attributes["tilewidth"].Value);
 			tileset.TileHeight = int.Parse(tilesetXml.Attributes["tileheight"].Value);
@@ -96,6 +97,7 @@ namespace Pipefoxe.Tiled
 					float.Parse(tilesetXml["tileoffset"].Attributes["y"].Value, CultureInfo.InvariantCulture)
 				);
 			}
+
 			#endregion Main fields.
 			
 
@@ -164,7 +166,7 @@ namespace Pipefoxe.Tiled
 				var texturePaths = new List<string>();
 				
 				var currentID = 0;
-				foreach(KeyValuePair<int, XmlNode> nodePair in tiles)
+				foreach(var nodePair in tiles)
 				{
 					var tile = new TiledMapTilesetTile();	
 					//tile.Tileset = tileset;
