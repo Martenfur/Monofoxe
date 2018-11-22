@@ -38,7 +38,7 @@ namespace Monofoxe.Engine.Drawing
 			
 			if (sprite.Frames.Length < characters.Length)
 			{
-				throw(new Exception("Amount of characters in sample string is larger than amount of frames in sprite!"));
+				throw new Exception("Amount of characters in sample string is larger than amount of frames in sprite!");
 			}
 
 			Texture2D frameTexture = null;

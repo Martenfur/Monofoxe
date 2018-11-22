@@ -1,13 +1,10 @@
-﻿using System;
-using Monofoxe.Engine;
-using Monofoxe.Engine.Drawing;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Diagnostics;
-using Monofoxe.Engine.Utils;
-using Monofoxe.Engine.Utils.Cameras;
+using Monofoxe.Engine;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.SceneSystem;
+using Monofoxe.Engine.Utils;
+using Monofoxe.Engine.Utils.Cameras;
 
 namespace Monofoxe.Test
 {
@@ -34,7 +31,11 @@ namespace Monofoxe.Test
 		
 		public MainTester() : base(SceneMgr.GetScene("default")["default"])
 		{
-			
+			Random.GetListWithoutRepeats(5, -90, -10);
+			Random.GetListWithoutRepeats(5, 0, 10);
+			Random.GetListWithoutRepeats(5, -10, 10);
+
+
 			var scene = SceneMgr.GetScene("default");
 			var ballsLayer = scene.CreateLayer("balls", -1);
 			ballsLayer.IsGUI = false;
@@ -136,7 +137,13 @@ namespace Monofoxe.Test
 			
 		}
 
-
+		public override void Draw()
+		{
+			if (Input.CheckButtonPress(Buttons.Y))
+			{
+				new Camera(32, 32, 8);
+			}
+		}
 
 		void InitCameras()
 		{

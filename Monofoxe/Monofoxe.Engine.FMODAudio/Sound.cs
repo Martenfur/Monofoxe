@@ -40,10 +40,10 @@ namespace Monofoxe.Engine.FMODAudio
 		/// 
 		/// NOTE: ALWAYS check for null!!!
 		/// </summary>
-		public FMOD.Channel Channel
+		public FMOD.Channel Channel 
 		{
-			get;
-			private set;
+			get => _channel;
+			private set => _channel = value;
 		}
 		private FMOD.Channel _channel; // Can't use "out" on properties. 
 
@@ -217,11 +217,6 @@ namespace Monofoxe.Engine.FMODAudio
 
 
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="minDistance"></param>
-		/// <param name="maxDistance"></param>
 		public void Set3DMinMaxDistance(float minDistance, float maxDistance) =>
 			SetLastResult(_channel?.set3DMinMaxDistance(minDistance, maxDistance));
 

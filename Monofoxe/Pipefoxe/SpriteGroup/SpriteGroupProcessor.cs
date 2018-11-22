@@ -1,8 +1,8 @@
-﻿using Microsoft.Xna.Framework.Content.Pipeline;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using Microsoft.Xna.Framework.Content.Pipeline;
 
 namespace Pipefoxe.SpriteGroup
 {
@@ -43,7 +43,7 @@ namespace Pipefoxe.SpriteGroup
 		/// <param name="sprites"></param>
 		/// <returns></returns>
 		private (List<RawSprite> spriteInfo, List<Bitmap> textures) 
-		ProcessSingleTextures(int startingIndex, List<RawSprite> sprites)
+			ProcessSingleTextures(int startingIndex, List<RawSprite> sprites)
 		{
 			var textures = new List<Bitmap>();
 			var spriteInfo = new List<RawSprite>();
@@ -51,7 +51,7 @@ namespace Pipefoxe.SpriteGroup
 			var textureIndex = startingIndex;
 
 			// Input sprites got no frames.
-			foreach(RawSprite sprite in sprites)
+			foreach(var sprite in sprites)
 			{
 				int frameW = sprite.RawTexture.Width / sprite.FramesH;
 				int frameH = sprite.RawTexture.Height / sprite.FramesV;

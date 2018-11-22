@@ -1,35 +1,32 @@
 ﻿using System.Collections.Generic;
-
+using Monofoxe.Engine.CustomCollections;
 
 namespace Monofoxe.Engine.Utils.Cameras
 {
-
+	/// <summary>
+	/// Manages camera priorities.
+	/// </summary>
 	public static class CameraMgr
 	{
 		/// <summary>
 		/// List of all cameras.
 		/// </summary>
-		public static IReadOnlyCollection<Camera> Cameras => _cameras;
+		public static IReadOnlyCollection<Camera> Cameras => _cameras.ToList();
 
-		private static List<Camera> _cameras = new List<Camera>();
+		private static SafeSortedList<Camera> _cameras = new SafeSortedList<Camera>(x => x.Priority);
 
 		/// <summary>
-		/// Removes layer from list and adds it again, taking in account its proirity.
+		/// Removes camera from list and adds it again, taking in account its proirity.
 		/// </summary>
 		internal static void UpdateCameraPriority(Camera camera)
 		{
 			_cameras.Remove(camera);
-			for(var i = 0; i < _cameras.Count; i += 1)
-			{
-				if (camera.Priority > _cameras[i].Priority)
-				{
-					_cameras.Insert(i, camera);
-					return;
-				}
-			}
-			_cameras.Add(camera); // Adding camera at the end, if it has lowest priority.
+			_cameras.Add(camera);
 		}
 
+		internal static void Update() =>
+			_cameras.Update();
+		
 		internal static void RemoveCamera(Camera camera) =>
 			_cameras.Remove(camera);
 

@@ -67,7 +67,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 		
 
 		/// <summary>
-		/// Used, if there was an error.
+		/// Used, if there was an error. // TODO: Actually use it.
 		/// </summary>
 		public Frame DefaultTile;
 

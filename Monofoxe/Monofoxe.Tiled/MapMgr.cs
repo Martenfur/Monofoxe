@@ -8,6 +8,9 @@ using Monofoxe.Tiled.MapStructure.Objects;
 
 namespace Monofoxe.Tiled
 {
+	/// <summary>
+	/// Manages Tiled maps.
+	/// </summary>
 	public static class MapMgr
 	{
 		/// <summary>
@@ -20,11 +23,8 @@ namespace Monofoxe.Tiled
 		/// Initializes Tiled map loading stuff.
 		/// HAS to be called in the beginning of the game, if you want to load Tiled maps.
 		/// </summary>
-		public static void Init()
-		{
+		public static void Init() =>
 			InitFactoryPool();
-		}
-
 
 
 		/// <summary>

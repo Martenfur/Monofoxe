@@ -5,10 +5,13 @@ using System.Linq;
 
 namespace Pipefoxe.SpriteGroup
 {
+	/// <summary>
+	/// Packs set of spritesheets into texture atlasses.
+	/// </summary>
 	static class TexturePacker
 	{
 		public static (List<RawSprite> spriteInfo, List<Bitmap> atlases) 
-		PackTextures(List<RawSprite> textures, int textureSize, int padding, string groupName)
+			PackTextures(List<RawSprite> textures, int textureSize, int padding, string groupName)
 		{
 			List<RawSprite> sprites = Pack(textures, textureSize, padding);
 			List<Bitmap> atlases = AssembleAtlases(sprites, textureSize, padding);
@@ -29,11 +32,11 @@ namespace Pipefoxe.SpriteGroup
 		private static List<RawSprite> Pack(List<RawSprite> textures, int atlasSize, int padding)
 		{
 			// Checking for textures larger than atlas size. 
-			foreach(RawSprite texture in textures)
+			foreach(var texture in textures)
 			{
 				if (texture.RawTexture.Width / texture.FramesH > atlasSize || texture.RawTexture.Height / texture.FramesV > atlasSize)
 				{
-					throw(new Exception("Cannot pack " + texture.Name + "! It's too big for " + atlasSize + "x" + atlasSize + " atlas!"));
+					throw new Exception("Cannot pack " + texture.Name + "! It's too big for " + atlasSize + "x" + atlasSize + " atlas!");
 				}
 			}
 			// Checking for textures larger than atlas size. 
@@ -53,7 +56,7 @@ namespace Pipefoxe.SpriteGroup
 				// We need to copy list, because sortedTextures has to be changed during enumeration.
 				var sortedTexturesCopy = new List<RawSprite>(sortedSprites);
 
-				foreach(RawSprite sprite in sortedTexturesCopy)
+				foreach(var sprite in sortedTexturesCopy)
 				{
 					var spriteFrameSize = new Rectangle(
 						0, 
@@ -82,9 +85,10 @@ namespace Pipefoxe.SpriteGroup
 								frame.TexturePos.Y = grid.GetCellY(y) + padding;
 								
 								if (!grid[y, x]
-								&& !CheckOverlap(frame, packedFrames, padding)
-								&& rightBound <= atlasSize - padding
-								&& bottomBound <= atlasSize - padding)
+									&& !CheckOverlap(frame, packedFrames, padding)
+									&& rightBound <= atlasSize - padding
+									&& bottomBound <= atlasSize - padding
+								)
 								{
 									packedFrames.Add(frame);
 									sprite.Frames.Add(frame);
@@ -163,7 +167,7 @@ namespace Pipefoxe.SpriteGroup
 			
 				var spritesCopy = new List<RawSprite>(spritesEnum);
 
-				foreach(RawSprite sprite in spritesCopy)
+				foreach(var sprite in spritesCopy)
 				{
 					for(var i = sprite.RenderedFrames; i < sprite.FramesV * sprite.FramesH; i += 1)			
 					{
@@ -214,11 +218,11 @@ namespace Pipefoxe.SpriteGroup
 								new Rectangle(frame.TexturePos.X, frame.TexturePos.Y + frame.TexturePos.Height, frame.TexturePos.Width, 1),
 							};
 
-							for (var side = 0; side < 4; side += 1) // 4 sides, 4 lines.
+							for(var side = 0; side < 4; side += 1) // 4 sides, 4 lines.
 							{
 								// DrawImage draws 2 pixels of source texture instead of 1 if scaled, for some reason.
 								// So we have to draw a ton of lines without scaling.
-								for (var l = 0; l < padding; l += 1)
+								for(var l = 0; l < padding; l += 1)
 								{
 									var destRect = destRects[side];
 
@@ -262,14 +266,14 @@ namespace Pipefoxe.SpriteGroup
 		private static bool CheckOverlap(Frame frame, List<Frame> frames, int padding)
 		{
 			var paddingOffset = new Size(padding, padding);
-			foreach(Frame fr in frames)
+			foreach(var secondFrame in frames)
 			{
 				if (
 					RectangleInRectangle(
 						frame.TexturePos.Location - paddingOffset, 
 						frame.TexturePos.Location + frame.TexturePos.Size + paddingOffset, 
-						fr.TexturePos.Location - paddingOffset, 
-						fr.TexturePos.Location + fr.TexturePos.Size + paddingOffset
+						secondFrame.TexturePos.Location - paddingOffset, 
+						secondFrame.TexturePos.Location + secondFrame.TexturePos.Size + paddingOffset
 					)
 				)
 				{

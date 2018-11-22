@@ -7,6 +7,9 @@ using System.Text.RegularExpressions;
 
 namespace Pipefoxe.SpriteGroup
 {
+	/// <summary>
+	/// Generates class file from a template.
+	/// </summary>
 	public static class ClassGenerator
 	{
 		private static char _variableKeychar = '#';
@@ -20,9 +23,6 @@ namespace Pipefoxe.SpriteGroup
 
 		public static void Generate(string templatePath, string outPath, List<RawSprite> sprites, string groupName)
 		{
-			Console.WriteLine("Starting class generation.");
-			Console.WriteLine();
-
 			string[] lines = File.ReadAllLines(templatePath);
 
 			var customVariableNames = new List<string>();
@@ -33,6 +33,7 @@ namespace Pipefoxe.SpriteGroup
 			var parseVariables = true;
 
 			#region Extracting custom variables.
+
 			foreach(string l in lines)
 			{
 				if (parseVariables)
@@ -40,7 +41,8 @@ namespace Pipefoxe.SpriteGroup
 					// Parsing variables.				
 					if (l.Length > 0 && l[0] == _variableKeychar)
 					{
-						Match nameMatch = Regex.Match(l, _variableKeychar + @"(.+?)\s*="); //. - At least one char. ? - non-greedy, \s* - optional space
+						//. - At least one char. ? - non-greedy, \s* - optional space
+						Match nameMatch = Regex.Match(l, _variableKeychar + @"(.+?)\s*="); 
 						Match valueMatch = Regex.Match(l, '"' + @"(.+?)" + '"', RegexOptions.IgnoreCase);
 						
 						if (nameMatch.Success && valueMatch.Success)
@@ -50,11 +52,11 @@ namespace Pipefoxe.SpriteGroup
 						}
 						else
 						{
-							throw(new Exception("ERROR: Cannot parse variable. Aborting class generating."));
+							throw new Exception("ERROR: Cannot parse variable. Aborting class generating.");
 						}
 					}
 					
-					if ((l.Length > 0 && l[0] != _variableKeychar))
+					if (l.Length > 0 && l[0] != _variableKeychar)
 					{
 						parseVariables = false;
 					}
@@ -69,21 +71,22 @@ namespace Pipefoxe.SpriteGroup
 				}
 				
 			}
+
 			#endregion Extracting custom variables.
-			
 			
 			
 			var code = new StringBuilder();
 			code.Append(codeTemplate);
-				
+			
+
 			#region Resolving name conflicts.
 
 			/*
-			 * Some sprites may have identical names.
+			 * Some sprites may have identical names, but different paths.
 			 * Even though this is bad practice, generator 
 			 * allows this and resolves name conflicts.
 			 */
-
+			
 			var spriteNames = new List<string>();
 			var spriteOccurences = new Dictionary<string, int>();
 			for(var i = 0; i < sprites.Count; i += 1)
@@ -100,10 +103,12 @@ namespace Pipefoxe.SpriteGroup
 					spriteNames.Add(name);
 				}
 			}
+
 			#endregion Resolving name conflicts.
 			
 
 			#region Assembling variables from templates.
+
 			var completeVariableValues = new List<StringBuilder>();
 
 			for(var k = 0; k < customVariableValues.Count; k += 1)
@@ -112,7 +117,7 @@ namespace Pipefoxe.SpriteGroup
 				var lastSprite = sprites.Last();
 
 				var i = 0;
-				foreach(RawSprite sprite in sprites)
+				foreach(var sprite in sprites)
 				{
 					var v = customVariableValues[k]
 						.Replace("<sprite_name>", spriteNames[i])
@@ -125,16 +130,16 @@ namespace Pipefoxe.SpriteGroup
 					{
 						completeVariableValues[k].AppendLine();
 					}
-					
 				}
 			}
+
 			#endregion Assembling variables from templates.
-		
+			
+
 			var camelGroupName = ToCamelCase(groupName);
 			var className = "Sprites" + camelGroupName;
 			code = code.Replace("<group_name>", camelGroupName).Replace("<class_name>", className);
 			
-
 			for(var i = 0; i < customVariableNames.Count; i += 1)
 			{
 				code = code.Replace('<' + customVariableNames[i] + '>', completeVariableValues[i].ToString());
@@ -188,7 +193,7 @@ namespace Pipefoxe.SpriteGroup
 		public static string ToCamelCase(string str)
 		{
 			// Removing prohibited symbols from string.
-			Regex rgx = new Regex("[^a-zA-Z0-9 _]"); 
+			var rgx = new Regex("[^a-zA-Z0-9 _]"); 
 			str = rgx.Replace(str, "");
 
 			if (str.Length == 0) 
@@ -197,10 +202,10 @@ namespace Pipefoxe.SpriteGroup
 			}
 			// Removing prohibited symbols from string.
 			
-			string[] words = str.Split(new char[]{'_', ' '});
-			StringBuilder upper = new StringBuilder();
+			var words = str.Split(new char[]{'_', ' '});
+			var upper = new StringBuilder();
 			
-			if (Char.IsDigit(str[0])) // Variable name cannot begin with a digit.
+			if (char.IsDigit(str[0])) // Variable name cannot begin with a digit.
 			{
 				upper.Append(_paddingStr);
 			}
@@ -210,11 +215,11 @@ namespace Pipefoxe.SpriteGroup
 			}
 					
 			// Making each word begin with an uppercase letter.
-			foreach(string word in words) 
+			foreach(var word in words) 
 			{
 				if (word.Length > 0)
 				{
-					upper.Append(Char.ToUpper(word[0]) + word.Substring(1, word.Length - 1));
+					upper.Append(char.ToUpper(word[0]) + word.Substring(1, word.Length - 1));
 				}
 			}
 			// Making each word begin with an uppercase letter.

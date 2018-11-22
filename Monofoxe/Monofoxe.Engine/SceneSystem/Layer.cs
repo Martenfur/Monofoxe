@@ -11,7 +11,9 @@ namespace Monofoxe.Engine.SceneSystem
 	/// </summary>
 	public class Layer
 	{
-	
+		/// <summary>
+		/// Layer's parent scene.
+		/// </summary>
 		public readonly Scene Scene;
 
 		/// <summary>
@@ -198,6 +200,7 @@ namespace Monofoxe.Engine.SceneSystem
 			SystemMgr._componentsWereRemoved = true;
 		}
 
+
 		internal void UpdateEntityList()
 		{
 			// Clearing main list from destroyed objects.
@@ -339,6 +342,8 @@ namespace Monofoxe.Engine.SceneSystem
 
 		#endregion Entity methods.
 		
+
+
 		/// <summary>
 		/// Applies shaders to the camera surface.
 		/// </summary>

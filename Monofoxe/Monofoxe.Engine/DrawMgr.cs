@@ -408,12 +408,12 @@ namespace Monofoxe.Engine
 			// Safety checks.
 			if (_surfaceStack.Count != 0)
 			{
-				throw(new InvalidOperationException("Unbalanced surface stack! Did you forgot to reset a surface somewhere?"));
+				throw new InvalidOperationException("Unbalanced surface stack! Did you forgot to reset a surface somewhere?");
 			}
 
 			if (_transformMatrixStack.Count != 0)
 			{
-				throw(new InvalidOperationException("Unbalanced matrix stack! Did you forgot to reset a matrix somewhere?"));
+				throw new InvalidOperationException("Unbalanced matrix stack! Did you forgot to reset a matrix somewhere?");
 			}
 			// Safety checks.
 		}
@@ -621,7 +621,7 @@ namespace Monofoxe.Engine
 		{
 			if (_transformMatrixStack.Count == 0)
 			{
-				throw(new InvalidOperationException("Matrix stack is empty! Did you forgot to set a matrix somewhere?"));
+				throw new InvalidOperationException("Matrix stack is empty! Did you forgot to set a matrix somewhere?");
 			}
 
 			SwitchPipelineMode(PipelineMode.None); 
@@ -1226,7 +1226,7 @@ namespace Monofoxe.Engine
 		{
 			if (_primitiveVertices.Count != 0 || _primitiveIndices.Count != 0)
 			{
-				throw(new Exception("Junk primitive data detected! Did you set index data wrong or forgot PrimitiveEnd somewhere?"));
+				throw new Exception("Junk primitive data detected! Did you set index data wrong or forgot PrimitiveEnd somewhere?");
 			}
 		}
 
@@ -1353,7 +1353,7 @@ namespace Monofoxe.Engine
 
 			if (_surfaceStack.Count == 0)
 			{
-				throw(new InvalidOperationException("Surface stack is empty! Did you forgot to set a surface somewhere?"));
+				throw new InvalidOperationException("Surface stack is empty! Did you forgot to set a surface somewhere?");
 			}
 			_currentSurface = _surfaceStack.Pop();
 

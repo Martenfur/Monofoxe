@@ -1,6 +1,6 @@
-﻿using Microsoft.Xna.Framework.Content.Pipeline;
+﻿using System.IO;
 using System.Text;
-using System.IO;
+using Microsoft.Xna.Framework.Content.Pipeline;
 
 
 /*
@@ -26,5 +26,5 @@ namespace Pipefoxe.EntityTemplate
 		public override byte[] Import(string filename, ContentImporterContext context) =>
 			Encoding.UTF8.GetBytes(File.ReadAllText(filename)); // Converting UTF8 to UTF16. If we won't do this, there will be derpy symbols.
 	}
-		
+	
 }

@@ -1,5 +1,4 @@
-﻿using Monofoxe.Engine;
-
+﻿
 namespace Monofoxe.Engine.Utils
 {
 	/// <summary>

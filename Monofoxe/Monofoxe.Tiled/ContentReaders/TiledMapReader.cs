@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -53,7 +52,6 @@ namespace Monofoxe.Tiled.ContentReaders
 		void ReadTilesets(ContentReader input, TiledMap map)
 		{
 			var tilesetsCount = input.ReadInt32();
-			Console.WriteLine("Tilesets: " + tilesetsCount);
 			var tilesets = new TiledMapTileset[tilesetsCount];
 
 			for(var i = 0; i < tilesetsCount; i += 1)

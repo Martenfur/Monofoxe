@@ -4,6 +4,7 @@ using System.Reflection;
 using Microsoft.Xna.Framework;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.SceneSystem;
+using Monofoxe.Engine.Utils.Cameras;
 
 namespace Monofoxe.Engine
 {
@@ -125,7 +126,6 @@ namespace Monofoxe.Engine
 			
 			Input.Update();
 			EntityMgr.Update(gameTime);
-			//AudioMgr.Update();
 		}
 
 
@@ -141,6 +141,7 @@ namespace Monofoxe.Engine
 				_fpsCount = 0;
 			}
 
+			CameraMgr.Update();
 			DrawMgr.Update(gameTime);
 		}
 		

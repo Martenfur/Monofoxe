@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using System.Xml;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using Monofoxe.Tiled.MapStructure;

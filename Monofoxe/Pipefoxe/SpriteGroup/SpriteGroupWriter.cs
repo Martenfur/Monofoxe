@@ -1,11 +1,11 @@
-﻿using Microsoft.Xna.Framework.Content.Pipeline;
-using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
-using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text;
+using Microsoft.Xna.Framework.Content.Pipeline;
+using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
+using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 
 namespace Pipefoxe.SpriteGroup
 {
@@ -62,11 +62,11 @@ namespace Pipefoxe.SpriteGroup
 			// There is no easy way to convert Bitmap to TextureContent, as I'm aware.
 			// So, we need to save Bitmap as a file and then import it using TextureImporter.
 			// ¯\_(ツ)_/¯
-			foreach(Bitmap bitmap in bitmaps)
+			foreach(var bitmap in bitmaps)
 			{
 				bitmap.Save(tempFilePath);
 				var textureImporter = new TextureImporter();
-				TextureContent texture = textureImporter.Import(tempFilePath, null);
+				var texture = textureImporter.Import(tempFilePath, null);
 				output.WriteObject(texture);
 			}
 			File.Delete(tempFilePath);
@@ -75,7 +75,7 @@ namespace Pipefoxe.SpriteGroup
 
 			// Writing sprites.
 			output.Write(sprites.Count);
-			foreach(RawSprite sprite in sprites)
+			foreach(var sprite in sprites)
 			{
 				output.Write(sprite.Name);
 				
@@ -87,7 +87,7 @@ namespace Pipefoxe.SpriteGroup
 				
 				output.Write(sprite.Frames.Count);
 				
-				foreach(Frame frame in sprite.Frames)
+				foreach(var frame in sprite.Frames)
 				{
 					output.Write(frame.TextureIndex);
 					output.Write(frame.TexturePos.X);
@@ -107,7 +107,7 @@ namespace Pipefoxe.SpriteGroup
 		public override string GetRuntimeReader(TargetPlatform targetPlatform) =>
 			"Monofoxe.Engine.ContentReaders.SpriteGroupReader, Monofoxe.Engine";
 
-
+		
 		
 		private void DumpDebugData(List<RawSprite> sprites, List<Bitmap> bitmaps)
 		{
@@ -119,7 +119,7 @@ namespace Pipefoxe.SpriteGroup
 			
 			// Dumping textures.
 			var index = 0;
-			foreach(Bitmap bitmap in bitmaps)
+			foreach(var bitmap in bitmaps)
 			{
 				bitmap.Save(DebugDir + "/texture_" + index + ".png");
 				index += 1;
@@ -128,13 +128,13 @@ namespace Pipefoxe.SpriteGroup
 			
 			var spriteInfo = new StringBuilder();
 
-			foreach(RawSprite sprite in sprites)
+			foreach(var sprite in sprites)
 			{
 				spriteInfo.Append(sprite.Name);
 				spriteInfo.Append(" " + sprite.FramesH + 'x' + sprite.FramesV);
 				spriteInfo.Append(" offset:" + sprite.Offset);
 				spriteInfo.Append(Environment.NewLine);
-				foreach(Frame frame in sprite.Frames)
+				foreach(var frame in sprite.Frames)
 				{
 					spriteInfo.Append("\t" + frame.TextureIndex + Environment.NewLine);
 					spriteInfo.Append("\t" + frame.TexturePos + Environment.NewLine);

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
-using Newtonsoft.Json.Linq;
 
 namespace Pipefoxe.EntityTemplate
 {

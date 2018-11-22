@@ -10,7 +10,7 @@ namespace Monofoxe.Engine.Converters
 	public abstract class BasicConverter : JsonConverter
 	{
 		public override bool CanConvert(Type objectType) =>
-			throw(new NotImplementedException());
+			throw new NotImplementedException();
 
 		protected static int GetInt(JObject o, string tokenName)
 		{

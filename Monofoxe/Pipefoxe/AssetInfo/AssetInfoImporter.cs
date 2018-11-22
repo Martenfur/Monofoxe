@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework.Content.Pipeline;
 using System.IO;
+using Microsoft.Xna.Framework.Content.Pipeline;
 
 // Inspired by:
 // https://github.com/Ragath/MonoGame.AssetInfo

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Diagnostics;
+
 namespace Monofoxe.Engine.Utils
 {
 	/// <summary>
@@ -22,9 +21,9 @@ namespace Monofoxe.Engine.Utils
 			double time = DateTime.Now.Subtract(new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds; 
 
 			// We need a conversion to int here to remove fraction, but still need double to prevent overflow.
-			double overflowsCount = (int)(time / Int32.MaxValue); 
+			double overflowsCount = (int)(time / int.MaxValue); 
 
-			time -= Int32.MaxValue * overflowsCount; // Removing a chunk of a number so int can actually handle it.
+			time -= int.MaxValue * overflowsCount; // Removing a chunk of a number so int can actually handle it.
 			Seed = (int)time;
 
 			Random = new Random(Seed);
@@ -96,28 +95,33 @@ namespace Monofoxe.Engine.Utils
 			args[Random.Next(args.Length)];
 
 
-
+		/// <summary>
+		/// Returns list of numbers from minValue to maxValue in random order.
+		/// </summary>
 		public List<int> GetListWithoutRepeats(int listSize, int minValue, int maxValue)
 		{
-			int delta = Math.Abs(maxValue - minValue);
+			int delta = maxValue - minValue;
 
 			if (delta < listSize)
 			{
-				throw(new Exception("List size is bigger than value delta!"));
+				throw new Exception("List size is bigger than value delta!");
 			}
 
-			var padding = Math.Abs(minValue); // Enumerable.Range requires only positive numbers.
+			var sequenceList = new List<int>();
+			for(var i = 0; i < delta; i += 1)
+			{
+				sequenceList.Add(minValue + i);
+			}
 
-			var sequenceList = Enumerable.Range(padding + minValue, padding + maxValue).ToList();
 			var list = new List<int>();
 
 			for(var i = 0; i < listSize; i += 1)
 			{
 				var index = Random.Next(sequenceList.Count);
-				list.Add(sequenceList[index] - padding);
+				list.Add(sequenceList[index]);
 				sequenceList.RemoveAt(index);
 			}
-
+			
 			return list;
 		}
 	}

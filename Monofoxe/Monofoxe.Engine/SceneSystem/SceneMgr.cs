@@ -6,15 +6,20 @@ using Monofoxe.Engine.Utils.Cameras;
 
 namespace Monofoxe.Engine.SceneSystem
 {
+	/// <summary>
+	/// Manager of all scenes.
+	/// </summary>
 	public static class SceneMgr
 	{
+		/// <summary>
+		/// List of all scenes.
+		/// </summary>
 		public static IReadOnlyCollection<Scene> Scenes => _scenes.ToList();
+		internal static SafeSortedList<Scene> _scenes = new SafeSortedList<Scene>(x => x.Priority);
 
 		public static Scene CurrentScene {get; internal set;}
 		public static Layer CurrentLayer {get; internal set;}
-
-		internal static SafeSortedList<Scene> _scenes = new SafeSortedList<Scene>(x => x.Priority);
-
+		
 		
 		/// <summary>
 		/// Creates new scene with given name.
@@ -116,7 +121,7 @@ namespace Monofoxe.Engine.SceneSystem
 								DrawMgr.Device.Clear(Color.TransparentBlack);
 							}
 
-							SystemMgr.Draw(layer._depthSortedComponents);
+							SystemMgr.Draw(layer._depthSortedComponents); // TODO: There is no component-entity depth sorting. Fix this.
 							foreach(var entity in layer._depthSortedEntities)
 							{
 								if (entity.Visible && !entity.Destroyed)
