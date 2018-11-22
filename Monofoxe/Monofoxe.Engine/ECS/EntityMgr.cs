@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Monofoxe.Engine.ECS;
 using Microsoft.Xna.Framework.Content;
 using Monofoxe.Engine.SceneSystem;
 
-namespace Monofoxe.Engine
+namespace Monofoxe.Engine.ECS
 {
 	public static class EntityMgr
 	{
@@ -50,14 +49,12 @@ namespace Monofoxe.Engine
 					}
 				}
 
-				SceneMgr._scenes.Update(); // Updating scenes list.
 				foreach(var scene in SceneMgr.Scenes)
 				{
 					if (scene.Enabled)
 					{
 						SceneMgr.CurrentScene = scene;
-						scene._layers.Update(); // Updating layers list.
-
+						
 						foreach(var layer in scene.Layers)
 						{
 							if (layer.Enabled)
@@ -87,11 +84,14 @@ namespace Monofoxe.Engine
 					SystemMgr.Update(GetActiveComponents(scene));
 				}
 			}
+			SceneMgr._scenes.Update(); // Updating scenes list.
 			foreach(var scene in SceneMgr.Scenes)
 			{		
 				if (scene.Enabled)
 				{
 					SceneMgr.CurrentScene = scene;
+					scene._layers.Update(); // Updating layers list.
+
 					foreach(var layer in scene.Layers)
 					{
 						if (layer.Enabled)
@@ -128,7 +128,7 @@ namespace Monofoxe.Engine
 
 			_entityTemplatesContent.RootDirectory = AssetMgr.ContentDir;
 
-			foreach(string entityPath in info)
+			foreach(var entityPath in info)
 			{
 				var template = _entityTemplatesContent.Load<EntityTemplate>(entityPath);
 				_entityTemplates.Add(template.Tag, template);
@@ -137,8 +137,10 @@ namespace Monofoxe.Engine
 
 
 
-
-		public static Entity CreateEntity(Layer layer, string tag)
+		/// <summary>
+		/// Creates new entity from existing template.
+		/// </summary>
+		public static Entity CreateEntityFromTemplate(Layer layer, string tag)
 		{
 			if (_entityTemplates.ContainsKey(tag))
 			{

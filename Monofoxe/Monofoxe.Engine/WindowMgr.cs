@@ -12,6 +12,7 @@ namespace Monofoxe.Engine
 		// NOTE: To control VSync, use SynchronizeWithVerticalRetrace.
 
 		#region Window properties.
+
 		/// <summary>
 		/// Width of the screen.
 		/// </summary>
@@ -104,6 +105,7 @@ namespace Monofoxe.Engine
 			get => Window.IsBorderless;
 			set => Window.IsBorderless = value;
 		}
+
 		#endregion Window properties.
 
 		/// <summary>
