@@ -30,9 +30,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static double ElapsedTime {get; private set;}
 
-		public static int Fps => _fpsCounter.Value;
-		static FpsCounter _fpsCounter = new FpsCounter();
-
+		
 		public static double FixedUpdateRate = 0.5; // Seconds.
 		
 		
@@ -62,6 +60,10 @@ namespace Monofoxe.Engine
 				{
 					_minGameSpeed = value;
 				}
+				else
+				{
+					throw new InvalidOperationException("Game speed cannot be less than 1!");
+				}
 			}
 		}
 		private static double _minGameSpeed = 30;
@@ -77,31 +79,9 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static Dictionary<string, Type> Types;
 		
-
-		
-		/// <summary>
-		/// Counts frames per second.
-		/// </summary>
-		class FpsCounter
-		{
-			public int Value;
-
-			private int _fpsCount;
-			private double _fpsAddition;
-			
-			public void Update(GameTime gameTime)
-			{
-				_fpsAddition += gameTime.ElapsedGameTime.TotalSeconds;
-				_fpsCount += 1;
-
-				if (_fpsAddition >= 1) // Every second value updates and counters reset.
-				{
-					Value = _fpsCount;
-					_fpsAddition -= 1;
-					_fpsCount = 0;
-				}
-			}
-		}
+		public static int Fps {get; private set;}
+		private static int _fpsCount;
+		private static double _fpsAddition;
 
 		
 		public static void Init(Game game)
@@ -152,7 +132,16 @@ namespace Monofoxe.Engine
 
 		public static void Draw(GameTime gameTime)
 		{
-			_fpsCounter.Update(gameTime);
+			_fpsAddition += gameTime.ElapsedGameTime.TotalSeconds;
+			_fpsCount += 1;
+
+			if (_fpsAddition >= 1) // Every second value updates and counters reset.
+			{
+				Fps = _fpsCount;
+				_fpsAddition -= 1;
+				_fpsCount = 0;
+			}
+
 			DrawMgr.Update(gameTime);
 		}
 		

@@ -31,7 +31,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Scrollwheel value. Can be -1, 0 or 1.
 		/// </summary>
-		public static int MouseWheelVal {get; private set;}
+		public static int MouseWheelValue {get; private set;}
 		private static int _mouseWheelAdditionPrev;
 
 		#endregion Mouse.
@@ -42,7 +42,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Stores all chars typed in previous step.  
 		/// </summary>
-		public static string KeyboardString {get; private set;} // Comment?
+		public static string KeyboardString {get; private set;}
 		
 		/// <summary>
 		/// Stores last pressed key in current step. If no keys were pressed, resets to Keys.None.
@@ -117,6 +117,7 @@ namespace Monofoxe.Engine
 			_keyboardCleared = false;
 			_gamepadCleared = false;
 
+
 			#region Mouse.
 
 			MouseState mouseState = Mouse.GetState();
@@ -146,9 +147,9 @@ namespace Monofoxe.Engine
 			For some weird reason, ScrollWheelValue accumulates all the scroll inputs.
 			And does it asynchroniously. So, to get usable 1\-1 value, we need to calculate 
 			sign of scroll value delta (raw delta has some big weird value and depends on fps).
-			Thank you, XNA devs. You made me write even more code! ^0^
+			Thank you, XNA devs. You've made me write even more code! ^0^
 			*/
-			MouseWheelVal = Math.Sign(_mouseWheelAdditionPrev - mouseState.ScrollWheelValue);
+			MouseWheelValue = Math.Sign(_mouseWheelAdditionPrev - mouseState.ScrollWheelValue);
 			_mouseWheelAdditionPrev = mouseState.ScrollWheelValue;
 
 			#endregion Mouse.
@@ -156,6 +157,7 @@ namespace Monofoxe.Engine
 
 
 			#region Keyboard.
+
 			KeyboardString = _keyboardBuffer.ToString();
 			_keyboardBuffer.Clear();
 
@@ -177,11 +179,13 @@ namespace Monofoxe.Engine
 			{
 				KeyboardKey = Keys.None;
 			}
+
 			#endregion Keyboard.
 
 
 			
 			#region Gamepad.
+
 			for(var i = 0; i < MaxGamepadCount; i += 1)
 			{
 				_previousGamepadState[i] = _gamepadState[i];
@@ -191,76 +195,79 @@ namespace Monofoxe.Engine
 				_previousGamepadButtons[i] = _gamepadButtons[i];
 				_gamepadButtons[i] = new List<Buttons>();
 			
+				// AW YISS
+
 				if (_gamepadState[i].DPad.Left == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(Buttons.GpLeft);
+					_gamepadButtons[i].Add(Buttons.GamepadLeft);
 				}
 				if (_gamepadState[i].DPad.Right == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(Buttons.GpRight);
+					_gamepadButtons[i].Add(Buttons.GamepadRight);
 				}
 				if (_gamepadState[i].DPad.Up == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(Buttons.GpUp);
+					_gamepadButtons[i].Add(Buttons.GamepadUp);
 				}
 				if (_gamepadState[i].DPad.Down == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(Buttons.GpDown);
+					_gamepadButtons[i].Add(Buttons.GamepadDown);
 				}
 	
 				if (_gamepadState[i].Buttons.A == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(Buttons.GpA);
+					_gamepadButtons[i].Add(Buttons.GamepadA);
 				}
 				if (_gamepadState[i].Buttons.B == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(Buttons.GpB);
+					_gamepadButtons[i].Add(Buttons.GamepadB);
 				}
 				if (_gamepadState[i].Buttons.X == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(Buttons.GpX);
+					_gamepadButtons[i].Add(Buttons.GamepadX);
 				}
 				if (_gamepadState[i].Buttons.Y == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(Buttons.GpY);
+					_gamepadButtons[i].Add(Buttons.GamepadY);
 				}
 	
 				if (_gamepadState[i].Buttons.LeftShoulder == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(Buttons.GpLB);
+					_gamepadButtons[i].Add(Buttons.GamepadLB);
 				}
 				if (_gamepadState[i].Buttons.RightShoulder == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(Buttons.GpRB);
+					_gamepadButtons[i].Add(Buttons.GamepadRB);
 				}
 				
 				if (_gamepadState[i].Triggers.Left > GamepadTriggersDeadzone)
 				{
-					_gamepadButtons[i].Add(Buttons.GpLT);
+					_gamepadButtons[i].Add(Buttons.GamepadLT);
 				}
 				if (_gamepadState[i].Triggers.Right > GamepadTriggersDeadzone)
 				{
-					_gamepadButtons[i].Add(Buttons.GpRT);
+					_gamepadButtons[i].Add(Buttons.GamepadRT);
 				}
 
 				if (_gamepadState[i].Buttons.LeftStick == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(Buttons.GpLS);
+					_gamepadButtons[i].Add(Buttons.GamepadLS);
 				}
 				if (_gamepadState[i].Buttons.RightStick == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(Buttons.GpRS);
+					_gamepadButtons[i].Add(Buttons.GamepadRS);
 				}
 
 				if (_gamepadState[i].Buttons.Start == ButtonState.Pressed)
 				{
-					_gamepadButtons[i].Add(Buttons.GpStart);
+					_gamepadButtons[i].Add(Buttons.GamepadStart);
 				}
 				if (_gamepadState[i].Buttons.Back == ButtonState.Pressed)
 				{
 					_gamepadButtons[i].Add(Buttons.Select);
 				}
 			}
+
 			#endregion Gamepad.
 			
 		}
@@ -291,7 +298,6 @@ namespace Monofoxe.Engine
 		/// </summary>
 		/// <param name="button">Button to check.</param>
 		/// <param name="index">Device index. Used for gamepad only.</param>
-		
 		public static bool CheckButtonPress(Buttons button, int index = 0)
 		{
 			var buttonCode = (int)button;
@@ -331,7 +337,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Clears mouse input.
 		/// </summary>
-		public static void MouseClear() =>
+		public static void ClearMouseInput() =>
 			_mouseCleared = true;
 		
 		#endregion Mouse.
@@ -364,7 +370,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Clears keyboard input.
 		/// </summary>
-		public static void KeyboardClear() =>
+		public static void ClearKeyboardInput() =>
 			_keyboardCleared = true;
 
 
@@ -479,8 +485,9 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Clears gamepad input, including triggers and thumb sticks.
 		/// </summary>
-		public static void GamepadClear() =>
+		public static void ClearGamepadInput() =>
 			_gamepadCleared = true;
+		
 		#endregion Gamepad.
 
 
@@ -488,11 +495,11 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Clears mouse, keyboard and gamepad input.
 		/// </summary>
-		public static void IOClear()
+		public static void ClearInput()
 		{
-			MouseClear();
-			KeyboardClear();
-			GamepadClear();
+			ClearMouseInput();
+			ClearKeyboardInput();
+			ClearGamepadInput();
 		}
 	}
 }

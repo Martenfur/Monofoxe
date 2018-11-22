@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine.Drawing;
-using Monofoxe.Engine.Utils.Cameras;
 using Monofoxe.Engine.SceneSystem;
+using Monofoxe.Engine.Utils.Cameras;
 
 namespace Monofoxe.Engine
 {
@@ -14,7 +14,12 @@ namespace Monofoxe.Engine
 	{
 		private const int _vertexBufferSize = 320000;	// TODO: Figure out, if this value is actually ok.
 
+		/// <summary>
+		/// Default sprite batch used to draw sprites, text and surfaces.
+		/// </summary>
 		public static SpriteBatch Batch {get; private set;}
+
+
 		public static GraphicsDevice Device {get; private set;}
 		public static GraphicsDeviceManager DeviceManager {get; private set;}
 		
@@ -25,7 +30,7 @@ namespace Monofoxe.Engine
 		public static Camera CurrentCamera {get; private set;}
 
 		/// <summary>
-		/// Current transformation matrix.
+		/// Current transformation matrix. Used to offset, rotate and scale graphics.
 		/// </summary>
 		public static Matrix CurrentTransformMatrix {get; private set;}
 		public static Matrix CurrentProjection {get; private set;}
@@ -34,7 +39,7 @@ namespace Monofoxe.Engine
 
 		
 		/// <summary>
-		/// Current drawing color. Affects shapes and primitives.
+		/// Current drawing color. Affects shapes, sprites, text and primitives.
 		/// </summary>
 		public static Color CurrentColor = Color.White;
 
@@ -49,7 +54,10 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static int __drawcalls {get; private set;}
 
-		
+
+		/// <summary>
+		/// Current pipeline mode. Tells, which type of graphics is being drawn right now.
+		/// </summary>
 		private static PipelineMode _currentPipelineMode = PipelineMode.None;
 		private static Texture2D _currentTexture;
 		
@@ -123,7 +131,7 @@ namespace Monofoxe.Engine
 
 
 		/// <summary>
-		/// Current shader. Set to null to reset.
+		/// Current shader. Set to null to reset to the default shader.
 		/// </summary>
 		public static Effect CurrentEffect
 		{
@@ -140,8 +148,8 @@ namespace Monofoxe.Engine
 		/// Default shader with proper alpha blending. 
 		/// Replaces BasicEffect. Applied, when CurrentEffect is null.
 		/// </summary>
-		private static Effect _alphaBlendShader;
-		
+		private static Effect _defaultEffect;
+		private static string _defaultEffectName = "AlphaBlend";
 
 		/// <summary>
 		/// Used for drawing cameras.
@@ -151,27 +159,29 @@ namespace Monofoxe.Engine
 		#endregion Modifiers.
 
 
-		//We need zero matrix here, or else mouse position will derp out.
-		public static Matrix CanvasMatrix = Matrix.CreateTranslation(Vector3.Zero); 
+		/// <summary>
+		/// Matrix for offsetting, scaling and rotating canvas contents.
+		/// </summary>
+		public static Matrix CanvasMatrix = Matrix.CreateTranslation(Vector3.Zero); //We need zero matrix here, or else mouse position will derp out.
 		
 
 		#region Shapes.
 
-		private static readonly PipelineMode[] _pipelineModes = {PipelineMode.TrianglePrimitives, PipelineMode.OutlinePrimitives};
+		private static readonly PipelineMode[] _shapePipelineModes = {PipelineMode.TrianglePrimitives, PipelineMode.OutlinePrimitives};
 		
 		// Triangle.
 		private static readonly short[][] _triangleIndices = 
 		{
-			new short[]{0, 1, 2},
-			new short[]{0, 1, 1, 2, 2, 0}
+			new short[]{0, 1, 2}, // Filled.
+			new short[]{0, 1, 1, 2, 2, 0} // Outline.
 		};
 		// Triangle.
 
 		// Rectangle.
 		private static readonly short[][] _rectangleIndices = 
 		{
-			new short[]{0, 1, 3, 1, 2, 3},
-			new short[]{0, 1, 1, 2, 2, 3, 3, 0}
+			new short[]{0, 1, 3, 1, 2, 3}, // Filled.
+			new short[]{0, 1, 1, 2, 2, 3, 3, 0} // Outline.
 		};
 		// Rectangle.
 
@@ -219,13 +229,14 @@ namespace Monofoxe.Engine
 		public static TextAlign VerAlign = TextAlign.Top;
 		// Text.
 
+		/// <summary>
+		/// Used to load default shader.
+		/// </summary>
 		private static ContentManager _content;
 		
 		/// <summary>
-		/// Initialization function for draw controller. 
-		/// Should be called only once, by Game class.
+		/// Initialization function for draw manager. 
 		/// </summary>
-		/// <param name="device">Graphics device.</param>
 		public static void Init(GraphicsDevice device)
 		{
 			Device = device;			
@@ -235,8 +246,8 @@ namespace Monofoxe.Engine
 
 			_content = new ContentManager(GameMgr.Game.Services);
 			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.EffectsDir;
-			_alphaBlendShader = _content.Load<Effect>("AlphaBlend");
-			_alphaBlendShader.Parameters["World"].SetValue(Matrix.CreateTranslation(Vector3.Zero));
+			_defaultEffect = _content.Load<Effect>(_defaultEffectName);
+			_defaultEffect.Parameters["World"].SetValue(Matrix.CreateTranslation(Vector3.Zero));
 			
 
 			_vertexBuffer = new DynamicVertexBuffer(Device, typeof(VertexPositionColorTexture), _vertexBufferSize, BufferUsage.WriteOnly);
@@ -263,7 +274,7 @@ namespace Monofoxe.Engine
 		{
 			__drawcalls = 0;
 			
-			#region Canvas matrix 
+			#region Canvas matrix.
 
 			var windowManager = GameMgr.WindowManager;
 			if (!windowManager.IsFullScreen || windowManager.CanvasMode == CanvasMode.None)
@@ -283,11 +294,12 @@ namespace Monofoxe.Engine
 						)
 					);
 				}
-
+				// Fills the display with canvas.
+				
 				// Scales display to match canvas, but keeps aspect ratio.
 				if (windowManager.CanvasMode == CanvasMode.KeepAspectRatio)
 				{
-					Vector2 backbufferSize = new Vector2(
+					var backbufferSize = new Vector2(
 						windowManager.PreferredBackBufferWidth,
 						windowManager.PreferredBackBufferHeight
 					);
@@ -311,13 +323,14 @@ namespace Monofoxe.Engine
 					
 					CanvasMatrix = Matrix.CreateScale(new Vector3(ratio, ratio, 1)) * Matrix.CreateTranslation(new Vector3(offsetX, offsetY, 0));
 				}
+				// Scales display to match canvas, but keeps aspect ratio.
 			}
 			
-			#endregion Canvas matrix 
+			#endregion Canvas matrix.
 
 
 			
-			#region Main draw events
+			#region Main draw events.
 			
 			foreach(var camera in CameraMgr.Cameras)
 			{
@@ -341,12 +354,10 @@ namespace Monofoxe.Engine
 
 					SceneMgr.CallDrawEvents();
 					
-
 					ResetSurfaceTarget();
-					
 				}
 			}
-			#endregion Main draw events
+			#endregion Main draw events.
 
 
 			// Resetting camera, transform matrix and mouse position.
@@ -413,11 +424,14 @@ namespace Monofoxe.Engine
 
 		/// <summary>
 		/// Switches graphics pipeline mode.
+		/// 
+		/// Call it before manually using sprite batches or vertex buffers.
 		/// </summary>
 		public static void SwitchPipelineMode(PipelineMode mode, Texture2D texture = null)
 		{
-			if (mode != _currentPipelineMode || texture != _currentTexture)
+			if (mode != _currentPipelineMode || texture != _currentTexture) // No need to switch to same pipeline mode.
 			{
+				// Ending drawing stuff of previous call.
 				if (_currentPipelineMode != PipelineMode.None)
 				{
 					if (_currentPipelineMode == PipelineMode.Sprites || _currentPipelineMode == PipelineMode.SpritesNonPremultiplied)
@@ -429,6 +443,7 @@ namespace Monofoxe.Engine
 						DrawVertices();
 					}
 				}
+				// Ending drawing stuff of previous call.
 
 				if (mode == PipelineMode.Sprites || mode == PipelineMode.SpritesNonPremultiplied)
 				{
@@ -438,16 +453,16 @@ namespace Monofoxe.Engine
 
 					if (_currentEffect == null)
 					{
-						resultingEffect = _alphaBlendShader;
+						resultingEffect = _defaultEffect;
 						resultingEffect.Parameters["View"].SetValue(CurrentTransformMatrix);
 						resultingEffect.Parameters["Projection"].SetValue(CurrentProjection);
 						if (mode == PipelineMode.Sprites)
 						{
-							resultingEffect.CurrentTechnique = _alphaBlendShader.Techniques["TexturePremultiplied"];
+							resultingEffect.CurrentTechnique = _defaultEffect.Techniques["TexturePremultiplied"];
 						}
 						else
 						{
-							resultingEffect.CurrentTechnique = _alphaBlendShader.Techniques["TextureNonPremultiplied"];
+							resultingEffect.CurrentTechnique = _defaultEffect.Techniques["TextureNonPremultiplied"];
 						}
 					}
 					else
@@ -468,9 +483,6 @@ namespace Monofoxe.Engine
 		/// Adds vertices and indices to global vertex and index list.
 		/// If current and suggested pipeline modes are different, draws accumulated vertices first.
 		/// </summary>
-		/// <param name="mode">Suggested pipeline mode.</param>
-		/// <param name="vertices">List of vertices.</param>
-		/// <param name="indices">List of indices.</param>
 		private static void AddVertices(PipelineMode mode, Texture2D texture, List<VertexPositionColorTexture> vertices, short[] indices)
 		{
 			if (_indices.Count + indices.Length >= _vertexBufferSize)
@@ -480,7 +492,7 @@ namespace Monofoxe.Engine
 
 			SwitchPipelineMode(mode, texture);
 
-			short[] indicesCopy= new short[indices.Length];
+			var indicesCopy= new short[indices.Length];
 			Array.Copy(indices, indicesCopy, indices.Length); // We must copy an array to prevent modifying original.
 
 			for(var i = 0; i < indices.Length; i += 1)
@@ -503,7 +515,7 @@ namespace Monofoxe.Engine
 
 			if (_currentEffect == null)
 			{
-				resultingEffect = _alphaBlendShader;
+				resultingEffect = _defaultEffect;
 			}
 			else
 			{
@@ -520,12 +532,12 @@ namespace Monofoxe.Engine
 				if (_currentTexture != null)
 				{
 					resultingEffect.Parameters["BasicTexture"].SetValue(_currentTexture);
-					resultingEffect.CurrentTechnique = _alphaBlendShader.Techniques["TexturePremultiplied"];
+					resultingEffect.CurrentTechnique = _defaultEffect.Techniques["TexturePremultiplied"];
 				}
 				else
 				{
 					resultingEffect.Parameters["BasicTexture"].SetValue((Texture2D)null);
-					resultingEffect.CurrentTechnique = _alphaBlendShader.Techniques["Basic"];
+					resultingEffect.CurrentTechnique = _defaultEffect.Techniques["Basic"];
 				}
 
 				PrimitiveType type;
@@ -564,7 +576,7 @@ namespace Monofoxe.Engine
 
 				Device.ScissorRectangle = _scissorRectangle;
 		
-				foreach(EffectPass pass in _alphaBlendShader.CurrentTechnique.Passes)
+				foreach(var pass in _defaultEffect.CurrentTechnique.Passes)
 				{
 					pass.Apply();
 					Device.DrawIndexedPrimitives(type, 0, 0, prCount);
@@ -580,12 +592,11 @@ namespace Monofoxe.Engine
 
 		
 		
-		#region Matrixes.
+		#region Matrices.
 
 		/// <summary>
 		/// Sets new transform matrix.
 		/// </summary>
-		/// <param name="matrix">Transform matrix.</param>
 		public static void SetTransformMatrix(Matrix matrix)
 		{
 			SwitchPipelineMode(PipelineMode.None);
@@ -596,7 +607,6 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Sets new transform matrix multiplied by current transform matrix.
 		/// </summary>
-		/// <param name="matrix"></param>
 		public static void AddTransformMatrix(Matrix matrix)
 		{
 			SwitchPipelineMode(PipelineMode.None);
@@ -618,7 +628,7 @@ namespace Monofoxe.Engine
 			CurrentTransformMatrix = _transformMatrixStack.Pop();
 		}
 
-		#endregion Matrixes.
+		#endregion Matrices.
 
 
 
@@ -649,6 +659,9 @@ namespace Monofoxe.Engine
 			);
 		}
 
+		/// <summary>
+		/// Returns sprite frame based on a value from 0 to 1.
+		/// </summary>
 		public static Frame CalculateSpriteFrame(Sprite sprite, double animation) =>
 			sprite.Frames[Math.Max(0, Math.Min(sprite.Frames.Length - 1, (int)(animation * sprite.Frames.Length)))];
 		
@@ -800,10 +813,10 @@ namespace Monofoxe.Engine
 		/// Draws a line with specified width.
 		/// </summary>
 		public static void DrawLine(float x1, float y1, float x2, float y2, float w) =>
-			DrawLine(x1, y1, x2, y2, CurrentColor, CurrentColor);
-
+			DrawLine(x1, y1, x2, y2, w, CurrentColor, CurrentColor);
+		
 		#endregion Line overloads.
-
+		
 		/// <summary>
 		/// Draws a line with specified colors.
 		/// </summary>
@@ -875,7 +888,7 @@ namespace Monofoxe.Engine
 				new VertexPositionColorTexture(new Vector3(x3, y3, 0), c3, Vector2.Zero)
 			};
 
-			AddVertices(_pipelineModes[isOutlineInt], null, vertices, _triangleIndices[isOutlineInt]);
+			AddVertices(_shapePipelineModes[isOutlineInt], null, vertices, _triangleIndices[isOutlineInt]);
 		}
 
 
@@ -917,7 +930,7 @@ namespace Monofoxe.Engine
 				new VertexPositionColorTexture(new Vector3(x1, y2, 0), c4, Vector2.Zero)
 			};
 
-			AddVertices(_pipelineModes[isOutlineInt], null, vertices, _rectangleIndices[isOutlineInt]);
+			AddVertices(_shapePipelineModes[isOutlineInt], null, vertices, _rectangleIndices[isOutlineInt]);
 		}
 
 
@@ -934,9 +947,6 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Draws a circle.
 		/// </summary>
-		/// <param name="p">Center point.</param>
-		/// <param name="r">Radius.</param>
-		/// <param name="isOutline">Is shape outline.</param>
 		public static void DrawCircle(float x, float y, float r, bool isOutline)
 		{
 			short[] indexArray;
@@ -1252,8 +1262,8 @@ namespace Monofoxe.Engine
 			/*
 			 * Font is a wrapper for MG's SpriteFont, which uses non-premultiplied alpha.
 			 * Using PipelineMode.Sprites will result in black pixels everywhere.
-			 * TextureFont, on the other hand, is just regular sprites, so it's fine to 
-			 * draw with sprite mode.
+			 * TextureFont, on the other hand, is just a bunch of regular sprites, 
+			 * so it's fine to draw with sprite mode.
 			 */
 			if (CurrentFont is Font)
 			{
@@ -1314,7 +1324,6 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Sets surface as a render target.
 		/// </summary>
-		/// <param name="surf">Target surface.</param>
 		public static void SetSurfaceTarget(RenderTarget2D surf) => 
 			SetSurfaceTarget(surf, Matrix.CreateTranslation(Vector3.Zero));
 

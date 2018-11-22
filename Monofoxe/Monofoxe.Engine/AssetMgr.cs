@@ -2,6 +2,9 @@
 
 namespace Monofoxe.Engine
 {
+	/// <summary>
+	/// Provides convenient asset paths and lists all content assets.
+	/// </summary>
 	public static class AssetMgr
 	{
 		/// <summary>
@@ -59,7 +62,8 @@ namespace Monofoxe.Engine
 		
 		
 		/// <summary>
-		/// Returns list of asset paths that match input path.
+		/// Returns list of asset paths matching input path.
+		/// Empty string will return all asset paths.
 		/// </summary>
 		public static string[] GetAssetPaths(string path = "")
 		{
