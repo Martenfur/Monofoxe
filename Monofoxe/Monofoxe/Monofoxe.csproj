@@ -59,6 +59,8 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ECSTest\Components\CBirb.cs" />
+    <Compile Include="ECSTest\Systems\SBirb.cs" />
     <Compile Include="Test\MapFactories\BarrelMapFactory.cs" />
     <Compile Include="Test\TileTester.cs" />
     <Content Include="Content\Effects\AlphaBlend.fx" />
@@ -159,6 +161,7 @@
     <None Include="app.config" />
     <None Include="app.manifest" />
     <None Include="Content\Entities\Ball.json" />
+    <None Include="Content\Entities\Birb.json" />
     <None Include="Content\Entities\TestTemplate.json" />
     <None Include="packages.config" />
   </ItemGroup>

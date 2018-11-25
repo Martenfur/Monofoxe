@@ -73,3 +73,8 @@
 /processor:SpriteGroupProcessor
 /build:Graphics/default.atlas
 
+#begin Entities/Birb.json
+/importer:EntityTemplateImporter
+/processor:EntityTemplateProcessor
+/build:Entities/Birb.json
+

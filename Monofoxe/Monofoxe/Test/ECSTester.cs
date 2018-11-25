@@ -28,9 +28,17 @@ namespace Monofoxe.Test
 		
 			if (Input.CheckButton(Buttons.MouseLeft))
 			{
-				var ball = EntityMgr.CreateEntityFromTemplate(Layer, "ball");
-				ball.GetComponent<CMovement>().Position = Input.ScreenMousePos;
-				ball.GetComponent<CCollision>().MaskR = 20;//r.Next(10, 16);
+				if (Input.CheckButton(Buttons.Space))
+				{
+					var ball = EntityMgr.CreateEntityFromTemplate(Layer, "birb");
+					ball.GetComponent<CBirb>().Position = Input.ScreenMousePos;
+				}
+				else
+				{
+					var ball = EntityMgr.CreateEntityFromTemplate(Layer, "ball");
+					ball.GetComponent<CMovement>().Position = Input.ScreenMousePos;
+					ball.GetComponent<CCollision>().MaskR = 20;//r.Next(10, 16);
+				}
 			}
 			
 			if (Input.CheckButton(Buttons.MouseRight))
