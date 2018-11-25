@@ -1,0 +1,10 @@
+﻿{
+	"tag": "birb",
+	"components": 
+	{
+		"Monofoxe.ECSTest.Components.CBirb":
+		{
+		
+		}
+	}
+}

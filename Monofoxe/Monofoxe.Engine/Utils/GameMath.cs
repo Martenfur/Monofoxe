@@ -21,8 +21,8 @@ namespace Monofoxe.Engine.Utils
 
 		public static float Distance(float x, float y) =>
 			(float)Math.Sqrt(x * x + y * y);
-
-
+		
+		
 		
 		/// <summary>
 		/// Calculates direction between two points in degrees.
