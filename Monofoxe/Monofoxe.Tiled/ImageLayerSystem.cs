@@ -12,12 +12,10 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 	{
 		public override string Tag => "imageLayer";
 		
-		public override void Draw(List<Component> images)
+		public override void Draw(Component component)
 		{
-			foreach(ImageLayerComponent image in images)
-			{
-				DrawMgr.DrawFrame(image.Frame, image.Offset, Vector2.Zero);
-			}
+			var image = (ImageLayerComponent)component;
+			DrawMgr.DrawFrame(image.Frame, image.Offset, Vector2.Zero);
 		}
 
 	}

@@ -15,16 +15,12 @@ namespace Monofoxe.ECSTest.Systems
 
 		public override void Update(List<Component> components) {}
 		
-		public override void Draw(List<Component> components)
+		public override void Draw(Component component)
 		{
-			var birbs = ComponentMgr.GetComponentList<CBirb>(components);
+			var birb = (CBirb)component;
 
-			foreach(var birb in birbs)
-			{
-				birb.Owner.Depth = -(int)birb.Position.Y;
-				DrawMgr.DrawSprite(birb.Spr, birb.Position);
-			}
-			
+			birb.Owner.Depth = -(int)birb.Position.Y;
+			DrawMgr.DrawSprite(birb.Spr, birb.Position);
 		}
 	}
 }

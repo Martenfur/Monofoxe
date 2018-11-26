@@ -121,11 +121,14 @@ namespace Monofoxe.Engine.SceneSystem
 								DrawMgr.Device.Clear(Color.TransparentBlack);
 							}
 
-							SystemMgr.Draw(layer._depthSortedComponents); // TODO: There is no component-entity depth sorting. Fix this.
 							foreach(var entity in layer._depthSortedEntities)
 							{
 								if (entity.Visible && !entity.Destroyed)
 								{
+									foreach(var component in entity.GetAllComponents())
+									{
+										SystemMgr.Draw(component);
+									}
 									entity.Draw();
 								}
 							}
@@ -164,16 +167,18 @@ namespace Monofoxe.Engine.SceneSystem
 						if (layer.Visible && layer.IsGUI)
 						{
 							CurrentLayer = layer;
-							SystemMgr.Draw(layer._depthSortedComponents);
 							foreach(var entity in layer._depthSortedEntities)
 							{
 								if (entity.Visible && !entity.Destroyed)
 								{
+									foreach(var component in entity.GetAllComponents())
+									{
+										SystemMgr.Draw(component);
+									}
 									entity.Draw();
 								}
 							}
 						}
-
 					}
 				}
 			}

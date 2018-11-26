@@ -65,14 +65,12 @@ namespace Monofoxe.Engine.SceneSystem
 				if (value)
 				{
 					_depthSortedEntities = new List<Entity>();
-					_depthSortedComponents = new Dictionary<string, List<Component>>();
 					_depthListOutdated = true;
 				}
 				else
 				{
 					// Linking "sorted" lists directly to primary lists.
 					_depthSortedEntities = _entities;
-					_depthSortedComponents = _components;
 				}
 			}
 		}
@@ -100,8 +98,7 @@ namespace Monofoxe.Engine.SceneSystem
 		/// Component dictionary.
 		/// </summary>
 		internal Dictionary<string, List<Component>> _components = new Dictionary<string, List<Component>>();
-		internal Dictionary<string, List<Component>> _depthSortedComponents;
-
+		
 
 		/// <summary>
 		/// Newly created components. Used for Create event.
@@ -139,20 +136,12 @@ namespace Monofoxe.Engine.SceneSystem
 				if (_depthListOutdated)
 				{
 					_depthSortedEntities = _entities.OrderByDescending(o => o.Depth).ToList();
-
-					_depthSortedComponents.Clear();
-					foreach(KeyValuePair<string, List<Component>> list in _components)
-					{
-						_depthSortedComponents.Add(list.Key, list.Value.OrderByDescending(o => o.Owner.Depth).ToList());
-					}
-
 					_depthListOutdated = false;
 				}
 			}
 			else
 			{
 				_depthSortedEntities = _entities;
-				_depthSortedComponents = _components;
 			}
 		}
 		

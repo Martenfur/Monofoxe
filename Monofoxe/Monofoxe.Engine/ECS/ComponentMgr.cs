@@ -83,26 +83,6 @@ namespace Monofoxe.Engine.ECS
 			}
 			return activeComponents;	
 		}
-
-		/// <summary>
-		/// Filters out inactive components.
-		/// Component is inactive, if its owner is inactive.
-		/// </summary>
-		internal static List<Component> FilterInvisibleComponents(List<Component> components)
-		{
-			var activeComponents = new List<Component>();
-					
-			foreach(var component in components)
-			{
-				if (component.Owner.Visible && !component.Owner.Destroyed)
-				{
-					activeComponents.Add(component);
-				}
-			}
-			return activeComponents;	
-		}
-
-
-
+		
 	}
 }

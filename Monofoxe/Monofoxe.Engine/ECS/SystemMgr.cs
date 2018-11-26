@@ -95,15 +95,11 @@ namespace Monofoxe.Engine.ECS
 		/// NOTE: DO NOT put any significant logic into Draw.
 		/// It may skip frames.
 		/// </summary>
-		internal static void Draw(Dictionary<string, List<Component>> components)
+		internal static void Draw(Component component)//Dictionary<string, List<Component>> components)
 		{
-			foreach(var systemPair in _activeSystems)
+			if (_activeSystems.ContainsKey(component.Tag))
 			{
-				var system = systemPair.Value;
-				if (components.ContainsKey(system.Tag))
-				{
-					system.Draw(ComponentMgr.FilterInvisibleComponents(components[system.Tag]));
-				}
+				_activeSystems[component.Tag].Draw(component);
 			}
 		}
 

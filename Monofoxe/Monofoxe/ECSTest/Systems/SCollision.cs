@@ -60,24 +60,15 @@ namespace Monofoxe.ECSTest.Systems
 		}
 
 		
-		public override void Draw(List<Component> components)
+		public override void Draw(Component component)
 		{
-			// Game crashes, if entities are deleted. TODO: Investigate.
-			var movement = ComponentMgr.GetComponentList<CMovement>(components);
+			var collider = (CCollision)component;
+			var movement = collider.Owner.GetComponent<CMovement>();
 
-			//DrawMgr.BlendState = BlendState.AlphaBlend;
 			DrawMgr.CurrentColor = new Color(255, 0, 255, 255);//Red * 0.5f;
 			
-			//DrawMgr.Effect = Resources.Effects.Effect;
-			var id = 0;
-			foreach(CCollision collider in components)
-			{
-				//DrawMgr.DrawCircle(movement[id].Position, collider.MaskR, true);
-				DrawMgr.DrawSprite(Resources.Sprites.SpritesDefault.Barrel, movement[id].Position);
-				id += 1;
-			}
-			DrawMgr.CurrentEffect = null;
-			Console.WriteLine("Barrels: " + id);
+			//DrawMgr.DrawCircle(movement[id].Position, collider.MaskR, true);
+			DrawMgr.DrawSprite(Resources.Sprites.SpritesDefault.Barrel, movement.Position);
 		}
 	}
 }
