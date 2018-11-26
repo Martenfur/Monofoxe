@@ -24,21 +24,28 @@ namespace Monofoxe.Test
 
 		public override void Update()
 		{
-			Console.WriteLine(Layer.Count("ball"));
-		
+			
 			if (Input.CheckButton(Buttons.MouseLeft))
 			{
 				if (Input.CheckButton(Buttons.Space))
 				{
-					var ball = EntityMgr.CreateEntityFromTemplate(Layer, "birb");
-					ball.GetComponent<CBirb>().Position = Input.ScreenMousePos;
+					for(var i = 0; i < 10; i += 1)
+					{
+						var ball = EntityMgr.CreateEntityFromTemplate(Layer, "birb");
+						ball.GetComponent<CBirb>().Position = Input.ScreenMousePos;
+					}
 				}
 				else
 				{
-					var ball = EntityMgr.CreateEntityFromTemplate(Layer, "ball");
-					ball.GetComponent<CMovement>().Position = Input.ScreenMousePos;
-					ball.GetComponent<CCollision>().MaskR = 20;//r.Next(10, 16);
+					for(var i = 0; i < 10; i += 1)
+					{
+						var ball = EntityMgr.CreateEntityFromTemplate(Layer, "ball");
+						ball.GetComponent<CMovement>().Position = Input.ScreenMousePos;
+						ball.GetComponent<CCollision>().MaskR = 20;//r.Next(10, 16);
+					}
 				}
+				Console.WriteLine(Layer.Count("ball") + Layer.Count("birb"));
+		
 			}
 			
 			if (Input.CheckButton(Buttons.MouseRight))

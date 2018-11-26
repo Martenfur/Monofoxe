@@ -33,7 +33,7 @@ namespace Monofoxe.Engine.ECS
 		
 		public virtual void FixedUpdate(List<Component> components) {}
 		public virtual void Update(List<Component> components) {}
-		public virtual void Draw(List<Component> components) {}
+		public virtual void Draw(Component component) {}
 	}
 
 }
