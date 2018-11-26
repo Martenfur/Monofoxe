@@ -52,7 +52,7 @@ namespace Monofoxe.Test
 				ball.GetComponent<CCollision>().MaskR = 20;//r.Next(10, 16);
 			}
 			
-			if (Input.CheckButtonPress(Buttons.G))
+			if (Input.CheckButtonPress(Buttons.N))
 			{
 				Layer.DepthSorting = !Layer.DepthSorting;
 			}

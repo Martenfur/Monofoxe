@@ -66,6 +66,7 @@ namespace Monofoxe.Engine.SceneSystem
 				{
 					_depthSortedEntities = new List<Entity>();
 					_depthSortedComponents = new Dictionary<string, List<Component>>();
+					_depthListOutdated = true;
 				}
 				else
 				{
