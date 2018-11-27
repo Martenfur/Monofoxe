@@ -101,11 +101,6 @@ namespace Monofoxe.Engine
 
 			var defScene = SceneMgr.CreateScene("default");
 			defScene.CreateLayer("default");
-
-			// Force updating scenes and layers.
-			SceneMgr._scenes.Update();
-			defScene._layers.Update();
-			// Force updating scenes and layers.
 		}
 
 		
@@ -141,7 +136,6 @@ namespace Monofoxe.Engine
 				_fpsCount = 0;
 			}
 
-			CameraMgr.Update();
 			DrawMgr.Update(gameTime);
 		}
 		

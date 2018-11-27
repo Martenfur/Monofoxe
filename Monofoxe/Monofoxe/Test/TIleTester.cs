@@ -24,12 +24,7 @@ namespace Monofoxe.Test
 
 		public override void Update()
 		{
-			var tilemap = Maps.Test.MapScene.FindEntity("basicTilemap");
-			if (tilemap != null)
-			{
-				System.Console.WriteLine("koks");
-				tilemap.GetComponent<BasicTilemapComponent>().DefaultTileFrame = SpritesDefault.Basket.Frames[0];
-			}
+			//var tilemap = Maps.Test.MapScene.FindEntity("basicTilemap");
 			
 			if (Input.CheckButtonPress(Buttons.L))
 			{
