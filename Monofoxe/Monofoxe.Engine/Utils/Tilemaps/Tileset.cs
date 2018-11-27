@@ -8,7 +8,17 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 		
 		public readonly int StartingIndex;
 
-		public int Count => Tiles.Frames.Length;
+		public int Count
+		{
+			get
+			{
+				if (Tiles != null)
+				{
+					return Tiles.Frames.Length;
+				}
+				return 0;
+			}
+		}
 
 		public Tileset(Sprite tiles, int startingIndex = 1)
 		{
@@ -22,7 +32,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 		/// </summary>
 		public Frame GetFrame(int index)
 		{
-			if (index < StartingIndex || index >= StartingIndex + Tiles.Frames.Length)
+			if (Tiles == null || index < StartingIndex || index >= StartingIndex + Tiles.Frames.Length)
 			{
 				return null;
 			}

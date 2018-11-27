@@ -61,13 +61,13 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 					if (!tile.IsBlank)
 					{
 						var tileFrame = tile.GetFrame();
-
+						
 						if (tileFrame != null)
 						{
 							var scale = SpriteEffects.None;
-							var offset = Vector2.Zero;
+							var offset = Vector2.UnitY * (tileFrame.H - tilemap.TileHeight);
 							var rotation = 0;
-
+							
 							// A bunch of Tiled magic.
 							/*
 							 * Ok, so here's the deal.
@@ -83,8 +83,8 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 							if (tile.FlipDiag)
 							{
 								rotation = -90;
-								offset.Y -= tilemap.TileHeight;
-								offset.X -= tileFrame.W - tilemap.TileWidth;
+								offset.Y = -tilemap.TileHeight;
+								offset.X = 0;
 
 								scale |= SpriteEffects.FlipHorizontally;
 							}
@@ -122,7 +122,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 								tileFrame.TexturePosition,
 								Color.White,
 								MathHelper.ToRadians(rotation),
-								-Vector2.UnitY * tilemap.TileHeight + tileFrame.ParentSprite.Origin + tileFrame.Origin,
+								Vector2.Zero,
 								Vector2.One,
 								scale,
 								0

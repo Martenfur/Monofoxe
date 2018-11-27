@@ -68,20 +68,46 @@ namespace Monofoxe.Tiled
 			foreach(var tileset in tilesets)
 			{
 				// Creating sprite from raw texture.
+				Sprite tiles = null;
+				
 				var frames = new List<Frame>();
-				for(var y = 0; y < tileset.Height; y += 1)
+				if (tileset.Textures != null)
 				{
-					for(var x = 0; x < tileset.Width; x += 1)
-					{		
-						var tile = tileset.Tiles[y * tileset.Width + x];
-						var frame = new Frame(tileset.Textures[tile.TextureID], tile.TexturePosition, Vector2.Zero, tileset.TileWidth, tileset.TileHeight);
-						
-						frames.Add(frame);
-					}
-				}
+					var isMultitexture = (tileset.Textures.Length > 1);
 
-				var tiles = new Sprite(frames.ToArray(), Vector2.Zero);
-				tiles.Origin = Vector2.UnitY * tiles.H; // Tileset origins in Tiled are in the left bottom corner. Derp.
+					for(var y = 0; y < tileset.Height; y += 1)
+					{
+						for(var x = 0; x < tileset.Width; x += 1)
+						{
+							var tile = tileset.Tiles[y * tileset.Width + x];
+							var tileTexture = tileset.Textures[tile.TextureID];
+							int tileW, tileH;
+
+							/*
+							 * TileWidth and TileHeight values are incorrect for multitexture tilesets. 
+							 * They contain max width and height of all textures.
+							*/
+							if (isMultitexture)
+							{
+								tileW = tileTexture.Width;
+								tileH = tileTexture.Height;
+							}
+							else
+							{
+								tileW = tileset.TileWidth;
+								tileH = tileset.TileHeight;
+							}
+
+							var frame = new Frame(tileTexture, tile.TexturePosition, Vector2.Zero, tileW, tileH);
+						
+							frames.Add(frame);
+						}
+					}
+				
+
+					tiles = new Sprite(frames.ToArray(), Vector2.Zero);
+					tiles.Origin = Vector2.Zero;//Vector2.UnitY * tiles.H; // Tileset origins in Tiled are in the left bottom corner. Derp.
+				}
 				// Creating sprite from raw texture.
 
 				convertedTilesets.Add(new Tileset(tiles, tileset.FirstGID));
