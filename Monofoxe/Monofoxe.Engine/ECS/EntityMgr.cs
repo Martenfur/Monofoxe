@@ -84,14 +84,12 @@ namespace Monofoxe.Engine.ECS
 					SystemMgr.Update(GetActiveComponents(scene));
 				}
 			}
-			SceneMgr._scenes.Update(); // Updating scenes list.
 			foreach(var scene in SceneMgr.Scenes)
 			{		
 				if (scene.Enabled)
 				{
 					SceneMgr.CurrentScene = scene;
-					scene._layers.Update(); // Updating layers list.
-
+					
 					foreach(var layer in scene.Layers)
 					{
 						if (layer.Enabled)

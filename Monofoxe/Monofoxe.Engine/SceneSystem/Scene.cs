@@ -58,14 +58,6 @@ namespace Monofoxe.Engine.SceneSystem
 			}
 			_layers.Clear(); // Also removes newly added layers from the list.
 		}
-
-
-
-		/// <summary>
-		/// Updates layer list.
-		/// </summary>
-		internal void UpdateList() =>
-			_layers.Update();
 		
 		
 		#region Layer methods.

@@ -17,14 +17,14 @@ namespace Monofoxe.Test
 	public class ECSTester : Entity
 	{
 		
-		public ECSTester(Layer layer) : base(layer)
+		public ECSTester(Layer layer) : base(SceneMgr.GetScene("default")["balls"])
 		{
-			
 		}
 
 		public override void Update()
 		{
-			
+			SceneMgr.GetScene("default")["balls"].Priority = 999999;
+	
 			if (Input.CheckButton(Buttons.MouseLeft))
 			{
 				if (Input.CheckButton(Buttons.Space))

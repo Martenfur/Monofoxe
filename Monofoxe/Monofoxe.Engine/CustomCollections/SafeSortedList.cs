@@ -4,9 +4,8 @@ using System.Collections.Generic;
 
 namespace Monofoxe.Engine.CustomCollections
 {
-	/// <summary>
-	/// Safe sorted list. Old items are removed and new ones added only after Update is called. 
-	/// This makes possible to safely remove from and add items to the list during for\foreach.
+	/// <summary> 
+	/// Safe sorted list. Makes possible to safely remove from and add items to the list during foreach.
 	/// 
 	/// NOTE: Sorting algorhitm is very basic and must be used only for small amounts (1-5) of new elements.
 	/// DO NOT use this class for frequently updated collections with lots of elements.
@@ -16,26 +15,45 @@ namespace Monofoxe.Engine.CustomCollections
 	public class SafeSortedList<T> : IEnumerable<T>
 	{
 		private Func<T, int> _sortingParameter;
-		private List<T> _items, _newItems, _removedItems;
-
+		private List<T> _items, _outdatedItems;
+		private bool _isOutdated = false;
 
 		public SafeSortedList(Func<T, int> sortingParameter)
 		{
 			_sortingParameter = sortingParameter;
 			_items = new List<T>();
-			_newItems = new List<T>();
-			_removedItems = new List<T>();
+			_outdatedItems = new List<T>();
 		}
 
 
-		public void Add(T obj) =>
-			_newItems.Add(obj);
+		public void Add(T item)
+		{
+			_isOutdated = true;
+			
+			var added = false;
+			for(var i = 0; i < _items.Count; i += 1)
+			{
+				if (_sortingParameter(item) > _sortingParameter(_items[i]))
+				{
+					_items.Insert(i, item);
+					added = true;
+					break;
+				}
+			}
+			if (!added)
+			{
+				_items.Add(item); // Adding an item at the end, if it has lowest priority.
+			}
+		}
 
-		public void Remove(T obj) =>
-			_removedItems.Add(obj);
+		public void Remove(T item)
+		{
+			_isOutdated = true;
+			_items.Remove(item);
+		}
 		
-		public bool Contains(T obj) =>
-			_items.Contains(obj);
+		public bool Contains(T item) =>
+			_items.Contains(item);
 		
 		public int Count =>
 			_items.Count;
@@ -45,14 +63,18 @@ namespace Monofoxe.Engine.CustomCollections
 		/// </summary>
 		public void Clear()
 		{
-			_newItems.Clear();
-			_removedItems.AddRange(_items);
+			_isOutdated = true;
+			_items.Clear();
 		}
 
 		public T this[int index]
 		{
 			get => _items[index];
-			set => _items[index] = value;
+			set
+			{
+				_isOutdated = true;
+				_items[index] = value;
+			}
 		}
 		
 		public List<T> ToList() =>
@@ -65,43 +87,28 @@ namespace Monofoxe.Engine.CustomCollections
 		/// <summary>
 		/// Removes old elements from the list and adds new ones.
 		/// </summary>
-		public void Update()
+		private void Update()
 		{
-			// Removing old items.
-			foreach(var item in _removedItems)
+			if (_isOutdated)
 			{
-				_items.Remove(item);
+				_outdatedItems.Clear();
+				_outdatedItems.AddRange(_items);
+				
+				_isOutdated = false;
 			}
-			_removedItems.Clear();
-			// Removing old items.
-
-			// Adding new items.
-			foreach(var item in _newItems)
-			{
-				var added = false;
-				for(var i = 0; i < _items.Count; i += 1)
-				{
-					if (_sortingParameter(item) > _sortingParameter(_items[i]))
-					{
-						_items.Insert(i, item);
-						added = true;
-						break;
-					}
-				}
-				if (!added)
-				{
-					_items.Add(item); // Adding an item at the end, if it has lowest priority.
-				}
-			}
-			_newItems.Clear();
-			// Adding new items.
 		}
 
-
-		public IEnumerator<T> GetEnumerator() =>
-			((IEnumerable<T>)_items).GetEnumerator();
 		
-		IEnumerator IEnumerable.GetEnumerator() =>
-			((IEnumerable<T>)_items).GetEnumerator();
+		public IEnumerator<T> GetEnumerator()
+		{
+			Update();
+			return ((IEnumerable<T>)_outdatedItems).GetEnumerator();
+		}
+		
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			Update();
+			return ((IEnumerable<T>)_outdatedItems).GetEnumerator();
+		}
 	}
 }

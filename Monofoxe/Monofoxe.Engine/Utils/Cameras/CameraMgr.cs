@@ -24,9 +24,6 @@ namespace Monofoxe.Engine.Utils.Cameras
 			_cameras.Add(camera);
 		}
 
-		internal static void Update() =>
-			_cameras.Update();
-		
 		internal static void RemoveCamera(Camera camera) =>
 			_cameras.Remove(camera);
 

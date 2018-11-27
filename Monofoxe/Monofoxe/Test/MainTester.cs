@@ -37,7 +37,7 @@ namespace Monofoxe.Test
 
 
 			var scene = SceneMgr.GetScene("default");
-			var ballsLayer = scene.CreateLayer("balls", -1);
+			var ballsLayer = scene.CreateLayer("balls", 1);
 			ballsLayer.IsGUI = false;
 
 			InitCameras();

@@ -155,7 +155,7 @@ namespace Monofoxe.Engine.SceneSystem
 		internal void RemoveEntity(Entity entity) =>
 			_entities.Remove(entity);
 		
-
+		
 		internal void AddComponent(Component component)
 		{
 			_newComponents.Add(component);
