@@ -1,7 +1,9 @@
 ﻿using Monofoxe.Engine;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.SceneSystem;
-
+using Monofoxe.Engine.Utils.Tilemaps;
+using Resources.Sprites;
+using Resources;
 
 namespace Monofoxe.Test
 {
@@ -11,7 +13,7 @@ namespace Monofoxe.Test
 		public TileTester(Layer layer) : base(layer)
 		{
 		
-			Resources.Maps.Test.Load();
+			Maps.Test.Load();
 			
 			//Console.WriteLine(_map.Tilesets[0].Textures == null);
 			//frame = new Frame(_map.Tilesets[0].Textures[0], new Rectangle(0, 0, 128, 128), Vector2.Zero, 128, 128);
@@ -22,9 +24,16 @@ namespace Monofoxe.Test
 
 		public override void Update()
 		{
+			var tilemap = Maps.Test.MapScene.FindEntity("basicTilemap");
+			if (tilemap != null)
+			{
+				System.Console.WriteLine("koks");
+				tilemap.GetComponent<BasicTilemapComponent>().DefaultTileFrame = SpritesDefault.Basket.Frames[0];
+			}
+			
 			if (Input.CheckButtonPress(Buttons.L))
 			{
-				Resources.Maps.Test.Unload();
+				Maps.Test.Unload();
 			}
 		}
 

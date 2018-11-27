@@ -66,12 +66,6 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 			x >= 0 && y >= 0 && x < Width && y < Height;
 		
 
-		/// <summary>
-		/// Used, if there was an error. // TODO: Actually use it.
-		/// </summary>
-		public Frame DefaultTile;
-
-
 		public BasicTilemapComponent(int width, int height, int tileWidth, int tileHeight)
 		{
 			Width = width;
