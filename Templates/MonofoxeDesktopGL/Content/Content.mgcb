@@ -10,24 +10,9 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:dlls\Pipefoxe.dll
+/reference:References\Pipefoxe.dll
 
 #---------------------------------- Content ---------------------------------#
-
-#begin Audio/Music/m_mission.ogg
-/copy:Audio/Music/m_mission.ogg
-
-#begin Audio/Music/m_peace.ogg
-/copy:Audio/Music/m_peace.ogg
-
-#begin Audio/Sounds/punch.wav
-/copy:Audio/Sounds/punch.wav
-
-#begin Effects/effect.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:Effects/effect.fx
 
 #begin Graphics/default.atlas
 /importer:SpriteGroupImporter
@@ -40,4 +25,15 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Fonts/Arial.spritefont
+
+#begin Effects/AlphaBlend.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/AlphaBlend.fx
+
+#begin Content.mgcb
+/importer:AssetInfoImporter
+/processor:PassThroughProcessor
+/build:Content.mgcb
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine;
-using Monofoxe.Engine.Audio;
+using Monofoxe.Engine.FMODAudio;
 
 
 namespace $safeprojectname$
@@ -12,8 +12,8 @@ namespace $safeprojectname$
 	{
 		public Game1()
 		{
-			Content.RootDirectory = GameCntrl.ContentDir;
-			GameCntrl.Init(this);
+			Content.RootDirectory = AssetMgr.ContentDir;
+			GameMgr.Init(this);
 		}
 
 		/// <summary>
@@ -36,9 +36,10 @@ namespace $safeprojectname$
 		protected override void LoadContent()
 		{
 			Resources.Sprites.SpritesDefault.Load();	
-			Resources.Fonts.Load(Content);
-			Resources.Effects.Load(Content);
-			DrawCntrl.Init(GraphicsDevice);
+			Resources.Fonts.Load();
+			Resources.Effects.Load();
+			DrawMgr.Init(GraphicsDevice);
+			AudioMgr.Init();
 		}
 
 		/// <summary>
@@ -57,7 +58,8 @@ namespace $safeprojectname$
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Update(GameTime gameTime)
 		{
-			GameCntrl.Update(gameTime);
+			GameMgr.Update(gameTime);
+			AudioMgr.Update();
 			
 			base.Update(gameTime);
 		}
@@ -68,7 +70,7 @@ namespace $safeprojectname$
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw(GameTime gameTime)
 		{
-			GameCntrl.Draw(gameTime);
+			GameMgr.Draw(gameTime);
 
 			base.Draw(gameTime);
 		}

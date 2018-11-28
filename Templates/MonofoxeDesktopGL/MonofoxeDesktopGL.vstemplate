@@ -26,7 +26,10 @@
       <ProjectItem ReplaceParameters="true" TargetFileName="app.manifest">app.manifest</ProjectItem>
       
       <Folder Name="References" TargetFolderName="References">
-        <ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.dll">Monofoxe.dll</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.Engine.dll">Monofoxe.Engine.dll</ProjectItem>
+				<ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.Engine.FMODAudio.dll">Monofoxe.Engine.FMODAudio.dll</ProjectItem>
+				<ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.Tiled.dll">Monofoxe.Tiled.dll</ProjectItem>
+				<ProjectItem ReplaceParameters="false" TargetFileName="Newtonsoft.Json.dll">Newtonsoft.Json.dll</ProjectItem>
       </Folder>      
       
       <Folder Name="Resources" TargetFolderName="Resources">
@@ -36,6 +39,7 @@
         <ProjectItem ReplaceParameters="false" TargetFileName="Effects.cs">Effects.cs</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="Fonts.cs">Fonts.cs</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="Sounds.cs">Sounds.cs</ProjectItem>
+				<ProjectItem ReplaceParameters="false" TargetFileName="Maps.cs">Maps.cs</ProjectItem>
       </Folder>
 
 
@@ -58,16 +62,13 @@
           </Folder>
         
         <Folder Name="Effects" TargetFolderName="Effects">
-          <ProjectItem ReplaceParameters="false" TargetFileName="effect.fx">effect.fx</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="AlphaBlend.fx">AlphaBlend.fx</ProjectItem>
         </Folder>
         
         <Folder Name="Audio" TargetFolderName="Audio">
           <Folder Name="Music" TargetFolderName="Music">
-            <ProjectItem ReplaceParameters="false" TargetFileName="m_mission.ogg">m_mission.ogg</ProjectItem>
-            <ProjectItem ReplaceParameters="false" TargetFileName="m_peace.ogg">m_peace.ogg</ProjectItem>
           </Folder>
           <Folder Name="Sounds" TargetFolderName="Sounds">
-            <ProjectItem ReplaceParameters="false" TargetFileName="punch.wav">punch.wav</ProjectItem>
           </Folder>
         </Folder>
 
@@ -75,11 +76,12 @@
           <ProjectItem ReplaceParameters="false" TargetFileName="Arial.spritefont">Arial.spritefont</ProjectItem>
         </Folder>
 
-        <Folder Name="dlls" TargetFolderName="dlls">
+        <Folder Name="References" TargetFolderName="References">
           <ProjectItem ReplaceParameters="false" TargetFileName="MonoGame.Framework.Content.Pipeline.dll">MonoGame.Framework.Content.Pipeline.dll</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="MonoGame.Framework.dll">MonoGame.Framework.dll</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="Newtonsoft.Json.dll">Newtonsoft.Json.dll</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="Pipefoxe.dll">Pipefoxe.dll</ProjectItem>
+					<ProjectItem ReplaceParameters="false" TargetFileName="System.Drawing.dll">System.Drawing.dll</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="System.ValueTuple.dll">System.ValueTuple.dll</ProjectItem>
         </Folder>
 
