@@ -13,7 +13,7 @@
     <AssemblyName>$safeprojectname$</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>DesktopGL</MonoGamePlatform>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -48,19 +48,32 @@
     <Compile Include="Resources\Effects.cs" />
     <Compile Include="Resources\Sounds.cs" />
     <Compile Include="Resources\Fonts.cs" />
+		<Compile Include="Resources\Maps.cs" />
     <Compile Include="Resources\Sprites\SpritesDefault.cs" />
     <Compile Include="Test.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Effects\effect.fx" />
+    <Content Include="Content\Effects\AlphaBlend.fx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
     </Reference>
-    <Reference Include="Monofoxe">
+    <Reference Include="Monofoxe.Engine">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\References\Monofoxe.dll</HintPath>
+      <HintPath>.\References\Monofoxe.Engine.dll</HintPath>
+    </Reference>
+		<Reference Include="Monofoxe.Tiled">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\References\Monofoxe.Tiled.dll</HintPath>
+    </Reference>
+		<Reference Include="Monofoxe.Engine.FMODAudio">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\References\Monofoxe.Engine.FMODAudio.dll</HintPath>
+    </Reference>
+		<Reference Include="Newtonsoft.Json">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\References\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />

@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Monofoxe.Engine")]
 [assembly: AssemblyProduct("Monofoxe Engine")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyCompany("Foxoft")]
-[assembly: AssemblyCopyright("Foxoft ©  2018")]
+[assembly: AssemblyDescription("Highly fox-concentrated game engine.")]
+[assembly: AssemblyCompany("Chai Foxes")]
+[assembly: AssemblyCopyright("Chai Foxes ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.9.0.0")]
-[assembly: AssemblyFileVersion("0.9.0.0")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

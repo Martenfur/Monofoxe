@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Resources.Sprites;
 using Monofoxe.Engine.Drawing;
+using Monofoxe.Engine;
 
 namespace Resources
 {
@@ -11,17 +12,14 @@ namespace Resources
 		
 		static string Ascii = " !" + '"' + @"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
 		
-		public static IFont TexFont;
-		public static IFont AnotherFont;
-		public static IFont AnotherFont1;
-		public static IFont Def;
+		public static IFont Arial;
 
-		public static void Load(ContentManager content)
+		public static void Load()
 		{
-			_content = new ContentManager(content.ServiceProvider);
-			_content.RootDirectory = content.RootDirectory;
+			_content = new ContentManager(GameMgr.Game.Services);
+			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.FontsDir;
 			
-			//Default = new Font(_content.Load<SpriteFont>("defaulf"));
+			Arial = new Font(_content.Load<SpriteFont>("Arial"));
 		}
 
 		public static void Unload()
