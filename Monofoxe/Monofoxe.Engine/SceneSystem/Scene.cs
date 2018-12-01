@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Monofoxe.Engine.CustomCollections;
+using Monofoxe.Engine.Utils.CustomCollections;
 using Monofoxe.Engine.ECS;
 
 

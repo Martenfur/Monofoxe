@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Monofoxe.Engine.CustomCollections;
+using Monofoxe.Engine.Utils.CustomCollections;
 
 namespace Monofoxe.Engine.Utils.Cameras
 {

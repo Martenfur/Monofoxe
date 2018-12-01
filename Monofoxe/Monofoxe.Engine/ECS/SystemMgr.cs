@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Monofoxe.Engine.SceneSystem;
-using Monofoxe.Engine.CustomCollections;
+using Monofoxe.Engine.Utils.CustomCollections;
 
 namespace Monofoxe.Engine.ECS
 {
