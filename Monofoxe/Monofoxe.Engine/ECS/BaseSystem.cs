@@ -5,7 +5,7 @@ namespace Monofoxe.Engine.ECS
 	/// <summary>
 	/// Basic system interface. 
 	/// </summary>
-	public class BaseSystem
+	public abstract class BaseSystem
 	{
 		/// <summary>
 		/// Identifying tag. 
@@ -14,7 +14,7 @@ namespace Monofoxe.Engine.ECS
 		/// Systems will only process components with matching tags.
 		/// So, different systems with same tags will process same sets of components.
 		/// </summary>
-		public virtual string Tag => "system";
+		public abstract string Tag {get;}
 		
 		/// <summary>
 		/// Tells, how many layers are using this system.

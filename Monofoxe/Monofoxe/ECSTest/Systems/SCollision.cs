@@ -26,7 +26,7 @@ namespace Monofoxe.ECSTest.Systems
 			
 			var id = 0;
 			var otherId = 0;
-			/*
+			
 			foreach(CCollision collider in components)
 			{
 				otherId = 0;
@@ -50,7 +50,7 @@ namespace Monofoxe.ECSTest.Systems
 				}
 				id += 1;
 			}
-			*/
+			
 			id = 0;
 			foreach(CCollision collider in components)
 			{
