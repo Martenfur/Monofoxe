@@ -12,12 +12,17 @@ namespace Monofoxe.ECSTest.Systems
 	public class SCollision : BaseSystem
 	{
 		public override string Tag => "collision";
+		
+		public override int Priority => 0;
 
 		public override void Create(Component component) {}
 
 		public override void Destroy(Component component) {}
 
-		public override void Update(List<Component> components) {}
+		public override void Update(List<Component> components) 
+		{
+			Console.WriteLine("Collision update.");
+		}
 
 		
 		public override void FixedUpdate(List<Component> components) 

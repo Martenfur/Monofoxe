@@ -9,7 +9,7 @@
     <ProjectGuid>{94153186-E889-4E3E-979F-4C35819C5C21}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Monofoxe.Egine</RootNamespace>
+    <RootNamespace>Monofoxe.Engine</RootNamespace>
     <AssemblyName>Monofoxe.Engine</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>DesktopGL</MonoGamePlatform>
@@ -61,6 +61,7 @@
     <Compile Include="Converters\SpriteConverter.cs" />
     <Compile Include="Converters\Vector2Converter.cs" />
     <Compile Include="Converters\Vector3Converter.cs" />
+    <Compile Include="CustomCollections\SafeSortedDictionary.cs" />
     <Compile Include="Drawing\Font.cs" />
     <Compile Include="Drawing\Frame.cs" />
     <Compile Include="Drawing\IFont.cs" />

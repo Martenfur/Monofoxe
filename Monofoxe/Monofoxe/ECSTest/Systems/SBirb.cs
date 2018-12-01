@@ -2,6 +2,7 @@
 using Monofoxe.ECSTest.Components;
 using Monofoxe.Engine;
 using Monofoxe.Engine.ECS;
+using System;
 
 namespace Monofoxe.ECSTest.Systems
 {
@@ -9,11 +10,16 @@ namespace Monofoxe.ECSTest.Systems
 	{
 		public override string Tag => "birb";
 
+		public override int Priority => 1000;
+
 		public override void Create(Component component) {}
 
 		public override void Destroy(Component component) {}
 
-		public override void Update(List<Component> components) {}
+		public override void Update(List<Component> components) 
+		{
+			Console.WriteLine("Birb.");
+		}
 		
 		public override void Draw(Component component)
 		{

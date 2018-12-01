@@ -5,6 +5,7 @@ using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Utils;
 using Monofoxe.Engine.Utils.Cameras;
+using System; 
 
 namespace Monofoxe.Test
 {
@@ -79,7 +80,7 @@ namespace Monofoxe.Test
 				}
 			}
 
-			//Console.WriteLine(Layer.__GetLayerInfo());
+			Console.WriteLine("LINE");
 			
 			#region Camera. 
 
