@@ -17,7 +17,8 @@ namespace Monofoxe.Demo.GameLogic.Entities
 		{
 			foreach(PhysicsObjectComponent physicsObject in components)
 			{
-				physicsObject.Position += physicsObject.Speed;
+				var positionComponent = physicsObject.Owner.GetComponent<PositionComponent>();
+				positionComponent.Position = Input.MousePos;//physicsObject.Speed;
 
 
 
@@ -28,12 +29,20 @@ namespace Monofoxe.Demo.GameLogic.Entities
 		public override void Draw(Component component)
 		{
 			var physicsObject = (PhysicsObjectComponent)component;
-			
+			var positionComponent = physicsObject.Owner.GetComponent<PositionComponent>();
+
 			DrawMgr.DrawRectangle(
-				physicsObject.Position - physicsObject.Size / 2,
-				physicsObject.Position + physicsObject.Size / 2,
+				positionComponent.Position - physicsObject.Size / 2,
+				positionComponent.Position + physicsObject.Size / 2,
 				true
 			);
+
+			DrawMgr.DrawCircle(
+				positionComponent.PreviousPosition,
+				8,
+				true
+			);
+
 		}
 
 	}

@@ -46,6 +46,7 @@
     <Compile Include="GameLogic\Entities\PhysicsObjectComponent.cs" />
     <Compile Include="GameLogic\Entities\PhysicsObjectSystem.cs" />
     <Compile Include="GameLogic\Entities\PositionComponent.cs" />
+    <Compile Include="GameLogic\Entities\PositionSystem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Effects.cs" />
