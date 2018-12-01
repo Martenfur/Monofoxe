@@ -29,7 +29,7 @@ namespace Monofoxe.Test
 			{
 				if (Input.CheckButton(Buttons.Space))
 				{
-					for(var i = 0; i < 10; i += 1)
+					//for(var i = 0; i < 10; i += 1)
 					{
 						var ball = EntityMgr.CreateEntityFromTemplate(Layer, "birb");
 						ball.GetComponent<CBirb>().Position = Input.ScreenMousePos;
@@ -37,7 +37,7 @@ namespace Monofoxe.Test
 				}
 				else
 				{
-					for(var i = 0; i < 10; i += 1)
+					//for(var i = 0; i < 10; i += 1)
 					{
 						var ball = EntityMgr.CreateEntityFromTemplate(Layer, "ball");
 						ball.GetComponent<CMovement>().Position = Input.ScreenMousePos;
