@@ -5,6 +5,7 @@ using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Utils.Cameras;
 using Resources.Sprites;
 using Microsoft.Xna.Framework.Graphics;
+using Monofoxe.Demo.GameLogic.Entities;
 
 namespace Monofoxe.Demo
 {
@@ -25,6 +26,13 @@ namespace Monofoxe.Demo
 			GameMgr.WindowManager.CanvasMode = CanvasMode.Fill;
 			
 			DrawMgr.Sampler = SamplerState.PointClamp;
+
+			var entity = new Entity(Layer, "physicsBoi");
+			entity.AddComponent(new PositionComponent(Vector2.Zero));
+			var phy = new PhysicsObjectComponent();
+			phy.Size = Vector2.One * 32;
+			entity.AddComponent(phy);
+
 		}
 		
 		public override void Update()

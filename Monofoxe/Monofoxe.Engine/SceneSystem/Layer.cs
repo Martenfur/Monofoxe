@@ -56,7 +56,7 @@ namespace Monofoxe.Engine.SceneSystem
 		/// <summary>
 		/// If true, entities and components will be sorted by their depth.
 		/// </summary>
-		public bool DepthSorting 
+		public bool DepthSorting
 		{
 			get => _depthSorting;
 			set
