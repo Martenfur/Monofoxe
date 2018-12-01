@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Monofoxe.Engine.SceneSystem;
+using Monofoxe.Engine.CustomCollections;
 
 namespace Monofoxe.Engine.ECS
 {
@@ -13,9 +14,9 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// List of currently active systems.
 		/// </summary>
-		internal static Dictionary<string, BaseSystem> _activeSystems = new Dictionary<string, BaseSystem>();
-		// TODO: Add system priorities.
-
+		internal static SafeSortedDictionary<string, BaseSystem> _activeSystems 
+			= new SafeSortedDictionary<string, BaseSystem>(x => x.Priority);
+		
 		/// <summary>
 		/// Pool of all game systems.
 		/// </summary>
@@ -57,9 +58,8 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		internal static void FixedUpdate(Dictionary<string, List<Component>> components)
 		{
-			foreach(var systemPair in _activeSystems)
+			foreach(var system in _activeSystems)
 			{
-				var system = systemPair.Value;
 				if (components.ContainsKey(system.Tag))
 				{
 					system.FixedUpdate(components[system.Tag]);
@@ -73,9 +73,8 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		internal static void Update(Dictionary<string, List<Component>> components)
 		{
-			foreach(var systemPair in _activeSystems)
+			foreach(var system in _activeSystems)
 			{
-				var system = systemPair.Value;
 				if (components.ContainsKey(system.Tag))
 				{
 					var componentList = components[system.Tag];
@@ -166,11 +165,11 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		public static void DisableSystem<T>() where T : BaseSystem
 		{
-			foreach(var systemPair in _activeSystems.ToList()) // Quick way to clone collection.
+			foreach(var system in _activeSystems)
 			{
-				if (systemPair.Value is T)
+				if (system is T)
 				{
-					_activeSystems.Remove(systemPair.Key);
+					_activeSystems.Remove(system.Tag);
 					return;
 				}
 			}
@@ -199,17 +198,9 @@ namespace Monofoxe.Engine.ECS
 		/// 
 		/// NOTE: This method can deactivate more than one system.
 		/// </summary>
-		public static void DisableSystem(string tag)
-		{
-			foreach(var systemPair in _activeSystems.ToList()) // Quick way to clone list.
-			{
-				if (systemPair.Key == tag)
-				{
-					_activeSystems.Remove(systemPair.Key);
-				}
-			}
-		}
-
+		public static void DisableSystem(string tag) =>
+			_activeSystems.Remove(tag);
+		
 
 
 		/// <summary>
@@ -221,11 +212,11 @@ namespace Monofoxe.Engine.ECS
 			if (AutoSystemManagement && _componentsWereRemoved)
 			{
 				var unusedSystems = new List<string>();
-				foreach(var systemPair in _activeSystems)
+				foreach(var system in _activeSystems)
 				{
-					if (systemPair.Value._usedLayersCount == 0)
+					if (system._usedLayersCount == 0)
 					{
-						unusedSystems.Add(systemPair.Key);	
+						unusedSystems.Add(system.Tag);	
 						_componentsWereRemoved = false;
 					}
 				}
@@ -237,9 +228,9 @@ namespace Monofoxe.Engine.ECS
 			// Disabling systems without components.
 			
 			// Resetting system counters.
-			foreach(var systemPair in _activeSystems)
+			foreach(var system in _activeSystems)
 			{
-				systemPair.Value._usedLayersCount = 0;
+				system._usedLayersCount = 0;
 			}
 			// Resetting system counters.
 

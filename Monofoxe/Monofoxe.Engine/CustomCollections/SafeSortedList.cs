@@ -102,13 +102,13 @@ namespace Monofoxe.Engine.CustomCollections
 		public IEnumerator<T> GetEnumerator()
 		{
 			Update();
-			return ((IEnumerable<T>)_outdatedItems).GetEnumerator();
+			return _outdatedItems.GetEnumerator();
 		}
 		
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			Update();
-			return ((IEnumerable<T>)_outdatedItems).GetEnumerator();
+			return _outdatedItems.GetEnumerator();
 		}
 	}
 }

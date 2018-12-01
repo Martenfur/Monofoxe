@@ -16,10 +16,18 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		public abstract string Tag {get;}
 		
+		
+		/// <summary>
+		/// System priority.
+		/// </summary>
+		public virtual int Priority {get;}
+		
+
 		/// <summary>
 		/// Tells, how many layers are using this system.
 		/// </summary>
 		internal int _usedLayersCount;
+
 
 		/// <summary>
 		/// Create event is called right after new component is created.
