@@ -18,7 +18,7 @@ namespace Monofoxe.Engine.ECS
 		
 		
 		/// <summary>
-		/// System priority.
+		/// System priority. If priority is higher, system will be processed sooner.
 		/// </summary>
 		public virtual int Priority {get;}
 		

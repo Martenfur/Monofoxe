@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Monofoxe.Engine.CustomCollections;
+using Monofoxe.Engine.Utils.CustomCollections;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.Utils.Cameras;
 

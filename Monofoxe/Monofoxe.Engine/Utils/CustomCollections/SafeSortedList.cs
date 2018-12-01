@@ -2,14 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Monofoxe.Engine.CustomCollections
+namespace Monofoxe.Engine.Utils.CustomCollections
 {
 	/// <summary> 
 	/// Safe sorted list. Makes possible to safely remove from and add items to the list during foreach.
 	/// 
 	/// NOTE: Sorting algorhitm is very basic and must be used only for small amounts (1-5) of new elements.
 	/// DO NOT use this class for frequently updated collections with lots of elements.
-	/// It also does not resort list every update, so be careful with changing item's sorting parameter on the fly.
+	/// It also does not resort whole list every update, so be careful with changing item's sorting parameter on the fly.
 	/// Good idea will be to re-add item back to the list.
 	/// </summary>
 	public class SafeSortedList<T> : IEnumerable<T>

@@ -18,7 +18,6 @@ namespace Monofoxe.ECSTest.Systems
 
 		public override void Update(List<Component> components) 
 		{
-			Console.WriteLine("Birb.");
 		}
 		
 		public override void Draw(Component component)

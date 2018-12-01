@@ -61,7 +61,7 @@
     <Compile Include="Converters\SpriteConverter.cs" />
     <Compile Include="Converters\Vector2Converter.cs" />
     <Compile Include="Converters\Vector3Converter.cs" />
-    <Compile Include="CustomCollections\SafeSortedDictionary.cs" />
+    <Compile Include="Utils\CustomCollections\SafeSortedDictionary.cs" />
     <Compile Include="Drawing\Font.cs" />
     <Compile Include="Drawing\Frame.cs" />
     <Compile Include="Drawing\IFont.cs" />
@@ -80,7 +80,7 @@
     <Compile Include="GameMgr.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="PipelineMode.cs" />
-    <Compile Include="CustomCollections\SafeSortedList.cs" />
+    <Compile Include="Utils\CustomCollections\SafeSortedList.cs" />
     <Compile Include="SceneSystem\Layer.cs" />
     <Compile Include="SceneSystem\Scene.cs" />
     <Compile Include="SceneSystem\SceneMgr.cs" />
