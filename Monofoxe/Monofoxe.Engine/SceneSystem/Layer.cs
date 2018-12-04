@@ -217,7 +217,7 @@ namespace Monofoxe.Engine.SceneSystem
 		#region Entity methods.
 
 		/// <summary>
-		/// Returns list of objects of certain type.
+		/// Returns list of entities of certain type.
 		/// </summary>
 		public List<T> GetList<T>() where T : Entity =>
 			_entities.OfType<T>().ToList();
