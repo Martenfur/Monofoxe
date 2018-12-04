@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Monofoxe.Engine.SceneSystem;
@@ -175,9 +176,9 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Returns a list of all active components in all layers.
 		/// </summary>
-		private static Dictionary<string, List<Component>> GetActiveComponents(Scene scene)
+		private static Dictionary<Type, List<Component>> GetActiveComponents(Scene scene)
 		{
-			var list = new Dictionary<string, List<Component>>();
+			var list = new Dictionary<Type, List<Component>>();
 			
 			foreach(var layer in scene.Layers)
 			{

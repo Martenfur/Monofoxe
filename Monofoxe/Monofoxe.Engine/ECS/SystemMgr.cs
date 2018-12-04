@@ -13,13 +13,13 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// List of currently active systems.
 		/// </summary>
-		internal static SafeSortedDictionary<string, BaseSystem> _activeSystems 
-			= new SafeSortedDictionary<string, BaseSystem>(x => x.Priority);
+		internal static SafeSortedDictionary<Type, BaseSystem> _activeSystems 
+			= new SafeSortedDictionary<Type, BaseSystem>(x => x.Priority);
 		
 		/// <summary>
 		/// Pool of all game systems.
 		/// </summary>
-		internal static Dictionary<string, BaseSystem> _systemPool = new Dictionary<string, BaseSystem>();
+		internal static Dictionary<Type, BaseSystem> _systemPool = new Dictionary<Type, BaseSystem>();
 
 		/// <summary>
 		/// Tells if any components were removed in the current step.
@@ -55,13 +55,13 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Updates at a fixed rate.
 		/// </summary>
-		internal static void FixedUpdate(Dictionary<string, List<Component>> components)
+		internal static void FixedUpdate(Dictionary<Type, List<Component>> components)
 		{
 			foreach(var system in _activeSystems)
 			{
-				if (components.ContainsKey(system.Tag))
+				if (components.ContainsKey(system.ComponentType))
 				{
-					system.FixedUpdate(components[system.Tag]);
+					system.FixedUpdate(components[system.ComponentType]);
 				}
 			}
 		}
@@ -70,17 +70,17 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Updates every frame.
 		/// </summary>
-		internal static void Update(Dictionary<string, List<Component>> components)
+		internal static void Update(Dictionary<Type, List<Component>> components)
 		{
 			foreach(var system in _activeSystems)
 			{
-				if (components.ContainsKey(system.Tag))
+				if (components.ContainsKey(system.ComponentType))
 				{
-					var componentList = components[system.Tag];
+					var componentList = components[system.ComponentType];
 					if (componentList.Count > 0)
 					{
 						system._usedLayersCount += 1; // Telling that a layer is using this system.
-						system.Update(components[system.Tag]);
+						system.Update(components[system.ComponentType]);
 					}
 				}
 			}
@@ -95,9 +95,10 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		internal static void Draw(Component component)//Dictionary<string, List<Component>> components)
 		{
-			if (_activeSystems.ContainsKey(component.Tag))
+			var componentType = component.GetType();
+			if (_activeSystems.ContainsKey(componentType))
 			{
-				_activeSystems[component.Tag].Draw(component);
+				_activeSystems[componentType].Draw(component);
 			}
 		}
 
@@ -134,8 +135,7 @@ namespace Monofoxe.Engine.ECS
 				if (systemType != typeof(BaseSystem))
 				{
 					var newSystem = (BaseSystem)Activator.CreateInstance(systemType);
-					Console.WriteLine("System:" + newSystem.Tag);
-					_systemPool.Add(newSystem.Tag, newSystem);
+					_systemPool.Add(newSystem.ComponentType, newSystem);
 				}
 			}
 			// Creating an instance of each system.
@@ -168,7 +168,24 @@ namespace Monofoxe.Engine.ECS
 			{
 				if (system is T)
 				{
-					_activeSystems.Remove(system.Tag);
+					_activeSystems.Remove(system.ComponentType);
+					return;
+				}
+			}
+		}
+		
+
+		/// <summary>
+		/// Puts system in active system list from system pool.
+		/// </summary>
+		public static void EnableSystem(Type type)
+		{
+			foreach(var systemPair in _systemPool)
+			{
+				// Systems are sorted by component type, so we cannot use systemPair.Key.
+				if (systemPair.Value.GetType() == type) 
+				{
+					_activeSystems.Add(systemPair.Key, systemPair.Value);
 					return;
 				}
 			}
@@ -176,30 +193,20 @@ namespace Monofoxe.Engine.ECS
 
 
 		/// <summary>
-		/// Puts system in active system list from system pool.
-		/// 
-		/// NOTE: This method can activate more than one system.
+		/// Removes system from active system list and puts it back in pool.
 		/// </summary>
-		public static void EnableSystem(string tag)
+		public static void DisableSystem(Type type)
 		{
-			foreach(var systemPair in _systemPool)
+			foreach(var system in _activeSystems)
 			{
-				if (systemPair.Key == tag)
+				if (system.GetType() == type) 
 				{
-					_activeSystems.Add(systemPair.Key, systemPair.Value);
+					_activeSystems.Remove(system.ComponentType);
+					return;
 				}
 			}
 		}
 
-
-		/// <summary>
-		/// Removes system from active system list and puts it back in pool.
-		/// 
-		/// NOTE: This method can deactivate more than one system.
-		/// </summary>
-		public static void DisableSystem(string tag) =>
-			_activeSystems.Remove(tag);
-		
 
 
 		/// <summary>
@@ -210,18 +217,18 @@ namespace Monofoxe.Engine.ECS
 			// Disabling systems without components.
 			if (AutoSystemManagement && _componentsWereRemoved)
 			{
-				var unusedSystems = new List<string>();
+				var unusedSystems = new List<Type>();
 				foreach(var system in _activeSystems)
 				{
 					if (system._usedLayersCount == 0)
 					{
-						unusedSystems.Add(system.Tag);	
+						unusedSystems.Add(system.ComponentType);	
 						_componentsWereRemoved = false;
 					}
 				}
-				foreach(var systemName in unusedSystems)
+				foreach(var systemComponentType in unusedSystems)
 				{
-					_activeSystems.Remove(systemName);
+					_activeSystems.Remove(systemComponentType);
 				}
 			}
 			// Disabling systems without components.
@@ -242,28 +249,29 @@ namespace Monofoxe.Engine.ECS
 					{
 						foreach(var component in layer._newComponents)
 						{
-							if (AutoSystemManagement && !_activeSystems.ContainsKey(component.Tag))
+							var componentType = component.GetType();
+							if (AutoSystemManagement && !_activeSystems.ContainsKey(componentType))
 							{
-								if (_systemPool.ContainsKey(component.Tag))
+								if (_systemPool.ContainsKey(componentType))
 								{
-									var newSystem = _systemPool[component.Tag];
-									_activeSystems.Add(component.Tag, newSystem);
+									var newSystem = _systemPool[componentType];
+									_activeSystems.Add(componentType, newSystem);
 									newSystem.Create(component);
 								}
 							}
 							else
 							{
-								_activeSystems[component.Tag].Create(component);
+								_activeSystems[componentType].Create(component);
 							}
 
-							if (layer._components.ContainsKey(component.Tag))
+							if (layer._components.ContainsKey(componentType))
 							{
-								layer._components[component.Tag].Add(component);
+								layer._components[componentType].Add(component);
 							}
 							else
 							{
 								var list = new List<Component>(new Component[] {component});
-								layer._components.Add(component.Tag, list);
+								layer._components.Add(componentType, list);
 							}
 						}
 						layer._newComponents.Clear();

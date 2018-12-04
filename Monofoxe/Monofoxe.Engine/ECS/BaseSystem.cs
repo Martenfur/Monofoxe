@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace Monofoxe.Engine.ECS
 {
@@ -7,15 +8,7 @@ namespace Monofoxe.Engine.ECS
 	/// </summary>
 	public abstract class BaseSystem
 	{
-		/// <summary>
-		/// Identifying tag. 
-		/// 
-		/// NOTE: Tags for different systems don't really have to be unique.
-		/// Systems will only process components with matching tags.
-		/// So, different systems with same tags will process same sets of components.
-		/// </summary>
-		public abstract string Tag {get;}
-		
+		public abstract Type ComponentType {get;}
 		
 		/// <summary>
 		/// System priority. If priority is higher, system will be processed sooner.

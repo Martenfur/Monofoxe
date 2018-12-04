@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine.ECS;
 
@@ -11,9 +12,8 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 	/// </summary>
 	public class BasicTilemapSystem : BaseSystem
 	{
-		public override string Tag => "basicTilemap";
+		public override Type ComponentType => typeof(BasicTilemapComponent);
 
-		
 		public override void Draw(Component component)
 		{
 			var tilemap = (BasicTilemapComponent)component;

@@ -18,42 +18,30 @@ namespace Monofoxe.Engine.ECS
 		public static void InitComponent(Component component)
 		{
 			var layer = component.Owner.Layer;	
-			
-			if (!SystemMgr._activeSystems.ContainsKey(component.Tag))
+			var componentType = component.GetType();
+
+			if (!SystemMgr._activeSystems.ContainsKey(componentType))
 			{
 				// Component may be first one created. In this case, system is disabled and need to be activated.
 				// NOTE: Second ContainsKey check below is necessary, because system may not exist in pool at all. 
-				SystemMgr.EnableSystem(component.Tag);
+				SystemMgr.EnableSystem(componentType);
 			}
 
 			// If component is even there.
-			if (layer._newComponents.Contains(component) && SystemMgr._activeSystems.ContainsKey(component.Tag))
+			if (layer._newComponents.Contains(component) && SystemMgr._activeSystems.ContainsKey(componentType))
 			{
-				SystemMgr._activeSystems[component.Tag].Create(component);
+				SystemMgr._activeSystems[componentType].Create(component);
 				layer._newComponents.Remove(component);
 				return;
 			}
 			
 		}
 
+		
 
 		/// <summary>
-		/// Returns list of components with given tag.
-		/// </summary>
-		public static List<Component> GetComponentList(string tag, List<Component> components)
-		{
-			var list = new List<Component>();
-
-			foreach(var component in components)
-			{
-				list.Add(component.Owner[tag]);
-			}
-
-			return list;
-		}
-
-		/// <summary>
-		/// Returns list of components with given tag.
+		/// Returns list of components of given type from entities owning provided components.
+		/// TODO: This is too messy description. Redo it, of remove mathod completely.
 		/// </summary>
 		public static List<T> GetComponentList<T>(List<Component> components) where T : Component
 		{
@@ -66,7 +54,7 @@ namespace Monofoxe.Engine.ECS
 			return list;
 		}
 		
-
+		/*
 		/// <summary>
 		/// Returns all active components of certain type on given layer.
 		/// </summary>
@@ -86,7 +74,7 @@ namespace Monofoxe.Engine.ECS
 			}
 
 			return list;
-		}
+		}*/
 		
 		
 		/// <summary>

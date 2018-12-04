@@ -10,8 +10,6 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 	/// </summary>
 	public class ImageLayerComponent : Component
 	{
-		public override string Tag => "imageLayer";
-
 		public Frame Frame;
 
 		public Vector2 Offset;

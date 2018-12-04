@@ -158,7 +158,7 @@ namespace Monofoxe.Tiled
 					}
 				}
 				
-				var tilemapEntity = new Entity(layer, tilemap.Tag);
+				var tilemapEntity = new Entity(layer, "BasicTilemap");
 				tilemapEntity.AddComponent(tilemap);
 			}
 		}

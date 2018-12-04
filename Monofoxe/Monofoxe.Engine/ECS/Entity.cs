@@ -79,12 +79,12 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Component hash table.
 		/// </summary>
-		private Dictionary<string, Component> _components;
+		private Dictionary<Type, Component> _components;
 
 
 		public Entity(Layer layer, string tag = "entity")
 		{
-			_components = new Dictionary<string, Component>();
+			_components = new Dictionary<Type, Component>();
 			Tag = tag;
 			Layer = layer;
 		}
@@ -143,34 +143,18 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		public void AddComponent(Component component)
 		{
-			_components.Add(component.Tag, component);
+			_components.Add(component.GetType(), component);
 			component.Owner = this;
 			Layer.AddComponent(component);
 		}
 		
-
-		/// <summary>
-		/// Returns component with given tag.
-		/// </summary>
-		public Component this[string tag] => 
-			_components[tag];
-
+		
 
 		/// <summary>
 		/// Returns component of given class.
 		/// </summary>
-		public T GetComponent<T>() where T : Component
-		{
-			foreach(KeyValuePair<string, Component> component in _components)
-			{
-				if (component.Value is T)
-				{
-					return (T)component.Value;
-				}
-			}
-			throw new Exception("Entity doesn't contain this component!");
-		}
-
+		public T GetComponent<T>() where T : Component =>
+			(T)_components[typeof(T)];
 		
 		/// <summary>
 		/// Returns all the components. All of them.
@@ -193,19 +177,20 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Checks of an entity has component with given tag.
 		/// </summary>
-		public bool HasComponent(string tag) =>
-			_components.ContainsKey(tag);
+		public bool HasComponent<T>() where T : Component =>
+			_components.ContainsKey(typeof(T));
 		
 		
 		/// <summary>
 		/// Removes component from an entity and returns it.
 		/// </summary>
-		public Component RemoveComponent(string tag)
+		public Component RemoveComponent<T>()
 		{
-			if (_components.ContainsKey(tag))
+			var type = typeof(T);
+			if (_components.ContainsKey(type))
 			{
-				var component = _components[tag];
-				_components.Remove(tag);
+				var component = _components[type];
+				_components.Remove(type);
 				Layer.RemoveComponent(component);
 				component.Owner = null;
 				return component;

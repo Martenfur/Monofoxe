@@ -11,8 +11,8 @@ namespace Monofoxe.ECSTest.Systems
 {
 	public class SCollision : BaseSystem
 	{
-		public override string Tag => "collision";
-		
+		public override Type ComponentType => typeof(CCollision);
+
 		public override int Priority => 0;
 
 		public override void Create(Component component) {}

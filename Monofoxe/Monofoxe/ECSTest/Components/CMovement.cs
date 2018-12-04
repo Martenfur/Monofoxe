@@ -12,8 +12,6 @@ namespace Monofoxe.ECSTest.Components
 		[JsonConverter(typeof(Vector2Converter))]
 		public Vector2 Position;
 		
-		public override string Tag => "movement";
-
 		[JsonConverter(typeof(SpriteConverter))]
 		public Sprite Spr = SpritesDefault.Bench;
 
