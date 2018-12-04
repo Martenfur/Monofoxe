@@ -11,8 +11,6 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 	/// </summary>
 	public class BasicTilemapComponent : Component, ITilemap<BasicTile>
 	{
-		public override string Tag => "basicTilemap";
-
 		protected BasicTile[,] _tileGrid;
 
 		public Vector2 Offset {get; set;} = Vector2.Zero;

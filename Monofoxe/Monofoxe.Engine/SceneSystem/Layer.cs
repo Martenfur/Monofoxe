@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -97,7 +98,7 @@ namespace Monofoxe.Engine.SceneSystem
 		/// <summary>
 		/// Component dictionary.
 		/// </summary>
-		internal Dictionary<string, List<Component>> _components = new Dictionary<string, List<Component>>();
+		internal Dictionary<Type, List<Component>> _components = new Dictionary<Type, List<Component>>();
 		
 
 		/// <summary>
@@ -167,13 +168,14 @@ namespace Monofoxe.Engine.SceneSystem
 		{
 			// Removing from lists.
 			_newComponents.Remove(component);
-			if (_components.ContainsKey(component.Tag))
+			var componentType = component.GetType();
+			if (_components.ContainsKey(componentType))
 			{
-				var componentList = _components[component.Tag];
+				var componentList = _components[componentType];
 				if (componentList.Count == 1)
 				{
 					// Removing whole list, because it's empty.
-					_components.Remove(component.Tag);
+					_components.Remove(componentType);
 				}
 				else
 				{
@@ -182,9 +184,9 @@ namespace Monofoxe.Engine.SceneSystem
 			}
 
 			// Performing Destroy event.
-			if (SystemMgr._activeSystems.ContainsKey(component.Tag))
+			if (SystemMgr._activeSystems.ContainsKey(componentType))
 			{
-				SystemMgr._activeSystems[component.Tag].Destroy(component);
+				SystemMgr._activeSystems[componentType].Destroy(component);
 			}
 
 			SystemMgr._componentsWereRemoved = true;

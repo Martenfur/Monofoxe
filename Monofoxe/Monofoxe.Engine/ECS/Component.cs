@@ -7,14 +7,7 @@ namespace Monofoxe.Engine.ECS
 	/// </summary>
 	public abstract class Component : ICloneable
 	{
-		/// <summary>
-		/// Identifying tag. 
-		/// 
-		/// NOTE: Tags for different components HAVE to be unique.
-		/// Systems will only process components with matching tags.
-		/// </summary>
-		public abstract string Tag {get;}
-
+		
 		/// <summary>
 		/// Owner of a component.
 		/// 

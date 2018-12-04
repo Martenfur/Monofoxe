@@ -8,7 +8,7 @@ namespace Monofoxe.ECSTest.Systems
 {
 	public class SBirb : BaseSystem
 	{
-		public override string Tag => "birb";
+		public override Type ComponentType => typeof(CBirb);
 
 		public override int Priority => 1000;
 

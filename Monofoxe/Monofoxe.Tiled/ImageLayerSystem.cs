@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using Microsoft.Xna.Framework;
 using Monofoxe.Engine.ECS;
-
 
 namespace Monofoxe.Engine.Utils.Tilemaps
 {
@@ -10,8 +9,8 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 	/// </summary>
 	public class ImageLayerSystem : BaseSystem
 	{
-		public override string Tag => "imageLayer";
-		
+		public override Type ComponentType => typeof(ImageLayerComponent);
+
 		public override void Draw(Component component)
 		{
 			var image = (ImageLayerComponent)component;

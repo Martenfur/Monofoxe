@@ -9,8 +9,6 @@ namespace Monofoxe.ECSTest.Components
 {
 	public class CBirb : Component
 	{
-		public override string Tag => "birb";
-
 		[JsonConverter(typeof(Vector2Converter))]
 		public Vector2 Position;
 		
