@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Monofoxe.Engine.SceneSystem;
 
 namespace Monofoxe.Engine.ECS
 {
@@ -66,6 +67,28 @@ namespace Monofoxe.Engine.ECS
 		}
 		
 
+		/// <summary>
+		/// Returns all active components of certain type on given layer.
+		/// </summary>
+		public static List<Component> GetAllComponents(string tag, Layer layer) =>
+			FilterInactiveComponents(layer._components[tag]);
+		
+		/// <summary>
+		/// Returns all active components of certain type on given scene.
+		/// </summary>
+		public static List<Component> GetAllComponents(string tag, Scene scene)
+		{
+			var list = new List<Component>();
+
+			foreach(var layer in scene.Layers)
+			{
+				list.AddRange(FilterInactiveComponents(layer._components[tag]));
+			}
+
+			return list;
+		}
+		
+		
 		/// <summary>
 		/// Filters out inactive components.
 		/// Component is inactive, if its owner is inactive.
