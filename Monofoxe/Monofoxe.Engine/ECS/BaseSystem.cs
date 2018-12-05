@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Monofoxe.Engine.ECS
 {
@@ -8,6 +8,9 @@ namespace Monofoxe.Engine.ECS
 	/// </summary>
 	public abstract class BaseSystem
 	{
+		/// <summary>
+		/// Type of components, which are processed by this system.
+		/// </summary>
 		public abstract Type ComponentType {get;}
 		
 		/// <summary>
