@@ -10,7 +10,7 @@ namespace Monofoxe.Engine.SceneSystem
 	/// <summary>
 	/// A layer is a container for entities and components.
 	/// </summary>
-	public class Layer
+	public class Layer : IEntityMethods
 	{
 		/// <summary>
 		/// Layer's parent scene.
@@ -221,13 +221,13 @@ namespace Monofoxe.Engine.SceneSystem
 		/// <summary>
 		/// Returns list of entities of certain type.
 		/// </summary>
-		public List<T> GetList<T>() where T : Entity =>
+		public List<T> GetEntityList<T>() where T : Entity =>
 			_entities.OfType<T>().ToList();
 		
 		/// <summary>
 		/// Counts amount of objects of certain type.
 		/// </summary>
-		public int Count<T>() where T : Entity =>
+		public int CountEntities<T>() where T : Entity =>
 			_entities.OfType<T>().Count();
 
 		/// <summary>
@@ -266,7 +266,7 @@ namespace Monofoxe.Engine.SceneSystem
 		/// <summary>
 		/// Returns list of entities with given tag.
 		/// </summary>
-		public List<Entity> GetList(string tag)
+		public List<Entity> GetEntityList(string tag)
 		{
 			var list = new List<Entity>();
 			
@@ -284,7 +284,7 @@ namespace Monofoxe.Engine.SceneSystem
 		/// <summary>
 		/// Counts amount of entities with given tag.
 		/// </summary>
-		public int Count(string tag)
+		public int CountEntities(string tag)
 		{
 			var counter = 0;
 
@@ -331,6 +331,30 @@ namespace Monofoxe.Engine.SceneSystem
 			
 			return null;
 		}
+
+
+		
+		/*
+		/// <summary>
+		/// Returns all active components of certain type on given layer.
+		/// </summary>
+		public static List<Component> GetAllComponents(string tag, Layer layer) =>
+			FilterInactiveComponents(layer._components[tag]);
+		
+		/// <summary>
+		/// Returns all active components of certain type on given scene.
+		/// </summary>
+		public static List<Component> GetAllComponents(string tag, Scene scene)
+		{
+			var list = new List<Component>();
+
+			foreach(var layer in scene.Layers)
+			{
+				list.AddRange(FilterInactiveComponents(layer._components[tag]));
+			}
+
+			return list;
+		}*/
 
 		#endregion Entity methods.
 		

@@ -74,7 +74,7 @@ namespace Monofoxe.Test
 				var scene = SceneMgr.GetScene("default");
 				
 				//scene["balls"].Enabled = !scene["balls"].Enabled;
-				foreach(var entity in scene.GetList("ball"))
+				foreach(var entity in scene.GetEntityList("ball"))
 				{
 					entity.Enabled = !entity.Enabled;
 				}

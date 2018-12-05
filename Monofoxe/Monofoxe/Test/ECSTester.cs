@@ -44,13 +44,13 @@ namespace Monofoxe.Test
 						ball.GetComponent<CCollision>().MaskR = 20;//r.Next(10, 16);
 					}
 				}
-				Console.WriteLine(Layer.Count("ball") + Layer.Count("birb"));
+				Console.WriteLine(Layer.CountEntities("ball") + Layer.CountEntities("birb"));
 		
 			}
 			
 			if (Input.CheckButton(Buttons.MouseRight))
 			{
-				foreach(var entity in Layer.GetList("ball"))
+				foreach(var entity in Layer.GetEntityList("ball"))
 				{
 					EntityMgr.DestroyEntity(entity);
 				}

@@ -7,7 +7,6 @@ namespace Monofoxe.Engine.ECS
 	/// </summary>
 	public abstract class Component : ICloneable
 	{
-		
 		/// <summary>
 		/// Owner of a component.
 		/// 
@@ -15,7 +14,12 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		public Entity Owner {get; internal set;}
 
+		/// <summary>
+		/// Creates a new object that is a copy of the current instance.
+		/// 
+		/// NOTE: If you are going to use json entity templates, 
+		/// this method has to be properly implemented! 
+		/// </summary>
 		public abstract object Clone();
-
 	}
 }

@@ -54,27 +54,6 @@ namespace Monofoxe.Engine.ECS
 			return list;
 		}
 		
-		/*
-		/// <summary>
-		/// Returns all active components of certain type on given layer.
-		/// </summary>
-		public static List<Component> GetAllComponents(string tag, Layer layer) =>
-			FilterInactiveComponents(layer._components[tag]);
-		
-		/// <summary>
-		/// Returns all active components of certain type on given scene.
-		/// </summary>
-		public static List<Component> GetAllComponents(string tag, Scene scene)
-		{
-			var list = new List<Component>();
-
-			foreach(var layer in scene.Layers)
-			{
-				list.AddRange(FilterInactiveComponents(layer._components[tag]));
-			}
-
-			return list;
-		}*/
 		
 		
 		/// <summary>

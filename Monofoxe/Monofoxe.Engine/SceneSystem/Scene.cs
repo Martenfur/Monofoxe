@@ -174,13 +174,13 @@ namespace Monofoxe.Engine.SceneSystem
 		/// <summary>
 		/// Returns list of objects of certain type.
 		/// </summary>
-		public List<T> GetList<T>() where T : Entity
+		public List<T> GetEntityList<T>() where T : Entity
 		{
 			var entities = new List<T>();
 			
 			foreach(var layer in _layers)
 			{
-				entities.AddRange(layer.GetList<T>());
+				entities.AddRange(layer.GetEntityList<T>());
 			}
 			return entities;
 		}
@@ -188,13 +188,13 @@ namespace Monofoxe.Engine.SceneSystem
 		/// <summary>
 		/// Counts amount of objects of certain type.
 		/// </summary>
-		public int Count<T>() where T : Entity
+		public int CountEntities<T>() where T : Entity
 		{
 			var count = 0;
 			
 			foreach(var layer in _layers)
 			{
-				count += layer.Count<T>();				
+				count += layer.CountEntities<T>();				
 			}
 			return count;
 		}
@@ -236,13 +236,13 @@ namespace Monofoxe.Engine.SceneSystem
 		/// <summary>
 		/// Returns list of entities with given tag.
 		/// </summary>
-		public List<Entity> GetList(string tag)
+		public List<Entity> GetEntityList(string tag)
 		{
 			var list = new List<Entity>();
 
 			foreach(var layer in _layers)
 			{
-				list.AddRange(layer.GetList(tag));
+				list.AddRange(layer.GetEntityList(tag));
 			}
 			return list;
 		}
@@ -251,13 +251,13 @@ namespace Monofoxe.Engine.SceneSystem
 		/// <summary>
 		/// Counts amount of entities with given tag.
 		/// </summary>
-		public int Count(string tag)
+		public int CountEntities(string tag)
 		{
 			var counter = 0;
 
 			foreach(var layer in _layers)
 			{
-				counter += layer.Count(tag);
+				counter += layer.CountEntities(tag);
 			}
 			
 			return counter;
