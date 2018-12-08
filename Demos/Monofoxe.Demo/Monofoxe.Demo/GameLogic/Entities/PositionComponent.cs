@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using Monofoxe.Engine.ECS;
 using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
+using Monofoxe.Engine.Converters;
 
 namespace Monofoxe.Demo.GameLogic.Entities
 {
 	public class PositionComponent : Component
 	{
-		public override string Tag => "position";
-		
-
+		[JsonConverter(typeof(Vector2Converter))]
 		public Vector2 Position;
 		public Vector2 PreviousPosition;
 		

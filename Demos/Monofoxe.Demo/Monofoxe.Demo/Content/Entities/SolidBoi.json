@@ -1,0 +1,13 @@
+﻿{
+	"tag": "SolidBoi",
+	"components": 
+	{
+		"Monofoxe.Demo.GameLogic.Entities.SolidObjectComponent":
+		{
+			"size": {"x" : 64, "y": 32}
+		},
+		"Monofoxe.Demo.GameLogic.Entities.PositionComponent": {}
+	}
+}
+
+

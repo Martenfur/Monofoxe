@@ -26,18 +26,28 @@ namespace Monofoxe.Demo
 			GameMgr.WindowManager.CanvasMode = CanvasMode.Fill;
 			
 			DrawMgr.Sampler = SamplerState.PointClamp;
-
+			/*
 			var entity = new Entity(Layer, "physicsBoi");
 			entity.AddComponent(new PositionComponent(Vector2.Zero));
 			var phy = new PhysicsObjectComponent();
 			phy.Size = Vector2.One * 32;
 			entity.AddComponent(phy);
-
+			*/
 		}
 		
 		public override void Update()
 		{
-			
+			if (Input.CheckButtonPress(Buttons.MouseRight))
+			{
+				var entity = EntityMgr.CreateEntityFromTemplate(Layer, "SolidBoi");
+				entity.GetComponent<PositionComponent>().Position = Input.MousePos;
+			}
+
+			if (Input.CheckButtonPress(Buttons.Space))
+			{
+				var entity = EntityMgr.CreateEntityFromTemplate(Layer, "PhysicsBoi");
+				entity.GetComponent<PositionComponent>().Position = Input.MousePos;
+			}
 		}
 
 		

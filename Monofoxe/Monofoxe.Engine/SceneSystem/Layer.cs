@@ -374,14 +374,26 @@ namespace Monofoxe.Engine.SceneSystem
 		/// <summary>
 		/// Returns list of entities, which have component of given type.
 		/// </summary>
-		public List<Entity> GetEntityListByComponent<T>() where T : Component =>
-			_components[typeof(T)].Select(x => x.Owner).ToList();
+		public List<Entity> GetEntityListByComponent<T>() where T : Component
+		{
+			if (_components.ContainsKey(typeof(T)))
+			{
+				return _components[typeof(T)].Select(x => x.Owner).ToList();
+			}
+			return new List<Entity>();
+		}
 		
 		/// <summary>
 		/// Counts amount of entities, which have component of given type.
 		/// </summary>
-		public int CountEntitiesByComponent<T>() where T : Component =>
-			_components[typeof(T)].Count;
+		public int CountEntitiesByComponent<T>() where T : Component
+		{
+			if (_components.ContainsKey(typeof(T)))
+			{
+				return _components[typeof(T)].Count;
+			}
+			return 0;
+		}
 
 		/// <summary>
 		/// Finds first entity, which has component of given type.

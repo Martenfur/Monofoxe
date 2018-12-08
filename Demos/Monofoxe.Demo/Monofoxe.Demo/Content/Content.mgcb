@@ -37,3 +37,13 @@
 /processor:PassThroughProcessor
 /build:Content.mgcb
 
+#begin Entities/PhysicsBoi.json
+/importer:EntityTemplateImporter
+/processor:EntityTemplateProcessor
+/build:Entities/PhysicsBoi.json
+
+#begin Entities/SolidBoi.json
+/importer:EntityTemplateImporter
+/processor:EntityTemplateProcessor
+/build:Entities/SolidBoi.json
+
