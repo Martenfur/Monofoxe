@@ -1,0 +1,13 @@
+﻿{
+	"tag": "PhysicsBoi",
+	"components": 
+	{
+		"Monofoxe.Demo.GameLogic.Entities.PhysicsObjectComponent":
+		{
+			"size": {"x" : 32, "y": 32}
+		},
+		"Monofoxe.Demo.GameLogic.Entities.PositionComponent": {}
+	}
+}
+
+

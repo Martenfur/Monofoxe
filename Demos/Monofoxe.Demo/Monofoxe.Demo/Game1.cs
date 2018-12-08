@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine;
 using Monofoxe.Engine.FMODAudio;
+using Monofoxe.Engine.ECS;
 
 
 namespace Monofoxe.Demo
@@ -38,6 +39,7 @@ namespace Monofoxe.Demo
 			Resources.Sprites.SpritesDefault.Load();	
 			Resources.Fonts.Load();
 			Resources.Effects.Load();
+			EntityMgr.LoadEntityTemplates(); // TODO: Add this to a template.
 			DrawMgr.Init(GraphicsDevice);
 			AudioMgr.Init();
 		}

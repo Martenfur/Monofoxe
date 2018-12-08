@@ -175,6 +175,7 @@ namespace Monofoxe.Engine.ECS
 
 		/// <summary>
 		/// Returns a list of all active components in all layers.
+		/// TODO: Replace this with something sane.
 		/// </summary>
 		private static Dictionary<Type, List<Component>> GetActiveComponents(Scene scene)
 		{
