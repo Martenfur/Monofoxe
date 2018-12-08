@@ -4,6 +4,8 @@ namespace Monofoxe.Engine.ECS
 {
 	/// <summary>
 	/// Methods for working with entities.
+	/// 
+	/// NOTE: Methods should return all entities regardless of if they are enabled. 
 	/// </summary>
 	interface IEntityMethods
 	{

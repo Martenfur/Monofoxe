@@ -297,6 +297,51 @@ namespace Monofoxe.Engine.SceneSystem
 			return null;
 		}
 
+
+		/// <summary>
+		/// Returns list of entities on a scene, which have component of given type.
+		/// </summary>
+		public List<Entity> GetEntityListByComponent<T>() where T : Component
+		{
+			var list = new List<Entity>();
+			foreach(var layer in _layers)
+			{
+				list.AddRange(layer.GetEntityListByComponent<T>());
+			}
+			return list;
+		}
+
+
+		/// <summary>
+		/// Counts amount of entities on a scene, which have component of given type.
+		/// </summary>
+		public int CountEntitiesByComponent<T>() where T : Component
+		{
+			var count = 0;
+			foreach(var layer in _layers)
+			{
+				count += layer.CountEntitiesByComponent<T>();
+			}
+			return count;
+		}
+
+
+		/// <summary>
+		/// Finds first entity on a scene, which has component of given type.
+		/// </summary>
+		public Entity FindEntityByComponent<T>() where T : Component
+		{
+			foreach(var layer in _layers)
+			{
+				var entity = layer.FindEntityByComponent<T>();
+				if (entity != null)
+				{
+					return entity;
+				}
+			}
+			return null;
+		}
+
 		#endregion Entity methods.
 	}
 }

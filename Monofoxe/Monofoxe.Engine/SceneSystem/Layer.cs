@@ -96,7 +96,7 @@ namespace Monofoxe.Engine.SceneSystem
 		
 
 		/// <summary>
-		/// Component dictionary.
+		/// All components, which belong to all entities on the layer.
 		/// </summary>
 		internal Dictionary<Type, List<Component>> _components = new Dictionary<Type, List<Component>>();
 		
@@ -215,151 +215,6 @@ namespace Monofoxe.Engine.SceneSystem
 		}
 
 
-
-		#region Entity methods.
-
-		/// <summary>
-		/// Returns list of entities of certain type.
-		/// </summary>
-		public List<T> GetEntityList<T>() where T : Entity =>
-			_entities.OfType<T>().ToList();
-		
-		/// <summary>
-		/// Counts amount of objects of certain type.
-		/// </summary>
-		public int CountEntities<T>() where T : Entity =>
-			_entities.OfType<T>().Count();
-
-		/// <summary>
-		/// Checks if any instances of an entity exist.
-		/// </summary>
-		public bool EntityExists<T>() where T : Entity
-		{
-			foreach(var entity in _entities)
-			{
-				if (entity is T)
-				{
-					return true;
-				}
-			}			
-			return false;
-		}
-
-
-		/// <summary>
-		/// Finds first entity of given type.
-		/// </summary>
-		public T FindEntity<T>() where T : Entity
-		{
-			foreach(var entity in _entities)
-			{
-				if (entity is T)
-				{
-					return (T)entity;
-				}
-			}
-			return null;
-		}
-		
-
-
-		/// <summary>
-		/// Returns list of entities with given tag.
-		/// </summary>
-		public List<Entity> GetEntityList(string tag)
-		{
-			var list = new List<Entity>();
-			
-			foreach(var entity in _entities)
-			{
-				if (entity.Tag == tag)
-				{
-					list.Add(entity);
-				}
-			}
-			return list;
-		}
-		
-
-		/// <summary>
-		/// Counts amount of entities with given tag.
-		/// </summary>
-		public int CountEntities(string tag)
-		{
-			var counter = 0;
-
-			foreach(var entity in _entities)
-			{
-				if (entity.Tag == tag)
-				{
-					counter += 1;
-				}
-			}
-			
-			return counter;
-		}
-		
-
-		/// <summary>
-		/// Checks if given instance exists.
-		/// </summary>
-		public bool EntityExists(string tag)
-		{
-			foreach(var entity in _entities)
-			{
-				if (entity.Tag == tag)
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-		
-
-		/// <summary>
-		/// Finds first entity with given tag.
-		/// </summary>
-		public Entity FindEntity(string tag)
-		{
-			foreach(var entity in _entities)
-			{
-				if (entity.Tag == tag)
-				{
-					return entity;
-				}
-			}
-			
-			return null;
-		}
-
-
-		
-		/*
-		/// <summary>
-		/// Returns all active components of certain type on given layer.
-		/// </summary>
-		public static List<Component> GetAllComponents(string tag, Layer layer) =>
-			FilterInactiveComponents(layer._components[tag]);
-		
-		/// <summary>
-		/// Returns all active components of certain type on given scene.
-		/// </summary>
-		public static List<Component> GetAllComponents(string tag, Scene scene)
-		{
-			var list = new List<Component>();
-
-			foreach(var layer in scene.Layers)
-			{
-				list.AddRange(FilterInactiveComponents(layer._components[tag]));
-			}
-
-			return list;
-		}*/
-
-		#endregion Entity methods.
-		
-
-
 		/// <summary>
 		/// Applies shaders to the camera surface.
 		/// </summary>
@@ -401,7 +256,149 @@ namespace Monofoxe.Engine.SceneSystem
 
 			DrawMgr.CurrentEffect = null;
 		}
+		
+
+		#region Entity methods.
+
+		/// <summary>
+		/// Returns list of entities of certain type.
+		/// </summary>
+		public List<T> GetEntityList<T>() where T : Entity =>
+			_entities.OfType<T>().ToList();
+		
+		/// <summary>
+		/// Counts amount of objects of certain type.
+		/// </summary>
+		public int CountEntities<T>() where T : Entity =>
+			_entities.OfType<T>().Count();
+
+		/// <summary>
+		/// Checks if any instances of an entity exist.
+		/// </summary>
+		public bool EntityExists<T>() where T : Entity
+		{
+			foreach(var entity in _entities)
+			{
+				if (entity is T)
+				{
+					return true;
+				}
+			}			
+			return false;
+		}
+
+		/// <summary>
+		/// Finds first entity of given type.
+		/// </summary>
+		public T FindEntity<T>() where T : Entity
+		{
+			foreach(var entity in _entities)
+			{
+				if (entity is T)
+				{
+					return (T)entity;
+				}
+			}
+			return null;
+		}
+		
+
+		/// <summary>
+		/// Returns list of entities with given tag.
+		/// </summary>
+		public List<Entity> GetEntityList(string tag)
+		{
+			var list = new List<Entity>();
+			
+			foreach(var entity in _entities)
+			{
+				if (entity.Tag == tag)
+				{
+					list.Add(entity);
+				}
+			}
+			return list;
+		}
+		
+		/// <summary>
+		/// Counts amount of entities with given tag.
+		/// </summary>
+		public int CountEntities(string tag)
+		{
+			var counter = 0;
+
+			foreach(var entity in _entities)
+			{
+				if (entity.Tag == tag)
+				{
+					counter += 1;
+				}
+			}
+			
+			return counter;
+		}
+		
+		/// <summary>
+		/// Checks if given instance exists.
+		/// </summary>
+		public bool EntityExists(string tag)
+		{
+			foreach(var entity in _entities)
+			{
+				if (entity.Tag == tag)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		
+		/// <summary>
+		/// Finds first entity with given tag.
+		/// </summary>
+		public Entity FindEntity(string tag)
+		{
+			foreach(var entity in _entities)
+			{
+				if (entity.Tag == tag)
+				{
+					return entity;
+				}
+			}
+			
+			return null;
+		}
 
 
+		
+		/// <summary>
+		/// Returns list of entities, which have component of given type.
+		/// </summary>
+		public List<Entity> GetEntityListByComponent<T>() where T : Component =>
+			_components[typeof(T)].Select(x => x.Owner).ToList();
+		
+		/// <summary>
+		/// Counts amount of entities, which have component of given type.
+		/// </summary>
+		public int CountEntitiesByComponent<T>() where T : Component =>
+			_components[typeof(T)].Count;
+
+		/// <summary>
+		/// Finds first entity, which has component of given type.
+		/// </summary>
+		public Entity FindEntityByComponent<T>() where T : Component
+		{
+			foreach(var entity in _entities)
+			{
+				if (entity.HasComponent<T>())
+				{
+					return entity;
+				}
+			}
+			return null;
+		}
+
+		#endregion Entity methods.
+		
 	}
 }
