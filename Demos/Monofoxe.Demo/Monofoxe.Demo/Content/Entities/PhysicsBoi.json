@@ -6,6 +6,10 @@
 		{
 			"size": {"x" : 32, "y": 32}
 		},
+		"Monofoxe.Demo.GameLogic.Entities.SolidObjectComponent":
+		{
+			"size": {"x" : 32, "y": 32}
+		},
 		"Monofoxe.Demo.GameLogic.Entities.PositionComponent": {}
 	}
 }
