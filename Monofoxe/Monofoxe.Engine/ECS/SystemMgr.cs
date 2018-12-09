@@ -61,7 +61,7 @@ namespace Monofoxe.Engine.ECS
 			{
 				if (components.ContainsKey(system.ComponentType))
 				{
-					system.FixedUpdate(components[system.ComponentType]);
+					system.FixedUpdate(components[system.ComponentType].FindAll(x => x.Owner.Enabled));
 				}
 			}
 		}
@@ -76,12 +76,13 @@ namespace Monofoxe.Engine.ECS
 			{
 				if (components.ContainsKey(system.ComponentType))
 				{
-					var componentList = components[system.ComponentType];
+					var componentList = components[system.ComponentType].FindAll(x => x.Owner.Enabled);
 					if (componentList.Count > 0)
 					{
 						system._usedLayersCount += 1; // Telling that a layer is using this system.
-						system.Update(components[system.ComponentType]);
 					}
+
+					system.Update(componentList);
 				}
 			}
 		}

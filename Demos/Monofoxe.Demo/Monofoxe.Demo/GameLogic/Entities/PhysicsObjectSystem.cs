@@ -47,7 +47,7 @@ namespace Monofoxe.Demo.GameLogic.Entities
 				}
 
 				// Gravity.
-				if (cPhysics.Speed.Y < MaxFallSpeed && CheckCollision(cPosition.Position + Vector2.UnitY, cPhysics.Size) == null)
+				if (cPhysics.Speed.Y < MaxFallSpeed)// && CheckCollision(entity, cPosition.Position + Vector2.UnitY, cPhysics.Size) == null)
 				{
 					cPhysics.Speed.Y += TimeKeeper.GlobalTime(Gravity);
 					if (cPhysics.Speed.Y > MaxFallSpeed)
@@ -60,7 +60,7 @@ namespace Monofoxe.Demo.GameLogic.Entities
 				
 				cPosition.Position.X += TimeKeeper.GlobalTime(cPhysics.Speed.X);
 				
-				if (CheckCollision(cPosition.Position, cPhysics.Size) != null)
+				if (CheckCollision(entity, cPosition.Position, cPhysics.Size) != null)
 				{
 					//cPhysics.Color = Color.Red;
 					var sign = 1;
@@ -71,7 +71,7 @@ namespace Monofoxe.Demo.GameLogic.Entities
 
 					for(var x = 0; x <= TimeKeeper.GlobalTime(Math.Abs(cPhysics.Speed.X)) + 1; x += 1)
 					{
-						if (CheckCollision(cPosition.Position - Vector2.UnitX * x * sign, cPhysics.Size) == null)
+						if (CheckCollision(entity, cPosition.Position - Vector2.UnitX * x * sign, cPhysics.Size) == null)
 						{
 							cPhysics.Speed.X = 0;
 							cPosition.Position.X -= x * sign;
@@ -81,7 +81,7 @@ namespace Monofoxe.Demo.GameLogic.Entities
 				}
 
 				cPosition.Position.Y += TimeKeeper.GlobalTime(cPhysics.Speed.Y);
-				if (CheckCollision(cPosition.Position, cPhysics.Size) != null)
+				if (CheckCollision(entity, cPosition.Position, cPhysics.Size) != null)
 				{
 					//cPhysics.Color = Color.Red;
 					var sign = 1;
@@ -92,7 +92,7 @@ namespace Monofoxe.Demo.GameLogic.Entities
 
 					for(var y = 0; y <= TimeKeeper.GlobalTime(Math.Abs(cPhysics.Speed.Y)) + 1; y += 1)
 					{
-						if (CheckCollision(cPosition.Position - Vector2.UnitY * y * sign, cPhysics.Size) == null)
+						if (CheckCollision(entity, cPosition.Position - Vector2.UnitY * y * sign, cPhysics.Size) == null)
 						{
 							cPhysics.Speed.Y = 0;
 							cPosition.Position.Y -= y * sign;
@@ -126,16 +126,19 @@ namespace Monofoxe.Demo.GameLogic.Entities
 		}
 
 
-		Entity CheckCollision(Vector2 position, Vector2 size)
+		Entity CheckCollision(Entity checker, Vector2 position, Vector2 size)
 		{
 			foreach(var solid in _solidObjects)
 			{
-				var solidPos = solid.GetComponent<PositionComponent>().Position;
-				var solidSize = solid.GetComponent<SolidObjectComponent>().Size / 2f;
-
-				if (GameMath.RectangleInRectangle(position - size / 2f, position + size / 2f, solidPos - solidSize, solidPos + solidSize))
+				if (solid != checker)
 				{
-					return solid;
+					var solidPos = solid.GetComponent<PositionComponent>().Position;
+					var solidSize = solid.GetComponent<SolidObjectComponent>().Size / 2f;
+
+					if (GameMath.RectangleInRectangle(position - size / 2f, position + size / 2f, solidPos - solidSize, solidPos + solidSize))
+					{
+						return solid;
+					}
 				}
 			}
 			return null;

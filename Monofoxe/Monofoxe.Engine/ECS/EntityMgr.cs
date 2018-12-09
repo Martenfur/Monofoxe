@@ -46,21 +46,13 @@ namespace Monofoxe.Engine.ECS
 					if (scene.Enabled)
 					{
 						SceneMgr.CurrentScene = scene;
-						SystemMgr.FixedUpdate(GetActiveComponents(scene));
-					}
-				}
-
-				foreach(var scene in SceneMgr.Scenes)
-				{
-					if (scene.Enabled)
-					{
-						SceneMgr.CurrentScene = scene;
 						
 						foreach(var layer in scene.Layers)
 						{
 							if (layer.Enabled)
 							{
 								SceneMgr.CurrentLayer = layer;
+								SystemMgr.Update(layer._components);
 								foreach(var entity in layer.Entities)
 								{
 									if (entity.Enabled && !entity.Destroyed)
@@ -78,14 +70,6 @@ namespace Monofoxe.Engine.ECS
 			
 			// Normal updates.
 			foreach(var scene in SceneMgr.Scenes)
-			{
-				if (scene.Enabled)
-				{
-					SceneMgr.CurrentScene = scene;
-					SystemMgr.Update(GetActiveComponents(scene));
-				}
-			}
-			foreach(var scene in SceneMgr.Scenes)
 			{		
 				if (scene.Enabled)
 				{
@@ -96,6 +80,8 @@ namespace Monofoxe.Engine.ECS
 						if (layer.Enabled)
 						{
 							SceneMgr.CurrentLayer = layer;
+							SystemMgr.Update(layer._components);
+
 							foreach(var entity in layer.Entities)
 							{
 								if (entity.Enabled && !entity.Destroyed)
@@ -170,37 +156,7 @@ namespace Monofoxe.Engine.ECS
 				entity.RemoveAllComponents();
 			}
 		}
-
-
-
-		/// <summary>
-		/// Returns a list of all active components in all layers.
-		/// TODO: Replace this with something sane.
-		/// </summary>
-		private static Dictionary<Type, List<Component>> GetActiveComponents(Scene scene)
-		{
-			var list = new Dictionary<Type, List<Component>>();
-			
-			foreach(var layer in scene.Layers)
-			{
-				if (layer.Enabled)
-				{
-					foreach(var componentsPair in layer._components)
-					{
-						if (list.ContainsKey(componentsPair.Key))
-						{
-							list[componentsPair.Key].AddRange(ComponentMgr.FilterInactiveComponents(componentsPair.Value));
-						}
-						else
-						{
-							list.Add(componentsPair.Key, ComponentMgr.FilterInactiveComponents(componentsPair.Value));
-						}
-					}
-				}
-			}
-			return list;
-		}
-
-
+		
+		
 	}
 }
