@@ -29,7 +29,7 @@ namespace Monofoxe.Demo.GameLogic.Entities
 
 
 
-			_solidObjects = SceneMgr.CurrentScene.GetEntityListByComponent<SolidObjectComponent>();
+			_solidObjects = SceneMgr.CurrentLayer.GetEntityListByComponent<SolidObjectComponent>();
 
 
 			foreach(PhysicsObjectComponent cPhysics in components)
@@ -47,7 +47,7 @@ namespace Monofoxe.Demo.GameLogic.Entities
 				}
 
 				// Gravity.
-				if (cPhysics.Speed.Y < MaxFallSpeed)// && CheckCollision(entity, cPosition.Position + Vector2.UnitY, cPhysics.Size) == null)
+				if (cPhysics.Speed.Y < MaxFallSpeed && CheckCollision(entity, cPosition.Position + Vector2.UnitY, cPhysics.Size) == null)
 				{
 					cPhysics.Speed.Y += TimeKeeper.GlobalTime(Gravity);
 					if (cPhysics.Speed.Y > MaxFallSpeed)
