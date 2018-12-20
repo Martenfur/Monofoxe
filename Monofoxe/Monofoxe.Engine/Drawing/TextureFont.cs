@@ -163,14 +163,12 @@ namespace Monofoxe.Engine.Drawing
 				float width = 0;
 				foreach(var ch in line)
 				{
-					try
+					var currentChar = ch;
+					if (!_glyphs.ContainsKey(ch))
 					{
-						width += _glyphs[ch].Width + Spacing;
+						currentChar = (char)DefaultCharacter;
 					}
-					catch(Exception)
-					{
-						width += _glyphs[(char)DefaultCharacter].Width + Spacing;
-					}
+					width += _glyphs[currentChar].Width + Spacing;
 				}
 				
 				width -= Spacing;
@@ -229,16 +227,15 @@ namespace Monofoxe.Engine.Drawing
 				{
 					Frame frame;
 					SpriteFont.Glyph glyph;
-					try
+					
+					var currentChar = ch;
+					if (!_glyphs.ContainsKey(ch))
 					{
-						frame = _frames[ch];
-						glyph = _glyphs[ch];
+						currentChar = (char)DefaultCharacter;
 					}
-					catch(Exception)
-					{
-						frame = _frames[(char)DefaultCharacter];
-						glyph = _glyphs[(char)DefaultCharacter];
-					}
+					
+					frame = _frames[currentChar];
+					glyph = _glyphs[currentChar];
 
 					var border = new Vector2(-glyph.LeftSideBearing, 0);
 					var lineOffset = new Vector2(strSize.X * align.X, textH * align.Y);

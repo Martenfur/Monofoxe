@@ -36,7 +36,7 @@ namespace Monofoxe.Test
 			Random.GetListWithoutRepeats(5, 0, 10);
 			Random.GetListWithoutRepeats(5, -10, 10);
 
-
+			
 			var scene = SceneMgr.GetScene("default");
 			var ballsLayer = scene.CreateLayer("balls", 1);
 			ballsLayer.IsGUI = false;
