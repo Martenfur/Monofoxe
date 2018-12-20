@@ -64,7 +64,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 						
 						if (tileFrame != null)
 						{
-							var scale = SpriteEffects.None;
+							var flip = SpriteEffects.None;
 							var offset = Vector2.UnitY * (tileFrame.H - tilemap.TileHeight);
 							var rotation = 0;
 							
@@ -86,7 +86,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 								offset.Y = -tilemap.TileHeight;
 								offset.X = 0;
 
-								scale |= SpriteEffects.FlipHorizontally;
+								flip |= SpriteEffects.FlipHorizontally;
 							}
 
 							if (tile.FlipHor)
@@ -94,11 +94,11 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 								// Sprite is rotated by 90 degrees, so X axis becomes Y.
 								if (tile.FlipDiag)
 								{
-									scale ^= SpriteEffects.FlipVertically;
+									flip ^= SpriteEffects.FlipVertically;
 								}
 								else
 								{
-									scale ^= SpriteEffects.FlipHorizontally;
+									flip ^= SpriteEffects.FlipHorizontally;
 								}
 							}
 
@@ -106,11 +106,11 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 							{
 								if (!tile.FlipDiag)
 								{
-									scale ^= SpriteEffects.FlipVertically;
+									flip ^= SpriteEffects.FlipVertically;
 								}
 								else
 								{
-									scale ^= SpriteEffects.FlipHorizontally;
+									flip ^= SpriteEffects.FlipHorizontally;
 								}
 							}
 							// A bunch of Tiled magic.
@@ -124,7 +124,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 								MathHelper.ToRadians(rotation),
 								Vector2.Zero,
 								Vector2.One,
-								scale,
+								flip,
 								0
 							);
 						}
