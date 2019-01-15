@@ -111,27 +111,33 @@ namespace Pipefoxe.SpriteGroup
 
 			var completeVariableValues = new List<StringBuilder>();
 
+			
 			for(var k = 0; k < customVariableValues.Count; k += 1)
 			{
 				completeVariableValues.Add(new StringBuilder());
-				var lastSprite = sprites.Last();
-
-				var i = 0;
-				foreach(var sprite in sprites)
+				
+				if (sprites.Count > 0)
 				{
-					var v = customVariableValues[k]
-						.Replace("<sprite_name>", spriteNames[i])
-						.Replace("<hash_sprite_name>", '"' + sprite.Name + '"');
-					i += 1;
+					var lastSprite = sprites.Last();
 
-					completeVariableValues[k].Append(v);
-
-					if (sprite != lastSprite)
+					var i = 0;
+					foreach(var sprite in sprites)
 					{
-						completeVariableValues[k].AppendLine();
+						var v = customVariableValues[k]
+							.Replace("<sprite_name>", spriteNames[i])
+							.Replace("<hash_sprite_name>", '"' + sprite.Name + '"');
+						i += 1;
+
+						completeVariableValues[k].Append(v);
+
+						if (sprite != lastSprite)
+						{
+							completeVariableValues[k].AppendLine();
+						}
 					}
 				}
 			}
+			
 
 			#endregion Assembling variables from templates.
 			
