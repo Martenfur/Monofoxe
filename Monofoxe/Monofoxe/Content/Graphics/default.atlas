@@ -9,5 +9,5 @@
 		"/Textures/*"
 	],
 	
-	debugMode: "false"
+	debugMode: "true"
 }
