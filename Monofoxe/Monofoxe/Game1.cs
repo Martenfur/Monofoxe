@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine;
 using Monofoxe.Engine.ECS;
-using Monofoxe.Engine.FMODAudio;
+using Monofoxe.FMODAudio;
 using Monofoxe.Test;
 
 namespace Monofoxe

@@ -84,11 +84,12 @@
     <Compile Include="Test\MainTester.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Monofoxe.Engine">
+    <Reference Include="Monofoxe.Engine, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Monofoxe.Engine\bin\DesktopGL\AnyCPU\Debug\Monofoxe.Engine.dll</HintPath>
     </Reference>
-    <Reference Include="Monofoxe.Engine.FMODAudio">
-      <HintPath>..\Monofoxe.Engine.FMODAudio\bin\Debug\Monofoxe.Engine.FMODAudio.dll</HintPath>
+    <Reference Include="Monofoxe.FMODAudio">
+      <HintPath>..\Monofoxe.FMODAudio\bin\Debug\Monofoxe.FMODAudio.dll</HintPath>
     </Reference>
     <Reference Include="Monofoxe.Tiled">
       <HintPath>..\Monofoxe.Tiled\bin\Debug\Monofoxe.Tiled.dll</HintPath>
