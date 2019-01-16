@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monofoxe.Tiled", "Monofoxe.
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Monofoxe.Tiled.MapStructure", "Monofoxe.Tiled.MapStructure\Monofoxe.Tiled.MapStructure.shproj", "{785E8147-0E69-45DF-92F7-B4F315739D0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monofoxe.Engine.FMODAudio", "Monofoxe.Engine.FMODAudio\Monofoxe.Engine.FMODAudio.csproj", "{34272495-2678-4BBD-B301-3B3BCF94EAC9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monofoxe.FMODAudio", "Monofoxe.FMODAudio\Monofoxe.FMODAudio.csproj", "{34272495-2678-4BBD-B301-3B3BCF94EAC9}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

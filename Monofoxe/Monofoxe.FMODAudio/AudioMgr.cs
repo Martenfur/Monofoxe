@@ -2,16 +2,17 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
+using Monofoxe.Engine;
 
 // DO NOT include FMOD namespace in ANY of your classes.
 // Use FMOD.SomeClass instead.
 // FMOD classes seriously interfere with System namespace.
 
 
-namespace Monofoxe.Engine.FMODAudio
+namespace Monofoxe.FMODAudio
 {
 	// TODO: Figure out how to make this stuff cross-platform.
-	
+
 	/// <summary>
 	/// Audio manager. Controls main audiosystem parameters.
 	/// 

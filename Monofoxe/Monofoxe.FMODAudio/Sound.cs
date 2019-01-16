@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 // Use FMOD.SomeClass instead.
 // FMOD classes seriously interfere with System namespace.
 
-namespace Monofoxe.Engine.FMODAudio
+namespace Monofoxe.FMODAudio
 {
 	/// <summary>
 	/// FMOD sound wrapper. Takes horrible FMOD wrapper and makes it look pretty.

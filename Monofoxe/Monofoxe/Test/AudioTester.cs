@@ -7,7 +7,7 @@ using System.Diagnostics;
 using Monofoxe.Engine.Utils;
 using Resources.Sprites;
 using Resources;
-using Monofoxe.Engine.FMODAudio;
+using Monofoxe.FMODAudio;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.ECSTest.Systems;
