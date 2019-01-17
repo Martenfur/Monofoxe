@@ -19,7 +19,7 @@ Everything Monogame does, plus:
 * Texture packing.
 * Sprite groups and dynamic graphics loading.
 * Input management.
-* Useful math for collisions and othe game stuff.
+* Useful math for collisions and other game stuff.
 * Timers, alarms, cameras, state machines, tilemaps, foxes!
 * FMOD support (Windows-only for now).
 * Hybrid ECS.
@@ -29,7 +29,7 @@ Everything Monogame does, plus:
 
 Coming in the future:
 
-* Animated tiles and inifinite tilemaps from Tiled.
+* Animated tiles and infinite tilemaps from Tiled.
 * Particle system.
 * Linux\Android support for FMOD.
 * Documentation.
@@ -58,13 +58,10 @@ You'll need:
 * Latest release of Monofoxe as [Visual Studio templates (VERY outdated)](https://bitbucket.org/gnFur/monofoxe/downloads/MonofoxeDesktopGL.zip) or standalone libraries (coming soon!).
 
 
-Just install Monofoxe template, create Monofoxe project and you're good to go.
-
-# Do I need any special software?
-Monofoxe has no external software dependencies except Monogame. 
+Just install Monofoxe template, create Monofoxe project and you're good to go. 
 
 
-Want to contribute, suggest a feature or just want to pour shit on my code? Feel free to contact me via email: chaifoxes@gmail.com or on [Twitter](https://twitter.com/ChaiFoxes).
+Want to contribute, suggest a feature or just want to pour shit on my code? Feel free to contact me via email: **chaifoxes@gmail.com** or on [Twitter](https://twitter.com/ChaiFoxes).
 
 
 
