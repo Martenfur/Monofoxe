@@ -12,9 +12,9 @@ namespace Monofoxe.Engine.Utils
 		public virtual double Counter {get; protected set;} = 0;
 		
 		/// <summary>
-		/// Timer won't update if it's inactive.
+		/// Timer won't update if it's disabled.
 		/// </summary>
-		public bool Active = true;
+		public bool Enabled = true;
 
 		/// <summary>
 		/// Tells if timer is affected by GameCntrl.GameSpeedMultiplier.
@@ -27,14 +27,14 @@ namespace Monofoxe.Engine.Utils
 		public Timer() {}
 		public Timer(TimeKeeper timeKeeper) => 
 			TimeKeeper = timeKeeper;
-
+		
 		
 		/// <summary>
 		/// Resets timer.
 		/// </summary>
 		public virtual void Reset()
 		{
-			Active = false;
+			Enabled = false;
 			Counter = 0;
 		}
 
@@ -45,7 +45,7 @@ namespace Monofoxe.Engine.Utils
 		/// </summary>
 		public virtual void Update()
 		{
-			if (Active)
+			if (Enabled)
 			{
 				if (AffectedBySpeedMultiplier)
 				{

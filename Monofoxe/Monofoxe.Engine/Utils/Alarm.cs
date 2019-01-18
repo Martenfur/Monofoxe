@@ -1,6 +1,8 @@
-﻿
+﻿using System;
+
 namespace Monofoxe.Engine.Utils
 {
+	// TODO: TEST!
 	/// <summary>
 	/// Counts down seconds. Needs to be updated manually.
 	/// </summary>
@@ -12,15 +14,15 @@ namespace Monofoxe.Engine.Utils
 		public new double Counter;
 		
 		/// <summary>
-		/// Tells if alarm was triggered.
+		/// Gets called in an update, if alarm is triggered. 
 		/// </summary>
-		public bool Triggered {get; protected set;} = false;
+		public Action<Alarm> TriggerAction;
 
-		
 
 		public Alarm() {}
-		public Alarm(TimeKeeper timeKeeper) : base(timeKeeper) {}
-
+		public Alarm(TimeKeeper timeKeeper, Action<Alarm> triggerAction) : base(timeKeeper) =>
+			TriggerAction = triggerAction;
+		
 
 		/// <summary>
 		/// Sets alarm to given time.
@@ -28,8 +30,7 @@ namespace Monofoxe.Engine.Utils
 		/// <param name="time">Time in seconds.</param>
 		public void Set(double time)
 		{
-			Active = true;
-			Triggered = false;
+			Enabled = true;
 			Counter = time;
 		}
 
@@ -40,20 +41,18 @@ namespace Monofoxe.Engine.Utils
 		/// </summary>
 		public override void Reset()
 		{
-			Active = false;
-			Triggered = false;
+			Enabled = false;
 			Counter = 0;
 		}
 
 
 
 		/// <summary>
-		/// Updates alarm. Also can be used to check for triggering.
+		/// Updates alarm. Returns true, if alarm is being triggered.
 		/// </summary>
 		public new virtual bool Update()
 		{
-			Triggered = false;
-			if (Active)
+			if (Enabled && Counter > 0)
 			{
 				if (AffectedBySpeedMultiplier)
 				{
@@ -73,12 +72,12 @@ namespace Monofoxe.Engine.Utils
 				
 				if (Counter <= 0)
 				{
-					Triggered = true;
-					Active = false;
+					TriggerAction?.Invoke(this);
+					return true;
 				}
 			}
 
-			return Triggered;
+			return false;
 		}
 	}
 }

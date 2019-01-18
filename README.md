@@ -44,7 +44,8 @@ Not planned:
 
 # Can I use it in my p...
 
-Yes, you can. Monofoxe is licensed under MPL 2.0, so you can use it in any shenanigans you want. Free games, commercial games, your own the-coolest-in-the-world engines - no payment or royalties required. Just please leave a credit. ; - )
+Yes, you can. Monofoxe is licensed under MPL 2.0, so you can use it and its code in any shenanigans you want. Free games, commercial games, your own the-coolest-in-the-world engines - no payment or royalties required. Just please leave a credit. ; - )
+(Though, if you will be using FMOD, it has its own [license](https://fmod.com/licensing#faq), which is much less permissive than mine.)
 
 # Should I use it?
 
