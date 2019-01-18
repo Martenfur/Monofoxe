@@ -1,8 +1,8 @@
 ![logo](logo/logo_transparent.png)
 
 # What am I looking at?
-This is Monofoxe - a game engine based on [Monogame Framework](http://monogame.net). 
-Its main goal is to greatly simplify working with Monogame and provide basic set of tools 
+This is Monofoxe - a game engine based on the [Monogame Framework](http://monogame.net). 
+Its main goal is to greatly simplify working with Monogame and to provide basic set of tools 
 enabling you to just *create a new project and make a damn game* without removing low-level access to the framework.
 Monofoxe took a lot of inspiration from Game Maker, so it should be a bit familiar to some folks.
 
@@ -56,7 +56,7 @@ Well, up to you. Currently I am developing Monofoxe alone, and can't really prov
 You'll need:
 
 * [Monogame](http://monogame.net).
-* Latest release of Monofoxe as [Visual Studio templates (VERY outdated)](https://bitbucket.org/gnFur/monofoxe/downloads/MonofoxeDesktopGL.zip) or standalone libraries (coming soon!).
+* The latest release of Monofoxe as [Visual Studio templates (VERY outdated)](https://bitbucket.org/gnFur/monofoxe/downloads/MonofoxeDesktopGL.zip) or standalone libraries (coming soon!).
 
 
 Just install Monofoxe template, create Monofoxe project and you're good to go. 
