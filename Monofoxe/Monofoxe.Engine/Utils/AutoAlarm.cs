@@ -1,6 +1,8 @@
-﻿
+﻿using System;
+
 namespace Monofoxe.Engine.Utils
 {
+	// TODO: TEST!
 	/// <summary>
 	/// Counts down seconds. Needs to be updated manually. Sets itself automatically after triggering.
 	/// </summary>
@@ -14,7 +16,7 @@ namespace Monofoxe.Engine.Utils
 			Set(Time);
 		}
 
-		public AutoAlarm(double time, TimeKeeper timeKeeper) : base(timeKeeper)
+		public AutoAlarm(double time, TimeKeeper timeKeeper, Action<Alarm> triggerAction) : base(timeKeeper, triggerAction)
 		{
 			Time = time;
 			Set(Time);
@@ -22,16 +24,16 @@ namespace Monofoxe.Engine.Utils
 
 
 		/// <summary>
-		/// Updates alarm. Also can be used to check for triggering.
+		/// Updates alarm. Returns true, if alarm is being triggered.
 		/// </summary>
 		public override bool Update()
 		{
 			if (base.Update())
 			{
-				Active = true;
 				Counter += Time;
+				return true;
 			}
-			return Triggered;
+			return false;
 		}
 	}
 }
