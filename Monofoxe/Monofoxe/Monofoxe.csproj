@@ -86,13 +86,15 @@
   <ItemGroup>
     <Reference Include="Monofoxe.Engine, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Monofoxe.Engine\bin\DesktopGL\AnyCPU\Debug\Monofoxe.Engine.dll</HintPath>
+      <HintPath>..\bin\Debug\Monofoxe.Engine.dll</HintPath>
     </Reference>
-    <Reference Include="Monofoxe.FMODAudio">
-      <HintPath>..\Monofoxe.FMODAudio\bin\Debug\Monofoxe.FMODAudio.dll</HintPath>
+    <Reference Include="Monofoxe.FMODAudio, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\bin\Debug\Monofoxe.FMODAudio.dll</HintPath>
     </Reference>
-    <Reference Include="Monofoxe.Tiled">
-      <HintPath>..\Monofoxe.Tiled\bin\Debug\Monofoxe.Tiled.dll</HintPath>
+    <Reference Include="Monofoxe.Tiled, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\bin\Debug\Monofoxe.Tiled.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>

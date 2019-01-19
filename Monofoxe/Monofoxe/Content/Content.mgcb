@@ -10,7 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:..\..\Pipefoxe\bin\Debug\Pipefoxe.dll
+/reference:..\..\bin\Pipeline\Debug\Pipefoxe.dll
 
 #---------------------------------- Content ---------------------------------#
 
