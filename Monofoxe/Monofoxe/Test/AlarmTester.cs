@@ -43,15 +43,6 @@ namespace Monofoxe.Test
 
 		public override void Update()
 		{
-			/*if (autoAlarm.Update())
-			{
-				scale *= -1;
-			}
-
-			if (slowAutoAlarm.Update())
-			{
-				scale1 *= -1;
-			}*/
 			autoAlarm.Update();
 			slowAlarm.Update();
 			timer.Update();
