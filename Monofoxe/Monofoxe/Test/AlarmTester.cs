@@ -24,15 +24,17 @@ namespace Monofoxe.Test
 
 
 		AutoAlarm autoAlarm;
-		AutoAlarm slowAutoAlarm;
+		Alarm slowAlarm;
 
 		Timer timer;
 		Timer slowTimer;
 
 		public AlarmTester(Layer layer) : base(layer)
 		{
-			autoAlarm = new AutoAlarm(period, defKeeper);
-			slowAutoAlarm = new AutoAlarm(period, slowKeeper);
+			autoAlarm = new AutoAlarm(period, defKeeper, AutoAlarmAction);
+			slowAlarm = new Alarm(slowKeeper, SlowAlarmAction);
+			slowAlarm.Set(period);
+
 			slowKeeper.TimeMultiplier = 0.5;
 
 			timer = new Timer(defKeeper);
@@ -41,7 +43,7 @@ namespace Monofoxe.Test
 
 		public override void Update()
 		{
-			if (autoAlarm.Update())
+			/*if (autoAlarm.Update())
 			{
 				scale *= -1;
 			}
@@ -49,15 +51,28 @@ namespace Monofoxe.Test
 			if (slowAutoAlarm.Update())
 			{
 				scale1 *= -1;
-			}
+			}*/
+			autoAlarm.Update();
+			slowAlarm.Update();
 			timer.Update();
 			slowTimer.Update();
 		}
 
+		public void AutoAlarmAction(Alarm owner)
+		{
+			scale *= -1;
+		}
+
+		public void SlowAlarmAction(Alarm owner)
+		{
+			scale1 *= -1;
+			owner.Set(period + owner.Counter);
+		}
+
 		public override void Draw()
 		{
-			DrawMgr.DrawSprite(spr, 0, 600, 100, scale * 0.5f, 0.5f, 0, Color.White);
-			DrawMgr.DrawSprite(spr, 0, 600, 300, scale1 * 0.5f, 0.5f, 0, Color.White);
+			DrawMgr.DrawSprite(spr, 0, 200, 100, scale * 0.5f, 0.5f, 0, Color.White);
+			DrawMgr.DrawSprite(spr, 0, 200, 300, scale1 * 0.5f, 0.5f, 0, Color.White);
 
 			DrawMgr.CurrentColor = Color.White;
 			DrawMgr.CurrentFont = Resources.Fonts.Arial;

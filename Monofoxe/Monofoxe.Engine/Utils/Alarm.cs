@@ -18,12 +18,17 @@ namespace Monofoxe.Engine.Utils
 		/// </summary>
 		public Action<Alarm> TriggerAction;
 
+		/// <summary>
+		/// Tells, if alarm is running right now.
+		/// </summary>
+		public bool Running => Counter > 0;
+
 
 		public Alarm() {}
 		public Alarm(TimeKeeper timeKeeper, Action<Alarm> triggerAction) : base(timeKeeper) =>
 			TriggerAction = triggerAction;
 		
-
+		
 		/// <summary>
 		/// Sets alarm to given time.
 		/// </summary>
