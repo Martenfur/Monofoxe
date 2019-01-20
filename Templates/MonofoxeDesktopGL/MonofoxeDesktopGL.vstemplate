@@ -27,7 +27,7 @@
       
       <Folder Name="References" TargetFolderName="References">
         <ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.Engine.dll">Monofoxe.Engine.dll</ProjectItem>
-				<ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.Engine.FMODAudio.dll">Monofoxe.Engine.FMODAudio.dll</ProjectItem>
+				<ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.FMODAudio.dll">Monofoxe.FMODAudio.dll</ProjectItem>
 				<ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.Tiled.dll">Monofoxe.Tiled.dll</ProjectItem>
 				<ProjectItem ReplaceParameters="false" TargetFileName="Newtonsoft.Json.dll">Newtonsoft.Json.dll</ProjectItem>
       </Folder>      
