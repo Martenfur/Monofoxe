@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine;
-using Monofoxe.Engine.FMODAudio;
+using Monofoxe.FMODAudio;
 
 
 namespace $safeprojectname$
