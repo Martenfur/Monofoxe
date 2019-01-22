@@ -57,6 +57,8 @@ Copy-Item -path "$desktopGLTemplate" -Destination "$destReleaseDir" -Recurse -Co
 "Copying libraries for templates from $desktopGLTemplate..."
 New-Item -ItemType Directory -Force -Path "$destReleaseDir$desktopGL\References\" > $null
 Copy-Item -path "$srcLibDir\*" -Filter "*.dll" -Destination "$destReleaseDir$desktopGL\References\"
+# Copying deafult shader into the content directory.
+Copy-Item -path "$srcLibDir\*" -Filter "*.fx" -Destination "$destReleaseDir$desktopGL\Content\Effects\"
 New-Item -ItemType Directory -Force -Path "$destReleaseDir$desktopGL\Content\References\" > $null
 Copy-Item -path "$srcPipelineLibDir\*" -Filter "*.dll" -Destination "$destReleaseDir$desktopGL\Content\References\"
 Copy-Item -path "$srcFMODLibDir" -Destination "$destReleaseDir$desktopGL\" -Recurse
@@ -65,6 +67,7 @@ Copy-Item -path "$srcFMODLibDir" -Destination "$destReleaseDir$desktopGL\" -Recu
 "Copying raw libraries..."
 New-Item -ItemType Directory -Force -Path "$destLibDir" > $null
 Copy-Item -path "$srcLibDir\*" -Filter "*.dll" -Destination "$destLibDir"
+Copy-Item -path "$srcLibDir\*" -Filter "*.fx" -Destination "$destLibDir"
 New-Item -ItemType Directory -Force -Path "$destLibDir\Pipeline\" > $null
 Copy-Item -path "$srcPipelineLibDir\*" -Filter "*.dll" -Destination "$destLibDir\Pipeline\"
 Copy-Item -path "$srcFMODLibDir" -Destination $destLibDir -Recurse

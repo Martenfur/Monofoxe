@@ -1,1 +1,0 @@
-msbuild /Monofoxe.Engine/Monofoxe.Engine.csproj /p:Configuration=Release

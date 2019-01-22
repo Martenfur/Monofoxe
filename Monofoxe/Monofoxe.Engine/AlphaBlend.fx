@@ -4,6 +4,8 @@ Main reason for it is proper alpha blending for pretty much everything.
 
 NOTE: This shader is vital part of the engine. 
 DO NOT modify it, unless you know, what you're doing and have good reasons!
+
+NOTE: This file should be in the Content directory of your project!
 */
 
 float4x4 World;
