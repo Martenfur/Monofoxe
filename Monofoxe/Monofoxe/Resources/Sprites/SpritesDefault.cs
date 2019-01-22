@@ -81,6 +81,7 @@ namespace Resources.Sprites
 		public static Sprite Scene3Ground;
 		public static Sprite Scene3Hill;
 		public static Sprite BstGam;
+		public static Sprite Foxe;
 		#endregion Sprites.
 		
 		private static string _groupName = "Default";
@@ -163,6 +164,7 @@ namespace Resources.Sprites
 			Scene3Ground = sprites["outro/scene3_ground"];
 			Scene3Hill = sprites["outro/scene3_hill"];
 			BstGam = sprites["Textures/bst_gam"];
+			Foxe = sprites["Textures/foxe"];
 			
 			#endregion Sprite constructors.
 		}

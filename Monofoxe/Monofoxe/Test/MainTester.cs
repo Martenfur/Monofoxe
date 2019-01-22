@@ -57,7 +57,7 @@ namespace Monofoxe.Test
 
 			//new DrawingTester();
 			//new ECSTester(ballsLayer);
-			new AlarmTester(ballsLayer);
+			//new AlarmTester(ballsLayer);
 			//new TileTester(ballsLayer);
 		}
 
@@ -80,8 +80,6 @@ namespace Monofoxe.Test
 				}
 			}
 
-			Console.WriteLine("LINE");
-			
 			#region Camera. 
 
 			
@@ -140,10 +138,9 @@ namespace Monofoxe.Test
 
 		public override void Draw()
 		{
-			if (Input.CheckButtonPress(Buttons.Y))
-			{
-				new Camera(32, 32, 8);
-			}
+			DrawMgr.CurrentEffect = Resources.Effects.BW;
+			DrawMgr.DrawSprite(Resources.Sprites.SpritesDefault.Foxe, -300, -280);
+			DrawMgr.CurrentEffect = null;
 		}
 
 		void InitCameras()
