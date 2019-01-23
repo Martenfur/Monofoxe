@@ -74,12 +74,13 @@ namespace Monofoxe.Tiled
 				if (tileset.Textures != null)
 				{
 					var isMultitexture = (tileset.Textures.Length > 1);
-
+					
 					for(var y = 0; y < tileset.Height; y += 1)
 					{
 						for(var x = 0; x < tileset.Width; x += 1)
 						{
 							var tile = tileset.Tiles[y * tileset.Width + x];
+
 							var tileTexture = tileset.Textures[tile.TextureID];
 							int tileW, tileH;
 

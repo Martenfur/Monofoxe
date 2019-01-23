@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Monofoxe.Tiled.MapStructure.Objects;
+
 
 namespace Monofoxe.Tiled.MapStructure
 {
@@ -28,6 +30,9 @@ namespace Monofoxe.Tiled.MapStructure
 		public TiledMapTileset Tileset;
 		
 		public Rectangle TexturePosition;
+
+		public TiledMapObjectDrawingOrder ObjectsDrawingOrder;
+		public TiledObject[] Objects;
 
 		public Dictionary<string, string> Properties;
 	}

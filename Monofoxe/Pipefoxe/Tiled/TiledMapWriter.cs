@@ -86,6 +86,15 @@ namespace Pipefoxe.Tiled
 			output.Write(tile.GID);
 			output.Write(tile.TextureID);
 			output.WriteObject(tile.TexturePosition);
+			
+			output.Write((byte)tile.ObjectsDrawingOrder);
+			
+			output.Write(tile.Objects.Length);
+			foreach(var obj in tile.Objects)
+			{
+				WriteObject(output, obj);
+			}
+
 			output.WriteObject(tile.Properties);
 		}
 

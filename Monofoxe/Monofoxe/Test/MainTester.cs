@@ -58,7 +58,7 @@ namespace Monofoxe.Test
 			//new DrawingTester();
 			//new ECSTester(ballsLayer);
 			//new AlarmTester(ballsLayer);
-			//new TileTester(ballsLayer);
+			new TileTester(ballsLayer);
 		}
 
 
@@ -138,9 +138,6 @@ namespace Monofoxe.Test
 
 		public override void Draw()
 		{
-			DrawMgr.CurrentEffect = Resources.Effects.BW;
-			DrawMgr.DrawSprite(Resources.Sprites.SpritesDefault.Foxe, -300, -280);
-			DrawMgr.CurrentEffect = null;
 		}
 
 		void InitCameras()

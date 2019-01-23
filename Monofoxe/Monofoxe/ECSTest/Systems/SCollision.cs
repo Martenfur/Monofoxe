@@ -21,7 +21,6 @@ namespace Monofoxe.ECSTest.Systems
 
 		public override void Update(List<Component> components) 
 		{
-			Console.WriteLine("Collision update.");
 		}
 
 		

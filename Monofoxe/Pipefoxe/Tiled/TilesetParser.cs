@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Xml;
 using Microsoft.Xna.Framework;
 using Monofoxe.Tiled.MapStructure;
+using Monofoxe.Tiled.MapStructure.Objects;
 
 namespace Pipefoxe.Tiled
 {
@@ -148,15 +149,17 @@ namespace Pipefoxe.Tiled
 
 						if (tiles.ContainsKey(currentID))
 						{
+							ReadTileObjects(tiles[currentID], ref tile);
 							tile.Properties = XmlHelper.GetProperties(tiles[currentID]);
 						}
 						else
 						{
+							tile.Objects = new TiledObject[0];
 							tile.Properties = new Dictionary<string, string>();
 						}
 						tileset.Tiles[currentID] = tile;
 						currentID += 1;
-					}
+					} 
 				}
 				// Single-image tileset.
 			}
@@ -190,16 +193,34 @@ namespace Pipefoxe.Tiled
 						int.Parse(nodePair.Value["image"].Attributes["height"].Value)
 					);
 					
+					ReadTileObjects(nodePair.Value, ref tile);
+
 					tile.Properties = XmlHelper.GetProperties(nodePair.Value);
 
 					tileset.Tiles[currentID] = tile;
 					currentID += 1;
 				}
 				tileset.TexturePaths = texturePaths.ToArray();
+
+
 				// Image collection tileset.	
 			}
 
 			return tileset;
+		}
+
+
+		static void ReadTileObjects(XmlNode node, ref TiledMapTilesetTile tile)
+		{
+			if (node["objectgroup"] != null)
+			{
+				var layer = LayerParser.ParseObjectLayer(node["objectgroup"], false);
+				tile.ObjectsDrawingOrder = layer.DrawingOrder;
+				tile.Objects = layer.Objects;
+				return;
+			}
+			tile.ObjectsDrawingOrder = TiledMapObjectDrawingOrder.TopDown;
+			tile.Objects = new TiledObject[]{};
 		}
 
 
