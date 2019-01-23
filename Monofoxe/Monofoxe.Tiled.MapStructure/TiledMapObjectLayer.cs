@@ -1,5 +1,5 @@
-﻿using Monofoxe.Tiled.MapStructure.Objects;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using Monofoxe.Tiled.MapStructure.Objects;
 
 namespace Monofoxe.Tiled.MapStructure
 {

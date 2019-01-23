@@ -136,11 +136,14 @@ namespace Pipefoxe.Tiled
 
 
 
-		static TiledMapObjectLayer ParseObjectLayer(XmlNode layerXml)
+		public static TiledMapObjectLayer ParseObjectLayer(XmlNode layerXml, bool parseBase = true)
 		{
 			var layer = new TiledMapObjectLayer();
 			
-			ParseBaseLayer(layerXml, layer);
+			if (parseBase) // This is done for tiles, which have objects. Their objectgroup doesn't need any base layer stuff.
+			{
+				ParseBaseLayer(layerXml, layer);
+			}
 
 			if (layerXml.Attributes["color"] != null)
 			{

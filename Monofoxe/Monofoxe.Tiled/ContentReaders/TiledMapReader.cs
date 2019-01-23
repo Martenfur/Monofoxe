@@ -83,7 +83,7 @@ namespace Monofoxe.Tiled.ContentReaders
 				var tiles = new TiledMapTilesetTile[tilesets[i].TileCount];
 				for(var k = 0; k < tiles.Length; k += 1)
 				{
-					tiles[k] = ReadTilesetTile(input);
+					tiles[k] = ReadTilesetTile(input, map);
 					tiles[k].Tileset = tilesets[i];
 				}
 				tilesets[i].Tiles = tiles;
@@ -96,12 +96,24 @@ namespace Monofoxe.Tiled.ContentReaders
 
 
 
-		TiledMapTilesetTile ReadTilesetTile(ContentReader input)
+		TiledMapTilesetTile ReadTilesetTile(ContentReader input, TiledMap map)
 		{
 			var tile = new TiledMapTilesetTile();
 			tile.GID = input.ReadInt32();
 			tile.TextureID = input.ReadInt32();
 			tile.TexturePosition = input.ReadObject<Rectangle>();
+
+			tile.ObjectsDrawingOrder = (TiledMapObjectDrawingOrder)input.ReadByte();
+			
+			var objectsCount = input.ReadInt32();
+			var objects = new TiledObject[objectsCount];
+
+			for(var k = 0; k < objectsCount; k += 1)
+			{
+				objects[k] = ReadObject(input, map);
+			}
+			tile.Objects = objects;
+
 			tile.Properties = input.ReadObject<Dictionary<string, string>>();
 			
 			return tile;
