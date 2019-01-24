@@ -58,6 +58,7 @@ Copy-Item -path "$desktopGLTemplate" -Destination "$destReleaseDir" -Recurse -Co
 New-Item -ItemType Directory -Force -Path "$destReleaseDir$desktopGL\References\" > $null
 Copy-Item -path "$srcLibDir\*" -Filter "*.dll" -Destination "$destReleaseDir$desktopGL\References\"
 # Copying deafult shader into the content directory.
+New-Item -ItemType Directory -Force -Path "$destReleaseDir$desktopGL\Content\Effects\" > $null
 Copy-Item -path "$srcLibDir\*" -Filter "*.fx" -Destination "$destReleaseDir$desktopGL\Content\Effects\"
 New-Item -ItemType Directory -Force -Path "$destReleaseDir$desktopGL\Content\References\" > $null
 Copy-Item -path "$srcPipelineLibDir\*" -Filter "*.dll" -Destination "$destReleaseDir$desktopGL\Content\References\"

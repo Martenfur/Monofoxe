@@ -69,7 +69,7 @@ namespace Monofoxe.Demo.GameLogic.Entities
 						sign = -1;
 					}
 
-					for(var x = 0; x <= TimeKeeper.GlobalTime(Math.Abs(cPhysics.Speed.X)) + 1; x += 1)
+					for(var x = 0; x <= TimeKeeper.GlobalTime(Math.Abs(cPhysics.Speed.X)*2) + 1; x += 1)
 					{
 						if (CheckCollision(entity, cPosition.Position - Vector2.UnitX * x * sign, cPhysics.Size) == null)
 						{
@@ -90,7 +90,7 @@ namespace Monofoxe.Demo.GameLogic.Entities
 						sign = -1;
 					}
 
-					for(var y = 0; y <= TimeKeeper.GlobalTime(Math.Abs(cPhysics.Speed.Y)) + 1; y += 1)
+					for(var y = 0; y <= TimeKeeper.GlobalTime(Math.Abs(cPhysics.Speed.Y)*2) + 1; y += 1)
 					{
 						if (CheckCollision(entity, cPosition.Position - Vector2.UnitY * y * sign, cPhysics.Size) == null)
 						{
