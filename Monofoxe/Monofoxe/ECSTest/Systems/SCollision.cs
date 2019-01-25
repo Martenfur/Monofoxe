@@ -25,7 +25,7 @@ namespace Monofoxe.ECSTest.Systems
 
 		
 		public override void FixedUpdate(List<Component> components) 
-		{
+		{Console.WriteLine("ello");
 			var movement = ComponentMgr.GetComponentList<CMovement>(components);
 			
 			var id = 0;
@@ -69,7 +69,7 @@ namespace Monofoxe.ECSTest.Systems
 			var collider = (CCollision)component;
 			var movement = collider.Owner.GetComponent<CMovement>();
 
-			DrawMgr.CurrentColor = new Color(255, 0, 255, 255);//Red * 0.5f;
+			DrawMgr.CurrentColor = new Color(255, 255, 255, 255);//Red * 0.5f;
 			
 			//DrawMgr.DrawCircle(movement[id].Position, collider.MaskR, true);
 			DrawMgr.DrawSprite(Resources.Sprites.SpritesDefault.Barrel, movement.Position);

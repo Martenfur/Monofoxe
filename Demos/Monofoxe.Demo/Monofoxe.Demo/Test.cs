@@ -6,6 +6,7 @@ using Monofoxe.Engine.Utils.Cameras;
 using Resources.Sprites;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Demo.GameLogic.Entities;
+using System;
 
 namespace Monofoxe.Demo
 {
@@ -47,6 +48,7 @@ namespace Monofoxe.Demo
 			{
 				var entity = EntityMgr.CreateEntityFromTemplate(Layer, "PhysicsBoi");
 				entity.GetComponent<PositionComponent>().Position = Input.MousePos;
+				Console.WriteLine("kok");
 			}
 		}
 

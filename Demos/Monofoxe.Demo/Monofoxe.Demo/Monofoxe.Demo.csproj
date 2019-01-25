@@ -74,9 +74,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\References\Monofoxe.Tiled.dll</HintPath>
     </Reference>
-    <Reference Include="Monofoxe.Engine.FMODAudio">
+    <Reference Include="Monofoxe.FMODAudio">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\References\Monofoxe.Engine.FMODAudio.dll</HintPath>
+      <HintPath>.\References\Monofoxe.FMODAudio.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <SpecificVersion>False</SpecificVersion>

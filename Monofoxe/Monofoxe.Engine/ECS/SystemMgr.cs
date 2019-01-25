@@ -59,9 +59,11 @@ namespace Monofoxe.Engine.ECS
 		{
 			foreach(var system in _activeSystems)
 			{
-				if (components.ContainsKey(system.ComponentType))
+				List<Component> componentList;
+				
+				if (components.TryGetValue(system.ComponentType, out componentList))
 				{
-					system.FixedUpdate(components[system.ComponentType].FindAll(x => x.Owner.Enabled));
+					system.FixedUpdate(componentList.FindAll(x => x.Owner.Enabled));
 				}
 			}
 		}
@@ -74,9 +76,10 @@ namespace Monofoxe.Engine.ECS
 		{
 			foreach(var system in _activeSystems)
 			{
-				if (components.ContainsKey(system.ComponentType))
+				List<Component> componentList;
+				if (components.TryGetValue(system.ComponentType, out componentList))
 				{
-					var componentList = components[system.ComponentType].FindAll(x => x.Owner.Enabled);
+					componentList = componentList.FindAll(x => x.Owner.Enabled);
 					if (componentList.Count > 0)
 					{
 						system._usedLayersCount += 1; // Telling that a layer is using this system.
@@ -96,10 +99,10 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		internal static void Draw(Component component)//Dictionary<string, List<Component>> components)
 		{
-			var componentType = component.GetType();
-			if (_activeSystems.ContainsKey(componentType))
+			BaseSystem system;
+			if (_activeSystems.TryGetValue(component.GetType(), out system))
 			{
-				_activeSystems[componentType].Draw(component);
+				system.Draw(component);
 			}
 		}
 
@@ -251,23 +254,25 @@ namespace Monofoxe.Engine.ECS
 						foreach(var component in layer._newComponents)
 						{
 							var componentType = component.GetType();
-							if (AutoSystemManagement && !_activeSystems.ContainsKey(componentType))
+							BaseSystem activeSystem;
+							if (!_activeSystems.TryGetValue(componentType, out activeSystem) && AutoSystemManagement)
 							{
-								if (_systemPool.ContainsKey(componentType))
+								BaseSystem newSystem;
+								if (_systemPool.TryGetValue(componentType, out newSystem))
 								{
-									var newSystem = _systemPool[componentType];
 									_activeSystems.Add(componentType, newSystem);
 									newSystem.Create(component);
 								}
 							}
 							else
 							{
-								_activeSystems[componentType].Create(component);
+								activeSystem.Create(component);
 							}
 
-							if (layer._components.ContainsKey(componentType))
+							List<Component> componentList;
+							if (layer._components.TryGetValue(componentType, out componentList))
 							{
-								layer._components[componentType].Add(component);
+								componentList.Add(component);
 							}
 							else
 							{

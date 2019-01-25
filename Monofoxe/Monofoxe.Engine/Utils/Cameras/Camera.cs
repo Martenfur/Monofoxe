@@ -231,9 +231,10 @@ namespace Monofoxe.Engine.Utils.Cameras
 
 		public void AddFilterEntry(string sceneName, string layerName)
 		{
-			if (_filter.ContainsKey(sceneName))
+			HashSet<string> filterSet;
+			if (_filter.TryGetValue(sceneName, out filterSet))
 			{
-				_filter[sceneName].Add(layerName);
+				filterSet.Add(layerName);
 			}
 			else
 			{
@@ -245,10 +246,11 @@ namespace Monofoxe.Engine.Utils.Cameras
 
 		public void RemoveFilterEntry(string sceneName, string layerName)
 		{
-			if (_filter.ContainsKey(sceneName))
+			HashSet<string> filterSet;
+			if (_filter.TryGetValue(sceneName, out filterSet))
 			{
-				_filter[sceneName].Remove(layerName);
-				if (_filter[sceneName].Count == 0)
+				filterSet.Remove(layerName);
+				if (filterSet.Count == 0)
 				{
 					_filter.Remove(sceneName);
 				}
@@ -267,9 +269,10 @@ namespace Monofoxe.Engine.Utils.Cameras
 
 			var result = false;
 
-			if (_filter.ContainsKey(sceneName))
+			HashSet<string> filterSet;
+			if (_filter.TryGetValue(sceneName, out filterSet))
 			{
-				result = _filter[sceneName].Contains(layerName);
+				result = filterSet.Contains(layerName);
 			}
 
 			if (FilterMode == FilterMode.Inclusive)

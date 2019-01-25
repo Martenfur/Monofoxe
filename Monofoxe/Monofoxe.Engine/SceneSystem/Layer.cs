@@ -169,9 +169,10 @@ namespace Monofoxe.Engine.SceneSystem
 			// Removing from lists.
 			_newComponents.Remove(component);
 			var componentType = component.GetType();
-			if (_components.ContainsKey(componentType))
+
+			List<Component> componentList;
+			if (_components.TryGetValue(componentType, out componentList))
 			{
-				var componentList = _components[componentType];
 				if (componentList.Count == 1)
 				{
 					// Removing whole list, because it's empty.
@@ -184,9 +185,10 @@ namespace Monofoxe.Engine.SceneSystem
 			}
 
 			// Performing Destroy event.
-			if (SystemMgr._activeSystems.ContainsKey(componentType))
+			BaseSystem activeSystem;
+			if (SystemMgr._activeSystems.TryGetValue(componentType, out activeSystem))
 			{
-				SystemMgr._activeSystems[componentType].Destroy(component);
+				activeSystem.Destroy(component);
 			}
 
 			SystemMgr._componentsWereRemoved = true;
@@ -376,9 +378,10 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public List<Entity> GetEntityListByComponent<T>() where T : Component
 		{
-			if (_components.ContainsKey(typeof(T)))
+			List<Component> componentList;
+			if (_components.TryGetValue(typeof(T), out componentList))
 			{
-				return _components[typeof(T)].Select(x => x.Owner).ToList();
+				return componentList.Select(x => x.Owner).ToList();
 			}
 			return new List<Entity>();
 		}
@@ -388,9 +391,10 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public int CountEntitiesByComponent<T>() where T : Component
 		{
-			if (_components.ContainsKey(typeof(T)))
+			List<Component> componentList;
+			if (_components.TryGetValue(typeof(T), out componentList))
 			{
-				return _components[typeof(T)].Count;
+				return componentList.Count;
 			}
 			return 0;
 		}
