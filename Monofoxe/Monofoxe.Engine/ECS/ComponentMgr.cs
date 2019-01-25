@@ -23,14 +23,15 @@ namespace Monofoxe.Engine.ECS
 			if (!SystemMgr._activeSystems.ContainsKey(componentType))
 			{
 				// Component may be first one created. In this case, system is disabled and need to be activated.
-				// NOTE: Second ContainsKey check below is necessary, because system may not exist in pool at all. 
+				// NOTE: TryGetValue below is necessary, because system may not exist in pool at all. 
 				SystemMgr.EnableSystem(componentType);
 			}
 
 			// If component is even there.
-			if (layer._newComponents.Contains(component) && SystemMgr._activeSystems.ContainsKey(componentType))
+			BaseSystem system;
+			if (layer._newComponents.Contains(component) && SystemMgr._activeSystems.TryGetValue(componentType, out system))
 			{
-				SystemMgr._activeSystems[componentType].Create(component);
+				system.Create(component);
 				layer._newComponents.Remove(component);
 				return;
 			}

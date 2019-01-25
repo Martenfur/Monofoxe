@@ -157,6 +157,13 @@ namespace Monofoxe.Engine.ECS
 			(T)_components[typeof(T)];
 		
 		/// <summary>
+		/// Retrieves component of given class, if it exists, and returns true. If it doesn't, returns false.
+		/// </summary>
+		public bool TryGetComponent<T>(out Component component) where T : Component =>
+			_components.TryGetValue(typeof(T), out component);
+		
+
+		/// <summary>
 		/// Returns all the components. All of them.
 		/// </summary>
 		public Component[] GetAllComponents()
@@ -187,9 +194,10 @@ namespace Monofoxe.Engine.ECS
 		public Component RemoveComponent<T>()
 		{
 			var type = typeof(T);
-			if (_components.ContainsKey(type))
+
+			Component component;
+			if (_components.TryGetValue(type, out component))
 			{
-				var component = _components[type];
 				_components.Remove(type);
 				Layer.RemoveComponent(component);
 				component.Owner = null;

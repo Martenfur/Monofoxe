@@ -31,9 +31,9 @@ namespace Monofoxe.Engine.Utils.CustomCollections
 
 		public void Remove(TKey key)
 		{
-			if (_items.ContainsKey(key))
+			TValue item;
+			if (_items.TryGetValue(key, out item))
 			{
-				var item = _items[key];
 				_items.Remove(key);
 				_sortedItems.Remove(item);
 			}
@@ -42,9 +42,11 @@ namespace Monofoxe.Engine.Utils.CustomCollections
 		public bool ContainsKey(TKey key) =>
 			_items.ContainsKey(key);
 
-		public bool ContainsValue(TKey value) =>
-			_items.ContainsKey(value);
-
+		public bool ContainsValue(TValue value) =>
+			_items.ContainsValue(value);
+		
+		public bool TryGetValue(TKey key, out TValue value) =>
+			_items.TryGetValue(key, out value);
 
 		public TValue this[TKey key]
 		{

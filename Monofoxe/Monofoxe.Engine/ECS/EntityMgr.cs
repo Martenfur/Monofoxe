@@ -52,7 +52,7 @@ namespace Monofoxe.Engine.ECS
 							if (layer.Enabled)
 							{
 								SceneMgr.CurrentLayer = layer;
-								SystemMgr.Update(layer._components);
+								SystemMgr.FixedUpdate(layer._components);
 								foreach(var entity in layer.Entities)
 								{
 									if (entity.Enabled && !entity.Destroyed)
@@ -127,11 +127,12 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		public static Entity CreateEntityFromTemplate(Layer layer, string tag)
 		{
-			if (_entityTemplates.ContainsKey(tag))
+			EntityTemplate template;
+			if (_entityTemplates.TryGetValue(tag, out template))
 			{
 				var entity = new Entity(layer, tag);
 
-				foreach(var component in _entityTemplates[tag].Components)
+				foreach(var component in template.Components)
 				{
 					entity.AddComponent((Component)component.Clone());
 				}

@@ -32,9 +32,10 @@ namespace Monofoxe.Tiled
 		/// </summary>
 		public static Entity MakeEntity(TiledObject obj, Layer layer)
 		{
-			if (_factoryPool.ContainsKey(obj.Type))
+			ITiledEntityFactory factory;
+			if (_factoryPool.TryGetValue(obj.Type, out factory))
 			{
-				return _factoryPool[obj.Type].Make(obj, layer);
+				return factory.Make(obj, layer);
 			}
 			return null;
 		}

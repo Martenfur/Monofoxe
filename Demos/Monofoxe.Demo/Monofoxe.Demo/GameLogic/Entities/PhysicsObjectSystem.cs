@@ -24,13 +24,7 @@ namespace Monofoxe.Demo.GameLogic.Entities
 
 		public override void Update(List<Component> components)
 		{
-			//_solidObjects = ComponentMgr.GetAllComponents(components[0].Tag, SceneMgr.CurrentLayer).Select(x => (SolidObjectComponent)x).ToList();
-			//ComponentMgr.GetComponentList<SolidObjectComponent>();
-
-
-
 			_solidObjects = SceneMgr.CurrentLayer.GetEntityListByComponent<SolidObjectComponent>();
-
 
 			foreach(PhysicsObjectComponent cPhysics in components)
 			{
@@ -56,11 +50,12 @@ namespace Monofoxe.Demo.GameLogic.Entities
 					}
 				}
 				// Gravity.
-
+				
 				
 				cPosition.Position.X += TimeKeeper.GlobalTime(cPhysics.Speed.X);
 				
-				if (CheckCollision(entity, cPosition.Position, cPhysics.Size) != null)
+				var collider = CheckCollision(entity, cPosition.Position, cPhysics.Size);
+				if (collider != null)
 				{
 					//cPhysics.Color = Color.Red;
 					var sign = 1;
@@ -69,14 +64,28 @@ namespace Monofoxe.Demo.GameLogic.Entities
 						sign = -1;
 					}
 
-					for(var x = 0; x <= TimeKeeper.GlobalTime(Math.Abs(cPhysics.Speed.X)*2) + 1; x += 1)
+					var colliderPos = collider.GetComponent<PositionComponent>();
+					var colliderSolid = collider.GetComponent<SolidObjectComponent>();
+
+					var dPos = cPosition.Position.X - colliderPos.Position.X;
+					var ppos = cPosition.Position - Vector2.UnitX * (dPos - Math.Sign(dPos) * (colliderSolid.Size.X + cPhysics.Size.X) / 2f);
+					
+					if (CheckCollision(entity, ppos, cPhysics.Size) != null)
 					{
-						if (CheckCollision(entity, cPosition.Position - Vector2.UnitX * x * sign, cPhysics.Size) == null)
+						for(var x = 0; x <= TimeKeeper.GlobalTime(Math.Abs(cPhysics.Speed.X)*2) + 1; x += 1)
 						{
-							cPhysics.Speed.X = 0;
-							cPosition.Position.X -= x * sign;
-							break;
+							if (CheckCollision(entity, cPosition.Position - Vector2.UnitX * x * sign, cPhysics.Size) == null)
+							{
+								cPhysics.Speed.X = 0;
+								cPosition.Position.X -= x * sign;
+								break;
+							}
 						}
+					}
+					else
+					{
+						cPhysics.Speed.X = 0;
+						cPosition.Position.X = ppos.X;
 					}
 				}
 
