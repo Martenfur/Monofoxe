@@ -30,7 +30,7 @@ namespace Monofoxe
 			
 			Tiled.MapMgr.Init();
 
-			new MainTester();
+			//new MainTester();
 		}
 
 		/// <summary>
@@ -39,10 +39,10 @@ namespace Monofoxe
 		/// </summary>
 		protected override void LoadContent()
 		{
-			Resources.Sprites.SpritesDefault.Load();	
-			Resources.Fonts.Load();
-			Resources.Effects.Load();
-			Resources.Maps.Load();
+			Resources.Sprites.SpritesDefault.Load();
+			//Resources.Fonts.Load();
+			//Resources.Effects.Load();
+			//Resources.Maps.Load();
 
 			EntityMgr.LoadEntityTemplates();
 			DrawMgr.Init(GraphicsDevice);

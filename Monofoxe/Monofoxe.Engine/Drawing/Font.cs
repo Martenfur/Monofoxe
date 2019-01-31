@@ -98,7 +98,7 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Draws text. Not recommended to call on its own, use DrawMgr functions instead.
 		/// </summary>
-		public void Draw(SpriteBatch batch, string text, Vector2 pos, TextAlign halign, TextAlign valign)
+		public void Draw(SpriteBatch batch, string text, Vector2 position, TextAlign halign, TextAlign valign)
 		{
 			string[] lines = text.Split(new []{Environment.NewLine}, StringSplitOptions.None);
 
@@ -112,7 +112,7 @@ namespace Monofoxe.Engine.Drawing
 			{
 				Vector2 lineSize = _spriteFont.MeasureString(line);
 				Vector2 lineOffset = new Vector2(lineSize.X * align.X, textH * align.Y);
-				batch.DrawString(_spriteFont, line, pos - lineOffset + offset, DrawMgr.CurrentColor);	
+				batch.DrawString(_spriteFont, line, position - lineOffset + offset, DrawMgr.CurrentColor);	
 				offset.Y += lineSize.Y;
 			}
 		}

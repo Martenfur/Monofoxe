@@ -2,7 +2,7 @@
 	"tag": "SolidBoi",
 	"components": 
 	{
-		"Monofoxe.Demo.GameLogic.Entities.SolidObjectComponent":
+		"Monofoxe.Demo.GameLogic.Entities.SolidComponent":
 		{
 			"size": {"x" : 64, "y": 32}
 		},

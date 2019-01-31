@@ -5,26 +5,21 @@ using Monofoxe.Engine.ECS;
 
 namespace Monofoxe.Demo.GameLogic.Entities
 {
-	public class SolidObjectSystem : BaseSystem
+	public class SolidSystem : BaseSystem
 	{
-		public override Type ComponentType => typeof(SolidObjectComponent);
+		public override Type ComponentType => typeof(SolidComponent);
 
 		public override void Draw(Component component)
 		{
-			var solid = (SolidObjectComponent)component;
+			var solid = (SolidComponent)component;
 			var position = solid.Owner.GetComponent<PositionComponent>();
 
 			DrawMgr.DrawRectangle(
 				position.Position - solid.Size / 2,
 				position.Position + solid.Size / 2,
-				true
+				false
 			);
-
-			DrawMgr.DrawCircle(
-				position.PreviousPosition,
-				8,
-				true
-			);
+			
 
 		}
 
