@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace Monofoxe.Demo.GameLogic.Entities
 {
-	public class PhysicsObjectComponent : Component
+	public class PhysicsComponent : Component
 	{
 		[JsonConverter(typeof(Vector2Converter))]
 		public Vector2 Size;
@@ -19,7 +19,7 @@ namespace Monofoxe.Demo.GameLogic.Entities
 
 		public override object Clone()
 		{
-			var physicsObjectComponent = new PhysicsObjectComponent();
+			var physicsObjectComponent = new PhysicsComponent();
 			physicsObjectComponent.Size = Size;
 			physicsObjectComponent.Speed = Speed;
 

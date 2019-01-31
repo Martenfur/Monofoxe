@@ -14,10 +14,31 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Graphics/default.atlas
-/importer:SpriteGroupImporter
-/processor:SpriteGroupProcessor
-/build:Graphics/default.atlas
+#begin Content.mgcb
+/importer:AssetInfoImporter
+/processor:PassThroughProcessor
+/build:Content.mgcb
+
+#begin Effects/AlphaBlend.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/AlphaBlend.fx
+
+#begin Entities/PhysicsBoi.json
+/importer:EntityTemplateImporter
+/processor:EntityTemplateProcessor
+/build:Entities/PhysicsBoi.json
+
+#begin Entities/Player.json
+/importer:EntityTemplateImporter
+/processor:EntityTemplateProcessor
+/build:Entities/Player.json
+
+#begin Entities/SolidBoi.json
+/importer:EntityTemplateImporter
+/processor:EntityTemplateProcessor
+/build:Entities/SolidBoi.json
 
 #begin Fonts/Arial.spritefont
 /importer:FontDescriptionImporter
@@ -26,24 +47,13 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/Arial.spritefont
 
-#begin Effects/AlphaBlend.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:Effects/AlphaBlend.fx
+#begin Graphics/default.atlas
+/importer:SpriteGroupImporter
+/processor:SpriteGroupProcessor
+/build:Graphics/default.atlas
 
-#begin Content.mgcb
-/importer:AssetInfoImporter
-/processor:PassThroughProcessor
-/build:Content.mgcb
-
-#begin Entities/PhysicsBoi.json
-/importer:EntityTemplateImporter
-/processor:EntityTemplateProcessor
-/build:Entities/PhysicsBoi.json
-
-#begin Entities/SolidBoi.json
-/importer:EntityTemplateImporter
-/processor:EntityTemplateProcessor
-/build:Entities/SolidBoi.json
+#begin Maps/test.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:Maps/test.tmx
 

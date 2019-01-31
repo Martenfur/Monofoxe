@@ -20,12 +20,12 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Width of the frame.
 		/// </summary>
-		public readonly int W;
+		public readonly int Width;
 
 		/// <summary>
 		/// Height of the frame.
 		/// </summary>
-		public readonly int H;
+		public readonly int Height;
 		
 		/// <summary>
 		/// Origin point of the frame.
@@ -55,11 +55,11 @@ namespace Monofoxe.Engine.Drawing
 			TexturePosition = texturePosition;
 			
 			Origin = origin;
-			W = w;
-			H = h;
+			Width = w;
+			Height = h;
 		}
 
 		public object Clone() =>
-			new Frame(Texture, TexturePosition, Origin, W, H);
+			new Frame(Texture, TexturePosition, Origin, Width, Height);
 	}
 }

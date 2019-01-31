@@ -42,14 +42,19 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="Content\Entities\Player.json" />
     <None Include="Content\Entities\PhysicsBoi.json" />
     <Compile Include="Game1.cs" />
-    <Compile Include="GameLogic\Entities\PhysicsObjectComponent.cs" />
-    <Compile Include="GameLogic\Entities\PhysicsObjectSystem.cs" />
+    <Compile Include="GameLogic\Entities\PhysicsComponent.cs" />
+    <Compile Include="GameLogic\Entities\PhysicsSystem.cs" />
+    <Compile Include="GameLogic\Entities\PlayerComponent.cs" />
+    <Compile Include="GameLogic\Entities\PlayerSystem.cs" />
     <Compile Include="GameLogic\Entities\PositionComponent.cs" />
     <Compile Include="GameLogic\Entities\PositionSystem.cs" />
-    <Compile Include="GameLogic\Entities\SolidObjectComponent.cs" />
-    <Compile Include="GameLogic\Entities\SolidObjectSystem.cs" />
+    <Compile Include="GameLogic\Entities\SolidComponent.cs" />
+    <Compile Include="GameLogic\Entities\SolidSystem.cs" />
+    <Compile Include="MapEntityFactories\PlayerFactory.cs" />
+    <Compile Include="MapEntityFactories\SolidFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Effects.cs" />
