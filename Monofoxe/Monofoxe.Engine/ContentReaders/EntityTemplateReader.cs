@@ -14,6 +14,12 @@ namespace Monofoxe.Engine.ContentReaders
 	/// </summary>
 	internal class EntityTemplateReader : ContentTypeReader<EntityTemplate>
 	{
+		/// <summary>
+		/// Suggested namespaces for component classes. 
+		/// </summary>
+		internal static string[] _namespaces = new string[0];
+
+
 		protected override EntityTemplate Read(ContentReader input, EntityTemplate existingInstance)
 		{
 			var l = input.ReadInt32();
@@ -27,15 +33,47 @@ namespace Monofoxe.Engine.ContentReaders
 			// Converting from json to entity template object.
 			foreach(JProperty prop in ((JObject)entityData["components"]).Properties())
 			{
+				
 				components.Add(
 					(Component)JsonConvert.DeserializeObject(
 						prop.Value.ToString(), 
-						Type.GetType(prop.Name + ", " + Assembly.GetEntryAssembly())
+						GetEntityType(prop.Name)
 					)
 				);
 			}
 
 			return new EntityTemplate(entityData["tag"].ToString(), components.ToArray());
+		}
+
+
+		/// <summary>
+		/// Returns entity type from string with mathing namespace. 
+		/// </summary>
+		private Type GetEntityType(string typeName)
+		{
+			Type type = null;
+			try
+			{
+				type = Type.GetType(typeName + ", " + Assembly.GetEntryAssembly(), true);
+			}
+			catch(TypeLoadException)
+			{
+				// If type isn't found, check all suggested namespaces.
+				foreach(var entityNamespace in _namespaces)
+				{
+					try
+					{
+						type = Type.GetType(entityNamespace + "." + typeName + ", " + Assembly.GetEntryAssembly(), true);
+						break; // Break, if type was successfully found. Won't be executed on exception.
+					}
+					catch(TypeLoadException){}
+				}
+				if (type == null)
+				{
+					throw new TypeLoadException("Failed to load component for " + typeName + " - no namespaces match.");
+				}
+			}
+			return type;
 		}
 
 

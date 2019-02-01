@@ -5,6 +5,7 @@ using Monofoxe.Engine.SceneSystem;
 using Newtonsoft.Json.Linq;
 using System.IO;
 using Newtonsoft.Json;
+using System;
 
 namespace Monofoxe.Engine.ECS
 {
@@ -20,7 +21,7 @@ namespace Monofoxe.Engine.ECS
 		private static Dictionary<string, EntityTemplate> _entityTemplates = new Dictionary<string, EntityTemplate>();
 		private static ContentManager _entityTemplatesContent = new ContentManager(GameMgr.Game.Services);
 
-		private static string _configFile = "test.json";//"__config";
+		private static string _configFileName = "_config.json";
 		private static string _entityNamespacesKey = "entityNamespaces";
 		private static string _spriteNamespacesKey = "spriteNamespaces";
 
@@ -114,31 +115,50 @@ namespace Monofoxe.Engine.ECS
 		
 		public static void LoadEntityTemplates()
 		{
+			ReadConfig();
 			var info = AssetMgr.GetAssetPaths(AssetMgr.EntityTemplatesDir);
-			
-			System.Console.WriteLine("ROOT: " + _entityTemplatesContent.RootDirectory);
-			
 			_entityTemplatesContent.RootDirectory = AssetMgr.ContentDir;
-
-			// Reading config.
-			var stream = TitleContainer.OpenStream(_entityTemplatesContent.RootDirectory + "/" + _configFile);
-			var reader = new StreamReader(stream);
 			
-			var json = JObject.Parse(reader.ReadToEnd());
-			
-			Converters.SpriteConverter._namespaces = JsonConvert.DeserializeObject<string[]>(
-				json[_spriteNamespacesKey].ToString()
-			);
-
-			//JsonConvert.DeserializeObject<string[]>(json[_entityNamespacesKey].ToString());
-			
-			
-			// Reading config.
-
 			foreach(var entityPath in info)
 			{
-				var template = _entityTemplatesContent.Load<EntityTemplate>(entityPath);
-				_entityTemplates.Add(template.Tag, template);
+				if (!entityPath.EndsWith(_configFileName)) // Ignoring config.
+				{
+					var template = _entityTemplatesContent.Load<EntityTemplate>(entityPath);
+					_entityTemplates.Add(template.Tag, template);
+				}
+			}
+		}
+
+		private static void ReadConfig()
+		{
+			JObject json;
+			try
+			{
+				var stream = TitleContainer.OpenStream(
+					AssetMgr.ContentDir + "/" + AssetMgr.EntityTemplatesDir + "/" + _configFileName
+				);
+				var reader = new StreamReader(stream);
+				json = JObject.Parse(reader.ReadToEnd());
+			}
+			catch(Exception)
+			{
+				// File doesn't exists, so we just leave it as is.
+				return;
+			}
+			
+
+			if (json[_spriteNamespacesKey] != null)
+			{
+				Converters.SpriteConverter._namespaces = JsonConvert.DeserializeObject<string[]>(
+					json[_spriteNamespacesKey].ToString()
+				);
+			}
+
+			if (json[_entityNamespacesKey] != null)
+			{
+				ContentReaders.EntityTemplateReader._namespaces = JsonConvert.DeserializeObject<string[]>(
+					json[_entityNamespacesKey].ToString()
+				);
 			}
 		}
 
