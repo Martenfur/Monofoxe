@@ -84,16 +84,13 @@
     <Compile Include="Test\MainTester.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Monofoxe.Engine, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Monofoxe.Engine">
       <HintPath>..\bin\Debug\Monofoxe.Engine.dll</HintPath>
     </Reference>
-    <Reference Include="Monofoxe.FMODAudio, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Monofoxe.FMODAudio">
       <HintPath>..\bin\Debug\Monofoxe.FMODAudio.dll</HintPath>
     </Reference>
-    <Reference Include="Monofoxe.Tiled, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Monofoxe.Tiled">
       <HintPath>..\bin\Debug\Monofoxe.Tiled.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework">

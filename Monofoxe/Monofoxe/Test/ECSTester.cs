@@ -32,7 +32,7 @@ namespace Monofoxe.Test
 					//for(var i = 0; i < 10; i += 1)
 					{
 						var ball = EntityMgr.CreateEntityFromTemplate(Layer, "birb");
-						ball.GetComponent<CBirb>().Position = Input.ScreenMousePos;
+						ball.GetComponent<CBirb>().Position = Input.ScreenMousePosition;
 					}
 				}
 				else
@@ -40,7 +40,7 @@ namespace Monofoxe.Test
 					//for(var i = 0; i < 10; i += 1)
 					{
 						var ball = EntityMgr.CreateEntityFromTemplate(Layer, "ball");
-						ball.GetComponent<CMovement>().Position = Input.ScreenMousePos;
+						ball.GetComponent<CMovement>().Position = Input.ScreenMousePosition;
 						ball.GetComponent<CCollision>().MaskR = 20;//r.Next(10, 16);
 					}
 				}
@@ -55,7 +55,7 @@ namespace Monofoxe.Test
 					EntityMgr.DestroyEntity(entity);
 				}
 				var ball = EntityMgr.CreateEntityFromTemplate(Layer, "ball");
-				ball.GetComponent<CMovement>().Position = Input.ScreenMousePos;
+				ball.GetComponent<CMovement>().Position = Input.ScreenMousePosition;
 				ball.GetComponent<CCollision>().MaskR = 20;//r.Next(10, 16);
 			}
 			

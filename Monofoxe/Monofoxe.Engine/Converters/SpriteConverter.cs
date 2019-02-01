@@ -17,7 +17,7 @@ namespace Monofoxe.Engine.Converters
 		/// <summary>
 		/// Suggested namespaces for sprite class. 
 		/// </summary>
-		internal string[] _namespaces = {""};
+		internal static string[] _namespaces = {""};
 
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
 			throw new InvalidOperationException("Cannot serialize sprites!");
@@ -29,7 +29,7 @@ namespace Monofoxe.Engine.Converters
 
 			var fieldName = words[words.Length - 1];
 			var className = name.Substring(0, name.Length - fieldName.Length - 1);
-
+			
 
 			Type type = null;
 			try

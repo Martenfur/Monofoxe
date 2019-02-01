@@ -19,7 +19,7 @@ namespace Monofoxe.Engine.ECS
 		{
 			var layer = component.Owner.Layer;	
 			var componentType = component.GetType();
-
+			
 			if (!SystemMgr._activeSystems.ContainsKey(componentType))
 			{
 				// Component may be first one created. In this case, system is disabled and need to be activated.

@@ -92,7 +92,7 @@ namespace Monofoxe.Test
 			DrawMgr.CurrentFont = Fonts.Arial;
 			
 			DrawMgr.CurrentColor = Color.White * 0.5f;//new Color(0.5f, 0.5f, 0.5f, 0.5f);
-			DrawMgr.DrawCircle(Input.MousePos, 2, false);
+			DrawMgr.DrawCircle(Input.MousePosition, 2, false);
 			DrawMgr.CurrentColor = Color.Green;//Color.Red * 0.5f;
 			
 
