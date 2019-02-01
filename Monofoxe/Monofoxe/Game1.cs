@@ -16,6 +16,7 @@ namespace Monofoxe
 			Content.RootDirectory = AssetMgr.ContentDir;
 			GameMgr.Init(this);
 			AudioMgr.Init();
+			
 		}
 
 		/// <summary>
@@ -30,7 +31,7 @@ namespace Monofoxe
 			
 			Tiled.MapMgr.Init();
 
-			//new MainTester();
+			new MainTester();
 		}
 
 		/// <summary>

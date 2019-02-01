@@ -78,3 +78,6 @@
 /processor:TiledMapProcessor
 /build:Maps/test.tmx
 
+#begin test.json
+/copy:test.json
+

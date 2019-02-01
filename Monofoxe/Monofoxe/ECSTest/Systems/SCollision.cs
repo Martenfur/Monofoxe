@@ -72,7 +72,7 @@ namespace Monofoxe.ECSTest.Systems
 			DrawMgr.CurrentColor = new Color(255, 255, 255, 255);//Red * 0.5f;
 			
 			//DrawMgr.DrawCircle(movement[id].Position, collider.MaskR, true);
-			DrawMgr.DrawSprite(Resources.Sprites.SpritesDefault.Barrel, movement.Position);
+			DrawMgr.DrawSprite(movement.Spr, movement.Position);
 		}
 	}
 }

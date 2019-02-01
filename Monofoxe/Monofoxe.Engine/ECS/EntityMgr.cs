@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Monofoxe.Engine.SceneSystem;
 using Newtonsoft.Json.Linq;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace Monofoxe.Engine.ECS
 {
@@ -18,7 +20,9 @@ namespace Monofoxe.Engine.ECS
 		private static Dictionary<string, EntityTemplate> _entityTemplates = new Dictionary<string, EntityTemplate>();
 		private static ContentManager _entityTemplatesContent = new ContentManager(GameMgr.Game.Services);
 
-		private static string _configFile = "__config";
+		private static string _configFile = "test.json";//"__config";
+		private static string _entityNamespacesKey = "entityNamespaces";
+		private static string _spriteNamespacesKey = "spriteNamespaces";
 
 		internal static void Update(GameTime gameTime)
 		{
@@ -111,10 +115,25 @@ namespace Monofoxe.Engine.ECS
 		public static void LoadEntityTemplates()
 		{
 			var info = AssetMgr.GetAssetPaths(AssetMgr.EntityTemplatesDir);
-
+			
+			System.Console.WriteLine("ROOT: " + _entityTemplatesContent.RootDirectory);
+			
 			_entityTemplatesContent.RootDirectory = AssetMgr.ContentDir;
 
-			_entityTemplatesContent.Load<JObject>(_configFile);
+			// Reading config.
+			var stream = TitleContainer.OpenStream(_entityTemplatesContent.RootDirectory + "/" + _configFile);
+			var reader = new StreamReader(stream);
+			
+			var json = JObject.Parse(reader.ReadToEnd());
+			
+			Converters.SpriteConverter._namespaces = JsonConvert.DeserializeObject<string[]>(
+				json[_spriteNamespacesKey].ToString()
+			);
+
+			//JsonConvert.DeserializeObject<string[]>(json[_entityNamespacesKey].ToString());
+			
+			
+			// Reading config.
 
 			foreach(var entityPath in info)
 			{
