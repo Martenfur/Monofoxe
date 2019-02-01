@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Monofoxe.Engine.SceneSystem;
+using Newtonsoft.Json.Linq;
 
 namespace Monofoxe.Engine.ECS
 {
@@ -18,6 +18,7 @@ namespace Monofoxe.Engine.ECS
 		private static Dictionary<string, EntityTemplate> _entityTemplates = new Dictionary<string, EntityTemplate>();
 		private static ContentManager _entityTemplatesContent = new ContentManager(GameMgr.Game.Services);
 
+		private static string _configFile = "__config";
 
 		internal static void Update(GameTime gameTime)
 		{
@@ -112,6 +113,8 @@ namespace Monofoxe.Engine.ECS
 			var info = AssetMgr.GetAssetPaths(AssetMgr.EntityTemplatesDir);
 
 			_entityTemplatesContent.RootDirectory = AssetMgr.ContentDir;
+
+			_entityTemplatesContent.Load<JObject>(_configFile);
 
 			foreach(var entityPath in info)
 			{
