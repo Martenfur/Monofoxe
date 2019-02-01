@@ -2,11 +2,11 @@
 	"tag": "ball",
 	"components": 
 	{
-		"Monofoxe.ECSTest.Components.CCollision":
+		"CCollision":
 		{
 			"maskR": 8
 		},
-		"Monofoxe.ECSTest.Components.CMovement":
+		"CMovement":
 		{
 			"position":
 			{

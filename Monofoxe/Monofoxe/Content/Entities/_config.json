@@ -1,0 +1,10 @@
+{
+	"spriteNamespaces": 
+	[
+		"Resources.Sprites"
+	],
+	"entityNamespaces": 
+	[
+		"Monofoxe.ECSTest.Components"
+	]	
+}
