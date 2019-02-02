@@ -18,7 +18,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 		{
 			var tilemap = (BasicTilemapComponent)component;
 
-			var offsetCameraPos = DrawMgr.CurrentCamera.Pos
+			var offsetCameraPos = DrawMgr.CurrentCamera.Position
 				- tilemap.Offset
 				- DrawMgr.CurrentCamera.Offset / DrawMgr.CurrentCamera.Zoom;
 
@@ -65,7 +65,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 						if (tileFrame != null)
 						{
 							var flip = SpriteEffects.None;
-							var offset = Vector2.UnitY * (tileFrame.H - tilemap.TileHeight);
+							var offset = Vector2.UnitY * (tileFrame.Height - tilemap.TileHeight);
 							var rotation = 0;
 							
 							// A bunch of Tiled magic.

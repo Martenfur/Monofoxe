@@ -12,21 +12,23 @@ using Monofoxe.Engine.Utils;
 
 namespace Monofoxe.Demo.GameLogic.Entities
 {
-	public class PhysicsObjectSystem : BaseSystem
+	public class PhysicsSystem : BaseSystem
 	{
-		public override Type ComponentType => typeof(PhysicsObjectComponent);
+		public override Type ComponentType => typeof(PhysicsComponent);
 
 		private List<Entity> _solidObjects;
 		
+		public override int Priority => 2;
+
 		public float Gravity = 400;
 		public float MaxFallSpeed = 500; // px/sec
 
 
 		public override void Update(List<Component> components)
 		{
-			_solidObjects = SceneMgr.CurrentLayer.GetEntityListByComponent<SolidObjectComponent>();
+			_solidObjects = SceneMgr.CurrentLayer.GetEntityListByComponent<SolidComponent>();
 
-			foreach(PhysicsObjectComponent cPhysics in components)
+			foreach(PhysicsComponent cPhysics in components)
 			{
 				var entity = cPhysics.Owner;
 				var cPosition = entity.GetComponent<PositionComponent>();
@@ -65,7 +67,7 @@ namespace Monofoxe.Demo.GameLogic.Entities
 					}
 
 					var colliderPos = collider.GetComponent<PositionComponent>();
-					var colliderSolid = collider.GetComponent<SolidObjectComponent>();
+					var colliderSolid = collider.GetComponent<SolidComponent>();
 
 					var dPos = cPosition.Position.X - colliderPos.Position.X;
 					var ppos = cPosition.Position - Vector2.UnitX * (dPos - Math.Sign(dPos) * (colliderSolid.Size.X + cPhysics.Size.X) / 2f);
@@ -114,24 +116,7 @@ namespace Monofoxe.Demo.GameLogic.Entities
 
 		public override void Draw(Component component)
 		{
-			
-			var physicsObject = (PhysicsObjectComponent)component;
-			var position = physicsObject.Owner.GetComponent<PositionComponent>();
 
-			DrawMgr.CurrentColor = physicsObject.Color;
-
-			DrawMgr.DrawRectangle(
-				position.Position.ToPoint().ToVector2() - physicsObject.Size / 2,
-				position.Position.ToPoint().ToVector2() + physicsObject.Size / 2,
-				true
-			);
-
-			DrawMgr.DrawCircle(
-				position.PreviousPosition.ToPoint().ToVector2(),
-				8,
-				true
-			);
-			DrawMgr.CurrentColor = Color.Black;
 		}
 
 
@@ -142,7 +127,7 @@ namespace Monofoxe.Demo.GameLogic.Entities
 				if (solid != checker)
 				{
 					var solidPos = solid.GetComponent<PositionComponent>().Position;
-					var solidSize = solid.GetComponent<SolidObjectComponent>().Size / 2f;
+					var solidSize = solid.GetComponent<SolidComponent>().Size / 2f;
 
 					if (GameMath.RectangleInRectangle(position - size / 2f, position + size / 2f, solidPos - solidSize, solidPos + solidSize))
 					{

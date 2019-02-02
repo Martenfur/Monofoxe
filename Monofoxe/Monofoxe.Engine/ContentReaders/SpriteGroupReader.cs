@@ -62,7 +62,9 @@ namespace Monofoxe.Engine.ContentReaders
 				}
 				dictionary.Add(spriteName, new Sprite(frames, spriteOrigin));
 			}
-
+			
+			//input.Dispose();
+			//System.GC.Collect();
 			return dictionary;
 		}
 	}

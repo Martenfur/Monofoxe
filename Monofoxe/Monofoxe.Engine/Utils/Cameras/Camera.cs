@@ -33,20 +33,22 @@ namespace Monofoxe.Engine.Utils.Cameras
 		/// View coordinates.
 		/// NOTE: They don't take into account offset and rotation.
 		/// </summary>
-		public Vector2 Pos;
+		public Vector2 Position;
 
 		/// <summary>
 		/// View size.
 		/// </summary>
-		public Vector2 Size 
-		{
-			get => new Vector2(Surface.Width, Surface.Height);
-			set
-			{
-				Surface.Dispose();
-				Surface = CreateSurface((int)value.X, (int)value.Y);
-			}
-		}
+		public Vector2 Size => new Vector2(Surface.Width, Surface.Height);
+
+		/// <summary>
+		/// View width.
+		/// </summary>
+		public int Width => Surface.Width;
+
+		/// <summary>
+		/// View height.
+		/// </summary>
+		public int Height => Surface.Height;
 
 		/// <summary>
 		/// Camera offset.
@@ -67,7 +69,7 @@ namespace Monofoxe.Engine.Utils.Cameras
 		/// <summary>
 		/// Viewport coordinates. Sets where on screen view will be drawn.
 		/// </summary>
-		public Vector2 PortPos;
+		public Vector2 PortPosition;
 		
 		/// <summary>
 		/// Viewport coordinates. Sets where on screen view will be drawn.
@@ -186,6 +188,15 @@ namespace Monofoxe.Engine.Utils.Cameras
 		}
 
 		/// <summary>
+		/// Resizes the view.
+		/// </summary>
+		public void Resize(int w, int h)
+		{
+			Surface.Dispose();
+			Surface = CreateSurface(w, h);
+		}
+
+		/// <summary>
 		/// Removes camera from draw controller list and disposes surface.
 		/// </summary>
 		public void Destroy()
@@ -194,9 +205,12 @@ namespace Monofoxe.Engine.Utils.Cameras
 			Surface.Dispose();
 		}
 		
+		/// <summary>
+		/// Updates camera's transform matrix.
+		/// </summary>
 		public void UpdateTransformMatrix()
 		{
-			TransformMatrix = Matrix.CreateTranslation(new Vector3(-Pos.X, -Pos.Y, 0)) * // Coordinates.
+			TransformMatrix = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) * // Coordinates.
 				Matrix.CreateRotationZ(MathHelper.ToRadians(-Rotation)) *                  // Rotation.
 				Matrix.CreateScale(Vector3.One * Zoom) *                                   // Scale.
 				Matrix.CreateTranslation(new Vector3(Offset.X, Offset.Y, 0));              // Offset.									
@@ -216,13 +230,13 @@ namespace Monofoxe.Engine.Utils.Cameras
 			 * so rare usecase, that it doesn't really worth the hassle. :S
 			 * TODO: Fix port rotation problems.
 			 */
-			var transformMatrix = Matrix.CreateTranslation(new Vector3(-Pos.X, -Pos.Y, 0)) *
+			var transformMatrix = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) *
 				Matrix.CreateRotationZ(MathHelper.ToRadians(PortRotation - Rotation)) *            
 				Matrix.CreateScale(Vector3.One * Zoom) *
 				Matrix.CreateTranslation(new Vector3(Offset.X, Offset.Y, 0));
 			
 			var matrix =  Matrix.Invert(transformMatrix);
-			var mouseVec = (Input.ScreenMousePos - PortPos) / PortScale + PortOffset;
+			var mouseVec = (Input.ScreenMousePosition - PortPosition) / PortScale + PortOffset;
 
 			var transformedMouseVec = Vector3.Transform(new Vector3(mouseVec.X, mouseVec.Y, 0), matrix);
 			return new Vector2(transformedMouseVec.X, transformedMouseVec.Y);
@@ -335,7 +349,7 @@ namespace Monofoxe.Engine.Utils.Cameras
 
 			DrawMgr.DrawSurface(
 				Surface, 
-				PortPos, 
+				PortPosition, 
 				Vector2.One * PortScale,
 				PortRotation, 
 				PortOffset, 

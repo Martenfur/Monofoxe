@@ -15,12 +15,12 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Cursor position on screen.
 		/// </summary>
-		public static Vector2 ScreenMousePos {get; private set;} = Vector2.Zero;
+		public static Vector2 ScreenMousePosition {get; private set;} = Vector2.Zero;
 		
 		/// <summary>
 		/// Cursor position in the world. Depends on current camera.
 		/// </summary>
-		public static Vector2 MousePos {get; internal set;} = Vector2.Zero;
+		public static Vector2 MousePosition {get; internal set;} = Vector2.Zero;
 
 
 		private static List<Buttons> _mouseButtons = new List<Buttons>(),
@@ -123,7 +123,7 @@ namespace Monofoxe.Engine
 			
 			var m = Matrix.Invert(DrawMgr.CanvasMatrix);
 			var buffer = Vector3.Transform(new Vector3(mouseState.X, mouseState.Y, 0), m);
-			ScreenMousePos = new Vector2(buffer.X, buffer.Y);
+			ScreenMousePosition = new Vector2(buffer.X, buffer.Y);
 			
 			_previousMouseButtons = _mouseButtons;
 			_mouseButtons = new List<Buttons>();

@@ -58,7 +58,7 @@ namespace Monofoxe.Test
 			//new DrawingTester();
 			new ECSTester(ballsLayer);
 			//new AlarmTester(ballsLayer);
-			new TileTester(ballsLayer);
+			//new TileTester(ballsLayer);
 		}
 
 
@@ -85,22 +85,22 @@ namespace Monofoxe.Test
 			
 			if (Input.CheckButton(Buttons.Left))
 			{
-				MainCamera.Pos.X += (5 / MainCamera.Zoom);
+				MainCamera.Position.X += (5 / MainCamera.Zoom);
 			}
 			
 			if (Input.CheckButton(Buttons.Right))
 			{
-				MainCamera.Pos.X -= (5 / MainCamera.Zoom);
+				MainCamera.Position.X -= (5 / MainCamera.Zoom);
 			}
 			
 			if (Input.CheckButton(Buttons.Up))
 			{
-				MainCamera.Pos.Y += (5 / MainCamera.Zoom);
+				MainCamera.Position.Y += (5 / MainCamera.Zoom);
 			}
 			
 			if (Input.CheckButton(Buttons.Down))
 			{
-				MainCamera.Pos.Y -= (5 / MainCamera.Zoom);
+				MainCamera.Position.Y -= (5 / MainCamera.Zoom);
 			}
 			
 			if (Input.CheckButton(Buttons.Z))
@@ -145,20 +145,20 @@ namespace Monofoxe.Test
 			MainCamera.BackgroundColor = Color.DarkSeaGreen;
 			MainCamera.ClearBackground = true;
 			MainCamera.Offset = MainCamera.Size / 2;
-			MainCamera.Pos = MainCamera.Size / 2;
+			MainCamera.Position = MainCamera.Size / 2;
 			//MainCamera.PortOffset = Vector2.One * 32;
 
 			var layer = SceneMgr.GetScene("default")["balls"];
 			var layer1 = SceneMgr.GetScene("default")["default"];
 			//layer.IsGUI = false;
 			MainCamera.PostprocessingMode = PostprocessingMode.CameraAndLayers;
-			//MainCamera.PostprocessorEffects.Add(Resources.Effects.Effect);
+			//MainCamera.PositiontprocessorEffects.Add(Resources.Effects.Effect);
 			//layer.PostprocessorEffects.Add(Resources.Effects.BW);
 			
 			//layer1.PostprocessorEffects.Add(Resources.Effects.BW);
 			
 
-			SecondCamera.PortPos.X = 600;
+			SecondCamera.PortPosition.X = 600;
 			SecondCamera.BackgroundColor = Color.DarkSeaGreen;
 			SecondCamera.Enabled = true;
 			//SecondCamera.AddFilterEntry("default", "balls");

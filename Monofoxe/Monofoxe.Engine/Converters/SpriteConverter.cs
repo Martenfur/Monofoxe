@@ -14,6 +14,11 @@ namespace Monofoxe.Engine.Converters
 	/// </summary>
 	public class SpriteConverter : BasicConverter
 	{
+		/// <summary>
+		/// Suggested namespaces for sprite class. 
+		/// </summary>
+		internal static string[] _namespaces = new string[0];
+
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
 			throw new InvalidOperationException("Cannot serialize sprites!");
 
@@ -24,9 +29,32 @@ namespace Monofoxe.Engine.Converters
 
 			var fieldName = words[words.Length - 1];
 			var className = name.Substring(0, name.Length - fieldName.Length - 1);
-
-			var type = Type.GetType(className + ", " + Assembly.GetEntryAssembly(), true);
 			
+			//TODO: test!
+			Type type = null;
+			try
+			{
+				type = Type.GetType(className + ", " + Assembly.GetEntryAssembly(), true);
+			}
+			catch(TypeLoadException)
+			{
+				// If type isn't found, check all suggested namespaces.
+				foreach(var spriteNamespace in _namespaces)
+				{
+					try
+					{
+						type = Type.GetType(spriteNamespace + "." + className + ", " + Assembly.GetEntryAssembly(), true);
+						break; // Break, if type was successfully found. Won't be executed on exception.
+					}
+					catch(TypeLoadException){}
+				}
+				if (type == null)
+				{
+					throw new TypeLoadException("Failed to load sprite from " + className + " - no namespaces match.");
+				}
+			}
+
+
 			return type.GetField(fieldName).GetValue(null);
 		}
 	}

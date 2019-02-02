@@ -15,7 +15,7 @@ namespace Monofoxe.ECSTest.Components
 		public Vector2 Position;
 		
 		[JsonConverter(typeof(SpriteConverter))]
-		public Sprite Spr = SpritesDefault.TestKitten;
+		public Sprite Spr = Default.TestKitten;
 
 		[JsonConverter(typeof(ColorConverter))]
 		public Color Color = Color.Blue;
