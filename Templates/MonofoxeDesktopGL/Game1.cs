@@ -3,7 +3,7 @@ using Monofoxe.Engine;
 using Monofoxe.Engine.ECS;
 using Monofoxe.FMODAudio;
 using Monofoxe.Tiled;
-
+using Resources;
 
 namespace $safeprojectname$
 {
@@ -43,10 +43,10 @@ namespace $safeprojectname$
 			DrawMgr.Init(GraphicsDevice);
 			EntityMgr.LoadEntityTemplates();
 			
-			Resources.Sprites.SpritesDefault.Load();	
-			Resources.Fonts.Load();
-			Resources.Effects.Load();
-			Resources.Maps.Load();
+			Resources.Sprites.Default.Load();	
+			Fonts.Load();
+			Effects.Load();
+			Maps.Load();
 		}
 
 		/// <summary>
