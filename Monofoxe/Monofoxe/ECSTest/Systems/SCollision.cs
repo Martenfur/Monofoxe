@@ -25,7 +25,7 @@ namespace Monofoxe.ECSTest.Systems
 
 		
 		public override void FixedUpdate(List<Component> components) 
-		{Console.WriteLine("ello");
+		{
 			var movement = ComponentMgr.GetComponentList<CMovement>(components);
 			
 			var id = 0;

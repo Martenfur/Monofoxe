@@ -1,7 +1,7 @@
 {
-	atlasSize: 2048,
+	atlasSize: 512,
 	texturePadding: 1,
-	rootDir: "/TestGraphics",
+	rootDir: "/Special",
 	classTemplatePath: "/../Template.cs", // Relative to rootDir.
 	classOutputDir: "/../Resources/Sprites/", // Relative to content project file.
 	singleTexturesWildcards: 
