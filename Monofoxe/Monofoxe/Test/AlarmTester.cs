@@ -14,7 +14,7 @@ namespace Monofoxe.Test
 {
 	public class AlarmTester : Entity
 	{
-		Sprite spr = SpritesDefault.BstGam;
+		Sprite spr = Default.BstGam;
 		float scale = 1;
 		float scale1 = 1;
 		float period = 1;

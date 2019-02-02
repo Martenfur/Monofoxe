@@ -6,25 +6,25 @@ namespace Monofoxe.Engine.Drawing
 	public class Sprite
 	{
 		public readonly Frame[] Frames;
-		public int W 
+		public int Width 
 		{
 			get
 			{
 				if (SingleFrameSize)
 				{
-					return Frames[0].W;
+					return Frames[0].Width;
 				}	
 				throw new Exception("To use this variable, all frame sizes must be identical!");
 			}
 		}
 		
-		public int H
+		public int Height
 		{
 			get
 			{
 				if (SingleFrameSize)
 				{
-					return Frames[0].H;
+					return Frames[0].Height;
 				}
 				throw new Exception("To use this variable, all frame sizes must be identical!");
 			}
@@ -80,7 +80,7 @@ namespace Monofoxe.Engine.Drawing
 		{
 			for(var i = 1; i < Frames.Length; i += 1)
 			{
-				if (Frames[0].W != Frames[i].W || Frames[0].H != Frames[i].H)
+				if (Frames[0].Width != Frames[i].Width || Frames[0].Height != Frames[i].Height)
 				{
 					return false;
 				}

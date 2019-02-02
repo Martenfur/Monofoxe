@@ -28,6 +28,12 @@
 /processor:PassThroughProcessor
 /build:Content.mgcb
 
+#begin Effects/AlphaBlend.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/AlphaBlend.fx
+
 #begin Effects/BW.fx
 /importer:EffectImporter
 /processor:EffectProcessor
@@ -40,10 +46,18 @@
 /processorParam:DebugMode=Auto
 /build:Effects/effect.fx
 
+#begin Entities/_config.json
+/copy:Entities/_config.json
+
 #begin Entities/Ball.json
 /importer:EntityTemplateImporter
 /processor:EntityTemplateProcessor
 /build:Entities/Ball.json
+
+#begin Entities/Birb.json
+/importer:EntityTemplateImporter
+/processor:EntityTemplateProcessor
+/build:Entities/Birb.json
 
 #begin Entities/TestTemplate.json
 /importer:EntityTemplateImporter
@@ -57,24 +71,18 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/Arial.spritefont
 
-#begin Effects/AlphaBlend.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:Effects/AlphaBlend.fx
-
-#begin Maps/test.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:Maps/test.tmx
-
 #begin Graphics/default.atlas
 /importer:SpriteGroupImporter
 /processor:SpriteGroupProcessor
 /build:Graphics/default.atlas
 
-#begin Entities/Birb.json
-/importer:EntityTemplateImporter
-/processor:EntityTemplateProcessor
-/build:Entities/Birb.json
+#begin Graphics/special.atlas
+/importer:SpriteGroupImporter
+/processor:SpriteGroupProcessor
+/build:Graphics/special.atlas
+
+#begin Maps/test.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:Maps/test.tmx
 

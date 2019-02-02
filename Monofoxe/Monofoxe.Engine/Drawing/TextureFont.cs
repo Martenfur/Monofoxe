@@ -99,7 +99,7 @@ namespace Monofoxe.Engine.Drawing
 							{
 								if (data[frame.Texture.Width * y + x].A != 0)
 								{
-									rightBearing = frame.W - (x + (int)frame.Origin.X - frame.TexturePosition.X + 1);
+									rightBearing = frame.Width - (x + (int)frame.Origin.X - frame.TexturePosition.X + 1);
 									break;
 								}
 							}
@@ -116,8 +116,8 @@ namespace Monofoxe.Engine.Drawing
 				{
 					Character = ch,
 					BoundsInTexture = frame.TexturePosition,
-					Width = frame.W - leftBearing - rightBearing,
-					WidthIncludingBearings = frame.W,
+					Width = frame.Width - leftBearing - rightBearing,
+					WidthIncludingBearings = frame.Width,
 					LeftSideBearing = leftBearing,
 					RightSideBearing = rightBearing
 				};
@@ -195,7 +195,7 @@ namespace Monofoxe.Engine.Drawing
 		{
 			string[] lines = text.Split(new []{Environment.NewLine}, StringSplitOptions.None);
 
-			return lines.Length * (_frames[(char)DefaultCharacter].H + LineSpacing) - LineSpacing;
+			return lines.Length * (_frames[(char)DefaultCharacter].Height + LineSpacing) - LineSpacing;
 		}
 		
 		
@@ -209,7 +209,7 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Draws text. Not recommended to call on its own, use DrawMgr functions instead.
 		/// </summary>
-		public void Draw(SpriteBatch batch, string text, Vector2 pos, TextAlign halign, TextAlign valign)
+		public void Draw(SpriteBatch batch, string text, Vector2 position, TextAlign halign, TextAlign valign)
 		{
 			string[] lines = text.Split(new []{Environment.NewLine}, StringSplitOptions.None);
 
@@ -240,7 +240,7 @@ namespace Monofoxe.Engine.Drawing
 					var border = new Vector2(-glyph.LeftSideBearing, 0);
 					var lineOffset = new Vector2(strSize.X * align.X, textH * align.Y);
 					
-					batch.Draw(frame.Texture, pos + offset + frame.Origin + border - lineOffset, frame.TexturePosition, DrawMgr.CurrentColor);
+					batch.Draw(frame.Texture, position + offset + frame.Origin + border - lineOffset, frame.TexturePosition, DrawMgr.CurrentColor);
 					offset.X += glyph.Width + Spacing;
 				}
 				offset.X = 0;

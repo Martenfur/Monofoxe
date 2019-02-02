@@ -1,5 +1,5 @@
 // Template tags: 
-// SpritesDefault - Name of output class.
+// Default - Name of output class.
 // Default - Name of current group.
 // <sprite_name> - Name of each sprite.
 // <sprite_hash_name> - Hash name of each sprite.
@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace Resources.Sprites
 {
-	public static class SpritesDefault
+	public static class Default
 	{
 		#region Sprites.
 		public static Sprite Scene5Bkg;

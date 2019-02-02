@@ -340,10 +340,10 @@ namespace Monofoxe.Engine
 					camera.UpdateTransformMatrix();
 					CurrentCamera = camera;
 					CurrentTransformMatrix = camera.TransformMatrix;
-					CurrentProjection = Matrix.CreateOrthographicOffCenter(0, camera.Size.X, camera.Size.Y, 0, 0, 1);
+					CurrentProjection = Matrix.CreateOrthographicOffCenter(0, camera.Width, camera.Height, 0, 0, 1);
 					// Updating current transform matrix and camera.
 
-					Input.MousePos = camera.GetRelativeMousePosition();
+					Input.MousePosition = camera.GetRelativeMousePosition();
 
 					SetSurfaceTarget(camera.Surface, camera.TransformMatrix);
 
@@ -363,7 +363,7 @@ namespace Monofoxe.Engine
 			// Resetting camera, transform matrix and mouse position.
 			CurrentCamera = null;
 			CurrentTransformMatrix = CanvasMatrix;
-			Input.MousePos = Input.ScreenMousePos;
+			Input.MousePosition = Input.ScreenMousePosition;
 			// Resetting camera, transform matrix and mouse position
 			
 
@@ -692,14 +692,14 @@ namespace Monofoxe.Engine
 			{
 				mirroring = mirroring | SpriteEffects.FlipHorizontally;
 				scale.X *= -1;
-				offset.X += frame.W;
+				offset.X += frame.Width;
 			}
 
 			if (scale.Y < 0)
 			{
 				mirroring = mirroring | SpriteEffects.FlipVertically;
 				scale.Y *= -1;
-				offset.Y += frame.H;
+				offset.Y += frame.Height;
 			}
 			// Proper negative scaling.
 

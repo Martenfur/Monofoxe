@@ -1,8 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Monofoxe.Engine.SceneSystem;
+using Newtonsoft.Json.Linq;
+using System.IO;
+using Newtonsoft.Json;
+using System;
 
 namespace Monofoxe.Engine.ECS
 {
@@ -18,6 +21,9 @@ namespace Monofoxe.Engine.ECS
 		private static Dictionary<string, EntityTemplate> _entityTemplates = new Dictionary<string, EntityTemplate>();
 		private static ContentManager _entityTemplatesContent = new ContentManager(GameMgr.Game.Services);
 
+		private static string _configFileName = "_config.json";
+		private static string _entityNamespacesKey = "entityNamespaces";
+		private static string _spriteNamespacesKey = "spriteNamespaces";
 
 		internal static void Update(GameTime gameTime)
 		{
@@ -109,14 +115,53 @@ namespace Monofoxe.Engine.ECS
 		
 		public static void LoadEntityTemplates()
 		{
+			ReadConfig();
 			var info = AssetMgr.GetAssetPaths(AssetMgr.EntityTemplatesDir);
-
 			_entityTemplatesContent.RootDirectory = AssetMgr.ContentDir;
-
+			
 			foreach(var entityPath in info)
 			{
-				var template = _entityTemplatesContent.Load<EntityTemplate>(entityPath);
-				_entityTemplates.Add(template.Tag, template);
+				if (!entityPath.EndsWith(_configFileName)) // Ignoring config.
+				{
+					var template = _entityTemplatesContent.Load<EntityTemplate>(entityPath);
+					_entityTemplates.Add(template.Tag, template);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Reads config, which contains namespaces for entities and sprite groups.
+		/// </summary>
+		private static void ReadConfig()
+		{
+			JObject json;
+			try
+			{
+				var stream = TitleContainer.OpenStream(
+					AssetMgr.ContentDir + "/" + AssetMgr.EntityTemplatesDir + "/" + _configFileName
+				);
+				var reader = new StreamReader(stream);
+				json = JObject.Parse(reader.ReadToEnd());
+			}
+			catch(Exception)
+			{
+				// File doesn't exists, so we just leave it as is.
+				return;
+			}
+			
+
+			if (json[_spriteNamespacesKey] != null)
+			{
+				Converters.SpriteConverter._namespaces = JsonConvert.DeserializeObject<string[]>(
+					json[_spriteNamespacesKey].ToString()
+				);
+			}
+
+			if (json[_entityNamespacesKey] != null)
+			{
+				ContentReaders.EntityTemplateReader._namespaces = JsonConvert.DeserializeObject<string[]>(
+					json[_entityNamespacesKey].ToString()
+				);
 			}
 		}
 

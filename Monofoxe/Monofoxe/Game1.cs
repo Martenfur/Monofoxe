@@ -16,6 +16,7 @@ namespace Monofoxe
 			Content.RootDirectory = AssetMgr.ContentDir;
 			GameMgr.Init(this);
 			AudioMgr.Init();
+			
 		}
 
 		/// <summary>
@@ -39,10 +40,12 @@ namespace Monofoxe
 		/// </summary>
 		protected override void LoadContent()
 		{
-			Resources.Sprites.SpritesDefault.Load();	
-			Resources.Fonts.Load();
-			Resources.Effects.Load();
-			Resources.Maps.Load();
+			Resources.Sprites.Default.Load();
+			Resources.Sprites.Special.Load();
+
+			//Resources.Fonts.Load();
+			//Resources.Effects.Load();
+			//Resources.Maps.Load();
 
 			EntityMgr.LoadEntityTemplates();
 			DrawMgr.Init(GraphicsDevice);

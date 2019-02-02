@@ -41,7 +41,7 @@ namespace Monofoxe.Test
 
 		public override void Update()
 		{
-			snd1.Set3DAttributes(Input.ScreenMousePos, Vector2.Zero);
+			snd1.Set3DAttributes(Input.ScreenMousePosition, Vector2.Zero);
 			snd1.Set3DMinMaxDistance(100, 300);
 
 			if (Input.CheckButtonPress(Buttons.A))

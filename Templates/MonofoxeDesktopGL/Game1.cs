@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine;
+using Monofoxe.Engine.ECS;
 using Monofoxe.FMODAudio;
+using Monofoxe.Tiled;
 
 
 namespace $safeprojectname$
@@ -26,6 +28,9 @@ namespace $safeprojectname$
 		{
 			base.Initialize();
 			
+			AudioMgr.Init();
+			MapMgr.Init();
+
 			new Test();
 		}
 
@@ -35,11 +40,13 @@ namespace $safeprojectname$
 		/// </summary>
 		protected override void LoadContent()
 		{
+			DrawMgr.Init(GraphicsDevice);
+			EntityMgr.LoadEntityTemplates();
+			
 			Resources.Sprites.SpritesDefault.Load();	
 			Resources.Fonts.Load();
 			Resources.Effects.Load();
-			DrawMgr.Init(GraphicsDevice);
-			AudioMgr.Init();
+			Resources.Maps.Load();
 		}
 
 		/// <summary>

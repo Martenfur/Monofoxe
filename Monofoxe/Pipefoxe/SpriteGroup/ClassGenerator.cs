@@ -143,7 +143,7 @@ namespace Pipefoxe.SpriteGroup
 			
 
 			var camelGroupName = ToCamelCase(groupName);
-			var className = "Sprites" + camelGroupName;
+			var className = camelGroupName;
 			code = code.Replace("<group_name>", camelGroupName).Replace("<class_name>", className);
 			
 			for(var i = 0; i < customVariableNames.Count; i += 1)

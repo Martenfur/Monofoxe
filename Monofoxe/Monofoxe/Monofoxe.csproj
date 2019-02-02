@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="ECSTest\Components\CBirb.cs" />
     <Compile Include="ECSTest\Systems\SBirb.cs" />
+    <Compile Include="Resources\Sprites\Special.cs" />
     <Compile Include="Test\MapFactories\BarrelMapFactory.cs" />
     <Compile Include="Test\TileTester.cs" />
     <Content Include="Content\Effects\AlphaBlend.fx" />
@@ -75,7 +76,7 @@
     <Compile Include="Resources\Effects.cs" />
     <Compile Include="Resources\Maps.cs" />
     <Compile Include="Resources\Sounds.cs" />
-    <Compile Include="Resources\Sprites\SpritesDefault.cs" />
+    <Compile Include="Resources\Sprites\Default.cs" />
     <Compile Include="Resources\Fonts.cs" />
     <Compile Include="Test\AlarmTester.cs" />
     <Compile Include="Test\AudioTester.cs" />
@@ -84,16 +85,13 @@
     <Compile Include="Test\MainTester.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Monofoxe.Engine, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Monofoxe.Engine">
       <HintPath>..\bin\Debug\Monofoxe.Engine.dll</HintPath>
     </Reference>
-    <Reference Include="Monofoxe.FMODAudio, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Monofoxe.FMODAudio">
       <HintPath>..\bin\Debug\Monofoxe.FMODAudio.dll</HintPath>
     </Reference>
-    <Reference Include="Monofoxe.Tiled, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Monofoxe.Tiled">
       <HintPath>..\bin\Debug\Monofoxe.Tiled.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework">
@@ -166,6 +164,7 @@
     <None Include="Content\Entities\Ball.json" />
     <None Include="Content\Entities\Birb.json" />
     <None Include="Content\Entities\TestTemplate.json" />
+    <None Include="Content\Entities\_config.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -2,14 +2,14 @@
 	"tag": "test",
 	"components": 
 	{
-		"Monofoxe.ECSTest.Components.CTest":
+		"CTest":
 		{
 			"position":
 			{
 				"x": 16.5, 
 				"y": 45.12
 			},
-			"spr": "Resources.Sprites.SpritesDefault.Basket",
+			"spr": "Default.Basket",
 			"color": "#05DAFF",
 			"button": "L"
 		}

@@ -7,18 +7,21 @@ using Resources.Sprites;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Demo.GameLogic.Entities;
 using System;
+using Monofoxe.Tiled;
 
 namespace Monofoxe.Demo
 {
-	class Test : Entity
+	public class Test : Entity
 	{
-		Camera cam = new Camera(800, 600);
+		public static Camera Camera = new Camera(800, 600);
+
+		Map _test;
 
 		public Test() : base(SceneMgr.GetScene("default")["default"])
 		{
 			GameMgr.MaxGameSpeed = 60;
 			
-			cam.BackgroundColor = new Color(64, 32, 32);
+			Camera.BackgroundColor = new Color(64, 32, 32);
 
 			GameMgr.WindowManager.CanvasSize = new Vector2(800, 600);
 			GameMgr.WindowManager.Window.AllowUserResizing = false;
@@ -34,6 +37,8 @@ namespace Monofoxe.Demo
 			phy.Size = Vector2.One * 32;
 			entity.AddComponent(phy);
 			*/
+			_test = new Map(Resources.Maps.Test);
+			_test.Load();
 		}
 		
 		public override void Update()
@@ -41,13 +46,13 @@ namespace Monofoxe.Demo
 			if (Input.CheckButtonPress(Buttons.MouseRight))
 			{
 				var entity = EntityMgr.CreateEntityFromTemplate(Layer, "SolidBoi");
-				entity.GetComponent<PositionComponent>().Position = Input.MousePos;
+				entity.GetComponent<PositionComponent>().Position = Camera.GetRelativeMousePosition();
 			}
 
 			if (Input.CheckButtonPress(Buttons.Space))
 			{
 				var entity = EntityMgr.CreateEntityFromTemplate(Layer, "PhysicsBoi");
-				entity.GetComponent<PositionComponent>().Position = Input.MousePos;
+				entity.GetComponent<PositionComponent>().Position = Camera.GetRelativeMousePosition();
 				Console.WriteLine("kok");
 			}
 		}
@@ -55,7 +60,7 @@ namespace Monofoxe.Demo
 		
 		public override void Draw()
 		{
-			DrawMgr.DrawSprite(SpritesDefault.Monofoxe, 400, 300);
+			//DrawMgr.DrawSprite(SpritesDefault.Monofoxe, 400, 300);
 		}
 
 	}

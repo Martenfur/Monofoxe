@@ -13,7 +13,7 @@ namespace Monofoxe.ECSTest.Components
 		public Vector2 Position;
 		
 		[JsonConverter(typeof(SpriteConverter))]
-		public Sprite Spr = SpritesDefault.Bench;
+		public Sprite Spr = Default.Bench;
 
 		[JsonConverter(typeof(ColorConverter))]
 		public Color PrettyBoi = Color.Blue;

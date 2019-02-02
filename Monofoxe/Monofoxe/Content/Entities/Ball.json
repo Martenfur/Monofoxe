@@ -2,18 +2,18 @@
 	"tag": "ball",
 	"components": 
 	{
-		"Monofoxe.ECSTest.Components.CCollision":
+		"CCollision":
 		{
 			"maskR": 8
 		},
-		"Monofoxe.ECSTest.Components.CMovement":
+		"CMovement":
 		{
 			"position":
 			{
 				"x": 0, 
 				"y": 0
 			},
-			"spr": "Resources.Sprites.SpritesDefault.Basket",
+			"spr": "Special.AutismCat",
 			"prettyBoi": "#05DAFF"
 		}
 	}
