@@ -35,7 +35,7 @@ namespace $safeprojectname$
 		
 		public override void Draw()
 		{
-			DrawMgr.DrawSprite(SpritesDefault.Monofoxe, 400, 300);
+			DrawMgr.DrawSprite(Default.Monofoxe, 400, 300);
 		}
 
 	}

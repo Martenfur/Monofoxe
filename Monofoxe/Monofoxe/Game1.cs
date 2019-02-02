@@ -3,6 +3,9 @@ using Monofoxe.Engine;
 using Monofoxe.Engine.ECS;
 using Monofoxe.FMODAudio;
 using Monofoxe.Test;
+using Resources;
+using Resources.Sprites;
+
 
 namespace Monofoxe
 {
@@ -40,12 +43,12 @@ namespace Monofoxe
 		/// </summary>
 		protected override void LoadContent()
 		{
-			Resources.Sprites.Default.Load();
-			Resources.Sprites.Special.Load();
+			Default.Load();
+			Special.Load();
 
-			//Resources.Fonts.Load();
-			//Resources.Effects.Load();
-			//Resources.Maps.Load();
+			Fonts.Load();
+			Effects.Load();
+			Maps.Load();
 
 			EntityMgr.LoadEntityTemplates();
 			DrawMgr.Init(GraphicsDevice);

@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace Resources.Sprites
 {
-	public static class SpritesDefault
+	public static class Default
 	{
 		#region Sprites.
 		public static Sprite Monofoxe;
