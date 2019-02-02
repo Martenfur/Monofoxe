@@ -5,6 +5,6 @@
 	],
 	"entityNamespaces": 
 	[
-		"Monofoxe.ECSTest.Components"
+		"Monofoxe.ECSTest.Components"	
 	]	
 }

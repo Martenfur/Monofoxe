@@ -41,6 +41,8 @@ namespace Monofoxe
 		protected override void LoadContent()
 		{
 			Resources.Sprites.Default.Load();
+			Resources.Sprites.Special.Load();
+
 			//Resources.Fonts.Load();
 			//Resources.Effects.Load();
 			//Resources.Maps.Load();

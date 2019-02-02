@@ -129,6 +129,9 @@ namespace Monofoxe.Engine.ECS
 			}
 		}
 
+		/// <summary>
+		/// Reads config, which contains namespaces for entities and sprite groups.
+		/// </summary>
 		private static void ReadConfig()
 		{
 			JObject json;
