@@ -13,7 +13,7 @@
 				"x": 0, 
 				"y": 0
 			},
-			"spr": "SpritesDefault.Barrel",
+			"spr": "Default.Barrel",
 			"prettyBoi": "#05DAFF"
 		}
 	}

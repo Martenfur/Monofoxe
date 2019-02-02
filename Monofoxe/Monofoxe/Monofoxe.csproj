@@ -75,7 +75,7 @@
     <Compile Include="Resources\Effects.cs" />
     <Compile Include="Resources\Maps.cs" />
     <Compile Include="Resources\Sounds.cs" />
-    <Compile Include="Resources\Sprites\SpritesDefault.cs" />
+    <Compile Include="Resources\Sprites\Default.cs" />
     <Compile Include="Resources\Fonts.cs" />
     <Compile Include="Test\AlarmTester.cs" />
     <Compile Include="Test\AudioTester.cs" />
@@ -163,6 +163,7 @@
     <None Include="Content\Entities\Ball.json" />
     <None Include="Content\Entities\Birb.json" />
     <None Include="Content\Entities\TestTemplate.json" />
+    <None Include="Content\Entities\_config.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -33,7 +33,6 @@ namespace Monofoxe.Engine.ContentReaders
 			// Converting from json to entity template object.
 			foreach(JProperty prop in ((JObject)entityData["components"]).Properties())
 			{
-				
 				components.Add(
 					(Component)JsonConvert.DeserializeObject(
 						prop.Value.ToString(), 
