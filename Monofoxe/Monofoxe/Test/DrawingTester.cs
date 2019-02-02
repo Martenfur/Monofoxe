@@ -17,7 +17,7 @@ namespace Monofoxe.Test
 {
 	public class DrawingTester : Entity
 	{
-		Sprite testSpr = SpritesDefault.Chiggin;
+		Sprite testSpr = Default.Chiggin;
 		double fireFrame = 0;
 	
 		double chigginWave = 0;
@@ -36,7 +36,7 @@ namespace Monofoxe.Test
 				fireFrame -= 1;
 			}
 
-			var frame = Math.Max(0, Math.Min(SpritesDefault.DemonFire.Frames.Length - 1, (int)(fireFrame * SpritesDefault.DemonFire.Frames.Length)));
+			var frame = Math.Max(0, Math.Min(Default.DemonFire.Frames.Length - 1, (int)(fireFrame * Default.DemonFire.Frames.Length)));
 
 			GameMgr.WindowManager.WindowTitle = "Draw fps: " + GameMgr.Fps;
 
@@ -59,7 +59,7 @@ namespace Monofoxe.Test
 			//Effects.Effect.Parameters["test"].SetValue(new Vector4(0.0f, 0.7f, 0.0f, 1.0f));
 			//DrawMgr.Effect = Effects.Effect;
 
-			DrawMgr.DrawSprite(SpritesDefault.DemonFire, fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
+			DrawMgr.DrawSprite(Default.DemonFire, fireFrame, new Vector2(0, 0), new Vector2(1, 1), 0, Color.White);
 			//DrawMgr.Effect = null;
 			
 			//Frame f = SpritesDefault.DemonFire.Frames[(int)fireFrame];
@@ -96,13 +96,13 @@ namespace Monofoxe.Test
 			DrawMgr.CurrentColor = Color.Green;//Color.Red * 0.5f;
 			
 
-			DrawMgr.DrawSprite(SpritesDefault.Flare, 400, 100);
+			DrawMgr.DrawSprite(Default.Flare, 400, 100);
 			DrawMgr.DrawText("test", 100, 100);
-			DrawMgr.DrawSprite(SpritesDefault.Flare, 400, 200);
+			DrawMgr.DrawSprite(Default.Flare, 400, 200);
 
 			
 			DrawMgr.CurrentColor = new Color(255, 0, 255, 255);
-			DrawMgr.DrawSprite(SpritesDefault.Flare, 400, 300);
+			DrawMgr.DrawSprite(Default.Flare, 400, 300);
 
 			DrawMgr.DrawCircle(500, 100, 32, false);
 			DrawMgr.DrawRectangle(500, 200, 532, 232, false);
@@ -128,7 +128,7 @@ namespace Monofoxe.Test
 			*/
 
 			DrawMgr.PrimitiveBegin();
-			DrawMgr.PrimitiveSetTexture(SpritesDefault.Flare, 0);
+			DrawMgr.PrimitiveSetTexture(Default.Flare, 0);
 			DrawMgr.PrimitiveAddVertex(new Vector2(120, 64), Color.White * 0.5f, new Vector2(0, 0));
 			DrawMgr.PrimitiveAddVertex(new Vector2(120+32, 64), Color.Green * 1.0f, new Vector2(1, 0));
 			DrawMgr.PrimitiveAddVertex(new Vector2(120+32, 64+32), Color.Blue, new Vector2(1, 1));
@@ -158,7 +158,7 @@ namespace Monofoxe.Test
 			
 
 			DrawMgr.PrimitiveBegin();
-			DrawMgr.PrimitiveSetTexture(SpritesDefault.Barrel, 0);
+			DrawMgr.PrimitiveSetTexture(Default.Barrel, 0);
 			
 			int _x = 0;
 			int _y = 100;

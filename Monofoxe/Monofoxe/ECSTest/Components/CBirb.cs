@@ -13,7 +13,7 @@ namespace Monofoxe.ECSTest.Components
 		public Vector2 Position;
 		
 		[JsonConverter(typeof(SpriteConverter))]
-		public Sprite Spr = SpritesDefault.Bro;
+		public Sprite Spr = Default.Bro;
 		
 		public override object Clone()
 		{

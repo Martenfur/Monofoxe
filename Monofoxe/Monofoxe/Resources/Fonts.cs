@@ -22,9 +22,9 @@ namespace Resources
 			_content = new ContentManager(GameMgr.Game.Services);
 			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.FontsDir;
 			
-			TexFont = new TextureFont(SpritesDefault.SpriteFont, 3, 3, Ascii, false);
-			AnotherFont = new TextureFont(SpritesDefault.AnotherFont, 1, 1, Ascii, false);
-			AnotherFont1 = new TextureFont(SpritesDefault.AnotherFont, 1, 1, Ascii, true);
+			TexFont = new TextureFont(Default.SpriteFont, 3, 3, Ascii, false);
+			AnotherFont = new TextureFont(Default.AnotherFont, 1, 1, Ascii, false);
+			AnotherFont1 = new TextureFont(Default.AnotherFont, 1, 1, Ascii, true);
 			
 			Arial = new Font(_content.Load<SpriteFont>("Arial"));
 		}

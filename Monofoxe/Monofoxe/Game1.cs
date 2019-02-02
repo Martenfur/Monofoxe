@@ -40,7 +40,7 @@ namespace Monofoxe
 		/// </summary>
 		protected override void LoadContent()
 		{
-			Resources.Sprites.SpritesDefault.Load();
+			Resources.Sprites.Default.Load();
 			//Resources.Fonts.Load();
 			//Resources.Effects.Load();
 			//Resources.Maps.Load();
