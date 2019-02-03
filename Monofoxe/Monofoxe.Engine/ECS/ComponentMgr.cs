@@ -42,7 +42,7 @@ namespace Monofoxe.Engine.ECS
 
 		/// <summary>
 		/// Returns list of components of given type from entities owning provided components.
-		/// TODO: This is too messy description. Redo it, of remove mathod completely.
+		/// TODO: This is too messy description. Redo it, or remove method completely.
 		/// </summary>
 		public static List<T> GetComponentList<T>(List<Component> components) where T : Component
 		{

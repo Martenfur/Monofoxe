@@ -138,6 +138,7 @@ namespace Monofoxe.Test
 
 		public override void Draw()
 		{
+			
 		}
 
 		void InitCameras()

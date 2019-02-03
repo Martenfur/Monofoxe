@@ -98,7 +98,6 @@ namespace Monofoxe.Engine.Utils
 
 		#endregion Angles and stuff.
 
-		// TODO: Recheck and expand.
 		#region Intersestions.
 
 		/// <summary>
@@ -107,6 +106,18 @@ namespace Monofoxe.Engine.Utils
 		public static bool PointInRectangle(Vector2 point, Vector2 rectPoint1, Vector2 rectPoint2) =>	
 			point.X >= rectPoint1.X && point.X <= rectPoint2.X && point.Y >= rectPoint1.Y && point.Y <= rectPoint2.Y;
 		
+		/// <summary>
+		/// Checks if a point lies within a rectangle.
+		/// </summary>
+		public static bool PointInRectangleBySize(Vector2 point, Vector2 rectCenter, Vector2 rectSize)
+		{
+			var rectHalfSize = rectSize / 2f;
+			var pt1 = rectCenter - rectHalfSize;
+			var pt2 = rectCenter + rectHalfSize;
+			return point.X >= pt1.X && point.X <= pt2.X && point.Y >= pt1.Y && point.Y <= pt2.Y;
+		}
+		
+
 		/// <summary>
 		/// Checks if a point lies within a triangle.
 		/// </summary>
@@ -127,7 +138,17 @@ namespace Monofoxe.Engine.Utils
 		/// </summary>
 		public static bool RectangleInRectangle(Vector2 rect1Pt1, Vector2 rect1Pt2, Vector2 rect2Pt1, Vector2 rect2Pt2) =>
 			rect1Pt1.X < rect2Pt2.X && rect1Pt2.X > rect2Pt1.X && rect1Pt1.Y < rect2Pt2.Y && rect1Pt2.Y > rect2Pt1.Y;
+		
+		/// <summary>
+		/// Checks if two rectangles intersect.
+		/// </summary>
+		public static bool RectangleInRectangleBySize(Vector2 rect1Center, Vector2 rect1Size, Vector2 rect2Center, Vector2 rect2Size)
+		{
+			var delta = rect2Center - rect1Center;
+			var size = (rect2Size + rect1Size) / 2f; 
 
+			return Math.Abs(delta.X) < size.X && Math.Abs(delta.Y) < size.Y; 
+		}
 
 		/// <summary>
 		/// Calculates on which side point is from a line. 

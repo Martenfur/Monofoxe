@@ -30,7 +30,6 @@ namespace Monofoxe.Engine.Converters
 			var fieldName = words[words.Length - 1];
 			var className = name.Substring(0, name.Length - fieldName.Length - 1);
 			
-			//TODO: test!
 			Type type = null;
 			try
 			{
