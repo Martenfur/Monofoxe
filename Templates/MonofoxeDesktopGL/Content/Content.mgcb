@@ -14,10 +14,19 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Graphics/default.atlas
-/importer:SpriteGroupImporter
-/processor:SpriteGroupProcessor
-/build:Graphics/default.atlas
+#begin Content.mgcb
+/importer:AssetInfoImporter
+/processor:PassThroughProcessor
+/build:Content.mgcb
+
+#begin Effects/AlphaBlend.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/AlphaBlend.fx
+
+#begin Entities/_config.json
+/copy:Entities/_config.json
 
 #begin Fonts/Arial.spritefont
 /importer:FontDescriptionImporter
@@ -26,14 +35,8 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/Arial.spritefont
 
-#begin Effects/AlphaBlend.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:Effects/AlphaBlend.fx
-
-#begin Content.mgcb
-/importer:AssetInfoImporter
-/processor:PassThroughProcessor
-/build:Content.mgcb
+#begin Graphics/default.atlas
+/importer:SpriteGroupImporter
+/processor:SpriteGroupProcessor
+/build:Graphics/default.atlas
 
