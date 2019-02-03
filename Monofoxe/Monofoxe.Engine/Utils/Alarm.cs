@@ -2,7 +2,6 @@
 
 namespace Monofoxe.Engine.Utils
 {
-	// TODO: TEST!
 	/// <summary>
 	/// Counts down seconds. Needs to be updated manually.
 	/// </summary>
