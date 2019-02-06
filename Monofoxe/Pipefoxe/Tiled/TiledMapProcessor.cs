@@ -15,8 +15,14 @@ namespace Pipefoxe.Tiled
 
 		public override TiledMap Process(TiledMap map, ContentProcessorContext context)
 		{
-			LoadTextureReferences(map, context);
-			
+			try
+			{
+				LoadTextureReferences(map, context);
+			}
+			catch(System.Exception e)
+			{
+				throw new System.Exception("Failed to process the map! " + e.Message + " " + e.StackTrace);
+			}
 			return map;
 		}
 

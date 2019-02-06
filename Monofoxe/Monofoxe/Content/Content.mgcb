@@ -81,6 +81,11 @@
 /processor:SpriteGroupProcessor
 /build:Graphics/special.atlas
 
+#begin Maps/MapMap/test.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:Maps/MapMap/test.tmx
+
 #begin Maps/test.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
