@@ -10,26 +10,33 @@ namespace Pipefoxe.Tiled
 	{
 		protected override void Write(ContentWriter output, TiledMap map)
 		{
-			output.WriteObject(map.BackgroundColor);
-			output.Write(map.Width);
-			output.Write(map.Height);
-			output.Write(map.TileWidth);
-			output.Write(map.TileHeight);
+			try
+			{
+				output.WriteObject(map.BackgroundColor);
+				output.Write(map.Width);
+				output.Write(map.Height);
+				output.Write(map.TileWidth);
+				output.Write(map.TileHeight);
 
-			output.Write((byte)map.RenderOrder);
-			output.Write((byte)map.Orientation);
+				output.Write((byte)map.RenderOrder);
+				output.Write((byte)map.Orientation);
 
-			output.Write((byte)map.StaggerAxis);
-			output.Write((byte)map.StaggerIndex);
+				output.Write((byte)map.StaggerAxis);
+				output.Write((byte)map.StaggerIndex);
 
-			output.Write(map.HexSideLength);
+				output.Write(map.HexSideLength);
 
-			WriteTilesets(output, map.Tilesets);
-			WriteTileLayers(output, map.TileLayers);
-			WriteObjectLayers(output, map.ObjectLayers);
-			WriteImageLayers(output, map.ImageLayers);
+				WriteTilesets(output, map.Tilesets);
+				WriteTileLayers(output, map.TileLayers);
+				WriteObjectLayers(output, map.ObjectLayers);
+				WriteImageLayers(output, map.ImageLayers);
 
-			output.WriteObject(map.Properties);
+				output.WriteObject(map.Properties);
+			}
+			catch(System.Exception e)
+			{
+				throw new System.Exception("Failed to write the map! " + e.Message + " " + e.StackTrace);
+			}
 		}
 
 		#region Tilesets.
@@ -89,11 +96,19 @@ namespace Pipefoxe.Tiled
 			
 			output.Write((byte)tile.ObjectsDrawingOrder);
 			
-			output.Write(tile.Objects.Length);
-			foreach(var obj in tile.Objects)
+			if (tile.Objects != null)
 			{
-				WriteObject(output, obj);
+				output.Write(tile.Objects.Length);
+				foreach(var obj in tile.Objects)
+				{
+					WriteObject(output, obj);
+				}
 			}
+			else
+			{
+				output.Write(0);
+			}
+
 
 			output.WriteObject(tile.Properties);
 		}

@@ -5,6 +5,7 @@ using System.Xml;
 using Microsoft.Xna.Framework;
 using Monofoxe.Tiled.MapStructure;
 using Monofoxe.Tiled.MapStructure.Objects;
+using System.IO;
 
 namespace Pipefoxe.Tiled
 {
@@ -49,6 +50,8 @@ namespace Pipefoxe.Tiled
 			var tileset = new TiledMapTileset();
 			tileset.FirstGID = int.Parse(tilesetXml.Attributes["firstgid"].Value);
 			
+			var tilesetDir = "";
+			
 			if (tilesetXml.Attributes["source"] != null)
 			{
 				// If there is "source" field, that means, tileset is external.
@@ -56,11 +59,12 @@ namespace Pipefoxe.Tiled
 				try
 				{
 					doc.Load(TiledMapImporter.RootDir + tilesetXml.Attributes["source"].Value);
-					tilesetXml = doc["tileset"];
+					tilesetDir = Path.GetDirectoryName(tilesetXml.Attributes["source"].Value) + '/';
+					tilesetXml = doc["tileset"]; // Swapping to actual tileset.
 				}
 				catch(Exception e)
 				{
-					throw new Exception("Error loading external tileset! " + e.StackTrace);
+					throw new Exception("Error loading external tileset! " + e.Message + " " + e.StackTrace);
 				}
 			}
 			tileset.Properties = XmlHelper.GetProperties(tilesetXml);
@@ -128,7 +132,7 @@ namespace Pipefoxe.Tiled
 				// Single-image tileset.
 				var texturePaths = new string[1];
 
-				texturePaths[0] = tilesetXml["image"].Attributes["source"].Value;
+				texturePaths[0] = tilesetDir + tilesetXml["image"].Attributes["source"].Value;
 				tileset.TexturePaths = texturePaths;
 
 				var currentID = 0;
@@ -175,7 +179,7 @@ namespace Pipefoxe.Tiled
 					//tile.Tileset = tileset;
 					tile.GID = tileset.FirstGID + nodePair.Key;
 					
-					var texturePath = nodePair.Value["image"].Attributes["source"].Value;
+					var texturePath = tilesetDir + nodePair.Value["image"].Attributes["source"].Value;
 					if (texturePaths.Contains(texturePath))
 					{
 						// Avoiding duplicates.

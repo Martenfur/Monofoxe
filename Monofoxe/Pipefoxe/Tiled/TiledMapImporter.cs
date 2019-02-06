@@ -15,10 +15,17 @@ namespace Pipefoxe.Tiled
 		{
 			RootDir = Path.GetDirectoryName(filename) + '/';
 			
-			var xml = new XmlDocument();
-			xml.Load(filename);
-
-			return MapParser.Parse(xml);
+			try
+			{
+				var xml = new XmlDocument();
+				xml.Load(filename);
+			
+				return MapParser.Parse(xml);
+			}
+			catch(System.Exception e)
+			{
+				throw new System.Exception("Failed to import the map! " + e.Message + " " + e.StackTrace);
+			}
 		}
 	}
 }
