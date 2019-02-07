@@ -4,7 +4,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 {
 	public struct BasicTile : ITile
 	{
-		public int Index {get; private set;}
+		public int Index {get; set;}
 		public bool IsBlank => Tileset == null || Index == (Tileset.StartingIndex - 1);
 
 		public bool FlipHor {get; set;}
