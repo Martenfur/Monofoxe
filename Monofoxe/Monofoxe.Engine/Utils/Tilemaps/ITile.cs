@@ -6,7 +6,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 	/// </summary>
 	public interface ITile
 	{
-		int Index {get;}
+		int Index {get; set;}
 		bool IsBlank {get;}
 		bool FlipHor {get; set;}
 		bool FlipVer {get; set;}
