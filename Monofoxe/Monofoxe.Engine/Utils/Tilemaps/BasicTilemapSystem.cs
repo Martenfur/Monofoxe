@@ -49,7 +49,10 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 				endY = tilemap.Height - 1;
 			}
 			// Bounding.
-			DrawMgr.SwitchPipelineMode(PipelineMode.Sprites);
+
+			// Telling whatever is waiting to be drawn to draw itself.
+			// If pipeline mode is not switched, drawing raw sprite batch may interfere with primitives.
+			DrawMgr.SwitchPipelineMode(PipelineMode.Sprites); 
 
 			for(var y = startY; y < endY; y += 1)
 			{
@@ -104,13 +107,13 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 
 							if (tile.FlipVer)
 							{
-								if (!tile.FlipDiag)
+								if (tile.FlipDiag)
 								{
-									flip ^= SpriteEffects.FlipVertically;
+									flip ^= SpriteEffects.FlipHorizontally;
 								}
 								else
 								{
-									flip ^= SpriteEffects.FlipHorizontally;
+									flip ^= SpriteEffects.FlipVertically;
 								}
 							}
 							// A bunch of Tiled magic.
@@ -118,7 +121,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 							// Mass-drawing srpites with spritebatch is a bit faster.
 							DrawMgr.Batch.Draw(
 								tileFrame.Texture,
-								tilemap.Offset + new Vector2(tilemap.TileWidth * x, tilemap.TileHeight * y) - offset,
+								tilemap.Offset + new Vector2(tilemap.TileWidth * x, tilemap.TileHeight * y) - offset + tile.Tileset.Offset,
 								tileFrame.TexturePosition,
 								Color.White,
 								MathHelper.ToRadians(rotation),
