@@ -1,4 +1,5 @@
 ﻿using Monofoxe.Engine.Drawing;
+using Microsoft.Xna.Framework;
 
 namespace Monofoxe.Engine.Utils.Tilemaps
 {
@@ -7,6 +8,8 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 		public readonly Sprite Tiles;
 		
 		public readonly int StartingIndex;
+
+		public Vector2 Offset;
 
 		public int Count
 		{
@@ -20,9 +23,10 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 			}
 		}
 
-		public Tileset(Sprite tiles, int startingIndex = 1)
+		public Tileset(Sprite tiles, Vector2 offset, int startingIndex = 1)
 		{
 			Tiles = tiles;
+			Offset = offset;
 			StartingIndex = startingIndex;
 		}
 

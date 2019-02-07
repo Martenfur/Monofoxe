@@ -104,20 +104,21 @@ namespace Monofoxe.Tiled
 							frames.Add(frame);
 						}
 					}
-				
+					//TODO: test tileset origins.
 
 					tiles = new Sprite(frames.ToArray(), Vector2.Zero);
-					tiles.Origin = Vector2.Zero;//Vector2.UnitY * tiles.H; // Tileset origins in Tiled are in the left bottom corner. Derp.
+					// Tileset origins in Tiled are in the left bottom corner. Derp.
 				}
 				// Creating sprite from raw texture.
 
-				convertedTilesets.Add(new Tileset(tiles, tileset.FirstGID));
+				var finalTileset = new Tileset(tiles, tileset.Offset, tileset.FirstGID);
+				convertedTilesets.Add(finalTileset);
 			}
 
 			return convertedTilesets;
 		}
 
-		protected Tileset GetTilesetFromIndex(int index, List<Tileset> tilesets)
+		protected Tileset GetTilesetFromTileIndex(int index, List<Tileset> tilesets)
 		{
 			foreach(var tileset in tilesets)
 			{
@@ -150,7 +151,7 @@ namespace Monofoxe.Tiled
 							x, y, 
 							new BasicTile(
 								tileIndex, 
-								GetTilesetFromIndex(tileIndex, tilesets),
+								GetTilesetFromTileIndex(tileIndex, tilesets),
 								tileLayer.Tiles[x][y].FlipHor,
 								tileLayer.Tiles[x][y].FlipVer,
 								tileLayer.Tiles[x][y].FlipDiag
