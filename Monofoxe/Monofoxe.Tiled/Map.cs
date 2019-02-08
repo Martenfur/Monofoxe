@@ -104,8 +104,7 @@ namespace Monofoxe.Tiled
 							frames.Add(frame);
 						}
 					}
-					//TODO: test tileset origins.
-
+					
 					tiles = new Sprite(frames.ToArray(), Vector2.Zero);
 					// Tileset origins in Tiled are in the left bottom corner. Derp.
 				}
