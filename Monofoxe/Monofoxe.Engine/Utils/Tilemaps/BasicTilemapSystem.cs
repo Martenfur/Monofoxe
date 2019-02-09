@@ -63,12 +63,12 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 
 					if (!tile.IsBlank)
 					{
-						var tileFrame = tile.GetFrame();
+						var tilesetTile = tile.GetTilesetTile();
 						
-						if (tileFrame != null)
+						if (tilesetTile != null)
 						{
 							var flip = SpriteEffects.None;
-							var offset = Vector2.UnitY * (tileFrame.Height - tilemap.TileHeight);
+							var offset = Vector2.UnitY * (tilesetTile.Frame.Height - tilemap.TileHeight);
 							var rotation = 0;
 							
 							// A bunch of Tiled magic.
@@ -120,9 +120,9 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 
 							// Mass-drawing srpites with spritebatch is a bit faster.
 							DrawMgr.Batch.Draw(
-								tileFrame.Texture,
+								tilesetTile.Frame.Texture,
 								tilemap.Offset + new Vector2(tilemap.TileWidth * x, tilemap.TileHeight * y) - offset + tile.Tileset.Offset,
-								tileFrame.TexturePosition,
+								tilesetTile.Frame.TexturePosition,
 								Color.White,
 								MathHelper.ToRadians(rotation),
 								Vector2.Zero,

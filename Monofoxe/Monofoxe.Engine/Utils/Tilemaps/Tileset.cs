@@ -5,7 +5,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 {
 	public class Tileset
 	{
-		public readonly Sprite Tiles;
+		public readonly ITilesetTile[] Tiles;
 		
 		public readonly int StartingIndex;
 
@@ -17,30 +17,30 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 			{
 				if (Tiles != null)
 				{
-					return Tiles.Frames.Length;
+					return Tiles.Length;
 				}
 				return 0;
 			}
 		}
 
-		public Tileset(Sprite tiles, Vector2 offset, int startingIndex = 1)
+		public Tileset(ITilesetTile[] tiles, Vector2 offset, int startingIndex = 1)
 		{
-			Tiles = tiles;
+			Tiles = (ITilesetTile[])tiles.Clone();
 			Offset = offset;
 			StartingIndex = startingIndex;
 		}
 
 		/// <summary>
-		/// Returns frame according to tile index,
+		/// Returns tileset tile according to tile index,
 		/// or null, if index is out of tileset's bounds. 
 		/// </summary>
-		public Frame GetFrame(int index)
+		public ITilesetTile GetTilesetTile(int index)
 		{
-			if (Tiles == null || index < StartingIndex || index >= StartingIndex + Tiles.Frames.Length)
+			if (Tiles == null || index < StartingIndex || index >= StartingIndex + Tiles.Length)
 			{
 				return null;
 			}
-			return Tiles.Frames[index - StartingIndex];
+			return Tiles[index - StartingIndex];
 		}
 
 	}

@@ -22,8 +22,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 			FlipDiag = flipDiag;
 		}
 
-		public Frame GetFrame() =>
-			Tileset.GetFrame(Index);
-		
+		public ITilesetTile GetTilesetTile() =>
+			 Tileset.GetTilesetTile(Index);
 	}
 }
