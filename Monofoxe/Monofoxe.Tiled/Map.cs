@@ -68,9 +68,8 @@ namespace Monofoxe.Tiled
 			foreach(var tileset in tilesets)
 			{
 				// Creating sprite from raw texture.
-				Sprite tiles = null;
+				List<ITilesetTile> tilesetTilesList = new List<ITilesetTile>();
 				
-				var frames = new List<Frame>();
 				if (tileset.Textures != null)
 				{
 					var isMultitexture = (tileset.Textures.Length > 1);
@@ -101,16 +100,16 @@ namespace Monofoxe.Tiled
 
 							var frame = new Frame(tileTexture, tile.TexturePosition, Vector2.Zero, tileW, tileH);
 						
-							frames.Add(frame);
+							var tilesetTile = new BasicTilesetTile(frame);
+							tilesetTilesList.Add(tilesetTile);
 						}
 					}
 					
-					tiles = new Sprite(frames.ToArray(), Vector2.Zero);
 					// Tileset origins in Tiled are in the left bottom corner. Derp.
 				}
 				// Creating sprite from raw texture.
 
-				var finalTileset = new Tileset(tiles, tileset.Offset, tileset.FirstGID);
+				var finalTileset = new Tileset(tilesetTilesList.ToArray(), tileset.Offset, tileset.FirstGID);
 				convertedTilesets.Add(finalTileset);
 			}
 
