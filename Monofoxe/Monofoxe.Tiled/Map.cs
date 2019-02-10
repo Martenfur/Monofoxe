@@ -131,8 +131,10 @@ namespace Monofoxe.Tiled
 
 
 
-		protected virtual void BuildTileLayers(List<Tileset> tilesets)
+		protected virtual List<Layer> BuildTileLayers(List<Tileset> tilesets)
 		{
+			var layers = new List<Layer>();
+
 			foreach(var tileLayer in TiledMap.TileLayers)
 			{
 				var layer = MapScene.CreateLayer(tileLayer.Name);
@@ -161,12 +163,16 @@ namespace Monofoxe.Tiled
 				var tilemapEntity = new Entity(layer, "BasicTilemap");
 				tilemapEntity.AddComponent(tilemap);
 			}
+
+			return layers;
 		}
 		
 
 
-		protected virtual void BuildObjectLayers()
+		protected virtual List<Layer> BuildObjectLayers()
 		{
+			var layers = new List<Layer>();
+
 			foreach(var objectLayer in TiledMap.ObjectLayers)
 			{
 				var layer = MapScene.CreateLayer(objectLayer.Name);
@@ -176,13 +182,17 @@ namespace Monofoxe.Tiled
 				{
 					MapMgr.MakeEntity(obj, layer);
 				}
+				layers.Add(layer);
 			}
+			return layers;
 		}
 
 
 
-		protected virtual void BuildImageLayers()
+		protected virtual List<Layer> BuildImageLayers()
 		{
+			var layers = new List<Layer>();
+
 			foreach(var imageLayer in TiledMap.ImageLayers)
 			{
 				var layer = MapScene.CreateLayer(imageLayer.Name);
@@ -195,7 +205,11 @@ namespace Monofoxe.Tiled
 					imageLayer.Texture.Bounds.Height
 				);
 				entity.AddComponent(new ImageLayerComponent(imageLayer.Offset, frame));
+				
+				layers.Add(layer);
 			}
+
+			return layers;
 		}
 
 

@@ -1,5 +1,4 @@
-﻿using Monofoxe.Engine.Drawing;
-
+﻿
 namespace Monofoxe.Engine.Utils.Tilemaps
 {
 	public struct BasicTile : ITile
@@ -22,7 +21,13 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 			FlipDiag = flipDiag;
 		}
 
-		public ITilesetTile GetTilesetTile() =>
-			 Tileset.GetTilesetTile(Index);
+		public ITilesetTile GetTilesetTile()
+		{
+			if (Tileset == null)
+			{
+				return null;
+			}
+			return Tileset.GetTilesetTile(Index);
+		}
 	}
 }
