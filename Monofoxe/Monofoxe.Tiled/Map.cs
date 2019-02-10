@@ -162,6 +162,8 @@ namespace Monofoxe.Tiled
 				
 				var tilemapEntity = new Entity(layer, "BasicTilemap");
 				tilemapEntity.AddComponent(tilemap);
+				
+				layers.Add(layer);
 			}
 
 			return layers;
