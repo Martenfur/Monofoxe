@@ -80,6 +80,7 @@
     <Compile Include="GameMgr.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="PipelineMode.cs" />
+    <Compile Include="Utils\CustomCollections\SafeList.cs" />
     <Compile Include="Utils\CustomCollections\SafeSortedList.cs" />
     <Compile Include="SceneSystem\Layer.cs" />
     <Compile Include="SceneSystem\Scene.cs" />

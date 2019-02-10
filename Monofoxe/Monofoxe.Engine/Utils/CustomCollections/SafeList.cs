@@ -1,27 +1,35 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Monofoxe.Engine.Utils.CustomCollections
 {
 	/// <summary> 
-	/// Safe sorted list. Makes possible to safely remove from and add items to the list during enumeration.
-	/// 
-	/// NOTE: Sorting algorhitm is very basic and must be used only for small amounts (1-5) of new elements.
-	/// DO NOT use this class for frequently updated collections with lots of elements.
-	/// It also does not resort whole list every update, so be careful with changing item's sorting parameter on the fly.
-	/// Good idea will be to re-add item back to the list.
+	/// Safe list. Makes possible to safely remove from and add items to the list during enumeration.
 	/// </summary>
-	public class SafeSortedList<T> : IEnumerable<T>
+	public class SafeList<T> : IEnumerable<T>
 	{
-		private Func<T, int> _sortingParameter;
 		private List<T> _items, _outdatedItems;
 		private bool _isOutdated = false;
 
-		public SafeSortedList(Func<T, int> sortingParameter)
+		// TODO: Make parent for SafeSortedList. 
+
+		public SafeList()
 		{
-			_sortingParameter = sortingParameter;
 			_items = new List<T>();
+			_outdatedItems = new List<T>();
+		}
+
+		public SafeList(SafeList<T> list)
+		{
+			_items = new List<T>(list._items);
+			_outdatedItems = new List<T>();
+		}
+
+		public SafeList(List<T> list)
+		{
+			_items = new List<T>(list);
 			_outdatedItems = new List<T>();
 		}
 
@@ -29,21 +37,7 @@ namespace Monofoxe.Engine.Utils.CustomCollections
 		public void Add(T item)
 		{
 			_isOutdated = true;
-			
-			var added = false;
-			for(var i = 0; i < _items.Count; i += 1)
-			{
-				if (_sortingParameter(item) > _sortingParameter(_items[i]))
-				{
-					_items.Insert(i, item);
-					added = true;
-					break;
-				}
-			}
-			if (!added)
-			{
-				_items.Add(item); // Adding an item at the end, if it has lowest priority.
-			}
+			_items.Add(item);
 		}
 
 		public void Remove(T item)
@@ -55,6 +49,12 @@ namespace Monofoxe.Engine.Utils.CustomCollections
 		public bool Contains(T item) =>
 			_items.Contains(item);
 		
+		public void Insert(int index, T item) =>
+			_items.Insert(index, item);
+		
+		public void AddRange(SafeList<T> items) =>
+			_items.AddRange(items);
+
 		public int Count =>
 			_items.Count;
 		
@@ -84,6 +84,13 @@ namespace Monofoxe.Engine.Utils.CustomCollections
 			_items.ToArray();
 		
 		
+		public IOrderedEnumerable<T> OrdeByDescending<TKey>(Func<T, TKey> func) =>
+			_items.OrderByDescending(func);
+
+		public IOrderedEnumerable<T> OrdeBy<TKey>(Func<T, TKey> func) =>
+			_items.OrderBy(func);
+		
+
 		/// <summary>
 		/// Removes old elements from the list and adds new ones.
 		/// </summary>
@@ -110,5 +117,6 @@ namespace Monofoxe.Engine.Utils.CustomCollections
 			Update();
 			return _outdatedItems.GetEnumerator();
 		}
+		
 	}
 }
