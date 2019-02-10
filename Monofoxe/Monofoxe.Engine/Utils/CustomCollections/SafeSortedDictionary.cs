@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Monofoxe.Engine.Utils.CustomCollections
 {
 	/// <summary> 
-	/// Safe sorted dictionary. Makes possible to safely remove from and add items to the list during foreach.
+	/// Safe sorted dictionary. Makes possible to safely remove from and add items to the list during enumeration.
 	/// 
 	/// NOTE: Sorting algorhitm is very basic and must be used only for small amounts (1-5) of new elements.
 	/// DO NOT use this class for frequently updated collections with lots of elements.
@@ -53,7 +53,6 @@ namespace Monofoxe.Engine.Utils.CustomCollections
 			get => _items[key];
 			set => _items[key] = value;
 		}
-
 
 		IEnumerator<TValue> IEnumerable<TValue>.GetEnumerator() =>
 			_sortedItems.GetEnumerator();

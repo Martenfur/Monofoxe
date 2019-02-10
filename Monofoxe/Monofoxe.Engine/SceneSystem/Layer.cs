@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.Utils.CustomCollections;
 
 namespace Monofoxe.Engine.SceneSystem
 {
@@ -65,7 +66,7 @@ namespace Monofoxe.Engine.SceneSystem
 				_depthSorting = value;
 				if (value)
 				{
-					_depthSortedEntities = new List<Entity>();
+					_depthSortedEntities = new SafeList<Entity>();
 					_depthListOutdated = true;
 				}
 				else
@@ -87,13 +88,10 @@ namespace Monofoxe.Engine.SceneSystem
 		/// <summary>
 		/// List of all layer's entities.
 		/// </summary>
-		public IReadOnlyCollection<Entity> Entities => _entities;
+		public IReadOnlyCollection<Entity> Entities => _entities.ToList();
 
-		private List<Entity> _entities = new List<Entity>();
-		internal List<Entity> _depthSortedEntities;
-
-		private List<Entity> _newEntities = new List<Entity>();
-		
+		private SafeList<Entity> _entities = new SafeList<Entity>();
+		internal SafeList<Entity> _depthSortedEntities;
 
 		/// <summary>
 		/// All components, which belong to all entities on the layer.
@@ -136,7 +134,7 @@ namespace Monofoxe.Engine.SceneSystem
 			{
 				if (_depthListOutdated)
 				{
-					_depthSortedEntities = _entities.OrderByDescending(o => o.Depth).ToList();
+					_depthSortedEntities = new SafeList<Entity>(_entities.OrderByDescending(o => o.Depth).ToList());
 					_depthListOutdated = false;
 				}
 			}
@@ -149,7 +147,7 @@ namespace Monofoxe.Engine.SceneSystem
 
 		internal void AddEntity(Entity entity)
 		{
-			_newEntities.Add(entity);
+			_entities.Add(entity);
 			_depthListOutdated = true;
 		}
 
@@ -197,23 +195,17 @@ namespace Monofoxe.Engine.SceneSystem
 
 		internal void UpdateEntityList()
 		{
+			
 			// Clearing main list from destroyed objects.
-			var updatedList = new List<Entity>();
 			foreach(var entity in _entities)
 			{
-				if (!entity.Destroyed)
+				if (entity.Destroyed)
 				{
-					updatedList.Add(entity);
+					_entities.Remove(entity);
 				}
 			}
-			_entities = updatedList;
 			// Clearing main list from destroyed objects.
-
-
-			// Adding new objects to the list.
-			_entities.AddRange(_newEntities);		
-			_newEntities.Clear();
-			// Adding new objects to the list.
+			
 		}
 
 

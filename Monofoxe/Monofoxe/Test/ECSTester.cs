@@ -54,9 +54,6 @@ namespace Monofoxe.Test
 				{
 					EntityMgr.DestroyEntity(entity);
 				}
-				var ball = EntityMgr.CreateEntityFromTemplate(Layer, "ball");
-				ball.GetComponent<CMovement>().Position = Input.ScreenMousePosition;
-				ball.GetComponent<CCollision>().MaskR = 20;//r.Next(10, 16);
 			}
 			
 			if (Input.CheckButtonPress(Buttons.N))
