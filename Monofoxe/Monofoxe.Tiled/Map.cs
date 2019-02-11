@@ -141,6 +141,8 @@ namespace Monofoxe.Tiled
 				layer.Priority = GetLayerPriority(tileLayer);
 				
 				var tilemap = new BasicTilemapComponent(tileLayer.Width, tileLayer.Height, tileLayer.TileWidth, tileLayer.TileHeight);
+				tilemap.Offset = tileLayer.Offset;
+
 				for(var y = 0; y < tilemap.Height; y += 1)	
 				{
 					for(var x = 0; x < tilemap.Width; x += 1)
