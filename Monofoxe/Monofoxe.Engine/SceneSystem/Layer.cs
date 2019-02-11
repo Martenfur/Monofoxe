@@ -370,12 +370,25 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public List<Entity> GetEntityListByComponent<T>() where T : Component
 		{
+			var entities = new List<Entity>();
+			
+			// Since component lists are updated with a one step delay, 
+			// which is quite tricky to remove, we have to additionally
+			// take entities directly from newly created components list.
+			foreach(var component in _newComponents)
+			{
+				if (component is T)
+				{
+					entities.Add(component.Owner);
+				}
+			}
+
 			List<Component> componentList;
 			if (_components.TryGetValue(typeof(T), out componentList))
 			{
-				return componentList.Select(x => x.Owner).ToList();
+				entities.AddRange(componentList.Select(x => x.Owner).ToList());
 			}
-			return new List<Entity>();
+			return entities;
 		}
 		
 		/// <summary>
@@ -383,12 +396,25 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public int CountEntitiesByComponent<T>() where T : Component
 		{
+			var count = 0;
+			
+			// Since component lists are updated with a one step delay, 
+			// which is quite tricky to remove, we have to additionally
+			// take entities directly from newly created components list.
+			foreach(var component in _newComponents)
+			{
+				if (component is T)
+				{
+					count += 1;
+				}
+			}
+
 			List<Component> componentList;
 			if (_components.TryGetValue(typeof(T), out componentList))
 			{
-				return componentList.Count;
+				count += componentList.Count;
 			}
-			return 0;
+			return count;
 		}
 
 		/// <summary>
@@ -396,6 +422,17 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public Entity FindEntityByComponent<T>() where T : Component
 		{
+			// Since component lists are updated with a one step delay, 
+			// which is quite tricky to remove, we have to additionally
+			// take entities directly from newly created components list.
+			foreach(var component in _newComponents)
+			{
+				if (component is T)
+				{
+					return component.Owner;
+				}
+			}
+
 			foreach(var entity in _entities)
 			{
 				if (entity.HasComponent<T>())
