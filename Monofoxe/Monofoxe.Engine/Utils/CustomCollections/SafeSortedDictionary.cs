@@ -31,8 +31,7 @@ namespace Monofoxe.Engine.Utils.CustomCollections
 
 		public void Remove(TKey key)
 		{
-			TValue item;
-			if (_items.TryGetValue(key, out item))
+			if (_items.TryGetValue(key, out TValue item))
 			{
 				_items.Remove(key);
 				_sortedItems.Remove(item);

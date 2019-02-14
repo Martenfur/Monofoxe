@@ -59,9 +59,7 @@ namespace Monofoxe.Engine.ECS
 		{
 			foreach(var system in _activeSystems)
 			{
-				List<Component> componentList;
-				
-				if (components.TryGetValue(system.ComponentType, out componentList))
+				if (components.TryGetValue(system.ComponentType, out List<Component> componentList))
 				{
 					system.FixedUpdate(componentList.FindAll(x => x.Owner.Enabled));
 				}
@@ -76,8 +74,7 @@ namespace Monofoxe.Engine.ECS
 		{
 			foreach(var system in _activeSystems)
 			{
-				List<Component> componentList;
-				if (components.TryGetValue(system.ComponentType, out componentList))
+				if (components.TryGetValue(system.ComponentType, out List<Component> componentList))
 				{
 					componentList = componentList.FindAll(x => x.Owner.Enabled);
 					if (componentList.Count > 0)
@@ -97,10 +94,9 @@ namespace Monofoxe.Engine.ECS
 		/// NOTE: DO NOT put any significant logic into Draw.
 		/// It may skip frames.
 		/// </summary>
-		internal static void Draw(Component component)//Dictionary<string, List<Component>> components)
+		internal static void Draw(Component component)
 		{
-			BaseSystem system;
-			if (_activeSystems.TryGetValue(component.GetType(), out system))
+			if (_activeSystems.TryGetValue(component.GetType(), out BaseSystem system))
 			{
 				system.Draw(component);
 			}
@@ -254,23 +250,32 @@ namespace Monofoxe.Engine.ECS
 						foreach(var component in layer._newComponents)
 						{
 							var componentType = component.GetType();
-							BaseSystem activeSystem;
-							if (!_activeSystems.TryGetValue(componentType, out activeSystem) && AutoSystemManagement)
+							
+							if (!_activeSystems.TryGetValue(componentType, out BaseSystem activeSystem) && AutoSystemManagement)
 							{
-								BaseSystem newSystem;
-								if (_systemPool.TryGetValue(componentType, out newSystem))
+								if (_systemPool.TryGetValue(componentType, out BaseSystem newSystem))
 								{
 									_activeSystems.Add(componentType, newSystem);
-									newSystem.Create(component);
+
+									// If this is false, this means we are adding old 
+									// component, that was disabled earlier.
+									if (component.Enabled)
+									{
+										newSystem.Create(component);
+									}
 								}
 							}
 							else
 							{
-								activeSystem.Create(component);
+								// If this is false, this means we are adding old 
+								// component, that was disabled earlier.
+								if (component.Enabled)
+								{
+									activeSystem.Create(component);
+								}
 							}
-
-							List<Component> componentList;
-							if (layer._components.TryGetValue(componentType, out componentList))
+							
+							if (layer._components.TryGetValue(componentType, out List<Component> componentList))
 							{
 								componentList.Add(component);
 							}

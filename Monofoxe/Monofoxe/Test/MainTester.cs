@@ -6,6 +6,8 @@ using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Utils;
 using Monofoxe.Engine.Utils.Cameras;
 using System; 
+using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace Monofoxe.Test
 {
@@ -59,6 +61,45 @@ namespace Monofoxe.Test
 			new ECSTester(ballsLayer);
 			//new AlarmTester(ballsLayer);
 			new TileTester(ballsLayer);
+
+			var d = new Dictionary<string, int>();
+
+			for(var i = 0; i < 1000000; i += 1)
+			{
+				d.Add("tag" + i, i);
+			}
+
+			var d1 = new Dictionary<string, int>();
+
+			for(var i = 0; i < 1000000; i += 1)
+			{
+				d1.Add("tag" + i, i);
+			}
+
+			var sw = new Stopwatch();
+
+			sw.Start();
+			for(var i = 0; i < 1000000; i += 1)
+			{
+				var o = d["tag" + Random.Next(1000000)];
+			}
+			sw.Stop();
+
+			Console.WriteLine("REGULAR: " + sw.ElapsedMilliseconds);
+
+			sw.Reset();
+			sw.Start();
+			for(var i = 0; i < 1000000; i += 1)
+			{
+				int o;
+				d1.TryGetValue("tag" + Random.Next(1000000), out o);
+			}
+			sw.Stop();
+
+			Console.WriteLine("TRY: " + sw.ElapsedMilliseconds);
+
+
+
 		}
 
 

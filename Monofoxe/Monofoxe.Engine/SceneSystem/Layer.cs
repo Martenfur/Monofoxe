@@ -167,9 +167,8 @@ namespace Monofoxe.Engine.SceneSystem
 			// Removing from lists.
 			_newComponents.Remove(component);
 			var componentType = component.GetType();
-
-			List<Component> componentList;
-			if (_components.TryGetValue(componentType, out componentList))
+			
+			if (_components.TryGetValue(componentType, out List<Component> componentList))
 			{
 				if (componentList.Count == 1)
 				{
@@ -183,8 +182,10 @@ namespace Monofoxe.Engine.SceneSystem
 			}
 
 			// Performing Destroy event.
-			BaseSystem activeSystem;
-			if (SystemMgr._activeSystems.TryGetValue(componentType, out activeSystem))
+			
+			// If component is disabled, this means are aren't destroying entity, 
+			// so there is no need to invoke destroy event.
+			if (component.Enabled && SystemMgr._activeSystems.TryGetValue(componentType, out BaseSystem activeSystem))
 			{
 				activeSystem.Destroy(component);
 			}
@@ -382,9 +383,8 @@ namespace Monofoxe.Engine.SceneSystem
 					entities.Add(component.Owner);
 				}
 			}
-
-			List<Component> componentList;
-			if (_components.TryGetValue(typeof(T), out componentList))
+			
+			if (_components.TryGetValue(typeof(T), out List<Component> componentList))
 			{
 				entities.AddRange(componentList.Select(x => x.Owner).ToList());
 			}
@@ -408,9 +408,8 @@ namespace Monofoxe.Engine.SceneSystem
 					count += 1;
 				}
 			}
-
-			List<Component> componentList;
-			if (_components.TryGetValue(typeof(T), out componentList))
+			
+			if (_components.TryGetValue(typeof(T), out List<Component> componentList))
 			{
 				count += componentList.Count;
 			}

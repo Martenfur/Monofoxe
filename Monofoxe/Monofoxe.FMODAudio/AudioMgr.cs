@@ -30,8 +30,7 @@ namespace Monofoxe.FMODAudio
 		{
 			get 
 			{
-				var listeners = 0;
-				LastResult = FMODSystem.get3DNumListeners(out listeners);
+				LastResult = FMODSystem.get3DNumListeners(out int listeners);
 				return listeners;
 			}
 			set => LastResult = FMODSystem.set3DNumListeners(value);
@@ -66,8 +65,7 @@ namespace Monofoxe.FMODAudio
 			}
 
 			
-			FMOD.System system;
-			FMOD.Factory.System_Create(out system);
+			FMOD.Factory.System_Create(out FMOD.System system);
 			FMODSystem = system;
 
 			FMODSystem.setDSPBufferSize(1024, 10);
@@ -77,8 +75,7 @@ namespace Monofoxe.FMODAudio
 
 		public static FMOD.ChannelGroup CreateChannelGroup(string name)
 		{
-			FMOD.ChannelGroup group;
-			FMODSystem.createChannelGroup(name, out group);
+			FMODSystem.createChannelGroup(name, out FMOD.ChannelGroup group);
 			return group;
 		}
 
@@ -96,8 +93,12 @@ namespace Monofoxe.FMODAudio
 		/// </summary>
 		public static Sound LoadSound(string name, FMOD.MODE mode = FMOD.MODE.DEFAULT)
 		{
-			FMOD.Sound newSound;
-			LastResult = FMODSystem.createSound(AssetMgr.ContentDir + '/' + AssetMgr.AudioDir + '/' + name + _sfxExtension, mode, out newSound);
+			// TODO: Fix paths.
+			LastResult = FMODSystem.createSound(
+				AssetMgr.ContentDir + '/' + AssetMgr.AudioDir + '/' + name + _sfxExtension, 
+				mode, 
+				out FMOD.Sound newSound
+			);
 			
 			return new Sound(FMODSystem, newSound);
 		}
@@ -108,8 +109,11 @@ namespace Monofoxe.FMODAudio
 		/// </summary>
 		public static Sound LoadStreamedSound(string name, FMOD.MODE mode = FMOD.MODE.DEFAULT)
 		{
-			FMOD.Sound newSound;
-			LastResult = FMODSystem.createStream(AssetMgr.ContentDir + '/' + AssetMgr.AudioDir + '/' + name + _musicExtension, mode, out newSound);
+			LastResult = FMODSystem.createStream(
+				AssetMgr.ContentDir + '/' + AssetMgr.AudioDir + '/' + name + _musicExtension, 
+				mode, 
+				out FMOD.Sound newSound
+			);
 			
 			return new Sound(FMODSystem, newSound);
 		}
@@ -152,8 +156,7 @@ namespace Monofoxe.FMODAudio
 		/// </summary>
 		public static Sound PlaySound(Sound sound, FMOD.ChannelGroup group = null, bool paused = false)
 		{
-			FMOD.Channel channel;
-			LastResult = FMODSystem.playSound(sound.FMODSound, group, paused, out channel);
+			LastResult = FMODSystem.playSound(sound.FMODSound, group, paused, out FMOD.Channel channel);
 			return new Sound(FMODSystem, sound.FMODSound, channel);
 		}
 		
@@ -168,8 +171,7 @@ namespace Monofoxe.FMODAudio
 			Vector2 velocity = default(Vector2)
 		)
 		{
-			FMOD.Channel channel;
-			LastResult = FMODSystem.playSound(sound.FMODSound, group, paused, out channel);
+			LastResult = FMODSystem.playSound(sound.FMODSound, group, paused, out FMOD.Channel channel);
 			var newSound = new Sound(FMODSystem, sound.FMODSound, channel);
 			newSound.Mode = FMOD.MODE._3D;
 			newSound.Set3DAttributes(pos, velocity);
