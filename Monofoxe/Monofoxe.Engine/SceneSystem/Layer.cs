@@ -306,7 +306,7 @@ namespace Monofoxe.Engine.SceneSystem
 			
 			foreach(var entity in _entities)
 			{
-				if (entity.Tag == tag)
+				if (string.Equals(entity.Tag, tag, StringComparison.OrdinalIgnoreCase))
 				{
 					list.Add(entity);
 				}
@@ -323,7 +323,7 @@ namespace Monofoxe.Engine.SceneSystem
 
 			foreach(var entity in _entities)
 			{
-				if (entity.Tag == tag)
+				if (string.Equals(entity.Tag, tag, StringComparison.OrdinalIgnoreCase))
 				{
 					counter += 1;
 				}
@@ -339,7 +339,7 @@ namespace Monofoxe.Engine.SceneSystem
 		{
 			foreach(var entity in _entities)
 			{
-				if (entity.Tag == tag)
+				if (string.Equals(entity.Tag, tag, StringComparison.OrdinalIgnoreCase))
 				{
 					return true;
 				}
@@ -354,7 +354,7 @@ namespace Monofoxe.Engine.SceneSystem
 		{
 			foreach(var entity in _entities)
 			{
-				if (entity.Tag == tag)
+				if (string.Equals(entity.Tag, tag, StringComparison.OrdinalIgnoreCase))
 				{
 					return entity;
 				}
