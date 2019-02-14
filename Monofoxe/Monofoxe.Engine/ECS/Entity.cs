@@ -81,7 +81,6 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		internal Dictionary<Type, Component> _components;
 
-
 		public Entity(Layer layer, string tag = "entity")
 		{
 			_components = new Dictionary<Type, Component>();
@@ -191,12 +190,11 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Removes component from an entity and returns it.
 		/// </summary>
-		public Component RemoveComponent<T>()
+		public Component RemoveComponent<T>() where T : Component
 		{
 			var type = typeof(T);
 
-			Component component;
-			if (_components.TryGetValue(type, out component))
+			if (_components.TryGetValue(type, out Component component))
 			{
 				_components.Remove(type);
 				Layer.RemoveComponent(component);
@@ -204,6 +202,37 @@ namespace Monofoxe.Engine.ECS
 				return component;
 			}
 			return null;
+		}
+
+
+		/// <summary>
+		/// Enables the component, if it exists.
+		/// </summary>
+		public void EnableComponent<T>() where T : Component
+		{
+			var type = typeof(T);
+
+			if (_components.TryGetValue(type, out Component component) && !component.Enabled)
+			{
+				component.Enabled = true;
+				Layer.AddComponent(component);
+			}
+		}
+
+		
+		/// <summary>
+		/// Disables the component, if it exists.
+		/// Disabled components aren't processed by systems.
+		/// </summary>
+		public void DisableComponent<T>() where T : Component
+		{
+			var type = typeof(T);
+
+			if (_components.TryGetValue(type, out Component component) && component.Enabled)
+			{
+				component.Enabled = false;
+				Layer.RemoveComponent(component);
+			}
 		}
 
 

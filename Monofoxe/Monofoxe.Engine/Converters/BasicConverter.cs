@@ -14,20 +14,17 @@ namespace Monofoxe.Engine.Converters
 
 		protected static int GetInt(JObject o, string tokenName)
 		{
-			JToken t;
-			return o.TryGetValue(tokenName, StringComparison.InvariantCultureIgnoreCase, out t) ? (int)t : 0;
+			return o.TryGetValue(tokenName, StringComparison.InvariantCultureIgnoreCase, out JToken t) ? (int)t : 0;
 		}
 
 		protected static float GetFloat(JObject o, string tokenName)
 		{
-			JToken t;
-			return o.TryGetValue(tokenName, StringComparison.InvariantCultureIgnoreCase, out t) ? (float)t : 0f;
+			return o.TryGetValue(tokenName, StringComparison.InvariantCultureIgnoreCase, out JToken t) ? (float)t : 0f;
 		}
 		
 		protected static string GetString(JObject o, string tokenName)
 		{
-			JToken t;
-			return o.TryGetValue(tokenName, StringComparison.InvariantCultureIgnoreCase, out t) ? (string)t : "";
+			return o.TryGetValue(tokenName, StringComparison.InvariantCultureIgnoreCase, out JToken t) ? (string)t : "";
 		}
 
 	}

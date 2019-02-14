@@ -56,6 +56,22 @@ namespace Monofoxe.Test
 				}
 			}
 			
+
+			if (Input.CheckButton(Buttons.Y))
+			{
+				foreach(var entity in Layer.GetEntityList("ball"))
+				{
+					entity.DisableComponent<CCollision>();
+				}
+			}
+			if (Input.CheckButton(Buttons.U))
+			{
+				foreach(var entity in Layer.GetEntityList("ball"))
+				{
+					entity.EnableComponent<CCollision>();
+				}
+			}
+
 			if (Input.CheckButtonPress(Buttons.N))
 			{
 				Layer.DepthSorting = !Layer.DepthSorting;

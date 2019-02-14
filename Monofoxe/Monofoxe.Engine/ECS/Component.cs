@@ -15,6 +15,12 @@ namespace Monofoxe.Engine.ECS
 		public Entity Owner {get; internal set;}
 
 		/// <summary>
+		/// If component is enabled, it will be processed by systems.
+		/// </summary>
+		public bool Enabled {get; internal set;} = true;
+
+
+		/// <summary>
 		/// Creates a new object that is a copy of the current instance.
 		/// 
 		/// NOTE: If you are going to use json entity templates, 

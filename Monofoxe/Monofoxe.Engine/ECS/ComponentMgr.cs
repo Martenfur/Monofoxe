@@ -28,8 +28,10 @@ namespace Monofoxe.Engine.ECS
 			}
 
 			// If component is even there.
-			BaseSystem system;
-			if (layer._newComponents.Contains(component) && SystemMgr._activeSystems.TryGetValue(componentType, out system))
+			if (
+				layer._newComponents.Contains(component) 
+				&& SystemMgr._activeSystems.TryGetValue(componentType, out BaseSystem system)
+			)
 			{
 				system.Create(component);
 				layer._newComponents.Remove(component);
