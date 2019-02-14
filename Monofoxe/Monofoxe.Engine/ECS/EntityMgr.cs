@@ -124,7 +124,7 @@ namespace Monofoxe.Engine.ECS
 				if (!entityPath.EndsWith(_configFileName)) // Ignoring config.
 				{
 					var template = _entityTemplatesContent.Load<EntityTemplate>(entityPath);
-					_entityTemplates.Add(template.Tag, template);
+					_entityTemplates.Add(template.Tag.ToLower(), template);
 				}
 			}
 		}
@@ -173,7 +173,7 @@ namespace Monofoxe.Engine.ECS
 		public static Entity CreateEntityFromTemplate(Layer layer, string tag)
 		{
 			EntityTemplate template;
-			if (_entityTemplates.TryGetValue(tag, out template))
+			if (_entityTemplates.TryGetValue(tag.ToLower(), out template))
 			{
 				var entity = new Entity(layer, tag);
 
