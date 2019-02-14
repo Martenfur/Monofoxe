@@ -125,9 +125,12 @@ namespace Monofoxe.Engine.SceneSystem
 							{
 								if (entity.Visible && !entity.Destroyed)
 								{
-									foreach(var component in entity._components)
+									foreach(var componentPair in entity._components)
 									{
-										SystemMgr.Draw(component.Value);
+										if (componentPair.Value.Enabled)
+										{
+											SystemMgr.Draw(componentPair.Value);
+										}
 									}
 									entity.Draw();
 								}
@@ -171,9 +174,12 @@ namespace Monofoxe.Engine.SceneSystem
 							{
 								if (entity.Visible && !entity.Destroyed)
 								{
-									foreach(var component in entity._components)
+									foreach(var componentPair in entity._components)
 									{
-										SystemMgr.Draw(component.Value);
+										if (componentPair.Value.Enabled)
+										{
+											SystemMgr.Draw(componentPair.Value);
+										}
 									}
 									entity.Draw();
 								}
