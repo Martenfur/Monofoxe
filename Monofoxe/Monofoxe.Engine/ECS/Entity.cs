@@ -77,9 +77,9 @@ namespace Monofoxe.Engine.ECS
 
 
 		/// <summary>
-		/// Component hash table.
+		/// Component dictionary.
 		/// </summary>
-		private Dictionary<Type, Component> _components;
+		internal Dictionary<Type, Component> _components;
 
 
 		public Entity(Layer layer, string tag = "entity")
@@ -182,7 +182,7 @@ namespace Monofoxe.Engine.ECS
 
 
 		/// <summary>
-		/// Checks of an entity has component with given tag.
+		/// Checks if an entity has the component of given type.
 		/// </summary>
 		public bool HasComponent<T>() where T : Component =>
 			_components.ContainsKey(typeof(T));
