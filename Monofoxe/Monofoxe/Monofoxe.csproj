@@ -63,6 +63,7 @@
     <Compile Include="ECSTest\Systems\SBirb.cs" />
     <Compile Include="Resources\Sprites\Special.cs" />
     <Compile Include="Test\MapFactories\BarrelMapFactory.cs" />
+    <Compile Include="Test\StateMachineTester.cs" />
     <Compile Include="Test\TileTester.cs" />
     <Content Include="Content\Effects\AlphaBlend.fx" />
     <Content Include="Content\Effects\BW.fx" />
