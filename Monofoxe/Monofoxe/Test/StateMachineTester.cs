@@ -18,7 +18,7 @@ namespace Monofoxe.Test
 
 		public StateMachineTester(Layer layer) : base(layer)
 		{
-			testMachine = new StateMachine<States>(States.Foxe);
+			testMachine = new StateMachine<States>(States.Foxe, this);
 			testMachine.AddState(States.Foxe, StateFoxe, StateFoxeEnter, StateFoxeExit);
 			
 			testMachine.AddState(States.Idle, StateIdle, null, StateIdleExit);
@@ -36,38 +36,38 @@ namespace Monofoxe.Test
 
 		}
 
-		void StateFoxe(StateMachine<States> owner)
+		void StateFoxe(StateMachine<States> machine, Entity owner)
 		{
 			Console.WriteLine("Foxe!");
-			owner.ChangeState(States.Idle);
+			machine.ChangeState(States.Idle);
 		}
-		void StateFoxeExit(StateMachine<States> owner)
+		void StateFoxeExit(StateMachine<States> machine, Entity owner)
 		{
 			Console.WriteLine("Foxe on exit!");
 		}
-		void StateFoxeEnter(StateMachine<States> owner)
+		void StateFoxeEnter(StateMachine<States> machine, Entity owner)
 		{
 			Console.WriteLine("Foxe on enter!");
 		}
 
-		void StateIdle(StateMachine<States> owner)
+		void StateIdle(StateMachine<States> machine, Entity owner)
 		{
 			Console.WriteLine("Idle!");
-			owner.ChangeState(States.MyBoy);
+			machine.ChangeState(States.MyBoy);
 
 		}
-		void StateIdleExit(StateMachine<States> owner)
+		void StateIdleExit(StateMachine<States> machine, Entity owner)
 		{
 			Console.WriteLine("Idle on exit!");
 		}
 
 
-		void StateMyBoy(StateMachine<States> owner)
+		void StateMyBoy(StateMachine<States> machine, Entity owner)
 		{
 			Console.WriteLine("My boi!");
-			owner.ChangeState(States.Foxe);
+			machine.ChangeState(States.Foxe);
 		}
-		void StateMyBoyEnter(StateMachine<States> owner)
+		void StateMyBoyEnter(StateMachine<States> machine, Entity owner)
 		{
 			Console.WriteLine("My boi on enter!");
 		}

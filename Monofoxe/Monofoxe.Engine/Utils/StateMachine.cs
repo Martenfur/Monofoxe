@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using Monofoxe.Engine.ECS;
 
 namespace Monofoxe.Engine.Utils
 {
-	public delegate void StateMachineDelegate<T>(StateMachine<T> caller);
+	public delegate void StateMachineDelegate<T>(StateMachine<T> caller, Entity owner);
 
 	/// <summary>
 	/// Stack-based state machine.
@@ -10,14 +11,20 @@ namespace Monofoxe.Engine.Utils
 	public class StateMachine<T>
 	{
 		/// <summary>
-		/// All the available states.
+		/// All the available states. Excuted on each update.
 		/// </summary>
 		protected Dictionary<T, StateMachineDelegate<T>> _states;	
 		
+		/// <summary>
+		/// State enter events. Executed when machine enters a certain event.
+		/// </summary>
 		protected Dictionary<T, StateMachineDelegate<T>> _enterStateEvents;
+
+		/// <summary>
+		/// State exit events. Executed when machine exits a certain event.
+		/// </summary>
 		protected Dictionary<T, StateMachineDelegate<T>> _exitStateEvents;
 		
-
 
 		/// <summary>
 		/// Stack of active states.
@@ -26,18 +33,23 @@ namespace Monofoxe.Engine.Utils
 
 		public T CurrentState => _stateStack.Peek();
 
-		public readonly T DefaultState;
+		/// <summary>
+		/// State machine owner.
+		/// </summary>
+		public Entity Owner;
 
 
-		public StateMachine(T defaultState) 
+
+		public StateMachine(T startingState, Entity owner) 
 		{
+			Owner = owner;
+
 			_states = new Dictionary<T, StateMachineDelegate<T>>();
 			_enterStateEvents = new Dictionary<T, StateMachineDelegate<T>>();
 			_exitStateEvents = new Dictionary<T, StateMachineDelegate<T>>();
 
 			_stateStack = new Stack<T>();
-			DefaultState = defaultState;
-			_stateStack.Push(defaultState);
+			_stateStack.Push(startingState);
 		}
 		
 
@@ -45,7 +57,7 @@ namespace Monofoxe.Engine.Utils
 		/// Updates state machine and executes current state method.
 		/// </summary>
 		public virtual void Update() =>
-			_states[CurrentState](this);
+			_states[CurrentState](this, Owner);
 		
 
 		
@@ -61,12 +73,12 @@ namespace Monofoxe.Engine.Utils
 
 
 		/// <summary>
-		/// Empties state stack and resets state to default value.
+		/// Empties state stack and sets state to a new one without calling exit or enter events.
 		/// </summary>
-		public virtual void Reset()
+		public virtual void Reset(T state)
 		{
 			_stateStack.Clear();
-			_stateStack.Push(DefaultState);
+			_stateStack.Push(state);
 		}
 
 
@@ -138,18 +150,27 @@ namespace Monofoxe.Engine.Utils
 			return oldState;
 		}
 
+
+
+		/// <summary>
+		/// Calls exit event for a state.
+		/// </summary>
 		protected void CallExitEvent(T state)
 		{
 			if (_exitStateEvents.TryGetValue(state, out StateMachineDelegate<T> exitEvent))
 			{
-				exitEvent(this);
+				exitEvent(this, Owner);
 			}
 		}
+
+		/// <summary>
+		/// Calls enter event for a state.
+		/// </summary>
 		protected void CallEnterEvent(T state)
 		{
 			if (_enterStateEvents.TryGetValue(state, out StateMachineDelegate<T> enterEvent))
 			{
-				enterEvent(this);
+				enterEvent(this, Owner);
 			}
 		}
 
