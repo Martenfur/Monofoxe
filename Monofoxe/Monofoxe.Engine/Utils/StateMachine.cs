@@ -13,6 +13,11 @@ namespace Monofoxe.Engine.Utils
 		/// All the available states.
 		/// </summary>
 		protected Dictionary<T, StateMachineDelegate<T>> _states;	
+		
+		protected Dictionary<T, StateMachineDelegate<T>> _enterStateEvents;
+		protected Dictionary<T, StateMachineDelegate<T>> _exitStateEvents;
+		
+
 
 		/// <summary>
 		/// Stack of active states.
@@ -24,12 +29,15 @@ namespace Monofoxe.Engine.Utils
 		public readonly T DefaultState;
 
 
-		public StateMachine(T _defaultState) 
+		public StateMachine(T defaultState) 
 		{
 			_states = new Dictionary<T, StateMachineDelegate<T>>();
+			_enterStateEvents = new Dictionary<T, StateMachineDelegate<T>>();
+			_exitStateEvents = new Dictionary<T, StateMachineDelegate<T>>();
+
 			_stateStack = new Stack<T>();
-			DefaultState = _defaultState;
-			_stateStack.Push(_defaultState);
+			DefaultState = defaultState;
+			_stateStack.Push(defaultState);
 		}
 		
 
@@ -66,8 +74,23 @@ namespace Monofoxe.Engine.Utils
 		/// <summary>
 		/// Adds new state to a state machine.
 		/// </summary>
-		public virtual void AddState(T stateName, StateMachineDelegate<T> stateMethod) =>
-			_states.Add(stateName, stateMethod);
+		public virtual void AddState(
+			T stateKey, 
+			StateMachineDelegate<T> stateMethod, 
+			StateMachineDelegate<T> enterStateEvent = null, 
+			StateMachineDelegate<T> exitStateEvent = null
+		)
+		{
+			_states.Add(stateKey, stateMethod);
+			if (enterStateEvent != null)
+			{
+				_enterStateEvents.Add(stateKey, enterStateEvent);
+			}
+			if (exitStateEvent != null)
+			{
+				_exitStateEvents.Add(stateKey, exitStateEvent);
+			}
+		}
 		
 
 		/// <summary>
@@ -82,25 +105,53 @@ namespace Monofoxe.Engine.Utils
 		/// 
 		/// NOTE: State should already exist in the machine.
 		/// </summary>
-		public virtual void PushState(T state) =>
+		public virtual void PushState(T state)
+		{
+			CallExitEvent(CurrentState);
 			_stateStack.Push(state);
+			CallEnterEvent(CurrentState);
+		}
 
 		
 		/// <summary>
 		/// Pops current active state from a machine.
 		/// </summary>
-		public virtual T PopState() =>
-			_stateStack.Pop();
+		public virtual T PopState()
+		{
+			CallExitEvent(CurrentState);
+			var oldState = _stateStack.Pop();
+			CallEnterEvent(CurrentState);
+			return oldState;
+		}
 		
 
 		/// <summary>
 		/// Replaces current state with a new state. Basically, pop and push together.
 		/// </summary>
-		public virtual T ReplaceState(T state)
+		public virtual T ChangeState(T state)
 		{
+			CallExitEvent(CurrentState);
 			var oldState = _stateStack.Pop();
 			_stateStack.Push(state);
+			CallEnterEvent(CurrentState);
+
 			return oldState;
 		}
+
+		protected void CallExitEvent(T state)
+		{
+			if (_exitStateEvents.TryGetValue(state, out StateMachineDelegate<T> exitEvent))
+			{
+				exitEvent(this);
+			}
+		}
+		protected void CallEnterEvent(T state)
+		{
+			if (_enterStateEvents.TryGetValue(state, out StateMachineDelegate<T> enterEvent))
+			{
+				enterEvent(this);
+			}
+		}
+
 	}
 }
