@@ -50,7 +50,8 @@ namespace Monofoxe.Engine.Utils
 		/// </summary>
 		public static double GlobalTime() => 
 			GameMgr.ElapsedTime * _globalTimeMultiplier;
-		
+	
+
 		/// <summary>
 		/// Returns GameMgr.ElapsedTime, multiplied by global time multiplier.
 		/// </summary>
