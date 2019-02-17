@@ -41,7 +41,9 @@ $desktopGLTemplate = "$PWD\Templates\$desktopGL\"
 
 
 "Building solution $msbuild..."
-&$msbuild ("$PWD\Monofoxe\Monofoxe.sln" ,'/verbosity:q','/p:configuration=Release','/t:Clean,Build')
+&$msbuild ("$PWD\Monofoxe\Monofoxe.sln" ,'/verbosity:q','/p:configuration=Debug','/t:Clean,Build') > $null
+&$msbuild ("$PWD\Monofoxe\Monofoxe.sln" ,'/verbosity:q','/p:configuration=Release','/t:Clean,Build') > $null
+
 
 "Cleaning output directory at $destReleaseDir..."
 if (Test-Path "$destReleaseDir" -PathType Container)
@@ -57,6 +59,7 @@ Copy-Item -path "$desktopGLTemplate" -Destination "$destReleaseDir" -Recurse -Co
 "Copying libraries for templates from $desktopGLTemplate..."
 New-Item -ItemType Directory -Force -Path "$destReleaseDir$desktopGL\References\" > $null
 Copy-Item -path "$srcLibDir\*" -Filter "*.dll" -Destination "$destReleaseDir$desktopGL\References\"
+Copy-Item -path "$srcLibDir\*" -Filter "*.xml" -Destination "$destReleaseDir$desktopGL\References\"
 # Copying deafult shader into the content directory.
 New-Item -ItemType Directory -Force -Path "$destReleaseDir$desktopGL\Content\Effects\" > $null
 Copy-Item -path "$srcLibDir\*" -Filter "*.fx" -Destination "$destReleaseDir$desktopGL\Content\Effects\"
@@ -68,6 +71,7 @@ Copy-Item -path "$srcFMODLibDir" -Destination "$destReleaseDir$desktopGL\" -Recu
 "Copying raw libraries..."
 New-Item -ItemType Directory -Force -Path "$destLibDir" > $null
 Copy-Item -path "$srcLibDir\*" -Filter "*.dll" -Destination "$destLibDir"
+Copy-Item -path "$srcLibDir\*" -Filter "*.xml" -Destination "$destLibDir"
 Copy-Item -path "$srcLibDir\*" -Filter "*.fx" -Destination "$destLibDir"
 New-Item -ItemType Directory -Force -Path "$destLibDir\Pipeline\" > $null
 Copy-Item -path "$srcPipelineLibDir\*" -Filter "*.dll" -Destination "$destLibDir\Pipeline\"

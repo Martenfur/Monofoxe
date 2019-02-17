@@ -49,7 +49,7 @@
     <Compile Include="Resources\Sounds.cs" />
     <Compile Include="Resources\Fonts.cs" />
 		<Compile Include="Resources\Maps.cs" />
-    <Compile Include="Resources\Sprites\SpritesDefault.cs" />
+    <Compile Include="Resources\Sprites\Default.cs" />
     <Compile Include="Test.cs" />
   </ItemGroup>
   <ItemGroup>
