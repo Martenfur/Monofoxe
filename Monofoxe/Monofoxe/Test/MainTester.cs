@@ -66,6 +66,7 @@ namespace Monofoxe.Test
 		}
 
 
+		
 		public override void Update()
 		{
 			if (Input.CheckButton(Buttons.Escape))
