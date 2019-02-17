@@ -34,7 +34,7 @@
       
       <Folder Name="Resources" TargetFolderName="Resources">
         <Folder Name="Sprites" TargetFolderName="Sprites">
-          <ProjectItem ReplaceParameters="false" TargetFileName="SpritesDefault.cs">SpritesDefault.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Default.cs">Default.cs</ProjectItem>
         </Folder>
         <ProjectItem ReplaceParameters="false" TargetFileName="Effects.cs">Effects.cs</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="Fonts.cs">Fonts.cs</ProjectItem>
