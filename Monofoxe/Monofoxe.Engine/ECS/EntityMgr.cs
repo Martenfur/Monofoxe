@@ -6,6 +6,7 @@ using Newtonsoft.Json.Linq;
 using System.IO;
 using Newtonsoft.Json;
 using System;
+using Monofoxe.Engine.Utils;
 
 namespace Monofoxe.Engine.ECS
 {
@@ -36,7 +37,8 @@ namespace Monofoxe.Engine.ECS
 				}
 			}
 			
-			SystemMgr.UpdateSystems();
+
+			SystemMgr.UpdateActiveSystems();
 			
 
 			// Fixed updates.
@@ -46,6 +48,8 @@ namespace Monofoxe.Engine.ECS
 			{
 				var overflow = (int)(_fixedUpdateTimer / GameMgr.FixedUpdateRate); // In case of lags.
 				_fixedUpdateTimer -= GameMgr.FixedUpdateRate * overflow;
+
+				TimeKeeper._elapsedTime = GameMgr.FixedUpdateRate;
 
 				foreach(var scene in SceneMgr.Scenes)
 				{
@@ -75,6 +79,8 @@ namespace Monofoxe.Engine.ECS
 
 			
 			// Normal updates.
+			TimeKeeper._elapsedTime = GameMgr.ElapsedTime;
+			
 			foreach(var scene in SceneMgr.Scenes)
 			{		
 				if (scene.Enabled)

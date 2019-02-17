@@ -212,7 +212,7 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Enables and disables systems depending on if there are any components for them.
 		/// </summary>
-		internal static void UpdateSystems()
+		internal static void UpdateActiveSystems()
 		{
 			// Disabling systems without components.
 			if (AutoSystemManagement && _componentsWereRemoved)
