@@ -257,21 +257,19 @@ namespace Monofoxe.Engine.ECS
 								{
 									_activeSystems.Add(componentType, newSystem);
 
-									// If this is false, this means we are adding old 
-									// component, that was disabled earlier.
-									if (component.Enabled)
+									if (!component.Initialized)
 									{
 										newSystem.Create(component);
+										component.Initialized = true;
 									}
 								}
 							}
 							else
 							{
-								// If this is false, this means we are adding old 
-								// component, that was disabled earlier.
-								if (component.Enabled)
+								if (!component.Initialized)
 								{
 									activeSystem.Create(component);
+									component.Initialized = true;
 								}
 							}
 							
