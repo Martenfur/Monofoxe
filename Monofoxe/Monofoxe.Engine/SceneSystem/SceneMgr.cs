@@ -127,7 +127,7 @@ namespace Monofoxe.Engine.SceneSystem
 								{
 									foreach(var componentPair in entity._components)
 									{
-										if (componentPair.Value.Enabled)
+										if (componentPair.Value.Visible)
 										{
 											SystemMgr.Draw(componentPair.Value);
 										}
@@ -176,7 +176,7 @@ namespace Monofoxe.Engine.SceneSystem
 								{
 									foreach(var componentPair in entity._components)
 									{
-										if (componentPair.Value.Enabled)
+										if (componentPair.Value.Visible)
 										{
 											SystemMgr.Draw(componentPair.Value);
 										}

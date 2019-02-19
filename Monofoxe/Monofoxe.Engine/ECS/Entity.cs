@@ -142,9 +142,18 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		public void AddComponent(Component component)
 		{
+			if (component.Owner != null)
+			{
+				// If component is assigned to other entity - take it away.
+				component.Owner.RemoveComponent(component.GetType());
+			}
 			_components.Add(component.GetType(), component);
 			component.Owner = this;
-			Layer.AddComponent(component);
+			if (component.Enabled)
+			{
+				// If component is disabled, it shouldn't be processed by systems.
+				Layer.AddComponent(component);
+			}
 		}
 		
 		
@@ -156,10 +165,23 @@ namespace Monofoxe.Engine.ECS
 			(T)_components[typeof(T)];
 		
 		/// <summary>
+		/// Returns component of given class.
+		/// </summary>
+		public Component GetComponent(Type type) =>
+			_components[type];
+		
+
+		/// <summary>
 		/// Retrieves component of given class, if it exists, and returns true. If it doesn't, returns false.
 		/// </summary>
 		public bool TryGetComponent<T>(out Component component) where T : Component =>
 			_components.TryGetValue(typeof(T), out component);
+		
+		/// <summary>
+		/// Retrieves component of given class, if it exists, and returns true. If it doesn't, returns false.
+		/// </summary>
+		public bool TryGetComponent(out Component component, Type type) =>
+			_components.TryGetValue(type, out component);
 		
 
 		/// <summary>
@@ -186,14 +208,25 @@ namespace Monofoxe.Engine.ECS
 		public bool HasComponent<T>() where T : Component =>
 			_components.ContainsKey(typeof(T));
 		
+		/// <summary>
+		/// Checks if an entity has the component of given type.
+		/// </summary>
+		public bool HasComponent(Type type) =>
+			_components.ContainsKey(type);
+		
+
 		
 		/// <summary>
 		/// Removes component from an entity and returns it.
 		/// </summary>
-		public Component RemoveComponent<T>() where T : Component
+		public Component RemoveComponent<T>() where T : Component =>
+			RemoveComponent(typeof(T));
+		
+		/// <summary>
+		/// Removes component from an entity and returns it.
+		/// </summary>
+		public Component RemoveComponent(Type type)
 		{
-			var type = typeof(T);
-
 			if (_components.TryGetValue(type, out Component component))
 			{
 				_components.Remove(type);
@@ -204,38 +237,7 @@ namespace Monofoxe.Engine.ECS
 			return null;
 		}
 
-
-		/// <summary>
-		/// Enables the component, if it exists.
-		/// </summary>
-		public void EnableComponent<T>() where T : Component
-		{
-			var type = typeof(T);
-
-			if (_components.TryGetValue(type, out Component component) && !component.Enabled)
-			{
-				component.Enabled = true;
-				Layer.AddComponent(component);
-			}
-		}
-
 		
-		/// <summary>
-		/// Disables the component, if it exists.
-		/// Disabled components aren't processed by systems.
-		/// </summary>
-		public void DisableComponent<T>() where T : Component
-		{
-			var type = typeof(T);
-
-			if (_components.TryGetValue(type, out Component component) && component.Enabled)
-			{
-				component.Enabled = false;
-				Layer.RemoveComponent(component);
-			}
-		}
-
-
 		/// <summary>
 		/// Removes all components.
 		/// </summary>

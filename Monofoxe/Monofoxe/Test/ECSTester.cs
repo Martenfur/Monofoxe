@@ -61,16 +61,31 @@ namespace Monofoxe.Test
 			{
 				foreach(var entity in Layer.GetEntityList("ball"))
 				{
-					entity.DisableComponent<CCollision>();
+					entity.GetComponent<CCollision>().Enabled = false;
 				}
 			}
 			if (Input.CheckButton(Buttons.U))
 			{
 				foreach(var entity in Layer.GetEntityList("ball"))
 				{
-					entity.EnableComponent<CCollision>();
+					entity.GetComponent<CCollision>().Enabled = true;
 				}
 			}
+			if (Input.CheckButton(Buttons.H))
+			{
+				foreach(var entity in Layer.GetEntityList("ball"))
+				{
+					entity.GetComponent<CCollision>().Visible = false;
+				}
+			}
+			if (Input.CheckButton(Buttons.J))
+			{
+				foreach(var entity in Layer.GetEntityList("ball"))
+				{
+					entity.GetComponent<CCollision>().Visible = true;
+				}
+			}
+
 
 			if (Input.CheckButtonPress(Buttons.N))
 			{

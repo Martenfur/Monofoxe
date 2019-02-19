@@ -14,9 +14,16 @@ namespace Monofoxe.Engine.ECS
 		/// so components stay uninitialized for a bit right after creation.
 		/// In most cases it's fine, but you may need to init your component
 		/// right here and right now.
+		/// 
+		/// NOTE: If component's Initialized property is true, this method will do nothing!
 		/// </summary>
 		public static void InitComponent(Component component)
 		{
+			if (component.Initialized)			
+			{
+				return;
+			}	
+
 			var layer = component.Owner.Layer;	
 			var componentType = component.GetType();
 			
@@ -34,6 +41,7 @@ namespace Monofoxe.Engine.ECS
 			)
 			{
 				system.Create(component);
+				component.Initialized = true;					
 				layer._newComponents.Remove(component);
 				return;
 			}
