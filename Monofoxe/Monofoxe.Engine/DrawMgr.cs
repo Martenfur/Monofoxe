@@ -1259,6 +1259,11 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static void DrawText(string text, Vector2 pos)
 		{
+			if (CurrentFont == null)
+			{
+				throw new NullReferenceException("CurrentFont is null! Did you forgot to set a font?");
+			}
+
 			/*
 			 * Font is a wrapper for MG's SpriteFont, which uses non-premultiplied alpha.
 			 * Using PipelineMode.Sprites will result in black pixels everywhere.
@@ -1287,12 +1292,17 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static void DrawText(string text, float x, float y, float scaleX, float scaleY, float originX = 0, float originY = 0, float rot = 0)
 		{
+			if (CurrentFont == null)
+			{
+				throw new NullReferenceException("CurrentFont is null! Did you forgot to set a font?");
+			}
+
 			Matrix transformMatrix = 
 				Matrix.CreateTranslation(new Vector3(-originX, -originY, 0)) * // Origin.
 				Matrix.CreateRotationZ(MathHelper.ToRadians(-rot)) *		       // Rotation.
 				Matrix.CreateScale(new Vector3(scaleX, scaleY, 1)) *	         // Scale.
 				Matrix.CreateTranslation(new Vector3(x, y, 0));                // Position.
-												
+			
 			AddTransformMatrix(transformMatrix);
 			
 			/*
