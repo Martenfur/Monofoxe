@@ -110,11 +110,6 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		internal static void InitSystemPool()
 		{
-			/* 
-			 * ZOMG TEH DRAMA :o
-			 * This ancient horror gets list of all classes, which implement
-			 * BaseSystem.
-			 */
 
 			// Extracting all types from assemblies.
 			var systemTypes = new List<Type>();

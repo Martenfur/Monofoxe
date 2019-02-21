@@ -245,6 +245,9 @@ namespace Monofoxe.Engine.Utils.Cameras
 
 		public void AddFilterEntry(string sceneName, string layerName)
 		{
+			sceneName = sceneName.ToLower();
+			layerName = layerName.ToLower();
+
 			if (_filter.TryGetValue(sceneName, out HashSet<string> filterSet))
 			{
 				filterSet.Add(layerName);
@@ -259,6 +262,9 @@ namespace Monofoxe.Engine.Utils.Cameras
 
 		public void RemoveFilterEntry(string sceneName, string layerName)
 		{
+			sceneName = sceneName.ToLower();
+			layerName = layerName.ToLower();
+
 			if (_filter.TryGetValue(sceneName, out HashSet<string> filterSet))
 			{
 				filterSet.Remove(layerName);
@@ -274,13 +280,16 @@ namespace Monofoxe.Engine.Utils.Cameras
 		/// </summary>
 		public bool Filter(string sceneName, string layerName)
 		{
+			sceneName = sceneName.ToLower();
+			layerName = layerName.ToLower();
+
 			if (FilterMode == FilterMode.None)
 			{
 				return false;
 			}
 
 			var result = false;
-
+			// TODO: Fix this.
 			if (_filter.TryGetValue(sceneName, out HashSet<string> filterSet))
 			{
 				result = filterSet.Contains(layerName);

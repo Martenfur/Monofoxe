@@ -63,6 +63,34 @@ namespace Monofoxe.Test
 			new TileTester(ballsLayer);
 			new StateMachineTester(ballsLayer);
 
+
+			var aStart = 3000000.0;
+			var divider = 1.0/20.0;
+			var dt1 = 1.0/60.0;
+			var dt2 = 1.0/25.0;
+			
+
+			var a = aStart;
+			
+			for(var i = 0; i < 60; i += 1)
+			{
+				a = a * Math.Pow(divider, dt1); 
+				Console.WriteLine(a);
+			}
+			Console.WriteLine("60 fps: " + a);
+
+			a = aStart;
+
+			for(var i = 0; i < 25; i += 1)
+			{
+				a = a * Math.Pow(divider, dt2);
+				Console.WriteLine(a);
+			}
+			Console.WriteLine("30 fps: " + a);
+
+
+
+
 		}
 
 

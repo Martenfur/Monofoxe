@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Monofoxe.Engine.Utils.CustomCollections;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.Utils.Cameras;
+using Monofoxe.Engine.Utils.CustomCollections;
 
 namespace Monofoxe.Engine.SceneSystem
 {
@@ -48,7 +49,7 @@ namespace Monofoxe.Engine.SceneSystem
 		{
 			for(var i = _scenes.Count - 1; i >= 0; i += 1)
 			{
-				if (_scenes[i].Name == name)
+				if (string.Equals(_scenes[i].Name, name, StringComparison.OrdinalIgnoreCase))
 				{
 					_scenes[i].Destroy();
 					_scenes.Remove(_scenes[i]);
@@ -64,7 +65,7 @@ namespace Monofoxe.Engine.SceneSystem
 		{
 			foreach(var scene in _scenes)
 			{
-				if (scene.Name == name)
+				if (string.Equals(scene.Name, name, StringComparison.OrdinalIgnoreCase))
 				{
 					return scene;
 				}
@@ -80,7 +81,7 @@ namespace Monofoxe.Engine.SceneSystem
 		{
 			foreach(var scene in _scenes)
 			{
-				if (scene.Name == name)
+				if (string.Equals(scene.Name, name, StringComparison.OrdinalIgnoreCase))
 				{
 					return true;
 				}

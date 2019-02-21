@@ -97,7 +97,7 @@ namespace Monofoxe.Engine.SceneSystem
 		{
 			for(var i = _layers.Count - 1; i >= 0; i += 1)
 			{
-				if (_layers[i].Name == name)
+				if (string.Equals(_layers[i].Name, name, StringComparison.OrdinalIgnoreCase))
 				{
 					foreach(var entity in _layers[i].Entities)
 					{
@@ -118,7 +118,7 @@ namespace Monofoxe.Engine.SceneSystem
 			{
 				foreach(var layer in _layers)
 				{
-					if (layer.Name == name)
+					if (string.Equals(layer.Name, name, StringComparison.OrdinalIgnoreCase))
 					{
 						return layer;
 					}
@@ -135,7 +135,7 @@ namespace Monofoxe.Engine.SceneSystem
 		{
 			foreach(var layer in _layers)
 			{
-				if (layer.Name == name)
+				if (string.Equals(layer.Name, name, StringComparison.OrdinalIgnoreCase))
 				{
 					return true;
 				}
