@@ -686,24 +686,25 @@ namespace Monofoxe.Engine
 		{
 			var mirroring = SpriteEffects.None;
 
+			offset += frame.Origin;
+
 			// Proper negative scaling.
-			
 			if (scale.X < 0)
 			{
 				mirroring = mirroring | SpriteEffects.FlipHorizontally;
 				scale.X *= -1;
-				offset.X += frame.Width;
+				offset.X = frame.Width - offset.X;
 			}
 
 			if (scale.Y < 0)
 			{
 				mirroring = mirroring | SpriteEffects.FlipVertically;
 				scale.Y *= -1;
-				offset.Y += frame.Height;
+				offset.Y = frame.Height - offset.Y;
 			}
 			// Proper negative scaling.
 
-			DrawFrame(frame, pos, scale, rotation, frame.Origin + offset, color, mirroring);
+			DrawFrame(frame, pos, scale, rotation, offset, color, mirroring);
 		}
 
 		// Vectors.

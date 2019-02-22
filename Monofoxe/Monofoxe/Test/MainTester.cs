@@ -57,11 +57,11 @@ namespace Monofoxe.Test
 			
 			//LayerMgrs.Get("default").IsGUI = true;
 
-			//new DrawingTester();
-			new ECSTester(ballsLayer);
+			new DrawingTester();
+			//new ECSTester(ballsLayer);
 			//new AlarmTester(ballsLayer);
-			new TileTester(ballsLayer);
-			new StateMachineTester(ballsLayer);
+			//new TileTester(ballsLayer);
+			//new StateMachineTester(ballsLayer);
 
 
 			var aStart = 3000000.0;
