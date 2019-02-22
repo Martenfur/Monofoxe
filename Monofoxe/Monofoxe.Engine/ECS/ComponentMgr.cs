@@ -43,6 +43,10 @@ namespace Monofoxe.Engine.ECS
 				system.Create(component);
 				component.Initialized = true;					
 				layer._newComponents.Remove(component);
+				if (component.Enabled)
+				{
+					layer._components[componentType].Add(component);
+				}
 				return;
 			}
 			
