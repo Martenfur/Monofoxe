@@ -31,7 +31,17 @@ namespace Monofoxe.Engine.Utils
 		/// </summary>
 		protected Stack<T> _stateStack;
 
+
+		/// <summary>
+		/// Current state machine state.
+		/// </summary>
 		public T CurrentState => _stateStack.Peek();
+
+		/// <summary>
+		/// Previous state machine state.
+		/// </summary>
+		public T PreviousState {get; protected set;}
+
 
 		/// <summary>
 		/// State machine owner.
@@ -50,6 +60,7 @@ namespace Monofoxe.Engine.Utils
 
 			_stateStack = new Stack<T>();
 			_stateStack.Push(startingState);
+			PreviousState = startingState;
 		}
 		
 
@@ -77,6 +88,7 @@ namespace Monofoxe.Engine.Utils
 		/// </summary>
 		public virtual void Reset(T state)
 		{
+			PreviousState = CurrentState;
 			_stateStack.Clear();
 			_stateStack.Push(state);
 		}
@@ -119,8 +131,9 @@ namespace Monofoxe.Engine.Utils
 		/// </summary>
 		public virtual void PushState(T state)
 		{
-			CallExitEvent(CurrentState);
+			PreviousState = CurrentState;
 			_stateStack.Push(state);
+			CallExitEvent(PreviousState);
 			CallEnterEvent(CurrentState);
 		}
 
@@ -130,10 +143,10 @@ namespace Monofoxe.Engine.Utils
 		/// </summary>
 		public virtual T PopState()
 		{
-			CallExitEvent(CurrentState);
-			var oldState = _stateStack.Pop();
+			PreviousState = _stateStack.Pop();
+			CallExitEvent(PreviousState);
 			CallEnterEvent(CurrentState);
-			return oldState;
+			return PreviousState;
 		}
 		
 
@@ -142,12 +155,12 @@ namespace Monofoxe.Engine.Utils
 		/// </summary>
 		public virtual T ChangeState(T state)
 		{
-			CallExitEvent(CurrentState);
-			var oldState = _stateStack.Pop();
+			PreviousState = _stateStack.Pop();
 			_stateStack.Push(state);
+			CallExitEvent(PreviousState);
 			CallEnterEvent(CurrentState);
 
-			return oldState;
+			return PreviousState;
 		}
 
 
