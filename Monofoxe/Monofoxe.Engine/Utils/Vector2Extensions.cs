@@ -39,5 +39,12 @@ namespace Monofoxe.Engine.Utils
 			v.Normalize();
 			return v;
 		}
+
+		/// <summary>
+		/// Converts Vector2 to Vector3 with z axis of 0.
+		/// </summary>
+		public static Vector3 ToVector3(this Vector2 v) =>
+			new Vector3(v.X, v.Y, 0);
+		
 	}
 }
