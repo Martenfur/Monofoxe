@@ -69,6 +69,7 @@ namespace Monofoxe.Test
 			var dt1 = 1.0/60.0;
 			var dt2 = 1.0/25.0;
 			
+			
 
 			var a = aStart;
 			
@@ -89,7 +90,10 @@ namespace Monofoxe.Test
 			Console.WriteLine("30 fps: " + a);
 
 
-
+			var v = new Vector2(0, 0);
+			v = v.GetSafeNormalize();
+			
+			Console.WriteLine("L: " + v.Length());
 
 		}
 
