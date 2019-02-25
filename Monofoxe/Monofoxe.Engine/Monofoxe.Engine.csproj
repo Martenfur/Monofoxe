@@ -87,6 +87,7 @@
     <Compile Include="SceneSystem\SceneMgr.cs" />
     <Compile Include="Utils\Tilemaps\BasicTilesetTile.cs" />
     <Compile Include="Utils\Tilemaps\ITilesetTile.cs" />
+    <Compile Include="Utils\Vector2Extensions.cs" />
     <Compile Include="WindowMgr.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
