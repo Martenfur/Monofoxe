@@ -70,7 +70,6 @@ namespace Monofoxe.Test
 			var dt2 = 1.0/25.0;
 			
 			
-
 			var a = aStart;
 			
 			for(var i = 0; i < 60; i += 1)
@@ -88,6 +87,10 @@ namespace Monofoxe.Test
 				Console.WriteLine(a);
 			}
 			Console.WriteLine("30 fps: " + a);
+
+			var n = 1;
+			n.ToBool();
+
 
 
 			var v = new Vector2(0, 0);
