@@ -11,7 +11,7 @@ namespace Monofoxe.Test.MapFactories
 	{
 		public string Tag => "barrel";
 
-		public Entity Make(TiledObject obj, Layer layer)
+		public Entity Make(TiledObject obj, Layer layer, Map map)
 		{
 			var barrel = EntityMgr.CreateEntityFromTemplate(layer, "ball");
 			barrel.GetComponent<CMovement>().Position = obj.Position;
