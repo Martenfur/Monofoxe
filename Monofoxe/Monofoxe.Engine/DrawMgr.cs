@@ -729,18 +729,18 @@ namespace Monofoxe.Engine
 		// Rectangles.
 
 		public static void DrawSprite(Sprite sprite, double animation, Rectangle destRect) =>
-			DrawFrame(CalculateSpriteFrame(sprite, animation), sprite.Origin, destRect, 0, CurrentColor);
+			DrawFrame(CalculateSpriteFrame(sprite, animation), destRect, 0, CurrentColor);
 
 		public static void DrawSprite(Sprite sprite, double animation, Rectangle destRect, float rotation, Color color) =>
-			DrawFrame(CalculateSpriteFrame(sprite, animation), sprite.Origin, destRect, rotation, color);
+			DrawFrame(CalculateSpriteFrame(sprite, animation), destRect, rotation, color);
 
 		public static void DrawSprite(Sprite sprite, double animation, Rectangle destRect, Rectangle srcRect) =>
-			DrawFrame(CalculateSpriteFrame(sprite, animation), sprite.Origin, destRect, srcRect, 0, CurrentColor);
+			DrawFrame(CalculateSpriteFrame(sprite, animation), destRect, srcRect, 0, CurrentColor);
 
 		public static void DrawSprite(Sprite sprite, double animation, Rectangle destRect, Rectangle srcRect, float rotation, Color color) =>
-			DrawFrame(CalculateSpriteFrame(sprite, animation), sprite.Origin, destRect, srcRect, rotation, color);
+			DrawFrame(CalculateSpriteFrame(sprite, animation), destRect, srcRect, rotation, color);
 		
-		public static void DrawFrame(Frame frame, Vector2 offset, Rectangle destRect, float rotation, Color color)
+		public static void DrawFrame(Frame frame, Rectangle destRect, float rotation, Color color)
 		{
 			SwitchPipelineMode(PipelineMode.Sprites);
 			
@@ -750,13 +750,14 @@ namespace Monofoxe.Engine
 				frame.TexturePosition, 
 				color, 
 				rotation,
-				offset + frame.Origin, 
+				// NOTE: Offsets are bugged in 3.6 and mess everything up. Disabled them for now.
+				Vector2.Zero, // offset + frame.Origin,
 				SpriteEffects.None, 
 				0
 			);
 		}
 
-		public static void DrawFrame(Frame frame, Vector2 offset, Rectangle destRect, Rectangle srcRect, float rotation, Color color)
+		public static void DrawFrame(Frame frame, Rectangle destRect, Rectangle srcRect, float rotation, Color color)
 		{
 			SwitchPipelineMode(PipelineMode.Sprites);
 			
@@ -769,7 +770,8 @@ namespace Monofoxe.Engine
 				srcRect, 
 				color, 
 				rotation, 
-				offset + frame.Origin,
+				// NOTE: Offsets are bugged in 3.6 and mess everything up. Disabled them for now.
+				Vector2.Zero, // offset + frame.Origin,
 				SpriteEffects.None, 
 				0
 			);
