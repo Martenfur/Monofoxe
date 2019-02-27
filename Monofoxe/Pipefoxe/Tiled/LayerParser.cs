@@ -388,6 +388,32 @@ namespace Pipefoxe.Tiled
 				}
 			}
 
+			// Merging object properties with template's.
+			if (template["properties"] != null)
+			{
+				// This is done because properties with default values aren't copied into object.
+				foreach(XmlNode templateProperty in template["properties"].ChildNodes)
+				{
+					var nodeExists = false;
+
+					foreach(XmlNode nodeProperty in node["properties"].ChildNodes)
+					{
+						if (nodeProperty.Attributes["name"].Value == templateProperty.Attributes["name"].Value)
+						{
+							nodeExists = true;
+							break;
+						}
+					}
+
+					if (!nodeExists)
+					{
+						var clonedProperty = owner.ImportNode(templateProperty, true);
+						node["properties"].AppendChild(clonedProperty);
+					}
+				}
+			}
+			// Merging object properties with template's.
+
 			return node;
 		}
 
