@@ -59,12 +59,17 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 			_tileGrid[x, y] = tile;
 		
 		
+		/// <summary>
+		/// Tells if given coordinates are in bounds.
+		/// </summary>
 		public bool InBounds(int x, int y) =>
 			x >= 0 && y >= 0 && x < Width && y < Height;
 		
 
 		public BasicTilemapComponent(int width, int height, int tileWidth, int tileHeight)
 		{
+			Visible = true;
+
 			Width = width;
 			Height = height;
 			TileWidth = tileWidth;
