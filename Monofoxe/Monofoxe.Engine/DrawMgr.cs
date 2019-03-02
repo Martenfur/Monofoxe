@@ -288,8 +288,8 @@ namespace Monofoxe.Engine
 				{
 					CanvasMatrix = Matrix.CreateScale(
 					 new Vector3(
-							windowManager.PreferredBackBufferWidth / (float)windowManager.CanvasW,
-							windowManager.PreferredBackBufferHeight / (float)windowManager.CanvasH,
+							windowManager.PreferredBackBufferWidth / (float)windowManager.CanvasWidth,
+							windowManager.PreferredBackBufferHeight / (float)windowManager.CanvasHeight,
 							1
 						)
 					);
@@ -308,17 +308,17 @@ namespace Monofoxe.Engine
 						offsetY = 0;
 
 					float backbufferRatio = windowManager.PreferredBackBufferWidth / (float)windowManager.PreferredBackBufferHeight;
-					float canvasRatio = windowManager.CanvasW / windowManager.CanvasH;
+					float canvasRatio = windowManager.CanvasWidth / windowManager.CanvasHeight;
 
 					if (canvasRatio > backbufferRatio)
 					{
-						ratio = windowManager.PreferredBackBufferWidth / (float)windowManager.CanvasW;
-						offsetY = (windowManager.PreferredBackBufferHeight - (windowManager.CanvasH * ratio)) / 2;
+						ratio = windowManager.PreferredBackBufferWidth / (float)windowManager.CanvasWidth;
+						offsetY = (windowManager.PreferredBackBufferHeight - (windowManager.CanvasHeight * ratio)) / 2;
 					}
 					else
 					{
-						ratio = windowManager.PreferredBackBufferHeight / (float)windowManager.CanvasH;
-						offsetX = (windowManager.PreferredBackBufferWidth - (windowManager.CanvasW * ratio)) / 2;
+						ratio = windowManager.PreferredBackBufferHeight / (float)windowManager.CanvasHeight;
+						offsetX = (windowManager.PreferredBackBufferWidth - (windowManager.CanvasWidth * ratio)) / 2;
 					}
 					
 					CanvasMatrix = Matrix.CreateScale(new Vector3(ratio, ratio, 1)) * Matrix.CreateTranslation(new Vector3(offsetX, offsetY, 0));
