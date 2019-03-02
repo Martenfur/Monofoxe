@@ -239,15 +239,14 @@ namespace Monofoxe.Engine.ECS
 
 		
 		/// <summary>
-		/// Removes all components.
+		/// Removes all components from entity's layer.
 		/// </summary>
-		internal void RemoveAllComponents()
+		internal void DestroyAllComponents()
 		{
 			foreach(var componentPair in _components)
 			{
 				Layer.RemoveComponent(componentPair.Value);
 			}
-			_components.Clear();
 		}
 
 		#endregion Components.
