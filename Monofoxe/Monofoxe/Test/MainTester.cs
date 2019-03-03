@@ -60,7 +60,7 @@ namespace Monofoxe.Test
 			new DrawingTester();
 			//new ECSTester(ballsLayer);
 			//new AlarmTester(ballsLayer);
-			new TileTester(ballsLayer);
+			//new TileTester(ballsLayer);
 			//new StateMachineTester(ballsLayer);
 
 

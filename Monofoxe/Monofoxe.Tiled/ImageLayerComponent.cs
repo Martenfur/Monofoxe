@@ -14,10 +14,9 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 
 		public Vector2 Offset;
 
-		public bool Visible = true;
-
 		public ImageLayerComponent(Vector2 offset, Frame frame)
 		{
+			Visible = true;
 			Frame = frame;
 			Offset = offset;
 		}

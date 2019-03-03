@@ -20,6 +20,6 @@ namespace Monofoxe.Tiled
 		/// <summary>
 		/// Creates entity from Tiled Object on a given layer.
 		/// </summary>
-		Entity Make(TiledObject obj, Layer layer, Map map);
+		Entity Make(TiledObject obj, Layer layer, MapBuilder map);
 	}
 }

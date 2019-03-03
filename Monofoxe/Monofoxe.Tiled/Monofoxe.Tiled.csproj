@@ -60,7 +60,7 @@
     <Compile Include="ImageLayerComponent.cs" />
     <Compile Include="ImageLayerSystem.cs" />
     <Compile Include="ITiledEntityFactory.cs" />
-    <Compile Include="Map.cs" />
+    <Compile Include="MapBuilder.cs" />
     <Compile Include="MapMgr.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
