@@ -344,12 +344,12 @@ namespace Pipefoxe.Tiled
 			XmlNode template;
 			try
 			{
-				doc.Load(TiledMapImporter.RootDir + node.Attributes["template"].Value);
+				doc.Load(TiledMapImporter.CurrentRootDir + node.Attributes["template"].Value);
 				template = doc["template"]["object"];
 			}
 			catch(Exception e)
 			{
-				throw new Exception("Error loading object template! " + e.StackTrace);
+				throw new Exception("Error loading object template! " + e.StackTrace + Environment.NewLine + e.Message);
 			}
 			// Loading template.
 

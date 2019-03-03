@@ -58,7 +58,10 @@ namespace Pipefoxe.Tiled
 				var doc = new XmlDocument();
 				try
 				{
-					doc.Load(TiledMapImporter.RootDir + tilesetXml.Attributes["source"].Value);
+					// Paths in tileset file are relative to that file, so root dir needs to be swapped.
+					TiledMapImporter.CurrentRootDir = TiledMapImporter.TmxRootDir + Path.GetDirectoryName(tilesetXml.Attributes["source"].Value) + "/";
+
+					doc.Load(TiledMapImporter.CurrentRootDir + "/" + Path.GetFileName(tilesetXml.Attributes["source"].Value));
 					tilesetDir = Path.GetDirectoryName(tilesetXml.Attributes["source"].Value) + '/';
 					tilesetXml = doc["tileset"]; // Swapping to actual tileset.
 				}
@@ -209,6 +212,9 @@ namespace Pipefoxe.Tiled
 
 				// Image collection tileset.	
 			}
+
+			TiledMapImporter.CurrentRootDir = TiledMapImporter.TmxRootDir;
+
 
 			return tileset;
 		}
