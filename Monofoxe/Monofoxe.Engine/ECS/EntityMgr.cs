@@ -118,7 +118,11 @@ namespace Monofoxe.Engine.ECS
 			}
 		}
 		
-		
+		/// <summary>
+		/// Loads entitiy templates from the content.
+		/// 
+		/// Needs to be called once to use CreateEntityFromTemplate().
+		/// </summary>
 		public static void LoadEntityTemplates()
 		{
 			ReadConfig();
@@ -204,7 +208,7 @@ namespace Monofoxe.Engine.ECS
 				{
 					entity.Destroy();
 				}
-				entity.RemoveAllComponents();
+				entity.DestroyAllComponents();
 			}
 		}
 		

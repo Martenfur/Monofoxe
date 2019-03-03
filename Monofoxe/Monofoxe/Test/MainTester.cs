@@ -65,11 +65,11 @@ namespace Monofoxe.Test
 
 
 			var aStart = 3000000.0;
-			var divider = 1.0/20.0;
+			var divider = 0.5;
 			var dt1 = 1.0/60.0;
 			var dt2 = 1.0/25.0;
 			
-
+			
 			var a = aStart;
 			
 			for(var i = 0; i < 60; i += 1)
@@ -88,8 +88,15 @@ namespace Monofoxe.Test
 			}
 			Console.WriteLine("30 fps: " + a);
 
+			var n = 1;
+			n.ToBool();
 
 
+
+			var v = new Vector2(0, 0);
+			v = v.GetSafeNormalize();
+			
+			Console.WriteLine("L: " + v.Length());
 
 		}
 

@@ -9,17 +9,27 @@ namespace Pipefoxe.Tiled
 	DisplayName = "Tiled Map Importer - Monofoxe")]
 	public class TiledMapImporter : ContentImporter<TiledMap>
 	{
-		public static string RootDir;
+		/// <summary>
+		/// Directory of the .tmx file.
+		/// </summary>
+		public static string TmxRootDir;
+
+		/// <summary>
+		/// Current root directory.
+		/// </summary>
+		public static string CurrentRootDir;
+
 
 		public override TiledMap Import(string filename, ContentImporterContext context)
 		{
-			RootDir = Path.GetDirectoryName(filename) + '/';
-			
+			TmxRootDir = Path.GetDirectoryName(filename) + '/';
+			CurrentRootDir = TmxRootDir;
+
 			try
 			{
 				var xml = new XmlDocument();
 				xml.Load(filename);
-			
+				
 				return MapParser.Parse(xml);
 			}
 			catch(System.Exception e)

@@ -44,7 +44,7 @@ namespace Pipefoxe.Tiled
 					{
 						continue;
 					}
-					var assetReference = new ExternalReference<Texture2DContent>(TiledMapImporter.RootDir + "/" + path);
+					var assetReference = new ExternalReference<Texture2DContent>(TiledMapImporter.TmxRootDir + "/" + path);
 					TextureReferences.Add(path, context.BuildAsset<Texture2DContent, Texture2DContent>(assetReference, "", null, "", ""));
 				}
 			}
@@ -55,7 +55,7 @@ namespace Pipefoxe.Tiled
 				{
 					continue;
 				}
-				var asserReference = new ExternalReference<Texture2DContent>(TiledMapImporter.RootDir + "/" + imageLayer.TexturePath);
+				var asserReference = new ExternalReference<Texture2DContent>(TiledMapImporter.TmxRootDir + "/" + imageLayer.TexturePath);
 				TextureReferences.Add(imageLayer.TexturePath, context.BuildAsset<Texture2DContent, Texture2DContent>(asserReference, "", null, "", ""));
 			}
 
