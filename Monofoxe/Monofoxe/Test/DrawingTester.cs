@@ -17,7 +17,7 @@ namespace Monofoxe.Test
 {
 	public class DrawingTester : Entity
 	{
-		Sprite testSpr = Default.Chiggin;
+		Sprite testSpr = Default.BstGam;
 		double fireFrame = 0;
 	
 		double chigginWave = 0;
@@ -73,13 +73,13 @@ namespace Monofoxe.Test
 			DrawMgr.CurrentColor = Color.Aqua;
 			
 			
-			DrawMgr.CurrentEffect = Effects.Effect;
+			DrawMgr.CurrentEffect = Effects.BW;
 			var p = new Vector2(50, 200);
 			for(var i = 0; i < 8; i += 1)
 			{
 				DrawMgr.DrawSprite(
 					testSpr, 
-					0, 
+					0.75f, 
 					p + 
 						Vector2.UnitX * i * 16 + 
 						Vector2.UnitY * (float)Math.Sin(Math.PI * 2 * (chigginWave + 1f / 8f * i)) * 8, 

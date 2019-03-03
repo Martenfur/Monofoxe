@@ -289,7 +289,13 @@ namespace Monofoxe.Engine.Utils.Cameras
 			}
 
 			var result = false;
-			// TODO: Fix this.
+			
+			// NOTE: Here was a strange TODO with just said "fix this".
+			// Haven't found any bugs here, so just removed it. Probably
+			// was an already fixed bug with case-sensitivity. In case of any 
+			// camera filter-related bugs, this place if the first suspect.
+			// Thanks, past me.
+
 			if (_filter.TryGetValue(sceneName, out HashSet<string> filterSet))
 			{
 				result = filterSet.Contains(layerName);

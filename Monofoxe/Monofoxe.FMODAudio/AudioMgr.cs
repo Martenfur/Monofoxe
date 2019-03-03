@@ -93,7 +93,7 @@ namespace Monofoxe.FMODAudio
 		/// </summary>
 		public static Sound LoadSound(string name, FMOD.MODE mode = FMOD.MODE.DEFAULT)
 		{
-			// TODO: Fix paths.
+			// TODO: Fix paths, when will be porting FMOD to other platforms.
 			LastResult = FMODSystem.createSound(
 				AssetMgr.ContentDir + '/' + AssetMgr.AudioDir + '/' + name + _sfxExtension, 
 				mode, 

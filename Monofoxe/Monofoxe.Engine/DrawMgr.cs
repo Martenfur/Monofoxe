@@ -288,8 +288,8 @@ namespace Monofoxe.Engine
 				{
 					CanvasMatrix = Matrix.CreateScale(
 					 new Vector3(
-							windowManager.PreferredBackBufferWidth / (float)windowManager.CanvasW,
-							windowManager.PreferredBackBufferHeight / (float)windowManager.CanvasH,
+							windowManager.PreferredBackBufferWidth / (float)windowManager.CanvasWidth,
+							windowManager.PreferredBackBufferHeight / (float)windowManager.CanvasHeight,
 							1
 						)
 					);
@@ -308,17 +308,17 @@ namespace Monofoxe.Engine
 						offsetY = 0;
 
 					float backbufferRatio = windowManager.PreferredBackBufferWidth / (float)windowManager.PreferredBackBufferHeight;
-					float canvasRatio = windowManager.CanvasW / windowManager.CanvasH;
+					float canvasRatio = windowManager.CanvasWidth / windowManager.CanvasHeight;
 
 					if (canvasRatio > backbufferRatio)
 					{
-						ratio = windowManager.PreferredBackBufferWidth / (float)windowManager.CanvasW;
-						offsetY = (windowManager.PreferredBackBufferHeight - (windowManager.CanvasH * ratio)) / 2;
+						ratio = windowManager.PreferredBackBufferWidth / (float)windowManager.CanvasWidth;
+						offsetY = (windowManager.PreferredBackBufferHeight - (windowManager.CanvasHeight * ratio)) / 2;
 					}
 					else
 					{
-						ratio = windowManager.PreferredBackBufferHeight / (float)windowManager.CanvasH;
-						offsetX = (windowManager.PreferredBackBufferWidth - (windowManager.CanvasW * ratio)) / 2;
+						ratio = windowManager.PreferredBackBufferHeight / (float)windowManager.CanvasHeight;
+						offsetX = (windowManager.PreferredBackBufferWidth - (windowManager.CanvasWidth * ratio)) / 2;
 					}
 					
 					CanvasMatrix = Matrix.CreateScale(new Vector3(ratio, ratio, 1)) * Matrix.CreateTranslation(new Vector3(offsetX, offsetY, 0));
@@ -729,18 +729,18 @@ namespace Monofoxe.Engine
 		// Rectangles.
 
 		public static void DrawSprite(Sprite sprite, double animation, Rectangle destRect) =>
-			DrawFrame(CalculateSpriteFrame(sprite, animation), sprite.Origin, destRect, 0, CurrentColor);
+			DrawFrame(CalculateSpriteFrame(sprite, animation), destRect, 0, CurrentColor);
 
 		public static void DrawSprite(Sprite sprite, double animation, Rectangle destRect, float rotation, Color color) =>
-			DrawFrame(CalculateSpriteFrame(sprite, animation), sprite.Origin, destRect, rotation, color);
+			DrawFrame(CalculateSpriteFrame(sprite, animation), destRect, rotation, color);
 
 		public static void DrawSprite(Sprite sprite, double animation, Rectangle destRect, Rectangle srcRect) =>
-			DrawFrame(CalculateSpriteFrame(sprite, animation), sprite.Origin, destRect, srcRect, 0, CurrentColor);
+			DrawFrame(CalculateSpriteFrame(sprite, animation), destRect, srcRect, 0, CurrentColor);
 
 		public static void DrawSprite(Sprite sprite, double animation, Rectangle destRect, Rectangle srcRect, float rotation, Color color) =>
-			DrawFrame(CalculateSpriteFrame(sprite, animation), sprite.Origin, destRect, srcRect, rotation, color);
+			DrawFrame(CalculateSpriteFrame(sprite, animation), destRect, srcRect, rotation, color);
 		
-		public static void DrawFrame(Frame frame, Vector2 offset, Rectangle destRect, float rotation, Color color)
+		public static void DrawFrame(Frame frame, Rectangle destRect, float rotation, Color color)
 		{
 			SwitchPipelineMode(PipelineMode.Sprites);
 			
@@ -750,13 +750,14 @@ namespace Monofoxe.Engine
 				frame.TexturePosition, 
 				color, 
 				rotation,
-				offset + frame.Origin, 
+				// NOTE: Offsets are bugged in 3.6 and mess everything up. Disabled them for now.
+				Vector2.Zero, // offset + frame.Origin,
 				SpriteEffects.None, 
 				0
 			);
 		}
 
-		public static void DrawFrame(Frame frame, Vector2 offset, Rectangle destRect, Rectangle srcRect, float rotation, Color color)
+		public static void DrawFrame(Frame frame, Rectangle destRect, Rectangle srcRect, float rotation, Color color)
 		{
 			SwitchPipelineMode(PipelineMode.Sprites);
 			
@@ -769,7 +770,8 @@ namespace Monofoxe.Engine
 				srcRect, 
 				color, 
 				rotation, 
-				offset + frame.Origin,
+				// NOTE: Offsets are bugged in 3.6 and mess everything up. Disabled them for now.
+				Vector2.Zero, // offset + frame.Origin,
 				SpriteEffects.None, 
 				0
 			);

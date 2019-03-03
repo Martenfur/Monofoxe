@@ -344,12 +344,12 @@ namespace Pipefoxe.Tiled
 			XmlNode template;
 			try
 			{
-				doc.Load(TiledMapImporter.RootDir + node.Attributes["template"].Value);
+				doc.Load(TiledMapImporter.CurrentRootDir + node.Attributes["template"].Value);
 				template = doc["template"]["object"];
 			}
 			catch(Exception e)
 			{
-				throw new Exception("Error loading object template! " + e.StackTrace);
+				throw new Exception("Error loading object template! " + e.StackTrace + Environment.NewLine + e.Message);
 			}
 			// Loading template.
 
@@ -387,6 +387,32 @@ namespace Pipefoxe.Tiled
 					node.AppendChild(newChild);
 				}
 			}
+
+			// Merging object properties with template's.
+			if (template["properties"] != null)
+			{
+				// This is done because properties with default values aren't copied into object.
+				foreach(XmlNode templateProperty in template["properties"].ChildNodes)
+				{
+					var nodeExists = false;
+
+					foreach(XmlNode nodeProperty in node["properties"].ChildNodes)
+					{
+						if (nodeProperty.Attributes["name"].Value == templateProperty.Attributes["name"].Value)
+						{
+							nodeExists = true;
+							break;
+						}
+					}
+
+					if (!nodeExists)
+					{
+						var clonedProperty = owner.ImportNode(templateProperty, true);
+						node["properties"].AppendChild(clonedProperty);
+					}
+				}
+			}
+			// Merging object properties with template's.
 
 			return node;
 		}

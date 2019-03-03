@@ -15,52 +15,55 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Width of the screen.
 		/// </summary>
-		public int ScreenW => GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+		public int ScreenWidth => GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
 
 		/// <summary>
 		/// Height of the screen.
 		/// </summary>
-		public int ScreenH => GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+		public int ScreenHeight => GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
 
 		/// <summary>
 		/// Size of the screen.
 		/// </summary>
-		public Vector2 ScreenSize => new Vector2(ScreenW, ScreenH);
+		public Vector2 ScreenSize => new Vector2(ScreenWidth, ScreenHeight);
 
 		/// <summary>
 		/// Window width.
 		/// </summary>
-		public int CanvasW
+		public int CanvasWidth
 		{
-			get => _canvasW;
+			get => _canvasWidth;
 			set
 			{
-				_canvasW = value;
+				_canvasWidth = value;
 				if (!IsFullScreen)
 				{
-					PreferredBackBufferWidth = _canvasW;
+					PreferredBackBufferWidth = _canvasWidth;
 				}
 			}
 		}
-		private int _canvasW;
+		private int _canvasWidth;
 
 		/// <summary>
 		/// Window height.
 		/// </summary>
-		public int CanvasH
+		public int CanvasHeight
 		{
-			get => _canvasH;
+			get => _canvasHeight;
 			set
 			{
-				_canvasH = value;
+				_canvasHeight = value;
 				if (!IsFullScreen)
 				{
-					PreferredBackBufferHeight = _canvasH;
+					PreferredBackBufferHeight = _canvasHeight;
 				}
 			}
 		}
-		private int _canvasH;
+		private int _canvasHeight;
 		
+		/// <summary>
+		/// Tells how canvas will be drawn on the backbuffer.
+		/// </summary>
 		public CanvasMode CanvasMode = CanvasMode.KeepAspectRatio;
 
 		/// <summary>
@@ -68,11 +71,11 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public Vector2 CanvasSize 
 		{
-			get => new Vector2(CanvasW, CanvasH);
+			get => new Vector2(CanvasWidth, CanvasHeight);
 			set 
 			{
-				CanvasW = (int)value.X;
-				CanvasH = (int)value.Y;
+				CanvasWidth = (int)value.X;
+				CanvasHeight = (int)value.Y;
 			}
 		}
 
@@ -81,7 +84,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Window position.
 		/// </summary>
-		public Point WindowPos
+		public Point WindowPosision
 		{
 			get => Window.Position;
 			set => Window.Position = value;
@@ -117,21 +120,21 @@ namespace Monofoxe.Engine
 		public WindowMgr(Game game) : base(game)
 		{
 			Window = game.Window;
-			_canvasW = PreferredBackBufferWidth;
-			_canvasH = PreferredBackBufferHeight;
+			_canvasWidth = PreferredBackBufferWidth;
+			_canvasHeight = PreferredBackBufferHeight;
 		}
 
 		public void SetFullScreen(bool fullscreen)
 		{
 			if (fullscreen)
 			{
-				PreferredBackBufferWidth = ScreenW;
-				PreferredBackBufferHeight = ScreenH;
+				PreferredBackBufferWidth = ScreenWidth;
+				PreferredBackBufferHeight = ScreenHeight;
 			}
 			else
 			{
-				PreferredBackBufferWidth = _canvasW;
-				PreferredBackBufferHeight = _canvasH;
+				PreferredBackBufferWidth = _canvasWidth;
+				PreferredBackBufferHeight = _canvasHeight;
 			}
 			
 			IsFullScreen = fullscreen;
@@ -143,7 +146,7 @@ namespace Monofoxe.Engine
 		/// Centers game window on the screen.
 		/// </summary>
 		public void CenterWindow() => 
-			WindowPos = ((ScreenSize - CanvasSize) / 2).ToPoint();
+			WindowPosision = ((ScreenSize - CanvasSize) / 2).ToPoint();
 		
 
 

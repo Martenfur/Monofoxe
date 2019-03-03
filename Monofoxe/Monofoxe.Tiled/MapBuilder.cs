@@ -10,23 +10,32 @@ using Monofoxe.Tiled.MapStructure;
 namespace Monofoxe.Tiled
 {
 	/// <summary>
-	/// Basic map class. Creates a map from Tiled data structures.
+	/// Basic map builder class. Creates a map from Tiled data structures.
 	/// Can be extended.
 	/// </summary>
-	public class Map
+	public class MapBuilder
 	{
 		public readonly TiledMap TiledMap;
 		public Scene MapScene {get; protected set;}
 		public bool Loaded {get; protected set;} = false;
 
 
-		public Map(TiledMap tiledMap) =>
+		public MapBuilder(TiledMap tiledMap) =>
 			TiledMap = tiledMap;
 		
 		/// <summary>
-		/// Loads map scene.
+		/// Builds map scene from TIled map template.
+		/// 
+		/// Building goes in four stages:
+		/// - Building tilesets.
+		/// - Building tile layers.
+		/// - Building object layers.
+		/// - Builsing image layers.
+		/// 
+		/// Each of those stages can be overriden.
+		/// Override this method if you want full control over the map loading.
 		/// </summary>
-		public virtual void Load()
+		public virtual void Build()
 		{
 			if (!Loaded)
 			{
@@ -46,7 +55,7 @@ namespace Monofoxe.Tiled
 		/// <summary>
 		/// Unloads map scene.
 		/// </summary>
-		public virtual void Unload()
+		public virtual void Destroy()
 		{
 			SceneMgr.DestroyScene(MapScene);
 			MapScene = null;
@@ -59,7 +68,8 @@ namespace Monofoxe.Tiled
 		#region Map building.
 
 		/// <summary>
-		/// Builds Tiled tilesets to actual tilesets.
+		/// Builds tilesets from Tiled templates.
+		/// Called by BuildMap().
 		/// </summary>
 		protected virtual List<Tileset> BuildTilesets(TiledMapTileset[] tilesets)
 		{
@@ -130,7 +140,10 @@ namespace Monofoxe.Tiled
 		}
 
 
-
+		/// <summary>
+		/// Builds tile layers from Tiled templates. 
+		/// Called by BuildMap().
+		/// </summary>
 		protected virtual List<Layer> BuildTileLayers(List<Tileset> tilesets)
 		{
 			var layers = new List<Layer>();
@@ -172,7 +185,10 @@ namespace Monofoxe.Tiled
 		}
 		
 
-
+		/// <summary>
+		/// Builds object layers from Tiled templates.
+		/// Called by BuildMap().
+		/// </summary>
 		protected virtual List<Layer> BuildObjectLayers()
 		{
 			var layers = new List<Layer>();
@@ -184,7 +200,7 @@ namespace Monofoxe.Tiled
 
 				foreach(var obj in objectLayer.Objects)
 				{
-					MapMgr.MakeEntity(obj, layer);
+					MapMgr.MakeEntity(obj, layer, this);
 				}
 				layers.Add(layer);
 			}
@@ -192,14 +208,22 @@ namespace Monofoxe.Tiled
 		}
 
 
-
+		
+		/// <summary>
+		/// Builds image layers from Tiled templates.
+		/// Called by BuildMap().
+		/// </summary>
 		protected virtual List<Layer> BuildImageLayers()
 		{
 			var layers = new List<Layer>();
 
 			foreach(var imageLayer in TiledMap.ImageLayers)
 			{
+				// Yes, a layer per a single image is very wasteful.
+				// I'd suggest to not use image layers for anything other than quick prototyping.
 				var layer = MapScene.CreateLayer(imageLayer.Name);
+				layer.Priority = GetLayerPriority(imageLayer);
+
 				var entity = new Entity(layer, "tiledImage");
 				var frame = new Frame(
 					imageLayer.Texture, 

@@ -45,8 +45,10 @@ namespace Monofoxe.Engine.ECS
 		
 		/// <summary>
 		/// If component is visible, it will be processed by Draw method.
+		/// 
+		/// NOTE: components are NOT visible by default!
 		/// </summary>
-		public bool Visible = true;
+		public bool Visible = false;
 		
 
 		/// <summary>

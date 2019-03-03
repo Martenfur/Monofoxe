@@ -51,24 +51,6 @@ namespace Monofoxe.Engine.ECS
 			}
 			
 		}
-
-		
-
-		/// <summary>
-		/// Returns list of components of given type from entities owning provided components.
-		/// TODO: This is too messy description. Redo it, or remove method completely.
-		/// </summary>
-		public static List<T> GetComponentList<T>(List<Component> components) where T : Component
-		{
-			var list = new List<T>();
-
-			foreach(var component in components)
-			{
-				list.Add(component.Owner.GetComponent<T>());
-			}
-			return list;
-		}
-		
 		
 		
 		/// <summary>
@@ -78,7 +60,7 @@ namespace Monofoxe.Engine.ECS
 		internal static List<Component> FilterInactiveComponents(List<Component> components)
 		{
 			var activeComponents = new List<Component>();
-					
+			
 			foreach(var component in components)
 			{
 				if (component.Owner.Enabled && !component.Owner.Destroyed)
