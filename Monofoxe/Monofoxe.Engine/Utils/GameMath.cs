@@ -137,7 +137,7 @@ namespace Monofoxe.Engine.Utils
 		/// Checks if two rectangles intersect.
 		/// </summary>
 		public static bool RectangleInRectangle(Vector2 rect1Pt1, Vector2 rect1Pt2, Vector2 rect2Pt1, Vector2 rect2Pt2) =>
-			rect1Pt1.X < rect2Pt2.X && rect1Pt2.X > rect2Pt1.X && rect1Pt1.Y < rect2Pt2.Y && rect1Pt2.Y > rect2Pt1.Y;
+			rect1Pt1.X <= rect2Pt2.X && rect1Pt2.X >= rect2Pt1.X && rect1Pt1.Y <= rect2Pt2.Y && rect1Pt2.Y >= rect2Pt1.Y;
 		
 		/// <summary>
 		/// Checks if two rectangles intersect.
@@ -147,7 +147,7 @@ namespace Monofoxe.Engine.Utils
 			var delta = rect2Center - rect1Center;
 			var size = (rect2Size + rect1Size) / 2f; 
 
-			return Math.Abs(delta.X) < size.X && Math.Abs(delta.Y) < size.Y; 
+			return Math.Abs(delta.X) <= size.X && Math.Abs(delta.Y) <= size.Y; 
 		}
 
 		/// <summary>
