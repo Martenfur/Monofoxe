@@ -2,7 +2,6 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
-using Monofoxe.Engine;
 
 // DO NOT include FMOD namespace in ANY of your classes.
 // Use FMOD.SomeClass instead.
@@ -44,9 +43,15 @@ namespace Monofoxe.FMODAudio
 		//[DllImport("libdl.so.2")] // UNTESTED
 		//static extern IntPtr dlopen(string filename, int flags);
 
+		/// <summary>
+		/// Root directory for sounds and music.
+		/// </summary>
+		private static string _rootDir;
 
-		public static void Init()
+		public static void Init(string rootDir)
 		{
+			_rootDir = rootDir;
+
 			if (_isWindows)
 			{
 				if (Environment.Is64BitProcess)
@@ -95,7 +100,7 @@ namespace Monofoxe.FMODAudio
 		{
 			// TODO: Fix paths, when will be porting FMOD to other platforms.
 			LastResult = FMODSystem.createSound(
-				AssetMgr.ContentDir + '/' + AssetMgr.AudioDir + '/' + name + _sfxExtension, 
+				_rootDir + name + _sfxExtension, 
 				mode, 
 				out FMOD.Sound newSound
 			);
@@ -110,7 +115,7 @@ namespace Monofoxe.FMODAudio
 		public static Sound LoadStreamedSound(string name, FMOD.MODE mode = FMOD.MODE.DEFAULT)
 		{
 			LastResult = FMODSystem.createStream(
-				AssetMgr.ContentDir + '/' + AssetMgr.AudioDir + '/' + name + _musicExtension, 
+				_rootDir + name + _musicExtension, 
 				mode, 
 				out FMOD.Sound newSound
 			);

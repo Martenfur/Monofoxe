@@ -18,7 +18,7 @@ namespace Monofoxe
 		{
 			Content.RootDirectory = AssetMgr.ContentDir;
 			GameMgr.Init(this);
-			AudioMgr.Init();
+			AudioMgr.Init(AssetMgr.ContentDir + '/' + AssetMgr.AudioDir + '/');
 		}
 
 		/// <summary>

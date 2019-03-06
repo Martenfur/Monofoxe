@@ -33,11 +33,6 @@
     <DocumentationFile>..\bin\Release\Monofoxe.FMODAudio.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Monofoxe.Engine, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\bin\Debug\Monofoxe.Engine.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
       <Private>False</Private>
