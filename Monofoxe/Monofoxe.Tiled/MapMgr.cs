@@ -32,7 +32,7 @@ namespace Monofoxe.Tiled
 		/// </summary>
 		public static Entity MakeEntity(TiledObject obj, Layer layer, MapBuilder map)
 		{
-			if (_factoryPool.TryGetValue(obj.Type, out ITiledEntityFactory factory))
+			if (_factoryPool.TryGetValue(obj.Type.ToLower(), out ITiledEntityFactory factory))
 			{
 				return factory.Make(obj, layer, map);
 			}
@@ -53,7 +53,7 @@ namespace Monofoxe.Tiled
 				if (typeof(ITiledEntityFactory).IsAssignableFrom(type.Value) && !type.Value.IsInterface)
 				{
 					var newFactory = (ITiledEntityFactory)Activator.CreateInstance(type.Value);
-					_factoryPool.Add(newFactory.Tag, newFactory);
+					_factoryPool.Add(newFactory.Tag.ToLower(), newFactory);
 				}
 			}
 		}

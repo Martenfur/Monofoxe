@@ -26,8 +26,6 @@ namespace Pipefoxe.Tiled
 		/// </summary>
 		public const string IgnoreTilesetTextureFlag = "__ignoreTilesetTexture";
 
-
-
 		public static TiledMapTileset[] Parse(XmlNodeList nodes)
 		{
 			var tilesets = new List<TiledMapTileset>();
@@ -78,6 +76,7 @@ namespace Pipefoxe.Tiled
 				&& tileset.Properties[IgnoreTilesetFlag].ToLower() == "true"
 			)
 			{
+				TiledMapImporter.CurrentRootDir = TiledMapImporter.TmxRootDir;
 				return null;
 			}
 			
