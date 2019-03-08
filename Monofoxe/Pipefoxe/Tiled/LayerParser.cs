@@ -263,7 +263,8 @@ namespace Pipefoxe.Tiled
 
 			obj.FlipHor = ((gid & (uint)FlipFlags.FlipHor) != 0);
 			obj.FlipVer = ((gid & (uint)FlipFlags.FlipVer) != 0);
-			obj.GID = (int)(gid & (~(uint)FlipFlags.All));			
+			obj.GID = (int)(gid & (~(uint)FlipFlags.All));
+			// TODO: GID is broken and picks up incorrect tileset when loaded from a template. 
 
 			return obj;
 		}
