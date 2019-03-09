@@ -830,6 +830,7 @@ namespace Monofoxe.Engine
 				new VertexPositionColorTexture(new Vector3(x1, y1, 0), c1, Vector2.Zero),
 				new VertexPositionColorTexture(new Vector3(x2, y2, 0), c2, Vector2.Zero)
 			};
+			
 
 			AddVertices(PipelineMode.OutlinePrimitives, null, vertices, new short[]{0, 1});
 		}

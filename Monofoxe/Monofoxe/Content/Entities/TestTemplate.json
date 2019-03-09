@@ -1,6 +1,5 @@
 ﻿{
-	"tag": "test",
-	"components": 
+	"test": 
 	{
 		"CTest":
 		{
@@ -13,5 +12,21 @@
 			"color": "#05DAFF",
 			"button": "L"
 		}
+	},
+	"test1": 
+	{
+		"CTest":
+		{
+			"position":
+			{
+				"x": 1, 
+				"y": 2
+			},
+			"spr": "Default.Chiggin",
+			"color": "#FF0000",
+			"button": "A"
+		}
+
+
 	}
 }
