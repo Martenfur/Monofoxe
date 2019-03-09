@@ -12,7 +12,7 @@ namespace Monofoxe.Engine.ContentReaders
 	/// <summary>
 	/// Reads and unencrypts entity templates.
 	/// </summary>
-	internal class EntityTemplateReader : ContentTypeReader<EntityTemplate>
+	internal class EntityTemplateReader : ContentTypeReader<List<EntityTemplate>>
 	{
 		/// <summary>
 		/// Suggested namespaces for component classes. 
@@ -20,17 +20,39 @@ namespace Monofoxe.Engine.ContentReaders
 		internal static string[] _namespaces = new string[0];
 
 
-		protected override EntityTemplate Read(ContentReader input, EntityTemplate existingInstance)
+		protected override List<EntityTemplate> Read(ContentReader input, List<EntityTemplate> existingInstance)
 		{
 			var l = input.ReadInt32();
 			var json = Decode(input.ReadBytes(l));
 
 			var entityData = JObject.Parse(json);
 			
-			var components = new List<Component>();
 			var settings = new JsonSerializerSettings();
 			
+			var templates = new List<EntityTemplate>();
+
+			foreach(var entityPair in entityData)
+			{
+				var components = new List<Component>();
+				
+				Console.WriteLine("Name: " + entityPair.Key);
+				
+				foreach(JProperty prop in ((JObject)entityPair.Value).Properties())
+				{
+					components.Add(
+						(Component)JsonConvert.DeserializeObject(
+							prop.Value.ToString(), 
+							GetEntityType(prop.Name)
+						)
+					);
+				}
+
+				templates.Add(new EntityTemplate(entityPair.Key, components.ToArray()));
+
+			}
+
 			// Converting from json to entity template object.
+			/*
 			foreach(JProperty prop in ((JObject)entityData["components"]).Properties())
 			{
 				components.Add(
@@ -39,9 +61,10 @@ namespace Monofoxe.Engine.ContentReaders
 						GetEntityType(prop.Name)
 					)
 				);
-			}
+			}*/
 
-			return new EntityTemplate(entityData["tag"].ToString(), components.ToArray());
+			//return new EntityTemplate(entityData["tag"].ToString(), components.ToArray());
+			return templates;
 		}
 
 

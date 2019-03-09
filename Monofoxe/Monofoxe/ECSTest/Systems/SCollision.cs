@@ -25,7 +25,7 @@ namespace Monofoxe.ECSTest.Systems
 
 		
 		public override void FixedUpdate(List<Component> components) 
-		{
+		{/*
 			var movement = ComponentMgr.GetComponentList<CMovement>(components);
 			
 			var id = 0;
@@ -60,7 +60,7 @@ namespace Monofoxe.ECSTest.Systems
 			{
 				collider.Owner.Depth = -(int)movement[id].Position.Y;
 				id += 1;
-			}
+			}*/
 		}
 
 		

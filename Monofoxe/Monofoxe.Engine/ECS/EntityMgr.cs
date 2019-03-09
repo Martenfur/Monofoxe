@@ -133,8 +133,11 @@ namespace Monofoxe.Engine.ECS
 			{
 				if (!entityPath.EndsWith(_configFileName)) // Ignoring config.
 				{
-					var template = _entityTemplatesContent.Load<EntityTemplate>(entityPath);
-					_entityTemplates.Add(template.Tag.ToLower(), template);
+					var templates = _entityTemplatesContent.Load<List<EntityTemplate>>(entityPath);
+					foreach(var template in templates)
+					{
+						_entityTemplates.Add(template.Tag.ToLower(), template);
+					}
 				}
 			}
 		}
