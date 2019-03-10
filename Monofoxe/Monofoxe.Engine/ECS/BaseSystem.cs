@@ -20,9 +20,9 @@ namespace Monofoxe.Engine.ECS
 		
 
 		/// <summary>
-		/// Tells, how many layers are using this system.
+		/// Tells, if any layer is currently using this system.
 		/// </summary>
-		internal int _usedLayersCount;
+		internal bool _usedByLayers;
 
 
 		/// <summary>

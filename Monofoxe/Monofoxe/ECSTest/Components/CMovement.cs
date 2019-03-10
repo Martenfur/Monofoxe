@@ -18,6 +18,9 @@ namespace Monofoxe.ECSTest.Components
 		[JsonConverter(typeof(ColorConverter))]
 		public Color PrettyBoi = Color.Blue;
 
+		public new bool Visible = true;
+
+
 		public override object Clone()
 		{
 			var component = new CMovement();

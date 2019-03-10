@@ -61,6 +61,7 @@ namespace Monofoxe.ECSTest.Systems
 				collider.Owner.Depth = -(int)movement[id].Position.Y;
 				id += 1;
 			}*/
+			//Console.WriteLine("I'm here!");
 		}
 
 		

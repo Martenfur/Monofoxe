@@ -57,13 +57,13 @@ namespace Monofoxe.Test
 			
 			//LayerMgrs.Get("default").IsGUI = true;
 
-			new DrawingTester();
+			//new DrawingTester();
 			//new ECSTester(ballsLayer);
 			//new AlarmTester(ballsLayer);
-			//new TileTester(ballsLayer);
+			new TileTester(ballsLayer);
 			//new StateMachineTester(ballsLayer);
 
-
+			/*
 			var aStart = 3000000.0;
 			var divider = 0.5;
 			var dt1 = 1.0/60.0;
@@ -97,7 +97,7 @@ namespace Monofoxe.Test
 			v = v.GetSafeNormalize();
 			
 			Console.WriteLine("L: " + v.Length());
-
+			*/
 		}
 
 
@@ -109,7 +109,7 @@ namespace Monofoxe.Test
 				GameMgr.ExitGame();
 			}
 			
-			if (Input.CheckButtonPress(Buttons.L))
+			if (Input.CheckButtonPress(Buttons.P))
 			{
 				var scene = SceneMgr.GetScene("default");
 				

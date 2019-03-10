@@ -79,7 +79,7 @@ namespace Monofoxe.Engine.ECS
 					componentList = componentList.FindAll(x => x.Owner.Enabled);
 					if (componentList.Count > 0)
 					{
-						system._usedLayersCount += 1; // Telling that a layer is using this system.
+						system._usedByLayers = true; // Telling that a layer is using this system.
 					}
 
 					system.Update(componentList);
@@ -215,7 +215,7 @@ namespace Monofoxe.Engine.ECS
 				var unusedSystems = new List<Type>();
 				foreach(var system in _activeSystems)
 				{
-					if (system._usedLayersCount == 0)
+					if (!system._usedByLayers)
 					{
 						unusedSystems.Add(system.ComponentType);	
 						_componentsWereRemoved = false;
@@ -231,7 +231,7 @@ namespace Monofoxe.Engine.ECS
 			// Resetting system counters.
 			foreach(var system in _activeSystems)
 			{
-				system._usedLayersCount = 0;
+				system._usedByLayers = false;
 			}
 			// Resetting system counters.
 

@@ -10,14 +10,14 @@ namespace Resources
 	{
 		private static ContentManager _content;
 		
-		public static Map Test;
+		public static MapBuilder Test;
 		
 		public static void Load()
 		{
 			_content = new ContentManager(GameMgr.Game.Services);
 			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.MapsDir;
 			
-			Test = new Map(_content.Load<TiledMap>("test"));
+			Test = new MapBuilder(_content.Load<TiledMap>("test"));
 		}
 
 		public static void Unload()
