@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Monofoxe.Engine.SceneSystem;
+using System.Diagnostics;
 
 namespace Monofoxe.Engine.ECS
 {
@@ -41,11 +42,22 @@ namespace Monofoxe.Engine.ECS
 			)
 			{
 				system.Create(component);
+				system._usedByLayers = true;
 				component.Initialized = true;					
 				layer._newComponents.Remove(component);
 				if (component.Enabled)
 				{
-					layer._components[componentType].Add(component);
+					if (layer._components.TryGetValue(componentType, out List<Component> components))
+					{
+						components.Add(component);
+					}
+					else
+					{
+						// There may be no list at all.
+						var newComponentsList = new List<Component>();
+						newComponentsList.Add(component);
+						layer._components.Add(componentType, newComponentsList);
+					}
 				}
 				return;
 			}

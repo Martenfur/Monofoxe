@@ -15,6 +15,7 @@ namespace Monofoxe.ECSTest.Components
 		[JsonConverter(typeof(SpriteConverter))]
 		public Sprite Spr = Default.Bro;
 		
+		
 		public override object Clone()
 		{
 			var component = new CBirb();

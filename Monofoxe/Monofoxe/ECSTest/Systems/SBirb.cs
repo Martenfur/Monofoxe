@@ -6,6 +6,7 @@ using System;
 
 namespace Monofoxe.ECSTest.Systems
 {
+	
 	public class SBirb : BaseSystem
 	{
 		public override Type ComponentType => typeof(CBirb);

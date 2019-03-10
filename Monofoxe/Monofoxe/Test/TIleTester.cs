@@ -13,7 +13,7 @@ namespace Monofoxe.Test
 		public TileTester(Layer layer) : base(layer)
 		{
 		
-			Maps.Test.Load();
+			Maps.Test.Build();
 			
 			//Console.WriteLine(_map.Tilesets[0].Textures == null);
 			//frame = new Frame(_map.Tilesets[0].Textures[0], new Rectangle(0, 0, 128, 128), Vector2.Zero, 128, 128);
@@ -28,7 +28,8 @@ namespace Monofoxe.Test
 			
 			if (Input.CheckButtonPress(Buttons.L))
 			{
-				Maps.Test.Unload();
+				Maps.Test.Destroy();
+				Maps.Test.Build();
 			}
 		}
 
