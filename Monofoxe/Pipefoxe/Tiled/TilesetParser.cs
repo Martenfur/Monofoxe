@@ -26,6 +26,10 @@ namespace Pipefoxe.Tiled
 		/// </summary>
 		public const string IgnoreTilesetTextureFlag = "__ignoreTilesetTexture";
 
+
+		public static Dictionary<string, uint> ExternalTilesetsFirstGID = new Dictionary<string, uint>();
+
+
 		public static TiledMapTileset[] Parse(XmlNodeList nodes)
 		{
 			var tilesets = new List<TiledMapTileset>();
@@ -52,6 +56,11 @@ namespace Pipefoxe.Tiled
 			
 			if (tilesetXml.Attributes["source"] != null)
 			{
+				ExternalTilesetsFirstGID.Add(
+					Path.GetFullPath(TiledMapImporter.CurrentRootDir + '/' + tilesetXml.Attributes["source"].Value), 
+					(uint)tileset.FirstGID
+				);
+
 				// If there is "source" field, that means, tileset is external.
 				var doc = new XmlDocument();
 				try

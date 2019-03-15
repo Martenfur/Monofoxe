@@ -98,6 +98,7 @@ namespace Monofoxe.Test
 			
 			Console.WriteLine("L: " + v.Length());
 			*/
+			Console.WriteLine("res: " + Math.Pow(2, 1000));
 		}
 
 

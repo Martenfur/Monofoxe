@@ -1,13 +1,13 @@
 {
-	atlasSize: 512,
-	texturePadding: 1,
-	rootDir: "/Special",
-	classTemplatePath: "/../Template.cs", // Relative to rootDir.
-	classOutputDir: "/../Resources/Sprites/", // Relative to content project file.
-	singleTexturesWildcards: 
+	"atlasSize": 512,
+	"texturePadding": 1,
+	"rootDir": "/Special",
+	"classTemplatePath": "/../Template.cs", // Relative to rootDir.
+	"classOutputDir": "/../Resources/Sprites/", // Relative to content project file.
+	"singleTexturesWildcards": 
 	[
 		"/Textures/*"
 	],
 	
-	debugMode: "false"
+	"debugMode": "false"
 }
