@@ -5,6 +5,7 @@ using System.Xml;
 using Microsoft.Xna.Framework;
 using Monofoxe.Tiled.MapStructure;
 using Monofoxe.Tiled.MapStructure.Objects;
+using System.IO;
 
 namespace Pipefoxe.Tiled
 {
@@ -176,44 +177,56 @@ namespace Pipefoxe.Tiled
 
 		static TiledObject ParseObject(XmlNode node)
 		{
-			
+		
+			var oldRoot = TiledMapImporter.CurrentRootDir;
+
+			TiledObject obj = null;
+
 			// If there is a template, we need to merge it with object.
 			if (node.Attributes["template"] != null)
 			{
-				node = MergeWithTemplate(node);
+				var templatePath = TiledMapImporter.CurrentRootDir + node.Attributes["template"].Value;
+				node = MergeWithTemplate(node, templatePath);
+				TiledMapImporter.CurrentRootDir = Path.GetDirectoryName(templatePath);
 			}
 
 			// Determining object type.
-			var obj = ParseBaseObject(node);
+			var baseObj = ParseBaseObject(node);
 			
 			// Yes, this is horrible. But there's no better way, as far, as I know.
 
 			if (node.Attributes["gid"] != null)
 			{
-				return ParseTileObject(node, obj);
+				obj = ParseTileObject(node, baseObj);
 			}
 
 			if (node["point"] != null)
 			{
-				return ParsePointObject(obj);
+				obj = ParsePointObject(baseObj);
 			}
 
 			if (node["polygon"] != null || node["polyline"] != null)
 			{
-				return ParsePolygonObject(node, obj);
+				obj = ParsePolygonObject(node, baseObj);
 			}
 
 			if (node["ellipse"] != null)
 			{
-				return ParseEllipseObject(obj);
+				obj = ParseEllipseObject(baseObj);
 			}
 
-			if(node["text"] != null)
+			if (node["text"] != null)
 			{
-				return ParseTextObject(node, obj);
+				obj = ParseTextObject(node, baseObj);
 			}
 
-			return ParseRectangleObject(obj);
+			if (obj == null)
+			{
+				obj = ParseRectangleObject(baseObj);
+			}
+
+			TiledMapImporter.CurrentRootDir = oldRoot;
+			return obj;
 			// Determining object type.
 		}
 
@@ -259,13 +272,23 @@ namespace Pipefoxe.Tiled
 		{
 			var obj = new TiledTileObject(baseObj);
 
-			var gid = uint.Parse(node.Attributes["gid"].Value);
+			uint firstGID = 0;
+
+
+			if (node["tileset"] != null && node["tileset"].Attributes["source"] != null)
+			{
+				// GetFullPath gets rid of stuff like // and /../ 
+				var src = Path.GetFullPath(TiledMapImporter.CurrentRootDir + '/' + node["tileset"].Attributes["source"].Value);
+				TilesetParser.ExternalTilesetsFirstGID.TryGetValue(src, out firstGID);
+			}
+			File.AppendAllText("C://D//log.txt", "!" + Environment.NewLine);
+				
+			var gid = uint.Parse(node.Attributes["gid"].Value) + firstGID;
 
 			obj.FlipHor = ((gid & (uint)FlipFlags.FlipHor) != 0);
 			obj.FlipVer = ((gid & (uint)FlipFlags.FlipVer) != 0);
 			obj.GID = (int)(gid & (~(uint)FlipFlags.All));
-			// TODO: GID is broken and picks up incorrect tileset when loaded from a template. 
-
+			
 			return obj;
 		}
 		
@@ -338,15 +361,22 @@ namespace Pipefoxe.Tiled
 		/// 
 		/// Method merges object and template, overriding existing template parameters.
 		/// </summary>
-		static XmlNode MergeWithTemplate(XmlNode node)
+		static XmlNode MergeWithTemplate(XmlNode node, string templatePath)
 		{
 			// Loading template.
 			var doc = new XmlDocument();
 			XmlNode template;
 			try
 			{
-				doc.Load(TiledMapImporter.CurrentRootDir + node.Attributes["template"].Value);
+				doc.Load(templatePath);
 				template = doc["template"]["object"];
+				foreach(XmlNode neighbourNode in doc["template"])
+				{
+					if (template != neighbourNode)
+					{
+						template.AppendChild(neighbourNode);
+					}
+				}
 			}
 			catch(Exception e)
 			{
