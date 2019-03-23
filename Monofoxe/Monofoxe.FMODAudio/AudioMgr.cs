@@ -73,7 +73,7 @@ namespace Monofoxe.FMODAudio
 			FMOD.Factory.System_Create(out FMOD.System system);
 			FMODSystem = system;
 
-			FMODSystem.setDSPBufferSize(1024, 10);
+			FMODSystem.setDSPBufferSize(256, 4);
 			FMODSystem.init(32, FMOD.INITFLAGS.CHANNEL_LOWPASS | FMOD.INITFLAGS.CHANNEL_DISTANCEFILTER, (IntPtr)0);
 		}
 		
