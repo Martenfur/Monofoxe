@@ -183,7 +183,7 @@ namespace Monofoxe.FMODAudio
 		
 		
 		
-
+		
 		/// <summary>
 		/// Sets sound mode to 3D and plays it at the given position.
 		/// </summary>
