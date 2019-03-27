@@ -23,7 +23,7 @@ namespace Pipefoxe.SpriteGroup
 	/// Sprite group importer. Parses json config, and loads textures,
 	/// which will be passed to AtlasProcessor.
 	/// </summary>
-	[ContentImporter(".atlas", DefaultProcessor = "SpriteGroupProcessor", 
+	[ContentImporter(".spritegroup", DefaultProcessor = "SpriteGroupProcessor", 
 	DisplayName = "Sprite Group Importer - Monofoxe")]
 	public class SpriteGroupImporter : ContentImporter<SpriteGroupData>
 	{
