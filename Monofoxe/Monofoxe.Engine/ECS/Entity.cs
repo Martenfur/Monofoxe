@@ -174,8 +174,12 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Retrieves component of given class, if it exists, and returns true. If it doesn't, returns false.
 		/// </summary>
-		public bool TryGetComponent<T>(out Component component) where T : Component =>
-			_components.TryGetValue(typeof(T), out component);
+		public bool TryGetComponent<T>(out T component) where T : Component
+		{
+			var result = _components.TryGetValue(typeof(T), out Component c);
+			component = (T)c; // Needs a manual cast.
+			return result;
+		}
 		
 		/// <summary>
 		/// Retrieves component of given class, if it exists, and returns true. If it doesn't, returns false.
