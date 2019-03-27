@@ -281,8 +281,7 @@ namespace Pipefoxe.Tiled
 				var src = Path.GetFullPath(TiledMapImporter.CurrentRootDir + '/' + node["tileset"].Attributes["source"].Value);
 				TilesetParser.ExternalTilesetsFirstGID.TryGetValue(src, out firstGID);
 			}
-			File.AppendAllText("C://D//log.txt", "!" + Environment.NewLine);
-				
+			
 			var gid = uint.Parse(node.Attributes["gid"].Value) + firstGID;
 
 			obj.FlipHor = ((gid & (uint)FlipFlags.FlipHor) != 0);

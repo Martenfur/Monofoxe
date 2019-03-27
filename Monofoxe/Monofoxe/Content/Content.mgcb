@@ -71,16 +71,6 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/Arial.spritefont
 
-#begin Graphics/default.atlas
-/importer:SpriteGroupImporter
-/processor:SpriteGroupProcessor
-/build:Graphics/default.atlas
-
-#begin Graphics/special.atlas
-/importer:SpriteGroupImporter
-/processor:SpriteGroupProcessor
-/build:Graphics/special.atlas
-
 #begin Maps/MapMap/test.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
@@ -90,4 +80,14 @@
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
 /build:Maps/test.tmx
+
+#begin Graphics/default.spritegroup
+/importer:SpriteGroupImporter
+/processor:SpriteGroupProcessor
+/build:Graphics/default.spritegroup
+
+#begin Graphics/special.spritegroup
+/importer:SpriteGroupImporter
+/processor:SpriteGroupProcessor
+/build:Graphics/special.spritegroup
 
