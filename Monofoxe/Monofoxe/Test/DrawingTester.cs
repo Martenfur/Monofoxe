@@ -61,7 +61,15 @@ namespace Monofoxe.Test
 
 			//fireFrame
 			DrawMgr.CurrentColor = Color.White;
-			DrawMgr.DrawSprite(Default.DemonFire, 0.5f, new Vector2(100, 100), new Vector2((float)Math.Cos(GameMgr.ElapsedTimeTotal), (float)Math.Sin(GameMgr.ElapsedTimeTotal)), 0, Color.White);
+			DrawMgr.DrawSprite(
+				Default.DemonFire, 
+				0.5f, 
+				new Vector2(100, 100), 
+				new Vector2((float)Math.Cos(GameMgr.ElapsedTimeTotal), 
+				(float)Math.Sin(GameMgr.ElapsedTimeTotal)), 
+				90, 
+				Color.White
+			);
 			DrawMgr.DrawCircle(new Vector2(100, 100), 2, true);
 			
 			//DrawMgr.Effect = null;

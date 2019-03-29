@@ -39,13 +39,13 @@ namespace Monofoxe.Engine.Utils
 		public static double Direction(float x, float y) =>
 			DirectionRad(x, y) * 360 / (Math.PI * 2);
 		
-
+		
 		
 		/// <summary>
 		/// Calculates direction between two points in radians.
 		/// </summary>
 		public static double DirectionRad(Vector2 p1, Vector2 p2) =>
-			DirectionRad(p2.X - p1.X, p2.Y - p1.X);
+			DirectionRad(p2.X - p1.X, p2.Y - p1.Y);
 
 		public static double DirectionRad(float x1, float y1, float x2, float y2) =>
 			DirectionRad(x2 - x1, y2 - y1);
@@ -54,7 +54,7 @@ namespace Monofoxe.Engine.Utils
 			DirectionRad(p.X, p.Y);
 
 		public static double DirectionRad(float x, float y) =>
-			(Math.Atan2(y, -x) + Math.PI) % (Math.PI * 2);
+			(Math.Atan2(y, x)) % (Math.PI * 2);
 		
 			
 
