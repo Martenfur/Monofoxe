@@ -46,5 +46,17 @@ namespace Monofoxe.Engine.Utils
 		public static Vector3 ToVector3(this Vector2 v) =>
 			new Vector3(v.X, v.Y, 0);
 		
+		/// <summary>
+		/// Swaps X and Y places.
+		/// </summary>
+		public static Vector2 Swap(this Vector2 v) =>
+			new Vector2(v.Y, v.X);
+		
+		/// <summary>
+		/// Rotates vector by 90 degrees.
+		/// </summary>
+		public static Vector2 Rotate90(this Vector2 v) =>
+			new Vector2(v.Y, -v.X);
+		
 	}
 }
