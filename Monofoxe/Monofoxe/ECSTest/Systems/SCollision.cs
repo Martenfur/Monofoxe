@@ -25,42 +25,46 @@ namespace Monofoxe.ECSTest.Systems
 
 		
 		public override void FixedUpdate(List<Component> components) 
-		{/*
-			var movement = ComponentMgr.GetComponentList<CMovement>(components);
+		{
 			
-			var id = 0;
-			var otherId = 0;
 			
 			foreach(CCollision collider in components)
 			{
-				otherId = 0;
+				
+				var movement = collider.Owner.GetComponent<CMovement>();
+
 				foreach(CCollision otherCollider in components)
 				{
-					if (id != otherId && GameMath.Distance(movement[id].Position, movement[otherId].Position) < collider.MaskR + otherCollider.MaskR - 1)
+					var otherMovement = otherCollider.Owner.GetComponent<CMovement>();
+
+					if (collider != otherCollider && GameMath.Distance(movement.Position, otherMovement.Position) < collider.MaskR + otherCollider.MaskR - 1)
 					{
 						var rSum = collider.MaskR + otherCollider.MaskR;
-						var dist = GameMath.Distance(movement[id].Position, movement[otherId].Position);
+						var dist = GameMath.Distance(movement.Position, otherMovement.Position);
 
-						var v = movement[id].Position - movement[otherId].Position;
+						if (dist == 0)
+						{
+							dist = 1;
+						}
+						
+						var v = movement.Position - otherMovement.Position;
 						v.Normalize();
 
 						var resVect = v * (rSum - dist) / 2f;
 
-						movement[id].Position += resVect;
-						movement[otherId].Position -= resVect;
+						movement.Position += resVect;
+						otherMovement.Position -= resVect;
 					}
-
-					otherId += 1;
+					
 				}
-				id += 1;
 			}
 			
-			id = 0;
 			foreach(CCollision collider in components)
 			{
-				collider.Owner.Depth = -(int)movement[id].Position.Y;
-				id += 1;
-			}*/
+				var movement = collider.Owner.GetComponent<CMovement>();
+
+				collider.Owner.Depth = -(int)movement.Position.Y;
+			}
 			//Console.WriteLine("I'm here!");
 		}
 

@@ -96,7 +96,7 @@ namespace Monofoxe.Engine.SceneSystem
 		/// <summary>
 		/// All components, which belong to all entities on the layer.
 		/// </summary>
-		internal Dictionary<Type, List<Component>> _components = new Dictionary<Type, List<Component>>();
+		internal ComponentContainer _components = new ComponentContainer();
 		
 
 		/// <summary>
@@ -105,6 +105,11 @@ namespace Monofoxe.Engine.SceneSystem
 		internal List<Component> _newComponents = new List<Component>();
 
 
+		/// <summary>
+		/// Disabled components.
+		/// </summary>
+		internal ComponentContainer _disabledComponents = new ComponentContainer();
+		
 
 		/// <summary>
 		/// Shaders applied to the layer.
@@ -168,23 +173,23 @@ namespace Monofoxe.Engine.SceneSystem
 			_newComponents.Remove(component);
 			var componentType = component.GetType();
 			
-			if (_components.TryGetValue(componentType, out List<Component> componentList))
+			ComponentContainer componentContainer;
+			if (component.Enabled)
 			{
-				if (componentList.Count == 1)
-				{
-					// Removing whole list, because it's empty.
-					_components.Remove(componentType);
-				}
-				else
-				{
-					componentList.Remove(component);
-				}
+				componentContainer = _components;
 			}
+			else
+			{
+				componentContainer = _disabledComponents;
+			}
+
+			componentContainer.Remove(component);
 
 			// Performing Destroy event.
 			
 			// If component is disabled, this means are aren't destroying entity, 
 			// so there is no need to invoke destroy event.
+			// TODO: Check if it's even right.
 			if (component.Enabled && SystemMgr._activeSystems.TryGetValue(componentType, out BaseSystem activeSystem))
 			{
 				activeSystem.Destroy(component);
@@ -252,6 +257,20 @@ namespace Monofoxe.Engine.SceneSystem
 			DrawMgr.CurrentEffect = null;
 		}
 		
+
+		
+		internal void EnableComponent(Component component)
+		{
+			_disabledComponents.Remove(component);
+			_components.Add(component);
+		}
+
+		internal void DisableComponent(Component component)
+		{
+			_components.Remove(component);
+			_disabledComponents.Add(component);
+		}
+
 
 		#region Entity methods.
 
@@ -383,10 +402,14 @@ namespace Monofoxe.Engine.SceneSystem
 					entities.Add(component.Owner);
 				}
 			}
-			
-			if (_components.TryGetValue(typeof(T), out List<Component> componentList))
+			// TODO: Add faster version which returns components.
+			if (_components.TryGetList(typeof(T), out List<Component> componentList))
 			{
 				entities.AddRange(componentList.Select(x => x.Owner).ToList());
+			}
+			if (_disabledComponents.TryGetList(typeof(T), out List<Component> disabledComponentList))
+			{
+				entities.AddRange(disabledComponentList.Select(x => x.Owner).ToList());
 			}
 			return entities;
 		}
@@ -409,9 +432,13 @@ namespace Monofoxe.Engine.SceneSystem
 				}
 			}
 			
-			if (_components.TryGetValue(typeof(T), out List<Component> componentList))
+			if (_components.TryGetList(typeof(T), out List<Component> componentList))
 			{
 				count += componentList.Count;
+			}
+			if (_disabledComponents.TryGetList(typeof(T), out List<Component> disabledComponentList))
+			{
+				count += disabledComponentList.Count;
 			}
 			return count;
 		}

@@ -55,11 +55,11 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Updates at a fixed rate.
 		/// </summary>
-		internal static void FixedUpdate(Dictionary<Type, List<Component>> components)
+		internal static void FixedUpdate(ComponentContainer components)
 		{
 			foreach(var system in _activeSystems)
 			{
-				if (components.TryGetValue(system.ComponentType, out List<Component> componentList))
+				if (components.TryGetList(system.ComponentType, out List<Component> componentList))
 				{
 					system.FixedUpdate(componentList.FindAll(x => x.Owner.Enabled));
 				}
@@ -70,11 +70,11 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Updates every frame.
 		/// </summary>
-		internal static void Update(Dictionary<Type, List<Component>> components)
+		internal static void Update(ComponentContainer components)
 		{
 			foreach(var system in _activeSystems)
 			{
-				if (components.TryGetValue(system.ComponentType, out List<Component> componentList))
+				if (components.TryGetList(system.ComponentType, out List<Component> componentList))
 				{
 					componentList = componentList.FindAll(x => x.Owner.Enabled);
 					if (componentList.Count > 0)
@@ -268,15 +268,7 @@ namespace Monofoxe.Engine.ECS
 								}
 							}
 							
-							if (layer._components.TryGetValue(componentType, out List<Component> componentList))
-							{
-								componentList.Add(component);
-							}
-							else
-							{
-								var list = new List<Component>(new Component[] {component});
-								layer._components.Add(componentType, list);
-							}
+							layer._components.Add(component);
 						}
 						layer._newComponents.Clear();
 					}
