@@ -386,36 +386,24 @@ namespace Monofoxe.Engine.SceneSystem
 
 		
 		/// <summary>
-		/// Returns list of entities, which have component of given type.
+		/// Returns list of entities, which have component - enabled or disabled -  of given type.
 		/// </summary>
 		public List<Entity> GetEntityListByComponent<T>() where T : Component
 		{
-			var entities = new List<Entity>();
-			
-			// Since component lists are updated with a one step delay, 
-			// which is quite tricky to remove, we have to additionally
-			// take entities directly from newly created components list.
-			foreach(var component in _newComponents)
+			var components = GetComponentList<T>();
+
+			var entityArray = new Entity[components.Count];
+
+			for(var i = 0; i < components.Count; i += 1)
 			{
-				if (component is T)
-				{
-					entities.Add(component.Owner);
-				}
+				entityArray[i] = components[i].Owner;
 			}
-			// TODO: Add faster version which returns components.
-			if (_components.TryGetList(typeof(T), out List<Component> componentList))
-			{
-				entities.AddRange(componentList.Select(x => x.Owner).ToList());
-			}
-			if (_disabledComponents.TryGetList(typeof(T), out List<Component> disabledComponentList))
-			{
-				entities.AddRange(disabledComponentList.Select(x => x.Owner).ToList());
-			}
-			return entities;
+
+			return entityArray.ToList();
 		}
 		
 		/// <summary>
-		/// Counts amount of entities, which have component of given type.
+		/// Counts amount of entities, which have component - enabled or disabled -   of given type.
 		/// </summary>
 		public int CountEntitiesByComponent<T>() where T : Component
 		{
@@ -459,14 +447,43 @@ namespace Monofoxe.Engine.SceneSystem
 				}
 			}
 
-			foreach(var entity in _entities)
+			if (_components.TryGetList(typeof(T), out List<Component> componentList))
 			{
-				if (entity.HasComponent<T>())
+				return componentList[0].Owner;
+			}
+
+			return null;
+		}
+
+
+		
+		/// <summary>
+		/// Returns list of all components on the layer - enabled and disabled - of given type.
+		/// </summary>
+		public List<Component> GetComponentList<T>() where T : Component
+		{
+			var components = new List<Component>();
+			
+			// Since component lists are updated with a one step delay, 
+			// which is quite tricky to remove, we have to additionally
+			// take entities directly from newly created components list.
+			foreach(var component in _newComponents)
+			{
+				if (component is T)
 				{
-					return entity;
+					components.Add(component);
 				}
 			}
-			return null;
+			
+			if (_components.TryGetList(typeof(T), out List<Component> componentList))
+			{
+				components.AddRange(componentList);
+			}
+			if (_disabledComponents.TryGetList(typeof(T), out List<Component> disabledComponentList))
+			{
+				components.AddRange(disabledComponentList);
+			}
+			return components;
 		}
 
 		#endregion Entity methods.
