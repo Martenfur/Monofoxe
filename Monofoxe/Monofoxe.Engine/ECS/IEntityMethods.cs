@@ -58,18 +58,26 @@ namespace Monofoxe.Engine.ECS
 
 		
 		/// <summary>
-		/// Returns list of entities, which have component of given type.
+		/// Returns list of entities, which have component - enabled or disabled -  of given type.
 		/// </summary>
 		List<Entity> GetEntityListByComponent<T>() where T : Component;
 		
 		/// <summary>
-		/// Counts amount of entities, which have component of given type.
+		/// Counts amount of entities, which have component - enabled or disabled - of given type.
 		/// </summary>
 		int CountEntitiesByComponent<T>() where T : Component;
 		
 		/// <summary>
-		/// Finds first entity, which has component of given type.
+		/// Finds first entity, which has component - enabled or disabled -  of given type.
 		/// </summary>
 		Entity FindEntityByComponent<T>() where T : Component;
+
+
+
+		/// <summary>
+		/// Returns list of components - enabled and disabled - of given type.
+		/// </summary>
+		List<Component> GetComponentList<T>() where T : Component;
+		
 	}
 }

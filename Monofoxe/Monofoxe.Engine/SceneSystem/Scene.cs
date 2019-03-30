@@ -342,6 +342,21 @@ namespace Monofoxe.Engine.SceneSystem
 			return null;
 		}
 
+
+
+		/// <summary>
+		/// Returns list of all components on the scene - enabled and disabled - of given type.
+		/// </summary>
+		public List<Component> GetComponentList<T>() where T : Component
+		{
+			var list = new List<Component>();
+			foreach(var layer in _layers)
+			{
+				list.AddRange(layer.GetComponentList<T>());
+			}
+			return list;
+		}
+
 		#endregion Entity methods.
 	}
 }
