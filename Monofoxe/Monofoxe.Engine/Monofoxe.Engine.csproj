@@ -61,6 +61,7 @@
     <Compile Include="Converters\SpriteConverter.cs" />
     <Compile Include="Converters\Vector2Converter.cs" />
     <Compile Include="Converters\Vector3Converter.cs" />
+    <Compile Include="ECS\ComponentContainer.cs" />
     <Compile Include="Utils\CustomCollections\SafeSortedDictionary.cs" />
     <Compile Include="Drawing\Font.cs" />
     <Compile Include="Drawing\Frame.cs" />

@@ -47,17 +47,7 @@ namespace Monofoxe.Engine.ECS
 				layer._newComponents.Remove(component);
 				if (component.Enabled)
 				{
-					if (layer._components.TryGetValue(componentType, out List<Component> components))
-					{
-						components.Add(component);
-					}
-					else
-					{
-						// There may be no list at all.
-						var newComponentsList = new List<Component>();
-						newComponentsList.Add(component);
-						layer._components.Add(componentType, newComponentsList);
-					}
+					layer._components.Add(component);
 				}
 				return;
 			}

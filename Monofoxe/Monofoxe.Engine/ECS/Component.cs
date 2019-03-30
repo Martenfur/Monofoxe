@@ -17,7 +17,7 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Tells if this component was initialized.
 		/// </summary>
-		public bool Initialized = false;
+		public bool Initialized {get; internal set;} = false;
 
 		/// <summary>
 		/// If component is enabled, it will be processed by Create and Update methods.
@@ -32,11 +32,11 @@ namespace Monofoxe.Engine.ECS
 					_enabled = value;
 					if (value)
 					{
-						Owner.Layer.AddComponent(this);
+						Owner.Layer.EnableComponent(this);
 					}
 					else
 					{
-						Owner.Layer.RemoveComponent(this);
+						Owner.Layer.DisableComponent(this);
 					}
 				}
 			}
