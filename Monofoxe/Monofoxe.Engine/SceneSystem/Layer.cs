@@ -165,8 +165,24 @@ namespace Monofoxe.Engine.SceneSystem
 				_disabledComponents.Add(component);
 			}
 
-			ComponentMgr.InitComponent(component);
-			_depthListOutdated = true;
+			// Invoking system's Create method, if component weren't initialized before.
+			if (!component.Initialized)
+			{
+				var componentType = component.GetType();
+				if (SystemMgr._systemPool.TryGetValue(componentType, out BaseSystem system))
+				{
+					if (!SystemMgr._activeSystems.Contains(system))
+					{
+						SystemMgr._activeSystems.Add(componentType, system);
+					}
+					system.Create(component);
+					system._usedByLayers = true;
+					component.Initialized = true;
+				}
+
+				_depthListOutdated = true;
+			}
+			// Invoking system's Create method, if component weren't initialized before.
 		}
 
 
