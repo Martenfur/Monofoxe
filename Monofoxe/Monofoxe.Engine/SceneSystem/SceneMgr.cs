@@ -9,27 +9,33 @@ using Monofoxe.Engine.Utils.CustomCollections;
 namespace Monofoxe.Engine.SceneSystem
 {
 	/// <summary>
-	/// Manager of all scenes.
+	/// Manager of all scenes. Updates entities and components.
 	/// </summary>
 	public static class SceneMgr
 	{
 		/// <summary>
 		/// List of all scenes.
 		/// </summary>
-		public static IReadOnlyCollection<Scene> Scenes => _scenes.ToList();
+		public static List<Scene> Scenes => _scenes.ToList();
 		internal static SafeSortedList<Scene> _scenes = new SafeSortedList<Scene>(x => x.Priority);
 
 		/// <summary>
 		/// Current active scene.
 		/// </summary>
-		public static Scene CurrentScene {get; internal set;}
+		public static Scene CurrentScene {get; private set;}
 
 		/// <summary>
 		/// Current active layer.
 		/// </summary>
-		public static Layer CurrentLayer {get; internal set;}
+		public static Layer CurrentLayer {get; private set;}
 		
 		
+		/// <summary>
+		/// Counts time until next fixed update.
+		/// </summary>
+		private static double _fixedUpdateTimer;
+
+
 		/// <summary>
 		/// Creates new scene with given name.
 		/// </summary>
@@ -98,14 +104,11 @@ namespace Monofoxe.Engine.SceneSystem
 		}
 		
 
-
+		
 
 		/// <summary>
-		/// Counts time until next fixed update.
+		/// Routine needed before updating entities.
 		/// </summary>
-		private static double _fixedUpdateTimer;
-
-
 		internal static void PreUpdateRoutine()
 		{
 			// Clearing main list from destroyed objects.
@@ -117,15 +120,18 @@ namespace Monofoxe.Engine.SceneSystem
 				}
 			}
 			
-			SystemMgr.UpdateActiveSystems();
-		
+			SystemMgr.DisableInactiveSystems();
 		}
 
 
+		
+		/// <summary>
+		/// Routine needed after updating entities.
+		/// </summary>
 		internal static void PostUpdateRoutine()
 		{
 			// Updating depth list for drawing stuff.
-			foreach(var scene in _scenes)
+			foreach(var scene in Scenes)
 			{
 				foreach(var layer in scene.Layers)
 				{
@@ -134,7 +140,11 @@ namespace Monofoxe.Engine.SceneSystem
 			}
 		}
 
+		
 
+		/// <summary>
+		/// Executes Fixed Update events.
+		/// </summary>
 		internal static void CallFixedUpdateEvents(GameTime gameTime)
 		{
 			_fixedUpdateTimer += gameTime.ElapsedGameTime.TotalSeconds;
@@ -146,7 +156,7 @@ namespace Monofoxe.Engine.SceneSystem
 
 				TimeKeeper._elapsedTime = GameMgr.FixedUpdateRate;
 
-				foreach(var scene in _scenes)
+				foreach(var scene in Scenes)
 				{
 					if (scene.Enabled)
 					{
@@ -172,11 +182,16 @@ namespace Monofoxe.Engine.SceneSystem
 			}
 		}
 
+
+
+		/// <summary>
+		/// Executes Update events.
+		/// </summary>
 		internal static void CallUpdateEvents(GameTime gameTime)
 		{
 			TimeKeeper._elapsedTime = GameMgr.ElapsedTime;
 			
-			foreach(var scene in _scenes)
+			foreach(var scene in Scenes)
 			{		
 				if (scene.Enabled)
 				{
@@ -204,12 +219,13 @@ namespace Monofoxe.Engine.SceneSystem
 		}
 		
 
+
 		/// <summary>
 		/// Executes Draw events.
 		/// </summary>
 		internal static void CallDrawEvents()
 		{
-			foreach(var scene in _scenes)
+			foreach(var scene in Scenes)
 			{
 				if (scene.Visible)
 				{
@@ -269,12 +285,14 @@ namespace Monofoxe.Engine.SceneSystem
 			}
 		}
 		
+
+
 		/// <summary>
 		/// Executes Draw GUI events.
 		/// </summary>
 		internal static void CallDrawGUIEvents()
 		{
-			foreach(var scene in _scenes)
+			foreach(var scene in Scenes)
 			{
 				if (scene.Visible)
 				{

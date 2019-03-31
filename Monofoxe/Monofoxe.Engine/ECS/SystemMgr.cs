@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Utils.CustomCollections;
 
 namespace Monofoxe.Engine.ECS
@@ -168,17 +167,16 @@ namespace Monofoxe.Engine.ECS
 				}
 			}
 		}
-		
+
 
 		/// <summary>
 		/// Puts system in active system list from system pool.
 		/// </summary>
-		public static void EnableSystem(Type type)
+		public static void EnableSystemByComponentType<T>() where T : Component
 		{
 			foreach(var systemPair in _systemPool)
 			{
-				// Systems are sorted by component type, so we cannot use systemPair.Key.
-				if (systemPair.Value.GetType() == type) 
+				if (systemPair.Value.ComponentType == typeof(T))
 				{
 					_activeSystems.Add(systemPair.Key, systemPair.Value);
 					return;
@@ -190,11 +188,75 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Removes system from active system list and puts it back in pool.
 		/// </summary>
-		public static void DisableSystem(Type type)
+		public static void DisableSystemByComponentType<T>() where T : Component
 		{
 			foreach(var system in _activeSystems)
 			{
-				if (system.GetType() == type) 
+				if (system.ComponentType == typeof(T))
+				{
+					_activeSystems.Remove(system.ComponentType);
+					return;
+				}
+			}
+		}
+		
+
+		/// <summary>
+		/// Puts system in active system list from system pool.
+		/// </summary>
+		public static void EnableSystem(Type systemType)
+		{
+			foreach(var systemPair in _systemPool)
+			{	
+				// Systems are sorted by component type, so we cannot use systemPair.Key.
+				if (systemPair.Value.GetType() == systemType) 
+				{
+					_activeSystems.Add(systemPair.Key, systemPair.Value);
+					return;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Puts system in active system list from system pool.
+		/// </summary>
+		public static void EnableSystemByComponentType(Type componentType)
+		{
+			foreach(var systemPair in _systemPool)
+			{	
+				// Systems are sorted by component type, so we cannot use systemPair.Key.
+				if (systemPair.Value.ComponentType == componentType) 
+				{
+					_activeSystems.Add(systemPair.Key, systemPair.Value);
+					return;
+				}
+			}
+		}
+
+
+		/// <summary>
+		/// Removes system from active system list and puts it back in pool.
+		/// </summary>
+		public static void DisableSystem(Type systemType)
+		{
+			foreach(var system in _activeSystems)
+			{
+				if (system.GetType() == systemType) 
+				{
+					_activeSystems.Remove(system.ComponentType);
+					return;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Removes system from active system list and puts it back in pool.
+		/// </summary>
+		public static void DisableSystemByComponentType(Type componentType)
+		{
+			foreach(var system in _activeSystems)
+			{
+				if (system.ComponentType == componentType) 
 				{
 					_activeSystems.Remove(system.ComponentType);
 					return;
@@ -205,9 +267,9 @@ namespace Monofoxe.Engine.ECS
 
 
 		/// <summary>
-		/// Enables and disables systems depending on if there are any components for them.
+		/// Disables systms if no components are using them.
 		/// </summary>
-		internal static void UpdateActiveSystems()
+		internal static void DisableInactiveSystems()
 		{
 			// Disabling systems without components.
 			if (AutoSystemManagement && _componentsWereRemoved)
@@ -228,53 +290,12 @@ namespace Monofoxe.Engine.ECS
 			}
 			// Disabling systems without components.
 			
-			// Resetting system counters.
+			// Resetting usage flags.
 			foreach(var system in _activeSystems)
 			{
 				system._usedByLayers = false;
 			}
-			// Resetting system counters.
-
-			// Managing new components.
-			foreach(var scene in SceneMgr.Scenes)
-			{
-				foreach(var layer in scene.Layers)
-				{
-					if (layer._newComponents.Count > 0)
-					{
-						foreach(var component in layer._newComponents)
-						{
-							var componentType = component.GetType();
-							
-							if (!_activeSystems.TryGetValue(componentType, out BaseSystem activeSystem) && AutoSystemManagement)
-							{
-								if (_systemPool.TryGetValue(componentType, out BaseSystem newSystem))
-								{
-									_activeSystems.Add(componentType, newSystem);
-
-									if (!component.Initialized)
-									{
-										newSystem.Create(component);
-										component.Initialized = true;
-									}
-								}
-							}
-							else
-							{
-								if (!component.Initialized)
-								{
-									activeSystem.Create(component);
-									component.Initialized = true;
-								}
-							}
-							
-							layer._components.Add(component);
-						}
-						layer._newComponents.Clear();
-					}
-				}
-			}	
-			// Managing new components.
+			// Resetting usage flags.
 		}
 		
 

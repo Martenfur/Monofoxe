@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Monofoxe.Engine.Utils.CustomCollections;
 using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.Utils.CustomCollections;
 
 
 namespace Monofoxe.Engine.SceneSystem
@@ -17,7 +17,7 @@ namespace Monofoxe.Engine.SceneSystem
 		/// <summary>
 		/// List of all scene's layers.
 		/// </summary>
-		public IReadOnlyCollection<Layer> Layers => _layers.ToList();
+		public List<Layer> Layers => _layers.ToList();
 		internal SafeSortedList<Layer> _layers = new SafeSortedList<Layer>(x => x.Priority);
 
 		/// <summary>
@@ -49,6 +49,7 @@ namespace Monofoxe.Engine.SceneSystem
 
 		public Scene(string name) =>
 			Name = name;
+		
 		
 		internal void Destroy()
 		{
