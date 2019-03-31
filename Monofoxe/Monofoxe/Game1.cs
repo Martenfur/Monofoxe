@@ -49,7 +49,7 @@ namespace Monofoxe
 			Effects.Load();
 			Maps.Load();
 
-			EntityMgr.LoadEntityTemplates();
+			EntityTemplateMgr.LoadEntityTemplates();
 			DrawMgr.Init(GraphicsDevice);
 		}
 

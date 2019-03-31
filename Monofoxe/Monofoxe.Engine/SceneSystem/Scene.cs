@@ -84,7 +84,7 @@ namespace Monofoxe.Engine.SceneSystem
 			{
 				foreach(var entity in layer.Entities)
 				{
-					EntityMgr.DestroyEntity(entity);
+					entity.DestroyEntity();
 				}
 			}
 			_layers.Remove(layer);
@@ -101,7 +101,7 @@ namespace Monofoxe.Engine.SceneSystem
 				{
 					foreach(var entity in _layers[i].Entities)
 					{
-						EntityMgr.DestroyEntity(entity);
+						entity.DestroyEntity();
 					}
 					_layers.Remove(_layers[i]);
 				}

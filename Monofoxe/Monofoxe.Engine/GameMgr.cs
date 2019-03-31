@@ -104,6 +104,9 @@ namespace Monofoxe.Engine
 		}
 
 		
+		/// <summary>
+		/// Performs update-related routines and calls Update events for entities and systems.
+		/// </summary>
 		public static void Update(GameTime gameTime)
 		{
 			// Elapsed time counters.
@@ -120,10 +123,18 @@ namespace Monofoxe.Engine
 			// Elapsed time counters.
 			
 			Input.Update();
-			EntityMgr.Update(gameTime);
+
+			SceneMgr.PreUpdateRoutine();
+			SceneMgr.CallFixedUpdateEvents(gameTime);
+			SceneMgr.CallUpdateEvents(gameTime);
+			SceneMgr.PostUpdateRoutine();
 		}
 
 
+		
+		/// <summary>
+		/// Performs drawing-related routines and calls Draw events for entities and systems.
+		/// </summary>
 		public static void Draw(GameTime gameTime)
 		{
 			_fpsAddition += gameTime.ElapsedGameTime.TotalSeconds;

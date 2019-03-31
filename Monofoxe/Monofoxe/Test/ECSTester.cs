@@ -31,7 +31,7 @@ namespace Monofoxe.Test
 				{
 					//for(var i = 0; i < 10; i += 1)
 					{
-						var ball = EntityMgr.CreateEntityFromTemplate(Layer, "birb");
+						var ball = CreateFromTemplate(Layer, "birb");
 						ball.GetComponent<CBirb>().Position = Input.ScreenMousePosition;
 					}
 				}
@@ -39,7 +39,7 @@ namespace Monofoxe.Test
 				{
 					//for(var i = 0; i < 10; i += 1)
 					{
-						var ball = EntityMgr.CreateEntityFromTemplate(Layer, "ball");
+						var ball = CreateFromTemplate(Layer, "ball");
 						ball.GetComponent<CMovement>().Position = Input.ScreenMousePosition;
 						ball.GetComponent<CCollision>().MaskR = 20;//r.Next(10, 16);
 					}
@@ -52,7 +52,7 @@ namespace Monofoxe.Test
 			{
 				foreach(var entity in Layer.GetEntityList("ball"))
 				{
-					EntityMgr.DestroyEntity(entity);
+					entity.DestroyEntity();
 				}
 			}
 			
