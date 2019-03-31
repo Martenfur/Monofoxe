@@ -77,7 +77,7 @@
     <Compile Include="ECS\EntityTemplate.cs" />
     <Compile Include="ECS\IEntityMethods.cs" />
     <Compile Include="ECS\SystemMgr.cs" />
-    <Compile Include="ECS\EntityMgr.cs" />
+    <Compile Include="ECS\EntityTemplateMgr.cs" />
     <Compile Include="GameMgr.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="PipelineMode.cs" />

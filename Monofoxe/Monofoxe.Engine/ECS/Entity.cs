@@ -37,7 +37,7 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Tells f object was destroyed.
 		/// </summary>
-		public bool Destroyed {get; internal set;} = false;
+		public bool Destroyed {get; private set;} = false;
 
 		/// <summary>
 		/// If false, Update events won't be executed.
@@ -50,6 +50,9 @@ namespace Monofoxe.Engine.ECS
 		public bool Visible = true;
 		
 
+		/// <summary>
+		/// Layer that entity is currently on.
+		/// </summary>
 		public Layer Layer
 		{
 			get => _layer;
@@ -73,6 +76,9 @@ namespace Monofoxe.Engine.ECS
 		}
 		private Layer _layer;
 
+		/// <summary>
+		/// Scene that entity is currently on.
+		/// </summary>
 		public Scene Scene => _layer.Scene;
 
 
@@ -240,20 +246,49 @@ namespace Monofoxe.Engine.ECS
 			}
 			return null;
 		}
-
 		
+		#endregion Components.
+
+
 		/// <summary>
-		/// Removes all components from entity's layer.
+		/// Creates new entity from existing template.
 		/// </summary>
-		internal void DestroyAllComponents()
+		public static Entity CreateFromTemplate(Layer layer, string tag)
 		{
-			foreach(var componentPair in _components)
+			if (EntityTemplateMgr.EntityTemplates.TryGetValue(tag.ToLower(), out EntityTemplate template))
 			{
-				Layer.RemoveComponent(componentPair.Value);
+				var entity = new Entity(layer, tag);
+				
+				foreach(var component in template.Components)
+				{
+					entity.AddComponent((Component)component.Clone());
+				}
+				return entity;
 			}
+
+			return null;
 		}
 
-		#endregion Components.
+
+		/// <summary>
+		/// Destroys entity and all of its components.
+		/// </summary>
+		public void DestroyEntity()
+		{
+			if (!Destroyed)
+			{
+				Destroyed = true;
+				if (Enabled)
+				{
+					// Performs Destroy event.
+					Destroy();
+				}
+				foreach(var componentPair in _components)
+				{
+					Layer.RemoveComponent(componentPair.Value);
+				}
+			}
+		}
 
 	}
 }
