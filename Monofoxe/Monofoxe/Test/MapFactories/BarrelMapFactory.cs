@@ -1,9 +1,8 @@
-﻿using Monofoxe.Engine;
+﻿using Monofoxe.ECSTest.Components;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Tiled;
 using Monofoxe.Tiled.MapStructure.Objects;
-using Monofoxe.ECSTest.Components;
 
 namespace Monofoxe.Test.MapFactories
 {

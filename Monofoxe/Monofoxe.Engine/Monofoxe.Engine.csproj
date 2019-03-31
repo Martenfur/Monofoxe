@@ -72,7 +72,6 @@
     <Compile Include="DrawMgr.cs" />
     <Compile Include="ECS\BaseSystem.cs" />
     <Compile Include="ECS\Component.cs" />
-    <Compile Include="ECS\ComponentMgr.cs" />
     <Compile Include="ECS\Entity.cs" />
     <Compile Include="ECS\EntityTemplate.cs" />
     <Compile Include="ECS\IEntityMethods.cs" />

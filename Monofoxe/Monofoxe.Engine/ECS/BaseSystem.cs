@@ -18,7 +18,6 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		public virtual int Priority {get;}
 		
-
 		/// <summary>
 		/// Tells, if any layer is currently using this system.
 		/// </summary>
