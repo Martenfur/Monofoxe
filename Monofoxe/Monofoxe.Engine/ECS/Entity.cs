@@ -40,12 +40,14 @@ namespace Monofoxe.Engine.ECS
 		public bool Destroyed {get; private set;} = false;
 
 		/// <summary>
-		/// If false, Update events won't be executed.
+		/// If false, Update and Destroy events won't be executed.
+		/// NOTE: This also applies to entity's components.
 		/// </summary>
 		public bool Enabled = true;
 		
 		/// <summary>
 		/// If false, Draw events won't be executed.
+		/// NOTE: This also applies to entity's components.
 		/// </summary>
 		public bool Visible = true;
 		
@@ -109,21 +111,21 @@ namespace Monofoxe.Engine.ECS
 
 		
 		/// <summary>
-		/// Updates at a fixed rate.
+		/// Updates at a fixed rate, if entity is enabled.
 		/// </summary>
 		public virtual void FixedUpdate() {}
 		
 		
 		
 		/// <summary>
-		/// Updates every frame.
+		/// Updates every frame, if entity is enabled.
 		/// </summary>
 		public virtual void Update() {}
 		
 		
 
 		/// <summary>
-		/// Draw updates.
+		/// Draw updates. Triggers only if entity is visible.
 		/// 
 		/// NOTE: DO NOT put any significant logic into Draw.
 		/// It may skip frames.
@@ -133,7 +135,7 @@ namespace Monofoxe.Engine.ECS
 
 
 		/// <summary>
-		///	Triggers right before destruction, if entity is active. 
+		///	Triggers right before destruction, if entity is enabled. 
 		/// </summary>
 		public virtual void Destroy() {}
 
@@ -155,11 +157,7 @@ namespace Monofoxe.Engine.ECS
 			}
 			_components.Add(component.GetType(), component);
 			component.Owner = this;
-			if (component.Enabled)
-			{
-				// If component is disabled, it shouldn't be processed by systems.
-				Layer.AddComponent(component);
-			}
+			Layer.AddComponent(component);
 		}
 		
 		
@@ -250,6 +248,7 @@ namespace Monofoxe.Engine.ECS
 		#endregion Components.
 
 
+
 		/// <summary>
 		/// Creates new entity from existing template.
 		/// </summary>
@@ -280,7 +279,7 @@ namespace Monofoxe.Engine.ECS
 				Destroyed = true;
 				if (Enabled)
 				{
-					// Performs Destroy event.
+					// Performs Destroy event only if entity is enabled.
 					Destroy();
 				}
 				foreach(var componentPair in _components)

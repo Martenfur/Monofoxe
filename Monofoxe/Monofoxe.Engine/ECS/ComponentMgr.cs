@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using Monofoxe.Engine.SceneSystem;
-using System.Diagnostics;
 
 namespace Monofoxe.Engine.ECS
 {
@@ -18,13 +16,13 @@ namespace Monofoxe.Engine.ECS
 		/// 
 		/// NOTE: If component's Initialized property is true, this method will do nothing!
 		/// </summary>
-		public static void InitComponent(Component component)
+		internal static void InitComponent(Component component)
 		{
-			if (component.Initialized)			
+			if (component.Initialized)
 			{
 				return;
-			}	
-
+			}
+			
 			var layer = component.Owner.Layer;	
 			var componentType = component.GetType();
 			
@@ -32,26 +30,17 @@ namespace Monofoxe.Engine.ECS
 			{
 				// Component may be first one created. In this case, system is disabled and need to be activated.
 				// NOTE: TryGetValue below is necessary, because system may not exist in pool at all. 
-				SystemMgr.EnableSystem(componentType);
+				SystemMgr.EnableSystemByComponentType(componentType);
 			}
 
 			// If component is even there.
-			if (
-				layer._newComponents.Contains(component) 
-				&& SystemMgr._activeSystems.TryGetValue(componentType, out BaseSystem system)
-			)
+			if (SystemMgr._activeSystems.TryGetValue(componentType, out BaseSystem system))
 			{
 				system.Create(component);
 				system._usedByLayers = true;
-				component.Initialized = true;					
-				layer._newComponents.Remove(component);
-				if (component.Enabled)
-				{
-					layer._components.Add(component);
-				}
+				component.Initialized = true;
 				return;
 			}
-			
 		}
 		
 		

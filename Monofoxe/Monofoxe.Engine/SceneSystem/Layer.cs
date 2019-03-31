@@ -100,12 +100,6 @@ namespace Monofoxe.Engine.SceneSystem
 		
 
 		/// <summary>
-		/// Newly created components. Used for Create event.
-		/// </summary>
-		internal List<Component> _newComponents = new List<Component>();
-
-
-		/// <summary>
 		/// Disabled components.
 		/// </summary>
 		internal ComponentContainer _disabledComponents = new ComponentContainer();
@@ -162,7 +156,16 @@ namespace Monofoxe.Engine.SceneSystem
 		
 		internal void AddComponent(Component component)
 		{
-			_newComponents.Add(component);
+			if (component.Enabled)
+			{
+				_components.Add(component);
+			}
+			else
+			{
+				_disabledComponents.Add(component);
+			}
+
+			ComponentMgr.InitComponent(component);
 			_depthListOutdated = true;
 		}
 
@@ -170,7 +173,6 @@ namespace Monofoxe.Engine.SceneSystem
 		internal void RemoveComponent(Component component)
 		{
 			// Removing from lists.
-			_newComponents.Remove(component);
 			var componentType = component.GetType();
 			
 			ComponentContainer componentContainer;
@@ -190,7 +192,7 @@ namespace Monofoxe.Engine.SceneSystem
 			// If component is disabled, this means are aren't destroying entity, 
 			// so there is no need to invoke destroy event.
 			// TODO: Check if it's even right.
-			if (component.Enabled && SystemMgr._activeSystems.TryGetValue(componentType, out BaseSystem activeSystem))
+			if (component.Enabled && component.Owner.Enabled && SystemMgr._activeSystems.TryGetValue(componentType, out BaseSystem activeSystem))
 			{
 				activeSystem.Destroy(component);
 			}
@@ -409,17 +411,6 @@ namespace Monofoxe.Engine.SceneSystem
 		{
 			var count = 0;
 			
-			// Since component lists are updated with a one step delay, 
-			// which is quite tricky to remove, we have to additionally
-			// take entities directly from newly created components list.
-			foreach(var component in _newComponents)
-			{
-				if (component is T)
-				{
-					count += 1;
-				}
-			}
-			
 			if (_components.TryGetList(typeof(T), out List<Component> componentList))
 			{
 				count += componentList.Count;
@@ -436,17 +427,6 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public Entity FindEntityByComponent<T>() where T : Component
 		{
-			// Since component lists are updated with a one step delay, 
-			// which is quite tricky to remove, we have to additionally
-			// take entities directly from newly created components list.
-			foreach(var component in _newComponents)
-			{
-				if (component is T)
-				{
-					return component.Owner;
-				}
-			}
-
 			if (_components.TryGetList(typeof(T), out List<Component> componentList))
 			{
 				return componentList[0].Owner;
@@ -463,17 +443,6 @@ namespace Monofoxe.Engine.SceneSystem
 		public List<Component> GetComponentList<T>() where T : Component
 		{
 			var components = new List<Component>();
-			
-			// Since component lists are updated with a one step delay, 
-			// which is quite tricky to remove, we have to additionally
-			// take entities directly from newly created components list.
-			foreach(var component in _newComponents)
-			{
-				if (component is T)
-				{
-					components.Add(component);
-				}
-			}
 			
 			if (_components.TryGetList(typeof(T), out List<Component> componentList))
 			{

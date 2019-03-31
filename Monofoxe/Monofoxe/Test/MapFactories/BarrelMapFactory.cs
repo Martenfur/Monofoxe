@@ -18,8 +18,6 @@ namespace Monofoxe.Test.MapFactories
 			barrel.GetComponent<CMovement>().Position = obj.Position;
 			barrel.GetComponent<CCollision>().MaskR = obj.Size.X / 2f;
 			
-			ComponentMgr.InitComponent(barrel.GetComponent<CCollision>());
-
 			return barrel;
 		}
 	}
