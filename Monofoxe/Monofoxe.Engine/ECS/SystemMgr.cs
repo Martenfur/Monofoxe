@@ -78,7 +78,7 @@ namespace Monofoxe.Engine.ECS
 					componentList = componentList.FindAll(x => x.Owner.Enabled);
 					if (componentList.Count > 0)
 					{
-						system._usedByLayers = true; // Telling that a layer is using this system.
+						system._usedByLayers = true;
 					}
 
 					system.Update(componentList);
@@ -95,9 +95,10 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		internal static void Draw(Component component)
 		{
-			if (_activeSystems.TryGetValue(component.GetType(), out BaseSystem system))
+			if (component.System != null)
 			{
-				system.Draw(component);
+				component.System._usedByLayers = true;
+				component.System.Draw(component);
 			}
 		}
 
@@ -147,6 +148,7 @@ namespace Monofoxe.Engine.ECS
 				if (systemPair.Value is T)
 				{
 					_activeSystems.Add(systemPair.Key, systemPair.Value);
+					systemPair.Value.Enabled = true;
 					return;
 				}
 			}
@@ -163,6 +165,7 @@ namespace Monofoxe.Engine.ECS
 				if (system is T)
 				{
 					_activeSystems.Remove(system.ComponentType);
+					system.Enabled = false;
 					return;
 				}
 			}
@@ -179,6 +182,7 @@ namespace Monofoxe.Engine.ECS
 				if (systemPair.Value.ComponentType == typeof(T))
 				{
 					_activeSystems.Add(systemPair.Key, systemPair.Value);
+					systemPair.Value.Enabled = true;
 					return;
 				}
 			}
@@ -195,6 +199,7 @@ namespace Monofoxe.Engine.ECS
 				if (system.ComponentType == typeof(T))
 				{
 					_activeSystems.Remove(system.ComponentType);
+					system.Enabled = false;
 					return;
 				}
 			}
@@ -212,6 +217,7 @@ namespace Monofoxe.Engine.ECS
 				if (systemPair.Value.GetType() == systemType) 
 				{
 					_activeSystems.Add(systemPair.Key, systemPair.Value);
+					systemPair.Value.Enabled = true;
 					return;
 				}
 			}
@@ -228,6 +234,7 @@ namespace Monofoxe.Engine.ECS
 				if (systemPair.Value.ComponentType == componentType) 
 				{
 					_activeSystems.Add(systemPair.Key, systemPair.Value);
+					systemPair.Value.Enabled = true;
 					return;
 				}
 			}
@@ -244,6 +251,7 @@ namespace Monofoxe.Engine.ECS
 				if (system.GetType() == systemType) 
 				{
 					_activeSystems.Remove(system.ComponentType);
+					system.Enabled = false;
 					return;
 				}
 			}
@@ -259,6 +267,7 @@ namespace Monofoxe.Engine.ECS
 				if (system.ComponentType == componentType) 
 				{
 					_activeSystems.Remove(system.ComponentType);
+					system.Enabled = false;
 					return;
 				}
 			}
@@ -280,6 +289,7 @@ namespace Monofoxe.Engine.ECS
 					if (!system._usedByLayers)
 					{
 						unusedSystems.Add(system.ComponentType);	
+						system.Enabled = false;
 						_componentsWereRemoved = false;
 					}
 				}

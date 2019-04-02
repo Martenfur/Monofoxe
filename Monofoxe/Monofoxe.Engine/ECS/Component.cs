@@ -52,6 +52,12 @@ namespace Monofoxe.Engine.ECS
 		
 
 		/// <summary>
+		/// Component's assigned system. Will be null only if no systems exist for this component.
+		/// </summary>
+		public BaseSystem System {get; internal set;}
+
+
+		/// <summary>
 		/// Creates a new object that is a copy of the current instance.
 		/// 
 		/// NOTE: If you are going to use json entity templates, 

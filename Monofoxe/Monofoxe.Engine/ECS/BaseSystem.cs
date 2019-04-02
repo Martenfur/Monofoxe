@@ -23,14 +23,12 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		internal bool _usedByLayers;
 
-
 		/// <summary>
-		/// Create event is called right after new component is created.
-		/// 
-		/// NOTE: This event won't be called right after component creation.
-		/// It will be called in the very beginning of next step, so keep this in mind.
-		/// However, you can speed up this process by calling InitComponent().
+		/// If system is enabled, it will invoke its Update and Draw methods.
 		/// </summary>
+		public bool Enabled {get; internal set;} = false;
+
+		
 		public virtual void Create(Component component) {}
 		public virtual void Destroy(Component component) {}
 		
