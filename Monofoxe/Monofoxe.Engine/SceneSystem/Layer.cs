@@ -178,6 +178,7 @@ namespace Monofoxe.Engine.SceneSystem
 					system.Create(component);
 					system._usedByLayers = true;
 					component.Initialized = true;
+					component.System = system;
 				}
 
 				_depthListOutdated = true;
@@ -205,12 +206,14 @@ namespace Monofoxe.Engine.SceneSystem
 
 			// Performing Destroy event.
 			
-			// If component is disabled, this means are aren't destroying entity, 
-			// so there is no need to invoke destroy event.
-			// TODO: Check if it's even right.
-			if (component.Enabled && component.Owner.Enabled && SystemMgr._activeSystems.TryGetValue(componentType, out BaseSystem activeSystem))
+			if (
+				component.Enabled 
+				&& component.Owner.Enabled 
+				&& component.System != null 
+				&& component.System.Enabled
+			)
 			{
-				activeSystem.Destroy(component);
+				component.System.Destroy(component);
 			}
 
 			SystemMgr._componentsWereRemoved = true;
