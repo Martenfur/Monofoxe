@@ -157,22 +157,25 @@ namespace Monofoxe.Engine.SceneSystem
 				TimeKeeper._elapsedTime = GameMgr.FixedUpdateRate;
 
 				foreach(var scene in Scenes)
-				{
+				{		
 					if (scene.Enabled)
 					{
 						CurrentScene = scene;
-						
+						CurrentLayer = null;
+							
+						SystemMgr.FixedUpdate();
+
 						foreach(var layer in scene.Layers)
 						{
 							if (layer.Enabled)
 							{
 								CurrentLayer = layer;
-								SystemMgr.FixedUpdate(layer._components);
+						
 								foreach(var entity in layer.Entities)
 								{
 									if (entity.Enabled && !entity.Destroyed)
 									{
-										entity.FixedUpdate();
+										entity.FixedUpdate(); 
 									}
 								}
 							}
@@ -184,6 +187,44 @@ namespace Monofoxe.Engine.SceneSystem
 
 
 
+		/// <summary>
+		/// Executes Update events.
+		/// </summary>
+		internal static void CallUpdateEvents(GameTime gameTime)
+		{
+			TimeKeeper._elapsedTime = GameMgr.ElapsedTime;
+			
+			foreach(var scene in Scenes)
+			{		
+				if (scene.Enabled)
+				{
+					CurrentScene = scene;
+					CurrentLayer = null;
+					
+					SystemMgr.Update();
+
+					foreach(var layer in scene.Layers)
+					{
+						if (layer.Enabled)
+						{
+							CurrentLayer = layer;
+						
+							foreach(var entity in layer.Entities)
+							{
+								if (entity.Enabled && !entity.Destroyed)
+								{
+									entity.Update(); 
+								}
+							}
+						}
+					}
+				}
+			}
+			
+		}
+		
+
+		/*
 		/// <summary>
 		/// Executes Update events.
 		/// </summary>
@@ -217,7 +258,8 @@ namespace Monofoxe.Engine.SceneSystem
 			}
 			
 		}
-		
+		 */ 
+		 
 
 
 		/// <summary>

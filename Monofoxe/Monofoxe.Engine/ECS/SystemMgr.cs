@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Monofoxe.Engine.Utils.CustomCollections;
+using Monofoxe.Engine.SceneSystem;
 
 namespace Monofoxe.Engine.ECS
 {
@@ -54,13 +55,25 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Updates at a fixed rate.
 		/// </summary>
-		internal static void FixedUpdate(ComponentContainer components)
+		internal static void FixedUpdate()
 		{
 			foreach(var system in _activeSystems)
 			{
-				if (components.TryGetList(system.ComponentType, out List<Component> componentList))
+				var sceneComponents = new List<Component>();
+				foreach(var layer in SceneMgr.CurrentScene.Layers)
 				{
-					system.FixedUpdate(componentList.FindAll(x => x.Owner.Enabled));
+					if (layer.Enabled && layer._components.TryGetList(system.ComponentType, out List<Component> layerComponents))
+					{
+						// Disabled components are not in this list, so here we only need to check
+						// if entity itself was disabled.
+						sceneComponents.AddRange(layerComponents.FindAll(x => x.Owner.Enabled));
+					}
+				}
+			
+				if (sceneComponents.Count > 0)
+				{
+					system._usedByLayers = true;
+					system.FixedUpdate(sceneComponents);
 				}
 			}
 		}
@@ -69,20 +82,26 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Updates every frame.
 		/// </summary>
-		internal static void Update(ComponentContainer components)
+		internal static void Update()
 		{
 			foreach(var system in _activeSystems)
 			{
-				if (components.TryGetList(system.ComponentType, out List<Component> componentList))
+				var sceneComponents = new List<Component>();
+				foreach(var layer in SceneMgr.CurrentScene.Layers)
 				{
-					componentList = componentList.FindAll(x => x.Owner.Enabled);
-					if (componentList.Count > 0)
+					if (layer.Enabled && layer._components.TryGetList(system.ComponentType, out List<Component> layerComponents))
 					{
-						system._usedByLayers = true;
+						// Disabled components are not in this list, so here we only need to check
+						// if entity itself was disabled.
+						sceneComponents.AddRange(layerComponents.FindAll(x => x.Owner.Enabled));
 					}
-
-					system.Update(componentList);
 				}
+			
+				if (sceneComponents.Count > 0)
+				{
+					system._usedByLayers = true;
+				}
+				system.Update(sceneComponents);
 			}
 		}
 		
