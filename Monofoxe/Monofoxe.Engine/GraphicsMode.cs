@@ -3,9 +3,9 @@
 	/// <summary>
 	/// Every time we want to draw primitive of a new type
 	/// or switch texture, we need to empty vertex buffer
-	/// and switch pipeline mode.
+	/// and switch graphics mode.
 	/// </summary>
-	public enum PipelineMode
+	public enum GraphicsMode
 	{
 		/// <summary>
 		/// No mode set.
