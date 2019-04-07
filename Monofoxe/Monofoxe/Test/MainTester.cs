@@ -1,13 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine;
+using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Utils;
 using Monofoxe.Engine.Utils.Cameras;
-using System; 
-using System.Diagnostics;
-using System.Collections.Generic;
 
 namespace Monofoxe.Test
 {

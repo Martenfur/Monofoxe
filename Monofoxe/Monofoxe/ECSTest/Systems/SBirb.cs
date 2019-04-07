@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Monofoxe.ECSTest.Components;
-using Monofoxe.Engine;
+using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.ECS;
 using System;
 

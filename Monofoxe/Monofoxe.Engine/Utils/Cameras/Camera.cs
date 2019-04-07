@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Monofoxe.Engine.Drawing;
 
 namespace Monofoxe.Engine.Utils.Cameras
 {
@@ -39,17 +40,7 @@ namespace Monofoxe.Engine.Utils.Cameras
 		/// View size.
 		/// </summary>
 		public Vector2 Size => new Vector2(Surface.Width, Surface.Height);
-
-		/// <summary>
-		/// View width.
-		/// </summary>
-		public int Width => Surface.Width;
-
-		/// <summary>
-		/// View height.
-		/// </summary>
-		public int Height => Surface.Height;
-
+		
 		/// <summary>
 		/// Camera offset.
 		/// </summary>

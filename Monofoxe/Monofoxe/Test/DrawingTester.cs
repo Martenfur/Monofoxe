@@ -70,7 +70,7 @@ namespace Monofoxe.Test
 				90, 
 				Color.White
 			);
-			DrawMgr.DrawCircle(new Vector2(100, 100), 2, true);
+			CircleShape.Draw(new Vector2(100, 100), 2, true);
 			
 			//DrawMgr.Effect = null;
 			
@@ -104,7 +104,7 @@ namespace Monofoxe.Test
 			DrawMgr.CurrentFont = Fonts.Arial;
 			
 			DrawMgr.CurrentColor = Color.White * 0.5f;//new Color(0.5f, 0.5f, 0.5f, 0.5f);
-			DrawMgr.DrawCircle(Input.MousePosition, 2, false);
+			CircleShape.Draw(Input.MousePosition, 2, false);
 			DrawMgr.CurrentColor = Color.Green;//Color.Red * 0.5f;
 			
 
@@ -116,10 +116,10 @@ namespace Monofoxe.Test
 			DrawMgr.CurrentColor = new Color(255, 0, 255, 255);
 			DrawMgr.DrawSprite(Default.Flare, 400, 300);
 
-			DrawMgr.DrawCircle(500, 100, 32, false);
-			DrawMgr.DrawRectangle(500, 200, 532, 232, false);
-			DrawMgr.DrawLine(500, 300, 532, 300);
-			DrawMgr.DrawLine(532, 400, 500, 400);
+			CircleShape.Draw(500, 100, 32, false);
+			RectangleShape.Draw(500, 200, 532, 232, false);
+			LineShape.Draw(500, 300, 532, 300);
+			LineShape.Draw(532, 400, 500, 400);
 
 			
 
