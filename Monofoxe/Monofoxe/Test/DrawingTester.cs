@@ -11,6 +11,8 @@ using Monofoxe.ECSTest.Systems;
 using Monofoxe.ECSTest.Components;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Utils;
+using System.Collections;
+using System.Collections.Generic;
 
 
 namespace Monofoxe.Test
@@ -58,7 +60,7 @@ namespace Monofoxe.Test
 			*/
 			//Effects.Effect.Parameters["test"].SetValue(new Vector4(0.0f, 0.7f, 0.0f, 1.0f));
 			//DrawMgr.Effect = Effects.Effect;
-
+			
 			//fireFrame
 			DrawMgr.CurrentColor = Color.White;
 			DrawMgr.DrawSprite(
@@ -120,7 +122,7 @@ namespace Monofoxe.Test
 			RectangleShape.Draw(500, 200, 532, 232, false);
 			LineShape.Draw(500, 300, 532, 300);
 			LineShape.Draw(532, 400, 500, 400);
-
+			
 			
 
 			TestDrawPrimitives();
@@ -129,52 +131,40 @@ namespace Monofoxe.Test
 
 
 		private void TestDrawPrimitives()
-		{/*
-			DrawMgr.PrimitiveBegin();
-			DrawMgr.PrimitiveAddVertex(new Vector2(64, 64), Color.DarkOrange);
-			DrawMgr.PrimitiveAddVertex(new Vector2(70, 70), Color.Aquamarine);
-			DrawMgr.PrimitiveAddVertex(new Vector2(100, 80), Color.DarkBlue);
-			DrawMgr.PrimitiveAddVertex(new Vector2(64, 80), new Color(76, 135, 255, 128));
-			DrawMgr.PrimitiveSetLineStripIndices(true);
-			DrawMgr.PrimitiveEnd();
-			*/
+		{
+			var fan = new TriangleFanPrimitive();
+			fan.SetTextureFromFrame(Default.BstGam.Frames[0]);
+			fan.Position = new Vector2(120, 64);
+			fan.Vertices = new List<Vertex>
+			{
+				new Vertex(new Vector2(0, 0), Color.White * 0.5f, new Vector2(0, 0)),
+				new Vertex(new Vector2(32, 0), Color.Green * 1.0f, new Vector2(1, 0)),
+				new Vertex(new Vector2(32, 32), Color.Blue, new Vector2(1, 1)),
+				new Vertex(new Vector2(0, 32), Color.Red, new Vector2(0, 1)),
+			};
+			fan.Draw();
+			
+			
+			var strip = new TriangleStripPrimitive();
+			strip.Vertices = new List<Vertex>
+			{
 
-			DrawMgr.PrimitiveBegin();
-			DrawMgr.PrimitiveSetTexture(Default.Flare, 0);
-			DrawMgr.PrimitiveAddVertex(new Vector2(120, 64), Color.White * 0.5f, new Vector2(0, 0));
-			DrawMgr.PrimitiveAddVertex(new Vector2(120+32, 64), Color.Green * 1.0f, new Vector2(1, 0));
-			DrawMgr.PrimitiveAddVertex(new Vector2(120+32, 64+32), Color.Blue, new Vector2(1, 1));
-			DrawMgr.PrimitiveAddVertex(new Vector2(120, 64+32), Color.Red, new Vector2(0, 1));
-			
-			//DrawMgr.PrimitiveSetLineStripIndices(true);
-			
-			DrawMgr.PrimitiveSetTriangleFanIndices();
-			DrawMgr.PrimitiveEnd();
-			
+				new Vertex(new Vector2(0, 0)),
+				new Vertex(new Vector2(32, 32), new Color(56, 135, 255) * 0.1f, new Vector2(0, 1)),
+				new Vertex(new Vector2(64, 0), new Color(56, 135, 255) * 0.1f, new Vector2(1, 0)),
+				new Vertex(new Vector2(96, 32), new Color(56, 135, 255) * 0.1f, new Vector2(1, 1)),
+				new Vertex(new Vector2(64+32, 0), new Color(56, 135, 255) * 0.1f, new Vector2(1, 0)),
+				new Vertex(new Vector2(96+32, 32), new Color(56, 135, 255), new Vector2(1, 1)),
+				new Vertex(new Vector2(64+64, 0), new Color(56, 135, 255) , new Vector2(1, 0)),
+				new Vertex(new Vector2(96+64, 32), new Color(56, 135, 255), new Vector2(1, 1)),
+			};
+			strip.Draw();
 
-			DrawMgr.PrimitiveBegin();
-			//DrawMgr.PrimitiveSetTexture(SpritesDefault.BirdieBody, 0);
-			DrawMgr.PrimitiveAddVertex(0, 0, new Vector2(0, 0));
-			DrawMgr.PrimitiveAddVertex(32, 32, new Color(56, 135, 255) * 0.1f, new Vector2(0, 1));
-			DrawMgr.PrimitiveAddVertex(64, 0,new Color(56, 135, 255) * 0.1f, new Vector2(1, 0));
-			DrawMgr.PrimitiveAddVertex(96, 32, new Color(56, 135, 255) * 0.1f, new Vector2(1, 1));
-			DrawMgr.PrimitiveAddVertex(64+32, 0,new Color(56, 135, 255) * 0.1f, new Vector2(1, 0));
-			DrawMgr.PrimitiveAddVertex(96+32, 32, new Color(56, 135, 255), new Vector2(1, 1));
-			DrawMgr.PrimitiveAddVertex(64+64, 0,new Color(56, 135, 255) , new Vector2(1, 0));
-			DrawMgr.PrimitiveAddVertex(96+64, 32, new Color(56, 135, 255), new Vector2(1, 1));
-
-			DrawMgr.PrimitiveSetTriangleStripIndices();
-			DrawMgr.PrimitiveEnd();
+			var mesh = new MeshPrimitive(7, 7);
+			mesh.Position = new Vector2(0, 100);
+			mesh.SetTextureFromFrame(Default.Barrel.Frames[0]);
+			mesh.Vertices = new List<Vertex>();
 			
-			
-			
-
-			DrawMgr.PrimitiveBegin();
-			DrawMgr.PrimitiveSetTexture(Default.Barrel, 0);
-			
-			int _x = 0;
-			int _y = 100;
-
 			int w = 7;
 			int h = 7;
 			
@@ -182,13 +172,14 @@ namespace Monofoxe.Test
 			{
 				for(var i = 0; i < w; i += 1)
 				{			
-					DrawMgr.PrimitiveAddVertex(new Vector2(_x + 8 * i, _y + 8 * k), Color.White, new Vector2(i / (float)(w - 1), k / (float)(h - 1)));	
+					mesh.Vertices.Add(new Vertex(new Vector2(8 * i * i, 8 * k), Color.White, new Vector2(i / (float)(w - 1), k / (float)(h - 1))));	
 				}
 			}
-			DrawMgr.PrimitiveSetMeshIndices(w, h);
-			DrawMgr.PrimitiveEnd();
-		}
 
+			mesh.Draw();
+			
+		}
+		
 
 	}
 }
