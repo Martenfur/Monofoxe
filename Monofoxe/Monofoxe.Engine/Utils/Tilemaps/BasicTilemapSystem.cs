@@ -51,8 +51,8 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 			// Bounding.
 
 			// Telling whatever is waiting to be drawn to draw itself.
-			// If pipeline mode is not switched, drawing raw sprite batch may interfere with primitives.
-			DrawMgr.SwitchPipelineMode(PipelineMode.Sprites); 
+			// If graphics mode is not switched, drawing raw sprite batch may interfere with primitives.
+			DrawMgr.SwitchGraphicsMode(GraphicsMode.Sprites); 
 
 			for(var y = startY; y < endY; y += 1)
 			{
