@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Utils.Cameras;
 
-namespace Monofoxe.Engine
+namespace Monofoxe.Engine.Drawing
 {
 
 	public static class DrawMgr
@@ -165,52 +164,6 @@ namespace Monofoxe.Engine
 		public static Matrix CanvasMatrix = Matrix.CreateTranslation(Vector3.Zero); //We need zero matrix here, or else mouse position will derp out.
 		
 
-		#region Shapes.
-
-		private static readonly GraphicsMode[] _shapeGraphicsModes = {GraphicsMode.TrianglePrimitives, GraphicsMode.OutlinePrimitives};
-		
-		// Triangle.
-		private static readonly short[][] _triangleIndices = 
-		{
-			new short[]{0, 1, 2}, // Filled.
-			new short[]{0, 1, 1, 2, 2, 0} // Outline.
-		};
-		// Triangle.
-
-		// Rectangle.
-		private static readonly short[][] _rectangleIndices = 
-		{
-			new short[]{0, 1, 3, 1, 2, 3}, // Filled.
-			new short[]{0, 1, 1, 2, 2, 3, 3, 0} // Outline.
-		};
-		// Rectangle.
-
-		// Circle.
-		/// <summary>
-		/// Amount of vertices in one circle. 
-		/// </summary>
-		public static int CircleVerticesCount 
-		{
-			set
-			{
-				_circleVectors = new List<Vector2>();
-			
-				var angAdd = Math.PI * 2 / value;
-				
-				for(var i = 0; i < value; i += 1)
-				{
-					_circleVectors.Add(new Vector2((float)Math.Cos(angAdd * i), (float)Math.Sin(angAdd * i)));
-				}
-			}
-			get => _circleVectors.Count;
-		}
-
-		private static List<Vector2> _circleVectors; 
-		// Circle.
-
-		#endregion Shapes.
-
-
 		// Primitives.
 		private static List<VertexPositionColorTexture> _primitiveVertices = new List<VertexPositionColorTexture>();
 		private static List<short> _primitiveIndices = new List<short>();
@@ -256,7 +209,7 @@ namespace Monofoxe.Engine
 			Device.SetVertexBuffer(_vertexBuffer);
 			Device.Indices = _indexBuffer;
 			
-			CircleVerticesCount = 16;
+			CircleShape.CircleVerticesCount = 16;
 			
 			_cameraRasterizerState = new RasterizerState
 			{
@@ -340,7 +293,7 @@ namespace Monofoxe.Engine
 					camera.UpdateTransformMatrix();
 					CurrentCamera = camera;
 					CurrentTransformMatrix = camera.TransformMatrix;
-					CurrentProjection = Matrix.CreateOrthographicOffCenter(0, camera.Width, camera.Height, 0, 0, 1);
+					CurrentProjection = Matrix.CreateOrthographicOffCenter(0, camera.Size.X, camera.Size.Y, 0, 0, 1);
 					// Updating current transform matrix and camera.
 
 					Input.MousePosition = camera.GetRelativeMousePosition();
@@ -483,7 +436,7 @@ namespace Monofoxe.Engine
 		/// Adds vertices and indices to global vertex and index list.
 		/// If current and suggested graphics modes are different, draws accumulated vertices first.
 		/// </summary>
-		private static void AddVertices(GraphicsMode mode, Texture2D texture, List<VertexPositionColorTexture> vertices, short[] indices)
+		internal static void AddVertices(GraphicsMode mode, Texture2D texture, List<VertexPositionColorTexture> vertices, short[] indices)
 		{
 			if (_indices.Count + indices.Length >= _vertexBufferSize)
 			{
@@ -783,228 +736,6 @@ namespace Monofoxe.Engine
 
 
 
-		#region Shapes.
-
-
-		#region Line overloads.
-		
-		/// <summary>
-		/// Draws a line.
-		/// </summary>
-		public static void DrawLine(Vector2 p1, Vector2 p2) =>
-			DrawLine(p1.X, p1.Y, p2.X, p2.Y, CurrentColor, CurrentColor);
-
-		/// <summary>
-		/// Draws a line with specified colors.
-		/// </summary>
-		public static void DrawLine(Vector2 p1, Vector2 p2, Color c1, Color c2) =>
-			DrawLine(p1.X, p1.Y, p2.X, p2.Y, c1, c2);
-
-		/// <summary>
-		/// Draws a line with specified width and colors.
-		/// </summary>
-		public static void DrawLine(Vector2 p1, Vector2 p2, float w, Color c1, Color c2) =>
-			DrawLine(p1.X, p1.Y, p2.X, p2.Y, w, c1, c2);
-
-		/// <summary>
-		/// Draws a line.
-		/// </summary>
-		public static void DrawLine(float x1, float y1, float x2, float y2) =>
-			DrawLine(x1, y1, x2, y2, CurrentColor, CurrentColor);
-
-		/// <summary>
-		/// Draws a line with specified width.
-		/// </summary>
-		public static void DrawLine(float x1, float y1, float x2, float y2, float w) =>
-			DrawLine(x1, y1, x2, y2, w, CurrentColor, CurrentColor);
-		
-		#endregion Line overloads.
-		
-		/// <summary>
-		/// Draws a line with specified colors.
-		/// </summary>
-		public static void DrawLine(float x1, float y1, float x2, float y2, Color c1, Color c2)
-		{
-			var vertices = new List<VertexPositionColorTexture>
-			{
-				new VertexPositionColorTexture(new Vector3(x1, y1, 0), c1, Vector2.Zero),
-				new VertexPositionColorTexture(new Vector3(x2, y2, 0), c2, Vector2.Zero)
-			};
-			
-
-			AddVertices(GraphicsMode.OutlinePrimitives, null, vertices, new short[]{0, 1});
-		}
-
-		/// <summary>
-		/// Draws a line with specified width and colors.
-		/// </summary>
-		public static void DrawLine(float x1, float y1, float x2, float y2, float w, Color c1, Color c2)
-		{
-			var normal = new Vector3(y2 - y1, x1 - x2, 0);
-			normal.Normalize(); // The result is a unit vector rotated by 90 degrees.
-			normal *= w / 2;
-
-			var vertices = new List<VertexPositionColorTexture>
-			{
-				new VertexPositionColorTexture(new Vector3(x1, y1, 0) + normal, c1, Vector2.Zero),
-				new VertexPositionColorTexture(new Vector3(x1, y1, 0) - normal, c1, Vector2.Zero),
-				new VertexPositionColorTexture(new Vector3(x2, y2, 0) - normal, c2, Vector2.Zero),
-				new VertexPositionColorTexture(new Vector3(x2, y2, 0) + normal, c2, Vector2.Zero)
-			};
-
-			AddVertices(GraphicsMode.TrianglePrimitives, null, vertices, _rectangleIndices[1]); // Thick line is in fact just a rotated rectangle.
-		}
-
-
-		#region Triangle overloads.
-
-		/// <summary>
-		/// Draws a triangle.
-		/// </summary>
-		public static void DrawTriangle(Vector2 p1, Vector2 p2, Vector2 p3, bool isOutline) =>
-			DrawTriangle(p1.X, p1.Y, p2.X, p2.Y, p3.X, p3.Y, isOutline, CurrentColor, CurrentColor, CurrentColor);
-
-		/// <summary>
-		/// Draws a triangle with specified colors.
-		/// </summary>
-		public static void DrawTriangle(Vector2 p1, Vector2 p2, Vector2 p3, bool isOutline, Color c1, Color c2, Color c3) =>
-			DrawTriangle(p1.X, p1.Y, p2.X, p2.Y, p3.X, p3.Y, isOutline, c1, c2, c3);
-		
-		/// <summary>
-		/// Draws a triangle.
-		/// </summary>
-		public static void DrawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, bool isOutline) =>
-			DrawTriangle(x1, y1, x2, y2, x3, y3, isOutline, CurrentColor, CurrentColor, CurrentColor);
-
-		#endregion Triangle overloads.
-
-		/// <summary>
-		/// Draw a triangle with specified colors.
-		/// </summary>
-		public static void DrawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, bool isOutline, Color c1, Color c2, Color c3)
-		{
-			int isOutlineInt = Convert.ToInt32(isOutline); // We need to convert true/false to 1/0 to be able to get different sets of values from arrays. 
-
-			var vertices = new List<VertexPositionColorTexture>
-			{
-				new VertexPositionColorTexture(new Vector3(x1, y1, 0), c1, Vector2.Zero),
-				new VertexPositionColorTexture(new Vector3(x2, y2, 0), c2, Vector2.Zero),
-				new VertexPositionColorTexture(new Vector3(x3, y3, 0), c3, Vector2.Zero)
-			};
-
-			AddVertices(_shapeGraphicsModes[isOutlineInt], null, vertices, _triangleIndices[isOutlineInt]);
-		}
-
-
-
-		#region Rectangle overloads.
-
-		/// <summary>
-		/// Draws a rectangle.
-		/// </summary>
-		public static void DrawRectangle(Vector2 p1, Vector2 p2, bool isOutline) =>
-			DrawRectangle(p1.X, p1.Y, p2.X, p2.Y, isOutline, CurrentColor, CurrentColor, CurrentColor, CurrentColor);
-
-		/// <summary>
-		/// Draws a rectangle with specified colors for each corner.
-		/// </summary>
-		public static void DrawRectangle(Vector2 p1, Vector2 p2, bool isOutline, Color c1, Color c2, Color c3, Color c4) =>
-			DrawRectangle(p1.X, p1.Y, p2.X, p2.Y, isOutline, c1, c2, c3, c4);
-
-		/// <summary>
-		/// Draws a rectangle.
-		/// </summary>
-		public static void DrawRectangle(float x1, float y1, float x2, float y2, bool isOutline) =>
-			DrawRectangle(x1, y1, x2, y2, isOutline, CurrentColor, CurrentColor, CurrentColor, CurrentColor);
-
-		#endregion Rectangle overloads.
-
-		/// <summary>
-		/// Draws a rectangle with specified colors for each corner.
-		/// </summary>
-		public static void DrawRectangle(float x1, float y1, float x2, float y2, bool isOutline, Color c1, Color c2, Color c3, Color c4)
-		{
-			int isOutlineInt = Convert.ToInt32(isOutline); // We need to convert true/false to 1/0 to be able to get different sets of values from arrays. 
-
-			var vertices = new List<VertexPositionColorTexture>
-			{
-				new VertexPositionColorTexture(new Vector3(x1, y1, 0), c1, Vector2.Zero),
-				new VertexPositionColorTexture(new Vector3(x2, y1, 0), c2, Vector2.Zero),
-				new VertexPositionColorTexture(new Vector3(x2, y2, 0), c3, Vector2.Zero),
-				new VertexPositionColorTexture(new Vector3(x1, y2, 0), c4, Vector2.Zero)
-			};
-
-			AddVertices(_shapeGraphicsModes[isOutlineInt], null, vertices, _rectangleIndices[isOutlineInt]);
-		}
-
-
-		#region Circle overloads.
-
-		/// <summary>
-		/// Draws a circle.
-		/// </summary>
-		public static void DrawCircle(Vector2 p, float r, bool isOutline) =>
-			DrawCircle(p.X, p.Y, r, isOutline);
-
-		#endregion Circle overloads.
-
-		/// <summary>
-		/// Draws a circle.
-		/// </summary>
-		public static void DrawCircle(float x, float y, float r, bool isOutline)
-		{
-			short[] indexArray;
-			GraphicsMode prType;
-			if (isOutline)
-			{
-				indexArray = new short[CircleVerticesCount * 2];
-				prType = GraphicsMode.OutlinePrimitives;
-				
-				for(var i = 0; i< CircleVerticesCount - 1; i += 1)
-				{
-					indexArray[i * 2] = (short)i;
-					indexArray[i * 2 + 1] = (short)(i + 1);
-				}
-				indexArray[(CircleVerticesCount - 1) * 2] = (short)(CircleVerticesCount - 1);
-				indexArray[(CircleVerticesCount - 1) * 2 + 1] = 0;
-			}
-			else
-			{
-				indexArray = new short[CircleVerticesCount * 3];
-				prType = GraphicsMode.TrianglePrimitives;
-
-				for(var i = 0; i < CircleVerticesCount - 1; i += 1)
-				{
-					indexArray[i * 3] = 0;
-					indexArray[i * 3] = (short)i;
-					indexArray[i * 3 + 1] = (short)(i + 1);
-				}
-
-			}
-
-			var vertices = new List<VertexPositionColorTexture>();
-			
-			for(var i = 0; i < CircleVerticesCount; i += 1)
-			{
-				vertices.Add(
-					new VertexPositionColorTexture(
-						new Vector3(
-							x + r * _circleVectors[i].X, 
-							y + r * _circleVectors[i].Y, 
-							0
-						), 
-						CurrentColor, 
-						Vector2.Zero
-					)
-				);
-			}
-			AddVertices(prType, null, vertices, indexArray);
-		}
-
-		#endregion Shapes.
-
-
-
 		#region Primitives.
 		
 		/// <summary>
@@ -1257,7 +988,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static void DrawText(string text, float x, float y) => 
 			DrawText(text, new Vector2(x, y));
-
+		
 		/// <summary>
 		/// Draws text in specified coordinates.
 		/// </summary>
