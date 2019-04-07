@@ -63,9 +63,11 @@
     <Compile Include="Converters\Vector3Converter.cs" />
     <Compile Include="Drawing\CircleShape.cs" />
     <Compile Include="Drawing\IDrawable.cs" />
+    <Compile Include="Drawing\Primitive .cs" />
     <Compile Include="Drawing\LineShape.cs" />
     <Compile Include="Drawing\RectangleShape.cs" />
     <Compile Include="Drawing\TriangleShape.cs" />
+    <Compile Include="Drawing\Vertex.cs" />
     <Compile Include="ECS\ComponentContainer.cs" />
     <Compile Include="Utils\CustomCollections\SafeSortedDictionary.cs" />
     <Compile Include="Drawing\Font.cs" />
