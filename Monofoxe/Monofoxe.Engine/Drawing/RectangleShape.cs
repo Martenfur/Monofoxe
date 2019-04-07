@@ -66,7 +66,7 @@ namespace Monofoxe.Engine.Drawing
 			short[] indices;
 			if (isOutline)
 			{
-				mode = GraphicsMode.OutlinePrimitives;
+				mode = GraphicsMode.LinePrimitives;
 				indices = _rectangleIndices[0];
 			}
 			else

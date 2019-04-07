@@ -62,7 +62,7 @@ namespace Monofoxe.Engine.Drawing
 			if (isOutline)
 			{
 				indexArray = new short[CircleVerticesCount * 2];
-				prType = GraphicsMode.OutlinePrimitives;
+				prType = GraphicsMode.LinePrimitives;
 				
 				for(var i = 0; i < CircleVerticesCount - 1; i += 1)
 				{

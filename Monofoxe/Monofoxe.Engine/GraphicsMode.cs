@@ -30,6 +30,6 @@
 		/// <summary>
 		/// Line list.
 		/// </summary>
-		OutlinePrimitives,
+		LinePrimitives,
 	}
 }

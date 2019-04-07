@@ -81,7 +81,7 @@ namespace Monofoxe.Engine.Drawing
 			};
 			
 
-			DrawMgr.AddVertices(GraphicsMode.OutlinePrimitives, null, vertices, new short[]{0, 1});
+			DrawMgr.AddVertices(GraphicsMode.LinePrimitives, null, vertices, new short[]{0, 1});
 		}
 
 		/// <summary>

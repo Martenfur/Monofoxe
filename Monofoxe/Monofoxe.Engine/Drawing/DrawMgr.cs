@@ -487,7 +487,7 @@ namespace Monofoxe.Engine.Drawing
 				PrimitiveType type;
 				int prCount;
 
-				if (_currentGraphicsMode == GraphicsMode.OutlinePrimitives)
+				if (_currentGraphicsMode == GraphicsMode.LinePrimitives)
 				{
 					type = PrimitiveType.LineList;
 					prCount = _indices.Count / 2;
