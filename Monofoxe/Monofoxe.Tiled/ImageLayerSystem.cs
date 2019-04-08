@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.ECS;
 
 namespace Monofoxe.Engine.Utils.Tilemaps
@@ -15,7 +14,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 		public override void Draw(Component component)
 		{
 			var image = (ImageLayerComponent)component;
-			GraphicsMgr.DrawFrame(image.Frame, image.Offset, Vector2.Zero);
+			image.Frame.Draw(image.Offset, Vector2.Zero);
 		}
 
 	}

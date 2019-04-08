@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Monofoxe.Engine.Drawing
 {
@@ -38,6 +39,8 @@ namespace Monofoxe.Engine.Drawing
 		public Vector2 Origin;
 
 		public float Rotation;
+
+		public double Animation;
 
 		public Color Color;
 
@@ -97,6 +100,49 @@ namespace Monofoxe.Engine.Drawing
 
 			return true;
 		}
+
+		/// <summary>
+		/// Returns sprite frame based on an animation value from 0 to 1.
+		/// </summary>
+		private Frame GetFrame(double animation) =>
+			Frames[Math.Max(0, Math.Min(Frames.Length - 1, (int)(animation * Frames.Length)))];
+		
+		
+		public void Draw() =>
+			GetFrame(Animation).Draw(Position, Origin, Scale, Rotation, Color);
+		
+		// Vectors.
+		// TODO: Ad frame origins.
+		public void Draw(Vector2 pos, Vector2 origin) =>
+			Frames[0].Draw(pos, Vector2.One, 0, origin, GraphicsMgr.CurrentColor, SpriteEffects.None);
+		
+		public void Draw(double animation, Vector2 pos, Vector2 origin) =>
+			GetFrame(animation).Draw(pos, origin);
+		
+		public void Draw(double animation, Vector2 pos, Vector2 origin, Vector2 scale, float rotation, Color color) =>
+			GetFrame(animation).Draw(pos, origin, scale, rotation, color);
+
+		// Vectors.
+		
+		
+		// Rectangles.
+
+		public void Draw(double animation, Rectangle destRect) =>
+			GetFrame(animation).Draw(destRect, 0, GraphicsMgr.CurrentColor);
+
+		public void Draw(double animation, Rectangle destRect, float rotation, Color color) =>
+			GetFrame(animation).Draw(destRect, rotation, color);
+
+		public void Draw(double animation, Rectangle destRect, Rectangle srcRect) => 
+			GetFrame(animation).Draw(destRect, srcRect, 0, GraphicsMgr.CurrentColor);
+		
+
+		public void Draw(double animation, Rectangle destRect, Rectangle srcRect, float rotation, Color color) =>
+			GetFrame(animation).Draw(destRect, srcRect, rotation, color);
+
+		// Rectangles.
+
+
 		
 
 	}
