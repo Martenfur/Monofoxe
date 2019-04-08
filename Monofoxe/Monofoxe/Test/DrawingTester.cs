@@ -103,7 +103,7 @@ namespace Monofoxe.Test
 			//DrawMgr.DrawRectangle(0, 0, 300, 300, false);
 
 			GraphicsMgr.CurrentEffect = null;
-			GraphicsMgr.CurrentFont = Fonts.Arial;
+			Text.CurrentFont = Fonts.Arial;
 			
 			GraphicsMgr.CurrentColor = Color.White * 0.5f;//new Color(0.5f, 0.5f, 0.5f, 0.5f);
 			CircleShape.Draw(Input.MousePosition, 2, false);
@@ -111,7 +111,7 @@ namespace Monofoxe.Test
 			
 
 			GraphicsMgr.DrawSprite(Default.Flare, 400, 100);
-			GraphicsMgr.DrawText("test", 100, 100);
+			Text.Draw("test", 100, 100);
 			GraphicsMgr.DrawSprite(Default.Flare, 400, 200);
 
 			

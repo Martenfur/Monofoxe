@@ -64,8 +64,8 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// We can set surface targets inside another surfaces.
 		/// </summary>
-		private static Stack<RenderTarget2D> _surfaceStack = new Stack<RenderTarget2D>();
-		private static RenderTarget2D _currentSurface;
+		private static Stack<Surface> _surfaceStack = new Stack<Surface>();
+		private static Surface _currentSurface;
 
 		#region Modifiers.
 
@@ -718,13 +718,10 @@ namespace Monofoxe.Engine.Drawing
 		#endregion Sprites.
 
 
-
-		#region Surfaces.
-
 		/// <summary>
 		/// Sets surface as a render target.
 		/// </summary>
-		public static void SetSurfaceTarget(RenderTarget2D surf) => 
+		public static void SetSurfaceTarget(Surface surf) => 
 			SetSurfaceTarget(surf, Matrix.CreateTranslation(Vector3.Zero));
 
 		/// <summary>
@@ -732,7 +729,7 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		/// <param name="surf">Target surface.</param>
 		/// <param name="matrix">Surface transformation matrix.</param>
-		public static void SetSurfaceTarget(RenderTarget2D surf, Matrix matrix)
+		public static void SetSurfaceTarget(Surface surf, Matrix matrix)
 		{
 			SetTransformMatrix(matrix);
 
@@ -741,7 +738,7 @@ namespace Monofoxe.Engine.Drawing
 
 			CurrentProjection = Matrix.CreateOrthographicOffCenter(0,	_currentSurface.Width, _currentSurface.Height, 0, 0, 1);
 
-			Device.SetRenderTarget(_currentSurface);
+			Device.SetRenderTarget(_currentSurface.RenderTarget);
 		}
 
 		/// <summary>
@@ -773,154 +770,9 @@ namespace Monofoxe.Engine.Drawing
 				);
 			}
 
-			Device.SetRenderTarget(_currentSurface);
+			Device.SetRenderTarget(_currentSurface.RenderTarget);
 		}
 
-
-
-		private static void DrawRenderTarget(
-			RenderTarget2D renderTarget, 
-			Vector2 pos, 
-			Vector2 scale, 
-			float rotation, 
-			Vector2 offset, 
-			Color color, 
-			SpriteEffects effect
-		)
-		{
-			SwitchGraphicsMode(GraphicsMode.Sprites);
-			Batch.Draw(renderTarget, pos, renderTarget.Bounds, color, MathHelper.ToRadians(rotation), offset, scale, effect, 0);
-		}
 		
-		// Vectors.
-
-		public static void DrawSurface(RenderTarget2D surf, Vector2 pos)
-		{
-			SwitchGraphicsMode(GraphicsMode.Sprites);
-			Batch.Draw(surf, pos, CurrentColor);
-		}
-		
-		public static void DrawSurface(RenderTarget2D surf, Vector2 pos, Vector2 scale, float rotation, Color color)
-		{
-			SwitchGraphicsMode(GraphicsMode.Sprites);
-			
-			var mirroring = SpriteEffects.None;
-
-			// Proper negative scaling.
-			var offset = Vector2.Zero;
-
-			if (scale.X < 0)
-			{
-				mirroring = mirroring | SpriteEffects.FlipHorizontally;
-				scale.X *= -1;
-				offset.X = surf.Width;
-			}
-
-			if (scale.Y < 0)
-			{
-				mirroring = mirroring | SpriteEffects.FlipVertically;
-				scale.Y *= -1;
-				offset.Y = surf.Height;
-			}
-			// Proper negative scaling.
-
-			DrawRenderTarget(surf, pos, scale, rotation, offset, color, mirroring);
-		}
-		
-		public static void DrawSurface(RenderTarget2D surf, Vector2 pos, Vector2 scale, float rotation, Vector2 offset, Color color)
-		{
-			SwitchGraphicsMode(GraphicsMode.Sprites);
-			
-			var mirroring = SpriteEffects.None;
-
-			// Proper negative scaling.
-			var scaleOffset = Vector2.Zero;
-
-			if (scale.X < 0)
-			{
-				mirroring = mirroring | SpriteEffects.FlipHorizontally;
-				scale.X *= -1;
-				scaleOffset.X = surf.Width;
-			}
-
-			if (scale.Y < 0)
-			{
-				mirroring = mirroring | SpriteEffects.FlipVertically;
-				scale.Y *= -1;
-				scaleOffset.Y = surf.Height;
-			}
-			// Proper negative scaling.
-
-			DrawRenderTarget(surf, pos, scale, rotation, scaleOffset + offset, color, mirroring);
-		}
-
-		// Vectors.
-		
-		// Floats.
-
-		public static void DrawSurface(RenderTarget2D surf, float x, float y) =>
-			DrawSurface(surf, new Vector2(x, y));
-		
-		public static void DrawSurface(RenderTarget2D surf, float x, float y, float scaleX, float scaleY, float rotation, Color color) =>
-			DrawSurface(surf, new Vector2(x, y), new Vector2(scaleX, scaleY), rotation, color);
-
-		// Floats.
-
-		// Rectangles.
-
-		public static void DrawSurface(RenderTarget2D surf, Rectangle destRect)
-		{
-			SwitchGraphicsMode(GraphicsMode.Sprites);
-			Batch.Draw(surf, destRect, surf.Bounds, CurrentColor);
-		}
-		
-		public static void DrawSurface(RenderTarget2D surf, Rectangle destRect, float rotation, Color color)
-		{
-			SwitchGraphicsMode(GraphicsMode.Sprites);
-			Batch.Draw(
-				surf, 
-				destRect, 
-				surf.Bounds, 
-				color, 
-				rotation,
-				Vector2.Zero,
-				SpriteEffects.None, 
-				0
-			);
-		}
-
-		public static void DrawSurface(RenderTarget2D surf, Rectangle destRect, Rectangle srcRect)
-		{
-			SwitchGraphicsMode(GraphicsMode.Sprites);
-			
-			srcRect.X += surf.Bounds.X;
-			srcRect.Y += surf.Bounds.Y;
-
-			Batch.Draw(surf, destRect, srcRect, CurrentColor);
-		}
-		
-		public static void DrawSurface(RenderTarget2D surf, Rectangle destRect, Rectangle srcRect, float rotation, Color color)
-		{
-			SwitchGraphicsMode(GraphicsMode.Sprites);
-						
-			srcRect.X += surf.Bounds.X;
-			srcRect.Y += surf.Bounds.Y;
-
-			Batch.Draw(
-				surf, 
-				destRect, 
-				surf.Bounds, 
-				color, 
-				rotation, 
-				Vector2.Zero,
-				SpriteEffects.None, 
-				0
-			);
-		}
-
-		// Rectangles.
-
-
-		#endregion Surfaces.
 	}
 }
