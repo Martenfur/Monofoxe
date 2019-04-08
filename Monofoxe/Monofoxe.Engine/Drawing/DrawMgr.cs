@@ -570,30 +570,7 @@ namespace Monofoxe.Engine.Drawing
 
 		#region Sprites.
 
-		public static void DrawFrame(
-			Frame frame, 
-			Vector2 pos, 
-			Vector2 scale, 
-			float rotation, 
-			Vector2 offset, 
-			Color color, 
-			SpriteEffects effect
-		)
-		{
-			SwitchGraphicsMode(GraphicsMode.Sprites);
-
-			Batch.Draw(
-				frame.Texture, 
-				pos, 
-				frame.TexturePosition, 
-				color, 
-				MathHelper.ToRadians(rotation), 
-				offset + frame.Origin,
-				scale, 
-				effect, 
-				0
-			);
-		}
+		
 
 		/// <summary>
 		/// Returns sprite frame based on a value from 0 to 1.
@@ -615,53 +592,9 @@ namespace Monofoxe.Engine.Drawing
 		public static void DrawSprite(Sprite sprite, double animation, Vector2 pos, Vector2 offset, Vector2 scale, float rotation, Color color) =>
 			DrawFrame(CalculateSpriteFrame(sprite, animation), pos, sprite.Origin + offset, scale, rotation, color);
 
-		public static void DrawFrame(Frame frame, Vector2 pos, Vector2 offset) =>
-			DrawFrame(frame, pos, Vector2.One, 0, offset, CurrentColor, SpriteEffects.None);
-		
-		public static void DrawFrame(Frame frame, Vector2 pos, Vector2 offset, Vector2 scale, float rotation, Color color)
-		{
-			var mirroring = SpriteEffects.None;
-
-			offset += frame.Origin;
-
-			// Proper negative scaling.
-			if (scale.X < 0)
-			{
-				mirroring = mirroring | SpriteEffects.FlipHorizontally;
-				scale.X *= -1;
-				offset.X = frame.Width - offset.X;
-			}
-
-			if (scale.Y < 0)
-			{
-				mirroring = mirroring | SpriteEffects.FlipVertically;
-				scale.Y *= -1;
-				offset.Y = frame.Height - offset.Y;
-			}
-			// Proper negative scaling.
-
-			DrawFrame(frame, pos, scale, rotation, offset, color, mirroring);
-		}
-
 		// Vectors.
 		
-		public static void DrawSprite(Sprite sprite, float x, float y) =>
-			DrawSprite(sprite, new Vector2(x, y));
 		
-		public static void DrawSprite(Sprite sprite, double animation, float x, float y) =>
-			DrawSprite(sprite, animation, new Vector2(x, y));
-		
-		public static void DrawSprite(Sprite sprite, double animation, float x, float y, float scaleX, float scaleY, float rotation, Color color) =>
-			DrawSprite(sprite, animation, new Vector2(x, y), new Vector2(scaleX, scaleY), rotation, color);
-		
-		public static void DrawFrame(Frame frame, float x, float y, float offsetX, float offsetY) =>
-			DrawFrame(frame, new Vector2(x, y), new Vector2(offsetX, offsetY));
-		
-		public static void DrawFrame(Frame frame, float x, float y, float offsetX, float offsetY, float scaleX, float scaleY, float rotation, Color color) =>
-			DrawFrame(frame, new Vector2(x, y), new Vector2(offsetX, offsetY), new Vector2(scaleX, scaleY), rotation, color);
-		
-		// Floats.
-
 		// Rectangles.
 
 		public static void DrawSprite(Sprite sprite, double animation, Rectangle destRect) =>
@@ -675,48 +608,14 @@ namespace Monofoxe.Engine.Drawing
 
 		public static void DrawSprite(Sprite sprite, double animation, Rectangle destRect, Rectangle srcRect, float rotation, Color color) =>
 			DrawFrame(CalculateSpriteFrame(sprite, animation), destRect, srcRect, rotation, color);
-		
-		public static void DrawFrame(Frame frame, Rectangle destRect, float rotation, Color color)
-		{
-			SwitchGraphicsMode(GraphicsMode.Sprites);
-			
-			Batch.Draw(
-				frame.Texture, 
-				destRect, 
-				frame.TexturePosition, 
-				color, 
-				rotation,
-				// NOTE: Offsets are bugged in 3.6 and mess everything up. Disabled them for now.
-				Vector2.Zero, // offset + frame.Origin,
-				SpriteEffects.None, 
-				0
-			);
-		}
-
-		public static void DrawFrame(Frame frame, Rectangle destRect, Rectangle srcRect, float rotation, Color color)
-		{
-			SwitchGraphicsMode(GraphicsMode.Sprites);
-			
-			srcRect.X += frame.TexturePosition.X;
-			srcRect.Y += frame.TexturePosition.Y;
-
-			Batch.Draw(
-				frame.Texture,
-				destRect, 
-				srcRect, 
-				color, 
-				rotation, 
-				// NOTE: Offsets are bugged in 3.6 and mess everything up. Disabled them for now.
-				Vector2.Zero, // offset + frame.Origin,
-				SpriteEffects.None, 
-				0
-			);
-		}
 
 		// Rectangles.
-		
+
 		#endregion Sprites.
 
+
+
+		#region Surfaces.
 
 		/// <summary>
 		/// Sets surface as a render target.
@@ -772,7 +671,9 @@ namespace Monofoxe.Engine.Drawing
 
 			Device.SetRenderTarget(_currentSurface.RenderTarget);
 		}
-
+		
+		#endregion Surfaces.
+		
 		
 	}
 }
