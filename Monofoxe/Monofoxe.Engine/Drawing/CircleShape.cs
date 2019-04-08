@@ -20,7 +20,7 @@ namespace Monofoxe.Engine.Drawing
 			Position = position;
 			Radius = radius;
 			IsOutline = isOutline;
-			Color = DrawMgr.CurrentColor;
+			Color = GraphicsMgr.CurrentColor;
 		}
 
 		public void Draw() =>
@@ -53,13 +53,13 @@ namespace Monofoxe.Engine.Drawing
 		/// Draws a circle.
 		/// </summary>
 		public static void Draw(Vector2 p, float r, bool isOutline) =>
-			Draw(p.X, p.Y, r, isOutline, DrawMgr.CurrentColor);
+			Draw(p.X, p.Y, r, isOutline, GraphicsMgr.CurrentColor);
 		
 		/// <summary>
 		/// Draws a circle.
 		/// </summary>
 		public static void Draw(float x, float y, float r, bool isOutline) =>
-			Draw(x, y, r, isOutline, DrawMgr.CurrentColor);
+			Draw(x, y, r, isOutline, GraphicsMgr.CurrentColor);
 
 		/// <summary>
 		/// Draws a circle.
@@ -117,7 +117,7 @@ namespace Monofoxe.Engine.Drawing
 					)
 				);
 			}
-			DrawMgr.AddVertices(prType, null, vertices, indexArray);
+			GraphicsMgr.AddVertices(prType, null, vertices, indexArray);
 		}
 
 	}

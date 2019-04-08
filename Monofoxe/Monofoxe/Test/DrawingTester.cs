@@ -62,8 +62,8 @@ namespace Monofoxe.Test
 			//DrawMgr.Effect = Effects.Effect;
 			
 			//fireFrame
-			DrawMgr.CurrentColor = Color.White;
-			DrawMgr.DrawSprite(
+			GraphicsMgr.CurrentColor = Color.White;
+			GraphicsMgr.DrawSprite(
 				Default.DemonFire, 
 				0.5f, 
 				new Vector2(100, 100), 
@@ -80,14 +80,14 @@ namespace Monofoxe.Test
 			//DrawMgr.CurrentColor = Color.White;
 			//DrawMgr.DrawRectangle(0, 0, SpritesDefault.DemonFire.W, SpritesDefault.DemonFire.H, true);
 		
-			DrawMgr.CurrentColor = Color.Aqua;
+			GraphicsMgr.CurrentColor = Color.Aqua;
 			
 			
-			DrawMgr.CurrentEffect = Effects.BW;
+			GraphicsMgr.CurrentEffect = Effects.BW;
 			var p = new Vector2(50, 200);
 			for(var i = 0; i < 8; i += 1)
 			{
-				DrawMgr.DrawSprite(
+				GraphicsMgr.DrawSprite(
 					testSpr, 
 					0.75f, 
 					p + 
@@ -99,24 +99,24 @@ namespace Monofoxe.Test
 				);
 			}
 			
-			DrawMgr.CurrentColor = Color.Violet * 0.5f;
+			GraphicsMgr.CurrentColor = Color.Violet * 0.5f;
 			//DrawMgr.DrawRectangle(0, 0, 300, 300, false);
 
-			DrawMgr.CurrentEffect = null;
-			DrawMgr.CurrentFont = Fonts.Arial;
+			GraphicsMgr.CurrentEffect = null;
+			GraphicsMgr.CurrentFont = Fonts.Arial;
 			
-			DrawMgr.CurrentColor = Color.White * 0.5f;//new Color(0.5f, 0.5f, 0.5f, 0.5f);
+			GraphicsMgr.CurrentColor = Color.White * 0.5f;//new Color(0.5f, 0.5f, 0.5f, 0.5f);
 			CircleShape.Draw(Input.MousePosition, 2, false);
-			DrawMgr.CurrentColor = Color.Green;//Color.Red * 0.5f;
+			GraphicsMgr.CurrentColor = Color.Green;//Color.Red * 0.5f;
 			
 
-			DrawMgr.DrawSprite(Default.Flare, 400, 100);
-			DrawMgr.DrawText("test", 100, 100);
-			DrawMgr.DrawSprite(Default.Flare, 400, 200);
+			GraphicsMgr.DrawSprite(Default.Flare, 400, 100);
+			GraphicsMgr.DrawText("test", 100, 100);
+			GraphicsMgr.DrawSprite(Default.Flare, 400, 200);
 
 			
-			DrawMgr.CurrentColor = new Color(255, 0, 255, 255);
-			DrawMgr.DrawSprite(Default.Flare, 400, 300);
+			GraphicsMgr.CurrentColor = new Color(255, 0, 255, 255);
+			GraphicsMgr.DrawSprite(Default.Flare, 400, 300);
 
 			CircleShape.Draw(500, 100, 32, false);
 			RectangleShape.Draw(500, 200, 532, 232, false);

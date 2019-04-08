@@ -11,7 +11,7 @@ namespace Monofoxe.Engine.Drawing
 		public Vertex(Vector2 position)
 		{
 			Position = position;
-			Color = DrawMgr.CurrentColor;
+			Color = GraphicsMgr.CurrentColor;
 			TexturePosition = Vector2.Zero;
 		}
 

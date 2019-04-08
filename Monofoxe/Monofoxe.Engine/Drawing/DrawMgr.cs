@@ -9,7 +9,7 @@ using Monofoxe.Engine.Utils.Cameras;
 namespace Monofoxe.Engine.Drawing
 {
 
-	public static class DrawMgr
+	public static class GraphicsMgr
 	{
 		private const int _vertexBufferSize = 320000;	// TODO: Figure out, if this value is actually ok.
 
@@ -39,6 +39,7 @@ namespace Monofoxe.Engine.Drawing
 		
 		/// <summary>
 		/// Current drawing color. Affects shapes, sprites, text and primitives.
+		/// TODO: Update description.
 		/// </summary>
 		public static Color CurrentColor = Color.White;
 
@@ -163,16 +164,7 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public static Matrix CanvasMatrix = Matrix.CreateTranslation(Vector3.Zero); //We need zero matrix here, or else mouse position will derp out.
 		
-
 		
-		
-		// Text.
-		public static IFont CurrentFont;
-
-		public static TextAlign HorAlign = TextAlign.Left;
-		public static TextAlign VerAlign = TextAlign.Top;
-		// Text.
-
 		/// <summary>
 		/// Used to load default shader.
 		/// </summary>
@@ -724,92 +716,6 @@ namespace Monofoxe.Engine.Drawing
 		// Rectangles.
 		
 		#endregion Sprites.
-
-
-
-
-
-
-		#region Text.
-
-		/// <summary>
-		/// Draws text in specified coordinates.
-		/// </summary>
-		public static void DrawText(string text, float x, float y) => 
-			DrawText(text, new Vector2(x, y));
-		
-		/// <summary>
-		/// Draws text in specified coordinates.
-		/// </summary>
-		public static void DrawText(string text, Vector2 pos)
-		{
-			if (CurrentFont == null)
-			{
-				throw new NullReferenceException("CurrentFont is null! Did you forgot to set a font?");
-			}
-
-			/*
-			 * Font is a wrapper for MG's SpriteFont, which uses non-premultiplied alpha.
-			 * Using GraphicsMode.Sprites will result in black pixels everywhere.
-			 * TextureFont, on the other hand, is just a bunch of regular sprites, 
-			 * so it's fine to draw with sprite mode.
-			 */
-			if (CurrentFont is Font)
-			{
-				SwitchGraphicsMode(GraphicsMode.SpritesNonPremultiplied);
-			}
-			else
-			{
-				SwitchGraphicsMode(GraphicsMode.Sprites);	
-			}
-			CurrentFont.Draw(Batch, text, pos, HorAlign, VerAlign);
-		}
-
-		/// <summary>
-		/// Draws text in specified coordinates with rotation, scale and origin.
-		/// </summary>
-		public static void DrawText(string text, Vector2 pos, Vector2 scale, Vector2 origin, float rot = 0) => 
-			DrawText(text, pos.X, pos.Y, scale.X, scale.Y, origin.X, origin.Y, rot);
-
-		/// <summary>
-		/// Draws text in specified coordinates with rotation, scale and origin.
-		/// </summary>
-		public static void DrawText(string text, float x, float y, float scaleX, float scaleY, float originX = 0, float originY = 0, float rot = 0)
-		{
-			if (CurrentFont == null)
-			{
-				throw new NullReferenceException("CurrentFont is null! Did you forgot to set a font?");
-			}
-
-			Matrix transformMatrix = 
-				Matrix.CreateTranslation(new Vector3(-originX, -originY, 0)) * // Origin.
-				Matrix.CreateRotationZ(MathHelper.ToRadians(-rot)) *		       // Rotation.
-				Matrix.CreateScale(new Vector3(scaleX, scaleY, 1)) *	         // Scale.
-				Matrix.CreateTranslation(new Vector3(x, y, 0));                // Position.
-			
-			AddTransformMatrix(transformMatrix);
-			
-			/*
-			 * Font is a wrapper for MG's SpriteFont, which uses non-premultiplied alpha.
-			 * Using GraphicsMode.Sprites will result in black pixels everywhere.
-			 * TextureFont, on the other hand, is just regular sprites, so it's fine to 
-			 * draw with sprite mode.
-			 */
-			if (CurrentFont is Font)
-			{
-				SwitchGraphicsMode(GraphicsMode.SpritesNonPremultiplied);
-			}
-			else
-			{
-				SwitchGraphicsMode(GraphicsMode.Sprites);	
-			}
-
-			CurrentFont.Draw(Batch, text, Vector2.Zero, HorAlign, VerAlign);
-			
-			ResetTransformMatrix();
-		}
-
-		#endregion Text.
 
 
 

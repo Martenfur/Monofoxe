@@ -50,7 +50,7 @@ namespace Monofoxe
 			Maps.Load();
 
 			EntityTemplateMgr.LoadEntityTemplates();
-			DrawMgr.Init(GraphicsDevice);
+			GraphicsMgr.Init(GraphicsDevice);
 		}
 
 		/// <summary>

@@ -73,10 +73,10 @@ namespace Monofoxe.ECSTest.Systems
 			var collider = (CCollision)component;
 			var movement = collider.Owner.GetComponent<CMovement>();
 
-			DrawMgr.CurrentColor = new Color(255, 255, 255, 255);//Red * 0.5f;
+			GraphicsMgr.CurrentColor = new Color(255, 255, 255, 255);//Red * 0.5f;
 			
 			//DrawMgr.DrawCircle(movement[id].Position, collider.MaskR, true);
-			DrawMgr.DrawSprite(movement.Spr, movement.Position);
+			GraphicsMgr.DrawSprite(movement.Spr, movement.Position);
 		}
 	}
 }

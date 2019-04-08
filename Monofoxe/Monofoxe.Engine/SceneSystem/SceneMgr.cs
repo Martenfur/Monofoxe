@@ -278,20 +278,20 @@ namespace Monofoxe.Engine.SceneSystem
 						if (
 							layer.Visible && 
 							!layer.IsGUI && 
-							!DrawMgr.CurrentCamera.Filter(scene.Name, layer.Name)
+							!GraphicsMgr.CurrentCamera.Filter(scene.Name, layer.Name)
 						)
 						{
 							CurrentLayer = layer;
 
 							bool hasPostprocessing = (
-								DrawMgr.CurrentCamera.PostprocessingMode == PostprocessingMode.CameraAndLayers 
+								GraphicsMgr.CurrentCamera.PostprocessingMode == PostprocessingMode.CameraAndLayers 
 								&& layer.PostprocessorEffects.Count > 0
 							);
 
 							if (hasPostprocessing)
 							{
-								DrawMgr.SetSurfaceTarget(DrawMgr.CurrentCamera._postprocessorLayerBuffer, DrawMgr.CurrentTransformMatrix);
-								DrawMgr.Device.Clear(Color.TransparentBlack);
+								GraphicsMgr.SetSurfaceTarget(GraphicsMgr.CurrentCamera._postprocessorLayerBuffer, GraphicsMgr.CurrentTransformMatrix);
+								GraphicsMgr.Device.Clear(Color.TransparentBlack);
 							}
 
 							foreach(var entity in layer._depthSortedEntities)
@@ -311,14 +311,14 @@ namespace Monofoxe.Engine.SceneSystem
 
 							if (hasPostprocessing)
 							{
-								DrawMgr.ResetSurfaceTarget();
+								GraphicsMgr.ResetSurfaceTarget();
 
-								var oldRasterizer = DrawMgr.Rasterizer;
-								DrawMgr.Rasterizer = DrawMgr._cameraRasterizerState;
-								DrawMgr.SetTransformMatrix(Matrix.CreateTranslation(Vector3.Zero));
+								var oldRasterizer = GraphicsMgr.Rasterizer;
+								GraphicsMgr.Rasterizer = GraphicsMgr._cameraRasterizerState;
+								GraphicsMgr.SetTransformMatrix(Matrix.CreateTranslation(Vector3.Zero));
 								layer.ApplyPostprocessing();
-								DrawMgr.ResetTransformMatrix();
-								DrawMgr.Rasterizer = oldRasterizer;
+								GraphicsMgr.ResetTransformMatrix();
+								GraphicsMgr.Rasterizer = oldRasterizer;
 							}
 
 						}

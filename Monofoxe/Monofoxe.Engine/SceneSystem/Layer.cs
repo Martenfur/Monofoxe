@@ -242,41 +242,41 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		internal void ApplyPostprocessing()
 		{
-			var camera = DrawMgr.CurrentCamera;
+			var camera = GraphicsMgr.CurrentCamera;
 			
 			var sufraceChooser = false;
 				
 			for(var i = 0; i < PostprocessorEffects.Count - 1; i += 1)
 			{
-				DrawMgr.CurrentEffect = PostprocessorEffects[i];
+				GraphicsMgr.CurrentEffect = PostprocessorEffects[i];
 				if (sufraceChooser)
 				{
-					DrawMgr.SetSurfaceTarget(camera._postprocessorLayerBuffer);
-					DrawMgr.Device.Clear(Color.TransparentBlack);
-					DrawMgr.DrawSurface(camera._postprocessorBuffer, Vector2.Zero, Vector2.One, 0, Color.White);
+					GraphicsMgr.SetSurfaceTarget(camera._postprocessorLayerBuffer);
+					GraphicsMgr.Device.Clear(Color.TransparentBlack);
+					GraphicsMgr.DrawSurface(camera._postprocessorBuffer, Vector2.Zero, Vector2.One, 0, Color.White);
 				}
 				else
 				{
-					DrawMgr.SetSurfaceTarget(camera._postprocessorBuffer);
-					DrawMgr.Device.Clear(Color.TransparentBlack);
-					DrawMgr.DrawSurface(camera._postprocessorLayerBuffer, Vector2.Zero, Vector2.One, 0, Color.White);
+					GraphicsMgr.SetSurfaceTarget(camera._postprocessorBuffer);
+					GraphicsMgr.Device.Clear(Color.TransparentBlack);
+					GraphicsMgr.DrawSurface(camera._postprocessorLayerBuffer, Vector2.Zero, Vector2.One, 0, Color.White);
 				}
 				
-				DrawMgr.ResetSurfaceTarget();
+				GraphicsMgr.ResetSurfaceTarget();
 				sufraceChooser = !sufraceChooser;
 			}
 			
-			DrawMgr.CurrentEffect = PostprocessorEffects[PostprocessorEffects.Count - 1];
+			GraphicsMgr.CurrentEffect = PostprocessorEffects[PostprocessorEffects.Count - 1];
 			if ((PostprocessorEffects.Count % 2) != 0)
 			{
-				DrawMgr.DrawSurface(camera._postprocessorLayerBuffer, Vector2.Zero, Vector2.One, 0, Color.White);
+				GraphicsMgr.DrawSurface(camera._postprocessorLayerBuffer, Vector2.Zero, Vector2.One, 0, Color.White);
 			}
 			else
 			{
-				DrawMgr.DrawSurface(camera._postprocessorBuffer, Vector2.Zero, Vector2.One, 0, Color.White);
+				GraphicsMgr.DrawSurface(camera._postprocessorBuffer, Vector2.Zero, Vector2.One, 0, Color.White);
 			}
 
-			DrawMgr.CurrentEffect = null;
+			GraphicsMgr.CurrentEffect = null;
 		}
 		
 

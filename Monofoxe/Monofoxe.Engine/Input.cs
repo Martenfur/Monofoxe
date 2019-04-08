@@ -122,7 +122,7 @@ namespace Monofoxe.Engine
 
 			MouseState mouseState = Mouse.GetState();
 			
-			var m = Matrix.Invert(DrawMgr.CanvasMatrix);
+			var m = Matrix.Invert(GraphicsMgr.CanvasMatrix);
 			var buffer = Vector3.Transform(new Vector3(mouseState.X, mouseState.Y, 0), m);
 			ScreenMousePosition = new Vector2(buffer.X, buffer.Y);
 			

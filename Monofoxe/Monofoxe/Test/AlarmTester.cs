@@ -62,13 +62,13 @@ namespace Monofoxe.Test
 
 		public override void Draw()
 		{
-			DrawMgr.DrawSprite(spr, 0, 200, 100, scale * 0.5f, 0.5f, 0, Color.White);
-			DrawMgr.DrawSprite(spr, 0, 200, 300, scale1 * 0.5f, 0.5f, 0, Color.White);
+			GraphicsMgr.DrawSprite(spr, 0, 200, 100, scale * 0.5f, 0.5f, 0, Color.White);
+			GraphicsMgr.DrawSprite(spr, 0, 200, 300, scale1 * 0.5f, 0.5f, 0, Color.White);
 
-			DrawMgr.CurrentColor = Color.White;
-			DrawMgr.CurrentFont = Resources.Fonts.Arial;
+			GraphicsMgr.CurrentColor = Color.White;
+			GraphicsMgr.CurrentFont = Resources.Fonts.Arial;
 
-			DrawMgr.DrawText("Normal: " + timer.Counter + "\nSlow: " + slowTimer.Counter, 32, 32);
+			GraphicsMgr.DrawText("Normal: " + timer.Counter + "\nSlow: " + slowTimer.Counter, 32, 32);
 		}
 
 	}

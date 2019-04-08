@@ -26,7 +26,7 @@ namespace Monofoxe.ECSTest.Systems
 			var birb = (CBirb)component;
 
 			birb.Owner.Depth = -(int)birb.Position.Y;
-			DrawMgr.DrawSprite(birb.Spr, birb.Position);
+			GraphicsMgr.DrawSprite(birb.Spr, birb.Position);
 		}
 	}
 }

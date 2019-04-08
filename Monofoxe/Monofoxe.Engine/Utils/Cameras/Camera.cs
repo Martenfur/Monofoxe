@@ -317,21 +317,21 @@ namespace Monofoxe.Engine.Utils.Cameras
 				
 				for(var i = 0; i < PostprocessorEffects.Count - 1; i += 1)
 				{
-					DrawMgr.CurrentEffect = PostprocessorEffects[i];
+					GraphicsMgr.CurrentEffect = PostprocessorEffects[i];
 					if (sufraceChooser)
 					{
-						DrawMgr.SetSurfaceTarget(Surface);
-						DrawMgr.Device.Clear(Color.TransparentBlack);
-						DrawMgr.DrawSurface(_postprocessorBuffer, Vector2.Zero);
+						GraphicsMgr.SetSurfaceTarget(Surface);
+						GraphicsMgr.Device.Clear(Color.TransparentBlack);
+						GraphicsMgr.DrawSurface(_postprocessorBuffer, Vector2.Zero);
 					}
 					else
 					{
-						DrawMgr.SetSurfaceTarget(_postprocessorBuffer);
-						DrawMgr.Device.Clear(Color.TransparentBlack);
-						DrawMgr.DrawSurface(Surface, Vector2.Zero);
+						GraphicsMgr.SetSurfaceTarget(_postprocessorBuffer);
+						GraphicsMgr.Device.Clear(Color.TransparentBlack);
+						GraphicsMgr.DrawSurface(Surface, Vector2.Zero);
 					}
 					
-					DrawMgr.ResetSurfaceTarget();
+					GraphicsMgr.ResetSurfaceTarget();
 					sufraceChooser = !sufraceChooser;
 				}
 				
@@ -342,7 +342,7 @@ namespace Monofoxe.Engine.Utils.Cameras
 					Surface = _postprocessorBuffer;
 					_postprocessorBuffer = buffer;
 				}
-				DrawMgr.CurrentEffect = PostprocessorEffects[PostprocessorEffects.Count - 1];
+				GraphicsMgr.CurrentEffect = PostprocessorEffects[PostprocessorEffects.Count - 1];
 			}
 		}
 
@@ -350,7 +350,7 @@ namespace Monofoxe.Engine.Utils.Cameras
 		{
 			ApplyPostprocessing();
 
-			DrawMgr.DrawSurface(
+			GraphicsMgr.DrawSurface(
 				Surface, 
 				PortPosition, 
 				Vector2.One * PortScale,
@@ -358,17 +358,17 @@ namespace Monofoxe.Engine.Utils.Cameras
 				PortOffset, 
 				Color.White
 			);
-			DrawMgr.CurrentEffect = null;
+			GraphicsMgr.CurrentEffect = null;
 		}
 
 		private RenderTarget2D CreateSurface(int w, int h)
 		{
 			return new RenderTarget2D(
-				DrawMgr.Device, 
+				GraphicsMgr.Device, 
 				w, h, 
 				false,
-				DrawMgr.Device.PresentationParameters.BackBufferFormat,
-				DrawMgr.Device.PresentationParameters.DepthStencilFormat, 
+				GraphicsMgr.Device.PresentationParameters.BackBufferFormat,
+				GraphicsMgr.Device.PresentationParameters.DepthStencilFormat, 
 				0, 
 				RenderTargetUsage.PreserveContents
 			);
