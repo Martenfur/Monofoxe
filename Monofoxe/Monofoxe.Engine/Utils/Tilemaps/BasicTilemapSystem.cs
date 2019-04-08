@@ -19,11 +19,11 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 		{
 			var tilemap = (BasicTilemapComponent)component;
 
-			var offsetCameraPos = DrawMgr.CurrentCamera.Position
+			var offsetCameraPos = GraphicsMgr.CurrentCamera.Position
 				- tilemap.Offset
-				- DrawMgr.CurrentCamera.Offset / DrawMgr.CurrentCamera.Zoom;
+				- GraphicsMgr.CurrentCamera.Offset / GraphicsMgr.CurrentCamera.Zoom;
 
-			var scaledCameraSize = DrawMgr.CurrentCamera.Size / DrawMgr.CurrentCamera.Zoom;
+			var scaledCameraSize = GraphicsMgr.CurrentCamera.Size / GraphicsMgr.CurrentCamera.Zoom;
 			var startX = (int)(offsetCameraPos.X / tilemap.TileWidth) - tilemap.Padding;
 			var startY = (int)(offsetCameraPos.Y / tilemap.TileHeight) - tilemap.Padding;
 
@@ -53,7 +53,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 
 			// Telling whatever is waiting to be drawn to draw itself.
 			// If graphics mode is not switched, drawing raw sprite batch may interfere with primitives.
-			DrawMgr.SwitchGraphicsMode(GraphicsMode.Sprites); 
+			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites); 
 
 			for(var y = startY; y < endY; y += 1)
 			{
@@ -120,7 +120,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 							// A bunch of Tiled magic.
 
 							// Mass-drawing srpites with spritebatch is a bit faster.
-							DrawMgr.Batch.Draw(
+							GraphicsMgr.Batch.Draw(
 								tilesetTile.Frame.Texture,
 								tilemap.Offset + new Vector2(tilemap.TileWidth * x, tilemap.TileHeight * y) - offset + tile.Tileset.Offset,
 								tilesetTile.Frame.TexturePosition,

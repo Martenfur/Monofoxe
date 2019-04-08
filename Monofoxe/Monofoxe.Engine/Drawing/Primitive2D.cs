@@ -78,7 +78,7 @@ namespace Monofoxe.Engine.Drawing
 		
 		public void Draw()
 		{
-			DrawMgr.AddVertices(
+			GraphicsMgr.AddVertices(
 				_type, 
 				_texture, 
 				GetConvertedVertices(), 

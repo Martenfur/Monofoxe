@@ -34,7 +34,7 @@ namespace Monofoxe.Engine.Drawing
 			Point1 = point1;
 			Point2 = point2;
 			Thickness = thickness;
-			Color = DrawMgr.CurrentColor;
+			Color = GraphicsMgr.CurrentColor;
 		}
 
 		public void Draw() =>
@@ -48,7 +48,7 @@ namespace Monofoxe.Engine.Drawing
 		/// Draws a line with specified width.
 		/// </summary>
 		public static void Draw(Vector2 pt1, Vector2 pt2, float thickness) =>
-			Draw(pt1.X, pt1.Y, pt2.X, pt2.Y, thickness, DrawMgr.CurrentColor, DrawMgr.CurrentColor);
+			Draw(pt1.X, pt1.Y, pt2.X, pt2.Y, thickness, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor);
 
 		/// <summary>
 		/// Draws a line with specified width and colors.
@@ -60,7 +60,7 @@ namespace Monofoxe.Engine.Drawing
 		/// Draws a line with specified width.
 		/// </summary>
 		public static void Draw(float x1, float y1, float x2, float y2, float thickness) =>
-			Draw(x1, y1, x2, y2, thickness, DrawMgr.CurrentColor, DrawMgr.CurrentColor);
+			Draw(x1, y1, x2, y2, thickness, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor);
 	
 
 		/// <summary>
@@ -80,7 +80,7 @@ namespace Monofoxe.Engine.Drawing
 				new VertexPositionColorTexture(new Vector3(x2, y2, 0) + normal, c2, Vector2.Zero)
 			};
 
-			DrawMgr.AddVertices(GraphicsMode.TrianglePrimitives, null, vertices, _thickLineIndices); // Thick line is in fact just a rotated rectangle.
+			GraphicsMgr.AddVertices(GraphicsMode.TrianglePrimitives, null, vertices, _thickLineIndices); // Thick line is in fact just a rotated rectangle.
 		}
 		
 	}

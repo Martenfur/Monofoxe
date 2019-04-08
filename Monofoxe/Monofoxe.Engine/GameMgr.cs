@@ -147,7 +147,7 @@ namespace Monofoxe.Engine
 				_fpsCount = 0;
 			}
 
-			DrawMgr.Update(gameTime);
+			GraphicsMgr.Update(gameTime);
 		}
 		
 

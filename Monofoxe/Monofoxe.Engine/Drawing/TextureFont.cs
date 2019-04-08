@@ -207,7 +207,7 @@ namespace Monofoxe.Engine.Drawing
 
 
 		/// <summary>
-		/// Draws text. Not recommended to call on its own, use DrawMgr functions instead.
+		/// Draws text. Not recommended to call on its own, use Text class instead.
 		/// </summary>
 		public void Draw(SpriteBatch batch, string text, Vector2 position, TextAlign halign, TextAlign valign)
 		{
@@ -240,7 +240,7 @@ namespace Monofoxe.Engine.Drawing
 					var border = new Vector2(-glyph.LeftSideBearing, 0);
 					var lineOffset = new Vector2(strSize.X * align.X, textH * align.Y);
 					
-					batch.Draw(frame.Texture, position + offset + frame.Origin + border - lineOffset, frame.TexturePosition, DrawMgr.CurrentColor);
+					batch.Draw(frame.Texture, position + offset + frame.Origin + border - lineOffset, frame.TexturePosition, GraphicsMgr.CurrentColor);
 					offset.X += glyph.Width + Spacing;
 				}
 				offset.X = 0;

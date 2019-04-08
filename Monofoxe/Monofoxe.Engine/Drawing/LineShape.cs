@@ -28,7 +28,7 @@ namespace Monofoxe.Engine.Drawing
 			Position = position;
 			Point1 = point1;
 			Point2 = point2;
-			Color = DrawMgr.CurrentColor;
+			Color = GraphicsMgr.CurrentColor;
 		}
 
 		public void Draw() =>
@@ -42,7 +42,7 @@ namespace Monofoxe.Engine.Drawing
 		/// Draws a line.
 		/// </summary>
 		public static void Draw(Vector2 p1, Vector2 p2) =>
-			Draw(p1.X, p1.Y, p2.X, p2.Y, DrawMgr.CurrentColor, DrawMgr.CurrentColor);
+			Draw(p1.X, p1.Y, p2.X, p2.Y, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor);
 
 		/// <summary>
 		/// Draws a line with specified colors.
@@ -54,7 +54,7 @@ namespace Monofoxe.Engine.Drawing
 		/// Draws a line.
 		/// </summary>
 		public static void Draw(float x1, float y1, float x2, float y2) =>
-			Draw(x1, y1, x2, y2, DrawMgr.CurrentColor, DrawMgr.CurrentColor);
+			Draw(x1, y1, x2, y2, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor);
 		
 		/// <summary>
 		/// Draws a line with specified colors.
@@ -68,7 +68,7 @@ namespace Monofoxe.Engine.Drawing
 			};
 			
 
-			DrawMgr.AddVertices(GraphicsMode.LinePrimitives, null, vertices, new short[]{0, 1});
+			GraphicsMgr.AddVertices(GraphicsMode.LinePrimitives, null, vertices, new short[]{0, 1});
 		}
 		
 		

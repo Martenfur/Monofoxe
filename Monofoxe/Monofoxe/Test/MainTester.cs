@@ -225,9 +225,9 @@ namespace Monofoxe.Test
 			rasterizerState.ScissorTestEnable = false;
 			rasterizerState.FillMode = FillMode.Solid;
 			
-			DrawMgr.Rasterizer = rasterizerState;
+			GraphicsMgr.Rasterizer = rasterizerState;
 
-			DrawMgr.Sampler = SamplerState.PointClamp;
+			GraphicsMgr.Sampler = SamplerState.PointClamp;
 		}
 
 	}
