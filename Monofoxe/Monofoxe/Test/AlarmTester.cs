@@ -66,9 +66,9 @@ namespace Monofoxe.Test
 			GraphicsMgr.DrawSprite(spr, 0, 200, 300, scale1 * 0.5f, 0.5f, 0, Color.White);
 
 			GraphicsMgr.CurrentColor = Color.White;
-			GraphicsMgr.CurrentFont = Resources.Fonts.Arial;
+			Text.CurrentFont = Resources.Fonts.Arial;
 
-			GraphicsMgr.DrawText("Normal: " + timer.Counter + "\nSlow: " + slowTimer.Counter, 32, 32);
+			Text.Draw("Normal: " + timer.Counter + "\nSlow: " + slowTimer.Counter, 32, 32);
 		}
 
 	}

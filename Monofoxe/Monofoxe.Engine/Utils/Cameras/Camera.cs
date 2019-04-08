@@ -84,7 +84,7 @@ namespace Monofoxe.Engine.Utils.Cameras
 		/// Camera surface. Everything will be drawn on it.
 		/// NOTE: This reference can change to another surface!
 		/// </summary>
-		public RenderTarget2D Surface {get; private set;}
+		public Surface Surface {get; private set;}
 
 		/// <summary>
 		/// Background color for a view surface.
@@ -144,7 +144,7 @@ namespace Monofoxe.Engine.Utils.Cameras
 
 					if (_postprocessingMode != PostprocessingMode.None)
 					{
-						_postprocessorBuffer = CreateSurface(Surface.Width, Surface.Height);
+						_postprocessorBuffer = new Surface(Surface.Width, Surface.Height);
 					}
 					else
 					{
@@ -154,7 +154,7 @@ namespace Monofoxe.Engine.Utils.Cameras
 
 					if (_postprocessingMode == PostprocessingMode.CameraAndLayers)
 					{
-						_postprocessorLayerBuffer = CreateSurface(Surface.Width, Surface.Height);
+						_postprocessorLayerBuffer = new Surface(Surface.Width, Surface.Height);
 					}
 					else
 					{
@@ -167,13 +167,13 @@ namespace Monofoxe.Engine.Utils.Cameras
 
 		private PostprocessingMode _postprocessingMode = PostprocessingMode.None;
 
-		internal RenderTarget2D _postprocessorBuffer;
-		internal RenderTarget2D _postprocessorLayerBuffer;
+		internal Surface _postprocessorBuffer;
+		internal Surface _postprocessorLayerBuffer;
 
 
 		public Camera(int w, int h, int priority = 0)
 		{
-			Surface = CreateSurface(w, h);
+			Surface = new Surface(w, h);
 			
 			Priority = priority; // Also adds camera to camera list.
 		}
@@ -181,11 +181,8 @@ namespace Monofoxe.Engine.Utils.Cameras
 		/// <summary>
 		/// Resizes the view.
 		/// </summary>
-		public void Resize(int w, int h)
-		{
-			Surface.Dispose();
-			Surface = CreateSurface(w, h);
-		}
+		public void Resize(int w, int h) =>
+			Surface.Resize(w, h);
 
 		/// <summary>
 		/// Removes camera from draw controller list and disposes surface.
@@ -322,13 +319,13 @@ namespace Monofoxe.Engine.Utils.Cameras
 					{
 						GraphicsMgr.SetSurfaceTarget(Surface);
 						GraphicsMgr.Device.Clear(Color.TransparentBlack);
-						GraphicsMgr.DrawSurface(_postprocessorBuffer, Vector2.Zero);
+						_postprocessorBuffer.Draw(Vector2.Zero);
 					}
 					else
 					{
 						GraphicsMgr.SetSurfaceTarget(_postprocessorBuffer);
 						GraphicsMgr.Device.Clear(Color.TransparentBlack);
-						GraphicsMgr.DrawSurface(Surface, Vector2.Zero);
+						Surface.Draw(Vector2.Zero);
 					}
 					
 					GraphicsMgr.ResetSurfaceTarget();
@@ -350,8 +347,7 @@ namespace Monofoxe.Engine.Utils.Cameras
 		{
 			ApplyPostprocessing();
 
-			GraphicsMgr.DrawSurface(
-				Surface, 
+			Surface.Draw(
 				PortPosition, 
 				Vector2.One * PortScale,
 				PortRotation, 
@@ -359,19 +355,6 @@ namespace Monofoxe.Engine.Utils.Cameras
 				Color.White
 			);
 			GraphicsMgr.CurrentEffect = null;
-		}
-
-		private RenderTarget2D CreateSurface(int w, int h)
-		{
-			return new RenderTarget2D(
-				GraphicsMgr.Device, 
-				w, h, 
-				false,
-				GraphicsMgr.Device.PresentationParameters.BackBufferFormat,
-				GraphicsMgr.Device.PresentationParameters.DepthStencilFormat, 
-				0, 
-				RenderTargetUsage.PreserveContents
-			);
 		}
 
 	}

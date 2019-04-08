@@ -61,6 +61,7 @@
     <Compile Include="Converters\SpriteConverter.cs" />
     <Compile Include="Converters\Vector2Converter.cs" />
     <Compile Include="Converters\Vector3Converter.cs" />
+    <Compile Include="Drawing\Surface.cs" />
     <Compile Include="Drawing\Text.cs" />
     <Compile Include="Drawing\CircleShape.cs" />
     <Compile Include="Drawing\CustomTrianglePrimitive.cs" />
