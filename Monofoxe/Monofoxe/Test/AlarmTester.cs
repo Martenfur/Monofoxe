@@ -62,8 +62,8 @@ namespace Monofoxe.Test
 
 		public override void Draw()
 		{
-			GraphicsMgr.DrawSprite(spr, 0, 200, 100, scale * 0.5f, 0.5f, 0, Color.White);
-			GraphicsMgr.DrawSprite(spr, 0, 200, 300, scale1 * 0.5f, 0.5f, 0, Color.White);
+			//spr.Draw(0, 200, 100, scale * 0.5f, 0.5f, 0, Color.White);
+			//GraphicsMgr.DrawSprite(spr, 0, 200, 300, scale1 * 0.5f, 0.5f, 0, Color.White);
 
 			GraphicsMgr.CurrentColor = Color.White;
 			Text.CurrentFont = Resources.Fonts.Arial;

@@ -55,7 +55,7 @@ namespace Monofoxe.Engine.ContentReaders
 					frames[k] = new Frame(
 						textures[textureIndex], 
 						frameTexturePos, 
-						Vector2.Zero, 
+						Vector2.Zero
 					);
 				}
 				dictionary.Add(spriteName, new Sprite(frames, spriteOrigin));

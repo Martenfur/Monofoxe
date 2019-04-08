@@ -282,7 +282,7 @@ namespace Monofoxe.Engine.Drawing
 					Input.MousePosition = camera.GetRelativeMousePosition();
 
 					SetSurfaceTarget(camera.Surface, camera.TransformMatrix);
-
+					Console.WriteLine((_currentSurface == null) + " WOT");
 					if (camera.ClearBackground)
 					{
 						Device.Clear(camera.BackgroundColor);
@@ -568,51 +568,7 @@ namespace Monofoxe.Engine.Drawing
 
 
 
-		#region Sprites.
-
 		
-
-		/// <summary>
-		/// Returns sprite frame based on a value from 0 to 1.
-		/// </summary>
-		public static Frame CalculateSpriteFrame(Sprite sprite, double animation) =>
-			sprite.Frames[Math.Max(0, Math.Min(sprite.Frames.Length - 1, (int)(animation * sprite.Frames.Length)))];
-		
-		// Vectors.
-
-		public static void DrawSprite(Sprite sprite, Vector2 pos) =>
-			DrawFrame(sprite.Frames[0], pos, Vector2.One, 0, sprite.Origin, CurrentColor, SpriteEffects.None);
-		
-		public static void DrawSprite(Sprite sprite, double animation, Vector2 pos) =>
-			DrawFrame(CalculateSpriteFrame(sprite, animation), pos, sprite.Origin);
-		
-		public static void DrawSprite(Sprite sprite, double animation, Vector2 pos, Vector2 scale, float rotation, Color color) =>
-			DrawFrame(CalculateSpriteFrame(sprite, animation), pos, sprite.Origin, scale, rotation, color);
-		
-		public static void DrawSprite(Sprite sprite, double animation, Vector2 pos, Vector2 offset, Vector2 scale, float rotation, Color color) =>
-			DrawFrame(CalculateSpriteFrame(sprite, animation), pos, sprite.Origin + offset, scale, rotation, color);
-
-		// Vectors.
-		
-		
-		// Rectangles.
-
-		public static void DrawSprite(Sprite sprite, double animation, Rectangle destRect) =>
-			DrawFrame(CalculateSpriteFrame(sprite, animation), destRect, 0, CurrentColor);
-
-		public static void DrawSprite(Sprite sprite, double animation, Rectangle destRect, float rotation, Color color) =>
-			DrawFrame(CalculateSpriteFrame(sprite, animation), destRect, rotation, color);
-
-		public static void DrawSprite(Sprite sprite, double animation, Rectangle destRect, Rectangle srcRect) =>
-			DrawFrame(CalculateSpriteFrame(sprite, animation), destRect, srcRect, 0, CurrentColor);
-
-		public static void DrawSprite(Sprite sprite, double animation, Rectangle destRect, Rectangle srcRect, float rotation, Color color) =>
-			DrawFrame(CalculateSpriteFrame(sprite, animation), destRect, srcRect, rotation, color);
-
-		// Rectangles.
-
-		#endregion Sprites.
-
 
 
 		#region Surfaces.
@@ -656,6 +612,8 @@ namespace Monofoxe.Engine.Drawing
 			if (_currentSurface != null)
 			{
 				CurrentProjection = Matrix.CreateOrthographicOffCenter(0,	_currentSurface.Width, _currentSurface.Height, 0, 0, 1);
+				
+				Device.SetRenderTarget(_currentSurface.RenderTarget);
 			}
 			else
 			{
@@ -667,9 +625,9 @@ namespace Monofoxe.Engine.Drawing
 					0,
 					1
 				);
+				
+				Device.SetRenderTarget(null);
 			}
-
-			Device.SetRenderTarget(_currentSurface.RenderTarget);
 		}
 		
 		#endregion Surfaces.

@@ -63,16 +63,17 @@ namespace Monofoxe.Test
 			
 			//fireFrame
 			GraphicsMgr.CurrentColor = Color.White;
-			GraphicsMgr.DrawSprite(
-				Default.DemonFire, 
+	
+			Default.DemonFire.Draw(
 				0.5f, 
-				new Vector2(100, 100), 
+				new Vector2(32, 32), 
+				Default.DemonFire.Origin,
 				new Vector2((float)Math.Cos(GameMgr.ElapsedTimeTotal), 
 				(float)Math.Sin(GameMgr.ElapsedTimeTotal)), 
 				90, 
 				Color.White
 			);
-			CircleShape.Draw(new Vector2(100, 100), 2, true);
+			CircleShape.Draw(new Vector2(32, 32), 2, true);
 			
 			//DrawMgr.Effect = null;
 			
@@ -87,15 +88,15 @@ namespace Monofoxe.Test
 			var p = new Vector2(50, 200);
 			for(var i = 0; i < 8; i += 1)
 			{
-				GraphicsMgr.DrawSprite(
-					testSpr, 
+				testSpr.Draw(
 					0.75f, 
 					p + 
 						Vector2.UnitX * i * 16 + 
 						Vector2.UnitY * (float)Math.Sin(Math.PI * 2 * (chigginWave + 1f / 8f * i)) * 8, 
-						Vector2.One, 
-						i * 5, 
-						Color.White * 0.5f
+					testSpr.Origin,
+					Vector2.One,
+					i * 5, 
+					Color.White * 0.5f
 				);
 			}
 			
@@ -110,13 +111,13 @@ namespace Monofoxe.Test
 			GraphicsMgr.CurrentColor = Color.Green;//Color.Red * 0.5f;
 			
 
-			GraphicsMgr.DrawSprite(Default.Flare, 400, 100);
-			Text.Draw("test", 100, 100);
-			GraphicsMgr.DrawSprite(Default.Flare, 400, 200);
+			Default.Flare.Draw(new Vector2(400, 100), Default.Flare.Origin);
+			Text.Draw("test", 100, 100);			
+			Default.Flare.Draw(new Vector2(400, 200), Default.Flare.Origin);
 
 			
 			GraphicsMgr.CurrentColor = new Color(255, 0, 255, 255);
-			GraphicsMgr.DrawSprite(Default.Flare, 400, 300);
+			Default.Flare.Draw(new Vector2(400, 300), Default.Flare.Origin);
 
 			CircleShape.Draw(500, 100, 32, false);
 			RectangleShape.Draw(500, 200, 532, 232, false);
