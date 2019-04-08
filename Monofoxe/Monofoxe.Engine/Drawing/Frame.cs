@@ -13,7 +13,7 @@ namespace Monofoxe.Engine.Drawing
 		public readonly Texture2D Texture;
 
 		/// <summary>
-		/// Position of the frame on the atlas. Note that it may be rotated.
+		/// Position of the frame on the atlas.
 		/// </summary>
 		public readonly Rectangle TexturePosition;
 

@@ -13,17 +13,20 @@ namespace Monofoxe.Engine.Drawing
 
 		public bool IsOutline;
 
+		public Color Color;
+
 		public CircleShape(Vector2 position, float radius, bool isOutline = false)
 		{
 			Position = position;
 			Radius = radius;
 			IsOutline = isOutline;
+			Color = DrawMgr.CurrentColor;
 		}
 
 		public void Draw() =>
-			Draw(Position.X, Position.Y, Radius, IsOutline);
+			Draw(Position.X, Position.Y, Radius, IsOutline, Color);
 		
-
+		
 
 		/// <summary>
 		/// Amount of vertices in one circle. 
@@ -50,12 +53,24 @@ namespace Monofoxe.Engine.Drawing
 		/// Draws a circle.
 		/// </summary>
 		public static void Draw(Vector2 p, float r, bool isOutline) =>
-			Draw(p.X, p.Y, r, isOutline);
+			Draw(p.X, p.Y, r, isOutline, DrawMgr.CurrentColor);
+		
+		/// <summary>
+		/// Draws a circle.
+		/// </summary>
+		public static void Draw(float x, float y, float r, bool isOutline) =>
+			Draw(x, y, r, isOutline, DrawMgr.CurrentColor);
 
 		/// <summary>
 		/// Draws a circle.
 		/// </summary>
-		public static void Draw(float x, float y, float r, bool isOutline)
+		public static void Draw(Vector2 p, float r, bool isOutline, Color color) =>
+			Draw(p.X, p.Y, r, isOutline, color);
+
+		/// <summary>
+		/// Draws a circle.
+		/// </summary>
+		public static void Draw(float x, float y, float r, bool isOutline, Color color)
 		{
 			short[] indexArray;
 			GraphicsMode prType;
@@ -97,7 +112,7 @@ namespace Monofoxe.Engine.Drawing
 							y + r * _circleVectors[i].Y, 
 							0
 						), 
-						DrawMgr.CurrentColor, 
+						color, 
 						Vector2.Zero
 					)
 				);
