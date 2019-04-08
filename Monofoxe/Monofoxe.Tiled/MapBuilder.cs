@@ -82,7 +82,6 @@ namespace Monofoxe.Tiled
 				
 				if (tileset.Textures != null)
 				{
-					var isMultitexture = (tileset.Textures.Length > 1);
 					
 					for(var y = 0; y < tileset.Height; y += 1)
 					{
@@ -91,24 +90,8 @@ namespace Monofoxe.Tiled
 							var tile = tileset.Tiles[y * tileset.Width + x];
 
 							var tileTexture = tileset.Textures[tile.TextureID];
-							int tileW, tileH;
-
-							/*
-							 * TileWidth and TileHeight values are incorrect for multitexture tilesets. 
-							 * They contain max width and height of all textures.
-							*/
-							if (isMultitexture)
-							{
-								tileW = tileTexture.Width;
-								tileH = tileTexture.Height;
-							}
-							else
-							{
-								tileW = tileset.TileWidth;
-								tileH = tileset.TileHeight;
-							}
-
-							var frame = new Frame(tileTexture, tile.TexturePosition, Vector2.Zero, tileW, tileH);
+							
+							var frame = new Frame(tileTexture, tile.TexturePosition, Vector2.Zero);
 						
 							var tilesetTile = new BasicTilesetTile(frame);
 							tilesetTilesList.Add(tilesetTile);
@@ -228,9 +211,7 @@ namespace Monofoxe.Tiled
 				var frame = new Frame(
 					imageLayer.Texture, 
 					imageLayer.Texture.Bounds, 
-					Vector2.Zero, 
-					imageLayer.Texture.Bounds.Width, 
-					imageLayer.Texture.Bounds.Height
+					Vector2.Zero
 				);
 				entity.AddComponent(new ImageLayerComponent(imageLayer.Offset, frame));
 				

@@ -3,9 +3,10 @@ using Microsoft.Xna.Framework;
 
 namespace Monofoxe.Engine.Drawing
 {
-	public class Sprite
+	public class Sprite : IDrawable
 	{
 		public readonly Frame[] Frames;
+
 		public int Width 
 		{
 			get
@@ -30,7 +31,15 @@ namespace Monofoxe.Engine.Drawing
 			}
 		}
 
+		public Vector2 Position {get; set;}
+		
+		public Vector2 Scale = Vector2.One;
+
 		public Vector2 Origin;
+
+		public float Rotation;
+
+		public Color Color;
 
 		/// <summary>
 		/// True, if size of every frame is identical.
@@ -88,6 +97,7 @@ namespace Monofoxe.Engine.Drawing
 
 			return true;
 		}
+		
 
 	}
 }
