@@ -29,6 +29,8 @@ namespace Monofoxe.Engine.Drawing
 
 		public bool IsOutline;
 
+		public Color Color;
+
 		public TriangleShape(Vector2 position, Vector2 point1, Vector2 point2, Vector2 point3, bool isOutline = false)
 		{
 			Position = position;
@@ -37,10 +39,12 @@ namespace Monofoxe.Engine.Drawing
 			Point3 = point3;
 
 			IsOutline = isOutline;
+			
+			Color = DrawMgr.CurrentColor;
 		}
 
 		public void Draw() =>
-			Draw(Point1 + Position, Point2 + Position, Point3 + Position, IsOutline);
+			Draw(Point1 + Position, Point2 + Position, Point3 + Position, IsOutline, Color, Color, Color);
 		
 		
 		

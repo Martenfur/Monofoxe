@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -13,11 +12,15 @@ namespace Monofoxe.Engine.Drawing
 
 		public bool IsOutline;
 
+		public Color Color;
+
 		public RectangleShape(Vector2 position, Vector2 size, bool isOutline = false)
 		{
 			Position = position;
 			Size = size;
 			IsOutline = isOutline;
+			
+			Color = DrawMgr.CurrentColor;
 		}
 
 		public void Draw()
@@ -26,11 +29,11 @@ namespace Monofoxe.Engine.Drawing
 				Position.X - Size.X / 2, Position.Y - Size.Y / 2, 
 				Position.X + Size.X / 2, Position.Y + Size.Y / 2, 
 				IsOutline, 
-				DrawMgr.CurrentColor, DrawMgr.CurrentColor, DrawMgr.CurrentColor, DrawMgr.CurrentColor
+				Color, Color, Color, Color
 			);
 		}
 		
-		
+		// TODO: sort out byWidth fluff.
 		
 		private static readonly short[][] _rectangleIndices = 
 		{
