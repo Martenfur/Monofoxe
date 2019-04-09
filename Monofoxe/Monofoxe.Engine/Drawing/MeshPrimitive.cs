@@ -2,9 +2,18 @@
 
 namespace Monofoxe.Engine.Drawing
 {
+	/// <summary>
+	/// Drawable mesh primitive. Draws a grid of triangles.
+	/// Pattern:
+	/// 0 - 1 - 2
+	/// | / | / |
+	/// 3 - 4 - 5
+	/// | / | / |
+	/// 6 - 7 - 8
+	/// </summary>
 	public class MeshPrimitive : Primitive2D
 	{
-		protected override GraphicsMode _type => GraphicsMode.TrianglePrimitives;
+		protected override GraphicsMode _graphicsMode => GraphicsMode.TrianglePrimitives;
 
 		/// <summary>
 		/// Mesh width in cells.

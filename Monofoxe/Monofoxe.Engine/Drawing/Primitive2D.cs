@@ -1,25 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine.Utils;
 
 namespace Monofoxe.Engine.Drawing
 {
+	/// <summary>
+	/// Base 2D primitive class. Can be used to create other types of primitives.
+	/// </summary>
 	public abstract class Primitive2D : IDrawable
 	{
 		public Vector2 Position {get; set;}
 
 		/// <summary>
-		/// First triangle point. 
-		/// NOTE: all line points treat position as an origin point;
+		/// List of all primitive's vertices. 
+		/// NOTE: all vertices treat position as an origin point;
 		/// </summary>
 		public List<Vertex> Vertices;
 		
-		protected abstract GraphicsMode _type {get;}
+		/// <summary>
+		/// Graphics mode which will be used while drawing primitive.
+		/// </summary>
+		protected abstract GraphicsMode _graphicsMode {get;}
 		
+		/// <summary>
+		/// Frame texture.
+		/// NOTE: Frame and be only a small part of a big texture.
+		/// </summary>
 		protected Texture2D _texture;
+		/// <summary>
+		/// Offset of a texture region.
+		/// </summary>
 		protected Vector2 _textureOffset;
+		/// <summary>
+		/// Ratio between texture size and frame size.
+		/// </summary>
 		protected Vector2 _textureRatio;
 
 
@@ -59,8 +74,14 @@ namespace Monofoxe.Engine.Drawing
 		}
 		
 
+		/// <summary>
+		/// Returns an array of vertex indices which essentially determine how primitive will be drawn.
+		/// </summary>
 		protected abstract short[] GetIndices();
 
+		/// <summary>
+		/// Converts list of Monofoxe Vertex objects to Monogame's vertices.
+		/// </summary>
 		protected List<VertexPositionColorTexture> GetConvertedVertices()
 		{
 			var vertices = new List<VertexPositionColorTexture>();
@@ -79,13 +100,11 @@ namespace Monofoxe.Engine.Drawing
 		public void Draw()
 		{
 			GraphicsMgr.AddVertices(
-				_type, 
+				_graphicsMode, 
 				_texture, 
 				GetConvertedVertices(), 
 				GetIndices()
 			);
-			
-			_texture = null;
 		}
 
 		
