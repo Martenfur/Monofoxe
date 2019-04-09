@@ -36,7 +36,7 @@ namespace Monofoxe.Engine.Drawing
 			_glyphs = new Dictionary<char, SpriteFont.Glyph>();
 			_frames = new Dictionary<char, Frame>();
 			
-			if (sprite.Frames.Length < characters.Length)
+			if (sprite.FramesCount < characters.Length)
 			{
 				throw new Exception("Amount of characters in sample string is larger than amount of frames in sprite!");
 			}
@@ -47,7 +47,7 @@ namespace Monofoxe.Engine.Drawing
 			int i = 0;
 			foreach(var ch in Characters)
 			{
-				var frame = sprite.Frames[i];
+				var frame = sprite[i];
 
 				if (frame.Texture != frameTexture)
 				{

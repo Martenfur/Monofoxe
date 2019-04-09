@@ -38,7 +38,7 @@ namespace Monofoxe.Test
 				fireFrame -= 1;
 			}
 			
-			var frame = Math.Max(0, Math.Min(Default.DemonFire.Frames.Length - 1, (int)(fireFrame * Default.DemonFire.Frames.Length)));
+			var frame = Math.Max(0, Math.Min(Default.DemonFire.FramesCount - 1, (int)(fireFrame * Default.DemonFire.FramesCount)));
 
 			GameMgr.WindowManager.WindowTitle = "Draw fps: " + GameMgr.Fps;
 
@@ -134,7 +134,7 @@ namespace Monofoxe.Test
 		private void TestDrawPrimitives()
 		{
 			var fan = new TriangleFanPrimitive();
-			fan.SetTextureFromFrame(Default.BstGam.Frames[0]);
+			fan.SetTextureFromFrame(Default.BstGam[0]);
 			fan.Position = new Vector2(120, 64);
 			fan.Vertices = new List<Vertex>
 			{
@@ -163,7 +163,7 @@ namespace Monofoxe.Test
 
 			var mesh = new MeshPrimitive(7, 7);
 			mesh.Position = new Vector2(0, 100);
-			mesh.SetTextureFromFrame(Default.Barrel.Frames[0]);
+			mesh.SetTextureFromFrame(Default.Barrel[0]);
 			mesh.Vertices = new List<Vertex>();
 			
 			int w = 7;
