@@ -349,9 +349,9 @@ namespace Monofoxe.Engine.Utils.Cameras
 
 			Surface.Draw(
 				PortPosition, 
+				PortOffset, 
 				Vector2.One * PortScale,
 				PortRotation, 
-				PortOffset, 
 				Color.White
 			);
 			GraphicsMgr.CurrentEffect = null;

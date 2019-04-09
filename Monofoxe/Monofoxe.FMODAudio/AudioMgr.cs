@@ -172,23 +172,23 @@ namespace Monofoxe.FMODAudio
 			Sound sound, 
 			FMOD.ChannelGroup group = null, 
 			bool paused = false, 
-			Vector2 pos = default(Vector2), 
+			Vector2 position = default(Vector2), 
 			Vector2 velocity = default(Vector2)
 		)
 		{
 			LastResult = FMODSystem.playSound(sound.FMODSound, group, paused, out FMOD.Channel channel);
 			var newSound = new Sound(FMODSystem, sound.FMODSound, channel);
 			newSound.Mode = FMOD.MODE._3D;
-			newSound.Set3DAttributes(pos, velocity);
+			newSound.Set3DAttributes(position, velocity);
 
 			return newSound;
 		}
 
 
 
-		public static void SetListenerPosition(Vector2 pos, int listenerId = 0)
+		public static void SetListenerPosition(Vector2 position, int listenerId = 0)
 		{
-			var fmodPos = Vector2ToFmodVector(pos);
+			var fmodPos = Vector2ToFmodVector(position);
 			var fmodZeroVec = GetFmodVector();
 			// Apparently, you cannot just pass zero vector and call it a day.
 			var fmodForward = Vector2ToFmodVector(Vector2.UnitY);
@@ -197,9 +197,9 @@ namespace Monofoxe.FMODAudio
 			LastResult = FMODSystem.set3DListenerAttributes(listenerId, ref fmodPos, ref fmodZeroVec, ref fmodForward, ref fmodUp);
 		}
 
-		public static void SetListenerAttributes(Vector2 pos, Vector2 velocity, Vector2 forward, int listenerId = 0)
+		public static void SetListenerAttributes(Vector2 position, Vector2 velocity, Vector2 forward, int listenerId = 0)
 		{
-			var fmodPos = Vector2ToFmodVector(pos);
+			var fmodPos = Vector2ToFmodVector(position);
 			var fmodVelocity = Vector2ToFmodVector(velocity);
 			var fmodForward = Vector2ToFmodVector(forward);
 			var fmodZeroVec = GetFmodVector();

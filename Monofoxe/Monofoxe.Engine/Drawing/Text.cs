@@ -50,7 +50,7 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Draws text in specified coordinates.
 		/// </summary>
-		public static void Draw(string text, Vector2 pos)
+		public static void Draw(string text, Vector2 position)
 		{
 			if (CurrentFont == null)
 			{
@@ -71,19 +71,19 @@ namespace Monofoxe.Engine.Drawing
 			{
 				GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);	
 			}
-			CurrentFont.Draw(GraphicsMgr.Batch, text, pos, HorAlign, VerAlign);
+			CurrentFont.Draw(GraphicsMgr.Batch, text, position, HorAlign, VerAlign);
 		}
 
 		/// <summary>
 		/// Draws text in specified coordinates with rotation, scale and origin.
 		/// </summary>
-		public static void Draw(string text, Vector2 pos, Vector2 scale, Vector2 origin, float rot = 0) => 
-			Draw(text, pos.X, pos.Y, scale.X, scale.Y, origin.X, origin.Y, rot);
+		public static void Draw(string text, Vector2 position, Vector2 scale, Vector2 origin, float rotation = 0) => 
+			Draw(text, position.X, position.Y, scale.X, scale.Y, origin.X, origin.Y, rotation);
 
 		/// <summary>
 		/// Draws text in specified coordinates with rotation, scale and origin.
 		/// </summary>
-		public static void Draw(string text, float x, float y, float scaleX, float scaleY, float originX = 0, float originY = 0, float rot = 0)
+		public static void Draw(string text, float x, float y, float scaleX, float scaleY, float originX = 0, float originY = 0, float rotation = 0)
 		{
 			if (CurrentFont == null)
 			{
@@ -92,7 +92,7 @@ namespace Monofoxe.Engine.Drawing
 
 			var transformMatrix = 
 				Matrix.CreateTranslation(new Vector3(-originX, -originY, 0)) * // Origin.
-				Matrix.CreateRotationZ(MathHelper.ToRadians(-rot)) *		       // Rotation.
+				Matrix.CreateRotationZ(MathHelper.ToRadians(-rotation)) *		       // Rotation.
 				Matrix.CreateScale(new Vector3(scaleX, scaleY, 1)) *	         // Scale.
 				Matrix.CreateTranslation(new Vector3(x, y, 0));                // Position.
 			

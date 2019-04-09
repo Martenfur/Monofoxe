@@ -1100,7 +1100,7 @@ namespace FMOD
     public delegate RESULT FILE_OPENCALLBACK        (StringWrapper name, ref uint filesize, ref IntPtr handle, IntPtr userdata);
     public delegate RESULT FILE_CLOSECALLBACK       (IntPtr handle, IntPtr userdata);
     public delegate RESULT FILE_READCALLBACK        (IntPtr handle, IntPtr buffer, uint sizebytes, ref uint bytesread, IntPtr userdata);
-    public delegate RESULT FILE_SEEKCALLBACK        (IntPtr handle, uint pos, IntPtr userdata);
+    public delegate RESULT FILE_SEEKCALLBACK        (IntPtr handle, uint position, IntPtr userdata);
     public delegate RESULT FILE_ASYNCREADCALLBACK   (IntPtr handle, IntPtr info, IntPtr userdata);
     public delegate RESULT FILE_ASYNCCANCELCALLBACK (IntPtr handle, IntPtr userdata);
 
@@ -1975,13 +1975,13 @@ namespace FMOD
         {
             return FMOD_System_Get3DNumListeners(rawPtr, out numlisteners);
         }
-        public RESULT set3DListenerAttributes(int listener, ref VECTOR pos, ref VECTOR vel, ref VECTOR forward, ref VECTOR up)
+        public RESULT set3DListenerAttributes(int listener, ref VECTOR position, ref VECTOR vel, ref VECTOR forward, ref VECTOR up)
         {
-            return FMOD_System_Set3DListenerAttributes(rawPtr, listener, ref pos, ref vel, ref forward, ref up);
+            return FMOD_System_Set3DListenerAttributes(rawPtr, listener, ref position, ref vel, ref forward, ref up);
         }
-        public RESULT get3DListenerAttributes(int listener, out VECTOR pos, out VECTOR vel, out VECTOR forward, out VECTOR up)
+        public RESULT get3DListenerAttributes(int listener, out VECTOR position, out VECTOR vel, out VECTOR forward, out VECTOR up)
         {
-            return FMOD_System_Get3DListenerAttributes(rawPtr, listener, out pos, out vel, out forward, out up);
+            return FMOD_System_Get3DListenerAttributes(rawPtr, listener, out position, out vel, out forward, out up);
         }
         public RESULT set3DRolloffCallback   (CB_3D_ROLLOFFCALLBACK callback)
         {
@@ -2435,9 +2435,9 @@ namespace FMOD
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_System_Get3DNumListeners      (IntPtr system, out int numlisteners);
         [DllImport(VERSION.dll)]
-        private static extern RESULT FMOD_System_Set3DListenerAttributes(IntPtr system, int listener, ref VECTOR pos, ref VECTOR vel, ref VECTOR forward, ref VECTOR up);
+        private static extern RESULT FMOD_System_Set3DListenerAttributes(IntPtr system, int listener, ref VECTOR position, ref VECTOR vel, ref VECTOR forward, ref VECTOR up);
         [DllImport(VERSION.dll)]
-        private static extern RESULT FMOD_System_Get3DListenerAttributes(IntPtr system, int listener, out VECTOR pos, out VECTOR vel, out VECTOR forward, out VECTOR up);
+        private static extern RESULT FMOD_System_Get3DListenerAttributes(IntPtr system, int listener, out VECTOR position, out VECTOR vel, out VECTOR forward, out VECTOR up);
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_System_SetStreamBufferSize    (IntPtr system, uint filebuffersize, TIMEUNIT filebuffersizetype);
         [DllImport(VERSION.dll)]
@@ -3053,13 +3053,13 @@ namespace FMOD
         }
 
         // 3D functionality.
-        public RESULT set3DAttributes(ref VECTOR pos, ref VECTOR vel, ref VECTOR alt_pan_pos)
+        public RESULT set3DAttributes(ref VECTOR position, ref VECTOR vel, ref VECTOR alt_pan_pos)
         {
-            return FMOD_ChannelGroup_Set3DAttributes(rawPtr, ref pos, ref vel, ref alt_pan_pos);
+            return FMOD_ChannelGroup_Set3DAttributes(rawPtr, ref position, ref vel, ref alt_pan_pos);
         }
-        public RESULT get3DAttributes(out VECTOR pos, out VECTOR vel, out VECTOR alt_pan_pos)
+        public RESULT get3DAttributes(out VECTOR position, out VECTOR vel, out VECTOR alt_pan_pos)
         {
-            return FMOD_ChannelGroup_Get3DAttributes(rawPtr, out pos, out vel, out alt_pan_pos);
+            return FMOD_ChannelGroup_Get3DAttributes(rawPtr, out position, out vel, out alt_pan_pos);
         }
         public RESULT set3DMinMaxDistance(float mindistance, float maxdistance)
         {
@@ -3209,9 +3209,9 @@ namespace FMOD
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_ChannelGroup_GetFadePoints(IntPtr channelgroup, ref uint numpoints, ulong[] point_dspclock, float[] point_volume);
         [DllImport(VERSION.dll)]
-        private static extern RESULT FMOD_ChannelGroup_Set3DAttributes(IntPtr channelgroup, ref VECTOR pos, ref VECTOR vel, ref VECTOR alt_pan_pos);
+        private static extern RESULT FMOD_ChannelGroup_Set3DAttributes(IntPtr channelgroup, ref VECTOR position, ref VECTOR vel, ref VECTOR alt_pan_pos);
         [DllImport(VERSION.dll)]
-        private static extern RESULT FMOD_ChannelGroup_Get3DAttributes(IntPtr channelgroup, out VECTOR pos, out VECTOR vel, out VECTOR alt_pan_pos);
+        private static extern RESULT FMOD_ChannelGroup_Get3DAttributes(IntPtr channelgroup, out VECTOR position, out VECTOR vel, out VECTOR alt_pan_pos);
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_ChannelGroup_Set3DMinMaxDistance(IntPtr channelgroup, float mindistance, float maxdistance);
         [DllImport(VERSION.dll)]

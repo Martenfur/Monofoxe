@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Monofoxe.Engine.Drawing
 {
+	/// <summary>
+	/// Drawable triangle shape. Can be drawn by using static methods or be instantiated.
+	/// </summary>
 	public class TriangleShape : IDrawable
 	{
 		public Vector2 Position {get; set;}
@@ -27,27 +29,18 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public Vector2 Point3;
 
-		public bool IsOutline;
+		/// <summary>
+		/// If false, circle will be filled with solid color. If true, only outline will be drawn.
+		/// </summary>
+		public bool IsOutline = false;
 
-		public Color Color;
+		public Color Color = Color.White;
 
-		public TriangleShape(Vector2 position, Vector2 point1, Vector2 point2, Vector2 point3, bool isOutline = false)
-		{
-			Position = position;
-			Point1 = point1;
-			Point2 = point2;
-			Point3 = point3;
-
-			IsOutline = isOutline;
-			
-			Color = GraphicsMgr.CurrentColor;
-		}
 
 		public void Draw() =>
 			Draw(Point1 + Position, Point2 + Position, Point3 + Position, IsOutline, Color, Color, Color);
 		
-		
-		
+
 		private static readonly short[][] _triangleIndices = 
 		{
 			new short[]{0, 1, 2}, // Filled.
