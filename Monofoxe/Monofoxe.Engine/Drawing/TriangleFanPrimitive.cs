@@ -2,9 +2,19 @@
 
 namespace Monofoxe.Engine.Drawing
 {
+	/// <summary>
+	/// Drawable triangle fan primitive. 
+	/// Draws a bunch of triangles, all of which begin at the first vertex.
+	/// Pattern:
+	/// 1 - 2
+	/// | / |
+	/// 0 - 3 
+	/// | \ |
+	/// 5 - 4 
+	/// </summary>
 	public class TriangleFanPrimitive : Primitive2D
 	{	
-		protected override GraphicsMode _type => GraphicsMode.TrianglePrimitives;
+		protected override GraphicsMode _graphicsMode => GraphicsMode.TrianglePrimitives;
 
 		/// <summary>
 		/// Sets indexes according to trianglefan pattern.
@@ -12,11 +22,11 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		protected override short[] GetIndices()
 		{
-			//   1
-			//  / \
-			// 0 - 2 
-			//  \ / 
-			//   3 
+			// 1 - 2
+			// | / |
+			// 0 - 3 
+			// | \ |
+			// 5 - 4
 
 			var indices = new List<short>();
 			

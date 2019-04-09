@@ -2,17 +2,23 @@
 
 namespace Monofoxe.Engine.Drawing
 {
+	/// <summary>
+	/// Drawable line strip primitive. Draws a bunch of connected lines. Can be looped.
+	/// Pattern: 0 - 1 - 2 - 3
+	/// </summary>
 	public class LineStripPrimitive : Primitive2D
 	{
 		
-		protected override GraphicsMode _type => GraphicsMode.LinePrimitives;
+		protected override GraphicsMode _graphicsMode => GraphicsMode.LinePrimitives;
 
+		/// <summary>
+		/// If true, a line between first and last vertex will be drawn.
+		/// </summary>
 		public bool Looped = false;
 
 		/// <summary>
-		/// Sets indexes according to line strip pattern.
+		/// Sets indices according to line strip pattern.
 		/// </summary>
-		/// <param name="loop">Tells is first and last vertix will have a line between them.</param>
 		protected override short[] GetIndices()
 		{
 			// 0 - 1 - 2 - 3

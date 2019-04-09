@@ -1,9 +1,15 @@
 ﻿namespace Monofoxe.Engine.Drawing
 {
+	/// <summary>
+	/// Triangle primitive, which can accept any array of indices. 
+	/// </summary>
 	public class CustomTrianglePrimitive : Primitive2D
 	{
-		protected override GraphicsMode _type => GraphicsMode.TrianglePrimitives;
+		protected override GraphicsMode _graphicsMode => GraphicsMode.TrianglePrimitives;
 		
+		/// <summary>
+		/// Array of primitive indices. They tell primitive what vertices to draw in what order.
+		/// </summary>
 		public short[] Indices;
 
 		public CustomTrianglePrimitive(short[] indices = null)

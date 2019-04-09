@@ -12,13 +12,13 @@ namespace Monofoxe.Engine.Drawing
 		public Vector2 Position {get; set;}
 
 		/// <summary>
-		/// First triangle point. 
+		/// First line point. 
 		/// NOTE: all line points treat position as an origin point;
 		/// </summary>
 		public Vector2 Point1;
 
 		/// <summary>
-		/// Second triangle point. 
+		/// Second line point. 
 		/// NOTE: all line points treat position as an origin point;
 		/// </summary>
 		public Vector2 Point2;

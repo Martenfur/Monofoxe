@@ -2,9 +2,16 @@
 
 namespace Monofoxe.Engine.Drawing
 {
+	/// <summary>
+	/// Drawable triangle strip primitive. Draws a strip of triangles.
+	/// Pattern:
+	/// 0 - 2 - 4
+	///  \ / \ /
+	///   1 - 3
+	/// </summary>
 	public class TriangleStripPrimitive : Primitive2D
 	{
-		protected override GraphicsMode _type => GraphicsMode.TrianglePrimitives;
+		protected override GraphicsMode _graphicsMode => GraphicsMode.TrianglePrimitives;
 
 		/// <summary>
 		/// Sets indices according to trianglestrip pattern.
