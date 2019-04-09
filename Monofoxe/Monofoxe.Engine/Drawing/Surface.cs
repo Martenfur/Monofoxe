@@ -70,18 +70,18 @@ namespace Monofoxe.Engine.Drawing
 
 
 		public void Draw() =>
-			Draw(Position, Scale, Rotation, Origin, Color);
+			Draw(Position, Origin, Scale, Rotation, Color);
 		
 		
 		// Vectors.
 
-		public void Draw(Vector2 pos)
+		public void Draw(Vector2 position)
 		{
 			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
-			GraphicsMgr.Batch.Draw(RenderTarget, pos, GraphicsMgr.CurrentColor);
+			GraphicsMgr.Batch.Draw(RenderTarget, position, GraphicsMgr.CurrentColor);
 		}
 		
-		public void Draw(Vector2 pos, Vector2 scale, float rotation, Vector2 offset, Color color)
+		public void Draw(Vector2 position, Vector2 origin, Vector2 scale, float rotation, Color color)
 		{
 			var mirroring = SpriteEffects.None;
 
@@ -106,11 +106,11 @@ namespace Monofoxe.Engine.Drawing
 			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
 			GraphicsMgr.Batch.Draw(
 				RenderTarget, 
-				pos, 
+				position, 
 				RenderTarget.Bounds, 
 				color, 
 				MathHelper.ToRadians(rotation), 
-				scaleOffset + offset, 
+				scaleOffset + origin, 
 				scale, 
 				mirroring, 
 				0

@@ -190,12 +190,12 @@ namespace Monofoxe.FMODAudio
 		public void PlayAt(
 			FMOD.ChannelGroup group = null, 
 			bool paused = false, 
-			Vector2 pos = default(Vector2), 
+			Vector2 position = default(Vector2), 
 			Vector2 velocity = default(Vector2)
 		)
 		{
 			FMODSound.setMode(FMOD.MODE._3D);
-			Set3DAttributes(pos, velocity);
+			Set3DAttributes(position, velocity);
 			SetLastResult(_FMODSystem.playSound(FMODSound, group, paused, out _channel));
 		}
 
@@ -204,12 +204,12 @@ namespace Monofoxe.FMODAudio
 		/// <summary>
 		/// Sets 3D attributes.
 		/// </summary>
-		/// <param name="pos">Sound position.</param>
+		/// <param name="position">Sound position.</param>
 		/// <param name="velocity">Sound velocity.</param>
 		/// <param name="altPanPos">Panning position.</param>
-		public void Set3DAttributes(Vector2 pos, Vector2 velocity, Vector2 altPanPos = default(Vector2))
+		public void Set3DAttributes(Vector2 position, Vector2 velocity, Vector2 altPanPos = default(Vector2))
 		{
-			var fmodPos = AudioMgr.Vector2ToFmodVector(pos);
+			var fmodPos = AudioMgr.Vector2ToFmodVector(position);
 			var fmodVelocity = AudioMgr.Vector2ToFmodVector(velocity);
 			var fmodAltPanPos = AudioMgr.Vector2ToFmodVector(altPanPos);
 			SetLastResult(_channel?.set3DAttributes(ref fmodPos, ref fmodVelocity, ref fmodAltPanPos));

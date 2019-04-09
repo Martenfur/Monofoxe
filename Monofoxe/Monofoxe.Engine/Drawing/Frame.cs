@@ -78,10 +78,10 @@ namespace Monofoxe.Engine.Drawing
 		
 
 		public void Draw(
-			Vector2 pos, 
+			Vector2 position, 
+			Vector2 origin, 
 			Vector2 scale, 
 			float rotation, 
-			Vector2 offset, 
 			Color color, 
 			SpriteEffects effect
 		)
@@ -90,11 +90,11 @@ namespace Monofoxe.Engine.Drawing
 
 			GraphicsMgr.Batch.Draw(
 				Texture, 
-				pos, 
+				position, 
 				TexturePosition, 
 				color, 
 				MathHelper.ToRadians(rotation), 
-				offset,
+				origin,
 				scale, 
 				effect, 
 				0
@@ -102,10 +102,10 @@ namespace Monofoxe.Engine.Drawing
 		}
 
 
-		public void Draw(Vector2 pos, Vector2 offset) =>
-			Draw(pos, Vector2.One, 0, offset, GraphicsMgr.CurrentColor, SpriteEffects.None);
+		public void Draw(Vector2 position, Vector2 origin) =>
+			Draw(position, origin, Vector2.One, 0, GraphicsMgr.CurrentColor, SpriteEffects.None);
 		
-		public void Draw(Vector2 pos, Vector2 offset, Vector2 scale, float rotation, Color color)
+		public void Draw(Vector2 position, Vector2 origin, Vector2 scale, float rotation, Color color)
 		{
 			var mirroring = SpriteEffects.None;
 
@@ -114,18 +114,18 @@ namespace Monofoxe.Engine.Drawing
 			{
 				mirroring = mirroring | SpriteEffects.FlipHorizontally;
 				scale.X *= -1;
-				offset.X = Width - offset.X;
+				origin.X = Width - origin.X;
 			}
 
 			if (scale.Y < 0)
 			{
 				mirroring = mirroring | SpriteEffects.FlipVertically;
 				scale.Y *= -1;
-				offset.Y = Height - offset.Y;
+				origin.Y = Height - origin.Y;
 			}
 			// Proper negative scaling.
 
-			Draw(pos, scale, rotation, offset, color, mirroring);
+			Draw(position, origin, scale, rotation, color, mirroring);
 		}
 
 		

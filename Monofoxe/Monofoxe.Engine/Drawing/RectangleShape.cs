@@ -6,23 +6,23 @@ namespace Monofoxe.Engine.Drawing
 {
 	public class RectangleShape : IDrawable
 	{
+		/// <summary>
+		/// Center point of a rectangle.
+		/// </summary>
 		public Vector2 Position {get; set;}
 
-		public Vector2 Size;
+		public Vector2 Size = Vector2.One;
 
-		public bool IsOutline;
+		/// <summary>
+		/// If false, circle will be filled with solid color. If true, only outline will be drawn.
+		/// </summary>
+		public bool IsOutline = false;
 
-		public Color Color;
+		public Color Color = Color.White;
 
-		public RectangleShape(Vector2 position, Vector2 size, bool isOutline = false)
-		{
-			Position = position;
-			Size = size;
-			IsOutline = isOutline;
-			
-			Color = GraphicsMgr.CurrentColor;
-		}
-
+		/// <summary>
+		/// Draws a rectangle using instance properties.
+		/// </summary>
 		public void Draw()
 		{
 			Draw(
@@ -32,8 +32,6 @@ namespace Monofoxe.Engine.Drawing
 				Color, Color, Color, Color
 			);
 		}
-		
-		// TODO: sort out byWidth fluff.
 		
 		private static readonly short[][] _rectangleIndices = 
 		{

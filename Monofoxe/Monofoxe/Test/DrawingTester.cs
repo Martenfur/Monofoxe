@@ -37,7 +37,7 @@ namespace Monofoxe.Test
 			{
 				fireFrame -= 1;
 			}
-
+			
 			var frame = Math.Max(0, Math.Min(Default.DemonFire.Frames.Length - 1, (int)(fireFrame * Default.DemonFire.Frames.Length)));
 
 			GameMgr.WindowManager.WindowTitle = "Draw fps: " + GameMgr.Fps;

@@ -16,20 +16,6 @@ namespace Monofoxe.Test
 		public static Camera SecondCamera = new Camera(600, 600);	
 
 		public RandomExt Random = new RandomExt();
-
-		/*
-		RenderTarget2D surf = new RenderTarget2D(
-				DrawMgr.Device, 
-				512, 
-				512, 
-				false,
-				DrawMgr.Device.PresentationParameters.BackBufferFormat,
-				DepthFormat.Depth24, 
-				0, 
-				RenderTargetUsage.PreserveContents
-			);
-		 */
-		
 		
 		public MainTester() : base(SceneMgr.GetScene("default")["default"])
 		{
@@ -59,7 +45,7 @@ namespace Monofoxe.Test
 			new DrawingTester();
 			new ECSTester(ballsLayer);
 			//new AlarmTester(ballsLayer);
-			//new TileTester(ballsLayer);
+			new TileTester(ballsLayer);
 			//new StateMachineTester(ballsLayer);
 
 			/*

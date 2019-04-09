@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Monofoxe.Engine.Drawing
 {
+	/// <summary>
+	/// Drawable thick line shape. Can be drawn by using static methods or be instantiated.
+	/// </summary>
 	public class ThickLineShape : IDrawable
 	{
 		public Vector2 Position {get; set;}
@@ -24,18 +26,9 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Line thickness.
 		/// </summary>
-		public float Thickness;
+		public float Thickness = 1;
 		
-		public Color Color;
-
-		public ThickLineShape(Vector2 position, Vector2 point1, Vector2 point2, float thickness = 1)
-		{
-			Position = position;
-			Point1 = point1;
-			Point2 = point2;
-			Thickness = thickness;
-			Color = GraphicsMgr.CurrentColor;
-		}
+		public Color Color = Color.White;
 
 		public void Draw() =>
 			Draw(Point1 + Position, Point2 + Position, Thickness, Color, Color);	
@@ -80,7 +73,8 @@ namespace Monofoxe.Engine.Drawing
 				new VertexPositionColorTexture(new Vector3(x2, y2, 0) + normal, c2, Vector2.Zero)
 			};
 
-			GraphicsMgr.AddVertices(GraphicsMode.TrianglePrimitives, null, vertices, _thickLineIndices); // Thick line is in fact just a rotated rectangle.
+			// Thick line is in fact just a rotated rectangle.
+			GraphicsMgr.AddVertices(GraphicsMode.TrianglePrimitives, null, vertices, _thickLineIndices); 
 		}
 		
 	}

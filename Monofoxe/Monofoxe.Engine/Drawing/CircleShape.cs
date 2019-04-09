@@ -5,23 +5,24 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Monofoxe.Engine.Drawing
 {
+	/// <summary>
+	/// Drawable circle shape. Can be drawn by using static methods or be instantiated.
+	/// </summary>
 	public class CircleShape : IDrawable
 	{
+		/// <summary>
+		/// Center point of a circle.
+		/// </summary>
 		public Vector2 Position {get; set;}
 
-		public float Radius;
+		public float Radius = 1;
 
-		public bool IsOutline;
+		/// <summary>
+		/// If false, circle will be filled with solid color. If true, only outline will be drawn.
+		/// </summary>
+		public bool IsOutline = false;
 
-		public Color Color;
-
-		public CircleShape(Vector2 position, float radius, bool isOutline = false)
-		{
-			Position = position;
-			Radius = radius;
-			IsOutline = isOutline;
-			Color = GraphicsMgr.CurrentColor;
-		}
+		public Color Color = Color.White;
 
 		public void Draw() =>
 			Draw(Position.X, Position.Y, Radius, IsOutline, Color);
