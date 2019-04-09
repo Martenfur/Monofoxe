@@ -1,32 +1,45 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace Monofoxe.Engine.Drawing
 {
-	public class Sprite : IDrawable
+	/// <summary>
+	/// Drawable sprite. 
+	/// </summary>
+	public class Sprite : IDrawable, ICloneable
 	{
-		public readonly Frame[] Frames;
+		/// <summary>
+		/// An array of sprite's frames.
+		/// </summary>
+		private Frame[] _frames;
 
+		/// <summary>
+		/// Sprite width. Can be accessed only if all sprite frames have the same size.
+		/// </summary>
 		public int Width 
 		{
 			get
 			{
 				if (SingleFrameSize)
 				{
-					return Frames[0].Width;
+					return _frames[0].Width;
 				}	
 				throw new Exception("To use this variable, all frame sizes must be identical!");
 			}
 		}
 		
+		/// <summary>
+		/// Sprite height. Can be accessed only if all sprite frames have the same size.
+		/// </summary>
 		public int Height
 		{
 			get
 			{
 				if (SingleFrameSize)
 				{
-					return Frames[0].Height;
+					return _frames[0].Height;
 				}
 				throw new Exception("To use this variable, all frame sizes must be identical!");
 			}
@@ -49,14 +62,29 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public bool SingleFrameSize;
 
+
+		/// <summary>
+		/// Amount of sprite's frames.
+		/// </summary>
+		public int FramesCount => _frames.Length;
+
+		/// <summary>
+		/// Returns a frame with given index.
+		/// </summary>
+		public Frame this[int id]
+		{
+			get => _frames[id];
+		}
+
+
 		public Sprite(Frame[] frames, int originX, int originY)
 		{
-			Frames = new Frame[frames.Length];
+			_frames = new Frame[frames.Length];
 			foreach(var frame in frames)
 			{
 				frame.ParentSprite = this;
 			}
-			Array.Copy(frames, Frames, frames.Length);
+			Array.Copy(frames, _frames, frames.Length);
 			Origin = new Vector2(originX, originY);
 			
 			SingleFrameSize = CheckIdenticalFrameSizes(frames);
@@ -64,19 +92,19 @@ namespace Monofoxe.Engine.Drawing
 
 		public Sprite(Frame[] frames, Vector2 origin)
 		{
-			Frames = new Frame[frames.Length];
+			_frames = new Frame[frames.Length];
 			foreach(var frame in frames)
 			{
 				frame.ParentSprite = this;
 			}
-			Array.Copy(frames, Frames, frames.Length);
+			Array.Copy(frames, _frames, frames.Length);
 			Origin = origin;
 			SingleFrameSize = CheckIdenticalFrameSizes(frames);
 		}
 
 		public Sprite(Frame frame, int originX, int originY)
 		{
-			Frames = new Frame[]{frame};
+			_frames = new Frame[]{frame};
 			frame.ParentSprite = this;
 			Origin = new Vector2(originX, originY);
 			
@@ -90,9 +118,9 @@ namespace Monofoxe.Engine.Drawing
 		/// <param name="frames">Array of frames to check.</param>
 		private bool CheckIdenticalFrameSizes(Frame[] frames)
 		{
-			for(var i = 1; i < Frames.Length; i += 1)
+			for(var i = 1; i < _frames.Length; i += 1)
 			{
-				if (Frames[0].Width != Frames[i].Width || Frames[0].Height != Frames[i].Height)
+				if (_frames[0].Width != _frames[i].Width || _frames[0].Height != _frames[i].Height)
 				{
 					return false;
 				}
@@ -105,7 +133,7 @@ namespace Monofoxe.Engine.Drawing
 		/// Returns sprite frame based on an animation value from 0 to 1.
 		/// </summary>
 		private Frame GetFrame(double animation) =>
-			Frames[Math.Max(0, Math.Min(Frames.Length - 1, (int)(animation * Frames.Length)))];
+			_frames[Math.Max(0, Math.Min(_frames.Length - 1, (int)(animation * _frames.Length)))];
 		
 		
 		public void Draw() =>
@@ -114,7 +142,7 @@ namespace Monofoxe.Engine.Drawing
 		// Vectors.
 		// TODO: Add frame origins.
 		public void Draw(Vector2 position, Vector2 origin) =>
-			Frames[0].Draw(position, origin, Vector2.One, 0, GraphicsMgr.CurrentColor, SpriteEffects.None);
+			_frames[0].Draw(position, origin, Vector2.One, 0, GraphicsMgr.CurrentColor, SpriteEffects.None);
 		
 		public void Draw(double animation, Vector2 position, Vector2 origin) =>
 			GetFrame(animation).Draw(position, origin);
@@ -143,7 +171,23 @@ namespace Monofoxe.Engine.Drawing
 		// Rectangles.
 
 
-		
+		public object Clone()
+		{
+			var frames = new List<Frame>();
+
+			foreach(var frame in _frames)
+			{
+				frames.Add((Frame)_frames.Clone());
+			}
+
+			var sprite = new Sprite(frames.ToArray(), Origin);
+			sprite.Position = Position;
+			sprite.Scale = Scale;
+			sprite.Animation = Animation;
+			sprite.Rotation = Rotation;
+			sprite.Color = Color;
+			return sprite;
+		}
 
 	}
 }

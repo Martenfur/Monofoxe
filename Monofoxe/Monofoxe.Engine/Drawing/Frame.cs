@@ -5,6 +5,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Monofoxe.Engine.Drawing
 {
+	/// <summary>
+	/// Drawable frame.
+	/// </summary>
 	public class Frame : IDrawable, ICloneable
 	{
 		/// <summary>
@@ -32,10 +35,7 @@ namespace Monofoxe.Engine.Drawing
 		public Vector2 Position {get; set;}
 		
 		public Vector2 Scale = Vector2.One;
-
-		/// <summary>
-		/// Origin point of the 
-		/// </summary>
+		
 		public Vector2 Origin;
 
 		public float Rotation;
@@ -67,14 +67,10 @@ namespace Monofoxe.Engine.Drawing
 			TexturePosition = texturePosition;
 			
 			Origin = origin;
-
 		}
 
 		public void Draw() =>
 			Draw(Position, Origin, Scale, Rotation, Color);
-		
-		public object Clone() =>
-			new Frame(Texture, TexturePosition, Origin);
 		
 
 		public void Draw(
@@ -166,6 +162,17 @@ namespace Monofoxe.Engine.Drawing
 			);
 		}
 
+
+
+		public object Clone()
+		{
+			var frame = new Frame(Texture, TexturePosition, Origin);
+			frame.Position = Position;
+			frame.Scale = Scale;
+			frame.Rotation = Rotation;
+			frame.Color = Color;
+			return frame;
+		}
 
 	}
 }
