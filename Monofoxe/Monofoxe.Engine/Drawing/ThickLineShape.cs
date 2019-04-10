@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Monofoxe.Engine.Utils;
 
 namespace Monofoxe.Engine.Drawing
 {
@@ -61,16 +62,19 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public static void Draw(float x1, float y1, float x2, float y2, float thickness, Color c1, Color c2)
 		{
-			var normal = new Vector3(y2 - y1, x1 - x2, 0);
-			normal.Normalize(); // The result is a unit vector rotated by 90 degrees.
-			normal *= thickness / 2;
+			var normal2 = new Vector2(y2 - y1, x1 - x2);
+
+			normal2 = normal2.GetSafeNormalize(); // The result is a unit vector rotated by 90 degrees.
+			normal2 *= thickness / 2;
+
+			var normal = normal2.ToVector3();
 
 			var vertices = new List<VertexPositionColorTexture>
 			{
-				new VertexPositionColorTexture(new Vector3(x1, y1, 0) + normal, c1, Vector2.Zero),
 				new VertexPositionColorTexture(new Vector3(x1, y1, 0) - normal, c1, Vector2.Zero),
-				new VertexPositionColorTexture(new Vector3(x2, y2, 0) - normal, c2, Vector2.Zero),
-				new VertexPositionColorTexture(new Vector3(x2, y2, 0) + normal, c2, Vector2.Zero)
+				new VertexPositionColorTexture(new Vector3(x1, y1, 0) + normal, c1, Vector2.Zero),
+				new VertexPositionColorTexture(new Vector3(x2, y2, 0) + normal, c2, Vector2.Zero),
+				new VertexPositionColorTexture(new Vector3(x2, y2, 0) - normal, c2, Vector2.Zero)
 			};
 
 			// Thick line is in fact just a rotated rectangle.

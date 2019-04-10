@@ -95,7 +95,7 @@ namespace Monofoxe.Test
 			{
 				Layer.DepthSorting = !Layer.DepthSorting;
 			}
-			if (Input.CheckButtonPress(Buttons.H))
+			if (Input.CheckButtonPress(Buttons.G))
 			{
 				Layer.IsGUI = !Layer.IsGUI;
 			}

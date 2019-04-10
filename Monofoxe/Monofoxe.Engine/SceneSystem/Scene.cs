@@ -147,6 +147,7 @@ namespace Monofoxe.Engine.SceneSystem
 
 		/// <summary>
 		/// Returns info about layers.
+		/// TODO: Remove?
 		/// </summary>
 		public string __GetLayerInfo()
 		{
