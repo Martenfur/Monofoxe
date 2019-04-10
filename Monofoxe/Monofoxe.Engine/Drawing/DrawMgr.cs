@@ -282,7 +282,7 @@ namespace Monofoxe.Engine.Drawing
 					Input.MousePosition = camera.GetRelativeMousePosition();
 
 					SetSurfaceTarget(camera.Surface, camera.TransformMatrix);
-					Console.WriteLine((_currentSurface == null) + " WOT");
+					
 					if (camera.ClearBackground)
 					{
 						Device.Clear(camera.BackgroundColor);

@@ -299,6 +299,7 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		internal static void DisableInactiveSystems()
 		{
+			
 			// Disabling systems without components.
 			if (AutoSystemManagement && _componentsWereRemoved)
 			{
