@@ -3,6 +3,7 @@ using Monofoxe.ECSTest.Components;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.ECS;
 using System;
+using Microsoft.Xna.Framework;
 
 namespace Monofoxe.ECSTest.Systems
 {

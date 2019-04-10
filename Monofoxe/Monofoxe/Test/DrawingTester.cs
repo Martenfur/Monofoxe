@@ -24,9 +24,20 @@ namespace Monofoxe.Test
 	
 		double chigginWave = 0;
 
+		TriangleFanPrimitive fan;
+
 		public DrawingTester() : base(SceneMgr.GetScene("default")["default"])
 		{
-			
+			fan = new TriangleFanPrimitive();
+			fan.SetTextureFromFrame(Default.BstGam[0]);
+			fan.Position = new Vector2(120, 64);
+			fan.Vertices = new List<Vertex>
+			{
+				new Vertex(new Vector2(0, 0), Color.White * 0.5f, new Vector2(0, 0)),
+				new Vertex(new Vector2(32, 0), Color.Green * 1.0f, new Vector2(1, 0)),
+				new Vertex(new Vector2(64, 64), Color.Blue, new Vector2(1, 1)),
+				new Vertex(new Vector2(0, 32), Color.Red, new Vector2(0, 1)),
+			};
 		}
 
 		public override void Update()
@@ -121,9 +132,15 @@ namespace Monofoxe.Test
 
 			CircleShape.Draw(500, 100, 32, false);
 			RectangleShape.Draw(500, 200, 532, 232, false);
-			LineShape.Draw(500, 300, 532, 300);
-			LineShape.Draw(532, 400, 500, 400);
 			
+			LineShape.Draw(500, 300, Input.MousePosition.X, Input.MousePosition.Y);
+			ThickLineShape.Draw(532, 400, Input.MousePosition.X, Input.MousePosition.Y, 8);
+			CircleShape.Draw(532, 400, 4, false);
+			CircleShape.Draw(Input.MousePosition, 4, false);
+			
+			TriangleShape.Draw(-100, -100, -200, -40, -150, -150, false);
+			GraphicsMgr.CurrentColor = Color.Red;
+			TriangleShape.Draw(-100, -100, -150, -150, -200, -40, true);
 			
 
 			TestDrawPrimitives();
@@ -133,18 +150,7 @@ namespace Monofoxe.Test
 
 		private void TestDrawPrimitives()
 		{
-			var fan = new TriangleFanPrimitive();
-			fan.SetTextureFromFrame(Default.BstGam[0]);
-			fan.Position = new Vector2(120, 64);
-			fan.Vertices = new List<Vertex>
-			{
-				new Vertex(new Vector2(0, 0), Color.White * 0.5f, new Vector2(0, 0)),
-				new Vertex(new Vector2(32, 0), Color.Green * 1.0f, new Vector2(1, 0)),
-				new Vertex(new Vector2(32, 32), Color.Blue, new Vector2(1, 1)),
-				new Vertex(new Vector2(0, 32), Color.Red, new Vector2(0, 1)),
-			};
 			fan.Draw();
-			
 			
 			var strip = new TriangleStripPrimitive();
 			strip.Vertices = new List<Vertex>

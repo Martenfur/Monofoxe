@@ -76,12 +76,12 @@ namespace Monofoxe.Engine.Drawing
 			if (isOutline)
 			{
 				mode = GraphicsMode.LinePrimitives;
-				indices = _triangleIndices[0];
+				indices = _triangleIndices[1];
 			}
 			else
 			{
 				mode = GraphicsMode.TrianglePrimitives;
-				indices = _triangleIndices[1];
+				indices = _triangleIndices[0];
 			}
 		
 			var vertices = new List<VertexPositionColorTexture>
