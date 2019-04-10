@@ -43,7 +43,28 @@ namespace Monofoxe.Engine.ECS
 		/// If false, Update and Destroy events won't be executed.
 		/// NOTE: This also applies to entity's components.
 		/// </summary>
-		public bool Enabled = true;
+		public bool Enabled
+		{
+			get => _enabled;
+			set
+			{
+				// When entity is being enabled, it checks if there are systems for its components.
+				// This is needed for cases when this is the only active entity with component of this type.
+				if (value && !_enabled)
+				{
+					foreach(var componentPair in _components)
+					{
+						if (componentPair.Value.System != null && !componentPair.Value.System.Enabled)
+						{
+							SystemMgr.EnableSystem(componentPair.Value.System.GetType());
+						}
+					}
+				}
+				_enabled = value;
+			}
+		}
+
+		private bool _enabled = true;
 		
 		/// <summary>
 		/// If false, Draw events won't be executed.

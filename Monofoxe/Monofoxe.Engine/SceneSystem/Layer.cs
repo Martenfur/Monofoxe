@@ -175,6 +175,7 @@ namespace Monofoxe.Engine.SceneSystem
 					if (!SystemMgr._activeSystems.Contains(system))
 					{
 						SystemMgr._activeSystems.Add(componentType, system);
+						system.Enabled = true;
 					}
 					system.Create(component);
 					system._usedByLayers = true;
