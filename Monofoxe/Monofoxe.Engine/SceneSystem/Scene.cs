@@ -68,7 +68,7 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public Layer CreateLayer(string name, int priority = 0)
 		{
-			if (LayerExists(name))
+			if (HasLayer(name))
 			{
 				throw new Exception("Layer with such name already exists!");
 			}
@@ -128,11 +128,29 @@ namespace Monofoxe.Engine.SceneSystem
 			}
 		}
 
+		/// <summary>
+		/// Finds layer with given name. Returns true, if layer was found.
+		/// </summary>
+		public bool TryGetLayer(string name, out Layer layer)
+		{
+			foreach(var l in _layers)
+			{
+				if (string.Equals(l.Name, name, StringComparison.OrdinalIgnoreCase))
+				{
+					layer = l;
+					return true;
+				}
+			}
+			layer = null;
+			return false;
+		}
+
+
 
 		/// <summary>
 		/// Returns true, if there is a layer with given name. 
 		/// </summary>
-		public bool LayerExists(string name)
+		public bool HasLayer(string name)
 		{
 			foreach(var layer in _layers)
 			{

@@ -74,7 +74,7 @@ namespace Monofoxe.Engine.SceneSystem
 
 
 		/// <summary>
-		/// Returns layer with given name.
+		/// Returns scene with given name.
 		/// </summary>
 		public static Scene GetScene(string name)
 		{
@@ -88,11 +88,27 @@ namespace Monofoxe.Engine.SceneSystem
 			return null;
 		}
 
+		/// <summary>
+		/// Finds scene with given name. Returns true, if scene was found.
+		/// </summary>
+		public static bool TryGetScene(string name, out Scene scene)
+		{
+			foreach(var s in _scenes)
+			{
+				if (string.Equals(s.Name, name, StringComparison.OrdinalIgnoreCase))
+				{
+					scene = s;
+					return true;
+				}
+			}
+			scene = null;
+			return false;
+		}
 
 		/// <summary>
-		/// Returns true, if there is a layer with given name. 
+		/// Returns true, if there is a scene with given name. 
 		/// </summary>
-		public static bool SceneExists(string name)
+		public static bool HasScene(string name)
 		{
 			foreach(var scene in _scenes)
 			{
