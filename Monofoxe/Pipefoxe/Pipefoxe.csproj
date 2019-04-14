@@ -64,6 +64,7 @@
     <Compile Include="EntityTemplate\EntityTemplateImporter.cs" />
     <Compile Include="EntityTemplate\EntityTemplateProcessor.cs" />
     <Compile Include="EntityTemplate\EntityTemplateWriter.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="SpriteGroup\ClassGenerator.cs" />
     <Compile Include="SpriteGroup\Frame.cs" />
     <Compile Include="SpriteGroup\SpriteGroupImporter.cs" />

@@ -8,6 +8,9 @@ namespace Pipefoxe.Tiled
 	{
 		public static TiledMap Parse(XmlDocument xml)
 		{
+			Logger.Init("map.log");	
+			Logger.Log("foxes");
+
 			var map = new TiledMap();
 			var mapXml = xml["map"];
 			var mapAttributes = xml["map"].Attributes;
