@@ -236,6 +236,7 @@ namespace Monofoxe.Engine.ECS
 				if (systemPair.Value.GetType() == systemType) 
 				{
 					_activeSystems.Add(systemPair.Key, systemPair.Value);
+					systemPair.Value._usedByLayers = true;
 					systemPair.Value.Enabled = true;
 					return;
 				}
@@ -316,6 +317,7 @@ namespace Monofoxe.Engine.ECS
 				foreach(var systemComponentType in unusedSystems)
 				{
 					_activeSystems.Remove(systemComponentType);
+					Console.WriteLine("Disabling " + systemComponentType.ToString());
 				}
 			}
 			// Disabling systems without components.
