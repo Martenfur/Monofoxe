@@ -32,6 +32,7 @@ namespace Pipefoxe.Tiled
 
 		public static TiledMapTileset[] Parse(XmlNodeList nodes)
 		{
+			ExternalTilesetsFirstGID.Clear();
 			var tilesets = new List<TiledMapTileset>();
 
 			foreach(XmlNode tilesetXml in nodes)
@@ -56,11 +57,12 @@ namespace Pipefoxe.Tiled
 			
 			if (tilesetXml.Attributes["source"] != null)
 			{
+				
 				ExternalTilesetsFirstGID.Add(
 					Path.GetFullPath(TiledMapImporter.CurrentRootDir + '/' + tilesetXml.Attributes["source"].Value), 
 					(uint)tileset.FirstGID
 				);
-
+			
 				// If there is "source" field, that means, tileset is external.
 				var doc = new XmlDocument();
 				try
@@ -89,6 +91,7 @@ namespace Pipefoxe.Tiled
 				return null;
 			}
 			
+			Logger.Log("Parsing tileset " + tilesetXml.Attributes["name"].Value);
 
 			#region Main fields.
 
