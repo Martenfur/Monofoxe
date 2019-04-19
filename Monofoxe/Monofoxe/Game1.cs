@@ -49,7 +49,6 @@ namespace Monofoxe
 			Effects.Load();
 			Maps.Load();
 
-			EntityTemplateMgr.LoadEntityTemplates();
 			GraphicsMgr.Init(GraphicsDevice);
 		}
 
