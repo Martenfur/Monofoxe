@@ -1,4 +1,4 @@
-﻿namespace Monofoxe.Engine
+﻿namespace Monofoxe.Engine.Drawing
 {
 	/// <summary>
 	/// Every time we want to draw primitive of a new type

@@ -18,7 +18,8 @@ namespace Monofoxe.Tiled
 		/// </summary>
 		private static Dictionary<string, ITiledEntityFactory> _factoryPool;
 
-		
+		// TODO: Rename to EntityFactoryMgr.
+
 		/// <summary>
 		/// Initializes Tiled map loading stuff.
 		/// HAS to be called in the beginning of the game, if you want to load Tiled maps.
@@ -57,7 +58,6 @@ namespace Monofoxe.Tiled
 				}
 			}
 		}
-
-
+		
 	}
 }

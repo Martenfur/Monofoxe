@@ -224,7 +224,7 @@ namespace Monofoxe.Engine.SceneSystem
 
 		internal void UpdateEntityList()
 		{
-			
+			// TODO: Test this and see if it's even needed.
 			// Clearing main list from destroyed objects.
 			foreach(var entity in _entities)
 			{
