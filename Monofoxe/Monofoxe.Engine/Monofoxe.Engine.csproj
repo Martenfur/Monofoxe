@@ -85,7 +85,7 @@
     <Compile Include="Drawing\Sprite.cs" />
     <Compile Include="Drawing\TextAlign.cs" />
     <Compile Include="Drawing\TextureFont.cs" />
-    <Compile Include="Drawing\DrawMgr.cs" />
+    <Compile Include="Drawing\GraphicsMgr.cs" />
     <Compile Include="ECS\BaseSystem.cs" />
     <Compile Include="ECS\Component.cs" />
     <Compile Include="ECS\Entity.cs" />
@@ -95,7 +95,7 @@
     <Compile Include="ECS\EntityTemplateMgr.cs" />
     <Compile Include="GameMgr.cs" />
     <Compile Include="Input.cs" />
-    <Compile Include="GraphicsMode.cs" />
+    <Compile Include="Drawing\GraphicsMode.cs" />
     <Compile Include="Utils\CustomCollections\SafeList.cs" />
     <Compile Include="Utils\CustomCollections\SafeSortedList.cs" />
     <Compile Include="SceneSystem\Layer.cs" />

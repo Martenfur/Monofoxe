@@ -240,45 +240,7 @@ namespace Monofoxe.Engine.SceneSystem
 			
 		}
 		
-
-		/*
-		/// <summary>
-		/// Executes Update events.
-		/// </summary>
-		internal static void CallUpdateEvents(GameTime gameTime)
-		{
-			TimeKeeper._elapsedTime = GameMgr.ElapsedTime;
-			
-			foreach(var scene in Scenes)
-			{		
-				if (scene.Enabled)
-				{
-					CurrentScene = scene;
-					
-					foreach(var layer in scene.Layers)
-					{
-						if (layer.Enabled)
-						{
-							CurrentLayer = layer;
-							SystemMgr.Update(layer._components);
-
-							foreach(var entity in layer.Entities)
-							{
-								if (entity.Enabled && !entity.Destroyed)
-								{
-									entity.Update(); 
-								}
-							}
-						}
-					}
-				}
-			}
-			
-		}
-		 */ 
-		 
-
-
+		
 		/// <summary>
 		/// Executes Draw events.
 		/// </summary>
