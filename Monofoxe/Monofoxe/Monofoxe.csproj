@@ -62,6 +62,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ECSTest\Components\CBirb.cs" />
+    <Compile Include="ECSTest\Factories\BallFactory.cs" />
+    <Compile Include="ECSTest\Factories\BirbFactory.cs" />
     <Compile Include="ECSTest\Systems\SBirb.cs" />
     <Compile Include="Resources\Sprites\Special.cs" />
     <Compile Include="Test\MapFactories\BarrelMapFactory.cs" />

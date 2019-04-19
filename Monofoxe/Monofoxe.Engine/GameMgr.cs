@@ -101,6 +101,8 @@ namespace Monofoxe.Engine
 
 			var defScene = SceneMgr.CreateScene("default");
 			defScene.CreateLayer("default");
+
+			EntityFactoryMgr.Init();
 		}
 
 		

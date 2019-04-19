@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine.ECS;
 
 namespace Monofoxe.Engine.Utils.Tilemaps
@@ -76,10 +75,5 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 			TileHeight = tileHeight;
 			_tileGrid = new BasicTile[Width, Height];
 		}
-
-
-		public override object Clone() =>
-			throw new NotImplementedException();
-
 	}
 }

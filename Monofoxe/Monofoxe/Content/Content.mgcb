@@ -46,24 +46,6 @@
 /processorParam:DebugMode=Auto
 /build:Effects/effect.fx
 
-#begin Entities/_config.json
-/copy:Entities/_config.json
-
-#begin Entities/Ball.json
-/importer:EntityTemplateImporter
-/processor:EntityTemplateProcessor
-/build:Entities/Ball.json
-
-#begin Entities/Birb.json
-/importer:EntityTemplateImporter
-/processor:EntityTemplateProcessor
-/build:Entities/Birb.json
-
-#begin Entities/TestTemplate.json
-/importer:EntityTemplateImporter
-/processor:EntityTemplateProcessor
-/build:Entities/TestTemplate.json
-
 #begin Fonts/Arial.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

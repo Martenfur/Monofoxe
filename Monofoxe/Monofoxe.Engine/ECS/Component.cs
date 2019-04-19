@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace Monofoxe.Engine.ECS
+﻿namespace Monofoxe.Engine.ECS
 {
 	/// <summary>
 	/// Stores data, which will be processed by corresponding systems.
 	/// </summary>
-	public abstract class Component : ICloneable
+	public abstract class Component
 	{
 		/// <summary>
 		/// Owner of a component.
@@ -55,14 +53,5 @@ namespace Monofoxe.Engine.ECS
 		/// Component's assigned system. Will be null only if no systems exist for this component.
 		/// </summary>
 		public BaseSystem System {get; internal set;}
-
-
-		/// <summary>
-		/// Creates a new object that is a copy of the current instance.
-		/// 
-		/// NOTE: If you are going to use json entity templates, 
-		/// this method has to be properly implemented! 
-		/// </summary>
-		public abstract object Clone();
 	}
 }
