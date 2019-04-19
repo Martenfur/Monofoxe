@@ -71,7 +71,7 @@
     <Compile Include="Drawing\TriangleShape.cs" />
     <Compile Include="Drawing\Vertex.cs" />
     <Compile Include="ECS\ComponentContainer.cs" />
-    <Compile Include="ECS\EntityFactoryMgr.cs" />
+    <Compile Include="ECS\EntityFactoryPool.cs" />
     <Compile Include="ECS\IEntityFactory.cs" />
     <Compile Include="Utils\CustomCollections\SafeSortedDictionary.cs" />
     <Compile Include="Drawing\Font.cs" />

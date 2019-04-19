@@ -5,46 +5,22 @@ using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Tiled.MapStructure.Objects;
 
-
 namespace Monofoxe.Tiled
 {
 	/// <summary>
-	/// Manages Tiled maps.
+	/// Stores an instance of each class which implements ITiledEntityFactory.
 	/// </summary>
-	public static class MapMgr
+	public static class TiledEntityFactoryPool
 	{
 		/// <summary>
 		/// Pool of all factories in all assemblies. Sorted by their tags.
 		/// </summary>
 		private static Dictionary<string, ITiledEntityFactory> _factoryPool;
 
-		// TODO: Rename to EntityFactoryMgr.
-
-		/// <summary>
-		/// Initializes Tiled map loading stuff.
-		/// HAS to be called in the beginning of the game, if you want to load Tiled maps.
-		/// </summary>
-		public static void Init() =>
-			InitFactoryPool();
-
-
-		/// <summary>
-		/// Makes entity from Tiled temmplate using factory pool.
-		/// </summary>
-		public static Entity MakeEntity(TiledObject obj, Layer layer, MapBuilder map)
-		{
-			if (_factoryPool.TryGetValue(obj.Type.ToLower(), out ITiledEntityFactory factory))
-			{
-				return factory.Make(obj, layer, map);
-			}
-			return null;
-		}
-
-
 		/// <summary>
 		/// Creates pool of all factories.
 		/// </summary>
-		private static void InitFactoryPool()
+		public static void InitFactoryPool()
 		{
 			_factoryPool = new Dictionary<string, ITiledEntityFactory>();
 			
@@ -58,6 +34,18 @@ namespace Monofoxe.Tiled
 				}
 			}
 		}
-		
+
+		/// <summary>
+		/// Makes entity from Tiled temmplate using factory pool.
+		/// </summary>
+		public static Entity MakeEntity(TiledObject obj, Layer layer, MapBuilder map)
+		{
+			if (_factoryPool.TryGetValue(obj.Type.ToLower(), out ITiledEntityFactory factory))
+			{
+				return factory.Make(obj, layer, map);
+			}
+			return null;
+		}
+
 	}
 }

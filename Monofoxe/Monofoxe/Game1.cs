@@ -31,7 +31,7 @@ namespace Monofoxe
 		{
 			base.Initialize();
 			
-			Tiled.MapMgr.Init();
+			Tiled.TiledEntityFactoryPool.InitFactoryPool();
 
 			new MainTester();
 		}

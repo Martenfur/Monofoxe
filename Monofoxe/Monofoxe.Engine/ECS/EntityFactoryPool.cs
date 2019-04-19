@@ -1,24 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using Monofoxe.Engine.SceneSystem;
-
 
 namespace Monofoxe.Engine.ECS
 {
-	static class EntityFactoryMgr
+	/// <summary>
+	/// Entity factory pool stores in instance of each entity factory.
+	/// </summary>
+	static class EntityFactoryPool
 	{
 		/// <summary>
 		/// Pool of all factories in all assemblies. Sorted by their tags.
 		/// </summary>
-		internal static Dictionary<string, IEntityFactory> FactoryPool;
-
-		// TODO: Rename to EntityFactoryMgr.
+		public static Dictionary<string, IEntityFactory> FactoryPool;
 
 		/// <summary>
-		/// Initializes Tiled map loading stuff.
-		/// HAS to be called in the beginning of the game, if you want to load Tiled maps.
+		/// Initialized factory pool by creating an instance of each IEntityFactory class.
 		/// </summary>
-		public static void Init()
+		public static void InitFactoryPool()
 		{
 			FactoryPool = new Dictionary<string, IEntityFactory>();
 			

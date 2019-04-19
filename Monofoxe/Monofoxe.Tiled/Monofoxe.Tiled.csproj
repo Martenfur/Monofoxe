@@ -57,7 +57,7 @@
     <Compile Include="ImageLayerSystem.cs" />
     <Compile Include="ITiledEntityFactory.cs" />
     <Compile Include="MapBuilder.cs" />
-    <Compile Include="MapMgr.cs" />
+    <Compile Include="TiledEntityFactoryPool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="..\Monofoxe.Tiled.MapStructure\Monofoxe.Tiled.MapStructure.projitems" Label="Shared" />
