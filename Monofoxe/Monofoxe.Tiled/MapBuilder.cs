@@ -183,7 +183,7 @@ namespace Monofoxe.Tiled
 
 				foreach(var obj in objectLayer.Objects)
 				{
-					MapMgr.MakeEntity(obj, layer, this);
+					TiledEntityFactoryPool.MakeEntity(obj, layer, this);
 				}
 				layers.Add(layer);
 			}
