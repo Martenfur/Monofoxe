@@ -2,7 +2,7 @@
 using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.ECS;
-using Monofoxe.FMODAudio;
+using ChaiFoxes.FMODAudio;
 using Monofoxe.Test;
 using Resources;
 using Resources.Sprites;
@@ -18,7 +18,6 @@ namespace Monofoxe
 		{
 			Content.RootDirectory = AssetMgr.ContentDir;
 			GameMgr.Init(this);
-			AudioMgr.Init(AssetMgr.ContentDir + '/' + AssetMgr.AudioDir + '/');
 		}
 
 		/// <summary>
@@ -29,11 +28,13 @@ namespace Monofoxe
 		/// </summary>
 		protected override void Initialize()
 		{
-			base.Initialize();
+			AudioMgr.Init(AssetMgr.ContentDir + '/' + AssetMgr.AudioDir);
 			
+			base.Initialize();
 			Tiled.TiledEntityFactoryPool.InitFactoryPool();
 
 			new MainTester();
+			
 		}
 
 		/// <summary>

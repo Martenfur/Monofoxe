@@ -88,22 +88,26 @@
     <Compile Include="Test\DrawingTester.cs" />
     <Compile Include="Test\ECSTester.cs" />
     <Compile Include="Test\MainTester.cs" />
+    <None Include="packages.config" />
+    <None Include="x64\fmod.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="x86\fmod.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="ChaiFoxes.FMODAudio.Desktop, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ChaiFoxes.FMODAudio.Desktop.1.0.3\lib\net45\ChaiFoxes.FMODAudio.Desktop.dll</HintPath>
+    </Reference>
     <Reference Include="Monofoxe.Engine">
       <HintPath>..\bin\Debug\Monofoxe.Engine.dll</HintPath>
-    </Reference>
-    <Reference Include="Monofoxe.FMODAudio">
-      <HintPath>..\bin\Debug\Monofoxe.FMODAudio.dll</HintPath>
     </Reference>
     <Reference Include="Monofoxe.Tiled">
       <HintPath>..\bin\Debug\Monofoxe.Tiled.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -170,7 +174,6 @@
     <None Include="Content\Entities\Birb.json" />
     <None Include="Content\Entities\TestTemplate.json" />
     <None Include="Content\Entities\_config.json" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

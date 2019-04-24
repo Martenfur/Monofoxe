@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monofoxe.Tiled", "Monofoxe.
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Monofoxe.Tiled.MapStructure", "Monofoxe.Tiled.MapStructure\Monofoxe.Tiled.MapStructure.shproj", "{785E8147-0E69-45DF-92F7-B4F315739D0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monofoxe.FMODAudio", "Monofoxe.FMODAudio\Monofoxe.FMODAudio.csproj", "{34272495-2678-4BBD-B301-3B3BCF94EAC9}"
-EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Monofoxe.Tiled.MapStructure\Monofoxe.Tiled.MapStructure.projitems*{1eda060a-dfe0-460e-9daa-cb8d6d046411}*SharedItemsImports = 4
@@ -42,10 +40,6 @@ Global
 		{1EDA060A-DFE0-460E-9DAA-CB8D6D046411}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EDA060A-DFE0-460E-9DAA-CB8D6D046411}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1EDA060A-DFE0-460E-9DAA-CB8D6D046411}.Release|Any CPU.Build.0 = Release|Any CPU
-		{34272495-2678-4BBD-B301-3B3BCF94EAC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{34272495-2678-4BBD-B301-3B3BCF94EAC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{34272495-2678-4BBD-B301-3B3BCF94EAC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{34272495-2678-4BBD-B301-3B3BCF94EAC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
