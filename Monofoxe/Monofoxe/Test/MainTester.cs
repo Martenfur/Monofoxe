@@ -46,6 +46,7 @@ namespace Monofoxe.Test
 			new ECSTester(ballsLayer);
 			//new AlarmTester(ballsLayer);
 			new TileTester(ballsLayer);
+			new AudioTester();
 			//new StateMachineTester(ballsLayer);
 
 			/*

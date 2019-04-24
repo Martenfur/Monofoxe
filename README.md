@@ -21,7 +21,7 @@ Everything Monogame does, plus:
 * Input management.
 * Useful math for collisions and other game stuff.
 * Timers, alarms, cameras, state machines, tilemaps, foxes!
-* FMOD support (Windows-only for now).
+* FMOD audio support (As a standalone [library](https://github.com/gnFur/ChaiFoxes.FMODAudio/)).
 * Hybrid ECS.
 * Scene system (with layers!).
 * Tiled maps support.
@@ -31,16 +31,8 @@ Coming in the future:
 
 * Animated tiles and infinite tilemaps from Tiled.
 * Particle system.
-* Linux\Android support for FMOD.
 * Documentation.
 * Demo game.
-
-
-Not planned:
-
-* 3D toolset.
-* iOS\MacOS support for FMOD.
-* Scripting.
 
 # Can I use it in my p...
 

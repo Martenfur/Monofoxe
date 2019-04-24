@@ -7,12 +7,12 @@ using System.Diagnostics;
 using Monofoxe.Engine.Utils;
 using Resources.Sprites;
 using Resources;
-using Monofoxe.FMODAudio;
+using ChaiFoxes.FMODAudio;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.ECSTest.Systems;
 using Monofoxe.ECSTest.Components;
-
+using System.Runtime.InteropServices;
 
 namespace Monofoxe.Test
 {
@@ -24,16 +24,22 @@ namespace Monofoxe.Test
 		Sound snd2;
 		Sound snd3;
 
+		Listener3D listener;
+
 		FMOD.ChannelGroup group;//new FMOD.ChannelGroup((IntPtr)0);
 
 		public AudioTester() : base(SceneMgr.GetScene("default")["default"])
 		{
-			snd1 = AudioMgr.LoadStreamedSound("Music/m_mission", FMOD.MODE._3D);
-			snd2 = AudioMgr.LoadStreamedSound("Music/m_peace");
-			snd3 = AudioMgr.LoadSound("Sounds/punch", FMOD.MODE._3D);
-			
-			AudioMgr.ListenerCount = 1;
-			AudioMgr.SetListenerPosition(new Vector2(256, 256), 0);
+			snd1 = AudioMgr.LoadStreamedSound("Music/m_mission.ogg");
+			snd1.Is3D = true;
+			snd1.MinDistance3D = 100;
+			snd1.MaxDistance3D = 300;
+			snd2 = AudioMgr.LoadStreamedSound("Music/m_peace.ogg");
+			snd3 = AudioMgr.LoadSound("Sounds/punch.wav");
+			snd3.Is3D = true;
+
+			listener = Listener3D.Create();
+			listener.Position3D = new Vector3(256, 256, 0);
 
 			group = AudioMgr.CreateChannelGroup("group");
 			
@@ -41,24 +47,16 @@ namespace Monofoxe.Test
 
 		public override void Update()
 		{
-			snd1.Set3DAttributes(Input.ScreenMousePosition, Vector2.Zero);
-			snd1.Set3DMinMaxDistance(100, 300);
-
+			listener.Position3D = Input.ScreenMousePosition.ToVector3();
+			
 			if (Input.CheckButtonPress(Buttons.A))
 			{
 				snd1.Play(group);
+				
 			}
 			if (Input.CheckButtonPress(Buttons.S))
 			{
 				snd2.Play(group);
-			}
-			if (Input.CheckButton(Buttons.D))
-			{
-				if (!snd3.IsPlaying)
-				{
-					snd3.Play(group);
-					snd3.Channel?.setReverbProperties(0, lowpass);
-				}
 			}
 
 			if (Input.CheckButtonPress(Buttons.O))
@@ -74,8 +72,6 @@ namespace Monofoxe.Test
 					lowpass = 1;
 				}	
 				group.setLowPassGain(lowpass);
-
-				//snd1.LowPass = lowpass;
 			}
 			if (Input.CheckButton(Buttons.W))
 			{
@@ -84,7 +80,6 @@ namespace Monofoxe.Test
 				{
 					lowpass = 0.1f;
 				}
-				//snd1.LowPass = lowpass;
 				group.setLowPassGain(lowpass);
 			}
 
