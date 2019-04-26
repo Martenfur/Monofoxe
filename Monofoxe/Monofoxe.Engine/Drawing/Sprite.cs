@@ -140,7 +140,6 @@ namespace Monofoxe.Engine.Drawing
 			GetFrame(Animation).Draw(Position, Origin, Scale, Rotation, Color);
 		
 		// Vectors.
-		// TODO: Add frame origins.
 		public void Draw(Vector2 position, Vector2 origin) =>
 			_frames[0].Draw(position, origin, Vector2.One, 0, GraphicsMgr.CurrentColor, SpriteEffects.None);
 		

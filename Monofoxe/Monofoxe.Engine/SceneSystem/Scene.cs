@@ -162,29 +162,6 @@ namespace Monofoxe.Engine.SceneSystem
 			return false;
 		}
 		
-
-		/// <summary>
-		/// Returns info about layers.
-		/// TODO: Remove?
-		/// </summary>
-		public string __GetLayerInfo()
-		{
-			var str = new StringBuilder();
-
-			foreach(var layer in _layers)
-			{
-				str.Append(
-					layer.Name + 
-					"; Priority: " + layer.Priority + 
-					"; is GUI: " + layer.IsGUI + 
-					"; Ent: " + layer.Entities.Count +
-					Environment.NewLine
-				);
-			}
-
-			return str.ToString();
-		}
-
 		#endregion Layer methods.
 
 

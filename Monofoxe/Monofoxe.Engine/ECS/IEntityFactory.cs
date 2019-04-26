@@ -2,8 +2,6 @@
 
 namespace Monofoxe.Engine.ECS
 {
-	// TODO: Maybe rename to Template?
-
 	/// <summary>
 	/// Entity factory interface. Used to create entity by tag.
 	/// </summary>

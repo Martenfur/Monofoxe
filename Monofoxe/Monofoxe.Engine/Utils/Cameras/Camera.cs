@@ -278,7 +278,7 @@ namespace Monofoxe.Engine.Utils.Cameras
 
 			var result = false;
 			
-			// NOTE: Here was a strange TODO with just said "fix this".
+			// NOTE: Here was a strange TO-DO with just said "fix this".
 			// Haven't found any bugs here, so just removed it. Probably
 			// was an already fixed bug with case-sensitivity. In case of any 
 			// camera filter-related bugs, this place if the first suspect.
