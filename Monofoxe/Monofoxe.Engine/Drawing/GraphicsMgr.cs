@@ -11,7 +11,7 @@ namespace Monofoxe.Engine.Drawing
 
 	public static class GraphicsMgr
 	{
-		private const int _vertexBufferSize = 320000;	// TODO: Figure out, if this value is actually ok.
+		private const int _vertexBufferSize = 320000;
 
 		/// <summary>
 		/// Default sprite batch used to draw sprites, text and surfaces.
@@ -39,7 +39,6 @@ namespace Monofoxe.Engine.Drawing
 		
 		/// <summary>
 		/// Current drawing color. Affects shapes, sprites, text and primitives.
-		/// TODO: Update description.
 		/// </summary>
 		public static Color CurrentColor = Color.White;
 
