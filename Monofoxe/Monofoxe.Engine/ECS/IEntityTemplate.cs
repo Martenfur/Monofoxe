@@ -3,14 +3,14 @@
 namespace Monofoxe.Engine.ECS
 {
 	/// <summary>
-	/// Entity factory interface. Used to create entity by tag.
+	/// Entity template interface. Used to create entity by tag.
 	/// </summary>
-	public interface IEntityFactory
+	public interface IEntityTemplate
 	{
 		/// <summary>
 		/// Identifying tag. Will be assigned to created entities.
 		/// 
-		/// NOTE: All factory tags should be unique!
+		/// NOTE: All template tags should be unique!
 		/// </summary>
 		string Tag {get;}
 

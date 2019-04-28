@@ -1,21 +1,23 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine;
+using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Utils.Cameras;
 using Resources.Sprites;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace $safeprojectname$
 {
-	class Test : Entity
+	public class Test : Entity
 	{
 		Camera cam = new Camera(800, 600);
 
 		public Test() : base(SceneMgr.GetScene("default")["default"])
 		{
 			GameMgr.MaxGameSpeed = 60;
-			
+			GameMgr.MinGameSpeed = 60; // Fixing framerate on 60.
+
 			cam.BackgroundColor = new Color(64, 32, 32);
 
 			GameMgr.WindowManager.CanvasSize = new Vector2(800, 600);
@@ -24,7 +26,7 @@ namespace $safeprojectname$
 			GameMgr.WindowManager.CenterWindow();
 			GameMgr.WindowManager.CanvasMode = CanvasMode.Fill;
 			
-			DrawMgr.Sampler = SamplerState.PointClamp;
+			GraphicsMgr.Sampler = SamplerState.PointClamp;
 		}
 		
 		public override void Update()
@@ -35,7 +37,7 @@ namespace $safeprojectname$
 		
 		public override void Draw()
 		{
-			DrawMgr.DrawSprite(Default.Monofoxe, 400, 300);
+			Default.Monofoxe.Draw(new Vector2(400, 300), Default.Monofoxe.Origin);
 		}
 
 	}

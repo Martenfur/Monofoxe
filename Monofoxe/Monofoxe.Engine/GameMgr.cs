@@ -102,7 +102,7 @@ namespace Monofoxe.Engine
 			var defScene = SceneMgr.CreateScene("default");
 			defScene.CreateLayer("default");
 
-			EntityFactoryPool.InitFactoryPool();
+			EntityTemplatePool.InitTemplatePool();
 		}
 
 		

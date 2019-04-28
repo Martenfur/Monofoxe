@@ -1,8 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using ChaiFoxes.FMODAudio;
+using Microsoft.Xna.Framework;
 using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
-using Monofoxe.Engine.ECS;
-using ChaiFoxes.FMODAudio;
 using Monofoxe.Test;
 using Resources;
 using Resources.Sprites;

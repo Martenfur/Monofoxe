@@ -275,7 +275,7 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		public static Entity CreateFromTemplate(Layer layer, string tag)
 		{
-			if (EntityFactoryPool.FactoryPool.TryGetValue(tag.ToLower(), out IEntityFactory factory))
+			if (EntityTemplatePool.TemplatePool.TryGetValue(tag.ToLower(), out IEntityTemplate factory))
 			{
 				return factory.Make(layer);
 			}

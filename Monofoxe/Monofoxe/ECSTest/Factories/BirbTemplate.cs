@@ -4,7 +4,7 @@ using Monofoxe.Engine.SceneSystem;
 
 namespace Monofoxe.ECSTest.Factories
 {
-	public class BirbFactory : IEntityFactory
+	public class BirbTemplate : IEntityTemplate
 	{
 		public string Tag => "birb";
 
