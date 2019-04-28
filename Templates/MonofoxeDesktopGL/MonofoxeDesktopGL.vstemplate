@@ -27,9 +27,7 @@
       
       <Folder Name="References" TargetFolderName="References">
         <ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.Engine.dll">Monofoxe.Engine.dll</ProjectItem>
-				<ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.FMODAudio.dll">Monofoxe.FMODAudio.dll</ProjectItem>
 				<ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.Tiled.dll">Monofoxe.Tiled.dll</ProjectItem>
-				<ProjectItem ReplaceParameters="false" TargetFileName="Newtonsoft.Json.dll">Newtonsoft.Json.dll</ProjectItem>
       </Folder>      
       
       <Folder Name="Resources" TargetFolderName="Resources">
@@ -38,7 +36,6 @@
         </Folder>
         <ProjectItem ReplaceParameters="false" TargetFileName="Effects.cs">Effects.cs</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="Fonts.cs">Fonts.cs</ProjectItem>
-        <ProjectItem ReplaceParameters="false" TargetFileName="Sounds.cs">Sounds.cs</ProjectItem>
 				<ProjectItem ReplaceParameters="false" TargetFileName="Maps.cs">Maps.cs</ProjectItem>
       </Folder>
 
@@ -85,17 +82,6 @@
           <ProjectItem ReplaceParameters="false" TargetFileName="System.ValueTuple.dll">System.ValueTuple.dll</ProjectItem>
         </Folder>
 
-      </Folder>
-
-      
-      
-      <Folder Name="FMOD" TargetFolderName="FMOD">
-        <Folder Name="x32" TargetFolderName="x32">
-          <ProjectItem ReplaceParameters="false" TargetFileName="fmod.dll">fmod.dll</ProjectItem>
-        </Folder>
-        <Folder Name="x64" TargetFolderName="x64">
-          <ProjectItem ReplaceParameters="false" TargetFileName="fmod.dll">fmod.dll</ProjectItem>
-        </Folder>
       </Folder>
 
 

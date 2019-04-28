@@ -1,8 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine;
-using Monofoxe.Engine.ECS;
-using Monofoxe.FMODAudio;
 using Monofoxe.Tiled;
+using Monofoxe.Engine.Drawing;
 using Resources;
 
 namespace $safeprojectname$
@@ -27,9 +26,7 @@ namespace $safeprojectname$
 		protected override void Initialize()
 		{
 			base.Initialize();
-			
-			AudioMgr.Init();
-			MapMgr.Init();
+			TiledEntityFactoryPool.InitFactoryPool();
 
 			new Test();
 		}
@@ -40,8 +37,7 @@ namespace $safeprojectname$
 		/// </summary>
 		protected override void LoadContent()
 		{
-			DrawMgr.Init(GraphicsDevice);
-			EntityMgr.LoadEntityTemplates();
+			GraphicsMgr.Init(GraphicsDevice);
 			
 			Resources.Sprites.Default.Load();	
 			Fonts.Load();
@@ -55,7 +51,6 @@ namespace $safeprojectname$
 		/// </summary>
 		protected override void UnloadContent()
 		{
-			AudioMgr.Unload();
 		}
 
 		/// <summary>
@@ -66,7 +61,6 @@ namespace $safeprojectname$
 		protected override void Update(GameTime gameTime)
 		{
 			GameMgr.Update(gameTime);
-			AudioMgr.Update();
 			
 			base.Update(gameTime);
 		}

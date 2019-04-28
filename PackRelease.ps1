@@ -31,7 +31,6 @@ $msbuild = Find-MsBuild
 
 $srcLibDir = "$PWD\Monofoxe\bin\Release"
 $srcPipelineLibDir = "$PWD\Monofoxe\bin\Pipeline\Release"
-$srcFMODLibDir = "$PWD\Monofoxe\bin\Release\FMOD"
 
 
 $destReleaseDir = "$PWD\Release\"
@@ -65,8 +64,6 @@ New-Item -ItemType Directory -Force -Path "$destReleaseDir$desktopGL\Content\Eff
 Copy-Item -path "$srcLibDir\*" -Filter "*.fx" -Destination "$destReleaseDir$desktopGL\Content\Effects\"
 New-Item -ItemType Directory -Force -Path "$destReleaseDir$desktopGL\Content\References\" > $null
 Copy-Item -path "$srcPipelineLibDir\*" -Filter "*.dll" -Destination "$destReleaseDir$desktopGL\Content\References\"
-Copy-Item -path "$srcFMODLibDir" -Destination "$destReleaseDir$desktopGL\" -Recurse
-
 
 "Copying raw libraries..."
 New-Item -ItemType Directory -Force -Path "$destLibDir" > $null
@@ -75,8 +72,6 @@ Copy-Item -path "$srcLibDir\*" -Filter "*.xml" -Destination "$destLibDir"
 Copy-Item -path "$srcLibDir\*" -Filter "*.fx" -Destination "$destLibDir"
 New-Item -ItemType Directory -Force -Path "$destLibDir\Pipeline\" > $null
 Copy-Item -path "$srcPipelineLibDir\*" -Filter "*.dll" -Destination "$destLibDir\Pipeline\"
-Copy-Item -path "$srcFMODLibDir" -Destination $destLibDir -Recurse
-
 
 "Packing templates..."
 [IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$desktopGL", "$destReleaseDir$desktopGL.zip")

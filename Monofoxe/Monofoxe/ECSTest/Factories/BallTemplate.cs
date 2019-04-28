@@ -4,7 +4,7 @@ using Monofoxe.Engine.SceneSystem;
 
 namespace Monofoxe.ECSTest.Factories
 {
-	public class BallFactory : IEntityFactory
+	public class BallTemplate : IEntityTemplate
 	{
 		public string Tag => "ball";
 
