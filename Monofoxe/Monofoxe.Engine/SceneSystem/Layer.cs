@@ -172,15 +172,12 @@ namespace Monofoxe.Engine.SceneSystem
 				var componentType = component.GetType();
 				if (SystemMgr._systemPool.TryGetValue(componentType, out BaseSystem system))
 				{
-					if (!SystemMgr._activeSystems.Contains(system))
+					if (system.Enabled)
 					{
-						SystemMgr._activeSystems.Add(componentType, system);
-						system.Enabled = true;
+						component.System = system;
+						component.Initialized = true;
+						system.Create(component);
 					}
-					system.Create(component);
-					system._usedByLayers = true;
-					component.Initialized = true;
-					component.System = system;
 				}
 
 				_depthListOutdated = true;
@@ -217,8 +214,6 @@ namespace Monofoxe.Engine.SceneSystem
 			{
 				component.System.Destroy(component);
 			}
-
-			SystemMgr._componentsWereRemoved = true;
 		}
 
 
