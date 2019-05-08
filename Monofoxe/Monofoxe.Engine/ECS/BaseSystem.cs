@@ -19,14 +19,9 @@ namespace Monofoxe.Engine.ECS
 		public virtual int Priority {get;}
 		
 		/// <summary>
-		/// Tells, if any layer is currently using this system.
-		/// </summary>
-		internal bool _usedByLayers;
-
-		/// <summary>
 		/// If system is enabled, it will invoke its Update and Draw methods.
 		/// </summary>
-		public bool Enabled {get; internal set;} = false;
+		public bool Enabled = true;
 
 		
 		public virtual void Create(Component component) {}

@@ -136,8 +136,6 @@ namespace Monofoxe.Engine.SceneSystem
 					layer.UpdateEntityList();
 				}
 			}
-			
-			SystemMgr.DisableInactiveSystems();
 		}
 
 

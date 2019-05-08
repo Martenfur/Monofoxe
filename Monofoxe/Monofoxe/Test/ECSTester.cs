@@ -19,12 +19,15 @@ namespace Monofoxe.Test
 		
 		public ECSTester(Layer layer) : base(SceneMgr.GetScene("default")["balls"])
 		{
+			Console.WriteLine("kok" + Enabled);
+			
 		}
 
 		public override void Update()
 		{
 			SceneMgr.GetScene("default")["balls"].Priority = 999999;
-	
+			
+			
 			if (Input.CheckButton(Buttons.MouseLeft))
 			{
 				if (Input.CheckButton(Buttons.Space))
@@ -42,10 +45,10 @@ namespace Monofoxe.Test
 						var ball = CreateFromTemplate(Layer, "ball");
 						ball.GetComponent<CMovement>().Position = Input.ScreenMousePosition;
 						ball.GetComponent<CCollision>().MaskR = 20;//r.Next(10, 16);
+
 					}
 				}
-				Console.WriteLine(Layer.CountEntities("ball") + Layer.CountEntities("birb"));
-		
+				Console.WriteLine(Layer.CountEntities("ball") + Layer.CountEntities("birb") + " sup");
 			}
 			
 			if (Input.CheckButton(Buttons.MouseRight))
