@@ -89,7 +89,7 @@ namespace Monofoxe.Engine.SceneSystem
 		/// <summary>
 		/// List of all layer's entities.
 		/// </summary>
-		public IReadOnlyCollection<Entity> Entities => _entities.ToList();
+		public List<Entity> Entities => _entities.ToList();
 
 		private SafeList<Entity> _entities = new SafeList<Entity>();
 		internal SafeList<Entity> _depthSortedEntities;

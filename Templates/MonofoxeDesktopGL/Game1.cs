@@ -28,7 +28,7 @@ namespace $safeprojectname$
 			base.Initialize();
 			TiledEntityFactoryPool.InitFactoryPool();
 
-			new Test();
+			new GameController();
 		}
 
 		/// <summary>
