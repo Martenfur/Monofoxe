@@ -78,6 +78,9 @@ Copy-Item -path "$srcPipelineLibDir\*" -Filter "*.dll" -Destination "$destLibDir
 "Packing raw libraries..."
 [IO.Compression.ZipFile]::CreateFromDirectory("$destLibDir", "$destLibDir.zip")
 
+"Making installer..."
+makensis Installer/packInstaller.nsi
+
 "Cleaning..."
 Remove-Item "$destReleaseDir$desktopGL" -Force -Recurse
 Remove-Item "$destLibDir" -Force -Recurse
