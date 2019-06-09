@@ -50,7 +50,7 @@ Installer budles Visual Studio 2015, 2017 and 2019 templates, [NoPipeline](https
 
 Just install Monofoxe, create Monofoxe project and you're good to go. 
 
-You can also check out the [Demo game](https://bitbucket.org/gnFur/monofoxe.demo/). Docs and little demo projects coming soon!
+You can also check out the [Demo game](https://bitbucket.org/gnFur/monofoxe.demo/). Docs and more demo projects coming soon!
 
 
 Want to contribute, suggest a feature or just want to pour shit on my code? Feel free to contact me via email: **chaifoxes@gmail.com** or on [Twitter](https://twitter.com/ChaiFoxes).
