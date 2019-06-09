@@ -7,7 +7,7 @@ enabling you to just *create a new project and make a damn game* without removin
 Monofoxe took a lot of inspiration from Game Maker, so it should be a bit familiar to some folks.
 
 
-**Current state: pre-release**
+**Current version: 1.0.0.0**
 
 
 # What can it do?
@@ -25,6 +25,7 @@ Everything Monogame does, plus:
 * Hybrid ECS.
 * Scene system (with layers!).
 * Tiled maps support.
+* Enhanced resource management via [NoPipeline](https://github.com/gnFur/NoPipeline).
 
 
 Coming in the future:
@@ -32,7 +33,6 @@ Coming in the future:
 * Animated tiles and infinite tilemaps from Tiled.
 * Particle system.
 * Documentation.
-* Demo game.
 
 # Can I use it in my p...
 
@@ -45,13 +45,12 @@ Well, up to you. Currently I am developing Monofoxe alone, and can't really prov
 
 # How do I use it?
 
-You'll need:
+Just download the [Monogame installer](https://bitbucket.org/gnFur/monofoxe/downloads/MonofoxeSetup_v1.0.0.0.exe) or [standalone libraries](https://bitbucket.org/gnFur/monofoxe/downloads/RawLibraries_v1.0.0.0.zip).
+Installer budles Visual Studio 2015, 2017 and 2019 templates, [NoPipeline](https://github.com/gnFur/NoPipeline) and Monogame 3.7.1 installation. 
 
-* [Monogame](http://monogame.net).
-* The latest release of Monofoxe as [Visual Studio templates (VERY outdated)](https://bitbucket.org/gnFur/monofoxe/downloads/MonofoxeDesktopGL.zip) or standalone libraries (coming soon!).
+Just install Monofoxe, create Monofoxe project and you're good to go. 
 
-
-Just install Monofoxe template, create Monofoxe project and you're good to go. 
+You can also check out the [Demo game](https://bitbucket.org/gnFur/monofoxe.demo/). Docs and more demo projects coming soon!
 
 
 Want to contribute, suggest a feature or just want to pour shit on my code? Feel free to contact me via email: **chaifoxes@gmail.com** or on [Twitter](https://twitter.com/ChaiFoxes).
