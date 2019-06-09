@@ -73,6 +73,8 @@ Section "Visual Studio 2015 Templates" VS2015
   InstallTemplates:
     SetOutPath "$DOCUMENTS\Visual Studio 2015\Templates\ProjectTemplates\Visual C#\Monofoxe"
     File /r '..\Release\MonofoxeDesktopGL.zip'
+    File /r '..\Release\MonofoxeDesktopGLBlank.zip'
+    File /r '..\Release\MonofoxeShared.zip'
     GOTO EndTemplates
   CannotInstallTemplates:
     DetailPrint "Visual Studio 2015 not found"
@@ -86,6 +88,8 @@ Section "Visual Studio 2017 Templates" VS2017
   InstallTemplates:
     SetOutPath "$DOCUMENTS\Visual Studio 2017\Templates\ProjectTemplates\Visual C#\Monofoxe"
     File /r '..\Release\MonofoxeDesktopGL.zip'
+    File /r '..\Release\MonofoxeDesktopGLBlank.zip'
+    File /r '..\Release\MonofoxeShared.zip'
     GOTO EndTemplates
   CannotInstallTemplates:
     DetailPrint "Visual Studio 2017 not found"
@@ -99,6 +103,8 @@ Section "Visual Studio 2019 Templates" VS2019
   InstallTemplates:
     SetOutPath "$DOCUMENTS\Visual Studio 2019\Templates\ProjectTemplates\Visual C#\Monofoxe"
     File /r '..\Release\MonofoxeDesktopGL.zip'
+    File /r '..\Release\MonofoxeDesktopGLBlank.zip'
+    File /r '..\Release\MonofoxeShared.zip'
     GOTO EndTemplates
   CannotInstallTemplates:
     DetailPrint "Visual Studio 2019 not found"
@@ -110,7 +116,7 @@ SectionEnd
 
 
 ; Component menu.
-LangString NoPipelineDesc ${LANG_ENGLISH} "Install Monofoxe!"
+LangString MonofoxeDesc ${LANG_ENGLISH} "Install Monofoxe!"
 LangString NoPipelineDesc ${LANG_ENGLISH} "Install NoPipeline."
 LangString MonogameDesc ${LANG_ENGLISH} "Install MonoGame 3.7.1. "
 LangString VS2015Desc ${LANG_ENGLISH} "Install the project templates for Visual Studio 2015"

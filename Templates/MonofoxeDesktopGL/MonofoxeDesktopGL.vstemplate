@@ -1,14 +1,14 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
     <Name>Monofoxe Cross Platform Desktop Project</Name>
-    <Description>A Monofoxe game project for Windows, Mac and Linux using OpenGL.</Description>
+    <Description>A Monofoxe game project for Windows, Mac and Linux using OpenGL. It already some base class structure. Use blank project, if you intend to also use shared project.</Description>
     <ProjectType>CSharp</ProjectType>
     <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
     <ProjectSubType>
     </ProjectSubType>
     <SortOrder>43300</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
-    <DefaultName>Game</DefaultName>
+    <DefaultName>Foxe</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
     <LocationField>Enabled</LocationField>
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
@@ -53,7 +53,7 @@
         <ProjectItem ReplaceParameters="true" TargetFileName="Content.mgcb">Content.mgcb</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="Content.npl">Content.npl</ProjectItem>
         <Folder Name="Graphics" TargetFolderName="Graphics">
-          <ProjectItem ReplaceParameters="false" TargetFileName="Template.cs">Template.cs</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="Template.cstemplate">Template.cstemplate</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="default.spritegroup">default.spritegroup</ProjectItem>
             <Folder Name="Default" TargetFolderName="Default">
               <ProjectItem ReplaceParameters="false" TargetFileName="monofoxe.json">monofoxe.json</ProjectItem>
@@ -70,6 +70,9 @@
           </Folder>
           <Folder Name="Sounds" TargetFolderName="Sounds">
           </Folder>
+        </Folder>
+
+        <Folder Name="Maps" TargetFolderName="Maps">
         </Folder>
 
         <Folder Name="Fonts" TargetFolderName="Fonts">

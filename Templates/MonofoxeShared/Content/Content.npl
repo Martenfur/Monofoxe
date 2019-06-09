@@ -1,0 +1,63 @@
+{
+	"content": 
+	{
+		"contentList": 
+		{
+			"path": "Content.mgcb",
+			"recursive": "False",
+			"action": "build",
+			"importer": "AssetInfoImporter",
+			"processor": "PassThroughProcessor",
+		},
+		"music": 
+		{
+			"path": "Audio/Music/*.ogg",
+			"recursive": "True",
+			"action": "copy",
+		},
+		"sounds": 
+		{
+			"path": "Audio/Sounds/*.wav",
+			"recursive": "True",
+			"action": "copy",
+		},
+		"defaultSpriteGroup": 
+		{
+			"path": "Graphics/Default.spritegroup",
+			"recursive": "True",
+			"action": "build",
+			"importer": "SpriteGroupImporter",
+			"processor": "SpriteGroupProcessor",
+			"watch": 
+			[
+				"Default/*.png",
+				"Default/*.json",
+			],
+		},
+		"effects": 
+		{
+			"path": "Effects/*.fx",
+			"recursive": "True",
+			"action": "build",
+			"importer": "EffectImporter",
+			"processor": "EffectProcessor",
+		},
+		"tiledMaps": 
+		{
+			"path": "Maps/*.tmx",
+			"recursive": "True",
+			"action": "build",
+			"importer": "TiledMapImporter",
+			"processor": "TiledMapProcessor",
+		},
+		"fonts": 
+		{
+			"path": "Fonts/*.spritefont",
+			"recursive": "True",
+			"action": "build",
+			"importer": "FontDescriptionImporter",
+			"processor": "FontDescriptionProcessor",
+		},
+
+	}
+}
