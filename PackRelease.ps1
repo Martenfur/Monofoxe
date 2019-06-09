@@ -36,7 +36,11 @@ $srcPipelineLibDir = "$PWD\Monofoxe\bin\Pipeline\Release"
 $destReleaseDir = "$PWD\Release\"
 $destLibDir = "$destReleaseDir\RawLibraries"
 $desktopGL = "MonofoxeDesktopGL"
+$blankDesktopGL = "MonofoxeDesktopGLBlank"
+$shared = "MonofoxeShared"
 $desktopGLTemplate = "$PWD\Templates\$desktopGL\"
+$blankDesktopGLTemplate = "$PWD\Templates\$blankDesktopGL\"
+$sharedTemplate = "$PWD\Templates\$shared\"
 
 
 "Building solution $msbuild..."
@@ -54,6 +58,11 @@ New-Item -ItemType Directory -Force -Path "$destReleaseDir" > $null
 
 "Copying templates from $desktopGLTemplate..."
 Copy-Item -path "$desktopGLTemplate" -Destination "$destReleaseDir" -Recurse -Container
+"Copying templates from $blankDesktopGLTemplate..."
+Copy-Item -path "$blankDesktopGLTemplate" -Destination "$destReleaseDir" -Recurse -Container
+"Copying templates from $sharedTemplate..."
+Copy-Item -path "$sharedTemplate" -Destination "$destReleaseDir" -Recurse -Container
+
 
 "Copying libraries for templates from $desktopGLTemplate..."
 New-Item -ItemType Directory -Force -Path "$destReleaseDir$desktopGL\References\" > $null
@@ -65,6 +74,19 @@ Copy-Item -path "$srcLibDir\*" -Filter "*.fx" -Destination "$destReleaseDir$desk
 New-Item -ItemType Directory -Force -Path "$destReleaseDir$desktopGL\Content\References\" > $null
 Copy-Item -path "$srcPipelineLibDir\*" -Filter "*.dll" -Destination "$destReleaseDir$desktopGL\Content\References\"
 
+"Copying libraries for templates from $blankDesktopGLTemplate..."
+New-Item -ItemType Directory -Force -Path "$destReleaseDir$blankDesktopGL\References\" > $null
+Copy-Item -path "$srcLibDir\*" -Filter "*.dll" -Destination "$destReleaseDir$blankDesktopGL\References\"
+Copy-Item -path "$srcLibDir\*" -Filter "*.xml" -Destination "$destReleaseDir$blankDesktopGL\References\"
+
+"Copying libraries for templates from $sharedTemplate..."
+# Copying deafult shader into the content directory.
+New-Item -ItemType Directory -Force -Path "$destReleaseDir$shared\Content\Effects\" > $null
+Copy-Item -path "$srcLibDir\*" -Filter "*.fx" -Destination "$destReleaseDir$shared\Content\Effects\"
+New-Item -ItemType Directory -Force -Path "$destReleaseDir$shared\Content\References\" > $null
+Copy-Item -path "$srcPipelineLibDir\*" -Filter "*.dll" -Destination "$destReleaseDir$shared\Content\References\"
+
+
 "Copying raw libraries..."
 New-Item -ItemType Directory -Force -Path "$destLibDir" > $null
 Copy-Item -path "$srcLibDir\*" -Filter "*.dll" -Destination "$destLibDir"
@@ -75,6 +97,9 @@ Copy-Item -path "$srcPipelineLibDir\*" -Filter "*.dll" -Destination "$destLibDir
 
 "Packing templates..."
 [IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$desktopGL", "$destReleaseDir$desktopGL.zip")
+[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$blankDesktopGL", "$destReleaseDir$blankDesktopGL.zip")
+[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$shared", "$destReleaseDir$shared.zip")
+
 "Packing raw libraries..."
 [IO.Compression.ZipFile]::CreateFromDirectory("$destLibDir", "$destLibDir.zip")
 
@@ -83,6 +108,8 @@ makensis Installer/packInstaller.nsi
 
 "Cleaning..."
 Remove-Item "$destReleaseDir$desktopGL" -Force -Recurse
+Remove-Item "$destReleaseDir$blankDesktopGL" -Force -Recurse
+Remove-Item "$destReleaseDir$shared" -Force -Recurse
 Remove-Item "$destLibDir" -Force -Recurse
 
 Read-Host -Prompt "Done! Press Enter to exit"
