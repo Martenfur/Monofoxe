@@ -18,6 +18,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)GameController.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Effects\AlphaBlend.fx" />
+  </ItemGroup>
+  <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
