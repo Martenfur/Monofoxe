@@ -1,11 +1,10 @@
-﻿/*
+﻿
+/*
 Base shader for drawing everything, when there are no other shaders applied.
 Main reason for it is proper alpha blending for pretty much everything.
 
 NOTE: This shader is vital part of the engine. 
 DO NOT modify it, unless you know, what you're doing and have good reasons!
-
-NOTE: This file should be in the Content directory of your project!
 */
 
 float4x4 World;
@@ -79,29 +78,34 @@ float4 PS_Basic(VertexShaderOutput input) : COLOR0
 Techniques are chosen by the engine automatically.
 */
 
-technique Basic
-{
-  pass Pass1
-  {
-    VertexShader = compile vs_2_0 VS_Texture();
-    PixelShader = compile ps_2_0 PS_Basic();
-  }
-}
+#ifdef SM4
 
-technique TexturePremultiplied
-{
-  pass Pass1
-  {
-    VertexShader = compile vs_2_0 VS_Texture();
-    PixelShader = compile ps_2_0 PS_TexturePremultiplied();
-  }
-}
+#define TECHNIQUE(name, vsName, psName) \
+	technique name \
+	{ \
+		pass Pass1 \
+		{ \
+			VertexShader = compile vs_4_0_level_9_1 vsName(); \
+			PixelShader = compile ps_4_0_level_9_1 psName(); \
+		} \
+	}
 
-technique TextureNonPremultiplied
-{
-  pass Pass1
-  {
-    VertexShader = compile vs_2_0 VS_Texture();
-    PixelShader = compile ps_2_0 PS_TextureNonPremultiplied();
-  }
-}
+
+#else
+
+#define TECHNIQUE(name, vsName, psName) \
+	technique name \
+	{ \
+		pass Pass1 \
+		{ \
+			VertexShader = compile vs_2_0 vsName(); \
+			PixelShader = compile ps_2_0 psName(); \
+		} \
+	}
+
+#endif
+
+
+TECHNIQUE(Basic, VS_Texture, PS_Basic);
+TECHNIQUE(TexturePremultiplied, VS_Texture, PS_TexturePremultiplied);
+TECHNIQUE(TextureNonPremultiplied, VS_Texture, PS_TextureNonPremultiplied);

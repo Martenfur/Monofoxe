@@ -1,7 +1,7 @@
 ﻿namespace Monofoxe.Engine.Drawing
 {
 	/// <summary>
-	/// Every time we want to draw primitive of a new type
+	/// Every time we want to draw primitive of different type
 	/// or switch texture, we need to empty vertex buffer
 	/// and switch graphics mode.
 	/// </summary>

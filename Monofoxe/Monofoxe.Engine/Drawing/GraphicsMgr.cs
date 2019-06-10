@@ -418,7 +418,7 @@ namespace Monofoxe.Engine.Drawing
 		/// Adds vertices and indices to global vertex and index list.
 		/// If current and suggested graphics modes are different, draws accumulated vertices first.
 		/// </summary>
-		internal static void AddVertices(GraphicsMode mode, Texture2D texture, List<VertexPositionColorTexture> vertices, short[] indices)
+		public static void AddVertices(GraphicsMode mode, Texture2D texture, List<VertexPositionColorTexture> vertices, short[] indices)
 		{
 			if (_indices.Count + indices.Length >= _vertexBufferSize)
 			{
