@@ -3,7 +3,6 @@
 
 /outputDir:bin/$(Platform)
 /intermediateDir:obj/$(Platform)
-/platform:DesktopGL
 /config:
 /profile:Reach
 /compress:False
