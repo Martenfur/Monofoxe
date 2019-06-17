@@ -52,8 +52,9 @@ Just install Monofoxe, create Monofoxe project and you're good to go.
 
 You can also check out the [Demo game](https://bitbucket.org/gnFur/monofoxe.demo/) or the [Docs](Docs/Contents.md) (Currently not finished). Demo projects coming soon!
 
+# I've suddenly started loving foxes and want to contribute!
 
-Want to contribute, suggest a feature or just want to pour shit on my code? Feel free to contact me via email: **chaifoxes@gmail.com** or on [Twitter](https://twitter.com/ChaiFoxes).
+That's the spirit. Check out if I need any help on my [Trello board](https://trello.com/b/YIWCjnGi/monofoxe). Stuff under `Open for taking` category is, well, open for taking. You can also contact me via email (`chaifoxes@gmail.com`), on [Twitter](https://twitter.com/ChaiFoxes) or on Discord (`gn Fur#2490`).
 
 
 
