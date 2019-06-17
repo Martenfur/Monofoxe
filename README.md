@@ -56,6 +56,8 @@ You can also check out the [Demo game](https://bitbucket.org/gnFur/monofoxe.demo
 
 That's the spirit. Check out if I need any help on my [Trello board](https://trello.com/b/YIWCjnGi/monofoxe). Stuff under `Open for taking` category is, well, open for taking. You can also contact me via email (`chaifoxes@gmail.com`), on [Twitter](https://twitter.com/ChaiFoxes) or on Discord (`gn Fur#2490`).
 
+**Don't forget to check out Codestyle.cs before contributing!!!**
+
 
 
 *don't forget to pet your foxes*
