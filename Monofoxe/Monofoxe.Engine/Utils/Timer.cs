@@ -16,12 +16,6 @@ namespace Monofoxe.Engine.Utils
 		/// </summary>
 		public bool Enabled = true;
 
-		/// <summary>
-		/// Tells if timer is affected by GameCntrl.GameSpeedMultiplier.
-		/// </summary>
-		public bool AffectedBySpeedMultiplier = true;
-
-
 		public TimeKeeper TimeKeeper;
 
 		public Timer() {}
@@ -47,20 +41,13 @@ namespace Monofoxe.Engine.Utils
 		{
 			if (Enabled)
 			{
-				if (AffectedBySpeedMultiplier)
+				if (TimeKeeper == null)
 				{
-					if (TimeKeeper == null)
-					{
-						Counter += TimeKeeper.GlobalTime();
-					}
-					else
-					{
-						Counter += TimeKeeper.Time();
-					}
+					Counter += TimeKeeper.GlobalTime();
 				}
 				else
 				{
-					Counter += GameMgr.ElapsedTime;
+					Counter += TimeKeeper.Time();
 				}
 			}
 		}

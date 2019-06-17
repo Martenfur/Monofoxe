@@ -152,8 +152,7 @@ namespace Monofoxe.Engine.ECS
 		{
 			if (component.Owner != null)
 			{
-				// If component is assigned to other entity - take it away.
-				component.Owner.RemoveComponent(component.GetType());
+				throw new Exception("Component " + component + "already has an owner!");
 			}
 			_components.Add(component.GetType(), component);
 			component.Owner = this;

@@ -1,4 +1,4 @@
-﻿namespace Monofoxe.Engine.Utils.Cameras
+﻿namespace Monofoxe.Engine.Cameras
 {
 	/// <summary>
 	/// Postprocessing modes for camera.

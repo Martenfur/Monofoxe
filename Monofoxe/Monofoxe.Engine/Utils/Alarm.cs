@@ -58,21 +58,15 @@ namespace Monofoxe.Engine.Utils
 		{
 			if (Enabled && Counter > 0)
 			{
-				if (AffectedBySpeedMultiplier)
+				
+				if (TimeKeeper == null)
 				{
-					if (TimeKeeper == null)
-					{
-						Counter -= TimeKeeper.GlobalTime();
-					}
-					else
-					{
-						Counter -= TimeKeeper.Time();
-					}
+					Counter -= TimeKeeper.GlobalTime();
 				}
 				else
 				{
-					Counter -= GameMgr.ElapsedTime;
-				}
+					Counter -= TimeKeeper.Time();
+				}		
 				
 				if (Counter <= 0)
 				{
