@@ -6,7 +6,7 @@ using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Utils;
-using Monofoxe.Engine.Utils.Cameras;
+using Monofoxe.Engine.Cameras;
 
 namespace Monofoxe.Test
 {
@@ -17,6 +17,8 @@ namespace Monofoxe.Test
 
 		public RandomExt Random = new RandomExt();
 		
+		public Animation anim;
+
 		public MainTester() : base(SceneMgr.GetScene("default")["default"])
 		{
 			Random.GetListWithoutRepeats(5, -90, -10);
@@ -84,12 +86,38 @@ namespace Monofoxe.Test
 			Console.WriteLine("L: " + v.Length());
 			*/
 			Console.WriteLine("res: " + Math.Pow(2, 1000));
+
+			anim = new Animation();
+			anim.Invert = false;
+			anim.Speed = 0.5f;
+			anim.Start(true);
+			anim.Easing = new Easing(EasingTypes.EaseInOutExpo);
+			anim.AnimationEndEvent = EasingTest;
+
+			var a = 3.45;
+
+			a -= (int)a;
+			Console.WriteLine("a = " + a);
+
+			var b = -3.45;
+
+			b -= (int)b;
+			Console.WriteLine("b = " + b);
+
+
 		}
 
 
-		
+		void EasingTest(Animation caller)
+		{
+			Console.WriteLine("sup");
+			caller.Invert = !caller.Invert;
+		}
+
 		public override void Update()
 		{
+			anim.Update();
+
 			if (Input.CheckButton(Buttons.Escape))
 			{
 				GameMgr.ExitGame();
@@ -164,7 +192,14 @@ namespace Monofoxe.Test
 
 		public override void Draw()
 		{
-			
+			GraphicsMgr.CurrentColor = Color.White;
+			CircleShape.Draw(new Vector2(300, 300), 64 + 32 * (float)anim.Progress, false);
+
+			GraphicsMgr.CurrentColor = Color.Red;
+			CircleShape.Draw(new Vector2(300, 300), 64 + 32, true);
+
+			Text.CurrentFont = Resources.Fonts.Arial;
+			Text.Draw("anim " + anim.Progress, new Vector2(32, 32));
 		}
 
 		void InitCameras()

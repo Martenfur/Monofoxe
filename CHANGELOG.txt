@@ -1,0 +1,15 @@
+v 1.0.1.0:
+
+FEATURES:
+- Added Animation class.
+- Added Easing class.
+- Moved Cameras from Monofoxe.Engine.Utils to Monofoxe.Engine namespace.
+
+
+FIXES:
+- AlphaBlend.fx now works for DirectX.
+- Content.mgcb now correctly builds for cross-platform projects.
+- AddComponent() now throws an exception, if trying to add a component owned by other entity.
+- AffectedBySpeedMultiplier has been removed from alarms. It can be replaced by TimeKeeper.
+
+

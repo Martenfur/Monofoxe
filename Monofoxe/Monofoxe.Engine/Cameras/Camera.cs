@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine.Drawing;
 
-namespace Monofoxe.Engine.Utils.Cameras
+namespace Monofoxe.Engine.Cameras
 {
 
 	/// <summary>

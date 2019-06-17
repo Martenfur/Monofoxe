@@ -73,6 +73,8 @@
     <Compile Include="ECS\ComponentContainer.cs" />
     <Compile Include="ECS\EntityTemplatePool.cs" />
     <Compile Include="ECS\IEntityTemplate.cs" />
+    <Compile Include="Utils\Animation.cs" />
+    <Compile Include="Utils\EasingTypes.cs" />
     <Compile Include="Utils\CustomCollections\SafeSortedDictionary.cs" />
     <Compile Include="Drawing\Font.cs" />
     <Compile Include="Drawing\Frame.cs" />
@@ -94,6 +96,7 @@
     <Compile Include="SceneSystem\Layer.cs" />
     <Compile Include="SceneSystem\Scene.cs" />
     <Compile Include="SceneSystem\SceneMgr.cs" />
+    <Compile Include="Utils\Easing.cs" />
     <Compile Include="Utils\Foxe.cs" />
     <Compile Include="Utils\NumberExtensions.cs" />
     <Compile Include="Utils\Tilemaps\BasicTilesetTile.cs" />
@@ -108,10 +111,10 @@
     </Compile>
     <Compile Include="Utils\Alarm.cs" />
     <Compile Include="Utils\AutoAlarm.cs" />
-    <Compile Include="Utils\Cameras\Camera.cs" />
-    <Compile Include="Utils\Cameras\CameraMgr.cs" />
-    <Compile Include="Utils\Cameras\FilterMode.cs" />
-    <Compile Include="Utils\Cameras\PostprocessingMode.cs" />
+    <Compile Include="Cameras\Camera.cs" />
+    <Compile Include="Cameras\CameraMgr.cs" />
+    <Compile Include="Cameras\FilterMode.cs" />
+    <Compile Include="Cameras\PostprocessingMode.cs" />
     <Compile Include="Utils\GameMath.cs" />
     <Compile Include="Utils\RandomExt.cs" />
     <Compile Include="Utils\StateMachine.cs" />
