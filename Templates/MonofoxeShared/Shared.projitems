@@ -37,6 +37,5 @@
     <Folder Include="$(MSBuildThisFileDirectory)Content\Audio\Music\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Audio\Sounds\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Maps\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Content\References\" />
   </ItemGroup>
  </Project>

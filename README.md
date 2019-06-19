@@ -58,6 +58,9 @@ That's the spirit. Check out if I need any help on my [Trello board](https://tre
 
 **Don't forget to check out Codestyle.cs before contributing!!!**
 
+## Foxies who helped
 
+- [MirrorOfSun](https://github.com/MirrorOfSUn)
+- [Shazan](https://bitbucket.org/%7B07c29368-d971-4ab1-8ec5-1a89d56bfa43%7D/)
 
 *don't forget to pet your foxes*
