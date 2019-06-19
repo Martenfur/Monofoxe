@@ -104,7 +104,7 @@ namespace Monofoxe.Test
 			b -= (int)b;
 			Console.WriteLine("b = " + b);
 
-			Console.WriteLine(GameMgr.CurrentPlatform);
+			//Console.WriteLine(GameMgr.CurrentPlatform);
 		}
 
 

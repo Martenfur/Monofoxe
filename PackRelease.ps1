@@ -58,14 +58,19 @@ if (Test-Path "$destReleaseDir" -PathType Container)
 New-Item -ItemType Directory -Force -Path "$destReleaseDir" > $null
 
 
+
 "Copying templates from $desktopGLTemplate..."
 Copy-Item -path "$desktopGLTemplate" -Destination "$destReleaseDir" -Recurse -Container
+Copy-Item -path "$destCommonDir/*" -Destination "$destReleaseDir$desktopGL" -Recurse -Container
+
 "Copying templates from $blankDesktopGLTemplate..."
 Copy-Item -path "$blankDesktopGLTemplate" -Destination "$destReleaseDir" -Recurse -Container
-"Copying shared templates from CommonFiles"
-Copy-Item -path "$destCommonDir/*" -Destination "$destReleaseDir/$shared" -Recurse
-"Copying desktopGL templates from CommonFiles"
-Copy-Item -path "$destCommonDir/*" -Destination "$destReleaseDir/$desktopGL" -Recurse
+
+"Copying templates from $sharedTemplate..."
+Copy-Item -path "$sharedTemplate" -Destination "$destReleaseDir" -Recurse -Container
+Copy-Item -path "$destCommonDir/*" -Destination "$destReleaseDir$shared" -Recurse -Container
+
+
 
 "Copying libraries for templates from $desktopGLTemplate..."
 New-Item -ItemType Directory -Force -Path "$destReleaseDir$desktopGL\References\" > $null
@@ -76,6 +81,8 @@ New-Item -ItemType Directory -Force -Path "$destReleaseDir$desktopGL\Content\Eff
 Copy-Item -path "$srcLibDir\*" -Filter "*.fx" -Destination "$destReleaseDir$desktopGL\Content\Effects\"
 New-Item -ItemType Directory -Force -Path "$destReleaseDir$desktopGL\Content\References\" > $null
 Copy-Item -path "$srcPipelineLibDir\*" -Filter "*.dll" -Destination "$destReleaseDir$desktopGL\Content\References\"
+
+
 
 "Copying libraries for templates from $blankDesktopGLTemplate..."
 New-Item -ItemType Directory -Force -Path "$destReleaseDir$blankDesktopGL\References\" > $null
@@ -88,6 +95,7 @@ New-Item -ItemType Directory -Force -Path "$destReleaseDir$shared\Content\Effect
 Copy-Item -path "$srcLibDir\*" -Filter "*.fx" -Destination "$destReleaseDir$shared\Content\Effects\"
 New-Item -ItemType Directory -Force -Path "$destReleaseDir$shared\Content\References\" > $null
 Copy-Item -path "$srcPipelineLibDir\*" -Filter "*.dll" -Destination "$destReleaseDir$shared\Content\References\"
+
 
 
 "Copying raw libraries..."
