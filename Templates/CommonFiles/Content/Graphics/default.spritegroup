@@ -1,0 +1,13 @@
+{
+	"atlasSize": 2048,
+	"texturePadding": 1,
+	"rootDir": "/Default",
+	"classTemplatePath": "/../Template.cstemplate", // Relative to rootDir.
+	"classOutputDir": "/../Resources/Sprites/", // Relative to content project file.
+	"singleTexturesWildcards": 
+	[
+		"/Textures/*"
+	],
+	
+	"debugMode": "false"
+}
