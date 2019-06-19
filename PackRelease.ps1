@@ -7,7 +7,8 @@ Function Find-MsBuild([int] $MaxVersion = 2019)
     $agentPath = "$Env:programfiles (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin\msbuild.exe"
     $devPath = "$Env:programfiles (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\msbuild.exe"
     $proPath = "$Env:programfiles (x86)\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin\msbuild.exe"
-    $communityPath = "$Env:programfiles (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\msbuild.exe"
+    $communityPath = "$Env:programfiles (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\msbuild.exe"
+    $communityPath2019 = "$Env:programfiles (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\msbuild.exe"
     $fallback2015Path = "${Env:ProgramFiles(x86)}\MSBuild\14.0\Bin\MSBuild.exe"
     $fallback2013Path = "${Env:ProgramFiles(x86)}\MSBuild\12.0\Bin\MSBuild.exe"
     $fallbackPath = "C:\Windows\Microsoft.NET\Framework\v4.0.30319"
@@ -15,7 +16,8 @@ Function Find-MsBuild([int] $MaxVersion = 2019)
     If ((2017 -le $MaxVersion) -And (Test-Path $agentPath)) { return $agentPath } 
     If ((2017 -le $MaxVersion) -And (Test-Path $devPath)) { return $devPath } 
     If ((2017 -le $MaxVersion) -And (Test-Path $proPath)) { return $proPath } 
-    If ((2019 -le $MaxVersion) -And (Test-Path $communityPath)) { return $communityPath } 
+    If ((2017 -le $MaxVersion) -And (Test-Path $communityPath)) { return $communityPath } 
+    If ((2019 -le $MaxVersion) -And (Test-Path $communityPath2019)) { return $communityPath2019 } 
     If ((2015 -le $MaxVersion) -And (Test-Path $fallback2015Path)) { return $fallback2015Path } 
     If ((2013 -le $MaxVersion) -And (Test-Path $fallback2013Path)) { return $fallback2013Path } 
     If (Test-Path $fallbackPath) { return $fallbackPath } 
@@ -32,7 +34,7 @@ $msbuild = Find-MsBuild
 $srcLibDir = "$PWD\Monofoxe\bin\Release"
 $srcPipelineLibDir = "$PWD\Monofoxe\bin\Pipeline\Release"
 
-$destCommonDir = "$PWD\common"
+$destCommonDir = "$PWD\Templates\CommonFiles"
 $destReleaseDir = "$PWD\Release\"
 $destLibDir = "$destReleaseDir\RawLibraries"
 $desktopGL = "MonofoxeDesktopGL"
@@ -60,33 +62,10 @@ New-Item -ItemType Directory -Force -Path "$destReleaseDir" > $null
 Copy-Item -path "$desktopGLTemplate" -Destination "$destReleaseDir" -Recurse -Container
 "Copying templates from $blankDesktopGLTemplate..."
 Copy-Item -path "$blankDesktopGLTemplate" -Destination "$destReleaseDir" -Recurse -Container
-"Copying templates from $sharedTemplate..."
-Copy-Item -path "$sharedTemplate" -Destination "$destReleaseDir" -Recurse -Container
-
-"Check same files"
-Remove-Item ".\CommonFiles"  -Recurse
-$deskglfiles = Get-ChildItem -Recurse -Path "$desktopGLTemplate" -File | Select FullName 
-$sharedfiles = Get-ChildItem -Recurse -Path "$sharedTemplate" -File | Select FullName 
-$commonfiles = Compare-Object -ReferenceObject $deskglfiles -DifferenceObject $sharedfiles -ExcludeDifferent -IncludeEqual -Verbose | Select-Object -Property InputObject
-$commonfiles
-New-Item ".\CommonFiles" -Type container
-Foreach($i in $commonfiles)
-{
-
-  $depth= ($i.InputObject.FullName.Replace($PWD,"").Split('\').Count - 3);
-  if($depth -gt 1)
-  {
-   $folder = $i.InputObject.FullName.Replace($PWD,"").Split('\')[3..(3+$depth-2)] -join '\'
-   New-Item ".\CommonFiles\$folder" -Type container
-   Copy-Item -Path $i.InputObject.FullName -Destination  ".\CommonFiles\$folder"
-  }
-  else
-  { 
-   Copy-Item -Path $i.InputObject.FullName -Destination  ".\CommonFiles"
-  }
-}
-Copy-Item -path ".\CommonFiles\*" -Destination "$destReleaseDir\$desktopGL" -Recurse -Container
-Copy-Item -path ".\CommonFiles\*" -Destination "$destReleaseDir\$shared" -Recurse -Container
+"Copying shared templates from CommonFiles"
+Copy-Item -path "$destCommonDir/*" -Destination "$destReleaseDir/$shared" -Recurse
+"Copying desktopGL templates from CommonFiles"
+Copy-Item -path "$destCommonDir/*" -Destination "$destReleaseDir/$desktopGL" -Recurse
 
 "Copying libraries for templates from $desktopGLTemplate..."
 New-Item -ItemType Directory -Force -Path "$destReleaseDir$desktopGL\References\" > $null
