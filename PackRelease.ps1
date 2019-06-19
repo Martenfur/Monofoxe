@@ -85,8 +85,8 @@ Foreach($i in $commonfiles)
    Copy-Item -Path $i.InputObject.FullName -Destination  ".\CommonFiles"
   }
 }
-Copy-Item -path ".\CommonFiles" -Destination "$destReleaseDir\$desktopGL" -Recurse -Container
-Copy-Item -path ".\CommonFiles" -Destination "$destReleaseDir\$shared" -Recurse -Container
+Copy-Item -path ".\CommonFiles\*" -Destination "$destReleaseDir\$desktopGL" -Recurse -Container
+Copy-Item -path ".\CommonFiles\*" -Destination "$destReleaseDir\$shared" -Recurse -Container
 
 "Copying libraries for templates from $desktopGLTemplate..."
 New-Item -ItemType Directory -Force -Path "$destReleaseDir$desktopGL\References\" > $null
