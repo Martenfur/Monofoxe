@@ -5,7 +5,7 @@ using Monofoxe.Playground.GraphicsDemo;
 using Microsoft.Xna.Framework;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine;
-
+using System;
 
 namespace Monofoxe.Playground.Interface
 {
@@ -13,8 +13,8 @@ namespace Monofoxe.Playground.Interface
 	{
 		public List<SceneFactory> Factories = new List<SceneFactory>
 		{
-			new GraphicsDemoFactory(),
-
+			new SpriteDemoFactory(),
+			new ShapeDemoFactory(),
 		};
 
 		public int CurrentSceneID {get; private set;} = 0;
@@ -26,26 +26,71 @@ namespace Monofoxe.Playground.Interface
 		Color _barColor = Color.Black * 0.5f;
 		Color _textColor = Color.White;
 
+		Vector2 _indent = new Vector2(8, 4);
+
+		Buttons _nextSceneButton = Buttons.E;
+		Buttons _prevSceneButton = Buttons.Q;
+		Buttons _restartButton = Buttons.R;
+		Buttons _toggleUIButton = Buttons.T;
+
+
 		public SceneSwitcher(Layer layer) : base(layer)
 		{
 			
 		}
 
+		public override void Update()
+		{
+			if (Input.CheckButtonPress(_toggleUIButton))
+			{
+				Visible = !Visible;
+			}
+
+			if (Input.CheckButtonPress(_restartButton))
+			{
+				CurrentFactory.RestartScene();
+			}
+
+			if (Input.CheckButtonPress(_nextSceneButton))
+			{
+				NextScene();
+			}
+
+			if (Input.CheckButtonPress(_prevSceneButton))
+			{
+				PreviousScene();
+			}
+
+
+
+		}
 
 		public override void Draw()
 		{
 			var canvasSize = GameMgr.WindowManager.CanvasSize;
 
+			// Bottom bar.
+			GraphicsMgr.AddTransformMatrix(Matrix.CreateTranslation(new Vector3(0, canvasSize.Y - _barHeight, 0)));
+
 			GraphicsMgr.CurrentColor = _barColor;
-			RectangleShape.Draw(new Vector2(0, canvasSize.Y - _barHeight), canvasSize, false);
+			RectangleShape.Draw(Vector2.Zero, canvasSize, false);
 
 			GraphicsMgr.CurrentColor = _textColor;
 			Text.CurrentFont = Resources.Fonts.Arial;
 			Text.HorAlign = TextAlign.Left;
 			Text.VerAlign = TextAlign.Top;
-			Text.Draw("fps: " + GameMgr.Fps, new Vector2(16, 16));
+			Text.Draw(
+				"fps: " + GameMgr.Fps
+				+ " | Current scene: " + CurrentScene.Name
+				+ Environment.NewLine
+				+ _prevSceneButton + "/" + _nextSceneButton + " - change scene, "
+				+ _restartButton + " - restart current scene, " 
+				+ _toggleUIButton + " - toggle UI", 
+				_indent
+			);
 
-			//Resources.Sprites.Default.Monofoxe.Draw(new Vector2(400, 300), Resources.Sprites.Default.Monofoxe.Origin);
+			GraphicsMgr.ResetTransformMatrix();
+			// Bottom bar.
 		}
 
 
