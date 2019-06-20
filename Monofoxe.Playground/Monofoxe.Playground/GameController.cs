@@ -6,12 +6,15 @@ using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Cameras;
 using Resources.Sprites;
+using Monofoxe.Playground.Interface;
 
 namespace Monofoxe.Playground
 {
 	public class GameController : Entity
 	{
 		Camera cam = new Camera(800, 600);
+
+		Layer _guiLayer;
 
 		public GameController() : base(SceneMgr.GetScene("default")["default"])
 		{
@@ -28,7 +31,11 @@ namespace Monofoxe.Playground
 
 			GraphicsMgr.Sampler = SamplerState.PointClamp;
 
-			Interface.SceneSwitcher.CurrentFactory.CreateScene();
+			_guiLayer = Scene.CreateLayer("gui");
+			_guiLayer.IsGUI = true;
+
+			var switcher = new SceneSwitcher(_guiLayer);
+			switcher.CurrentFactory.CreateScene();
 
 		}
 

@@ -330,7 +330,10 @@ namespace Monofoxe.Engine.Drawing
 			
 			SceneMgr.CallDrawGUIEvents();
 
-			if (_currentGraphicsMode == GraphicsMode.Sprites) // If there's something left in batch or vertex buffer, we should draw it.
+			if (
+				_currentGraphicsMode == GraphicsMode.Sprites 
+				|| _currentGraphicsMode == GraphicsMode.SpritesNonPremultiplied
+			) // If there's something left in batch or vertex buffer, we should draw it.
 			{
 				Batch.End();
 			}
