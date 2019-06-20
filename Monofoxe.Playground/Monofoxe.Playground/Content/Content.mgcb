@@ -39,20 +39,20 @@
 #begin Content.mgcb
 /importer:AssetInfoImporter
 /processor:PassThroughProcessor
-/build:content.mgcb
+/build:Content.mgcb
 
 #begin Graphics/default.spritegroup
 /importer:SpriteGroupImporter
 /processor:SpriteGroupProcessor
-/build:graphics/default.spritegroup
+/build:Graphics/default.spritegroup
 
 #begin Effects/AlphaBlend.fx
 /importer:EffectImporter
 /processor:EffectProcessor
-/build:effects/alphablend.fx
+/build:Effects/AlphaBlend.fx
 
 #begin Fonts/Arial.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
-/build:fonts/arial.spritefont
+/build:Fonts/Arial.spritefont
 
