@@ -47,7 +47,6 @@ namespace Monofoxe.Playground
 
 		public override void Draw()
 		{
-			Default.Monofoxe.Draw(new Vector2(400, 300), Default.Monofoxe.Origin);
 		}
 
 	}

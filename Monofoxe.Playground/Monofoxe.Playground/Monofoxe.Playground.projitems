@@ -9,7 +9,9 @@
     <Import_RootNamespace>Monofoxe.Playground</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\GraphicsDemoFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\SpriteDemoFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\SpriteDemo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\ShapeDemoFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\ShapeDemo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interface\SceneFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interface\SceneSwitcher.cs" />

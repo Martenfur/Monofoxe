@@ -11,5 +11,5 @@ FIXES:
 - Content.mgcb now correctly builds for cross-platform projects.
 - AddComponent() now throws an exception, if trying to add a component owned by other entity.
 - AffectedBySpeedMultiplier has been removed from alarms. It can be replaced by TimeKeeper.
-
-
+- Fixed NoPipeline not saving cases of the resource names. 
+- Fixed crashing, when text is being drawn last in the frame.
