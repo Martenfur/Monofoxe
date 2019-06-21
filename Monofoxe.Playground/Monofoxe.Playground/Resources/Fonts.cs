@@ -13,6 +13,8 @@ namespace Resources
 		static string Ascii = " !" + '"' + @"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
 
 		public static IFont Arial;
+		public static IFont FancyFont;
+
 
 		public static void Load()
 		{
@@ -20,6 +22,7 @@ namespace Resources
 			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.FontsDir;
 
 			Arial = new Font(_content.Load<SpriteFont>("Arial"));
+			FancyFont = new TextureFont(Default.Font, 1, 1, Ascii, false);
 		}
 
 		public static void Unload()

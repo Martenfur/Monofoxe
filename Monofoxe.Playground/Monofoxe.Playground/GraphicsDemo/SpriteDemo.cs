@@ -24,9 +24,12 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 		SpriteBatch _batch;
 
+		Surface _surface;
+
 		public SpriteDemo(Layer layer) : base(layer)
 		{
 			_batch = new SpriteBatch(GraphicsMgr.Device);
+			InitSurface();
 		}
 
 		public override void Update()
@@ -118,8 +121,44 @@ namespace Monofoxe.Playground.GraphicsDemo
 			RectangleShape.Draw(position, position + new Vector2(texture.Width, texture.Height), true);
 
 
+			position += Vector2.UnitX * 512;
+
+			_surface.Draw(position);
+
+			position += new Vector2(16, 150);
+
+			GraphicsMgr.CurrentColor = Color.White;
+			Text.CurrentFont = Resources.Fonts.Arial;
+			Text.Draw("This text is drawn using default" + Environment.NewLine + "Monogame spritefont.", position);
+			position += Vector2.UnitY * 48;
+			Text.CurrentFont = Resources.Fonts.FancyFont;			
+			Text.Draw("This text is drawn using custom" + Environment.NewLine + "font made from a sprite.", position);
 
 		}
+
+		/// <summary>
+		/// Creates a new surface and draws test stuff on it.
+		/// </summary>
+		void InitSurface()
+		{
+			_surface = new Surface(128, 128);
+
+			GraphicsMgr.SetSurfaceTarget(_surface);
+
+			GraphicsMgr.Device.Clear(_secondaryColor);
+
+			GraphicsMgr.CurrentColor = _mainColor;
+			CircleShape.Draw(new Vector2(64, 64), 64, false);
+
+			GraphicsMgr.ResetSurfaceTarget();
+		}
+
+
+		public override void Destroy()
+		{
+			_surface.Dispose(); // Don't forget to dispose surfaces.
+		}
+
 
 	}
 }

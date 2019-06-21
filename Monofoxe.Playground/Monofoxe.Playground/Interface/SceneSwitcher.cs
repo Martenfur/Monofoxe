@@ -75,7 +75,7 @@ namespace Monofoxe.Playground.Interface
 			GraphicsMgr.AddTransformMatrix(Matrix.CreateTranslation(new Vector3(0, canvasSize.Y - _barHeight, 0)));
 
 			GraphicsMgr.CurrentColor = _barColor;
-//			RectangleShape.Draw(Vector2.Zero, canvasSize, false);
+			RectangleShape.Draw(Vector2.Zero, canvasSize, false);
 
 			GraphicsMgr.CurrentColor = _textColor;
 			Text.CurrentFont = Resources.Fonts.Arial;
