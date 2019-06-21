@@ -13,3 +13,4 @@ FIXES:
 - AffectedBySpeedMultiplier has been removed from alarms. It can be replaced by TimeKeeper.
 - Fixed NoPipeline not saving cases of the resource names. 
 - Fixed crashing, when text is being drawn last in the frame.
+- Camera.Rotation is not float instead of int.

@@ -12,7 +12,7 @@ namespace Monofoxe.Playground
 {
 	public class GameController : Entity
 	{
-		Camera cam = new Camera(800, 600);
+		public Camera MainCamera = new Camera(800, 600);
 
 		Layer _guiLayer;
 
@@ -21,7 +21,7 @@ namespace Monofoxe.Playground
 			GameMgr.MaxGameSpeed = 60;
 			GameMgr.MinGameSpeed = 60; // Fixing framerate on 60.
 
-			cam.BackgroundColor = new Color(38, 38, 38);
+			MainCamera.BackgroundColor = new Color(38, 38, 38);
 
 			GameMgr.WindowManager.CanvasSize = new Vector2(800, 600);
 			GameMgr.WindowManager.Window.AllowUserResizing = false;
@@ -31,11 +31,17 @@ namespace Monofoxe.Playground
 
 			GraphicsMgr.Sampler = SamplerState.PointClamp;
 
+			GraphicsMgr.Rasterizer = RasterizerState.CullCounterClockwise;
+
 			_guiLayer = Scene.CreateLayer("gui");
 			_guiLayer.IsGUI = true;
+			
 
-			var switcher = new SceneSwitcher(_guiLayer);
+			var cameraController = new CameraController(_guiLayer, MainCamera);
+
+			var switcher = new SceneSwitcher(_guiLayer, cameraController);
 			switcher.CurrentFactory.CreateScene();
+
 
 		}
 
