@@ -20,6 +20,7 @@ namespace Resources.Sprites
 		#region Sprites.
 		public static Sprite Monofoxe;
 		public static Sprite Fire;
+		public static Sprite Font;
 		#endregion Sprites.
 		
 		private static string _groupName = "Default";
@@ -37,6 +38,7 @@ namespace Resources.Sprites
 			
 			Monofoxe = sprites["monofoxe"];
 			Fire = sprites["fire"];
+			Font = sprites["font"];
 			
 			#endregion Sprite constructors.
 		}
