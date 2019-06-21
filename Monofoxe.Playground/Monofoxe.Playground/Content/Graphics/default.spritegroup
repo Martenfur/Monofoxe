@@ -1,5 +1,5 @@
 {
-	"atlasSize": 2048,
+	"atlasSize": 512,
 	"texturePadding": 1,
 	"rootDir": "/Default",
 	"classTemplatePath": "/../Template.cstemplate", // Relative to rootDir.

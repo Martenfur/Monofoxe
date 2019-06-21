@@ -109,8 +109,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 				position + new Vector2(24, 24), 
 				false
 			);
-
-
+			
 			// Be aware of culling. This triangle, for example, will be culled.
 			// You can disable culling, if you don't want to deal with it.
 			TriangleShape.Draw(new Vector2(-24, -24), new Vector2(24, 24), new Vector2(24, -24), false);

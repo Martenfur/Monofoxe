@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\SpriteDemo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\ShapeDemoFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\ShapeDemo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interface\CameraController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interface\SceneFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interface\SceneSwitcher.cs" />
     <None Include="$(MSBuildThisFileDirectory)Content\Graphics\Template.cstemplate" />

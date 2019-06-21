@@ -49,7 +49,7 @@ namespace Monofoxe.Engine.Cameras
 		/// <summary>
 		/// View rotation. Measured in degrees.
 		/// </summary>
-		public int Rotation;
+		public float Rotation;
 
 		/// <summary>
 		/// View zoom.

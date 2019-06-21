@@ -18,7 +18,7 @@ namespace Monofoxe.Playground.Interface
 		};
 
 		public int CurrentSceneID {get; private set;} = 0;
-		public Scene CurrentScene => Factories[CurrentSceneID].Scene;
+		public Scene CurrentScene => CurrentFactory.Scene;
 		public SceneFactory CurrentFactory => Factories[CurrentSceneID];
 
 
@@ -28,15 +28,16 @@ namespace Monofoxe.Playground.Interface
 
 		Vector2 _indent = new Vector2(8, 4);
 
-		Buttons _nextSceneButton = Buttons.E;
-		Buttons _prevSceneButton = Buttons.Q;
-		Buttons _restartButton = Buttons.R;
-		Buttons _toggleUIButton = Buttons.T;
+		const Buttons _nextSceneButton = Buttons.E;
+		const Buttons _prevSceneButton = Buttons.Q;
+		const Buttons _restartButton = Buttons.R;
+		const Buttons _toggleUIButton = Buttons.T;
 
+		CameraController _cameraController;
 
-		public SceneSwitcher(Layer layer) : base(layer)
+		public SceneSwitcher(Layer layer, CameraController cameraController) : base(layer)
 		{
-			
+			_cameraController = cameraController;
 		}
 
 		public override void Update()
@@ -48,7 +49,7 @@ namespace Monofoxe.Playground.Interface
 
 			if (Input.CheckButtonPress(_restartButton))
 			{
-				CurrentFactory.RestartScene();
+				RestartScene();
 			}
 
 			if (Input.CheckButtonPress(_nextSceneButton))
@@ -67,13 +68,14 @@ namespace Monofoxe.Playground.Interface
 
 		public override void Draw()
 		{
+		
 			var canvasSize = GameMgr.WindowManager.CanvasSize;
 
 			// Bottom bar.
 			GraphicsMgr.AddTransformMatrix(Matrix.CreateTranslation(new Vector3(0, canvasSize.Y - _barHeight, 0)));
 
 			GraphicsMgr.CurrentColor = _barColor;
-			RectangleShape.Draw(Vector2.Zero, canvasSize, false);
+//			RectangleShape.Draw(Vector2.Zero, canvasSize, false);
 
 			GraphicsMgr.CurrentColor = _textColor;
 			Text.CurrentFont = Resources.Fonts.Arial;
@@ -85,7 +87,15 @@ namespace Monofoxe.Playground.Interface
 				+ Environment.NewLine
 				+ _prevSceneButton + "/" + _nextSceneButton + " - change scene, "
 				+ _restartButton + " - restart current scene, " 
-				+ _toggleUIButton + " - toggle UI", 
+				+ _toggleUIButton + " - toggle UI"
+				+ Environment.NewLine
+				+ CameraController.UpButton + "/"
+				+ CameraController.DownButton + "/"
+				+ CameraController.LeftButton + "/"
+				+ CameraController.RightButton + " - move camera, "
+				+ CameraController.ZoomInButton + "/" + CameraController.ZoomOutButton + " - zoom, "
+				+ CameraController.RotateLeftButton + "/" + CameraController.RotateRightButton + " - rotate"
+				,
 				_indent
 			);
 
@@ -96,7 +106,7 @@ namespace Monofoxe.Playground.Interface
 
 		public void NextScene()
 		{
-			Factories[CurrentSceneID].DestroyScene();
+			CurrentFactory.DestroyScene();
 
 			CurrentSceneID += 1;
 			if (CurrentSceneID >= Factories.Count)
@@ -104,13 +114,15 @@ namespace Monofoxe.Playground.Interface
 				CurrentSceneID = 0;
 			}
 
-			Factories[CurrentSceneID].CreateScene();
+			CurrentFactory.CreateScene();
+
+			_cameraController.Reset();
 		}
 
 
 		public void PreviousScene()
 		{
-			Factories[CurrentSceneID].DestroyScene();
+			CurrentFactory.DestroyScene();
 
 			CurrentSceneID -= 1;
 			if (CurrentSceneID < 0)
@@ -118,12 +130,17 @@ namespace Monofoxe.Playground.Interface
 				CurrentSceneID = Factories.Count - 1;
 			}
 
-			Factories[CurrentSceneID].CreateScene();
+			CurrentFactory.CreateScene();
+
+			_cameraController.Reset();
 		}
 
 
-		public void RestartScene() =>
-			Factories[CurrentSceneID].RestartScene();
+		public void RestartScene()
+		{
+			CurrentFactory.RestartScene();
+			_cameraController.Reset();
+		}
 
 	}
 }
