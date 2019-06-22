@@ -6,20 +6,20 @@ using Monofoxe.Engine;
 
 namespace Resources
 {
-	public static class Fonts
+	public static class Effects
 	{
 		private static ContentManager _content;
-		
-		static string Ascii = " !" + '"' + @"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
-		
-		public static IFont Arial;
+
+		public static Effect Grayscale;
 
 		public static void Load()
 		{
 			_content = new ContentManager(GameMgr.Game.Services);
-			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.FontsDir;
-			
-			Arial = new Font(_content.Load<SpriteFont>("Arial"));
+			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.EffectsDir;
+
+			// This is not generated automatically. Sadly, you'll have to add those by hand.
+			Grayscale = _content.Load<Effect>("Grayscale");
+
 		}
 
 		public static void Unload()

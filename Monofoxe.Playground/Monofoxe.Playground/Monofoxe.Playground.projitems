@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>189e1936-4c52-4fe3-b8f5-e5ecaa0630da</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Monofoxe.Playground</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\PrimitiveDemoFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\PrimitiveDemo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\SpriteDemoFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\SpriteDemo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\ShapeDemoFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\ShapeDemo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InputDemo\InputDemo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InputDemo\InputDemoFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interface\CameraController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interface\SceneFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interface\SceneSwitcher.cs" />
+    <None Include="$(MSBuildThisFileDirectory)Content\Effects\AlphaBlend.fx" />
+    <None Include="$(MSBuildThisFileDirectory)Content\Effects\Grayscale.fx" />
+    <None Include="$(MSBuildThisFileDirectory)Content\Graphics\Template.cstemplate" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\Effects.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\Fonts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\Maps.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Resources\Sprites\Default.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Game1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
+    <None Include="$(MSBuildThisFileDirectory)Content\Content.npl" />
+    <None Include="$(MSBuildThisFileDirectory)Content\Fonts\Arial.spritefont" />
+    <None Include="$(MSBuildThisFileDirectory)Content\Graphics\default.spritegroup" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Content\Graphics\Default\monofoxe.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Graphics\Default\monofoxe.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Content\Audio\Music\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Content\Audio\Sounds\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Content\Maps\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Content\References\" />
+  </ItemGroup>
+</Project>
