@@ -21,6 +21,8 @@ namespace Resources.Sprites
 		public static Sprite Monofoxe;
 		public static Sprite Fire;
 		public static Sprite Font;
+		public static Sprite Test;
+		public static Sprite AutismCat;
 		#endregion Sprites.
 		
 		private static string _groupName = "Default";
@@ -39,6 +41,8 @@ namespace Resources.Sprites
 			Monofoxe = sprites["monofoxe"];
 			Fire = sprites["fire"];
 			Font = sprites["font"];
+			Test = sprites["Folder/test"];
+			AutismCat = sprites["Textures/autism_cat"];
 			
 			#endregion Sprite constructors.
 		}

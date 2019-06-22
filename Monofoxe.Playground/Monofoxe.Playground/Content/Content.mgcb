@@ -56,3 +56,8 @@
 /processor:FontDescriptionProcessor
 /build:Fonts/Arial.spritefont
 
+#begin Effects/Grayscale.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/build:Effects/Grayscale.fx
+

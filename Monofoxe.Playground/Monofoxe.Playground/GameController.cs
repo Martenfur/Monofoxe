@@ -29,7 +29,8 @@ namespace Monofoxe.Playground
 			GameMgr.WindowManager.CenterWindow();
 			GameMgr.WindowManager.CanvasMode = CanvasMode.Fill;
 
-			GraphicsMgr.Sampler = SamplerState.PointClamp;
+			//GraphicsMgr.Sampler = SamplerState.PointClamp;
+			GraphicsMgr.Sampler = SamplerState.PointWrap; // WIll make textures repeat without interpolation.
 
 			GraphicsMgr.Rasterizer = RasterizerState.CullCounterClockwise;
 

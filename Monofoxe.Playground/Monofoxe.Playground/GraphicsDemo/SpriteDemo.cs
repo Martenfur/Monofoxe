@@ -74,7 +74,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 				(float)(359 * _animation), 
 				Color.Red // Overrides CurrentColor.
 			);
-
+			
 
 			position += Vector2.UnitX * spacing;
 
