@@ -2,18 +2,24 @@
 using Monofoxe.Playground.Interface;
 using System;
 
-namespace Monofoxe.Playground.GraphicsDemo
+namespace Monofoxe.Playground.InputDemo
 {
 	public class InputDemoFactory : SceneFactory
 	{
-		public override string Description => "Type something to see keyboard input." 
+		public override string Description => "Press " 
+			+ InputDemo.KeyboardTestButton 
+			+ "/" + InputDemo.GamepadTestButton 
+			+ "/" + InputDemo.MouseTestButton 
+			+ " to test input methods."
+			+ Environment.NewLine
+			+ "Type something to see keyboard input." 
 			+ Environment.NewLine 
 			+ "Connect the gamepad and move sticks to engage rumble.";
 
 		public override void CreateScene()
 		{
-			Scene = SceneMgr.CreateScene("Sprites");
-			var layer = Scene.CreateLayer("Sprites");
+			Scene = SceneMgr.CreateScene("Input");
+			var layer = Scene.CreateLayer("Input");
 			new InputDemo(layer);
 		}
 

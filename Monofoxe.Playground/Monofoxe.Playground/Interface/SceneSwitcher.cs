@@ -1,11 +1,12 @@
-﻿using Monofoxe.Engine.ECS;
-using Monofoxe.Engine.SceneSystem;
-using System.Collections.Generic;
-using Monofoxe.Playground.GraphicsDemo;
-using Microsoft.Xna.Framework;
-using Monofoxe.Engine.Drawing;
+﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine;
+using Monofoxe.Engine.Drawing;
+using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.SceneSystem;
+using Monofoxe.Playground.GraphicsDemo;
+using Monofoxe.Playground.InputDemo;
 using System;
+using System.Collections.Generic;
 
 namespace Monofoxe.Playground.Interface
 {

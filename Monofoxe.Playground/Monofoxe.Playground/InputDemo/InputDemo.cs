@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Resources.Sprites;
 using System.Text.RegularExpressions;
 
-namespace Monofoxe.Playground.GraphicsDemo
+namespace Monofoxe.Playground.InputDemo
 {
 	public class InputDemo : Entity
 	{
@@ -24,6 +24,11 @@ namespace Monofoxe.Playground.GraphicsDemo
 		
 		StringBuilder _keyboardInput = new StringBuilder();
 		int _keyboardInputMaxLength = 32;
+
+		public const Buttons KeyboardTestButton = Buttons.A;
+		public const Buttons GamepadTestButton = Buttons.GamepadA;
+		public const Buttons MouseTestButton = Buttons.MouseLeft;
+
 
 		public InputDemo(Layer layer) : base(layer)
 		{
@@ -87,6 +92,16 @@ namespace Monofoxe.Playground.GraphicsDemo
 			Text.CurrentFont = Resources.Fonts.Arial;
 
 			Text.Draw("Keyboard input: " + _keyboardInput.ToString(), position);
+
+
+			// Gamepad, mouse and keyboard buttons are using the same method. 
+			position += Vector2.UnitY * 64;
+			CircleShape.Draw(position, 16, Input.CheckButton(KeyboardTestButton));
+			position += Vector2.UnitX * 64;
+			CircleShape.Draw(position, 16, Input.CheckButton(GamepadTestButton));
+			position += Vector2.UnitX * 64;
+			CircleShape.Draw(position, 16, Input.CheckButton(MouseTestButton));
+
 
 			position = new Vector2(200, 200);
 			
