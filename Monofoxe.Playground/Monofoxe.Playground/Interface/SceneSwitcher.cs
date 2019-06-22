@@ -5,6 +5,7 @@ using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Playground.GraphicsDemo;
 using Monofoxe.Playground.InputDemo;
+using Monofoxe.Playground.ECSDemo;
 using System;
 using System.Collections.Generic;
 
@@ -14,6 +15,7 @@ namespace Monofoxe.Playground.Interface
 	{
 		public List<SceneFactory> Factories = new List<SceneFactory>
 		{
+			new ECSDemoFactory(),
 			new InputDemoFactory(),
 			new PrimitiveDemoFactory(),
 			new ShapeDemoFactory(),
