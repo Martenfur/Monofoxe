@@ -20,6 +20,8 @@ namespace Resources.Sprites
 		#region Sprites.
 		public static Sprite Monofoxe;
 		public static Sprite Fire;
+		public static Sprite Bot;
+		public static Sprite Player;
 		public static Sprite Font;
 		public static Sprite Test;
 		public static Sprite AutismCat;
@@ -40,6 +42,8 @@ namespace Resources.Sprites
 			
 			Monofoxe = sprites["monofoxe"];
 			Fire = sprites["fire"];
+			Bot = sprites["bot"];
+			Player = sprites["player"];
 			Font = sprites["font"];
 			Test = sprites["Folder/test"];
 			AutismCat = sprites["Textures/autism_cat"];

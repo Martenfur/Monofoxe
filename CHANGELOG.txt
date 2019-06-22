@@ -3,6 +3,7 @@ v 1.0.1.0:
 FEATURES:
 - Added Animation class.
 - Added Easing class.
+- Added DirectionToVector2 methods to GameMath.
 
 CHANGES:
 - Moved Cameras from Monofoxe.Engine.Utils to Monofoxe.Engine namespace.
