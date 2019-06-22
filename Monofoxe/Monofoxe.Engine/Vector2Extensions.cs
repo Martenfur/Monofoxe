@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace Monofoxe.Engine.Utils
+namespace Monofoxe.Engine
 {
 	/// <summary>
 	/// Vector2 extensions.

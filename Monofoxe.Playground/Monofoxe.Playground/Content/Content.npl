@@ -23,7 +23,7 @@
 		},
 		"defaultSpriteGroup": 
 		{
-			"path": "Graphics/Default.spritegroup",
+			"path": "Graphics/*.spritegroup",
 			"recursive": "True",
 			"action": "build",
 			"importer": "SpriteGroupImporter",

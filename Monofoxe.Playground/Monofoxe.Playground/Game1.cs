@@ -4,7 +4,7 @@ using Monofoxe.Tiled;
 using Monofoxe.Engine.Drawing;
 using Resources;
 
-namespace $safeprojectname$
+namespace Monofoxe.Playground
 {
 	/// <summary>
 	/// This is the main type for your game.
@@ -38,8 +38,8 @@ namespace $safeprojectname$
 		protected override void LoadContent()
 		{
 			GraphicsMgr.Init(GraphicsDevice);
-			
-			Resources.Sprites.Default.Load();	
+
+			Resources.Sprites.Default.Load();
 			Fonts.Load();
 			Effects.Load();
 			Maps.Load();
@@ -61,7 +61,7 @@ namespace $safeprojectname$
 		protected override void Update(GameTime gameTime)
 		{
 			GameMgr.Update(gameTime);
-			
+
 			base.Update(gameTime);
 		}
 

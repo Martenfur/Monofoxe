@@ -104,13 +104,12 @@ namespace Monofoxe.Test
 			b -= (int)b;
 			Console.WriteLine("b = " + b);
 
-
+			//Console.WriteLine(GameMgr.CurrentPlatform);
 		}
 
 
 		void EasingTest(Animation caller)
 		{
-			Console.WriteLine("sup");
 			caller.Invert = !caller.Invert;
 		}
 
