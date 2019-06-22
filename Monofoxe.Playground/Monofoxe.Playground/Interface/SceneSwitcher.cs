@@ -13,8 +13,10 @@ namespace Monofoxe.Playground.Interface
 	{
 		public List<SceneFactory> Factories = new List<SceneFactory>
 		{
-			new SpriteDemoFactory(),
+			new InputDemoFactory(),
+			new PrimitiveDemoFactory(),
 			new ShapeDemoFactory(),
+			new SpriteDemoFactory(),
 		};
 
 		public int CurrentSceneID {get; private set;} = 0;
@@ -71,6 +73,24 @@ namespace Monofoxe.Playground.Interface
 		
 			var canvasSize = GameMgr.WindowManager.CanvasSize;
 
+			Text.CurrentFont = Resources.Fonts.Arial;
+			Text.HorAlign = TextAlign.Left;
+			Text.VerAlign = TextAlign.Top;
+
+			// Description.
+			if (CurrentFactory.Description != "")
+			{
+				var padding = 8;
+				var textSize = Text.CurrentFont.MeasureString(CurrentFactory.Description);
+				var origin = Vector2.UnitX * (canvasSize - (textSize + Vector2.One * padding * 2));
+				GraphicsMgr.CurrentColor = _barColor;
+				RectangleShape.Draw(origin, origin + textSize + Vector2.One * padding * 2, false);
+				GraphicsMgr.CurrentColor = _textColor;
+				Text.Draw(CurrentFactory.Description, Vector2.One * padding + origin);
+			}
+			// Description.
+
+
 			// Bottom bar.
 			GraphicsMgr.AddTransformMatrix(Matrix.CreateTranslation(new Vector3(0, canvasSize.Y - _barHeight, 0)));
 
@@ -78,9 +98,6 @@ namespace Monofoxe.Playground.Interface
 			RectangleShape.Draw(Vector2.Zero, canvasSize, false);
 
 			GraphicsMgr.CurrentColor = _textColor;
-			Text.CurrentFont = Resources.Fonts.Arial;
-			Text.HorAlign = TextAlign.Left;
-			Text.VerAlign = TextAlign.Top;
 			Text.Draw(
 				"fps: " + GameMgr.Fps
 				+ " | Current scene: " + CurrentScene.Name

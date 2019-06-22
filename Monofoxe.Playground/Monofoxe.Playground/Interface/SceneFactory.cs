@@ -6,6 +6,8 @@ namespace Monofoxe.Playground.Interface
 	{
 		public Scene Scene;
 
+		public abstract string Description {get;}
+
 		public abstract void CreateScene();
 		public abstract void DestroyScene();
 

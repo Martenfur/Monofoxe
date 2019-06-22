@@ -9,13 +9,19 @@
     <Import_RootNamespace>Monofoxe.Playground</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\PrimitiveDemoFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\PrimitiveDemo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\SpriteDemoFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\SpriteDemo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\ShapeDemoFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\ShapeDemo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InputDemo\InputDemo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InputDemo\InputDemoFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interface\CameraController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interface\SceneFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interface\SceneSwitcher.cs" />
+    <None Include="$(MSBuildThisFileDirectory)Content\Effects\AlphaBlend.fx" />
+    <None Include="$(MSBuildThisFileDirectory)Content\Effects\Grayscale.fx" />
     <None Include="$(MSBuildThisFileDirectory)Content\Graphics\Template.cstemplate" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Effects.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Fonts.cs" />
@@ -42,6 +48,5 @@
     <Folder Include="$(MSBuildThisFileDirectory)Content\Audio\Sounds\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Maps\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\References\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Demos\" />
   </ItemGroup>
 </Project>

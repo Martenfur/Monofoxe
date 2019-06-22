@@ -5,6 +5,8 @@ namespace Monofoxe.Playground.GraphicsDemo
 {
 	public class ShapeDemoFactory : SceneFactory
 	{
+		public override string Description => "";
+
 		public override void CreateScene()
 		{
 			Scene = SceneMgr.CreateScene("Shapes");
