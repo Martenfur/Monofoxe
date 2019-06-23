@@ -28,6 +28,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interface\CameraController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interface\SceneFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interface\SceneSwitcher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UtilsDemo\UtilsDemo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UtilsDemo\UtilsDemoFactory.cs" />
     <None Include="$(MSBuildThisFileDirectory)Content\Effects\AlphaBlend.fx" />
     <None Include="$(MSBuildThisFileDirectory)Content\Effects\Grayscale.fx" />
     <None Include="$(MSBuildThisFileDirectory)Content\Graphics\Template.cstemplate" />

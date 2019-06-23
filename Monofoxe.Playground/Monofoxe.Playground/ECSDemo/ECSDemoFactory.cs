@@ -11,7 +11,7 @@ namespace Monofoxe.Playground.ECSDemo
 	public class ECSDemoFactory : SceneFactory
 	{
 		public override string Description => "WASD - move player.";
-
+		 
 		public static RandomExt Random = new RandomExt();
 
 		public override void CreateScene()
