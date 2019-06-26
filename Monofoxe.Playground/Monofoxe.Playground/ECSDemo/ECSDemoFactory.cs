@@ -4,14 +4,18 @@ using Monofoxe.Engine;
 using Monofoxe.Engine.Utils;
 using Monofoxe.Playground.Interface;
 using Microsoft.Xna.Framework;
-
+using System;
 
 namespace Monofoxe.Playground.ECSDemo
 {
 	public class ECSDemoFactory : SceneFactory
 	{
-		public override string Description => "WASD - move player.";
-		 
+		public override string Description => "WASD - move player." 
+			+ Environment.NewLine 
+			+ ECSDemo.ToggleEnabledButton + " - toggle bots Update events."
+			+ Environment.NewLine
+			+ ECSDemo.ToggleVisibilityButton + " - toggle bots Draw events.";
+
 		public static RandomExt Random = new RandomExt();
 
 		public override void CreateScene()
@@ -27,6 +31,8 @@ namespace Monofoxe.Playground.ECSDemo
 			}
 
 			new Player(layer, new Vector2(400, 300));
+
+			new ECSDemo(layer);
 			
 		}
 
