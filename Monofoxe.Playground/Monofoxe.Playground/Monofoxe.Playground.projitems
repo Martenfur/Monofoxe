@@ -24,6 +24,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\SpriteDemo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\ShapeDemoFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\ShapeDemo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TiledDemo\ExtendedMapBuilder\CollisionSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TiledDemo\ExtendedMapBuilder\CollisionComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TiledDemo\ExtendedMapBuilder\SolidMapBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TiledDemo\ExtendedMapBuilder\SolidTilesetTile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TiledDemo\Factories\BotFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TiledDemo\Factories\PlayerFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TiledDemo\TiledDemo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TiledDemo\TiledDemoFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InputDemo\InputDemo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InputDemo\InputDemoFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interface\CameraController.cs" />
@@ -58,9 +66,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Content\Graphics\Default\monofoxe.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Content\Audio\Music\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Content\Audio\Sounds\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Maps\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Content\References\" />
   </ItemGroup>
 </Project>

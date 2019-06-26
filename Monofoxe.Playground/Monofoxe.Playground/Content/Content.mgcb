@@ -66,3 +66,8 @@
 /processor:EffectProcessor
 /build:Effects/Seizure.fx
 
+#begin Maps/test.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:Maps/test.tmx
+

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Monofoxe.Engine;
-using Monofoxe.Tiled;
+using Monofoxe.Tiled.MapStructure;
 
 
 namespace Resources

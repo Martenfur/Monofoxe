@@ -7,9 +7,11 @@ using Monofoxe.Playground.ECSDemo;
 using Monofoxe.Playground.GraphicsDemo;
 using Monofoxe.Playground.InputDemo;
 using Monofoxe.Playground.SceneSystemDemo;
+using Monofoxe.Playground.TiledDemo;
 using Monofoxe.Playground.UtilsDemo;
 using System;
 using System.Collections.Generic;
+
 
 namespace Monofoxe.Playground.Interface
 {
@@ -17,6 +19,7 @@ namespace Monofoxe.Playground.Interface
 	{
 		public List<SceneFactory> Factories = new List<SceneFactory>
 		{
+			new TiledDemoFactory(),
 			new SceneSystemDemoFactory(),
 			new UtilsDemoFactory(),
 			new ECSDemoFactory(),
