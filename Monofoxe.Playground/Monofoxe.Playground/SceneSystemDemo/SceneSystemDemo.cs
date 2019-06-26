@@ -10,46 +10,81 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Resources.Sprites;
 using System.Text.RegularExpressions;
+using Monofoxe.Playground.ECSDemo;
 
 namespace Monofoxe.Playground.SceneSystemDemo
 {
 	public class SceneSystemDemo : Entity
 	{
-		
-		Color _mainColor = Color.White;
-		Color _secondaryColor = Color.Violet;
 
-		double _animation = 0;
-		double _animationSpeed = 0.25;
-		
-		StringBuilder _keyboardInput = new StringBuilder();
-		int _keyboardInputMaxLength = 32;
 
-		public const Buttons KeyboardTestButton = Buttons.A;
-		public const Buttons GamepadTestButton = Buttons.GamepadA;
-		public const Buttons MouseTestButton = Buttons.MouseLeft;
+		public const Buttons ToggleVisibilityButton = Buttons.N;
+		public const Buttons ToggleEnabledButton = Buttons.M;
 
+		Scene _testScene;
 
 		public SceneSystemDemo(Layer layer) : base(layer)
 		{
+			// Creating new scene.
+			_testScene = SceneMgr.CreateScene("SceneDemoDummy");
+			var mainLayer = _testScene.CreateLayer("main");
+			var backgroungLayer = _testScene.CreateLayer("background");
+
+			// Update and Draw events will be executed for this layer first.
+			// This can be counter-intuitive, but this will put the layer on the back.
+			// Because it is being drawn first, everything else will be drawn on top of it.
+			backgroungLayer.Priority = 999;
+			
+			// Applying a shader to the thingy.
+			backgroungLayer.PostprocessorEffects.Add(Resources.Effects.Seizure);
+
+			
+			// See ECSDemo to learn how those work.
+			new Player(mainLayer, new Vector2(400, 300));
+
+			// Player will not draw lines to these bots, because they are on a different layer.
+			for (var i = 0; i < 10; i += 1)
+			{
+				var bot = CreateFromTemplate(backgroungLayer, "Bot");
+				var position = bot.GetComponent<PositionComponent>();
+				position.Position = new Vector2(ECSDemoFactory.Random.Next(100, 700), ECSDemoFactory.Random.Next(100, 500));
+			}
+
+			// Player will draw lines to these bots, because they are on the same layer.
+			for (var i = 0; i < 5; i += 1)
+			{
+				var bot = CreateFromTemplate(mainLayer, "Bot");
+				var position = bot.GetComponent<PositionComponent>();
+				position.Position = new Vector2(ECSDemoFactory.Random.Next(100, 700), ECSDemoFactory.Random.Next(100, 500));
+			}
+			
 		}
 
 		public override void Update()
 		{
-			
+			if (Input.CheckButtonPress(ToggleVisibilityButton))
+			{
+				// This will turn off Draw events for bot's entity and all of its components.
+				foreach (Entity bot in _testScene["background"].GetEntityListByComponent<BotComponent>())
+				{
+					bot.Visible = !bot.Visible;
+				}
+			}
+
+			if (Input.CheckButtonPress(ToggleEnabledButton))
+			{
+				// This will turn off Update events for bot's entity and all of its components.
+				foreach (Entity bot in _testScene["background"].GetEntityListByComponent<BotComponent>())
+				{
+					bot.Enabled = !bot.Enabled;
+				}
+			}
 		}
-
-		public override void Draw()
-		{
-			var startingPosition = new Vector2(64, 64);
-			var position = startingPosition;
-			var spacing = 100;
-
 		
-		}
 
 		public override void Destroy()
 		{
+			SceneMgr.DestroyScene(_testScene);
 		}
 
 

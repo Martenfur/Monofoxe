@@ -6,12 +6,16 @@ namespace Monofoxe.Playground.SceneSystemDemo
 {
 	public class SceneSystemDemoFactory : SceneFactory
 	{
-		public override string Description => "Press ";
+		public override string Description => "WASD - move player."
+			+ Environment.NewLine
+			+ SceneSystemDemo.ToggleEnabledButton + " - toggle background layer Update events."
+			+ Environment.NewLine
+			+ SceneSystemDemo.ToggleVisibilityButton + " - toggle background layer Draw events.";
 
 		public override void CreateScene()
 		{
-			Scene = SceneMgr.CreateScene("Input");
-			var layer = Scene.CreateLayer("Input");
+			Scene = SceneMgr.CreateScene("Scene system");
+			var layer = Scene.CreateLayer("Scene system");
 			new SceneSystemDemo(layer);
 		}
 

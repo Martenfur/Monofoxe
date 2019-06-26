@@ -11,6 +11,8 @@ namespace Resources
 		private static ContentManager _content;
 
 		public static Effect Grayscale;
+		public static Effect Seizure;
+
 
 		public static void Load()
 		{
@@ -19,6 +21,7 @@ namespace Resources
 
 			// This is not generated automatically. Sadly, you'll have to add those by hand.
 			Grayscale = _content.Load<Effect>("Grayscale");
+			Seizure = _content.Load<Effect>("Seizure");
 
 		}
 

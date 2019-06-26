@@ -34,6 +34,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UtilsDemo\UtilsDemo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UtilsDemo\UtilsDemoFactory.cs" />
     <None Include="$(MSBuildThisFileDirectory)Content\Effects\AlphaBlend.fx" />
+    <None Include="$(MSBuildThisFileDirectory)Content\Effects\Seizure.fx" />
     <None Include="$(MSBuildThisFileDirectory)Content\Effects\Grayscale.fx" />
     <None Include="$(MSBuildThisFileDirectory)Content\Graphics\Template.cstemplate" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Effects.cs" />
