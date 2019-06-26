@@ -45,8 +45,8 @@ Well, up to you. Currently I am developing Monofoxe alone, and can't really prov
 
 # How do I use it?
 
-Just download the [Monofoxe installer](https://bitbucket.org/gnFur/monofoxe/downloads/MonofoxeSetup_v1.0.0.0.exe) or [standalone libraries](https://bitbucket.org/gnFur/monofoxe/downloads/RawLibraries_v1.0.0.0.zip).
-Installer budles Visual Studio 2015, 2017 and 2019 templates, [NoPipeline](https://github.com/gnFur/NoPipeline) and Monogame 3.7.1 installation. 
+Just download the Monofoxe installer or standalone libraries from the [latest release](https://github.com/gnFur/Monofoxe/releases/latest).
+Installer bundles Visual Studio 2015, 2017 and 2019 templates, [NoPipeline](https://github.com/gnFur/NoPipeline) and Monogame 3.7.1 installation. 
 
 Just install Monofoxe, create Monofoxe project and you're good to go. 
 
@@ -58,7 +58,7 @@ That's the spirit. Check out if I need any help on my [Trello board](https://tre
 
 **Don't forget to check out Codestyle.cs before contributing!!!**
 
-## Foxies who helped
+## Foxes who helped
 
 - [MirrorOfSun](https://github.com/MirrorOfSUn)
 - [Shazan](https://bitbucket.org/%7B07c29368-d971-4ab1-8ec5-1a89d56bfa43%7D/)

@@ -56,7 +56,20 @@ namespace Monofoxe.Engine.Utils
 		public static double DirectionRad(float x, float y) =>
 			(Math.Atan2(y, x)) % (Math.PI * 2);
 		
-			
+		
+		/// <summary>
+		/// Converts direction measured in degrees to unit Vector2.
+		/// </summary>
+		public static Vector2 DirectionToVector2(float direction) =>
+			new Vector2((float)Math.Cos(MathHelper.ToRadians(direction)), (float)Math.Sin(MathHelper.ToRadians(direction)));
+
+		/// <summary>
+		/// Converts direction measured in radians to unit Vector2.
+		/// </summary>
+		public static Vector2 DirectionToVector2Rad(double direction) =>
+			new Vector2((float)Math.Cos(direction), (float)Math.Sin(direction));
+
+
 
 		/// <summary>
 		/// Calculates difference between two angles from -180 to 180;

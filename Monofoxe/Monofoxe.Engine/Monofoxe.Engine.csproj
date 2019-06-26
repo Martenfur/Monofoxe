@@ -74,7 +74,6 @@
     <Compile Include="ECS\EntityTemplatePool.cs" />
     <Compile Include="ECS\IEntityTemplate.cs" />
     <Compile Include="Utils\Animation.cs" />
-    <Compile Include="Utils\EasingTypes.cs" />
     <Compile Include="Utils\CustomCollections\SafeSortedDictionary.cs" />
     <Compile Include="Drawing\Font.cs" />
     <Compile Include="Drawing\Frame.cs" />

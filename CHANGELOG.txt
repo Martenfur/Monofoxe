@@ -3,6 +3,7 @@ v 1.0.1.0:
 FEATURES:
 - Added Animation class.
 - Added Easing class.
+- Added DirectionToVector2 methods to GameMath.
 
 CHANGES:
 - Moved Cameras from Monofoxe.Engine.Utils to Monofoxe.Engine namespace.
@@ -17,4 +18,5 @@ FIXES:
 - Fixed NoPipeline not saving cases of the resource names. 
 - Fixed NoPipeline's watcher not working with newly added files.
 - Fixed crashing, when text is being drawn last in the frame.
+- Renamed Round/Ceiling/Floor to RoundV/CeilingV/FloorV in Vector2 entenxions, which were causing name clashes.
 
