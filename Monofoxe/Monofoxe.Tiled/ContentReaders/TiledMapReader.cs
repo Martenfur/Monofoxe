@@ -279,7 +279,7 @@ namespace Monofoxe.Tiled.ContentReaders
 			obj.FlipVer = input.ReadBoolean();
 
 			obj.Tileset = map.GetTileset(obj.GID);
-
+		
 			return obj;
 		}
 		

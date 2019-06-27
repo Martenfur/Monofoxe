@@ -59,7 +59,7 @@ namespace Pipefoxe.SpriteGroup
 				groupData.ClassTemplatePath = configData["classTemplatePath"].ToString();
 				groupData.ClassOutputDir = configData["classOutputDir"].ToString();
 
-				SpriteGroupWriter.DebugMode = (configData["debugMode"].ToString() == "true");
+				SpriteGroupWriter.DebugMode = bool.Parse(configData["debugMode"].ToString());
 				SpriteGroupWriter.DebugDir = Environment.CurrentDirectory + "/" + groupData.GroupName + "_dbg";
 
 				var textureWildcards = (JArray)configData["singleTexturesWildcards"];
