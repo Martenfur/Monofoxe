@@ -30,7 +30,7 @@ namespace Monofoxe.Tiled
 		/// - Building tilesets.
 		/// - Building tile layers.
 		/// - Building object layers.
-		/// - Builsing image layers.
+		/// - Building image layers.
 		/// 
 		/// Each of those stages can be overriden.
 		/// Override this method if you want full control over the map loading.
@@ -69,7 +69,7 @@ namespace Monofoxe.Tiled
 
 		/// <summary>
 		/// Builds tilesets from Tiled templates.
-		/// Called by BuildMap().
+		/// Called by Build().
 		/// </summary>
 		protected virtual List<Tileset> BuildTilesets(TiledMapTileset[] tilesets)
 		{
@@ -125,7 +125,7 @@ namespace Monofoxe.Tiled
 
 		/// <summary>
 		/// Builds tile layers from Tiled templates. 
-		/// Called by BuildMap().
+		/// Called by Build().
 		/// </summary>
 		protected virtual List<Layer> BuildTileLayers(List<Tileset> tilesets)
 		{
@@ -170,7 +170,7 @@ namespace Monofoxe.Tiled
 
 		/// <summary>
 		/// Builds object layers from Tiled templates.
-		/// Called by BuildMap().
+		/// Called by Build().
 		/// </summary>
 		protected virtual List<Layer> BuildObjectLayers()
 		{
@@ -194,7 +194,7 @@ namespace Monofoxe.Tiled
 		
 		/// <summary>
 		/// Builds image layers from Tiled templates.
-		/// Called by BuildMap().
+		/// Called by Build().
 		/// </summary>
 		protected virtual List<Layer> BuildImageLayers()
 		{
