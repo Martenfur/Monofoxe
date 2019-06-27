@@ -24,7 +24,7 @@ namespace Monofoxe.Tiled
 			TiledMap = tiledMap;
 		
 		/// <summary>
-		/// Builds map scene from TIled map template.
+		/// Builds map scene from Tiled map template.
 		/// 
 		/// Building goes in four stages:
 		/// - Building tilesets.
@@ -42,8 +42,8 @@ namespace Monofoxe.Tiled
 				MapScene = SceneMgr.CreateScene(TiledMap.Name);
 			
 				var tilesets = BuildTilesets(TiledMap.Tilesets);
-
-				BuildTileLayers();
+				
+				BuildTileLayers(tilesets);
 				BuildObjectLayers();
 				BuildImageLayers();
 
@@ -79,16 +79,7 @@ namespace Monofoxe.Tiled
 		protected virtual List<Tileset> BuildTilesets(TiledMapTileset[] tilesets)
 		{
 			var convertedTilesets = new List<Tileset>();
-
-			// Getting the size for a lookup map.
-			var count = 0;
-			foreach (var tileset in tilesets)
-			{
-				count += tileset.TileCount;
-			}
-			_tilesetLookupMap = new Tileset[count + 1];
-
-
+			
 			foreach (var tileset in tilesets)
 			{
 				// Creating sprite from raw texture.
@@ -118,16 +109,36 @@ namespace Monofoxe.Tiled
 
 				var finalTileset = new Tileset(tilesetTilesList.ToArray(), tileset.Offset, tileset.FirstGID);
 
-				// Filling up the lookup map.
-				for(var i = 0; i < tileset.TileCount; i += 1)
-				{
-					_tilesetLookupMap[tileset.FirstGID + i] = finalTileset;
-				}
-
+				
 				convertedTilesets.Add(finalTileset);
 			}
 
 			return convertedTilesets;
+		}
+
+
+		/// <summary>
+		/// Creates tile lookup table to optimize tile matching for tilemaps.
+		/// </summary>
+		protected virtual void CreateTileLookupTable(List<Tileset> tilesets)
+		{
+			// Getting the size for a lookup map.
+			var count = 0;
+			foreach (var tileset in tilesets)
+			{
+				count += tileset.Count;
+			}
+			_tilesetLookupMap = new Tileset[count + 1];
+
+			foreach (var tileset in tilesets)
+			{
+				// Filling up the lookup map.
+				for (var i = 0; i < tileset.Count; i += 1)
+				{
+					_tilesetLookupMap[tileset.StartingIndex + i] = tileset;
+				}
+			}
+
 		}
 
 		protected Tileset GetTilesetFromTileIndex(int index) =>
@@ -138,8 +149,10 @@ namespace Monofoxe.Tiled
 		/// Builds tile layers from Tiled templates. 
 		/// Called by Build().
 		/// </summary>
-		protected virtual List<Layer> BuildTileLayers()
+		protected virtual List<Layer> BuildTileLayers(List<Tileset> tilesets)
 		{
+			CreateTileLookupTable(tilesets);
+
 			var layers = new List<Layer>();
 
 			foreach(var tileLayer in TiledMap.TileLayers)
@@ -155,9 +168,6 @@ namespace Monofoxe.Tiled
 					for(var x = 0; x < tilemap.Width; x += 1)
 					{
 						var tileIndex = tileLayer.Tiles[x][y].GID;
-
-						if (GetTilesetFromTileIndex(tileIndex) != null)
-						{Console.WriteLine(tileIndex + " : " + GetTilesetFromTileIndex(tileIndex).Count);}
 						
 						tilemap.SetTileUnsafe(
 							x, y, 
