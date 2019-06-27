@@ -1,0 +1,2773 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Monofoxe.Engine</name>
+    </assembly>
+    <members>
+        <member name="T:Monofoxe.Engine.AssetMgr">
+            <summary>
+            Provides convenient asset paths and lists all content assets.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.AssetMgr.ContentDir">
+            <summary>
+            Root directory of the game content.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.AssetMgr.GraphicsDir">
+            <summary>
+            Root directory for graphics.
+            NOTE: This directory is located inside ContentDir.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.AssetMgr.AudioDir">
+            <summary>
+            Root directory for the audio.
+            NOTE: This directory is located inside ContentDir.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.AssetMgr.EffectsDir">
+            <summary>
+            Root directory for shaders.
+            NOTE: This directory is located inside ContentDir.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.AssetMgr.FontsDir">
+            <summary>
+            Root directory for fonts.
+            NOTE: This directory is located inside ContentDir.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.AssetMgr.EntityTemplatesDir">
+            <summary>
+            Root directory for entity templates.
+            NOTE: This directory is located inside ContentDir.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.AssetMgr.MapsDir">
+            <summary>
+            Root directory for maps.
+            NOTE: This directory is located inside ContentDir.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.AssetMgr._assetPaths">
+            <summary>
+            List of all game ssets.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.AssetMgr.GetAssetPaths(System.String)">
+            <summary>
+            Returns list of asset paths matching input path.
+            Empty string will return all asset paths.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Buttons">
+            <summary>
+            Combined enums from keyboard, gamepad and mouse.
+            I really don't like the idea of 3 separate sets of functions for each input method.
+            
+            NOTE: Standard Xna.Input.Keys can be casted into Buttons.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.CanvasMode">
+            <summary>
+            Canvas drawing modes for WindowMgr.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.CanvasMode.KeepAspectRatio">
+            <summary>
+            Keeps aspect ration between screen and canvas, 
+            resulting in black bars.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.CanvasMode.Fill">
+            <summary>
+            Scales canvas to fit them into screen.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.CanvasMode.None">
+            <summary>
+            Canvas stays as is, without any transforming.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.ContentReaders.SpriteGroupReader">
+            <summary>
+            Reads sprite group file.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.Text.Draw(System.String,System.Single,System.Single)">
+            <summary>
+            Draws text in specified coordinates.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.Text.Draw(System.String,Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Draws text in specified coordinates.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.Text.Draw(System.String,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single)">
+            <summary>
+            Draws text in specified coordinates with rotation, scale and origin.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.Text.Draw(System.String,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Draws text in specified coordinates with rotation, scale and origin.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Drawing.CircleShape">
+            <summary>
+            Drawable circle shape. Can be drawn by using static methods or be instantiated.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Drawing.CircleShape.Position">
+            <summary>
+            Center point of a circle.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.CircleShape.IsOutline">
+            <summary>
+            If false, circle will be filled with solid color. If true, only outline will be drawn.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Drawing.CircleShape.CircleVerticesCount">
+            <summary>
+            Amount of vertices in one circle. 
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.CircleShape.Draw(Microsoft.Xna.Framework.Vector2,System.Single,System.Boolean)">
+            <summary>
+            Draws a circle.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.CircleShape.Draw(System.Single,System.Single,System.Single,System.Boolean)">
+            <summary>
+            Draws a circle.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.CircleShape.Draw(Microsoft.Xna.Framework.Vector2,System.Single,System.Boolean,Microsoft.Xna.Framework.Color)">
+            <summary>
+            Draws a circle.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.CircleShape.Draw(System.Single,System.Single,System.Single,System.Boolean,Microsoft.Xna.Framework.Color)">
+            <summary>
+            Draws a circle.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Drawing.CustomTrianglePrimitive">
+            <summary>
+            Triangle primitive, which can accept any array of indices. 
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.CustomTrianglePrimitive.Indices">
+            <summary>
+            Array of primitive indices. They tell primitive what vertices to draw in what order.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.CustomTrianglePrimitive.GetIndices">
+            <summary>
+            Sets user-defined list of indices for a list of triangles.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Drawing.IDrawable">
+            <summary>
+            Anything that can be drawn.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Drawing.IDrawable.Position">
+            <summary>
+            Drawable object's global position.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.IDrawable.Draw">
+            <summary>
+            Draws the object.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Drawing.CustomLinePrimitive">
+            <summary>
+            Line primitive, which can accept any array of indices. 
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.CustomLinePrimitive.Indices">
+            <summary>
+            Array of primitive indices. They tell primitive what vertices to draw in what order.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.CustomLinePrimitive.GetIndices">
+            <summary>
+            Sets user-defined list of indices for a list of lines.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Drawing.ThickLineShape">
+            <summary>
+            Drawable thick line shape. Can be drawn by using static methods or be instantiated.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.ThickLineShape.Point1">
+            <summary>
+            First line point. 
+            NOTE: all line points treat position as an origin point;
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.ThickLineShape.Point2">
+            <summary>
+            Second line point. 
+            NOTE: all line points treat position as an origin point;
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.ThickLineShape.Thickness">
+            <summary>
+            Line thickness.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.ThickLineShape.Draw(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single)">
+            <summary>
+            Draws a line with specified width.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.ThickLineShape.Draw(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color)">
+            <summary>
+            Draws a line with specified width and colors.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.ThickLineShape.Draw(System.Single,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Draws a line with specified width.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.ThickLineShape.Draw(System.Single,System.Single,System.Single,System.Single,System.Single,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color)">
+            <summary>
+            Draws a line with specified width and colors.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Drawing.Primitive2D">
+            <summary>
+            Base 2D primitive class. Can be used to create other types of primitives.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.Primitive2D.Vertices">
+            <summary>
+            List of all primitive's vertices. 
+            NOTE: all vertices treat position as an origin point;
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Drawing.Primitive2D._graphicsMode">
+            <summary>
+            Graphics mode which will be used while drawing primitive.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.Primitive2D._texture">
+            <summary>
+            Frame texture.
+            NOTE: Frame and be only a small part of a big texture.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.Primitive2D._textureOffset">
+            <summary>
+            Offset of a texture region.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.Primitive2D._textureRatio">
+            <summary>
+            Ratio between texture size and frame size.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.Primitive2D.SetTexture(Microsoft.Xna.Framework.Graphics.Texture2D)">
+            <summary>
+            Sets texture for a primitive.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.Primitive2D.SetTextureFromFrame(Monofoxe.Engine.Drawing.Frame)">
+            <summary>
+            Sets texture for a primitive.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.Primitive2D.GetIndices">
+            <summary>
+            Returns an array of vertex indices which essentially determine how primitive will be drawn.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.Primitive2D.GetConvertedVertices">
+            <summary>
+            Converts list of Monofoxe Vertex objects to Monogame's vertices.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Drawing.LineShape">
+            <summary>
+            Drawable line shape. Can be drawn by using static methods or be instantiated.
+            NOTE: The line has no width. 
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.LineShape.Point1">
+            <summary>
+            First line point. 
+            NOTE: all line points treat position as an origin point;
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.LineShape.Point2">
+            <summary>
+            Second line point. 
+            NOTE: all line points treat position as an origin point;
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.LineShape.Draw(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Draws a line.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.LineShape.Draw(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color)">
+            <summary>
+            Draws a line with specified colors.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.LineShape.Draw(System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Draws a line.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.LineShape.Draw(System.Single,System.Single,System.Single,System.Single,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color)">
+            <summary>
+            Draws a line with specified colors.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Drawing.RectangleShape.Position">
+            <summary>
+            Center point of a rectangle.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.RectangleShape.IsOutline">
+            <summary>
+            If false, circle will be filled with solid color. If true, only outline will be drawn.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.RectangleShape.Draw">
+            <summary>
+            Draws a rectangle using instance properties.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.RectangleShape.Draw(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Boolean)">
+            <summary>
+            Draws a rectangle using top left and bottom right point.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.RectangleShape.Draw(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Boolean,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color)">
+            <summary>
+            Draws a rectangle using top left and bottom right point with specified colors for each corner.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.RectangleShape.Draw(System.Single,System.Single,System.Single,System.Single,System.Boolean)">
+            <summary>
+            Draws a rectangle using top left and bottom right point.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.RectangleShape.Draw(System.Single,System.Single,System.Single,System.Single,System.Boolean,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color)">
+            <summary>
+            Draws a rectangle using top left and bottom right point with specified colors for each corner.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.RectangleShape.DrawBySize(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Boolean)">
+            <summary>
+            Draws a rectangle using center point and size.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.RectangleShape.DrawBySize(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Boolean,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color)">
+            <summary>
+            Draws a rectangle using center point and size with specified colors for each corner.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.RectangleShape.DrawBySize(System.Single,System.Single,System.Single,System.Single,System.Boolean)">
+            <summary>
+            Draws a rectangle using center point and size.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.RectangleShape.DrawBySize(System.Single,System.Single,System.Single,System.Single,System.Boolean,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color)">
+            <summary>
+            Draws a rectangle using center point and size with specified colors for each corner.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Drawing.LineStripPrimitive">
+            <summary>
+            Drawable line strip primitive. Draws a bunch of connected lines. Can be looped.
+            Pattern: 0 - 1 - 2 - 3
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.LineStripPrimitive.Looped">
+            <summary>
+            If true, a line between first and last vertex will be drawn.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.LineStripPrimitive.GetIndices">
+            <summary>
+            Sets indices according to line strip pattern.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Drawing.MeshPrimitive">
+            <summary>
+            Drawable mesh primitive. Draws a grid of triangles.
+            Pattern:
+            0 - 1 - 2
+            | / | / |
+            3 - 4 - 5
+            | / | / |
+            6 - 7 - 8
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.MeshPrimitive.Width">
+            <summary>
+            Mesh width in cells.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.MeshPrimitive.Height">
+            <summary>
+            Mesh height in cells.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.MeshPrimitive.GetIndices">
+            <summary>
+            Sets indexes according to mesh pattern.
+            NOTE: Make sure there's enough vertices for width and height of the mesh.
+            NOTE: Use counter-clockwise culling.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Drawing.TriangleStripPrimitive">
+            <summary>
+            Drawable triangle strip primitive. Draws a strip of triangles.
+            Pattern:
+            0 - 2 - 4
+             \ / \ /
+              1 - 3
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.TriangleStripPrimitive.GetIndices">
+            <summary>
+            Sets indices according to trianglestrip pattern.
+            NOTE: Use counter-clockwise culling.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Drawing.TriangleFanPrimitive">
+            <summary>
+            Drawable triangle fan primitive. 
+            Draws a bunch of triangles, all of which begin at the first vertex.
+            Pattern:
+            1 - 2
+            | / |
+            0 - 3 
+            | \ |
+            5 - 4 
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.TriangleFanPrimitive.GetIndices">
+            <summary>
+            Sets indexes according to trianglefan pattern.
+            NOTE: Use counter-clockwise culling.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Drawing.TriangleShape">
+            <summary>
+            Drawable triangle shape. Can be drawn by using static methods or be instantiated.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.TriangleShape.Point1">
+            <summary>
+            First triangle point. 
+            NOTE: all triangle points treat position as an origin point;
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.TriangleShape.Point2">
+            <summary>
+            Second triangle point. 
+            NOTE: all triangle points treat position as an origin point;
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.TriangleShape.Point3">
+            <summary>
+            Third triangle point. 
+            NOTE: all triangle points treat position as an origin point;
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.TriangleShape.IsOutline">
+            <summary>
+            If false, circle will be filled with solid color. If true, only outline will be drawn.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.TriangleShape.Draw(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Boolean)">
+            <summary>
+            Draws a triangle.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.TriangleShape.Draw(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Boolean,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color)">
+            <summary>
+            Draws a triangle with specified colors.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.TriangleShape.Draw(System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Boolean)">
+            <summary>
+            Draws a triangle.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.TriangleShape.Draw(System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Boolean,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Color)">
+            <summary>
+            Draw a triangle with specified colors.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Drawing.Font">
+            <summary>
+            Wrapper of SpriteFont.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.Font.GetGlyphs">
+            <summary>
+            Returns a Dictionary of Glyphs for current font.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.Font.MeasureString(System.String)">
+            <summary>
+            Measures both width and height of text.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.Font.MeasureString(System.Text.StringBuilder)">
+            <summary>
+            Measures both width and height of text.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.Font.MeasureStringWidth(System.String)">
+            <summary>
+            Measures width of the text. 
+            NOTE: It is highly recommended to use MeasureString, 
+            since under the hood it is still just a MeasureString call.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.Font.MeasureStringWidth(System.Text.StringBuilder)">
+            <summary>
+            Measures width of the text. 
+            NOTE: It is highly recommended to use MeasureString, 
+            since under the hood it is still just a MeasureString call.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.Font.MeasureStringHeight(System.String)">
+            <summary>
+            Measures height of the text. 
+            NOTE: It is highly recommended to use MeasureString, 
+            since under the hood it is still just a MeasureString call.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.Font.MeasureStringHeight(System.Text.StringBuilder)">
+            <summary>
+            Measures height of the text. 
+            NOTE: It is highly recommended to use MeasureString, 
+            since under the hood it is still just a MeasureString call.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.Font.Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch,System.String,Microsoft.Xna.Framework.Vector2,Monofoxe.Engine.Drawing.TextAlign,Monofoxe.Engine.Drawing.TextAlign)">
+            <summary>
+            Draws text. Not recommended to call on its own, use Text class instead.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Drawing.Frame">
+            <summary>
+            Drawable frame.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.Frame.Texture">
+            <summary>
+            Texture atlas where frame is stored.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.Frame.TexturePosition">
+            <summary>
+            Position of the frame on the atlas.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Drawing.Frame.Width">
+            <summary>
+            Width of the frame.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Drawing.Frame.Height">
+            <summary>
+            Height of the frame.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Drawing.Frame.ParentSprite">
+            <summary>
+            Frame's parent sprite.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Drawing.IFont">
+            <summary>
+            XNA's SpriteFont doesn't provide interface for itself, 
+            so we have to make our own.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Drawing.Sprite">
+            <summary>
+            Drawable sprite. 
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.Sprite._frames">
+            <summary>
+            An array of sprite's frames.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Drawing.Sprite.Width">
+            <summary>
+            Sprite width. Can be accessed only if all sprite frames have the same size.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Drawing.Sprite.Height">
+            <summary>
+            Sprite height. Can be accessed only if all sprite frames have the same size.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.Sprite.SingleFrameSize">
+            <summary>
+            True, if size of every frame is identical.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Drawing.Sprite.FramesCount">
+            <summary>
+            Amount of sprite's frames.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Drawing.Sprite.Item(System.Int32)">
+            <summary>
+            Returns a frame with given index.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.Sprite.CheckIdenticalFrameSizes(Monofoxe.Engine.Drawing.Frame[])">
+            <summary>
+            Checks if all frames got identical sizes.
+            </summary>
+            <param name="frames">Array of frames to check.</param>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.Sprite.GetFrame(System.Double)">
+            <summary>
+            Returns sprite frame based on an animation value from 0 to 1.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Drawing.TextureFont.Texture">
+            <summary>
+            Unused, because TextureFont can have multiple textures.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.TextureFont.MeasureString(System.String)">
+            <summary>
+            Measures width and height of the text.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.TextureFont.MeasureString(System.Text.StringBuilder)">
+            <summary>
+            Measures width and height of the text.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.TextureFont.MeasureStringWidth(System.String)">
+            <summary>
+            Measures width of the text. 
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.TextureFont.MeasureStringWidth(System.Text.StringBuilder)">
+            <summary>
+            Measures width of the text. 
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.TextureFont.MeasureStringHeight(System.String)">
+            <summary>
+            Measures height of the text. 
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.TextureFont.MeasureStringHeight(System.Text.StringBuilder)">
+            <summary>
+            Measures height of the text. 
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.TextureFont.Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch,System.String,Microsoft.Xna.Framework.Vector2,Monofoxe.Engine.Drawing.TextAlign,Monofoxe.Engine.Drawing.TextAlign)">
+            <summary>
+            Draws text. Not recommended to call on its own, use Text class instead.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Drawing.GraphicsMgr.Batch">
+            <summary>
+            Default sprite batch used to draw sprites, text and surfaces.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Drawing.GraphicsMgr.CurrentCamera">
+            <summary>
+            Currently enabled camera.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Drawing.GraphicsMgr.CurrentTransformMatrix">
+            <summary>
+            Current transformation matrix. Used to offset, rotate and scale graphics.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.GraphicsMgr.CurrentColor">
+            <summary>
+            Current drawing color. Affects shapes, sprites, text and primitives.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Drawing.GraphicsMgr.__drawcalls">
+            <summary>
+            Amount of draw calls per frame.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.GraphicsMgr._currentGraphicsMode">
+            <summary>
+            Current graphics mode. Tells, which type of graphics is being drawn right now.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.GraphicsMgr._surfaceStack">
+            <summary>
+            We can set surface targets inside another surfaces.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Drawing.GraphicsMgr.ScissorRectangle">
+            <summary>
+            Disables rendering for everything that's outside of rectangle.
+            NOTE: To enable scissoring, enable scissor test in Rasterizer.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Drawing.GraphicsMgr.Rasterizer">
+            <summary>
+            Rasterizer state. 
+            NOTE: Do NOT modify object which you'll set. This will lead to errors and unexpected behaviour.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Drawing.GraphicsMgr.Sampler">
+            <summary>
+            Sampler state. Used for interpolation and texture wrappping.
+            NOTE: Do NOT modify object which you'll set. This will lead to errors and unexpected behaviour.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Drawing.GraphicsMgr.BlendState">
+            <summary>
+            Blend state. Used for color blending.
+            NOTE: Do NOT modify object which you'll set. This will lead to errors and unexpected behaviour.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Drawing.GraphicsMgr.CurrentEffect">
+            <summary>
+            Current shader. Set to null to reset to the default shader.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.GraphicsMgr._defaultEffect">
+            <summary>
+            Default shader with proper alpha blending. 
+            Replaces BasicEffect. Applied, when CurrentEffect is null.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.GraphicsMgr._cameraRasterizerState">
+            <summary>
+            Used for drawing cameras.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.GraphicsMgr.CanvasMatrix">
+            <summary>
+            Matrix for offsetting, scaling and rotating canvas contents.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.GraphicsMgr._content">
+            <summary>
+            Used to load default shader.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.GraphicsMgr.Init(Microsoft.Xna.Framework.Graphics.GraphicsDevice)">
+            <summary>
+            Initialization function for draw manager. 
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.GraphicsMgr.Update(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            Performs Draw events for all objects.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.GraphicsMgr.SwitchGraphicsMode(Monofoxe.Engine.Drawing.GraphicsMode,Microsoft.Xna.Framework.Graphics.Texture2D)">
+            <summary>
+            Switches graphics mode.
+            
+            Call it before manually using sprite batches or vertex buffers.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.GraphicsMgr.AddVertices(Monofoxe.Engine.Drawing.GraphicsMode,Microsoft.Xna.Framework.Graphics.Texture2D,System.Collections.Generic.List{Microsoft.Xna.Framework.Graphics.VertexPositionColorTexture},System.Int16[])">
+            <summary>
+            Adds vertices and indices to global vertex and index list.
+            If current and suggested graphics modes are different, draws accumulated vertices first.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.GraphicsMgr.DrawVertices">
+            <summary>
+            Draws vertices from vertex buffer and empties it.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.GraphicsMgr.SetTransformMatrix(Microsoft.Xna.Framework.Matrix)">
+            <summary>
+            Sets new transform matrix.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.GraphicsMgr.AddTransformMatrix(Microsoft.Xna.Framework.Matrix)">
+            <summary>
+            Sets new transform matrix multiplied by current transform matrix.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.GraphicsMgr.ResetTransformMatrix">
+            <summary>
+            Resets to a previous transform matrix.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.GraphicsMgr.SetSurfaceTarget(Monofoxe.Engine.Drawing.Surface)">
+            <summary>
+            Sets surface as a render target.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.GraphicsMgr.SetSurfaceTarget(Monofoxe.Engine.Drawing.Surface,Microsoft.Xna.Framework.Matrix)">
+            <summary>
+            Sets surface as a render target.
+            </summary>
+            <param name="surf">Target surface.</param>
+            <param name="matrix">Surface transformation matrix.</param>
+        </member>
+        <member name="M:Monofoxe.Engine.Drawing.GraphicsMgr.ResetSurfaceTarget">
+            <summary>
+            Resets render target to a previous surface.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Drawing.GraphicsMode">
+            <summary>
+            Every time we want to draw primitive of different type
+            or switch texture, we need to empty vertex buffer
+            and switch graphics mode.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.GraphicsMode.None">
+            <summary>
+            No mode set.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.GraphicsMode.Sprites">
+            <summary>
+            Sprite batch.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.GraphicsMode.SpritesNonPremultiplied">
+            <summary>
+            Text.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.GraphicsMode.TrianglePrimitives">
+            <summary>
+            Triangle list.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Drawing.GraphicsMode.LinePrimitives">
+            <summary>
+            Line list.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.ECS.ComponentContainer">
+            <summary>
+            Custom container for entity components.
+            Basically just a dictionary of lists of components.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.ComponentContainer.Add(Monofoxe.Engine.ECS.Component)">
+            <summary>
+            Adds component to the container.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.ComponentContainer.Remove(Monofoxe.Engine.ECS.Component)">
+            <summary>
+            Removes component from the container.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.ComponentContainer.TryGetList(System.Type,System.Collections.Generic.List{Monofoxe.Engine.ECS.Component}@)">
+            <summary>
+            Gets the component list associated with the specified key.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.ECS.EntityTemplatePool">
+            <summary>
+            Entity factory pool stores in instance of each entity factory.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.ECS.EntityTemplatePool.TemplatePool">
+            <summary>
+            Pool of all factories in all assemblies. Sorted by their tags.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.EntityTemplatePool.InitTemplatePool">
+            <summary>
+            Initialized template pool by creating an instance of each IEntityTemplateclass.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.ECS.IEntityTemplate">
+            <summary>
+            Entity template interface. Used to create entity by tag.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.ECS.IEntityTemplate.Tag">
+            <summary>
+            Identifying tag. Will be assigned to created entities.
+            
+            NOTE: All template tags should be unique!
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.IEntityTemplate.Make(Monofoxe.Engine.SceneSystem.Layer)">
+            <summary>
+            Creates an entity on a given layer.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.ECS.BaseSystem">
+            <summary>
+            Basic system interface. 
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.ECS.BaseSystem.ComponentType">
+            <summary>
+            Type of components, which are processed by this system.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.ECS.BaseSystem.Priority">
+            <summary>
+            System priority. If priority is higher, system will be processed sooner.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.ECS.BaseSystem.Enabled">
+            <summary>
+            If system is enabled, it will invoke its Update and Draw methods.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.ECS.Component">
+            <summary>
+            Stores data, which will be processed by corresponding systems.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.ECS.Component.Owner">
+            <summary>
+            Owner of a component.
+            
+            NOTE: Component should ALWAYS have an owner. 
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.ECS.Component.Initialized">
+            <summary>
+            Tells if this component was initialized.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.ECS.Component.Enabled">
+            <summary>
+            If component is enabled, it will be processed by Create and Update methods.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.ECS.Component.Visible">
+            <summary>
+            If component is visible, it will be processed by Draw method.
+            
+            NOTE: components are NOT visible by default!
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.ECS.Component.System">
+            <summary>
+            Component's assigned system. Will be null only if no systems exist for this component.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.ECS.Entity">
+            <summary>
+            Parent class of every in-game object.
+            Can hold components, or implement its own logic.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.ECS.Entity.Tag">
+            <summary>
+            Unique tag for identifying entity.
+            NOTE: Entity tags should be unique!
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.ECS.Entity.Depth">
+            <summary>
+            Depth of Draw event. Objects with the lowest depth draw the last.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.ECS.Entity.Destroyed">
+            <summary>
+            Tells f object was destroyed.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.ECS.Entity.Enabled">
+            <summary>
+            If false, Update and Destroy events won't be executed.
+            NOTE: This also applies to entity's components.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.ECS.Entity.Visible">
+            <summary>
+            If false, Draw events won't be executed.
+            NOTE: This also applies to entity's components.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.ECS.Entity.Layer">
+            <summary>
+            Layer that entity is currently on.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.ECS.Entity.Scene">
+            <summary>
+            Scene that entity is currently on.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.ECS.Entity._components">
+            <summary>
+            Component dictionary.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.Entity.FixedUpdate">
+            <summary>
+            Updates at a fixed rate, if entity is enabled.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.Entity.Update">
+            <summary>
+            Updates every frame, if entity is enabled.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.Entity.Draw">
+            <summary>
+            Draw updates. Triggers only if entity is visible.
+            
+            NOTE: DO NOT put any significant logic into Draw.
+            It may skip frames.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.Entity.Destroy">
+            <summary>
+            Triggers right before destruction, if entity is enabled. 
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.Entity.AddComponent(Monofoxe.Engine.ECS.Component)">
+            <summary>
+            Adds component to the entity.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.Entity.GetComponent``1">
+            <summary>
+            Returns component of given class.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.Entity.GetComponent(System.Type)">
+            <summary>
+            Returns component of given class.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.Entity.TryGetComponent``1(``0@)">
+            <summary>
+            Retrieves component of given class, if it exists, and returns true. If it doesn't, returns false.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.Entity.TryGetComponent(Monofoxe.Engine.ECS.Component@,System.Type)">
+            <summary>
+            Retrieves component of given class, if it exists, and returns true. If it doesn't, returns false.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.Entity.GetAllComponents">
+            <summary>
+            Returns all the components. All of them.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.Entity.HasComponent``1">
+            <summary>
+            Checks if an entity has the component of given type.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.Entity.HasComponent(System.Type)">
+            <summary>
+            Checks if an entity has the component of given type.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.Entity.RemoveComponent``1">
+            <summary>
+            Removes component from an entity and returns it.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.Entity.RemoveComponent(System.Type)">
+            <summary>
+            Removes component from an entity and returns it.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.Entity.CreateFromTemplate(Monofoxe.Engine.SceneSystem.Layer,System.String)">
+            <summary>
+            Creates new entity from existing template.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.Entity.DestroyEntity">
+            <summary>
+            Destroys entity and all of its components.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.ECS.IEntityMethods">
+            <summary>
+            Methods for working with entities.
+            
+            NOTE: Methods should return all entities regardless of if they are enabled. 
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.IEntityMethods.GetEntityList``1">
+            <summary>
+            Returns list of entities of certain type.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.IEntityMethods.CountEntities``1">
+            <summary>
+            Counts amount of entities of certain type.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.IEntityMethods.EntityExists``1">
+            <summary>
+            Checks if any instances of an entity exist.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.IEntityMethods.FindEntity``1">
+            <summary>
+            Finds first entity of given type.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.IEntityMethods.GetEntityList(System.String)">
+            Due to ECS, there may be lots of objects with same type, 
+            but different component sets. They differ only by their tag.
+            This is, why we need tag overloads.
+            <summary>
+            Returns list of entities with given tag.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.IEntityMethods.CountEntities(System.String)">
+            <summary>
+            Counts amount of entities with given tag.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.IEntityMethods.EntityExists(System.String)">
+            <summary>
+            Checks if given instance exists.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.IEntityMethods.FindEntity(System.String)">
+            <summary>
+            Finds first entit with given tag.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.IEntityMethods.GetEntityListByComponent``1">
+            <summary>
+            Returns list of entities, which have component - enabled or disabled -  of given type.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.IEntityMethods.CountEntitiesByComponent``1">
+            <summary>
+            Counts amount of entities, which have component - enabled or disabled - of given type.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.IEntityMethods.FindEntityByComponent``1">
+            <summary>
+            Finds first entity, which has component - enabled or disabled -  of given type.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.IEntityMethods.GetComponentList``1">
+            <summary>
+            Returns list of components - enabled and disabled - of given type.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.ECS.SystemMgr">
+            <summary>
+            Manages ECS systems.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.ECS.SystemMgr._systemPool">
+            <summary>
+            List of currently active systems.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.SystemMgr.FixedUpdate">
+            <summary>
+            Updates at a fixed rate.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.SystemMgr.Update">
+            <summary>
+            Updates every frame.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.SystemMgr.Draw(Monofoxe.Engine.ECS.Component)">
+            <summary>
+            Draw updates.
+            
+            NOTE: DO NOT put any significant logic into Draw.
+            It may skip frames.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.ECS.SystemMgr.InitSystemPool">
+            <summary>
+            Creates an instance of each ISystem implementing class.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Utils.Animation">
+            <summary>
+            Basic animation class. Can be used for sprite animation, 
+            UI animation, movement, and many more.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Utils.Animation.LinearProgress">
+            <summary>
+            Linear animation progress. Always goes up from 0 to 1.
+            Not affected by easing and inversion.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Utils.Animation.Progress">
+            <summary>
+            LinearProgress affected by easing and inversion.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Utils.Animation.Speed">
+            <summary>
+            Animation speed.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Utils.Animation.Looping">
+            <summary>
+            If true, animation will be looped and properly time-corrected.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Utils.Animation.Running">
+            <summary>
+            Tells if the animation is running.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Utils.Animation.Easing">
+            <summary>
+            Current easing function, which is applied to animation.
+            If null, animation will be linear.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Utils.Animation.TimeKeeper">
+            <summary>
+            Current TimeKeeper. Can affect animation speed.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Utils.Animation.Invert">
+            <summary>
+            If true, Progress will go from 1 to 0 insteasd of 0 to 1.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Utils.Animation.AnimationEndEvent">
+            <summary>
+            Gets called, when animation ends or loops.
+            Use this for more fine control over the animation.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.Animation.Update">
+            <summary>
+            Updates the animation. Not the part of entity loop, 
+            you need to call it on your own.
+            
+            NOTE: If using in Draw method, keep in mind that each camera calls the event separately.
+            You may want to restrict it only to the first camera.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.Animation.Start">
+            <summary>
+            Starts the animation and resets LinearProgress to 0.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.Animation.Start(System.Boolean)">
+            <summary>
+            Starts the animation, overrides Looping and resets LinearProgress to 0.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.Animation.Stop">
+            <summary>
+            Stops the animation and resets LinearProgress to 0.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.Animation.Resume">
+            <summary>
+            Resumes the animation from its current progress.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.Animation.Resume(System.Boolean)">
+            <summary>
+            Resumes the animation from its current progress and overrides Looping.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.Animation.Pause">
+            <summary>
+            Stops the animation without resetting current progress.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Utils.CustomCollections.SafeSortedDictionary`2">
+            <summary> 
+            Safe sorted dictionary. Makes possible to safely remove from and add items to the list during enumeration.
+            
+            NOTE: Sorting algorhitm is very basic and must be used only for small amounts (1-5) of new elements.
+            DO NOT use this class for frequently updated collections with lots of elements.
+            It also does not resort whole list every update, so be careful with changing item's sorting parameter on the fly.
+            Good idea will be to re-add item back to the list.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Utils.CustomCollections.SafeList`1">
+            <summary> 
+            Safe list. Makes possible to safely remove from and add items to the list during enumeration.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.CustomCollections.SafeList`1.Clear">
+            <summary>
+            Clears out all items from the list.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.CustomCollections.SafeList`1.Update">
+            <summary>
+            Removes old elements from the list and adds new ones.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Utils.CustomCollections.SafeSortedList`1">
+            <summary> 
+            Safe sorted list. Makes possible to safely remove from and add items to the list during enumeration.
+            
+            NOTE: Sorting algorhitm is very basic and must be used only for small amounts (1-5) of new elements.
+            DO NOT use this class for frequently updated collections with lots of elements.
+            It also does not resort whole list every update, so be careful with changing item's sorting parameter on the fly.
+            Good idea will be to re-add item back to the list.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.CustomCollections.SafeSortedList`1.Clear">
+            <summary>
+            Clears out all items from the list.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.CustomCollections.SafeSortedList`1.Update">
+            <summary>
+            Removes old elements from the list and adds new ones.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Utils.Easing">
+            <summary>
+            A set of cool whooshies for transition effects. 
+            Easings accept linear value from 0 to 1 and return smoothed out version. 
+            Can be used as static functions or instantiated.
+            
+            Port of this code: https://github.com/nicolausYes/easing-functions
+            
+            Help on easings and visualization: https://easings.net/en
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Utils.Easing.Func">
+            <summary>
+            Current easing function.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.Easing.#ctor(System.Func{System.Double,System.Double})">
+            <summary>
+            This constructor is used to create easings. You can create your own!
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.Easing.GetEasing(System.Single)">
+            <summary>
+            Returns easing value for t.
+            NOTE: t should be in range from 0 to 1.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.Easing.GetEasing(System.Double)">
+            <summary>
+            Returns easing value for t.
+            NOTE: t should be in range from 0 to 1.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Utils.Foxe">
+            <summary>
+            I'm a sneaky foxe.
+            
+            Sneaked into your game.
+            
+            Stole your entities.
+            
+            Slept on your bad architechture.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Utils.Tilemaps.BasicTilemapComponent">
+            <summary>
+            Basic tilemap class. Provides basic functionality,
+            supports camera zooming.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Utils.Tilemaps.BasicTilemapComponent.Padding">
+            <summary>
+            Tells how many tile rows and columns will be drawn outside of camera's bounds.
+            May be useful for tiles larger than the grid. 
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.Tilemaps.BasicTilemapComponent.GetTileUnsafe(System.Int32,System.Int32)">
+            <summary>
+            Returns tile without out-of-bounds check.
+            WARNING: This method will throw an exception, if coordinates are out of bounds.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.Tilemaps.BasicTilemapComponent.SetTileUnsafe(System.Int32,System.Int32,Monofoxe.Engine.Utils.Tilemaps.BasicTile)">
+            <summary>
+            Sets tile without out-of-bounds check.
+            WARNING: This method will throw an exception, if coordinates are out of bounds.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.Tilemaps.BasicTilemapComponent.InBounds(System.Int32,System.Int32)">
+            <summary>
+            Tells if given coordinates are in bounds.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Utils.Tilemaps.BasicTilemapSystem">
+            <summary>
+            System for basic tilemap. Based on Monofoxe.ECS.
+            Draws tilemaps in camera's bounds.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Utils.Tilemaps.ITile">
+            <summary>
+            Tile interface. 
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.Tilemaps.ITilemap`1.InBounds(System.Int32,System.Int32)">
+            <summary>
+            Tells, if given coodrinates are in tilemap's bounds.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.Tilemaps.Tileset.GetTilesetTile(System.Int32)">
+            <summary>
+            Returns tileset tile according to tile index,
+            or null, if index is out of tileset's bounds. 
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Utils.Alarm">
+            <summary>
+            Counts down seconds. Needs to be updated manually.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Utils.Alarm.Counter">
+            <summary>
+            Tells how much time is left in seconds.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Utils.Alarm.TriggerAction">
+            <summary>
+            Gets called in an update, if alarm is triggered. 
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Utils.Alarm.Running">
+            <summary>
+            Tells, if alarm is running right now.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.Alarm.Set(System.Double)">
+            <summary>
+            Sets alarm to given time.
+            </summary>
+            <param name="time">Time in seconds.</param>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.Alarm.Reset">
+            <summary>
+            Resets alarm.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.Alarm.Update">
+            <summary>
+            Updates alarm. Returns true, if alarm is being triggered.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Utils.AutoAlarm">
+            <summary>
+            Counts down seconds. Needs to be updated manually. Sets itself automatically after triggering.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.AutoAlarm.Update">
+            <summary>
+            Updates alarm. Returns true, if alarm is being triggered.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Utils.GameMath">
+            <summary>
+            Contains useful math stuff. 
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.GameMath.Distance(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Calculates distance between two points.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.GameMath.Direction(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Calculates direction between two points in degrees.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.GameMath.DirectionRad(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Calculates direction between two points in radians.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.GameMath.DirectionToVector2(System.Single)">
+            <summary>
+            Converts direction measured in degrees to unit Vector2.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.GameMath.DirectionToVector2Rad(System.Double)">
+            <summary>
+            Converts direction measured in radians to unit Vector2.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.GameMath.AngleDiff(System.Double,System.Double)">
+            <summary>
+            Calculates difference between two angles from -180 to 180;
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.GameMath.AngleDiffRad(System.Double,System.Double)">
+            <summary>
+            Calculates difference between two angles in radians from -pi to pi;
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.GameMath.PointInRectangle(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Checks if a point lies within a rectangle.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.GameMath.PointInRectangleBySize(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Checks if a point lies within a rectangle.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.GameMath.PointInTriangle(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Checks if a point lies within a triangle.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.GameMath.RectangleInRectangle(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Checks if two rectangles intersect.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.GameMath.RectangleInRectangleBySize(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Checks if two rectangles intersect.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.GameMath.PointSide(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Calculates on which side point is from a line. 
+            1 - left
+            -1 - right
+            0 - on the line
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.GameMath.LinesCross(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Checks if two lines cross. Returns 1 if lines cross, 0 if not and 2 if lines overlap.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.GameMath.LinesCross(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2@)">
+            <summary>
+            Checks if two linew cross. Returns 1 if lines cross, 0 if not and 2 if lines overlap.
+            Also calculates intersection point.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Utils.RandomExt">
+            <summary>
+            Extends System.Random.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.RandomExt.#ctor">
+            <summary>
+            Creates random generator with system time used as a seed.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.RandomExt.#ctor(System.Int32)">
+            <summary>
+            Creates random number generator with a specific seed.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.RandomExt.Next">
+            <summary>
+            Returns a random number in range [0, Int32.MaxValue).
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.RandomExt.Next(System.Int32)">
+            <summary>
+            Returns a random number in range [0, maxValue).
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.RandomExt.Next(System.Int32,System.Int32)">
+            <summary>
+            Returns a random number in range [minValue, maxValue).
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.RandomExt.NextDouble">
+            <summary>
+            Returns a random number in range [0.0, 1.0).
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.RandomExt.NextDouble(System.Double)">
+            <summary>
+            Returns a random number in range [0.0, maxValue).
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.RandomExt.NextDouble(System.Double,System.Double)">
+            <summary>
+            Returns a random number in range [minValue, maxValue).
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.RandomExt.NextBytes(System.Byte[])">
+            <summary>
+            Fills the elements of a specified array of bytes with random numbers.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.RandomExt.Choose``1(``0[])">
+            <summary>
+            Returns a random element out of given arguments.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.RandomExt.GetListWithoutRepeats(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Returns list of numbers from minValue to maxValue in random order.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Utils.StateMachine`1">
+            <summary>
+            Stack-based state machine.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Utils.StateMachine`1._states">
+            <summary>
+            All the available states. Excuted on each update.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Utils.StateMachine`1._enterStateEvents">
+            <summary>
+            State enter events. Executed when machine enters a certain event.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Utils.StateMachine`1._exitStateEvents">
+            <summary>
+            State exit events. Executed when machine exits a certain event.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Utils.StateMachine`1._stateStack">
+            <summary>
+            Stack of active states.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Utils.StateMachine`1.CurrentState">
+            <summary>
+            Current state machine state.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Utils.StateMachine`1.PreviousState">
+            <summary>
+            Previous state machine state.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Utils.StateMachine`1.Owner">
+            <summary>
+            State machine owner.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.StateMachine`1.Update">
+            <summary>
+            Updates state machine and executes current state method.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.StateMachine`1.ClearStack">
+            <summary>
+            Empties state stack, but keeps current state.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.StateMachine`1.Reset(`0)">
+            <summary>
+            Empties state stack and sets state to a new one without calling exit or enter events.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.StateMachine`1.AddState(`0,Monofoxe.Engine.Utils.StateMachineDelegate{`0},Monofoxe.Engine.Utils.StateMachineDelegate{`0},Monofoxe.Engine.Utils.StateMachineDelegate{`0})">
+            <summary>
+            Adds new state to a state machine.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.StateMachine`1.RemoveState(`0)">
+            <summary>
+            Removes existing state from a state machine.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.StateMachine`1.PushState(`0)">
+            <summary>
+            Pushes new state to a state machine.
+            
+            NOTE: State should already exist in the machine.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.StateMachine`1.PopState">
+            <summary>
+            Pops current active state from a machine.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.StateMachine`1.ChangeState(`0)">
+            <summary>
+            Replaces current state with a new state. Basically, pop and push together.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.StateMachine`1.CallExitEvent(`0)">
+            <summary>
+            Calls exit event for a state.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.StateMachine`1.CallEnterEvent(`0)">
+            <summary>
+            Calls enter event for a state.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Utils.TimeKeeper">
+            <summary>
+            Calculates elapsed time based on multiplier.
+            Should be used for fps adjusting and slowing down\speeding up time.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Utils.TimeKeeper.GlobalTimeMultiplier">
+            <summary>
+            If more than one, time will speed up.
+            If less than one, time will slow down.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Utils.TimeKeeper.TimeMultiplier">
+            <summary>
+            If more than one, time will speed up.
+            If less than one, time will slow down.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.TimeKeeper.GlobalTime">
+            <summary>
+            Returns elapsed time, multiplied by global time multiplier.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.TimeKeeper.GlobalTime(System.Double)">
+            <summary>
+            Returns elapsed time, multiplied by global time multiplier.
+            
+            Use this for constant speeds.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.TimeKeeper.GlobalTime(System.Double,System.Double)">
+            <summary>
+            Returns elapsed time, multiplied by global time multiplier 
+            and time-corrected for acceleration.
+            
+            Use this for accelerating values.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.TimeKeeper.GlobalTime(System.Single)">
+            <summary>
+            Returns elapsed time, multiplied by global time multiplier.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.TimeKeeper.GlobalTime(System.Single,System.Single)">
+            <summary>
+            Returns elapsed time, multiplied by global time multiplier 
+            and time-corrected for acceleration.
+            
+            Use this for accelerating values.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.TimeKeeper.GlobalTime(Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Returns elapsed time, multiplied by global time multiplier.
+            
+            Use this for constant speeds.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.TimeKeeper.GlobalTime(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Returns elapsed time, multiplied by global time multiplier 
+            and time-corrected for acceleration.
+            
+            Use this for accelerating values.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.TimeKeeper.Time">
+            <summary>
+            Returns elapsed time, multiplied by both 
+            global time multiplier and local time multiplier.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.TimeKeeper.Time(System.Single)">
+            <summary>
+            Returns elapsed time, multiplied by both 
+            global time multiplier and local time multiplier.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.TimeKeeper.Time(System.Single,System.Single)">
+            <summary>
+            Returns elapsed time, multiplied by global time multiplier 
+            and time-corrected for acceleration.
+            
+            Use this for accelerating values.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.TimeKeeper.Time(System.Double)">
+            <summary>
+            Returns elapsed time, multiplied by both 
+            global time multiplier and local time multiplier.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.TimeKeeper.Time(System.Double,System.Double)">
+            <summary>
+            Returns elapsed time, multiplied by global time multiplier, 
+            local time multiplier and time-corrected for acceleration.
+            
+            Use this for accelerating values.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.TimeKeeper.Time(Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Returns elapsed time, multiplied by both 
+            global time multiplier and local time multiplier.
+            
+            Use this for constant speeds.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.TimeKeeper.Time(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Returns elapsed time, multiplied by global time multiplier, 
+            local time multiplier and time-corrected for acceleration.
+            
+            Use this for accelerating values.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Utils.Timer">
+            <summary>
+            Counts seconds. Has to be updated manually.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Utils.Timer.Counter">
+            <summary>
+            Tells how much time has passed in seconds.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Utils.Timer.Enabled">
+            <summary>
+            Timer won't update if it's disabled.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.Timer.Reset">
+            <summary>
+            Resets timer.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Utils.Timer.Update">
+            <summary>
+            Updates timer.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.GameMgr.Game">
+            <summary>
+            Main Game class.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.GameMgr.WindowManager">
+            <summary>
+            Window manager. Can be used for screen and window stuff.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.GameMgr.ElapsedTimeTotal">
+            <summary>
+            Time in seconds, elapsed since game start.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.GameMgr.ElapsedTime">
+            <summary>
+            Time in seconds, elapsed since previous frame.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.GameMgr.MinGameSpeed">
+            <summary>
+            After this point game will slow down instead of skipping frames.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.GameMgr.Assemblies">
+            <summary>
+            All game's assemblies, including ones from libraries.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.GameMgr.Types">
+            <summary>
+            All of game's types.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.GameMgr.Update(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            Performs update-related routines and calls Update events for entities and systems.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.GameMgr.Draw(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            Performs drawing-related routines and calls Draw events for entities and systems.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.GameMgr.ExitGame">
+            <summary>
+            Closes the game.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.GameMgr.LoadAssembliesAndTypes">
+            <summary>
+            Loads all assemblies and extracts types form them.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.GameMgr.LoadAllReferencedAssemblies(System.Reflection.Assembly,System.Int32)">
+            <summary>
+            Loads all referenced assemblies of an assembly.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Input.ScreenMousePosition">
+            <summary>
+            Cursor position on screen.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Input.MousePosition">
+            <summary>
+            Cursor position in the world. Depends on current camera.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Input.MouseWheelValue">
+            <summary>
+            Scrollwheel value. Can be -1, 0 or 1.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Input.KeyboardString">
+            <summary>
+            Stores all chars typed in previous step.  
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Input.KeyboardKey">
+            <summary>
+            Stores last pressed key in current step. If no keys were pressed, resets to Keys.None.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Input.KeyboardLastKey">
+            <summary>
+            Stores last pressed key. Doesn't reset.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Input.KeyboardLastChar">
+            <summary>
+            Stores last typed char. Doesn't reset.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Input.GamepadTriggersDeadzone">
+            <summary>
+            If pressure value is below deadzone, GamepadCheck() won't detect trigger press.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Input.GamepadDeadzoneType">
+            <summary>
+            Type of stick deadzone.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Input.MaxGamepadCount">
+            <summary>
+            Amount of gamepads which are proccessed by input.
+            If you don't want to use gamepad input, set value to 0.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Input.CheckButton(Monofoxe.Engine.Buttons,System.Int32)">
+            <summary>
+            Checks if mouse, keyboard or gamepad button is down.
+            </summary>
+            <param name="button">Button to check.</param>
+            <param name="index">Device index. Used for gamepad only.</param>
+        </member>
+        <member name="M:Monofoxe.Engine.Input.CheckButtonPress(Monofoxe.Engine.Buttons,System.Int32)">
+            <summary>
+            Checks if mouse, keyboard or gamepad button is pressed.
+            </summary>
+            <param name="button">Button to check.</param>
+            <param name="index">Device index. Used for gamepad only.</param>
+        </member>
+        <member name="M:Monofoxe.Engine.Input.CheckButtonRelease(Monofoxe.Engine.Buttons,System.Int32)">
+            <summary>
+            Checks if mouse, keyboard or gamepad button is released.
+            </summary>
+            <param name="button">Button to check.</param>
+            <param name="index">Device index. Used for gamepad only.</param>
+        </member>
+        <member name="M:Monofoxe.Engine.Input.ClearMouseInput">
+            <summary>
+            Clears mouse input.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Input.KeyboardCheckAnyKey">
+            <summary>
+            Checks if any keyboard key in down in current step.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Input.KeyboardCheckAnyKeyPress">
+            <summary>
+            Checks if any keyboard key in pressed.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Input.KeyboardCheckAnyKeyRelease">
+            <summary>
+            Checks if any keyboard key in released.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Input.ClearKeyboardInput">
+            <summary>
+            Clears keyboard input.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Input.TextInput(System.Object,Microsoft.Xna.Framework.TextInputEventArgs)">
+            <summary>
+            Text input event. Occurs when any key is pressed.
+            Works asynchroniously.
+            Assigned to Window.TextInput of Game1 class.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Input.GamepadConnected(System.Int32)">
+            <summary>
+            Checks if gamepad with given inex is connected.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Input.GamepadGetLeftStick(System.Int32)">
+            <summary>
+            Returns vector of left thumb stick.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Input.GamepadGetRightStick(System.Int32)">
+            <summary>
+            Returns vector of right thumb stick.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Input.GamepadGetLeftTrigger(System.Int32)">
+            <summary>
+            Returns value of pressure on left trigger.
+            NOTE: If you don't need exact pressure value, use GamepadCheck* functions.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Input.GamepadGetRightTrigger(System.Int32)">
+            <summary>
+            Returns value of pressure on right trigger.
+            NOTE: If you don't need exact pressure value, use GamepadCheck* functions.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Input.GamepadSetVibration(System.Int32,System.Single,System.Single)">
+            <summary>
+            Sets vibration to the given gamepad.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Input.ClearGamepadInput">
+            <summary>
+            Clears gamepad input, including triggers and thumb sticks.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Input.ClearInput">
+            <summary>
+            Clears mouse, keyboard and gamepad input.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.SceneSystem.Layer">
+            <summary>
+            A layer is a container for entities and components.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.SceneSystem.Layer.Scene">
+            <summary>
+            Layer's parent scene.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.SceneSystem.Layer.Name">
+            <summary>
+            Layer's name. Used for searching.
+            NOTE: All layers should have unique names!
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.SceneSystem.Layer.Visible">
+            <summary>
+            If false, layer won't be rendered.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.SceneSystem.Layer.Enabled">
+            <summary>
+            If true, layer won't be updated.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.SceneSystem.Layer.Priority">
+            <summary>
+            Priority of a layer. Layers with highest priority are processed first.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.SceneSystem.Layer.DepthSorting">
+            <summary>
+            If true, entities and components will be sorted by their depth.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.SceneSystem.Layer.IsGUI">
+            <summary>
+            If true, draws everything directly to the backbuffer instead of cameras.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.SceneSystem.Layer.Entities">
+            <summary>
+            List of all layer's entities.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.SceneSystem.Layer._components">
+            <summary>
+            All components, which belong to all entities on the layer.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.SceneSystem.Layer._disabledComponents">
+            <summary>
+            Disabled components.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.SceneSystem.Layer.PostprocessorEffects">
+            <summary>
+            Shaders applied to the layer.
+            NOTE: You should enable postprocessing in camera.
+            NOTE: Shaders won't be applied, if layer is GUI.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Layer.SortByDepth">
+            <summary>
+            Sorts entites and components by depth, if depth sorting is enabled.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Layer.ApplyPostprocessing">
+            <summary>
+            Applies shaders to the camera surface.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Layer.GetEntityList``1">
+            <summary>
+            Returns list of entities of certain type.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Layer.CountEntities``1">
+            <summary>
+            Counts amount of objects of certain type.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Layer.EntityExists``1">
+            <summary>
+            Checks if any instances of an entity exist.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Layer.FindEntity``1">
+            <summary>
+            Finds first entity of given type.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Layer.GetEntityList(System.String)">
+            <summary>
+            Returns list of entities with given tag.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Layer.CountEntities(System.String)">
+            <summary>
+            Counts amount of entities with given tag.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Layer.EntityExists(System.String)">
+            <summary>
+            Checks if given instance exists.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Layer.FindEntity(System.String)">
+            <summary>
+            Finds first entity with given tag.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Layer.GetEntityListByComponent``1">
+            <summary>
+            Returns list of entities, which have component - enabled or disabled -  of given type.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Layer.CountEntitiesByComponent``1">
+            <summary>
+            Counts amount of entities, which have component - enabled or disabled -   of given type.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Layer.FindEntityByComponent``1">
+            <summary>
+            Finds first entity, which has component of given type.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Layer.GetComponentList``1">
+            <summary>
+            Returns list of all components on the layer - enabled and disabled - of given type.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.SceneSystem.Scene">
+            <summary>
+            Container for layers.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.SceneSystem.Scene.Layers">
+            <summary>
+            List of all scene's layers.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.SceneSystem.Scene.Visible">
+            <summary>
+            If false, scene won't be rendered.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.SceneSystem.Scene.Enabled">
+            <summary>
+            If true, scene won't be updated.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.SceneSystem.Scene.Priority">
+            <summary>
+            Priority of a scene. Scenes with highest priority are processed first.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Scene.CreateLayer(System.String,System.Int32)">
+            <summary>
+            Creates new layer with given name.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Scene.DestroyLayer(Monofoxe.Engine.SceneSystem.Layer)">
+            <summary>
+            Destroys given layer.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Scene.DestroyLayer(System.String)">
+            <summary>
+            Destroys layer with given name.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.SceneSystem.Scene.Item(System.String)">
+            <summary>
+            Returns layer with given name.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Scene.TryGetLayer(System.String,Monofoxe.Engine.SceneSystem.Layer@)">
+            <summary>
+            Finds layer with given name. Returns true, if layer was found.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Scene.HasLayer(System.String)">
+            <summary>
+            Returns true, if there is a layer with given name. 
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Scene.GetEntityList``1">
+            <summary>
+            Returns list of objects of certain type.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Scene.CountEntities``1">
+            <summary>
+            Counts amount of objects of certain type.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Scene.EntityExists``1">
+            <summary>
+            Checks if any instances of an entity exist.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Scene.FindEntity``1">
+            <summary>
+            Finds first entity of given type.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Scene.GetEntityList(System.String)">
+            <summary>
+            Returns list of entities with given tag.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Scene.CountEntities(System.String)">
+            <summary>
+            Counts amount of entities with given tag.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Scene.EntityExists(System.String)">
+            <summary>
+            Checks if given instance exists.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Scene.FindEntity(System.String)">
+            <summary>
+            Finds first entity with given tag.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Scene.GetEntityListByComponent``1">
+            <summary>
+            Returns list of entities on a scene, which have component of given type.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Scene.CountEntitiesByComponent``1">
+            <summary>
+            Counts amount of entities on a scene, which have component of given type.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Scene.FindEntityByComponent``1">
+            <summary>
+            Finds first entity on a scene, which has component of given type.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.Scene.GetComponentList``1">
+            <summary>
+            Returns list of all components on the scene - enabled and disabled - of given type.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.SceneSystem.SceneMgr">
+            <summary>
+            Manager of all scenes. Updates entities and components.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.SceneSystem.SceneMgr.Scenes">
+            <summary>
+            List of all scenes.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.SceneSystem.SceneMgr.CurrentScene">
+            <summary>
+            Current active scene.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.SceneSystem.SceneMgr.CurrentLayer">
+            <summary>
+            Current active layer.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.SceneSystem.SceneMgr._fixedUpdateTimer">
+            <summary>
+            Counts time until next fixed update.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.SceneMgr.CreateScene(System.String)">
+            <summary>
+            Creates new scene with given name.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.SceneMgr.DestroyScene(Monofoxe.Engine.SceneSystem.Scene)">
+            <summary>
+            Destroys given scene.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.SceneMgr.DestroyScene(System.String)">
+            <summary>
+            Destroys scene with given name.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.SceneMgr.GetScene(System.String)">
+            <summary>
+            Returns scene with given name.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.SceneMgr.TryGetScene(System.String,Monofoxe.Engine.SceneSystem.Scene@)">
+            <summary>
+            Finds scene with given name. Returns true, if scene was found.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.SceneMgr.HasScene(System.String)">
+            <summary>
+            Returns true, if there is a scene with given name. 
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.SceneMgr.PreUpdateRoutine">
+            <summary>
+            Routine needed before updating entities.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.SceneMgr.PostUpdateRoutine">
+            <summary>
+            Routine needed after updating entities.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.SceneMgr.CallFixedUpdateEvents(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            Executes Fixed Update events.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.SceneMgr.CallUpdateEvents(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            Executes Update events.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.SceneMgr.CallDrawEvents">
+            <summary>
+            Executes Draw events.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.SceneSystem.SceneMgr.CallDrawGUIEvents">
+            <summary>
+            Executes Draw GUI events.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.NumberExtensions">
+            <summary>
+            Extends basic C# number types. 
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.NumberExtensions.ToBool(System.Byte)">
+            <summary>
+            Returns true, if number is not zero.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.NumberExtensions.ToBool(System.SByte)">
+            <summary>
+            Returns true, if number is not zero.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.NumberExtensions.ToBool(System.Int16)">
+            <summary>
+            Returns true, if number is not zero.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.NumberExtensions.ToBool(System.UInt16)">
+            <summary>
+            Returns true, if number is not zero.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.NumberExtensions.ToBool(System.Int32)">
+            <summary>
+            Returns true, if number is not zero.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.NumberExtensions.ToBool(System.UInt32)">
+            <summary>
+            Returns true, if number is not zero.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.NumberExtensions.ToBool(System.Int64)">
+            <summary>
+            Returns true, if number is not zero.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.NumberExtensions.ToBool(System.UInt64)">
+            <summary>
+            Returns true, if number is not zero.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.NumberExtensions.ToBool(System.Single)">
+            <summary>
+            Returns true, if number is not zero.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.NumberExtensions.ToBool(System.Double)">
+            <summary>
+            Returns true, if number is not zero.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.NumberExtensions.ToBool(System.Decimal)">
+            <summary>
+            Returns true, if number is not zero.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.NumberExtensions.ToInt(System.Boolean)">
+            <summary>
+            If true, returns one, otherwise - zero.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Vector2Extensions">
+            <summary>
+            Vector2 extensions.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Vector2Extensions.RoundV(Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Rounds each vector's component.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Vector2Extensions.FloorV(Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Rounds each vector's component down.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Vector2Extensions.CeilingV(Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Rounds each vector's component up.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Vector2Extensions.GetSafeNormalize(Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Returns vector with the same direction and length of 1. 
+            If original vector is (0;0), returns zero vector.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Vector2Extensions.ToVector3(Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Converts Vector2 to Vector3 with z axis of 0.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Vector2Extensions.Swap(Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Swaps X and Y places.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Vector2Extensions.Rotate90(Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Rotates vector by 90 degrees.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.WindowMgr">
+            <summary>
+            Merging of GraphicsDeviveManager and WindowManager.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.WindowMgr.ScreenWidth">
+            <summary>
+            Width of the screen.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.WindowMgr.ScreenHeight">
+            <summary>
+            Height of the screen.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.WindowMgr.ScreenSize">
+            <summary>
+            Size of the screen.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.WindowMgr.CanvasWidth">
+            <summary>
+            Window width.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.WindowMgr.CanvasHeight">
+            <summary>
+            Window height.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.WindowMgr.CanvasMode">
+            <summary>
+            Tells how canvas will be drawn on the backbuffer.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.WindowMgr.CanvasSize">
+            <summary>
+            Window size.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.WindowMgr.WindowPosision">
+            <summary>
+            Window position.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.WindowMgr.WindowTitle">
+            <summary>
+            Title of the window.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.WindowMgr.IsBorderless">
+            <summary>
+            Allowing borders in window.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.WindowMgr.Window">
+            <summary>
+            Game window class. 
+            Most of its features are handled through WindowManager,
+            but if you want something specific, use this.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.WindowMgr.CenterWindow">
+            <summary>
+            Centers game window on the screen.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Cameras.Camera">
+            <summary>
+            Game camera. Support positioning, rotating and scaling.
+            NOTE: There always should be at least one camera, 
+            otherwise Draw events won't be triggered.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Cameras.Camera.Priority">
+            <summary>
+            Priority of a camera. 
+            Higher priority = earlier drawing.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Cameras.Camera.Position">
+            <summary>
+            View coordinates.
+            NOTE: They don't take into account offset and rotation.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Cameras.Camera.Size">
+            <summary>
+            View size.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Cameras.Camera.Offset">
+            <summary>
+            Camera offset.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Cameras.Camera.Rotation">
+            <summary>
+            View rotation. Measured in degrees.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Cameras.Camera.Zoom">
+            <summary>
+            View zoom.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Cameras.Camera.PortPosition">
+            <summary>
+            Viewport coordinates. Sets where on screen view will be drawn.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Cameras.Camera.PortOffset">
+            <summary>
+            Viewport coordinates. Sets where on screen view will be drawn.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Cameras.Camera.PortScale">
+            <summary>
+            Viewport scale.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Cameras.Camera.PortRotation">
+            <summary>
+            Viewport rotation.
+            NOTE: Changing it will break mouse position!
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Cameras.Camera.Surface">
+            <summary>
+            Camera surface. Everything will be drawn on it.
+            NOTE: This reference can change to another surface!
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Cameras.Camera.BackgroundColor">
+            <summary>
+            Background color for a view surface.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Cameras.Camera.Visible">
+            <summary>
+            If true, camera surface will be drawn automatically.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Cameras.Camera.Enabled">
+            <summary>
+            If false, camera won't trigger any Draw events.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Cameras.Camera.ClearBackground">
+            <summary>
+            If true, clears camera surface every step.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Cameras.Camera.TransformMatrix">
+            <summary>
+            Transformation matrix.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Cameras.Camera.FilterMode">
+            <summary>
+            Mode for filtering out certain layers.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Cameras.Camera.PostprocessorEffects">
+            <summary>
+            Shaders applied to the surface.
+            NOTE: Last shader will be applied directly during drawing of the surface.
+            If you draw it yourself, don't forget to apply last shader.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Cameras.Camera.PostprocessingMode">
+            <summary>
+            Enables usage of shaders on camera surface and layers.
+            NOTE: Additional surfaces will be created.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Cameras.Camera.Resize(System.Int32,System.Int32)">
+            <summary>
+            Resizes the view.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Cameras.Camera.Destroy">
+            <summary>
+            Removes camera from draw controller list and disposes surface.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Cameras.Camera.UpdateTransformMatrix">
+            <summary>
+            Updates camera's transform matrix.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Cameras.Camera.GetRelativeMousePosition">
+            <summary>
+            Returns mouse position relative to the camera.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Cameras.Camera.Filter(System.String,System.String)">
+            <summary>
+            Returns true, if given layer is filtered out.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Cameras.Camera.ApplyPostprocessing">
+            <summary>
+            Applies shaders to the camera surface.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Cameras.CameraMgr">
+            <summary>
+            Manages camera priorities.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Engine.Cameras.CameraMgr.Cameras">
+            <summary>
+            List of all cameras.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Engine.Cameras.CameraMgr.UpdateCameraPriority(Monofoxe.Engine.Cameras.Camera)">
+            <summary>
+            Removes camera from list and adds it again, taking in account its proirity.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Cameras.FilterMode">
+            <summary>
+            filtering modes for camera.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Cameras.FilterMode.Inclusive">
+            <summary>
+            Triggers rendering, if filter DOES contain layer.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Cameras.FilterMode.Exclusive">
+            <summary>
+            Triggers rendering, if filter DOES NOT contain layer.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Cameras.FilterMode.None">
+            <summary>
+            Renders all layers.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Cameras.PostprocessingMode">
+            <summary>
+            Postprocessing modes for camera.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Cameras.PostprocessingMode.None">
+            <summary>
+            No shaders will be applied.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Cameras.PostprocessingMode.Camera">
+            <summary>
+            Enables applying shaders to the camera surface.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Engine.Cameras.PostprocessingMode.CameraAndLayers">
+            <summary>
+            Enables applying shaders to the camera surface 
+            AND individual layers.
+            </summary>
+        </member>
+    </members>
+</doc>
