@@ -4,6 +4,7 @@ FEATURES:
 - Added Animation class.
 - Added Easing class.
 - Added DirectionToVector2 methods to GameMath.
+- Added a set of demos. See Monofoxe.Playground project.
 
 CHANGES:
 - Moved Cameras from Monofoxe.Engine.Utils to Monofoxe.Engine namespace.
@@ -19,4 +20,4 @@ FIXES:
 - Fixed NoPipeline's watcher not working with newly added files.
 - Fixed crashing, when text is being drawn last in the frame.
 - Renamed Round/Ceiling/Floor to RoundV/CeilingV/FloorV in Vector2 entenxions, which were causing name clashes.
-
+- Fixed tile objects GID being offset by 1 when loaded from templates.
