@@ -2,7 +2,7 @@
 
 !define APPNAME "Monofoxe"
 !define NPL_APPNAME "NoPipeline"
-!define INSTALLERVERSION "1.0.0.0"
+!define INSTALLERVERSION "1.0.1.0"
 
 !define MUI_ICON "pics\icon.ico"
 !define MUI_UNICON "pics\icon.ico"
@@ -74,6 +74,8 @@ Section "Visual Studio 2015 Templates" VS2015
     SetOutPath "$DOCUMENTS\Visual Studio 2015\Templates\ProjectTemplates\Visual C#\Monofoxe"
     File /r '..\Release\MonofoxeDesktopGL.zip'
     File /r '..\Release\MonofoxeDesktopGLBlank.zip'
+    File /r '..\Release\MonofoxeWindows.zip'
+    File /r '..\Release\MonofoxeWindowsBlank.zip' 
     File /r '..\Release\MonofoxeShared.zip'
     GOTO EndTemplates
   CannotInstallTemplates:
@@ -89,6 +91,8 @@ Section "Visual Studio 2017 Templates" VS2017
     SetOutPath "$DOCUMENTS\Visual Studio 2017\Templates\ProjectTemplates\Visual C#\Monofoxe"
     File /r '..\Release\MonofoxeDesktopGL.zip'
     File /r '..\Release\MonofoxeDesktopGLBlank.zip'
+    File /r '..\Release\MonofoxeWindows.zip'
+    File /r '..\Release\MonofoxeWindowsBlank.zip'
     File /r '..\Release\MonofoxeShared.zip'
     GOTO EndTemplates
   CannotInstallTemplates:
@@ -104,6 +108,8 @@ Section "Visual Studio 2019 Templates" VS2019
     SetOutPath "$DOCUMENTS\Visual Studio 2019\Templates\ProjectTemplates\Visual C#\Monofoxe"
     File /r '..\Release\MonofoxeDesktopGL.zip'
     File /r '..\Release\MonofoxeDesktopGLBlank.zip'
+    File /r '..\Release\MonofoxeWindows.zip'
+    File /r '..\Release\MonofoxeWindowsBlank.zip'
     File /r '..\Release\MonofoxeShared.zip'
     GOTO EndTemplates
   CannotInstallTemplates:

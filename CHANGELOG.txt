@@ -5,6 +5,7 @@ FEATURES:
 - Added Easing class.
 - Added DirectionToVector2 methods to GameMath.
 - Added a set of demos. See Monofoxe.Playground project.
+- Added Windows DirectX templates.
 
 CHANGES:
 - Moved Cameras from Monofoxe.Engine.Utils to Monofoxe.Engine namespace.

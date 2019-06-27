@@ -7,6 +7,13 @@ using Monofoxe.Tiled;
 
 namespace Monofoxe.Playground.TiledDemo
 {
+	/// <summary>
+	/// Tiled is a free map editor which can be downloaded at
+	/// https://mapeditor.org
+	/// 
+	/// Though, note that not all the Tiled features are
+	/// currently supported (like infinite tilemaps or animated tiles.)
+	/// </summary>
 	public class TiledDemo : Entity
 	{
 
