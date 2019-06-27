@@ -21,3 +21,4 @@ FIXES:
 - Fixed crashing, when text is being drawn last in the frame.
 - Renamed Round/Ceiling/Floor to RoundV/CeilingV/FloorV in Vector2 entenxions, which were causing name clashes.
 - Fixed tile objects GID being offset by 1 when loaded from templates.
+- Optimized MapBuilder.

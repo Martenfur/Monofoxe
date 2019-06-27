@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monofoxe", "Monofoxe\Monofoxe.csproj", "{4D25C21F-B886-428D-98EB-641B65E9A1A0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pipefoxe", "Pipefoxe\Pipefoxe.csproj", "{D59079B2-CC07-4783-9C7F-05E78EBBC5FD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monofoxe.Engine", "Monofoxe.Engine\Monofoxe.Engine.csproj", "{94153186-E889-4E3E-979F-4C35819C5C21}"
@@ -24,10 +22,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4D25C21F-B886-428D-98EB-641B65E9A1A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4D25C21F-B886-428D-98EB-641B65E9A1A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4D25C21F-B886-428D-98EB-641B65E9A1A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4D25C21F-B886-428D-98EB-641B65E9A1A0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D59079B2-CC07-4783-9C7F-05E78EBBC5FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D59079B2-CC07-4783-9C7F-05E78EBBC5FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D59079B2-CC07-4783-9C7F-05E78EBBC5FD}.Release|Any CPU.ActiveCfg = Release|Any CPU

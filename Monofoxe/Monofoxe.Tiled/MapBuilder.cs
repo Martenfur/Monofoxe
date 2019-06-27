@@ -43,7 +43,7 @@ namespace Monofoxe.Tiled
 			
 				var tilesets = BuildTilesets(TiledMap.Tilesets);
 
-				BuildTileLayers(tilesets);
+				BuildTileLayers();
 				BuildObjectLayers();
 				BuildImageLayers();
 
@@ -68,6 +68,11 @@ namespace Monofoxe.Tiled
 		#region Map building.
 
 		/// <summary>
+		/// An array which tells which index corresponds to which tileset.
+		/// </summary>
+		Tileset[] _tilesetLookupMap;
+
+		/// <summary>
 		/// Builds tilesets from Tiled templates.
 		/// Called by Build().
 		/// </summary>
@@ -75,7 +80,16 @@ namespace Monofoxe.Tiled
 		{
 			var convertedTilesets = new List<Tileset>();
 
-			foreach(var tileset in tilesets)
+			// Getting the size for a lookup map.
+			var count = 0;
+			foreach (var tileset in tilesets)
+			{
+				count += tileset.TileCount;
+			}
+			_tilesetLookupMap = new Tileset[count + 1];
+
+
+			foreach (var tileset in tilesets)
 			{
 				// Creating sprite from raw texture.
 				List<ITilesetTile> tilesetTilesList = new List<ITilesetTile>();
@@ -103,31 +117,28 @@ namespace Monofoxe.Tiled
 				// Creating sprite from raw texture.
 
 				var finalTileset = new Tileset(tilesetTilesList.ToArray(), tileset.Offset, tileset.FirstGID);
+
+				// Filling up the lookup map.
+				for(var i = 0; i < tileset.TileCount; i += 1)
+				{
+					_tilesetLookupMap[tileset.FirstGID + i] = finalTileset;
+				}
+
 				convertedTilesets.Add(finalTileset);
 			}
 
 			return convertedTilesets;
 		}
 
-		protected Tileset GetTilesetFromTileIndex(int index, List<Tileset> tilesets)
-		{
-			foreach(var tileset in tilesets)
-			{
-				if (index >= tileset.StartingIndex && index < tileset.StartingIndex + tileset.Count)
-				{
-					return tileset;
-				}
-			}
-
-			return null;
-		}
+		protected Tileset GetTilesetFromTileIndex(int index) =>
+			_tilesetLookupMap[index];
 
 
 		/// <summary>
 		/// Builds tile layers from Tiled templates. 
 		/// Called by Build().
 		/// </summary>
-		protected virtual List<Layer> BuildTileLayers(List<Tileset> tilesets)
+		protected virtual List<Layer> BuildTileLayers()
 		{
 			var layers = new List<Layer>();
 
@@ -145,11 +156,14 @@ namespace Monofoxe.Tiled
 					{
 						var tileIndex = tileLayer.Tiles[x][y].GID;
 
-						tilemap.SetTile(
+						if (GetTilesetFromTileIndex(tileIndex) != null)
+						{Console.WriteLine(tileIndex + " : " + GetTilesetFromTileIndex(tileIndex).Count);}
+						
+						tilemap.SetTileUnsafe(
 							x, y, 
 							new BasicTile(
 								tileIndex, 
-								GetTilesetFromTileIndex(tileIndex, tilesets),
+								GetTilesetFromTileIndex(tileIndex),
 								tileLayer.Tiles[x][y].FlipHor,
 								tileLayer.Tiles[x][y].FlipVer,
 								tileLayer.Tiles[x][y].FlipDiag
