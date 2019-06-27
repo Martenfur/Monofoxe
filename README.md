@@ -45,12 +45,12 @@ Well, up to you. Currently I am developing Monofoxe alone, and can't really prov
 
 # How do I use it?
 
-Just download the Monofoxe installer or standalone libraries from the [latest release](https://github.com/gnFur/Monofoxe/releases/latest).
-Installer bundles Visual Studio 2015, 2017 and 2019 templates, [NoPipeline](https://github.com/gnFur/NoPipeline) and Monogame 3.7.1 installation. 
+Download the Monofoxe installer or standalone libraries from the [latest release](https://github.com/gnFur/Monofoxe/releases/latest).
+Installer bundles Visual Studio 2015, 2017 and 2019 templates, [NoPipeline](https://github.com/gnFur/NoPipeline) and Monogame 3.7.1 installation. If you don't want 3.7.1, Monofoxe is confirmed to work on 3.6 and 3.7. It most likely will work on Monogame dev build, but it constantly changes, so you never know.
 
 Just install Monofoxe, create Monofoxe project and you're good to go. 
 
-You can also check out the [Demo game](https://bitbucket.org/gnFur/monofoxe.demo/) or the [Docs](Docs/Contents.md) (Currently not finished). Demo projects coming soon!
+You can also check out the [basic feature demos](Monofoxe.Playground/README.md), [Demo game](https://bitbucket.org/gnFur/monofoxe.demo/) or the [Docs](Docs/Contents.md) (Currently not finished) to learn how to use Monofoxe.
 
 # I've suddenly started loving foxes and want to contribute!
 

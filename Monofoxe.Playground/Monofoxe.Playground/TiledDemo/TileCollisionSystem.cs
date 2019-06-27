@@ -1,26 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using Monofoxe.Engine.ECS;
-using Monofoxe.Engine.Utils;
-using Monofoxe.Engine.Utils.Tilemaps;
+﻿using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.SceneSystem;
-using Microsoft.Xna.Framework;
-using Monofoxe.Engine.Drawing;
+using Monofoxe.Engine.Utils.Tilemaps;
 using Monofoxe.Playground.ECSDemo;
+using Monofoxe.Playground.TiledDemo.ExtendedMapBuilder;
+using System;
+using System.Collections.Generic;
 
-namespace Monofoxe.Playground.TiledDemo.ExtendedMapBuilder
+namespace Monofoxe.Playground.TiledDemo
 {
-	public class CollisionSystem : BaseSystem
+	public class TileCollisionSystem : BaseSystem
 	{
-		public override Type ComponentType => typeof(CollisionComponent);
+		public override Type ComponentType => typeof(TileCollisionComponent);
 
 		public override int Priority => 1;
-
-		public override void Create(Component component)
-		{
-
-		}
-
 
 		public override void Update(List<Component> components)
 		{
@@ -28,7 +20,7 @@ namespace Monofoxe.Playground.TiledDemo.ExtendedMapBuilder
 			// The point of it is to just show how to get tile data,
 			// and not how to actually implement collisions.
 
-			foreach(CollisionComponent collision in components)
+			foreach(TileCollisionComponent collision in components)
 			{
 				if (collision.Owner.Scene.TryGetLayer("Walls", out Layer layer))
 				{
@@ -45,8 +37,13 @@ namespace Monofoxe.Playground.TiledDemo.ExtendedMapBuilder
 
 						if (tile != null)
 						{
-							var ttile = (SolidTilesetTile)tile.Value.GetTilesetTile();
-							if (ttile != null && ttile.Solid) // If this tile is solid - perform "collision."
+							var tilesetTile = tile.Value.GetTilesetTile();
+							
+							if (
+								tilesetTile != null 
+								&& tilesetTile is SolidTilesetTile 
+								&& ((SolidTilesetTile)tilesetTile).Solid
+							) // If this tile is solid - perform "collision."
 							{
 								position.Position = position.PreviousPosition;
 							}

@@ -19,14 +19,14 @@ namespace Monofoxe.Playground.Interface
 	{
 		public List<SceneFactory> Factories = new List<SceneFactory>
 		{
-			new TiledDemoFactory(),
+			new ShapeDemoFactory(),
+			new PrimitiveDemoFactory(),
+			new SpriteDemoFactory(),
+			new InputDemoFactory(),
+			new ECSDemoFactory(),
 			new SceneSystemDemoFactory(),
 			new UtilsDemoFactory(),
-			new ECSDemoFactory(),
-			new InputDemoFactory(),
-			new PrimitiveDemoFactory(),
-			new ShapeDemoFactory(),
-			new SpriteDemoFactory(),
+			new TiledDemoFactory(),
 		};
 
 		public int CurrentSceneID {get; private set;} = 0;

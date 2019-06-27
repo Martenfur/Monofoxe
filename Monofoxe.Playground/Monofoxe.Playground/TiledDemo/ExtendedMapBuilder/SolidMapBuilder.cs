@@ -1,25 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Monofoxe.Engine.SceneSystem;
+﻿using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Utils.Tilemaps;
 using Monofoxe.Tiled;
 using Monofoxe.Tiled.MapStructure;
-using Monofoxe.Tiled.MapStructure.Objects;
+using System;
+using System.Collections.Generic;
 
 namespace Monofoxe.Playground.TiledDemo.ExtendedMapBuilder
 {
 	/// <summary>
 	/// Custom map builder. Adds tilemap collision functionality to regular tilemap.
+	/// You can use just MapBuilder as is, if you don't want that.
 	/// </summary>
 	public class SolidMapBuilder : MapBuilder
 	{
-		private const string _typeProperty = "type";
-		private const string _rectangleName = "rectangle";
-		private const string _platformName = "platform";
-
-
-		public SolidMapBuilder(TiledMap tiledMap) : base(tiledMap) { }
+		
+		public SolidMapBuilder(TiledMap tiledMap) : base(tiledMap) {}
 
 		public override void Build()
 		{
@@ -34,8 +29,7 @@ namespace Monofoxe.Playground.TiledDemo.ExtendedMapBuilder
 			var convertedColliderTilesets = new List<Tileset>();
 
 			// Now we got tilesets with basic tiles, which we need to convert into collider tile.
-
-			for (var i = 0; i < convertedBasicTilesets.Count; i += 1)
+			for(var i = 0; i < convertedBasicTilesets.Count; i += 1)
 			{
 				var basicTileset = convertedBasicTilesets[i];
 
@@ -51,33 +45,27 @@ namespace Monofoxe.Playground.TiledDemo.ExtendedMapBuilder
 				);
 				convertedColliderTilesets.Add(colliderTileset);
 			}
-
+			
 			return convertedColliderTilesets;
 		}
 
-		/*
+		
 		protected override List<Layer> BuildTileLayers(List<Tileset> tilesets)
 		{
 			// Letting basic layer builder do its stuff.
 			var layers = base.BuildTileLayers(tilesets);
-
-			// Now we need to add position and collider components to entity to make it count as a solid.
-			foreach (var layer in layers)
-			{
-				// Getting list of all tilemaps on this layer.
-				var tilemaps = layer.GetEntityListByComponent<BasicTilemapComponent>();
-
-				foreach (var tilemap in tilemaps)
-				{
-					var tilemapComponent = tilemap.GetComponent<BasicTilemapComponent>();
-
-					tilemapComponent.Padding = 3; // Padding is increased, so biffer tiles like trees won't disappear while still on screen.
-					
-				}
-			}
-
+			
 			return layers;
-		}*/
+		}
+
+
+		protected override List<Layer> BuildObjectLayers()
+		{
+			// Letting basic layer builder do its stuff.
+			var layers = base.BuildObjectLayers();
+			
+			return layers;
+		}
 
 
 
@@ -92,15 +80,14 @@ namespace Monofoxe.Playground.TiledDemo.ExtendedMapBuilder
 			{
 				var tiledTile = tiledTileset.Tiles[i];
 
-				// Getting collision mode of a tile.
+				// Getting solid property from the tile.
 				var solid = false;
 				try
 				{
 					solid = bool.Parse(tiledTile.Properties["Solid"]);
-					Console.WriteLine("MODE: " + solid);
 				}
 				catch (Exception) {}
-				// Getting collision mode of a tile.
+				// Getting solid property from the tile.
 
 				SolidTilesetTile tilesetTile;
 

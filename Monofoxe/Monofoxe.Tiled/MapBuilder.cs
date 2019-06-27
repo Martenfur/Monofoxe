@@ -141,8 +141,17 @@ namespace Monofoxe.Tiled
 
 		}
 
-		protected Tileset GetTilesetFromTileIndex(int index) =>
-			_tilesetLookupMap[index];
+		protected Tileset GetTilesetFromTileIndex(int index)
+		{
+			try
+			{
+				return _tilesetLookupMap[index];
+			}
+			catch(IndexOutOfRangeException)
+			{
+				return null;
+			}
+		}
 
 
 		/// <summary>

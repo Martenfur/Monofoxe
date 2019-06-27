@@ -19,7 +19,7 @@ namespace Monofoxe.Playground.TiledDemo.Factories
 			var position = entity.GetComponent<PositionComponent>();
 			position.StartingPosition = tile.Position;
 			position.Position = tile.Position;
-
+			
 			var actor = entity.GetComponent<ActorComponent>();
 
 			// Retrieving a custom parameter.
