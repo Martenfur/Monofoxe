@@ -45,16 +45,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Monofoxe.Engine, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Monofoxe\bin\Debug\Monofoxe.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="Monofoxe.Tiled, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Monofoxe\bin\Debug\Monofoxe.Tiled.dll</HintPath>
+    </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Monofoxe.Engine">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\References\Monofoxe.Engine.dll</HintPath>
-    </Reference>
-    <Reference Include="Monofoxe.Tiled">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\References\Monofoxe.Tiled.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />

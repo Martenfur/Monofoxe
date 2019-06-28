@@ -184,13 +184,6 @@ namespace Monofoxe.Engine.Drawing
 			_defaultEffect = _content.Load<Effect>(_defaultEffectName);
 			_defaultEffect.Parameters["World"].SetValue(Matrix.CreateTranslation(Vector3.Zero));
 			
-
-			_vertexBuffer = new DynamicVertexBuffer(Device, typeof(VertexPositionColorTexture), _vertexBufferSize, BufferUsage.WriteOnly);
-			_indexBuffer = new DynamicIndexBuffer(Device, IndexElementSize.SixteenBits, _vertexBufferSize, BufferUsage.WriteOnly);
-			
-			Device.SetVertexBuffer(_vertexBuffer);
-			Device.Indices = _indexBuffer;
-			
 			CircleShape.CircleVerticesCount = 16;
 			
 			_cameraRasterizerState = new RasterizerState
@@ -430,7 +423,7 @@ namespace Monofoxe.Engine.Drawing
 
 			SwitchGraphicsMode(mode, texture);
 
-			var indicesCopy= new short[indices.Length];
+			var indicesCopy = new short[indices.Length];
 			Array.Copy(indices, indicesCopy, indices.Length); // We must copy an array to prevent modifying original.
 
 			for(var i = 0; i < indices.Length; i += 1)
@@ -492,11 +485,6 @@ namespace Monofoxe.Engine.Drawing
 					prCount = _indices.Count / 3;
 				}
 				
-				// Passing primitive data to the buffers.
-				_vertexBuffer.SetData(_vertices.ToArray(), 0, _vertices.Count, SetDataOptions.None);
-				_indexBuffer.SetData(_indices.ToArray(), 0, _indices.Count);
-				// Passing primitive data to the buffers.
-				
 				if (_rasterizer != null)
 				{
 					Device.RasterizerState = _rasterizer;
@@ -517,9 +505,10 @@ namespace Monofoxe.Engine.Drawing
 				foreach(var pass in _defaultEffect.CurrentTechnique.Passes)
 				{
 					pass.Apply();
-					Device.DrawIndexedPrimitives(type, 0, 0, prCount);
+					Device.DrawUserIndexedPrimitives(type, _vertices.ToArray(), 0, _vertices.Count, _indices.ToArray(), 0, prCount);
 				}
-				
+
+				// TODO: replace lists with arrays.
 				_vertices.Clear();
 				_indices.Clear();
 				
