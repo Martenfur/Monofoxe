@@ -7,7 +7,7 @@ enabling you to just *create a new project and make a damn game* without removin
 Monofoxe took a lot of inspiration from Game Maker, so it should be a bit familiar to some folks.
 
 
-**Current version: 1.0.0.0**
+**Current version: 1.0.1.0**
 
 
 # What can it do?
