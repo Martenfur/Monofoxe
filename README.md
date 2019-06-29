@@ -50,7 +50,7 @@ Installer bundles Visual Studio 2015, 2017 and 2019 templates, [NoPipeline](http
 
 Just install Monofoxe, create Monofoxe project and you're good to go. 
 
-You can also check out the [basic feature demos](Monofoxe.Playground/README.md), [Demo game](https://bitbucket.org/gnFur/monofoxe.demo/) or the [Docs](Docs/Contents.md) (Currently not finished) to learn how to use Monofoxe.
+You can also check out the [basic feature demos](Monofoxe.Playground/), [Demo game](https://bitbucket.org/gnFur/monofoxe.demo/) or the [Docs](Docs/Contents.md) (Currently not finished) to learn how to use Monofoxe.
 
 # I've suddenly started loving foxes and want to contribute!
 
