@@ -2,7 +2,7 @@
 
 !define APPNAME "Monofoxe"
 !define NPL_APPNAME "NoPipeline"
-!define INSTALLERVERSION "1.0.1.0"
+!define INSTALLERVERSION "1.0.1.1"
 
 !define MUI_ICON "pics\icon.ico"
 !define MUI_UNICON "pics\icon.ico"
