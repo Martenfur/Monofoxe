@@ -14,7 +14,6 @@ CHANGES:
 - Added GraphicsMgr.CurrentWorld.
 - Renamed GraphicsMgr.CurrentTransformMatrix to GraphicsMgr.CurrentView.
 
-
 FIXES:
 - AlphaBlend.fx now works for DirectX.
 - Content.mgcb now correctly builds for cross-platform projects.
@@ -28,3 +27,4 @@ FIXES:
 - Optimized MapBuilder.
 - Optimized graphics pipeline.
 - Fixed graphics not working properly on DirectX.
+- Fixed ToggleFullScreen not working properly with Canvas.

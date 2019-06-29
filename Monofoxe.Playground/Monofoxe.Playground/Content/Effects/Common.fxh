@@ -2,11 +2,6 @@
 float4x4 View;
 float4x4 Projection;
 
-#define _vs(r)
-#define _ps(r)
-#define _cb(r)
-
-float4x4 WorldViewProjection _vs(c0) _cb(c0);
 
 struct VertexShaderInput
 {
@@ -27,9 +22,9 @@ VertexShaderOutput PassThroughVertexFunction(VertexShaderInput input)
 {
   VertexShaderOutput output;
 
-	//float4 worldPosition = mul(input.Position, World);
-  //float4 viewPosition = mul(worldPosition, View);
-  output.Position = mul(input.Position, WorldViewProjection);
+	float4 worldPosition = mul(input.Position, World);
+  float4 viewPosition = mul(worldPosition, View);
+  output.Position = mul(viewPosition, Projection);
   output.TexCoords = input.TexCoords;
   output.Color = input.Color;
 

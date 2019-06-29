@@ -27,7 +27,7 @@ namespace Monofoxe.Playground
 			GameMgr.WindowManager.Window.AllowUserResizing = false;
 			GameMgr.WindowManager.ApplyChanges();
 			GameMgr.WindowManager.CenterWindow();
-			GameMgr.WindowManager.CanvasMode = CanvasMode.Fill;
+			GameMgr.WindowManager.CanvasMode = CanvasMode.KeepAspectRatio;
 
 			GraphicsMgr.Sampler = SamplerState.PointClamp;
 			//GraphicsMgr.Sampler = SamplerState.PointWrap; // WIll make textures repeat without interpolation.

@@ -44,6 +44,7 @@ namespace Monofoxe.Playground.Interface
 		const Buttons _prevSceneButton = Buttons.Q;
 		const Buttons _restartButton = Buttons.R;
 		const Buttons _toggleUIButton = Buttons.T;
+		const Buttons _fullscreenButton = Buttons.F;
 
 		CameraController _cameraController;
 
@@ -74,7 +75,19 @@ namespace Monofoxe.Playground.Interface
 				PreviousScene();
 			}
 
-
+			if (Input.CheckButtonPress(_fullscreenButton))
+			{
+				if (GameMgr.WindowManager.IsFullScreen)
+				{
+					
+					GameMgr.WindowManager.SetFullScreen(false);
+				}
+				else
+				{
+					
+					GameMgr.WindowManager.SetFullScreen(true);
+				}
+			}
 
 		}
 
