@@ -11,6 +11,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 		{
 			Scene = SceneMgr.CreateScene("Primitives");
 			var layer = Scene.CreateLayer("Primitives");
+			
 			new PrimitiveDemo(layer);
 		}
 

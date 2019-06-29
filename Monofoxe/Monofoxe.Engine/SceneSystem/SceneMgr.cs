@@ -266,7 +266,7 @@ namespace Monofoxe.Engine.SceneSystem
 
 							if (hasPostprocessing)
 							{
-								GraphicsMgr.SetSurfaceTarget(GraphicsMgr.CurrentCamera._postprocessorLayerBuffer, GraphicsMgr.CurrentTransformMatrix);
+								GraphicsMgr.SetSurfaceTarget(GraphicsMgr.CurrentCamera._postprocessorLayerBuffer, GraphicsMgr.CurrentView);
 								GraphicsMgr.Device.Clear(Color.TransparentBlack);
 							}
 

@@ -11,6 +11,9 @@ CHANGES:
 - Moved Cameras from Monofoxe.Engine.Utils to Monofoxe.Engine namespace.
 - Moved NumberExtensions and Vector2Extensions to Monofoxe.Engine namespace.
 - Camera.Rotation is now float instead of int.
+- Added GraphicsMgr.CurrentWorld.
+- Renamed GraphicsMgr.CurrentTransformMatrix to GraphicsMgr.CurrentView.
+
 
 FIXES:
 - AlphaBlend.fx now works for DirectX.
@@ -23,3 +26,5 @@ FIXES:
 - Renamed Round/Ceiling/Floor to RoundV/CeilingV/FloorV in Vector2 entenxions, which were causing name clashes.
 - Fixed tile objects GID being offset by 1 when loaded from templates.
 - Optimized MapBuilder.
+- Optimized graphics pipeline.
+- Fixed graphics not working properly on DirectX.

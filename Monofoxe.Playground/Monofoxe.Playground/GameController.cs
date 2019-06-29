@@ -29,10 +29,21 @@ namespace Monofoxe.Playground
 			GameMgr.WindowManager.CenterWindow();
 			GameMgr.WindowManager.CanvasMode = CanvasMode.Fill;
 
-			//GraphicsMgr.Sampler = SamplerState.PointClamp;
-			GraphicsMgr.Sampler = SamplerState.PointWrap; // WIll make textures repeat without interpolation.
+			GraphicsMgr.Sampler = SamplerState.PointClamp;
+			//GraphicsMgr.Sampler = SamplerState.PointWrap; // WIll make textures repeat without interpolation.
+
+			
+			var r = new RasterizerState();
+
+			r.CullMode = CullMode.CullCounterClockwiseFace;
+			r.FillMode = FillMode.WireFrame;
+			r.MultiSampleAntiAlias = false;
+
+			//RasterizerState.CullCounterClockwise.MultiSampleAntiAlias = false;
 
 			GraphicsMgr.Rasterizer = RasterizerState.CullCounterClockwise;
+
+			System.Console.WriteLine("AA: " + r.MultiSampleAntiAlias);//GraphicsMgr.Rasterizer.MultiSampleAntiAlias);
 
 			_guiLayer = Scene.CreateLayer("gui");
 			_guiLayer.IsGUI = true;

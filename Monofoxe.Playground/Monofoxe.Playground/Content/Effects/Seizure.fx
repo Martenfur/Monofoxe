@@ -1,39 +1,15 @@
-﻿sampler s0;
+﻿#include "Common.fxh"
 
-float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
+sampler BaseSampler : register(s0);
+
+
+float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
-  float4 color = tex2D(s0, coords);
-  float s = (color.r + color.g + color.b) / 3.0 ;
-  return float4(coords.x, coords.y, s, 1) * color.a;
+  float4 color = tex2D(BaseSampler, input.TexCoords.xy);
+  float s = (color.r + color.g + color.b) / 3.0;
+  return float4(input.TexCoords.x, input.TexCoords.y, s, 1) * color.a;
 }
 
 
-#ifdef SM4
-// DirectX compilation.
-
-#define TECHNIQUE(name, psName) \
-	technique name \
-	{ \
-		pass Pass1 \
-		{ \
-			PixelShader = compile ps_4_0_level_9_1 psName(); \
-		} \
-	}
-
-#else
-
-// OpenGL compilation.
-#define TECHNIQUE(name, psName) \
-	technique name \
-	{ \
-		pass Pass1 \
-		{ \
-			PixelShader = compile ps_2_0 psName(); \
-		} \
-	}
-
-#endif
-
-
-TECHNIQUE(Technique1, PixelShaderFunction);
+TECHNIQUE(Technique1, PassThroughVertexFunction, PixelShaderFunction);
 

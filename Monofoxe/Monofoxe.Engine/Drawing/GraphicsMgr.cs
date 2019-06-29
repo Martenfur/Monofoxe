@@ -28,10 +28,11 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public static Camera CurrentCamera {get; private set;}
 
+		public static Matrix CurrentWorld {get; private set;}
 		/// <summary>
-		/// Current transformation matrix. Used to offset, rotate and scale graphics.
+		/// Current view. Used to offset, rotate and scale graphics.
 		/// </summary>
-		public static Matrix CurrentTransformMatrix {get; private set;}
+		public static Matrix CurrentView {get; private set;}
 		public static Matrix CurrentProjection {get; private set;}
 
 		private static Stack<Matrix> _transformMatrixStack = new Stack<Matrix>();
@@ -182,7 +183,6 @@ namespace Monofoxe.Engine.Drawing
 			_content = new ContentManager(GameMgr.Game.Services);
 			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.EffectsDir;
 			_defaultEffect = _content.Load<Effect>(_defaultEffectName);
-			_defaultEffect.Parameters["World"].SetValue(Matrix.CreateTranslation(Vector3.Zero));
 			
 			CircleShape.CircleVerticesCount = 16;
 			
@@ -192,6 +192,8 @@ namespace Monofoxe.Engine.Drawing
 				ScissorTestEnable = false,
 				FillMode = FillMode.Solid
 			};
+			
+			CurrentWorld = Matrix.CreateTranslation(Vector3.Zero);
 		}
 
 
@@ -267,7 +269,7 @@ namespace Monofoxe.Engine.Drawing
 					// Updating current transform matrix and camera.
 					camera.UpdateTransformMatrix();
 					CurrentCamera = camera;
-					CurrentTransformMatrix = camera.TransformMatrix;
+					CurrentView = camera.TransformMatrix;
 					CurrentProjection = Matrix.CreateOrthographicOffCenter(0, camera.Size.X, camera.Size.Y, 0, 0, 1);
 					// Updating current transform matrix and camera.
 
@@ -290,7 +292,7 @@ namespace Monofoxe.Engine.Drawing
 
 			// Resetting camera, transform matrix and mouse position.
 			CurrentCamera = null;
-			CurrentTransformMatrix = CanvasMatrix;
+			CurrentView = CanvasMatrix;
 			Input.MousePosition = Input.ScreenMousePosition;
 			// Resetting camera, transform matrix and mouse position
 			
@@ -385,7 +387,9 @@ namespace Monofoxe.Engine.Drawing
 					if (_currentEffect == null)
 					{
 						resultingEffect = _defaultEffect;
-						resultingEffect.Parameters["View"].SetValue(CurrentTransformMatrix);
+
+						resultingEffect.Parameters["World"].SetValue(CurrentWorld);
+						resultingEffect.Parameters["View"].SetValue(CurrentView);
 						resultingEffect.Parameters["Projection"].SetValue(CurrentProjection);
 						if (mode == GraphicsMode.Sprites)
 						{
@@ -401,7 +405,7 @@ namespace Monofoxe.Engine.Drawing
 						resultingEffect = _currentEffect;
 					}
 
-					Batch.Begin(SpriteSortMode.Deferred, _blendState, _sampler, null, _rasterizer, resultingEffect, CurrentTransformMatrix);
+					Batch.Begin(SpriteSortMode.Deferred, _blendState, _sampler, null, _rasterizer, resultingEffect, CurrentView);
 				}
 				_currentGraphicsMode = mode;
 				_currentTexture = texture;
@@ -453,7 +457,7 @@ namespace Monofoxe.Engine.Drawing
 				resultingEffect = _currentEffect;
 			}
 
-			resultingEffect.Parameters["View"].SetValue(CurrentTransformMatrix);
+			resultingEffect.Parameters["View"].SetValue(CurrentView);
 			resultingEffect.Parameters["Projection"].SetValue(CurrentProjection);
 
 			__drawcalls += 1;
@@ -519,6 +523,7 @@ namespace Monofoxe.Engine.Drawing
 
 		
 		
+
 		#region Matrices.
 
 		/// <summary>
@@ -527,8 +532,8 @@ namespace Monofoxe.Engine.Drawing
 		public static void SetTransformMatrix(Matrix matrix)
 		{
 			SwitchGraphicsMode(GraphicsMode.None);
-			_transformMatrixStack.Push(CurrentTransformMatrix);
-			CurrentTransformMatrix = matrix;
+			_transformMatrixStack.Push(CurrentView);
+			CurrentView = matrix;
 		}
 
 		/// <summary>
@@ -537,8 +542,8 @@ namespace Monofoxe.Engine.Drawing
 		public static void AddTransformMatrix(Matrix matrix)
 		{
 			SwitchGraphicsMode(GraphicsMode.None);
-			_transformMatrixStack.Push(CurrentTransformMatrix);
-			CurrentTransformMatrix = matrix * CurrentTransformMatrix;
+			_transformMatrixStack.Push(CurrentView);
+			CurrentView = matrix * CurrentView;
 		}
 
 		/// <summary>
@@ -552,7 +557,7 @@ namespace Monofoxe.Engine.Drawing
 			}
 
 			SwitchGraphicsMode(GraphicsMode.None); 
-			CurrentTransformMatrix = _transformMatrixStack.Pop();
+			CurrentView = _transformMatrixStack.Pop();
 		}
 
 		#endregion Matrices.

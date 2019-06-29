@@ -314,6 +314,12 @@ namespace Monofoxe.Engine.Cameras
 				
 				for(var i = 0; i < PostprocessorEffects.Count - 1; i += 1)
 				{
+					PostprocessorEffects[i].SetWorldViewProjection(
+						GraphicsMgr.CurrentWorld,
+						GraphicsMgr.CurrentView, 
+						GraphicsMgr.CurrentProjection
+					);
+
 					GraphicsMgr.CurrentEffect = PostprocessorEffects[i];
 					if (sufraceChooser)
 					{
@@ -339,6 +345,13 @@ namespace Monofoxe.Engine.Cameras
 					Surface = _postprocessorBuffer;
 					_postprocessorBuffer = buffer;
 				}
+
+				PostprocessorEffects[PostprocessorEffects.Count - 1].SetWorldViewProjection(
+					GraphicsMgr.CurrentWorld,
+					GraphicsMgr.CurrentView,
+					GraphicsMgr.CurrentProjection
+				);
+
 				GraphicsMgr.CurrentEffect = PostprocessorEffects[PostprocessorEffects.Count - 1];
 			}
 		}
