@@ -16,6 +16,9 @@ namespace Monofoxe.Playground
 
 		Layer _guiLayer;
 
+		public static RasterizerState DefaultRasterizer;
+		public static RasterizerState WireframeRasterizer;
+
 		public GameController() : base(SceneMgr.GetScene("default")["default"])
 		{
 			GameMgr.MaxGameSpeed = 60;
@@ -29,22 +32,23 @@ namespace Monofoxe.Playground
 			GameMgr.WindowManager.CenterWindow();
 			GameMgr.WindowManager.CanvasMode = CanvasMode.KeepAspectRatio;
 
-			GraphicsMgr.Sampler = SamplerState.PointClamp;
-			//GraphicsMgr.Sampler = SamplerState.PointWrap; // WIll make textures repeat without interpolation.
+			//GraphicsMgr.Sampler = SamplerState.PointClamp;
+			GraphicsMgr.Sampler = SamplerState.PointWrap; // WIll make textures repeat without interpolation.
 
 			
-			var r = new RasterizerState();
+			DefaultRasterizer = new RasterizerState();
+			DefaultRasterizer.CullMode = CullMode.CullCounterClockwiseFace;
+			DefaultRasterizer.FillMode = FillMode.Solid;
+			DefaultRasterizer.MultiSampleAntiAlias = false;
 
-			r.CullMode = CullMode.CullCounterClockwiseFace;
-			r.FillMode = FillMode.WireFrame;
-			r.MultiSampleAntiAlias = false;
+			WireframeRasterizer = new RasterizerState();
+			WireframeRasterizer.CullMode = CullMode.CullCounterClockwiseFace;
+			WireframeRasterizer.FillMode = FillMode.WireFrame;
+			WireframeRasterizer.MultiSampleAntiAlias = false;
 
-			//RasterizerState.CullCounterClockwise.MultiSampleAntiAlias = false;
 
-			GraphicsMgr.Rasterizer = RasterizerState.CullCounterClockwise;
-
-			System.Console.WriteLine("AA: " + r.MultiSampleAntiAlias);//GraphicsMgr.Rasterizer.MultiSampleAntiAlias);
-
+			GraphicsMgr.Rasterizer = DefaultRasterizer;
+			
 			_guiLayer = Scene.CreateLayer("gui");
 			_guiLayer.IsGUI = true;
 			

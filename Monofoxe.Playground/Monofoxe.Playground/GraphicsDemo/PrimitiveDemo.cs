@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Monofoxe.Engine.ECS;
-using Monofoxe.Engine.Drawing;
-using Monofoxe.Engine.Utils;
+﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine;
+using Monofoxe.Engine.Drawing;
+using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.SceneSystem;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Resources.Sprites;
+using System;
+using System.Collections.Generic;
 
 
 namespace Monofoxe.Playground.GraphicsDemo
@@ -32,16 +29,11 @@ namespace Monofoxe.Playground.GraphicsDemo
 		CustomTrianglePrimitive _custom;
 
 
-		RasterizerState _wireframe;
 		bool _useWireframe = false;
 		public const Buttons ToggleWireframeButton = Buttons.W;
 
 		public PrimitiveDemo(Layer layer) : base(layer)
-		{
-			_wireframe = new RasterizerState();
-			_wireframe.CullMode = CullMode.CullCounterClockwiseFace;
-			_wireframe.FillMode = FillMode.WireFrame;
-
+		{	
 			// Primitives can only be drawn from instances. There are no static methods.
 			_trianglefan = new TriangleFanPrimitive(); 
 			_trianglefan.Vertices = new List<Vertex>
@@ -61,7 +53,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 				new Vertex(new Vector2(32, 32), _secondaryColor),
 				new Vertex(new Vector2(64, 0),  _secondaryColor2),
 				new Vertex(new Vector2(96, 32),  _secondaryColor),
-				new Vertex(new Vector2(64+32, 0),  _secondaryColor2 ),
+				new Vertex(new Vector2(64+32, 0),  _secondaryColor2),
 				new Vertex(new Vector2(96+32, 32), _secondaryColor),
 				new Vertex(new Vector2(64+64, 0),  _secondaryColor2),
 				new Vertex(new Vector2(96+64, 32), _mainColor),
@@ -128,7 +120,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 		{
 			if (_useWireframe)
 			{
-				GraphicsMgr.Rasterizer = _wireframe;
+				GraphicsMgr.Rasterizer = GameController.WireframeRasterizer;
 			}
 
 			var startingPosition = new Vector2(100, 100);
@@ -218,16 +210,11 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 			if (_useWireframe)
 			{
-				GraphicsMgr.Rasterizer = RasterizerState.CullCounterClockwise;
+				GraphicsMgr.Rasterizer = GameController.DefaultRasterizer;
 			}
 
 		}
+		
 
-		public override void Destroy()
-		{
-			_wireframe.Dispose(); // Yep. These things have to be disposed.
-		}
-
-
-		}
+	}
 }
