@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Monofoxe.Engine;
-using Monofoxe.Tiled;
+using Monofoxe.Tiled.MapStructure;
 
 
 namespace Resources
@@ -10,11 +10,14 @@ namespace Resources
 		private static ContentManager _content;
 
 
+		public static TiledMap Test;
+
 		public static void Load()
 		{
 			_content = new ContentManager(GameMgr.Game.Services);
 			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.MapsDir;
 
+			Test = _content.Load<TiledMap>("test");
 		}
 
 		public static void Unload()

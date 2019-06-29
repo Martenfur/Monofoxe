@@ -3,12 +3,15 @@ using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.SceneSystem;
+using Monofoxe.Playground.ECSDemo;
 using Monofoxe.Playground.GraphicsDemo;
 using Monofoxe.Playground.InputDemo;
-using Monofoxe.Playground.ECSDemo;
+using Monofoxe.Playground.SceneSystemDemo;
+using Monofoxe.Playground.TiledDemo;
 using Monofoxe.Playground.UtilsDemo;
 using System;
 using System.Collections.Generic;
+
 
 namespace Monofoxe.Playground.Interface
 {
@@ -16,12 +19,14 @@ namespace Monofoxe.Playground.Interface
 	{
 		public List<SceneFactory> Factories = new List<SceneFactory>
 		{
-			new UtilsDemoFactory(),
-			new ECSDemoFactory(),
-			new InputDemoFactory(),
-			new PrimitiveDemoFactory(),
 			new ShapeDemoFactory(),
+			new PrimitiveDemoFactory(),
 			new SpriteDemoFactory(),
+			new InputDemoFactory(),
+			new ECSDemoFactory(),
+			new SceneSystemDemoFactory(),
+			new UtilsDemoFactory(),
+			new TiledDemoFactory(),
 		};
 
 		public int CurrentSceneID {get; private set;} = 0;
@@ -39,6 +44,7 @@ namespace Monofoxe.Playground.Interface
 		const Buttons _prevSceneButton = Buttons.Q;
 		const Buttons _restartButton = Buttons.R;
 		const Buttons _toggleUIButton = Buttons.T;
+		const Buttons _toggleFullscreenButton = Buttons.F;
 
 		CameraController _cameraController;
 
@@ -69,7 +75,10 @@ namespace Monofoxe.Playground.Interface
 				PreviousScene();
 			}
 
-
+			if (Input.CheckButtonPress(_toggleFullscreenButton))
+			{
+				GameMgr.WindowManager.ToggleFullScreen();
+			}
 
 		}
 
@@ -109,7 +118,9 @@ namespace Monofoxe.Playground.Interface
 				+ Environment.NewLine
 				+ _prevSceneButton + "/" + _nextSceneButton + " - change scene, "
 				+ _restartButton + " - restart current scene, " 
-				+ _toggleUIButton + " - toggle UI"
+				+ _toggleUIButton + " - toggle UI, "
+				+ _toggleFullscreenButton + " - toggle fullscreen"
+
 				+ Environment.NewLine
 				+ CameraController.UpButton + "/"
 				+ CameraController.DownButton + "/"

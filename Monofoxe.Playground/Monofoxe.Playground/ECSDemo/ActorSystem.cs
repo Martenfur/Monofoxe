@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework;
+using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.Utils;
-using Microsoft.Xna.Framework;
-using Monofoxe.Engine.Drawing;
+using System;
+using System.Collections.Generic;
 
 namespace Monofoxe.Playground.ECSDemo
 {
@@ -18,6 +18,13 @@ namespace Monofoxe.Playground.ECSDemo
 
 		}
 
+		// Updates at a fixed constant rate, which is defined by
+		// GameMgr.FixedUpdateRate. This demo is locked to 60 fps,
+		// so FixedUpdate isn't that useful here. But if you want higher refresh rate
+		// or dynamic fps (pls don't), it will come in handy.
+		public override void FixedUpdate(List<Component> components)
+		{
+		}
 
 		public override void Update(List<Component> components)
 		{
@@ -29,6 +36,7 @@ namespace Monofoxe.Playground.ECSDemo
 					// Retrieving the position component from entity.
 					var position = actor.Owner.GetComponent<PositionComponent>();
 
+					position.PreviousPosition = position.Position;
 					position.Position += TimeKeeper.GlobalTime(actor.Speed) * GameMath.DirectionToVector2(actor.Direction);
 				}
 			}

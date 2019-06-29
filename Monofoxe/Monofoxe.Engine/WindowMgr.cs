@@ -123,7 +123,7 @@ namespace Monofoxe.Engine
 			_canvasWidth = PreferredBackBufferWidth;
 			_canvasHeight = PreferredBackBufferHeight;
 		}
-
+		
 		public void SetFullScreen(bool fullscreen)
 		{
 			if (fullscreen)
@@ -140,6 +140,10 @@ namespace Monofoxe.Engine
 			IsFullScreen = fullscreen;
 			ApplyChanges();
 		}
+
+		
+		public new void ToggleFullScreen() =>
+			SetFullScreen(!IsFullScreen);
 
 
 		/// <summary>

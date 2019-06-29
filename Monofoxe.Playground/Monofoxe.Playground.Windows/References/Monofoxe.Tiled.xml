@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Monofoxe.Tiled</name>
+    </assembly>
+    <members>
+        <member name="T:Monofoxe.Tiled.ContentReaders.TiledMapReader">
+            <summary>
+            Reads sprite group file.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Tiled.ITiledEntityFactory">
+            <summary>
+            Factory interface for entities. 
+            Use it to convert Tiled object structs to actual entities.
+            </summary>
+        </member>
+        <member name="P:Monofoxe.Tiled.ITiledEntityFactory.Tag">
+            <summary>
+            Identifying tag.
+            
+            NOTE: All factory tags should be unique!
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Tiled.ITiledEntityFactory.Make(Monofoxe.Tiled.MapStructure.Objects.TiledObject,Monofoxe.Engine.SceneSystem.Layer,Monofoxe.Tiled.MapBuilder)">
+            <summary>
+            Creates entity from Tiled Object on a given layer.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Tiled.MapBuilder">
+            <summary>
+            Basic map builder class. Creates a map from Tiled data structures.
+            Can be extended.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Tiled.MapBuilder.Build">
+            <summary>
+            Builds map scene from Tiled map template.
+            
+            Building goes in four stages:
+            - Building tilesets.
+            - Building tile layers.
+            - Building object layers.
+            - Building image layers.
+            
+            Each of those stages can be overriden.
+            Override this method if you want full control over the map loading.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Tiled.MapBuilder.Destroy">
+            <summary>
+            Unloads map scene.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Tiled.MapBuilder._tilesetLookupMap">
+            <summary>
+            An array which tells which index corresponds to which tileset.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Tiled.MapBuilder.BuildTilesets(Monofoxe.Tiled.MapStructure.TiledMapTileset[])">
+            <summary>
+            Builds tilesets from Tiled templates.
+            Called by Build().
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Tiled.MapBuilder.CreateTileLookupTable(System.Collections.Generic.List{Monofoxe.Engine.Utils.Tilemaps.Tileset})">
+            <summary>
+            Creates tile lookup table to optimize tile matching for tilemaps.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Tiled.MapBuilder.BuildTileLayers(System.Collections.Generic.List{Monofoxe.Engine.Utils.Tilemaps.Tileset})">
+            <summary>
+            Builds tile layers from Tiled templates. 
+            Called by Build().
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Tiled.MapBuilder.BuildObjectLayers">
+            <summary>
+            Builds object layers from Tiled templates.
+            Called by Build().
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Tiled.MapBuilder.BuildImageLayers">
+            <summary>
+            Builds image layers from Tiled templates.
+            Called by Build().
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Tiled.MapBuilder.GetLayerPriority(Monofoxe.Tiled.MapStructure.TiledMapLayer)">
+            <summary>
+            Returns Tiled layer priority, which is stored in its properties.
+            If no such property was found, returns 0.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Tiled.TiledEntityFactoryPool">
+            <summary>
+            Stores an instance of each class which implements ITiledEntityFactory.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Tiled.TiledEntityFactoryPool._factoryPool">
+            <summary>
+            Pool of all factories in all assemblies. Sorted by their tags.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Tiled.TiledEntityFactoryPool.InitFactoryPool">
+            <summary>
+            Creates pool of all factories.
+            </summary>
+        </member>
+        <member name="M:Monofoxe.Tiled.TiledEntityFactoryPool.MakeEntity(Monofoxe.Tiled.MapStructure.Objects.TiledObject,Monofoxe.Engine.SceneSystem.Layer,Monofoxe.Tiled.MapBuilder)">
+            <summary>
+            Makes entity from Tiled temmplate using factory pool.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Tiled.MapStructure.FlipFlags">
+            <summary>
+            Tile flip flags are stored in the tile value itself as 3 highest bits.
+            100 - Horizontal flip.
+            010 - Vertical flip.
+            001 - Diagonal flip.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Tiled.MapStructure.Objects.TiledObject">
+            <summary>
+            Base tiled object.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Tiled.MapStructure.Objects.TiledObjectType">
+            <summary>
+            Used internally by Reader and Writer. 
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Tiled.MapStructure.Orientation">
+            <summary>
+            TIled map tiles orientaion.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Tiled.MapStructure.TiledMap">
+            <summary>
+            Data structure for Tiled map.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Tiled.MapStructure.TiledMapImageLayer.TransparentColor">
+            <summary>
+            Tiled will treat this color as transparent.
+            Ah, blast right from 1998.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Tiled.MapStructure.TiledMapTile.FlipDiag">
+            <summary>
+            Diagonal flip is weird diagonal axis filp, which enables rotation.
+            
+            Graphical:
+            0 0 ' 0 0     0 0 ' 0 0
+            0 ' ' 0 0 ==> 0 ' 0 0 '
+            ' 0 ' 0 0 ==> ' ' ' ' '
+            0 0 ' 0 0 ==> 0 0 0 0 '
+            0 ' ' ' 0     0 0 0 0 0
+            
+            Vertices:
+            0 1 => 0 2
+            2 3 => 1 3
+            
+            (90 deg rotation) + (-1 xscale)
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Tiled.MapStructure.TiledMapTileset.Spacing">
+            <summary>
+            Spacing between tiles in tileset.
+            Doesn't work with image collection tilesets.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Tiled.MapStructure.TiledMapTileset.Margin">
+            <summary>
+            Padding of the first tile row\column.
+            </summary>
+        </member>
+        <member name="F:Monofoxe.Tiled.MapStructure.TiledMapTileset.Columns">
+            <summary>
+            Amount of columns in tileset.
+            Will be 0 in image collection tileset.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Utils.Tilemaps.ImageLayerComponent">
+            <summary>
+            Component for Tiled image layers.
+            </summary>
+        </member>
+        <member name="T:Monofoxe.Engine.Utils.Tilemaps.ImageLayerSystem">
+            <summary>
+            System for Tiled image layers. Just draws all images from components.
+            </summary>
+        </member>
+    </members>
+</doc>

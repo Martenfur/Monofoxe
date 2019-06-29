@@ -84,7 +84,7 @@ namespace Pipefoxe.Tiled
 			// This means, that tileset won't be used in the game and should be ignored.
 			if (
 				tileset.Properties.ContainsKey(IgnoreTilesetFlag) 
-				&& tileset.Properties[IgnoreTilesetFlag].ToLower() == "true"
+				&& bool.Parse(tileset.Properties[IgnoreTilesetFlag])
 			)
 			{
 				TiledMapImporter.CurrentRootDir = TiledMapImporter.TmxRootDir;

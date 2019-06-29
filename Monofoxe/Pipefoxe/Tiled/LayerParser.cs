@@ -282,7 +282,8 @@ namespace Pipefoxe.Tiled
 				TilesetParser.ExternalTilesetsFirstGID.TryGetValue(src, out firstGID);
 			}
 			
-			var gid = uint.Parse(node.Attributes["gid"].Value) + firstGID;
+			// For some reason, gid field is counted from 1, but other tile ids are counted from 0.
+			var gid = uint.Parse(node.Attributes["gid"].Value) + firstGID - 1;
 
 			obj.FlipHor = ((gid & (uint)FlipFlags.FlipHor) != 0);
 			obj.FlipVer = ((gid & (uint)FlipFlags.FlipVer) != 0);

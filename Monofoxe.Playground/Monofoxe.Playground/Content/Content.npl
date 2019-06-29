@@ -42,13 +42,21 @@
 			"importer": "EffectImporter",
 			"processor": "EffectProcessor",
 		},
-		"tiledMaps": 
+		"tiledMaps":
 		{
 			"path": "Maps/*.tmx",
 			"recursive": "True",
 			"action": "build",
 			"importer": "TiledMapImporter",
 			"processor": "TiledMapProcessor",
+			"watch":
+			[
+				"Tilesets/*.tsx",
+				"Tilesets/*.png",
+				"Templates/*.tsx",
+				"Templates/*.tx",
+				"Templates/*.png"
+			]
 		},
 		"fonts": 
 		{

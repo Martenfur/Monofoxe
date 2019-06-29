@@ -55,8 +55,17 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 			position += Vector2.UnitX * spacing * 2;
 
+			// Setting a shader for the sprite.
+			Resources.Effects.Seizure.SetWorldViewProjection(
+				GraphicsMgr.CurrentWorld, 
+				GraphicsMgr.CurrentView, 
+				GraphicsMgr.CurrentProjection
+			);
+
+			GraphicsMgr.CurrentEffect = Resources.Effects.Seizure;
 			// If you want to animate the sprite, you must pass a value from 0 to 1 to it.
 			Default.Fire.Draw(_animation, position, Default.Fire.Origin);
+			GraphicsMgr.CurrentEffect = null;
 
 			position += Vector2.UnitX * spacing;
 
@@ -66,6 +75,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 			position += Vector2.UnitX * spacing;
 
 			// You can scale, rotate srites and set custom origin point.
+
 			Default.Fire.Draw(
 				0.4f, 
 				position,
@@ -74,7 +84,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 				(float)(359 * _animation), 
 				Color.Red // Overrides CurrentColor.
 			);
-			
+
 
 			position += Vector2.UnitX * spacing;
 
@@ -112,7 +122,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 				null, 
 				null, 
 				null, 
-				GraphicsMgr.CurrentTransformMatrix // Passig current transform matrix to match the camera.
+				GraphicsMgr.CurrentView // Passig current transform matrix to match the camera.
 			);
 			_batch.Draw(texture, position, GraphicsMgr.CurrentColor);
 			_batch.End();

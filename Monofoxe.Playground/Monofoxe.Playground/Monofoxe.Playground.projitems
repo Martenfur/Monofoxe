@@ -17,20 +17,33 @@
     <Compile Include="$(MSBuildThisFileDirectory)ECSDemo\BotComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ECSDemo\Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ECSDemo\PositionComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ECSDemo\ECSDemo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\PrimitiveDemoFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\PrimitiveDemo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\SpriteDemoFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\SpriteDemo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\ShapeDemoFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\ShapeDemo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TiledDemo\TileCollisionSystem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TiledDemo\TileCollisionComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TiledDemo\ExtendedMapBuilder\SolidMapBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TiledDemo\ExtendedMapBuilder\SolidTilesetTile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TiledDemo\Factories\BotFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TiledDemo\Factories\PlayerFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TiledDemo\TiledDemo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TiledDemo\TiledDemoFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InputDemo\InputDemo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InputDemo\InputDemoFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interface\CameraController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interface\SceneFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interface\SceneSwitcher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SceneSystemDemo\SceneSystemDemo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SceneSystemDemo\SceneSystemDemoFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UtilsDemo\UtilsDemo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UtilsDemo\UtilsDemoFactory.cs" />
     <None Include="$(MSBuildThisFileDirectory)Content\Effects\AlphaBlend.fx" />
+    <None Include="$(MSBuildThisFileDirectory)Content\Effects\Common.fxh" />
+    <None Include="$(MSBuildThisFileDirectory)Content\Effects\Seizure.fx" />
     <None Include="$(MSBuildThisFileDirectory)Content\Effects\Grayscale.fx" />
     <None Include="$(MSBuildThisFileDirectory)Content\Graphics\Template.cstemplate" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Effects.cs" />
@@ -54,9 +67,6 @@
     <Content Include="$(MSBuildThisFileDirectory)Content\Graphics\Default\monofoxe.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Content\Audio\Music\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Content\Audio\Sounds\" />
     <Folder Include="$(MSBuildThisFileDirectory)Content\Maps\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Content\References\" />
   </ItemGroup>
 </Project>

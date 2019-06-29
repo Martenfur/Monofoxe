@@ -51,7 +51,7 @@ namespace Pipefoxe.Tiled
 
 				if (
 					tileset.Properties.ContainsKey(TilesetParser.IgnoreTilesetTextureFlag) 
-					&& tileset.Properties[TilesetParser.IgnoreTilesetTextureFlag].ToLower() == "true"
+					&& bool.Parse(tileset.Properties[TilesetParser.IgnoreTilesetTextureFlag])
 				)
 				{
 					output.Write(false);

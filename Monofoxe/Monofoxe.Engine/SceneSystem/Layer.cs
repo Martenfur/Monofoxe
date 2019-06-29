@@ -243,6 +243,12 @@ namespace Monofoxe.Engine.SceneSystem
 				
 			for(var i = 0; i < PostprocessorEffects.Count - 1; i += 1)
 			{
+				PostprocessorEffects[i].SetWorldViewProjection(
+					GraphicsMgr.CurrentWorld,
+					GraphicsMgr.CurrentView,
+					GraphicsMgr.CurrentProjection
+				);
+
 				GraphicsMgr.CurrentEffect = PostprocessorEffects[i];
 				if (sufraceChooser)
 				{
@@ -260,7 +266,14 @@ namespace Monofoxe.Engine.SceneSystem
 				GraphicsMgr.ResetSurfaceTarget();
 				sufraceChooser = !sufraceChooser;
 			}
-			
+
+
+			PostprocessorEffects[PostprocessorEffects.Count - 1].SetWorldViewProjection(
+				GraphicsMgr.CurrentWorld,
+				GraphicsMgr.CurrentView,
+				GraphicsMgr.CurrentProjection
+			);
+
 			GraphicsMgr.CurrentEffect = PostprocessorEffects[PostprocessorEffects.Count - 1];
 			if ((PostprocessorEffects.Count % 2) != 0)
 			{

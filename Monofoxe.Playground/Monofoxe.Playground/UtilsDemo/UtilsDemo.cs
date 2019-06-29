@@ -29,7 +29,7 @@ namespace Monofoxe.Playground.UtilsDemo
 		Color _mainColor = Color.White;
 		Color _secondaryColor = Color.Violet;
 
-		double _animationSpeed = 0.25;
+		double _animationSpeed = 1;
 		
 		Animation _fireAnimation;
 		
@@ -58,13 +58,12 @@ namespace Monofoxe.Playground.UtilsDemo
 
 		public UtilsDemo(Layer layer) : base(layer)
 		{
-
 			// Animation.
 
-			// Animation is more sophisticated way of implementing animations.
+			// Animation class is more sophisticated way of implementing animations.
 			// It can be used for anything from sprite animation to UI element position.
 			_fireAnimation = new Animation();
-			_fireAnimation.Speed = 1;
+			_fireAnimation.Speed = _animationSpeed;
 
 			// You can set an easing to make animation non-linear.
 			// If it's not set, animation will be linear.
@@ -75,13 +74,13 @@ namespace Monofoxe.Playground.UtilsDemo
 			_fireAnimation.Start(true);
 			// Animation.
 
+
 			// Alarms.
 			_slowTimeKeeper = new TimeKeeper();
 			// Slowing down time for this time keeper.
 			_slowTimeKeeper.TimeMultiplier = 0.5f;
 
 			_autoAlarm = new AutoAlarm(_alarmPeriod);
-
 			_slowAlarm = new Alarm();
 			// This alarm will now use custom TimeKeeper, which is 2 times 
 			// slower than global TimeKeeper. 
@@ -89,6 +88,7 @@ namespace Monofoxe.Playground.UtilsDemo
 			_slowAlarm.Set(_alarmPeriod);
 			_slowAlarm.TriggerAction = AlarmTrigger;
 			// Alarms.
+
 
 			// Camera.
 			_camera = new Camera(400, 600);
@@ -98,7 +98,9 @@ namespace Monofoxe.Playground.UtilsDemo
 			_camera.PostprocessingMode = PostprocessingMode.Camera;
 			// Camera.
 
+
 			_random = new RandomExt();
+
 
 			// State machine.
 			// State machines are very useful for animation and complex logic.
@@ -126,7 +128,6 @@ namespace Monofoxe.Playground.UtilsDemo
 			{
 				_fireAnimation.Easing = Easing.EaseInCirc;
 			}
-
 		}
 
 		/// <summary>
@@ -200,6 +201,8 @@ namespace Monofoxe.Playground.UtilsDemo
 
 		public override void Update()
 		{
+			// All of those are not entities, so they have to be updated manually.
+			
 			// It needs to be updated automatically.
 			_fireAnimation.Update();
 

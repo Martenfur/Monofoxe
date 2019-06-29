@@ -24,13 +24,13 @@ namespace Monofoxe.Tiled
 			TiledMap = tiledMap;
 		
 		/// <summary>
-		/// Builds map scene from TIled map template.
+		/// Builds map scene from Tiled map template.
 		/// 
 		/// Building goes in four stages:
 		/// - Building tilesets.
 		/// - Building tile layers.
 		/// - Building object layers.
-		/// - Builsing image layers.
+		/// - Building image layers.
 		/// 
 		/// Each of those stages can be overriden.
 		/// Override this method if you want full control over the map loading.
@@ -42,7 +42,7 @@ namespace Monofoxe.Tiled
 				MapScene = SceneMgr.CreateScene(TiledMap.Name);
 			
 				var tilesets = BuildTilesets(TiledMap.Tilesets);
-
+				
 				BuildTileLayers(tilesets);
 				BuildObjectLayers();
 				BuildImageLayers();
@@ -68,14 +68,19 @@ namespace Monofoxe.Tiled
 		#region Map building.
 
 		/// <summary>
+		/// An array which tells which index corresponds to which tileset.
+		/// </summary>
+		Tileset[] _tilesetLookupMap;
+
+		/// <summary>
 		/// Builds tilesets from Tiled templates.
-		/// Called by BuildMap().
+		/// Called by Build().
 		/// </summary>
 		protected virtual List<Tileset> BuildTilesets(TiledMapTileset[] tilesets)
 		{
 			var convertedTilesets = new List<Tileset>();
-
-			foreach(var tileset in tilesets)
+			
+			foreach (var tileset in tilesets)
 			{
 				// Creating sprite from raw texture.
 				List<ITilesetTile> tilesetTilesList = new List<ITilesetTile>();
@@ -103,32 +108,60 @@ namespace Monofoxe.Tiled
 				// Creating sprite from raw texture.
 
 				var finalTileset = new Tileset(tilesetTilesList.ToArray(), tileset.Offset, tileset.FirstGID);
+
+				
 				convertedTilesets.Add(finalTileset);
 			}
 
 			return convertedTilesets;
 		}
 
-		protected Tileset GetTilesetFromTileIndex(int index, List<Tileset> tilesets)
+
+		/// <summary>
+		/// Creates tile lookup table to optimize tile matching for tilemaps.
+		/// </summary>
+		protected virtual void CreateTileLookupTable(List<Tileset> tilesets)
 		{
-			foreach(var tileset in tilesets)
+			// Getting the size for a lookup map.
+			var count = 0;
+			foreach (var tileset in tilesets)
 			{
-				if (index >= tileset.StartingIndex && index < tileset.StartingIndex + tileset.Count)
+				count += tileset.Count;
+			}
+			_tilesetLookupMap = new Tileset[count + 1];
+
+			foreach (var tileset in tilesets)
+			{
+				// Filling up the lookup map.
+				for (var i = 0; i < tileset.Count; i += 1)
 				{
-					return tileset;
+					_tilesetLookupMap[tileset.StartingIndex + i] = tileset;
 				}
 			}
 
-			return null;
+		}
+
+		protected Tileset GetTilesetFromTileIndex(int index)
+		{
+			try
+			{
+				return _tilesetLookupMap[index];
+			}
+			catch(IndexOutOfRangeException)
+			{
+				return null;
+			}
 		}
 
 
 		/// <summary>
 		/// Builds tile layers from Tiled templates. 
-		/// Called by BuildMap().
+		/// Called by Build().
 		/// </summary>
 		protected virtual List<Layer> BuildTileLayers(List<Tileset> tilesets)
 		{
+			CreateTileLookupTable(tilesets);
+
 			var layers = new List<Layer>();
 
 			foreach(var tileLayer in TiledMap.TileLayers)
@@ -144,12 +177,12 @@ namespace Monofoxe.Tiled
 					for(var x = 0; x < tilemap.Width; x += 1)
 					{
 						var tileIndex = tileLayer.Tiles[x][y].GID;
-
-						tilemap.SetTile(
+						
+						tilemap.SetTileUnsafe(
 							x, y, 
 							new BasicTile(
 								tileIndex, 
-								GetTilesetFromTileIndex(tileIndex, tilesets),
+								GetTilesetFromTileIndex(tileIndex),
 								tileLayer.Tiles[x][y].FlipHor,
 								tileLayer.Tiles[x][y].FlipVer,
 								tileLayer.Tiles[x][y].FlipDiag
@@ -170,7 +203,7 @@ namespace Monofoxe.Tiled
 
 		/// <summary>
 		/// Builds object layers from Tiled templates.
-		/// Called by BuildMap().
+		/// Called by Build().
 		/// </summary>
 		protected virtual List<Layer> BuildObjectLayers()
 		{
@@ -194,7 +227,7 @@ namespace Monofoxe.Tiled
 		
 		/// <summary>
 		/// Builds image layers from Tiled templates.
-		/// Called by BuildMap().
+		/// Called by Build().
 		/// </summary>
 		protected virtual List<Layer> BuildImageLayers()
 		{

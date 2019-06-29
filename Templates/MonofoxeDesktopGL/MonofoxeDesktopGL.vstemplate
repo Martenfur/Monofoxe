@@ -84,8 +84,7 @@
           <ProjectItem ReplaceParameters="false" TargetFileName="MonoGame.Framework.dll">MonoGame.Framework.dll</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="Newtonsoft.Json.dll">Newtonsoft.Json.dll</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="Pipefoxe.dll">Pipefoxe.dll</ProjectItem>
-					<ProjectItem ReplaceParameters="false" TargetFileName="System.Drawing.dll">System.Drawing.dll</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="System.ValueTuple.dll">System.ValueTuple.dll</ProjectItem>
+					<ProjectItem ReplaceParameters="false" TargetFileName="System.ValueTuple.dll">System.ValueTuple.dll</ProjectItem>
         </Folder>
 
       </Folder>

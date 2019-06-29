@@ -19,9 +19,13 @@ namespace Monofoxe.Playground.ECSDemo
 		/// </summary>
 		public Vector2 StartingPosition;
 
+		public Vector2 PreviousPosition;
+
+
 		public PositionComponent(Vector2 position)
 		{
 			Position = position;
+			PreviousPosition = position;
 			StartingPosition = position;
 		}
 	}

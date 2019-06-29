@@ -16,6 +16,9 @@ namespace Monofoxe.Playground
 
 		Layer _guiLayer;
 
+		public static RasterizerState DefaultRasterizer;
+		public static RasterizerState WireframeRasterizer;
+
 		public GameController() : base(SceneMgr.GetScene("default")["default"])
 		{
 			GameMgr.MaxGameSpeed = 60;
@@ -27,13 +30,25 @@ namespace Monofoxe.Playground
 			GameMgr.WindowManager.Window.AllowUserResizing = false;
 			GameMgr.WindowManager.ApplyChanges();
 			GameMgr.WindowManager.CenterWindow();
-			GameMgr.WindowManager.CanvasMode = CanvasMode.Fill;
+			GameMgr.WindowManager.CanvasMode = CanvasMode.KeepAspectRatio;
 
 			//GraphicsMgr.Sampler = SamplerState.PointClamp;
 			GraphicsMgr.Sampler = SamplerState.PointWrap; // WIll make textures repeat without interpolation.
 
-			GraphicsMgr.Rasterizer = RasterizerState.CullCounterClockwise;
+			
+			DefaultRasterizer = new RasterizerState();
+			DefaultRasterizer.CullMode = CullMode.CullCounterClockwiseFace;
+			DefaultRasterizer.FillMode = FillMode.Solid;
+			DefaultRasterizer.MultiSampleAntiAlias = false;
 
+			WireframeRasterizer = new RasterizerState();
+			WireframeRasterizer.CullMode = CullMode.CullCounterClockwiseFace;
+			WireframeRasterizer.FillMode = FillMode.WireFrame;
+			WireframeRasterizer.MultiSampleAntiAlias = false;
+
+
+			GraphicsMgr.Rasterizer = DefaultRasterizer;
+			
 			_guiLayer = Scene.CreateLayer("gui");
 			_guiLayer.IsGUI = true;
 			
@@ -43,7 +58,9 @@ namespace Monofoxe.Playground
 			var switcher = new SceneSwitcher(_guiLayer, cameraController);
 			switcher.CurrentFactory.CreateScene();
 
-
+			// Enabling applying postprocessing effects to separate layers.
+			// Note that this will create an additional surface.
+			MainCamera.PostprocessingMode = PostprocessingMode.CameraAndLayers;
 		}
 
 		public override void Update()

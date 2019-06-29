@@ -65,7 +65,7 @@ namespace Pipefoxe.Tiled
 		{
 			if (node.Attributes[attribute] != null)
 			{
-				return node.Attributes[attribute].Value == "1" || node.Attributes[attribute].Value == "true";
+				return node.Attributes[attribute].Value == "1" || node.Attributes[attribute].Value.ToLower() == "true";
 			}
 			return defaultValue;
 		}
