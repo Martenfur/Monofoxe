@@ -53,8 +53,8 @@ VertexShaderOutput PassThroughVertexFunction(VertexShaderInput input)
 	{ \
 		pass Pass1 \
 		{ \
-			VertexShader = compile vs_2_0 vsName(); \
-			PixelShader = compile ps_2_0 psName(); \
+			VertexShader = compile vs_3_0 vsName(); \
+			PixelShader = compile ps_3_0 psName(); \
 		} \
 	}
 

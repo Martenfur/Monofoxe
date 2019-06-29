@@ -123,12 +123,16 @@ namespace Monofoxe.Tiled
 		protected virtual void CreateTileLookupTable(List<Tileset> tilesets)
 		{
 			// Getting the size for a lookup map.
-			var count = 0;
+			var tilesetIndex = 0;
 			foreach (var tileset in tilesets)
 			{
-				count += tileset.Count;
+				var tilesetMaxIndex = tileset.StartingIndex + tileset.Count;
+				if (tilesetIndex < tilesetMaxIndex)
+				{
+					tilesetIndex = tilesetMaxIndex;
+				}
 			}
-			_tilesetLookupMap = new Tileset[count + 1];
+			_tilesetLookupMap = new Tileset[tilesetIndex + 1];
 
 			foreach (var tileset in tilesets)
 			{
