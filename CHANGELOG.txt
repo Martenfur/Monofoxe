@@ -1,1 +1,4 @@
 v 1.0.2.0:
+
+FIXES:
+- Layer depth sorting now works properly.

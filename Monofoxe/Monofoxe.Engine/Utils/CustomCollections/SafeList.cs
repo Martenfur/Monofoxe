@@ -24,13 +24,13 @@ namespace Monofoxe.Engine.Utils.CustomCollections
 		public SafeList(SafeList<T> list)
 		{
 			_items = new List<T>(list._items);
-			_outdatedItems = new List<T>();
+			_outdatedItems = new List<T>(list._items);
 		}
 
 		public SafeList(List<T> list)
 		{
 			_items = new List<T>(list);
-			_outdatedItems = new List<T>();
+			_outdatedItems = new List<T>(list);
 		}
 
 

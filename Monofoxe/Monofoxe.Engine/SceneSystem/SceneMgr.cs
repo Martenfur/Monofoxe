@@ -251,6 +251,7 @@ namespace Monofoxe.Engine.SceneSystem
 					CurrentScene = scene;
 					foreach(var layer in scene.Layers)
 					{
+						
 						if (
 							layer.Visible && 
 							!layer.IsGUI && 
@@ -270,7 +271,7 @@ namespace Monofoxe.Engine.SceneSystem
 								GraphicsMgr.Device.Clear(Color.TransparentBlack);
 							}
 
-							foreach(var entity in layer._depthSortedEntities)
+							foreach (var entity in layer._depthSortedEntities)
 							{
 								if (entity.Visible && !entity.Destroyed)
 								{
@@ -281,6 +282,7 @@ namespace Monofoxe.Engine.SceneSystem
 											SystemMgr.Draw(componentPair.Value);
 										}
 									}
+									
 									entity.Draw();
 								}
 							}
