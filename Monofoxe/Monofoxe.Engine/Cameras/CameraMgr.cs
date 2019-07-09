@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Monofoxe.Engine.Utils.CustomCollections;
+﻿using Monofoxe.Engine.Utils.CustomCollections;
+using System.Collections.Generic;
 
 namespace Monofoxe.Engine.Cameras
 {
@@ -11,7 +11,7 @@ namespace Monofoxe.Engine.Cameras
 		/// <summary>
 		/// List of all cameras.
 		/// </summary>
-		public static IReadOnlyCollection<Camera> Cameras => _cameras.ToList();
+		public static List<Camera> Cameras => _cameras.ToList();
 
 		private static SafeSortedList<Camera> _cameras = new SafeSortedList<Camera>(x => x.Priority);
 
