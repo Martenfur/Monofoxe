@@ -238,17 +238,17 @@ namespace Monofoxe.Engine.Drawing
 						offsetY = 0;
 
 					float backbufferRatio = windowManager.PreferredBackBufferWidth / (float)windowManager.PreferredBackBufferHeight;
-					float canvasRatio = windowManager.CanvasWidth / windowManager.CanvasHeight;
+					float canvasRatio = windowManager.CanvasWidth / (float)windowManager.CanvasHeight;
 
 					if (canvasRatio > backbufferRatio)
 					{
 						ratio = windowManager.PreferredBackBufferWidth / (float)windowManager.CanvasWidth;
-						offsetY = (windowManager.PreferredBackBufferHeight - (windowManager.CanvasHeight * ratio)) / 2;
+						offsetY = (windowManager.PreferredBackBufferHeight - (windowManager.CanvasHeight * ratio)) / 2f;
 					}
 					else
 					{
 						ratio = windowManager.PreferredBackBufferHeight / (float)windowManager.CanvasHeight;
-						offsetX = (windowManager.PreferredBackBufferWidth - (windowManager.CanvasWidth * ratio)) / 2;
+						offsetX = (windowManager.PreferredBackBufferWidth - (windowManager.CanvasWidth * ratio)) / 2f;
 					}
 					
 					CanvasMatrix = Matrix.CreateScale(new Vector3(ratio, ratio, 1)) * Matrix.CreateTranslation(new Vector3(offsetX, offsetY, 0));
