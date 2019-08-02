@@ -60,8 +60,8 @@ namespace Monofoxe.Engine.Utils
 		/// <summary>
 		/// Converts direction measured in degrees to unit Vector2.
 		/// </summary>
-		public static Vector2 DirectionToVector2(float direction) =>
-			new Vector2((float)Math.Cos(MathHelper.ToRadians(direction)), (float)Math.Sin(MathHelper.ToRadians(direction)));
+		public static Vector2 DirectionToVector2(double direction) =>
+			DirectionToVector2Rad(direction * Math.PI / 180.0);
 
 		/// <summary>
 		/// Converts direction measured in radians to unit Vector2.
