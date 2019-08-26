@@ -4,7 +4,8 @@
 
 - [Introduction](/Introduction.md)
 - [Setting things up](SettingThingsUp.md)
-- [Basics]()
+- [Creating new project](CreatingNewProject.md)
+- [Monofoxe Basics](MonofoxeBasics.md)
 - [Input]()
 - Entities
   - [Entitty]()

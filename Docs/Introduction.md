@@ -18,7 +18,7 @@ But if you're still determined to master my engine and get all the foxes, this i
 
 
 
-[Setting things up](SettingThingsUp.md)
+## [Setting things up >>](SettingThingsUp.md)
 
 
 
