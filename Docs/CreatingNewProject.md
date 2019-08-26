@@ -2,7 +2,7 @@
 
 We got everything set up and ready, now let's make some games! Wait, what is that? Windows projects? Crossplatform projects? And some of them are blank? What is all that!?
 
-![templates](C:\D\_Projects\Monofoxe\Docs\Templates.png)
+![templates](Templates.png)
 
 Yes, it seems quite confusing. If you want a short answer -- just pick **Monofoxe Cross Platform Desktop Project**, and you'll be good to go. 
 
@@ -12,9 +12,9 @@ Basically, the main idea behind all this mess is - *each project type and export
 
 So, knowing that, we can divide projects into three categories:
 
-- ![](C:\D\_Projects\Monofoxe\Docs\WinCrossplatformProjects.png) Basic Crossplatform\Windows projects -- standalone projects which contain everything necessary to run a game. The difference between them is that Crossplatform runs on OpenGL and can run on Windows and Linux, whereas Windows project runs on DirectX and only on Windows. I recommend using them for small and quick projects which don't need to be ported to other platforms.
-- ![](C:\D\_Projects\Monofoxe\Docs\SharedProject.png) Shared project - project which contains all the code and resources that should be shared between platforms. It is very much recommended to use it for big/crossplatform projects. 
-- ![](C:\D\_Projects\Monofoxe\Docs\WinCrossplatformProjectsEmpty.png) Blank Crossplatform\Windows projects - projects which are made specifically to go with Blank project. They doesn't contain any code or resources. 
+- ![](WinCrossplatformProjects.png) Basic Crossplatform\Windows projects -- standalone projects which contain everything necessary to run a game. The difference between them is that Crossplatform runs on OpenGL and can run on Windows and Linux, whereas Windows project runs on DirectX and only on Windows. I recommend using them for small and quick projects which don't need to be ported to other platforms.
+- ![](SharedProject.png) Shared project - project which contains all the code and resources that should be shared between platforms. It is very much recommended to use it for big/crossplatform projects. 
+- ![](WinCrossplatformProjectsEmpty.png) Blank Crossplatform\Windows projects - projects which are made specifically to go with Blank project. They doesn't contain any code or resources. 
 
 ## Ok, but how do I set up all this?
 
@@ -29,7 +29,7 @@ And now you should be ready to go!
 
 Don't look at me, it's all Monogame's fault.
 
-![](C:\D\_Projects\Monofoxe\Docs\FoxeHiding.png)
+![](FoxeHiding.png)
 
 Crossplatform project isn't that crossplatform if you actually look at it. It produces a single exe which can run on both Windows and Linux using some Mono magic. Monogame supports more platforms -- mobile, consoles, DirectX, all that good stuff. And it requires a setup with shared project.
 

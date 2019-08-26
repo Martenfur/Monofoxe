@@ -9,7 +9,7 @@ Well, it is time to install Monofoxe. Currently Monofoxe only supports developme
 
 And that's pretty much it! Now you can open Visual Studio and there you'll see Monofoxe project templates.
 
-![templates](C:\D\_Projects\Monofoxe\Docs\Templates.png)
+![templates](Templates.png)
 
 
 

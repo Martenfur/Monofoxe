@@ -1,8 +1,8 @@
 # Contents
 
-**NOTE:** Docs are not finished, so some articles my be missing or incomplete.
+**NOTE:** Docs are not finished, so some articles may be missing or incomplete.
 
-- [Introduction](/Introduction.md)
+- [Introduction](Introduction.md)
 - [Setting things up](SettingThingsUp.md)
 - [Creating new project](CreatingNewProject.md)
 - [Monofoxe Basics](MonofoxeBasics.md)
