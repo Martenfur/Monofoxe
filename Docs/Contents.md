@@ -1,36 +1,43 @@
 # Contents
 
-**NOTE:** Docs are not finished, so some articles may be missing or incomplete.
+**NOTE:** Docs are not finished, some articles may be missing or incomplete.
 
-- [Introduction](Introduction.md)
+- *x - missing*
+
+- *i - incomplete*
+
+  
+
+- [Introduction](Introduction.md) i
 - [Setting things up](SettingThingsUp.md)
 - [Creating new project](CreatingNewProject.md)
-- [Monofoxe basics](MonofoxeBasics.md)
+- [Monofoxe basics](MonofoxeBasics.md) i
 - [Input](Input.md)
 - Entities
   - [Entities](Entities/Entities.md)
   - [Introduction to ECS](Entities/IntroductionToECS.md)
   - [Components](Entities/Components.md)
-  - [Systems](Entities/Systems.md)
   - [Entity templates](Entities/EntityTemplates.md)
+  - [Systems](Entities/Systems.md)
 - Graphics
-  - [Sprites]()
-  - [Shapes]()
-  - [Primitives]()
-  - [Text]()
-  - [Surfaces]()
-  - [Your own stuff in graphics pipeline!]()
-  - [Sprite groups]()
+  - [Sprites]() x
+  - [Shapes]() x
+  - [Primitives]() x
+  - [Text]() x
+  - [Surfaces]() x
+  - [Your own stuff in graphics pipeline!]() x
+  - [Sprite groups]() x
 - Resources
-  - [NoPipeline]()
+  
+  - [NoPipeline]() x
 - Scene system
-  - [Update order]()
-  - [Scenes]()
-  - [Layers]()
-  - [Cameras]()
+  - [Update order]() x
+  - [Scenes]() x
+  - [Layers]() x
+  - [Cameras]() x
 - Utilities
-    - [Time keepers]()
-    - [Alarms]()
-    - [State machines]()
-    - [Tilemaps]()
+    - [Time keepers]() x
+    - [Alarms]() x
+    - [State machines]() x
+    - [Tilemaps]() x
 - Tiled integration
