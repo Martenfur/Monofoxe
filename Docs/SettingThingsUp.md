@@ -15,5 +15,7 @@ And that's pretty much it! Now you can open Visual Studio and there you'll see M
 
 ## [<< Introduction](Introduction.md)	|	[Creating new project >>](CreatingNewProject.md)
 
+[<<< Contents](Contents.md)
+
  
 

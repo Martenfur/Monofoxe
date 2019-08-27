@@ -6,6 +6,8 @@ Sup. I am gn Fur and I made a game engine. It's called Monofoxe!
 
 You've probably read the readme already, so, in short words, it's Game Maker Studio "as it should be". Lightweight, open-source, expandable, features foxes. What else can you ask?
 
+
+
 ## Too good to be true, eh?
 
 Welp, it is. Even though liters of my blood and sweat went into this engine, 
@@ -19,6 +21,8 @@ But if you're still determined to master my engine and get all the foxes, this i
 
 
 ## [Setting things up >>](SettingThingsUp.md)
+
+[<<< Contents](Contents.md)
 
 
 

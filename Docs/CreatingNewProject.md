@@ -6,6 +6,8 @@ We got everything set up and ready, now let's make some games! Wait, what is tha
 
 Yes, it seems quite confusing. If you want a short answer -- just pick **Monofoxe Cross Platform Desktop Project**, and you'll be good to go. 
 
+
+
 ## I don't want a short answer, give me everything!
 
 Basically, the main idea behind all this mess is - *each project type and export to a single platform*. If you want to export to multiple platforms at the same time, you'll need a *shared project*. Shared project just a container for the code which is shared between several projects in the solution. Its only purpose is to be connected to another platform-specific project. 
@@ -13,8 +15,12 @@ Basically, the main idea behind all this mess is - *each project type and export
 So, knowing that, we can divide projects into three categories:
 
 - ![](WinCrossplatformProjects.png) Basic Crossplatform\Windows projects -- standalone projects which contain everything necessary to run a game. The difference between them is that Crossplatform runs on OpenGL and can run on Windows and Linux, whereas Windows project runs on DirectX and only on Windows. I recommend using them for small and quick projects which don't need to be ported to other platforms.
+
 - ![](SharedProject.png) Shared project - project which contains all the code and resources that should be shared between platforms. It is very much recommended to use it for big/crossplatform projects. 
+
 - ![](WinCrossplatformProjectsEmpty.png) Blank Crossplatform\Windows projects - projects which are made specifically to go with Blank project. They doesn't contain any code or resources. 
+
+  
 
 ## Ok, but how do I set up all this?
 
@@ -24,6 +30,8 @@ So, knowing that, we can divide projects into three categories:
 - Open `Program.cs` and make sure Shared project's namespace is included, so `Game1` class is visible. 
 
 And now you should be ready to go!
+
+
 
 ## You keep talking about crossplatform support, but you've got a crossplatform project right there, what's all that shared nonsense is about?
 
@@ -42,3 +50,5 @@ You can throw default Monogame projects into the mix and it should work! Most Li
 
 
 ## [<< Setting things up](SettingThingsUp.md)	|	[Monofoxe Basics >>](MonofoxeBasics.md)
+
+[<<< Contents](Contents.md)

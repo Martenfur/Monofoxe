@@ -5,14 +5,14 @@
 - [Introduction](Introduction.md)
 - [Setting things up](SettingThingsUp.md)
 - [Creating new project](CreatingNewProject.md)
-- [Monofoxe Basics](MonofoxeBasics.md)
-- [Input]()
+- [Monofoxe basics](MonofoxeBasics.md)
+- [Input](Input.md)
 - Entities
-  - [Entitty]()
-  - [Introduction to ECS]()
-  - [Components]()
-  - [Systems]()
-  - [Entity templates]()
+  - [Entities](Entities/Entities.md)
+  - [Introduction to ECS](Entities/IntroductionToECS.md)
+  - [Components](Entities/Components.md)
+  - [Systems](Entities/Systems.md)
+  - [Entity templates](Entities/EntityTemplates.md)
 - Graphics
   - [Sprites]()
   - [Shapes]()
@@ -23,7 +23,7 @@
   - [Sprite groups]()
 - Resources
   - [NoPipeline]()
-- [Scene system]()
+- Scene system
   - [Update order]()
   - [Scenes]()
   - [Layers]()
