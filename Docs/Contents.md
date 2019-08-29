@@ -36,8 +36,9 @@
   
 - Resources
   
-  - [NoPipeline]() x
-  - [Adding resources]() x
+  - [NoPipeline](Resources/NoPipeline.md)
+  - [Adding resources](Resources/AddingResources)
+  - [Creating custom resource types](Resources/CreatingCustomResourceTypes.md) i
   
 - Scene system
   - [Update order]() x
@@ -52,3 +53,5 @@
     - [Tilemaps]() x
     
 - Tiled integration
+
+- [FMOD Audio](FMODAudio.md)
