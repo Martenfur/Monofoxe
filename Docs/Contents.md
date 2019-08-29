@@ -24,7 +24,13 @@
   - [Components](Entities/Components.md)
   - [Entity templates](Entities/EntityTemplates.md)
   - [Systems](Entities/Systems.md)
-  
+
+- Scene system
+  - [Layers](SceneSystem/Layers.md)
+  - [Scenes](SceneSystem/Scenes.md)
+  - [Cameras](SceneSystem/Cameras.md) i
+  - [Update order](SceneSystem/UpdateOrder.md)
+
 - Graphics
   - [Sprites]() x
   - [Shapes]() x
@@ -35,17 +41,10 @@
   - [Sprite groups]() x
   
 - Resources
-  
   - [NoPipeline](Resources/NoPipeline.md)
   - [Adding resources](Resources/AddingResources)
   - [Creating custom resource types](Resources/CreatingCustomResourceTypes.md) i
-  
-- Scene system
-  - [Update order]() x
-  - [Scenes]() x
-  - [Layers]() x
-  - [Cameras]() x
-  
+
 - Utilities
     - [Time keepers]() x
     - [Alarms]() x

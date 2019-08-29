@@ -54,7 +54,7 @@ public class STest : BaseSystem // You can name your systems either SYourName or
 
 
 
-## [<< Entity templates](EntityTemplates.md) | 
+## [<< Entity templates](EntityTemplates.md) | [Layers >>](../SceneSystem/Layers.md)
 
 [<<< Contents](../Contents.md)
 

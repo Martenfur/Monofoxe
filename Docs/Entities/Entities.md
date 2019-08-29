@@ -16,6 +16,9 @@ Entity also has several methods and fields:
 - `DestroyEntity()` - Removes an entity from update loop and marks it as destroyed.
 - `Enabled` - If true, entity and its components will execute their `Update()` and `FixedUpdate()` events.
 - `Visible` - If true, entity and its components will execute their `Draw()` event.
+- `Scene` - Scene, on which current entity exists.
+- `Layer` - Layer, on which current entity exists.
+- `Depth` - If layer's depth sorting is enabled, entities will be sorted by their depth when being drawn. Entities with bigger `Depth` are drawn first.
 
 There are others, but they are less important for now.
 
