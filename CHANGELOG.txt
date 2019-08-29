@@ -1,6 +1,11 @@
 v 1.0.2.0:
 
+FEATURES:
+
+- Documentation!
+
 FIXES:
+
 - Layer depth sorting now works properly.
-- CameraMgr.Cameras is List instead of IReadOnlyColection now.
-- KeepAspestRatio cancas mode now scales canvas correctly.
+- CameraMgr.Cameras is a List instead of IReadOnlyColection now.
+- KeepAspestRatio canvas mode now scales canvas correctly.
