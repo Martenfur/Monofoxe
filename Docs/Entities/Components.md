@@ -1,6 +1,6 @@
 # Components
 
-Let's refresh -- component in ECS is just data structure which gets processed by the system. Since our ECS is a bit bendy, components shouldn't necessarily be processed by the systems. Entities can do this as well, since they have access to their own components.
+Let's refresh -- component in ECS is just a data structure which gets processed by the system. Since our ECS is a bit bendy, components shouldn't necessarily be processed by the systems. Entities can do this as well, since they have access to their own components.
 
 Creating a component is very easy:
 

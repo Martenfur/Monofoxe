@@ -12,6 +12,8 @@ Like entities, systems have several events:
 - `Draw()` - Executes every frame for each camera (so if you got several cameras, Draw will execute several times per frame) and is designed to hold drawing logic. **IMPORTANT**: Do not put any heavy logic into Draw. It may start skipping frames due to how Monogame works. 
 - `Destroy()` - Executes when the component is destroyed.
 
+**NOTE:** System's events happen *before* entity's events.
+
 As you can see, some methods accept whole lists of entities at a time. It's also important to note that this happens per-scene, so if you have several scenes active, components won't mix up.
 
 Let's create a system.
@@ -23,7 +25,7 @@ using System.Collections.Generic;
 
 public class STest : BaseSystem // You can name your systems either SYourName or YourNameSystem.
 {
-	// Now all the components of type CTest are binded to thsi system.
+	// Now all the components of type CTest are binded to this system.
 	// NOTE: Each component type can have only one system binded to it.
 	public override Type ComponentType => typeof(CTest);
 

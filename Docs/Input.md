@@ -8,7 +8,7 @@ All the button readings are done with `CheckButton*()` methods. There is three o
 - `CheckButton()` - Checks if the button is being held in the current step.
 - `CheckButtonRelease()` - Checks if the button has just been released in the current step. 
 
-These methods work with keyboard, gamepad and mouse buttons. They accept a button from `Buttons` enum and in ca`se of gamepad - an index, since there can be several of them.
+These methods work with keyboard, gamepad and mouse buttons. They accept a button from `Buttons` enum and in case of gamepad - an index, since there can be several of them.
 
 Here's an example of usage:
 

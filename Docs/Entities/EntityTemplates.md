@@ -1,6 +1,6 @@
 # Entity templates
 
-If you are using inheritance, you can just add all your components in the constructor. But what if you're going pure ECS and using basic `Entity` class directly? Then you have no place to assemble your entity.
+If you are using inheritance, you can just add all your components in an entity's constructor. But what if you're going pure ECS and using basic `Entity` class directly? Then you have no place to assemble your entity.
 
 This is why entity templates exist. `EntityTemplate` is a little factory class which creates entities on demand.
 

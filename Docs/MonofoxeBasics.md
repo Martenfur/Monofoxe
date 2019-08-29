@@ -21,15 +21,15 @@ while(!quit)
 }
 ```
 
-Game iterates through `Update()` and `Draw()` methods over and over again until the game end. `Update()` has all of our game's logic, and `Draw()` has all the rendering logic.
+Game iterates through `Update()` and `Draw()` methods over and over again until the game ends. `Update()` has all of our game's logic, and `Draw()` has all the rendering logic.
 
 You can look deeper into `Game1` in Monogame tutorials, but for the time being you don't need to worry about it.
 
-The only thing you should notice from it is that it creates am instance of `GameController` class, which should initialize the rest of your game.
+The only thing you should notice from it is that it creates an instance of `GameController` class, which should initialize the rest of your game.
 
 By default it already has some simple logic. You can modify this class however you like.
 
-The `Content` folder contains all game's resources in their original format. it also has a `.mgcb` ([Content Pipeline](http://www.monogame.net/documentation/?page=Pipeline)) and `.npl` ([NoPipeline](https://github.com/gnFur/NoPipeline)) configs which tell how resources should be processed. Don't worry about those for now.
+The `Content` folder contains all the game's resources in their original format. it also has a `.mgcb` ([Content Pipeline](http://www.monogame.net/documentation/?page=Pipeline)) and `.npl` ([NoPipeline](https://github.com/gnFur/NoPipeline)) configs which tell how resources should be processed. Don't worry about those for now.
 
 The last notable folder is `Resources`. It provides a way to load and reference your resources. More detailed explanation will be provided in Resources section. 
 
