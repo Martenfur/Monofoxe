@@ -28,17 +28,17 @@
 - Scene system
   - [Layers](SceneSystem/Layers.md)
   - [Scenes](SceneSystem/Scenes.md)
-  - [Cameras](SceneSystem/Cameras.md) i
+  - [Cameras](SceneSystem/Cameras.md)
   - [Update order](SceneSystem/UpdateOrder.md)
 
 - Graphics
-  - [Sprites]() x
-  - [Shapes]() x
-  - [Primitives]() x
-  - [Text]() x
-  - [Surfaces]() x
-  - [Your own stuff in graphics pipeline!]() x
-  - [Sprite groups]() x
+  - [Sprites](Graphics/Sprites.md) x
+  - [Shapes](Graphics/Shapes.md) i
+  - [Primitives](Graphics/Primitives.md) x
+  - [Text](Graphics/Text.md) x
+  - [Surfaces](Graphics/Surfaces.md) x
+  - [Your own stuff in graphics pipeline!](Graphics/YourOwnStuffInGraphicsPipeline.md) x
+  - [Sprite groups](Graphics/SpriteGroups.md) x
   
 - Resources
   - [NoPipeline](Resources/NoPipeline.md)
