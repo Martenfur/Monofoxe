@@ -191,6 +191,7 @@ namespace Monofoxe.Engine.Cameras
 		public void Dispose()
 		{
 			CameraMgr.RemoveCamera(this);
+			PostprocessingMode = PostprocessingMode.None;
 			Surface.Dispose();
 		}
 		

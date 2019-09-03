@@ -13,3 +13,4 @@ FIXES:
 - Layer depth sorting now works properly.
 - CameraMgr.Cameras is a List instead of IReadOnlyColection now.
 - KeepAspestRatio canvas mode now scales canvas correctly.
+- Fixed memory leak in Camera.
