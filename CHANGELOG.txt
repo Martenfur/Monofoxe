@@ -4,6 +4,10 @@ FEATURES:
 
 - Documentation!
 
+CHANGES:
+
+- Camera implements IDisposable interface now.
+
 FIXES:
 
 - Layer depth sorting now works properly.

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine.Drawing;
+using System;
 
 namespace Monofoxe.Engine.Cameras
 {
@@ -11,7 +12,7 @@ namespace Monofoxe.Engine.Cameras
 	/// NOTE: There always should be at least one camera, 
 	/// otherwise Draw events won't be triggered.
 	/// </summary>
-	public class Camera
+	public class Camera : IDisposable
 	{
 		/// <summary>
 		/// Priority of a camera. 
@@ -185,9 +186,9 @@ namespace Monofoxe.Engine.Cameras
 			Surface.Resize(w, h);
 
 		/// <summary>
-		/// Removes camera from draw controller list and disposes surface.
+		/// Removes camera from draw controller list and disposes the surface.
 		/// </summary>
-		public void Destroy()
+		public void Dispose()
 		{
 			CameraMgr.RemoveCamera(this);
 			Surface.Dispose();
