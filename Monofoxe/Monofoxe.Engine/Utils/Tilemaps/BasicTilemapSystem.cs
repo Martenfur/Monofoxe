@@ -41,13 +41,13 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 			{
 				startY = 0;
 			}
-			if (endX >= tilemap.Width)
+			if (endX > tilemap.Width)
 			{
-				endX = tilemap.Width - 1;
+				endX = tilemap.Width;
 			}
-			if (endY >= tilemap.Height)
+			if (endY > tilemap.Height)
 			{
-				endY = tilemap.Height - 1;
+				endY = tilemap.Height;
 			}
 			// Bounding.
 
