@@ -54,7 +54,7 @@ namespace Monofoxe.Engine.Utils
 			DirectionRad(p.X, p.Y);
 
 		public static double DirectionRad(float x, float y) =>
-			(Math.Atan2(y, x)) % (Math.PI * 2);
+			Math.Atan2(y, x);
 		
 		
 		/// <summary>
