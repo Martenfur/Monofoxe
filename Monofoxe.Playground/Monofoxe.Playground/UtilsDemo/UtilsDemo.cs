@@ -267,7 +267,7 @@ namespace Monofoxe.Playground.UtilsDemo
 
 		public override void Destroy()
 		{
-			_camera.Destroy();
+			_camera.Dispose();
 		}
 
 
