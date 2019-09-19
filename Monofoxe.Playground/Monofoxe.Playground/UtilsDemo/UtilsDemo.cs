@@ -70,7 +70,7 @@ namespace Monofoxe.Playground.UtilsDemo
 			_fireAnimation.Easing = Easing.EaseInCirc;
 
 			// You can trigger a method at the end of an animation.
-			_fireAnimation.AnimationEndEvent = FireAnimationEnd;
+			_fireAnimation.AnimationEndEvent += FireAnimationEnd;
 			_fireAnimation.Start(true);
 			// Animation.
 

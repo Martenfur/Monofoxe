@@ -75,7 +75,7 @@ namespace Monofoxe.Engine.Utils
 		/// Gets called, when animation ends or loops.
 		/// Use this for more fine control over the animation.
 		/// </summary>
-		public AnimationDelegate AnimationEndEvent;
+		public event AnimationDelegate AnimationEndEvent;
 
 
 		/// <summary>
