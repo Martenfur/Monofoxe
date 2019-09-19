@@ -17,7 +17,7 @@ namespace Monofoxe.Engine.Utils
 		/// <summary>
 		/// Gets called in an update, if alarm is triggered. 
 		/// </summary>
-		public event AlarmDelegate TriggerAction;
+		public event AlarmDelegate TriggerEvent;
 
 		/// <summary>
 		/// Tells, if alarm is running right now.
@@ -69,7 +69,7 @@ namespace Monofoxe.Engine.Utils
 				
 				if (Counter <= 0)
 				{
-					TriggerAction?.Invoke(this);
+					TriggerEvent?.Invoke(this);
 					return true;
 				}
 			}
