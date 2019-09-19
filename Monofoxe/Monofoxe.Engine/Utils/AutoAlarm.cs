@@ -15,7 +15,7 @@ namespace Monofoxe.Engine.Utils
 			Set(Time);
 		}
 
-		public AutoAlarm(double time, TimeKeeper timeKeeper, Action<Alarm> triggerAction) : base(timeKeeper, triggerAction)
+		public AutoAlarm(double time, TimeKeeper timeKeeper) : base(timeKeeper)
 		{
 			Time = time;
 			Set(Time);

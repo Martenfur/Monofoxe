@@ -2,6 +2,8 @@
 
 namespace Monofoxe.Engine.Utils
 {
+	public delegate void AlarmDelegate(Alarm caller);
+
 	/// <summary>
 	/// Counts down seconds. Needs to be updated manually.
 	/// </summary>
@@ -15,18 +17,15 @@ namespace Monofoxe.Engine.Utils
 		/// <summary>
 		/// Gets called in an update, if alarm is triggered. 
 		/// </summary>
-		public Action<Alarm> TriggerAction;
+		public event AlarmDelegate TriggerAction;
 
 		/// <summary>
 		/// Tells, if alarm is running right now.
 		/// </summary>
 		public bool Running => Counter > 0;
-
-
-		public Alarm() {}
-		public Alarm(TimeKeeper timeKeeper, Action<Alarm> triggerAction) : base(timeKeeper) =>
-			TriggerAction = triggerAction;
 		
+		public Alarm(TimeKeeper timeKeeper = null) : base(timeKeeper) {}
+			
 		
 		/// <summary>
 		/// Sets alarm to given time.

@@ -86,7 +86,7 @@ namespace Monofoxe.Playground.UtilsDemo
 			// slower than global TimeKeeper. 
 			_slowAlarm.TimeKeeper = _slowTimeKeeper;
 			_slowAlarm.Set(_alarmPeriod);
-			_slowAlarm.TriggerAction = AlarmTrigger;
+			_slowAlarm.TriggerAction += AlarmTrigger;
 			// Alarms.
 
 
