@@ -107,7 +107,7 @@ namespace Monofoxe.Engine.ECS
 
 
 		/// <summary>
-		/// Creates an instance of each ISystem implementing class.
+		/// Creates an instance of each class derived from BaseSystem.
 		/// </summary>
 		internal static void InitSystemPool()
 		{
