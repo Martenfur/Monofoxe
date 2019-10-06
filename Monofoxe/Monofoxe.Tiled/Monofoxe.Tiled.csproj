@@ -34,11 +34,6 @@
     <DocumentationFile>..\bin\Release\Monofoxe.Tiled.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Monofoxe.Engine, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\bin\Debug\Monofoxe.Engine.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
       <Private>False</Private>
@@ -59,6 +54,12 @@
     <Compile Include="MapBuilder.cs" />
     <Compile Include="TiledEntityFactoryPool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Monofoxe.Engine\Monofoxe.Engine.csproj">
+      <Project>{94153186-e889-4e3e-979f-4c35819c5c21}</Project>
+      <Name>Monofoxe.Engine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\Monofoxe.Tiled.MapStructure\Monofoxe.Tiled.MapStructure.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
