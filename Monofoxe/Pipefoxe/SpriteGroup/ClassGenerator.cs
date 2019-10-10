@@ -43,12 +43,12 @@ namespace Pipefoxe.SpriteGroup
 					{
 						//. - At least one char. ? - non-greedy, \s* - optional space
 						Match nameMatch = Regex.Match(l, _variableKeychar + @"(.+?)\s*="); 
-						Match valueMatch = Regex.Match(l, '"' + @"(.+?)" + '"', RegexOptions.IgnoreCase);
+						var valueMatch = l.Remove(0, nameMatch.Value.Length).TrimStart();//Regex.Match(l, @"(.+?)", RegexOptions.IgnoreCase);
 						
-						if (nameMatch.Success && valueMatch.Success)
+						if (nameMatch.Success)
 						{
 							customVariableNames.Add(nameMatch.Value.Substring(1,nameMatch.Value.Length - 2).Replace(" ", ""));
-							customVariableValues.Add(valueMatch.Value.Substring(1,valueMatch.Value.Length - 2));					
+							customVariableValues.Add(valueMatch);					
 						}
 						else
 						{
