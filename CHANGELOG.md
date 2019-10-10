@@ -1,4 +1,4 @@
-# v 2.0.0.0:
+# v 2.0.0.0-dev:
 
 ### FEATURES:
 
@@ -23,7 +23,6 @@
 
 
 <hr/>
-
 # v 1.0.1.1
 
 ### FIXES:
@@ -31,7 +30,6 @@
 - Fixed `MapBuilder` crashing when some tilesets are ignored.
 
 <hr/>
-
 # v1.0.1.0
 
 ### FEATURES:
@@ -67,7 +65,6 @@
 - Fixed `ToggleFullScreen` not working properly with Canvas.
 
 <hr/>
-
 # v1.0.0.0
 
 
