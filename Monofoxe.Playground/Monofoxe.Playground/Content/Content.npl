@@ -32,6 +32,7 @@
 			[
 				"Default/*.png",
 				"Default/*.json",
+				"*.cstemplate",
 			],
 		},
 		"effects": 
