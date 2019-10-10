@@ -6,6 +6,7 @@ using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.SceneSystem;
 using Microsoft.Xna.Framework;
+using Monofoxe.Engine.Resources;
 
 namespace Monofoxe.Playground.ECSDemo
 {
@@ -16,6 +17,8 @@ namespace Monofoxe.Playground.ECSDemo
 		public const Buttons LeftButton = Buttons.A;
 		public const Buttons RightButton = Buttons.D;
 
+		Sprite _playerSprite;
+
 		// The player uses hybrid ECS - it's a derived entity with components inside.
 		// You also can ditch components and systems entirely and only use entities. 
 		
@@ -24,9 +27,10 @@ namespace Monofoxe.Playground.ECSDemo
 
 		public Player(Layer layer, Vector2 position) : base(layer)
 		{
+			_playerSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "Player");
 			// You can add components right in the constructor.
 			AddComponent(new PositionComponent(position));
-			AddComponent(new ActorComponent(Resources.Sprites.Default.Player));
+			AddComponent(new ActorComponent(_playerSprite));
 		}
 
 		public override void FixedUpdate()

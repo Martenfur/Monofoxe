@@ -39,9 +39,11 @@ namespace Monofoxe.Playground
 		protected override void LoadContent()
 		{
 			GraphicsMgr.Init(GraphicsDevice);
-
-			//Resources.Sprites.Default.Load();
-			ResourceHub.LoadAll();
+			
+			var spr = new Resources.Sprites.Default();
+			new Fonts();
+			new Maps();
+			new Effects();
 		}
 
 		/// <summary>

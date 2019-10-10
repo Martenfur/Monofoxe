@@ -23,13 +23,25 @@ namespace Resources
 
 		public override void Load()
 		{
+			if (Loaded)
+			{
+				return;
+			}
+
 			Loaded = true;
 			AddResource("Arial", new Font(_content.Load<SpriteFont>("Arial")));
-			AddResource("FancyFont", new TextureFont(Default.Font, 1, 1, Ascii, false));
+
+			var fontSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "Font");
+
+			AddResource("FancyFont", new TextureFont(fontSprite, 1, 1, Ascii, false));
 		}
 
 		public override void Unload()
 		{
+			if (!Loaded)
+			{
+				return;
+			}
 			Loaded = false;
 			_content.Unload();
 		}

@@ -28,8 +28,14 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 		Effect _seizure;
 
+		Sprite _monofoxeSprite;
+		Sprite _fireSprite;
+
 		public SpriteDemo(Layer layer) : base(layer)
 		{
+			_monofoxeSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "Monofoxe");
+			_fireSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "Fire");
+
 			_batch = new SpriteBatch(GraphicsMgr.Device);
 			_seizure = ResourceHub.GetResource<Effect>("Effects", "Seizure");
 			InitSurface();
@@ -54,7 +60,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 			GraphicsMgr.CurrentColor = Color.White; // Sprites are affected by current color too.
 			
 			// Sprites can't have static methods. So we are pulling them from sprite group.
-			Default.Monofoxe.Draw(position, Default.Monofoxe.Origin);
+			_monofoxeSprite.Draw(position, _monofoxeSprite.Origin);
 
 			position += Vector2.UnitX * spacing * 2;
 
@@ -67,22 +73,22 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 			GraphicsMgr.CurrentEffect = _seizure;
 			// If you want to animate the sprite, you must pass a value from 0 to 1 to it.
-			Default.Fire.Draw(_animation, position, Default.Fire.Origin);
+			_fireSprite.Draw(_animation, position, _fireSprite.Origin);
 			GraphicsMgr.CurrentEffect = null;
 
 			position += Vector2.UnitX * spacing;
 
 			// You can also access sprite's frame array, if you want to draw a specific frame.
-			Default.Fire[2].Draw(position, Default.Fire.Origin);
+			_fireSprite[2].Draw(position, _fireSprite.Origin);
 
 			position += Vector2.UnitX * spacing;
 
 			// You can scale, rotate srites and set custom origin point.
 
-			Default.Fire.Draw(
+			_fireSprite.Draw(
 				0.4f, 
 				position,
-				new Vector2(Default.Fire.Width, Default.Fire.Height) / 2, 
+				new Vector2(_fireSprite.Width, _fireSprite.Height) / 2, 
 				new Vector2(1, 2) * (float)Math.Sin(_animation * Math.PI * 2 * 2), 
 				(float)(359 * _animation), 
 				Color.Red // Overrides CurrentColor.
@@ -92,7 +98,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 			position += Vector2.UnitX * spacing;
 
 			// You also can draw only a part of the sprite.
-			Default.Monofoxe.Draw(
+			_monofoxeSprite.Draw(
 				0,
 				new Rectangle((int)(position.X), (int)(position.Y), 64, 64),
 				new Rectangle(64, 64, 64, 64),
@@ -106,8 +112,8 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 
 			// You can extract raw texture from the frames. Note that you will get the whole texture atlas.
-			var texture = Default.Monofoxe[0].Texture;
-			var texturePosition = Default.Monofoxe[0].TexturePosition; // This will give you texture's position on the atlas.
+			var texture = _monofoxeSprite[0].Texture;
+			var texturePosition = _monofoxeSprite[0].TexturePosition; // This will give you texture's position on the atlas.
 
 			// But how are we gonna draw it? Monofoxe can't draw textures by itself.
 			// We can use default Monogame's SpriteBatch for this.

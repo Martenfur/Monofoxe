@@ -14,6 +14,10 @@ namespace Resources
 
 		public override void Load()
 		{
+			if (Loaded)
+			{
+				return;
+			}
 			Loaded = true;
 			_content = new ContentManager(GameMgr.Game.Services);
 			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.MapsDir;
@@ -23,6 +27,10 @@ namespace Resources
 
 		public override void Unload()
 		{
+			if (!Loaded)
+			{
+				return;
+			}
 			_content.Unload();
 		}
 

@@ -59,9 +59,13 @@ namespace Monofoxe.Playground.UtilsDemo
 
 		Effect _grayscale;
 
+		Sprite _fireSprite;
+
 		public UtilsDemo(Layer layer) : base(layer)
 		{
 			_grayscale = ResourceHub.GetResource<Effect>("Effects", "Grayscale");
+			_fireSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "Fire");
+
 
 			// Animation.
 
@@ -244,7 +248,7 @@ namespace Monofoxe.Playground.UtilsDemo
 
 			GraphicsMgr.CurrentColor = Color.White;
 			
-			Default.Fire.Draw(_fireAnimation.Progress, position, Vector2.Zero);
+			_fireSprite.Draw(_fireAnimation.Progress, position, Vector2.Zero);
 			
 			position += Vector2.UnitX * spacing;
 			CircleShape.Draw(position, 8, _autoAlarmSwitch);

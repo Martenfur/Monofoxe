@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.Resources;
 using Monofoxe.Engine.SceneSystem;
 
 namespace Monofoxe.Playground.ECSDemo
@@ -7,6 +9,8 @@ namespace Monofoxe.Playground.ECSDemo
 	public class BotTemplate : IEntityTemplate
 	{
 		public string Tag => "Bot";
+
+		Sprite _botSprite;
 
 		public Entity Make(Layer layer)
 		{
@@ -21,10 +25,12 @@ namespace Monofoxe.Playground.ECSDemo
 			// anywhere you like. You can even add new components and remove existing
 			// at any time.
 
+			_botSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "Bot");
+
 			var entity = new Entity(layer, Tag);
 
 			entity.AddComponent(new PositionComponent(Vector2.Zero));
-			entity.AddComponent(new ActorComponent(Resources.Sprites.Default.Bot));
+			entity.AddComponent(new ActorComponent(_botSprite));
 			
 			var bot = new BotComponent();
 

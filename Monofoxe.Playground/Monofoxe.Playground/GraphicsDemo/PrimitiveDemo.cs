@@ -2,8 +2,8 @@
 using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.Resources;
 using Monofoxe.Engine.SceneSystem;
-using Resources.Sprites;
 using System;
 using System.Collections.Generic;
 
@@ -31,6 +31,8 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 		bool _useWireframe = false;
 		public const Buttons ToggleWireframeButton = Buttons.W;
+
+		Sprite _autismCatSprite;
 
 		public PrimitiveDemo(Layer layer) : base(layer)
 		{	
@@ -64,7 +66,8 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 			// You can set the texture for a primitive. Preferrably it shouldn't be in texture atlas.
 			// If in atlas, textures wouldn't be able to repeat.
-			_mesh.SetTextureFromFrame(Default.AutismCat[0]);
+			_autismCatSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "AutismCat");
+			_mesh.SetTextureFromFrame(_autismCatSprite[0]);
 			_mesh.Vertices = new List<Vertex>(8 * 8);
 			
 			for(var k = 0; k < _mesh.Height; k += 1)
@@ -149,8 +152,8 @@ namespace Monofoxe.Playground.GraphicsDemo
 			_mesh.Position = position;
 
 			var cell = new Vector2(
-				Default.AutismCat.Width / (float)_mesh.Width,
-				Default.AutismCat.Height / (float)_mesh.Height
+				_autismCatSprite.Width / (float)_mesh.Width,
+				_autismCatSprite.Height / (float)_mesh.Height
 			) * _meshRepeat;
 			var c = 0;
 			for(var k = 0; k < _mesh.Height; k += 1)
