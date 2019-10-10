@@ -6,8 +6,7 @@ Its main goal is to greatly simplify working with Monogame and to provide basic 
 enabling you to just *create a new project and make a damn game* without removing low-level access to the framework.
 Monofoxe took a lot of inspiration from Game Maker, so it should be a bit familiar to some folks.
 
-
-**Current version: 1.0.1.0**
+**Current version: 1.0.1.0** [View changelog](/Changelog.md)
 
 
 # What can it do?
