@@ -73,6 +73,9 @@
     <Compile Include="ECS\ComponentContainer.cs" />
     <Compile Include="ECS\EntityTemplatePool.cs" />
     <Compile Include="ECS\IEntityTemplate.cs" />
+    <Compile Include="Resources\IResourceBox.cs" />
+    <Compile Include="Resources\ResourceBox.cs" />
+    <Compile Include="Resources\ResourceHub.cs" />
     <Compile Include="Utils\Animation.cs" />
     <Compile Include="Utils\CustomCollections\SafeSortedDictionary.cs" />
     <Compile Include="Drawing\Font.cs" />
