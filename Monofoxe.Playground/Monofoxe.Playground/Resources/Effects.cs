@@ -1,34 +1,32 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Resources.Sprites;
-using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine;
+using Monofoxe.Engine.Resources;
 
 namespace Resources
 {
-	public static class Effects
+	public class Effects : ResourceBox<Effect>
 	{
 		private static ContentManager _content;
+		
+		public override string Name => "Effects";
 
-		public static Effect Grayscale;
-		public static Effect Seizure;
-
-
-		public static void Load()
+		public override void Load()
 		{
+			Loaded = true;
 			_content = new ContentManager(GameMgr.Game.Services);
 			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.EffectsDir;
 
 			// This is not generated automatically. Sadly, you'll have to add those by hand.
-			Grayscale = _content.Load<Effect>("Grayscale");
-			Seizure = _content.Load<Effect>("Seizure");
-
+			AddResource("Grayscale", _content.Load<Effect>("Grayscale"));
+			AddResource("Seizure", _content.Load<Effect>("Seizure"));
 		}
 
-		public static void Unload()
+		public override void Unload()
 		{
+			Loaded = false;
 			_content.Unload();
 		}
-
+		
 	}
 }

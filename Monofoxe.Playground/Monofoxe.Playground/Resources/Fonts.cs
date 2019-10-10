@@ -12,9 +12,7 @@ namespace Resources
 		private ContentManager _content;
 
 		static readonly string Ascii = " !" + '"' + @"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
-
-		public override bool Loaded { get; protected set; }
-
+		
 		public override string Name => "Fonts";
 
 		public Fonts()
@@ -25,12 +23,14 @@ namespace Resources
 
 		public override void Load()
 		{
+			Loaded = true;
 			AddResource("Arial", new Font(_content.Load<SpriteFont>("Arial")));
 			AddResource("FancyFont", new TextureFont(Default.Font, 1, 1, Ascii, false));
 		}
 
 		public override void Unload()
 		{
+			Loaded = false;
 			_content.Unload();
 		}
 	}

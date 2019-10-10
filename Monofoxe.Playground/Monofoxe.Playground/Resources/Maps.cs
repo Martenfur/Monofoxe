@@ -1,26 +1,27 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Monofoxe.Engine;
+using Monofoxe.Engine.Resources;
 using Monofoxe.Tiled.MapStructure;
 
 
 namespace Resources
 {
-	public static class Maps
+	public class Maps : ResourceBox<TiledMap>
 	{
 		private static ContentManager _content;
+		
+		public override string Name => "Maps";
 
-
-		public static TiledMap Test;
-
-		public static void Load()
+		public override void Load()
 		{
+			Loaded = true;
 			_content = new ContentManager(GameMgr.Game.Services);
 			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.MapsDir;
 
-			Test = _content.Load<TiledMap>("test");
+			AddResource("Test", _content.Load<TiledMap>("test"));
 		}
 
-		public static void Unload()
+		public override void Unload()
 		{
 			_content.Unload();
 		}

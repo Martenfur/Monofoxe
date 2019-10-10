@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Resources.Sprites;
 using System.Text.RegularExpressions;
 using Monofoxe.Engine.Cameras;
+using Monofoxe.Engine.Resources;
 
 namespace Monofoxe.Playground.UtilsDemo
 {
@@ -56,8 +57,12 @@ namespace Monofoxe.Playground.UtilsDemo
 
 		RandomExt _random;
 
+		Effect _grayscale;
+
 		public UtilsDemo(Layer layer) : base(layer)
 		{
+			_grayscale = ResourceHub.GetResource<Effect>("Effects", "Grayscale");
+
 			// Animation.
 
 			// Animation class is more sophisticated way of implementing animations.
@@ -94,7 +99,7 @@ namespace Monofoxe.Playground.UtilsDemo
 			_camera = new Camera(400, 600);
 			_camera.PortPosition = new Vector2(400, 0);
 			_camera.BackgroundColor = Color.Black;
-			_camera.PostprocessorEffects.Add(Resources.Effects.Grayscale);
+			_camera.PostprocessorEffects.Add(_grayscale);
 			_camera.PostprocessingMode = PostprocessingMode.Camera;
 			// Camera.
 

@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Resources.Sprites;
 using System.Text.RegularExpressions;
 using Monofoxe.Playground.ECSDemo;
+using Monofoxe.Engine.Resources;
 
 namespace Monofoxe.Playground.SceneSystemDemo
 {
@@ -36,7 +37,7 @@ namespace Monofoxe.Playground.SceneSystemDemo
 			backgroungLayer.Priority = 999;
 			
 			// Applying a shader to the thingy.
-			backgroungLayer.PostprocessorEffects.Add(Resources.Effects.Seizure);
+			backgroungLayer.PostprocessorEffects.Add(ResourceHub.GetResource<Effect>("Effects", "Seizure"));
 
 			
 			// See ECSDemo to learn how those work.

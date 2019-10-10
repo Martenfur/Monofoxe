@@ -1,9 +1,10 @@
 ﻿using Monofoxe.Engine;
 using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.Resources;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Playground.TiledDemo.ExtendedMapBuilder;
 using Monofoxe.Tiled;
-
+using Monofoxe.Tiled.MapStructure;
 
 namespace Monofoxe.Playground.TiledDemo
 {
@@ -23,6 +24,7 @@ namespace Monofoxe.Playground.TiledDemo
 		public const Buttons BuildDefaultMapBuilderButton = Buttons.N;
 		public const Buttons DestroyMapButton = Buttons.U;
 
+		private TiledMap _testMap; 
 
 		public TiledDemo(Layer layer) : base(layer)
 		{
@@ -31,7 +33,9 @@ namespace Monofoxe.Playground.TiledDemo
 			// You can write your own map builder, or use the default one.
 			// Default map builder can also be expanded.
 
-			_builder = new SolidMapBuilder(Resources.Maps.Test);
+			_testMap = ResourceHub.GetResource<TiledMap>("Maps", "Test");
+
+			_builder = new SolidMapBuilder(_testMap);
 			_builder.Build();
 		}
 
@@ -45,7 +49,7 @@ namespace Monofoxe.Playground.TiledDemo
 					_builder.Destroy();
 					_builder = null;
 				}
-				_builder = new SolidMapBuilder(Resources.Maps.Test);
+				_builder = new SolidMapBuilder(_testMap);
 				_builder.Build();
 			}
 
@@ -56,7 +60,7 @@ namespace Monofoxe.Playground.TiledDemo
 					_builder.Destroy();
 					_builder = null;
 				}
-				_builder = new MapBuilder(Resources.Maps.Test);
+				_builder = new MapBuilder(_testMap);
 				_builder.Build();
 			}
 

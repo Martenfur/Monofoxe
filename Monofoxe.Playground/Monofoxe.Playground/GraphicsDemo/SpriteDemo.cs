@@ -26,9 +26,12 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 		Surface _surface;
 
+		Effect _seizure;
+
 		public SpriteDemo(Layer layer) : base(layer)
 		{
 			_batch = new SpriteBatch(GraphicsMgr.Device);
+			_seizure = ResourceHub.GetResource<Effect>("Effects", "Seizure");
 			InitSurface();
 		}
 
@@ -56,13 +59,13 @@ namespace Monofoxe.Playground.GraphicsDemo
 			position += Vector2.UnitX * spacing * 2;
 
 			// Setting a shader for the sprite.
-			Resources.Effects.Seizure.SetWorldViewProjection(
+			_seizure.SetWorldViewProjection(
 				GraphicsMgr.CurrentWorld, 
 				GraphicsMgr.CurrentView, 
 				GraphicsMgr.CurrentProjection
 			);
 
-			GraphicsMgr.CurrentEffect = Resources.Effects.Seizure;
+			GraphicsMgr.CurrentEffect = _seizure;
 			// If you want to animate the sprite, you must pass a value from 0 to 1 to it.
 			Default.Fire.Draw(_animation, position, Default.Fire.Origin);
 			GraphicsMgr.CurrentEffect = null;
