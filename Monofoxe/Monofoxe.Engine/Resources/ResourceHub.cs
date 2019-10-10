@@ -57,6 +57,11 @@ namespace Monofoxe.Engine.Resources
 		{
 			if (_boxes.TryGetValue(boxKey, out IResourceBox box))
 			{
+				if (!box.Loaded)
+				{
+					box.Load();
+				}
+
 				return ((ResourceBox<TValue>)box).GetResource(resourceKey);
 			}
 
