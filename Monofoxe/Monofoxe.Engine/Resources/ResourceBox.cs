@@ -11,7 +11,7 @@ namespace Monofoxe.Engine.Resources
 		/// <summary>
 		/// Tells if the resources been loaded already.
 		/// </summary>
-		public abstract bool Loaded {get; protected set;}
+		public bool Loaded {get; protected set;}
 
 		public abstract string Name {get;}
 

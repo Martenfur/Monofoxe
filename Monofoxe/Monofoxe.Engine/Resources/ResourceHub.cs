@@ -17,10 +17,7 @@ namespace Monofoxe.Engine.Resources
 		{
 			foreach(var boxPair in _boxes)
 			{
-				if (!boxPair.Value.Loaded)
-				{
-					boxPair.Value.Load();
-				}
+				boxPair.Value.Load();
 			}
 		}
 
@@ -28,10 +25,7 @@ namespace Monofoxe.Engine.Resources
 		{
 			foreach (var boxPair in _boxes)
 			{
-				if (boxPair.Value.Loaded)
-				{
-					boxPair.Value.Unload();
-				}
+				boxPair.Value.Unload();
 			}
 		}
 
