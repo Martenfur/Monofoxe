@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Resources.Sprites;
 using System.Text.RegularExpressions;
+using Monofoxe.Engine.Resources;
 
 namespace Monofoxe.Playground.InputDemo
 {
@@ -89,7 +90,7 @@ namespace Monofoxe.Playground.InputDemo
 			CircleShape.Draw(GraphicsMgr.CurrentCamera.GetRelativeMousePosition(), 12, true);
 
 
-			Text.CurrentFont = Resources.Fonts.Arial;
+			Text.CurrentFont = ResourceHub.GetResource<IFont>("Fonts", "Arial");
 
 			Text.Draw("Keyboard input: " + _keyboardInput.ToString(), position);
 

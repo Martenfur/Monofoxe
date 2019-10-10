@@ -2,6 +2,7 @@
 using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.Resources;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Playground.ECSDemo;
 using Monofoxe.Playground.GraphicsDemo;
@@ -87,7 +88,7 @@ namespace Monofoxe.Playground.Interface
 		
 			var canvasSize = GameMgr.WindowManager.CanvasSize;
 
-			Text.CurrentFont = Resources.Fonts.Arial;
+			Text.CurrentFont = ResourceHub.GetResource<IFont>("Fonts", "Arial");
 			Text.HorAlign = TextAlign.Left;
 			Text.VerAlign = TextAlign.Top;
 

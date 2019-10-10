@@ -40,7 +40,8 @@ namespace Monofoxe.Playground
 			GraphicsMgr.Init(GraphicsDevice);
 
 			Resources.Sprites.Default.Load();
-			Fonts.Load();
+			var fonts = new Fonts();
+			fonts.Load();
 			Effects.Load();
 			Maps.Load();
 		}

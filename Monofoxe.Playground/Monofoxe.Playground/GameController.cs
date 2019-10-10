@@ -7,6 +7,7 @@ using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Cameras;
 using Resources.Sprites;
 using Monofoxe.Playground.Interface;
+using Monofoxe.Engine.Resources;
 
 namespace Monofoxe.Playground
 {
@@ -61,6 +62,13 @@ namespace Monofoxe.Playground
 			// Enabling applying postprocessing effects to separate layers.
 			// Note that this will create an additional surface.
 			MainCamera.PostprocessingMode = PostprocessingMode.CameraAndLayers;
+
+			var h1 = new TestHolder();
+			h1.Load();
+			ResourceHub.GetResourceBox("test");
+
+			var e = ResourceHub.GetResource<Entity>("test", "foxe");
+			System.Console.WriteLine(e.Tag);
 		}
 
 		public override void Update()
@@ -73,5 +81,24 @@ namespace Monofoxe.Playground
 		{
 		}
 
+	}
+
+	class TestHolder : ResourceBox<Entity>
+	{
+		public override bool Loaded { get; protected set; }
+
+		public override void Load()
+		{
+			AddResource("foxe", new Entity(SceneMgr.Scenes[0].Layers[0], "foxve"));
+			AddResource("Foxeh", new Entity(SceneMgr.Scenes[0].Layers[0], "Foxeh"));
+			
+			Loaded = true;
+			ResourceHub.AddResourceBox("test", this);
+		}
+
+		public override void Unload()
+		{
+			Loaded = false;
+		}
 	}
 }

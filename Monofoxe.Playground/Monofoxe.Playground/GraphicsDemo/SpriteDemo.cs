@@ -9,7 +9,7 @@ using Monofoxe.Engine.SceneSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Resources.Sprites;
-
+using Monofoxe.Engine.Resources;
 
 namespace Monofoxe.Playground.GraphicsDemo
 {
@@ -138,10 +138,10 @@ namespace Monofoxe.Playground.GraphicsDemo
 			position += new Vector2(16, 150);
 
 			GraphicsMgr.CurrentColor = Color.White;
-			Text.CurrentFont = Resources.Fonts.Arial;
+			Text.CurrentFont = ResourceHub.GetResource<IFont>("Fonts", "Arial");
 			Text.Draw("This text is drawn using default" + Environment.NewLine + "Monogame spritefont.", position);
 			position += Vector2.UnitY * 48;
-			Text.CurrentFont = Resources.Fonts.FancyFont;			
+			Text.CurrentFont = ResourceHub.GetResource<IFont>("Fonts", "FancyFont");
 			Text.Draw("This text is drawn using custom" + Environment.NewLine + "font made from a sprite.", position);
 
 		}
