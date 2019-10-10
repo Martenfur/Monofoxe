@@ -13,6 +13,13 @@ namespace Monofoxe.Engine.Resources
 		/// </summary>
 		public abstract bool Loaded {get; protected set;}
 
+		public abstract string Name {get;}
+
+		public ResourceBox()
+		{
+			ResourceHub.AddResourceBox(Name, this);
+		}
+
 		/// <summary>
 		/// Loads all resources.
 		/// </summary>

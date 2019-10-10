@@ -15,12 +15,12 @@ namespace Resources
 
 		public override bool Loaded { get; protected set; }
 
+		public override string Name => "Fonts";
+
 		public Fonts()
 		{
 			_content = new ContentManager(GameMgr.Game.Services);
 			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.FontsDir;
-
-			ResourceHub.AddResourceBox("Fonts", this);
 		}
 
 		public override void Load()
