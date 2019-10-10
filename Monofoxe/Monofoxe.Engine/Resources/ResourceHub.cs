@@ -13,6 +13,28 @@ namespace Monofoxe.Engine.Resources
 			new Dictionary<string, IResourceBox>(StringComparer.OrdinalIgnoreCase);
 		
 		
+		public static void LoadAll()
+		{
+			foreach(var boxPair in _boxes)
+			{
+				if (!boxPair.Value.Loaded)
+				{
+					boxPair.Value.Load();
+				}
+			}
+		}
+
+		public static void UnloadAll()
+		{
+			foreach (var boxPair in _boxes)
+			{
+				if (boxPair.Value.Loaded)
+				{
+					boxPair.Value.Unload();
+				}
+			}
+		}
+
 		public static void AddResourceBox(string key, IResourceBox box) =>
 			_boxes.Add(key, box);
 		
