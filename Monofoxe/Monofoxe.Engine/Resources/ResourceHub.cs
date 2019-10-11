@@ -12,14 +12,6 @@ namespace Monofoxe.Engine.Resources
 		private static Dictionary<string, IResourceBox> _boxes =
 			new Dictionary<string, IResourceBox>(StringComparer.OrdinalIgnoreCase);
 		
-		
-		public static void LoadAll()
-		{
-			foreach(var boxPair in _boxes)
-			{
-				boxPair.Value.Load();
-			}
-		}
 
 		public static void UnloadAll()
 		{
