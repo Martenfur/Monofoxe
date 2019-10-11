@@ -114,7 +114,8 @@ namespace Monofoxe.Engine.Cameras
 
 
 
-		private Dictionary<string, HashSet<string>> _filter = new Dictionary<string, HashSet<string>>();
+		private Dictionary<string, HashSet<string>> _filter = 
+			new Dictionary<string, HashSet<string>>(StringComparer.OrdinalIgnoreCase);
 
 		/// <summary>
 		/// Mode for filtering out certain layers.
@@ -235,16 +236,13 @@ namespace Monofoxe.Engine.Cameras
 
 		public void AddFilterEntry(string sceneName, string layerName)
 		{
-			sceneName = sceneName.ToLower();
-			layerName = layerName.ToLower();
-
 			if (_filter.TryGetValue(sceneName, out HashSet<string> filterSet))
 			{
 				filterSet.Add(layerName);
 			}
 			else
 			{
-				var newSet = new HashSet<string>();
+				var newSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 				newSet.Add(layerName);
 				_filter.Add(sceneName, newSet);
 			}
@@ -252,9 +250,6 @@ namespace Monofoxe.Engine.Cameras
 
 		public void RemoveFilterEntry(string sceneName, string layerName)
 		{
-			sceneName = sceneName.ToLower();
-			layerName = layerName.ToLower();
-
 			if (_filter.TryGetValue(sceneName, out HashSet<string> filterSet))
 			{
 				filterSet.Remove(layerName);
@@ -270,9 +265,6 @@ namespace Monofoxe.Engine.Cameras
 		/// </summary>
 		public bool Filter(string sceneName, string layerName)
 		{
-			sceneName = sceneName.ToLower();
-			layerName = layerName.ToLower();
-
 			if (FilterMode == FilterMode.None)
 			{
 				return false;

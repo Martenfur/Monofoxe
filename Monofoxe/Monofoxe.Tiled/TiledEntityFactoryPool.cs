@@ -22,7 +22,7 @@ namespace Monofoxe.Tiled
 		/// </summary>
 		public static void InitFactoryPool()
 		{
-			_factoryPool = new Dictionary<string, ITiledEntityFactory>();
+			_factoryPool = new Dictionary<string, ITiledEntityFactory>(StringComparer.OrdinalIgnoreCase);
 			
 			// Creating an instance of each.
 			foreach(var type in GameMgr.Types)
@@ -30,7 +30,7 @@ namespace Monofoxe.Tiled
 				if (typeof(ITiledEntityFactory).IsAssignableFrom(type.Value) && !type.Value.IsInterface)
 				{
 					var newFactory = (ITiledEntityFactory)Activator.CreateInstance(type.Value);
-					_factoryPool.Add(newFactory.Tag.ToLower(), newFactory);
+					_factoryPool.Add(newFactory.Tag, newFactory);
 				}
 			}
 		}
@@ -40,7 +40,7 @@ namespace Monofoxe.Tiled
 		/// </summary>
 		public static Entity MakeEntity(TiledObject obj, Layer layer, MapBuilder map)
 		{
-			if (_factoryPool.TryGetValue(obj.Type.ToLower(), out ITiledEntityFactory factory))
+			if (_factoryPool.TryGetValue(obj.Type, out ITiledEntityFactory factory))
 			{
 				return factory.Make(obj, layer, map);
 			}

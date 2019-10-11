@@ -18,7 +18,7 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		public static void InitTemplatePool()
 		{
-			TemplatePool = new Dictionary<string, IEntityTemplate>();
+			TemplatePool = new Dictionary<string, IEntityTemplate>(StringComparer.OrdinalIgnoreCase);
 			
 			// Creating an instance of each.
 			foreach(var type in GameMgr.Types)
@@ -26,7 +26,7 @@ namespace Monofoxe.Engine.ECS
 				if (typeof(IEntityTemplate).IsAssignableFrom(type.Value) && !type.Value.IsInterface)
 				{
 					var newTemplate = (IEntityTemplate)Activator.CreateInstance(type.Value);
-					TemplatePool.Add(newTemplate.Tag.ToLower(), newTemplate);
+					TemplatePool.Add(newTemplate.Tag, newTemplate);
 				}
 			}
 		}
