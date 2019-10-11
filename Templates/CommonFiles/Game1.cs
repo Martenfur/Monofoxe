@@ -3,6 +3,7 @@ using Monofoxe.Engine;
 using Monofoxe.Tiled;
 using Monofoxe.Engine.Drawing;
 using Resources;
+using Monofoxe.Engine.Resources;
 
 namespace $safeprojectname$
 {
@@ -39,10 +40,10 @@ namespace $safeprojectname$
 		{
 			GraphicsMgr.Init(GraphicsDevice);
 			
-			Resources.Sprites.Default.Load();	
-			Fonts.Load();
-			Effects.Load();
-			Maps.Load();
+			new Resources.Sprites.Default();
+			new Fonts();
+			new Maps();
+			new Effects();
 		}
 
 		/// <summary>
@@ -51,6 +52,7 @@ namespace $safeprojectname$
 		/// </summary>
 		protected override void UnloadContent()
 		{
+			ResourceHub.UnloadAll();
 		}
 
 		/// <summary>

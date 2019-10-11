@@ -19,6 +19,7 @@ namespace Resources
 				return;
 			}
 			Loaded = true;
+
 			_content = new ContentManager(GameMgr.Game.Services);
 			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.MapsDir;
 

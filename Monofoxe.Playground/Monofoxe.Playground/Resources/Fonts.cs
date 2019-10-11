@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.Resources;
-using Resources.Sprites;
 
 namespace Resources
 {
@@ -27,8 +26,8 @@ namespace Resources
 			{
 				return;
 			}
-
 			Loaded = true;
+
 			AddResource("Arial", new Font(_content.Load<SpriteFont>("Arial")));
 
 			var fontSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "Font");
