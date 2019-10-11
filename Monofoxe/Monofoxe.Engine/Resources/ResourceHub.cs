@@ -12,6 +12,8 @@ namespace Monofoxe.Engine.Resources
 		private static Dictionary<string, IResourceBox> _boxes =
 			new Dictionary<string, IResourceBox>(StringComparer.OrdinalIgnoreCase);
 		
+		public static IReadOnlyDictionary<string, IResourceBox> Boxes => _boxes;
+
 		public static void UnloadAll()
 		{
 			foreach (var boxPair in _boxes)
