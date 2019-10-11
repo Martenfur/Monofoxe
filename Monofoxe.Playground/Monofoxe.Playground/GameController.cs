@@ -27,7 +27,7 @@ namespace Monofoxe.Playground
 
 			MainCamera.BackgroundColor = new Color(38, 38, 38);
 
-			GameMgr.WindowManager.CanvasSize = new Vector2(800, 600);
+			GameMgr.WindowManager.CanvasSize = MainCamera.Size;
 			GameMgr.WindowManager.Window.AllowUserResizing = false;
 			GameMgr.WindowManager.ApplyChanges();
 			GameMgr.WindowManager.CenterWindow();
@@ -62,7 +62,6 @@ namespace Monofoxe.Playground
 			// Enabling applying postprocessing effects to separate layers.
 			// Note that this will create an additional surface.
 			MainCamera.PostprocessingMode = PostprocessingMode.CameraAndLayers;
-
 		}
 
 		public override void Update()

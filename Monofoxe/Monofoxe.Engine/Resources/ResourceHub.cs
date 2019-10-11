@@ -12,7 +12,6 @@ namespace Monofoxe.Engine.Resources
 		private static Dictionary<string, IResourceBox> _boxes =
 			new Dictionary<string, IResourceBox>(StringComparer.OrdinalIgnoreCase);
 		
-
 		public static void UnloadAll()
 		{
 			foreach (var boxPair in _boxes)
@@ -31,6 +30,11 @@ namespace Monofoxe.Engine.Resources
 		{
 			if (_boxes.TryGetValue(key,	out IResourceBox box))
 			{
+				if (!box.Loaded)
+				{
+					box.Load();
+				}
+
 				return box;
 			}
 

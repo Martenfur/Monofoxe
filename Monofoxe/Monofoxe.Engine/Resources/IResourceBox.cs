@@ -1,4 +1,5 @@
-﻿
+﻿using System.Collections;
+
 namespace Monofoxe.Engine.Resources
 {
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace Monofoxe.Engine.Resources
 {
@@ -6,7 +7,7 @@ namespace Monofoxe.Engine.Resources
 	/// Abstract container for game resources of the specific type.
 	/// Resources can be accessed by the string key.
 	/// </summary>
-	public abstract class ResourceBox<T> : IResourceBox
+	public abstract class ResourceBox<T> : IResourceBox, IEnumerable<KeyValuePair<string, T>>
 	{
 		/// <summary>
 		/// Tells if the resources been loaded already.
@@ -52,6 +53,15 @@ namespace Monofoxe.Engine.Resources
 		protected void RemoveResource(string key) =>
 			_resources.Remove(key);
 		
-		
+			
+		IEnumerator<KeyValuePair<string, T>> IEnumerable<KeyValuePair<string, T>>.GetEnumerator()
+		{
+			return ((IEnumerable<KeyValuePair<string, T>>)_resources).GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return ((IEnumerable<KeyValuePair<string, T>>)_resources).GetEnumerator();
+		}
 	}
 }
