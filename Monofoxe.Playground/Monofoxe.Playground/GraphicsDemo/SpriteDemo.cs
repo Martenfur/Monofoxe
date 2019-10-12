@@ -90,7 +90,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 				position,
 				new Vector2(_fireSprite.Width, _fireSprite.Height) / 2, 
 				new Vector2(1, 2) * (float)Math.Sin(_animation * Math.PI * 2 * 2), 
-				(float)(359 * _animation), 
+				new Angle(360 * _animation), 
 				Color.Red // Overrides CurrentColor.
 			);
 
@@ -102,7 +102,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 				0,
 				new Rectangle((int)(position.X), (int)(position.Y), 64, 64),
 				new Rectangle(64, 64, 64, 64),
-				0,
+				Angle.Left,
 				Color.White
 			);
 

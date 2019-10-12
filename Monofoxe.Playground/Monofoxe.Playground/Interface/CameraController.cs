@@ -50,7 +50,7 @@ namespace Monofoxe.Playground.Interface
 			);
 			movementVector3 = Vector3.Transform(
 				movementVector3, 
-				Matrix.CreateRotationZ(MathHelper.ToRadians(Camera.Rotation))
+				Matrix.CreateRotationZ(Camera.Rotation.RadiansF)
 			); // Rotating by the camera's rotation, so camera will always move relatively to screen. 
 			
 			var rotatedMovementVector = new Vector2(movementVector3.X, movementVector3.Y);
@@ -82,7 +82,7 @@ namespace Monofoxe.Playground.Interface
 		public void Reset()
 		{
 			Camera.Zoom = 1;
-			Camera.Rotation = 0;
+			Camera.Rotation = Angle.Left;
 			Camera.Position = Camera.Offset;
 		}
 
