@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Monofoxe.Engine.Utils;
 
 namespace Monofoxe.Engine
 {
@@ -49,7 +50,14 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static Vector3 ToVector3(this Vector2 v) =>
 			new Vector3(v.X, v.Y, 0);
-		
+
+		/// <summary>
+		/// Returns an angle based on the vector's direction.
+		/// </summary>
+		public static Angle ToAngle(this Vector2 v) =>
+			new Angle(v);
+
+
 		/// <summary>
 		/// Swaps X and Y places.
 		/// </summary>
@@ -61,6 +69,6 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static Vector2 Rotate90(this Vector2 v) =>
 			new Vector2(v.Y, -v.X);
-		
+
 	}
 }
