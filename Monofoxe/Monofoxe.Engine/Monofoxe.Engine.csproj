@@ -3,6 +3,13 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Version>2.0.0-dev</Version>
+    <Authors>gn Fur</Authors>
+    <Company>Chai Foxes</Company>
+    <Product>Monofoxe Tiled</Product>
+    <Description>Tiled Map Editor integration for Monofoxe.</Description>
+    <PackageProjectUrl>https://github.com/gnFur/Monofoxe/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/gnFur/Monofoxe/</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
