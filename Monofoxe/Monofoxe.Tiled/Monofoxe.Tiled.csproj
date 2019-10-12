@@ -10,6 +10,7 @@
     <Description>A Monogame-based game engine with extremely high fox concenration.</Description>
     <PackageProjectUrl>https://github.com/gnFur/Monofoxe/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/gnFur/Monofoxe/</RepositoryUrl>
+    <Copyright></Copyright>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
