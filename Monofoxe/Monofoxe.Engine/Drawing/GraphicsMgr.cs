@@ -20,9 +20,7 @@ namespace Monofoxe.Engine.Drawing
 
 
 		public static GraphicsDevice Device {get; private set;}
-		public static GraphicsDeviceManager DeviceManager {get; private set;}
 		
-
 		/// <summary>
 		/// Currently enabled camera.
 		/// </summary>
