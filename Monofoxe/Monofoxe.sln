@@ -7,9 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pipefoxe", "Pipefoxe\Pipefo
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Monofoxe.Tiled.MapStructure", "Monofoxe.Tiled.MapStructure\Monofoxe.Tiled.MapStructure.shproj", "{785E8147-0E69-45DF-92F7-B4F315739D0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monofoxe.Engine", "Monofoxe.Engine\Monofoxe.Engine.csproj", "{70699800-5172-413D-BB6F-0D80CB9FCD13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monofoxe.Engine", "Monofoxe.Engine\Monofoxe.Engine.csproj", "{70699800-5172-413D-BB6F-0D80CB9FCD13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monofoxe.Tiled", "Monofoxe.Tiled\Monofoxe.Tiled.csproj", "{E615232A-8EDD-43BB-84D0-3BA376ACA7E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monofoxe.Tiled", "Monofoxe.Tiled\Monofoxe.Tiled.csproj", "{E615232A-8EDD-43BB-84D0-3BA376ACA7E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monofoxe.Tests", "Monofoxe.Tests\Monofoxe.Tests.csproj", "{799409E8-B82F-4DBF-BBDE-B9EF253B2404}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -33,6 +35,10 @@ Global
 		{E615232A-8EDD-43BB-84D0-3BA376ACA7E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E615232A-8EDD-43BB-84D0-3BA376ACA7E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E615232A-8EDD-43BB-84D0-3BA376ACA7E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{799409E8-B82F-4DBF-BBDE-B9EF253B2404}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{799409E8-B82F-4DBF-BBDE-B9EF253B2404}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{799409E8-B82F-4DBF-BBDE-B9EF253B2404}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{799409E8-B82F-4DBF-BBDE-B9EF253B2404}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

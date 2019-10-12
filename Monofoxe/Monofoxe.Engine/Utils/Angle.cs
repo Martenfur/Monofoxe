@@ -5,6 +5,11 @@ namespace Monofoxe.Engine.Utils
 {
 	public struct Angle : IEquatable<Angle>
 	{
+		public static readonly Angle Up = new Angle(270);
+		public static readonly Angle Down = new Angle(90);
+		public static readonly Angle Left = new Angle(180);
+		public static readonly Angle Right = new Angle(0);
+
 		public double Degrees 
 		{
 			get => _degrees; 
@@ -39,7 +44,7 @@ namespace Monofoxe.Engine.Utils
 
 		public Angle(Vector2 vector)
 		{
-			_degrees = Math.Atan2(vector.Y, vector.X) * 360.0 / (Math.PI * 2.0);
+			_degrees = (Math.Atan2(vector.Y, vector.X) * 360.0) / (Math.PI * 2.0);
 			Normalize();
 		}
 
@@ -53,6 +58,22 @@ namespace Monofoxe.Engine.Utils
 			return angle;
 		}
 
+		public double Difference(Angle other)
+		{
+			var difference = Degrees - other.Degrees;
+
+			if (difference > 180)
+			{
+				return 360 - difference;
+			}
+			
+			if (difference < -180)
+			{
+				return -difference - 360;
+			}
+
+			return difference;
+		}
 
 		public Vector2 ToVector2() =>
 			new Vector2((float)Math.Cos(Radians), (float)Math.Sin(Radians));
@@ -65,7 +86,7 @@ namespace Monofoxe.Engine.Utils
 
 
 		public bool Equals(Angle other) =>
-			Degrees == other.Degrees;
+			_degrees == other._degrees;
 
 		public override bool Equals(object obj)
 		{
@@ -103,23 +124,39 @@ namespace Monofoxe.Engine.Utils
 			new Angle(a.Degrees / num);
 
 		public static bool operator >(Angle a1, Angle a2) =>
-			a1.Degrees > a2.Degrees;
+			a1._degrees > a2._degrees;
 
 		public static bool operator <(Angle a1, Angle a2) =>
-			a1.Degrees < a2.Degrees;
+			a1._degrees < a2._degrees;
 
 		public static bool operator >=(Angle a1, Angle a2) =>
-			a1.Degrees >= a2.Degrees;
+			a1._degrees >= a2._degrees;
 
 		public static bool operator <=(Angle a1, Angle a2) =>
-			a1.Degrees <= a2.Degrees;
+			a1._degrees <= a2._degrees;
+
+		public static bool operator ==(Angle a1, Angle a2) =>
+			a1._degrees == a2._degrees;
+
+		public static bool operator !=(Angle a1, Angle a2) =>
+			a1._degrees != a2._degrees;
 
 		#endregion Operators.
 
-		void Normalize()
-		{
+		void Normalize() =>
 			_degrees = (_degrees % 360.0 + 360.0) % 360.0;
-		}
 
+
+		public override int GetHashCode()
+		{
+			// No idea, lul.
+			var hashCode = 129319411;
+			hashCode = hashCode * -1521134295 + Degrees.GetHashCode();
+			hashCode = hashCode * -1521134295 + Radians.GetHashCode();
+			hashCode = hashCode * -1521134295 + DegreesF.GetHashCode();
+			hashCode = hashCode * -1521134295 + RadiansF.GetHashCode();
+			hashCode = hashCode * -1521134295 + _degrees.GetHashCode();
+			return hashCode;
+		}
 	}
 }
