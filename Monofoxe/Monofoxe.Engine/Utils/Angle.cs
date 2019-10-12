@@ -75,6 +75,10 @@ namespace Monofoxe.Engine.Utils
 			return difference;
 		}
 
+		public double DifferenceRad(Angle other) =>
+			ToRadians(Difference(other));
+		
+
 		public Vector2 ToVector2() =>
 			new Vector2((float)Math.Cos(Radians), (float)Math.Sin(Radians));
 			
