@@ -104,28 +104,46 @@ namespace Monofoxe.Engine.Utils
 		#region Operators.
 
 		public static Angle operator +(Angle a1, Angle a2) =>
-			new Angle(a1.Degrees + a2.Degrees);
+			new Angle(a1._degrees + a2._degrees);
+
+		public static Angle operator +(Angle a, double num) =>
+			new Angle(a._degrees + num);
+
+		public static Angle operator +(Angle a, float num) =>
+			new Angle(a._degrees + num);
+
+		public static Angle operator +(Angle a, int num) =>
+			new Angle(a._degrees + num);
 
 		public static Angle operator -(Angle a1, Angle a2) =>
-			new Angle(a1.Degrees - a2.Degrees);
+			new Angle(a1._degrees - a2._degrees);
+
+		public static Angle operator -(Angle a, double num) =>
+			new Angle(a._degrees - num);
+
+		public static Angle operator -(Angle a, float num) =>
+			new Angle(a._degrees - num);
+
+		public static Angle operator -(Angle a, int num) =>
+			new Angle(a._degrees - num);
 
 		public static Angle operator *(Angle a, double num) =>
-			new Angle(a.Degrees * num);
+			new Angle(a._degrees * num);
 
 		public static Angle operator *(Angle a, float num) =>
-			new Angle(a.Degrees * num);
+			new Angle(a._degrees * num);
 
 		public static Angle operator *(Angle a, int num) =>
-			new Angle(a.Degrees * num);
+			new Angle(a._degrees * num);
 
 		public static Angle operator /(Angle a, double num) =>
-			new Angle(a.Degrees / num);
+			new Angle(a._degrees / num);
 
 		public static Angle operator /(Angle a, float num) =>
-			new Angle(a.Degrees / num);
+			new Angle(a._degrees / num);
 
 		public static Angle operator /(Angle a, int num) =>
-			new Angle(a.Degrees / num);
+			new Angle(a._degrees / num);
 
 		public static bool operator >(Angle a1, Angle a2) =>
 			a1._degrees > a2._degrees;
