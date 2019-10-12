@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.Utils;
 using Monofoxe.Engine.Utils.CustomCollections;
 
 namespace Monofoxe.Engine.SceneSystem
@@ -254,13 +255,13 @@ namespace Monofoxe.Engine.SceneSystem
 				{
 					GraphicsMgr.SetSurfaceTarget(camera._postprocessorLayerBuffer);
 					GraphicsMgr.Device.Clear(Color.TransparentBlack);
-					camera._postprocessorBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, 0, Color.White);
+					camera._postprocessorBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Left, Color.White);
 				}
 				else
 				{
 					GraphicsMgr.SetSurfaceTarget(camera._postprocessorBuffer);
 					GraphicsMgr.Device.Clear(Color.TransparentBlack);
-					camera._postprocessorLayerBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, 0, Color.White);
+					camera._postprocessorLayerBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Left, Color.White);
 				}
 				
 				GraphicsMgr.ResetSurfaceTarget();
@@ -277,11 +278,11 @@ namespace Monofoxe.Engine.SceneSystem
 			GraphicsMgr.CurrentEffect = PostprocessorEffects[PostprocessorEffects.Count - 1];
 			if ((PostprocessorEffects.Count % 2) != 0)
 			{
-				camera._postprocessorLayerBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, 0, Color.White);
+				camera._postprocessorLayerBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Left, Color.White);
 			}
 			else
 			{
-				camera._postprocessorBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, 0, Color.White);
+				camera._postprocessorBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Left, Color.White);
 			}
 
 			GraphicsMgr.CurrentEffect = null;

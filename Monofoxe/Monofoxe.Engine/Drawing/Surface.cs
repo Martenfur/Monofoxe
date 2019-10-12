@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using Monofoxe.Engine.Utils;
 
 namespace Monofoxe.Engine.Drawing
 {
@@ -13,7 +13,7 @@ namespace Monofoxe.Engine.Drawing
 
 		public Vector2 Origin;
 
-		public float Rotation;
+		public Angle Rotation;
 
 		public Color Color;
 
@@ -23,7 +23,7 @@ namespace Monofoxe.Engine.Drawing
 		public int Height => RenderTarget.Height;
 
 
-		public Surface(int w, int h, Vector2 position, Vector2 scale, Vector2 origin, float rotation = 0)
+		public Surface(int w, int h, Vector2 position, Vector2 scale, Vector2 origin, Angle rotation)
 		{
 			Position = position;
 			Scale = scale;
@@ -81,7 +81,7 @@ namespace Monofoxe.Engine.Drawing
 			GraphicsMgr.Batch.Draw(RenderTarget, position, GraphicsMgr.CurrentColor);
 		}
 		
-		public void Draw(Vector2 position, Vector2 origin, Vector2 scale, float rotation, Color color)
+		public void Draw(Vector2 position, Vector2 origin, Vector2 scale, Angle rotation, Color color)
 		{
 			var mirroring = SpriteEffects.None;
 
@@ -109,7 +109,7 @@ namespace Monofoxe.Engine.Drawing
 				position, 
 				RenderTarget.Bounds, 
 				color, 
-				MathHelper.ToRadians(rotation), 
+				rotation.RadiansF, 
 				scaleOffset + origin, 
 				scale, 
 				mirroring, 
@@ -127,7 +127,7 @@ namespace Monofoxe.Engine.Drawing
 			GraphicsMgr.Batch.Draw(RenderTarget, destRect, RenderTarget.Bounds, GraphicsMgr.CurrentColor);
 		}
 		
-		public void Draw(Rectangle destRect, float rotation, Color color)
+		public void Draw(Rectangle destRect, Angle rotation, Color color)
 		{
 			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
 			GraphicsMgr.Batch.Draw(
@@ -135,7 +135,7 @@ namespace Monofoxe.Engine.Drawing
 				destRect, 
 				RenderTarget.Bounds, 
 				color, 
-				rotation,
+				rotation.RadiansF,
 				Vector2.Zero,
 				SpriteEffects.None, 
 				0
@@ -152,7 +152,7 @@ namespace Monofoxe.Engine.Drawing
 			GraphicsMgr.Batch.Draw(RenderTarget, destRect, srcRect, GraphicsMgr.CurrentColor);
 		}
 		
-		public void Draw(Rectangle destRect, Rectangle srcRect, float rotation, Color color)
+		public void Draw(Rectangle destRect, Rectangle srcRect, Angle rotation, Color color)
 		{
 			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
 						
@@ -164,7 +164,7 @@ namespace Monofoxe.Engine.Drawing
 				destRect, 
 				RenderTarget.Bounds, 
 				color, 
-				rotation, 
+				rotation.RadiansF, 
 				Vector2.Zero,
 				SpriteEffects.None, 
 				0

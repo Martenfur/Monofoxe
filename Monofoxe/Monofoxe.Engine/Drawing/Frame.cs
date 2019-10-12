@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using Monofoxe.Engine.Utils;
 
 namespace Monofoxe.Engine.Drawing
 {
@@ -38,7 +38,7 @@ namespace Monofoxe.Engine.Drawing
 		
 		public Vector2 Origin;
 
-		public float Rotation;
+		public Angle Rotation;
 
 		public Color Color;
 
@@ -77,7 +77,7 @@ namespace Monofoxe.Engine.Drawing
 			Vector2 position, 
 			Vector2 origin, 
 			Vector2 scale, 
-			float rotation, 
+			Angle rotation, 
 			Color color, 
 			SpriteEffects effect
 		)
@@ -89,7 +89,7 @@ namespace Monofoxe.Engine.Drawing
 				position, 
 				TexturePosition, 
 				color, 
-				MathHelper.ToRadians(rotation), 
+				rotation.RadiansF, 
 				origin,
 				scale, 
 				effect, 
@@ -99,9 +99,9 @@ namespace Monofoxe.Engine.Drawing
 
 
 		public void Draw(Vector2 position, Vector2 origin) =>
-			Draw(position, origin, Vector2.One, 0, GraphicsMgr.CurrentColor, SpriteEffects.None);
+			Draw(position, origin, Vector2.One, Angle.Left, GraphicsMgr.CurrentColor, SpriteEffects.None);
 		
-		public void Draw(Vector2 position, Vector2 origin, Vector2 scale, float rotation, Color color)
+		public void Draw(Vector2 position, Vector2 origin, Vector2 scale, Angle rotation, Color color)
 		{
 			var mirroring = SpriteEffects.None;
 
@@ -125,7 +125,7 @@ namespace Monofoxe.Engine.Drawing
 		}
 
 		
-		public void Draw(Rectangle destRect, float rotation, Color color)
+		public void Draw(Rectangle destRect, Angle rotation, Color color)
 		{
 			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
 			
@@ -134,7 +134,7 @@ namespace Monofoxe.Engine.Drawing
 				destRect, 
 				TexturePosition, 
 				color, 
-				rotation,
+				rotation.RadiansF,
 				// NOTE: Offsets are bugged in 3.6 and mess everything up. Disabled them for now.
 				Vector2.Zero, // offset,
 				SpriteEffects.None, 
@@ -142,7 +142,7 @@ namespace Monofoxe.Engine.Drawing
 			);
 		}
 
-		public void Draw(Rectangle destRect, Rectangle srcRect, float rotation, Color color)
+		public void Draw(Rectangle destRect, Rectangle srcRect, Angle rotation, Color color)
 		{
 			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
 			
@@ -154,7 +154,7 @@ namespace Monofoxe.Engine.Drawing
 				destRect, 
 				srcRect, 
 				color, 
-				rotation, 
+				rotation.RadiansF, 
 				// NOTE: Offsets are bugged in 3.6 and mess everything up. Disabled them for now.
 				Vector2.Zero, // offset,
 				SpriteEffects.None, 

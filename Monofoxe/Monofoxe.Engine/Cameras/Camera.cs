@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine.Drawing;
 using System;
+using Monofoxe.Engine.Utils;
 
 namespace Monofoxe.Engine.Cameras
 {
@@ -50,7 +51,7 @@ namespace Monofoxe.Engine.Cameras
 		/// <summary>
 		/// View rotation. Measured in degrees.
 		/// </summary>
-		public float Rotation;
+		public Angle Rotation;
 
 		/// <summary>
 		/// View zoom.
@@ -77,7 +78,7 @@ namespace Monofoxe.Engine.Cameras
 		/// Viewport rotation.
 		/// NOTE: Changing it will break mouse position!
 		/// </summary>
-		public float PortRotation = 0;
+		public Angle PortRotation;
 		
 
 
@@ -202,7 +203,7 @@ namespace Monofoxe.Engine.Cameras
 		public void UpdateTransformMatrix()
 		{
 			TransformMatrix = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) * // Coordinates.
-				Matrix.CreateRotationZ(MathHelper.ToRadians(-Rotation)) *                  // Rotation.
+				Matrix.CreateRotationZ(-Rotation.RadiansF) *                  // Rotation.
 				Matrix.CreateScale(Vector3.One * Zoom) *                                   // Scale.
 				Matrix.CreateTranslation(new Vector3(Offset.X, Offset.Y, 0));              // Offset.									
 		}
@@ -222,7 +223,7 @@ namespace Monofoxe.Engine.Cameras
 			 * TODO: Fix port rotation problems.
 			 */
 			var transformMatrix = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) *
-				Matrix.CreateRotationZ(MathHelper.ToRadians(PortRotation - Rotation)) *            
+				Matrix.CreateRotationZ((PortRotation - Rotation).RadiansF) *            
 				Matrix.CreateScale(Vector3.One * Zoom) *
 				Matrix.CreateTranslation(new Vector3(Offset.X, Offset.Y, 0));
 			
