@@ -3,6 +3,10 @@ using System;
 
 namespace Monofoxe.Engine.Utils
 {
+	/// <summary>
+	/// Represents an angle measured in degrees. 
+	/// NOTE: Angle will auto-wrap in 0..359 range.
+	/// </summary>
 	public struct Angle : IEquatable<Angle>
 	{
 		public static readonly Angle Up = new Angle(270);
@@ -31,7 +35,7 @@ namespace Monofoxe.Engine.Utils
 
 		public float DegreesF => (float)Degrees;
 		public float RadiansF => (float)Radians;
-
+		
 
 		private double _degrees;
 
@@ -50,7 +54,9 @@ namespace Monofoxe.Engine.Utils
 
 		public Angle(Vector2 point1, Vector2 point2) : this(point2 - point1) {}
 
-
+		/// <summary>
+		/// Creates Angle object from an angle measured in radians.
+		/// </summary>
 		public static Angle FromRadians(double radians)
 		{
 			var angle = new Angle();
@@ -58,6 +64,11 @@ namespace Monofoxe.Engine.Utils
 			return angle;
 		}
 
+		/// <summary>
+		/// Returns the difference between two angles in the range of -180..180.
+		/// Negative angle represents going counter-clockwise, 
+		/// positive - clockwise.
+		/// </summary>
 		public double Difference(Angle other)
 		{
 			var difference = Degrees - other.Degrees;
@@ -75,10 +86,7 @@ namespace Monofoxe.Engine.Utils
 			return difference;
 		}
 
-		public double DifferenceRad(Angle other) =>
-			ToRadians(Difference(other));
 		
-
 		public Vector2 ToVector2() =>
 			new Vector2((float)Math.Cos(Radians), (float)Math.Sin(Radians));
 			
@@ -164,11 +172,7 @@ namespace Monofoxe.Engine.Utils
 			a1._degrees != a2._degrees;
 
 		#endregion Operators.
-
-		void Normalize() =>
-			_degrees = (_degrees % 360.0 + 360.0) % 360.0;
-
-
+			
 		public override int GetHashCode()
 		{
 			// No idea, lul.
@@ -180,5 +184,8 @@ namespace Monofoxe.Engine.Utils
 			hashCode = hashCode * -1521134295 + _degrees.GetHashCode();
 			return hashCode;
 		}
+
+		void Normalize() =>
+			_degrees = (_degrees % 360.0 + 360.0) % 360.0;
 	}
 }
