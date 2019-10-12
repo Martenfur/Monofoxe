@@ -42,10 +42,7 @@ namespace Monofoxe.Engine.Drawing
 		/// Current drawing color. Affects shapes, sprites, text and primitives.
 		/// </summary>
 		public static Color CurrentColor = Color.White;
-
-		private static DynamicVertexBuffer _vertexBuffer;
-		private static DynamicIndexBuffer _indexBuffer;
-
+		
 		private static List<VertexPositionColorTexture> _vertices = new List<VertexPositionColorTexture>();
 		private static List<short> _indices = new List<short>();
 
