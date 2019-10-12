@@ -8,7 +8,7 @@ namespace Monofoxe.Engine.Utils
 	/// </summary>
 	public static class GameMath
 	{
-		#region Angles and stuff.
+		#region Distance.
 
 		/// <summary>
 		/// Calculates distance between two points.
@@ -22,80 +22,9 @@ namespace Monofoxe.Engine.Utils
 		public static float Distance(float x, float y) =>
 			(float)Math.Sqrt(x * x + y * y);
 		
-		
-		
-		/// <summary>
-		/// Calculates direction between two points in degrees.
-		/// </summary>
-		public static double Direction(Vector2 p1, Vector2 p2) =>
-			DirectionRad(p2.X - p1.X, p2.Y - p1.Y) * 360 / (Math.PI * 2);
-		
-		public static double Direction(float x1, float y1, float x2, float y2) =>
-			DirectionRad(x2 - x1, y2 - y1) * 360 / (Math.PI * 2);
-		
-		public static double Direction(Vector2 p) =>
-			DirectionRad(p.X, p.Y) * 360 / (Math.PI * 2);
-		
-		public static double Direction(float x, float y) =>
-			DirectionRad(x, y) * 360 / (Math.PI * 2);
-		
-		
-		
-		/// <summary>
-		/// Calculates direction between two points in radians.
-		/// </summary>
-		public static double DirectionRad(Vector2 p1, Vector2 p2) =>
-			DirectionRad(p2.X - p1.X, p2.Y - p1.Y);
+		#endregion Distance.
 
-		public static double DirectionRad(float x1, float y1, float x2, float y2) =>
-			DirectionRad(x2 - x1, y2 - y1);
-		
-		public static double DirectionRad(Vector2 p) =>
-			DirectionRad(p.X, p.Y);
 
-		public static double DirectionRad(float x, float y) =>
-			Math.Atan2(y, x);
-		
-
-		/// <summary>
-		/// Calculates difference between two angles from -180 to 180;
-		/// </summary>
-		public static double AngleDiff(double ang1, double ang2)
-		{
-			double diff = ang1 - ang2;
-			
-			if (diff > 180)
-			{
-				return diff - 360;
-			}
-			if (diff < -180)
-			{
-				return diff + 360;
-			}
-
-			return diff;
-		}
-		
-		/// <summary>
-		/// Calculates difference between two angles in radians from -pi to pi;
-		/// </summary>
-		public static double AngleDiffRad(double ang1, double ang2)
-		{
-			double diff = ang1 - ang2;
-			
-			if (diff > Math.PI)
-			{
-				return diff - Math.PI * 2;
-			}
-			if (diff < -Math.PI)
-			{
-				return diff + Math.PI * 2;
-			}
-
-			return diff;
-		}
-
-		#endregion Angles and stuff.
 
 		#region Intersestions.
 
