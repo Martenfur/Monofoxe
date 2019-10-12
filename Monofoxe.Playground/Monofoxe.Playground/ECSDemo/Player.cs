@@ -49,7 +49,7 @@ namespace Monofoxe.Playground.ECSDemo
 			// Telling our actor component to move in a specific direction.
 			var actor = GetComponent<ActorComponent>();	
 			actor.Move = movement != Vector2.Zero;
-			actor.Direction = (float)GameMath.Direction(movement);
+			actor.Direction = movement.ToAngle();
 		}
 
 		public override void Draw()

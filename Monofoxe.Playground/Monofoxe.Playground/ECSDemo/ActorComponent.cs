@@ -1,5 +1,6 @@
 ﻿using Monofoxe.Engine.ECS;
 using Monofoxe.Engine.Drawing;
+using Monofoxe.Engine.Utils;
 
 namespace Monofoxe.Playground.ECSDemo
 {
@@ -11,7 +12,7 @@ namespace Monofoxe.Playground.ECSDemo
 	{
 		public bool Move = false;
 
-		public float Direction = 0;
+		public Angle Direction;
 		public float Speed = 120;
 
 		public Sprite Sprite;

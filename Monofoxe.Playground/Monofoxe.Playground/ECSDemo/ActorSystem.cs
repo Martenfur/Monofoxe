@@ -37,7 +37,7 @@ namespace Monofoxe.Playground.ECSDemo
 					var position = actor.Owner.GetComponent<PositionComponent>();
 
 					position.PreviousPosition = position.Position;
-					position.Position += TimeKeeper.GlobalTime(actor.Speed) * GameMath.DirectionToVector2(actor.Direction);
+					position.Position += TimeKeeper.GlobalTime(actor.Speed) * actor.Direction.ToVector2();
 				}
 			}
 		}
