@@ -102,7 +102,7 @@ namespace Monofoxe.Engine.Drawing
 
 		public void Draw(Vector2 position, Vector2 origin) =>
 			Draw(position, origin, Scale, Rotation, Color);
-		
+
 		public void Draw(Vector2 position, Vector2 origin, Vector2 scale, Angle rotation, Color color)
 		{
 			var mirroring = SpriteEffects.None;

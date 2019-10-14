@@ -144,7 +144,7 @@ namespace Monofoxe.Engine.Drawing
 
 		public void Draw(Vector2 position) =>
 			_frames[0].Draw(position, Origin, Scale, Rotation, Color);
-		
+
 		public void Draw(Vector2 position, double animation) =>
 			GetFrame(animation).Draw(position, Origin, Scale, Rotation, Color);
 		
@@ -155,16 +155,16 @@ namespace Monofoxe.Engine.Drawing
 		
 		
 		// Rectangles.
-
+		
 		public void Draw(Rectangle destRect, double animation) =>
-			GetFrame(animation).Draw(destRect, Angle.Left, Color);
+			GetFrame(animation).Draw(destRect, Rotation, Color);
 
 		public void Draw(Rectangle destRect, double animation, Angle rotation, Color color) =>
 			GetFrame(animation).Draw(destRect, rotation, color);
-
+			
 		public void Draw(Rectangle destRect, double animation, Rectangle srcRect) => 
 			GetFrame(animation).Draw(destRect, srcRect, Rotation, Color);
-		
+
 		public void Draw(Rectangle destRect, double animation, Rectangle srcRect, Angle rotation, Color color) =>
 			GetFrame(animation).Draw(destRect, srcRect, rotation, color);
 
