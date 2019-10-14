@@ -75,11 +75,9 @@ namespace Monofoxe.Engine.Drawing
 		
 		// Vectors.
 
-		public void Draw(Vector2 position)
-		{
-			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
-			GraphicsMgr.Batch.Draw(RenderTarget, position, GraphicsMgr.CurrentColor);
-		}
+		public void Draw(Vector2 position) =>
+			Draw(position, Origin, Scale, Rotation, Color);
+		
 		
 		public void Draw(Vector2 position, Vector2 origin, Vector2 scale, Angle rotation, Color color)
 		{
@@ -124,7 +122,7 @@ namespace Monofoxe.Engine.Drawing
 		public void Draw(Rectangle destRect)
 		{
 			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
-			GraphicsMgr.Batch.Draw(RenderTarget, destRect, RenderTarget.Bounds, GraphicsMgr.CurrentColor);
+			GraphicsMgr.Batch.Draw(RenderTarget, destRect, RenderTarget.Bounds, Color);
 		}
 		
 		public void Draw(Rectangle destRect, Angle rotation, Color color)
