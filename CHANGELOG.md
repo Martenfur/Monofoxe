@@ -4,12 +4,19 @@
 
 - Documentation!
 - Added `ResourceHub` and `ResourceBox` instead of old loading systems.
+- Added `Angle` class for better angle management.
 
 ### CHANGES:
 
 - Camera implements `IDisposable` interface now.
-- Alarms, AutoAlarms and Animations use `EventHandler` instead of `Action` now.
+- `Alarm`, `AutoAlarm` and `Animation` use `EventHandler` instead of `Action` now.
 - Spritegroup cstemplates doesn't require quotes for variable values now.
+- Changed Draw methods in `Frame`, `Sprite` and `Surface` to use their properties by default instead of default struct values.
+- Moved `animation` argument in `Sprite.Draw` method after `position`.
+- Specifying origin in `Sprite.Draw()` isn't mandatory anymore. 
+- `Frame`, `Sprite` and `Surface`'s `Rotation` field is `Angle` instead of `float` now.
+- `GameMath` doesn't contain angle-related methods anymore. They are moved to `Angle` instead.
+- All Monofoxe libraries are .NET Standard now.
 
 ### FIXES:
 
