@@ -40,7 +40,7 @@ namespace $safeprojectname$
 		
 		public override void Draw()
 		{
-			_monofoxe.Draw(Camera.Size / 2f, _monofoxe.Origin);
+			_monofoxe.Draw(Camera.Size / 2f);
 		}
 
 	}
