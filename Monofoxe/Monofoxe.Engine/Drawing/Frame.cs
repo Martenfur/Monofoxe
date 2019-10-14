@@ -40,7 +40,7 @@ namespace Monofoxe.Engine.Drawing
 
 		public Angle Rotation;
 
-		public Color Color;
+		public Color Color = Color.White;
 
 		
 

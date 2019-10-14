@@ -56,7 +56,7 @@ namespace Monofoxe.Engine.Drawing
 
 		public double Animation;
 
-		public Color Color;
+		public Color Color = Color.White;
 
 		/// <summary>
 		/// True, if size of every frame is identical.
