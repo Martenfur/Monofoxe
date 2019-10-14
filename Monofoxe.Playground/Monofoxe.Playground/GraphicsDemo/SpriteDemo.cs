@@ -60,7 +60,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 			GraphicsMgr.CurrentColor = Color.White; // Sprites are affected by current color too.
 			
 			// Sprites can't have static methods. So we are pulling them from sprite group.
-			_monofoxeSprite.Draw(position, _monofoxeSprite.Origin);
+			_monofoxeSprite.Draw(position);
 
 			position += Vector2.UnitX * spacing * 2;
 
@@ -73,7 +73,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 			GraphicsMgr.CurrentEffect = _seizure;
 			// If you want to animate the sprite, you must pass a value from 0 to 1 to it.
-			_fireSprite.Draw(_animation, position, _fireSprite.Origin);
+			_fireSprite.Draw(position, _animation);
 			GraphicsMgr.CurrentEffect = null;
 
 			position += Vector2.UnitX * spacing;
@@ -86,8 +86,8 @@ namespace Monofoxe.Playground.GraphicsDemo
 			// You can scale, rotate srites and set custom origin point.
 
 			_fireSprite.Draw(
-				0.4f, 
 				position,
+				0.4f, 
 				new Vector2(_fireSprite.Width, _fireSprite.Height) / 2, 
 				new Vector2(1, 2) * (float)Math.Sin(_animation * Math.PI * 2 * 2), 
 				new Angle(360 * _animation), 
@@ -99,8 +99,8 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 			// You also can draw only a part of the sprite.
 			_monofoxeSprite.Draw(
-				0,
 				new Rectangle((int)(position.X), (int)(position.Y), 64, 64),
+				0,
 				new Rectangle(64, 64, 64, 64),
 				Angle.Left,
 				Color.White

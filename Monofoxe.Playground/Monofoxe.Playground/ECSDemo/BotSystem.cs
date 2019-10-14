@@ -34,7 +34,7 @@ namespace Monofoxe.Playground.ECSDemo
 			var actor = (ActorComponent)component;
 			var position = actor.Owner.GetComponent<PositionComponent>();
 
-			actor.Sprite.Draw(position.Position, actor.Sprite.Origin);
+			actor.Sprite.Draw(position.Position);
 		}
 
 	}

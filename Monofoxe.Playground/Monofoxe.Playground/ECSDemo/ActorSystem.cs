@@ -49,7 +49,7 @@ namespace Monofoxe.Playground.ECSDemo
 		
 			GraphicsMgr.CurrentColor = Color.White;
 
-			actor.Sprite.Draw(position.Position, actor.Sprite.Origin);
+			actor.Sprite.Draw(position.Position);
 		}
 
 	}

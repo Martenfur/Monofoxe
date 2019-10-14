@@ -141,13 +141,14 @@ namespace Monofoxe.Engine.Drawing
 			GetFrame(Animation).Draw(Position, Origin, Scale, Rotation, Color);
 		
 		// Vectors.
-		public void Draw(Vector2 position, Vector2 origin) =>
-			_frames[0].Draw(position, origin, Vector2.One, Angle.Left, GraphicsMgr.CurrentColor, SpriteEffects.None);
+
+		public void Draw(Vector2 position) =>
+			_frames[0].Draw(position, Origin, Scale, Rotation, Color);
 		
-		public void Draw(double animation, Vector2 position, Vector2 origin) =>
-			GetFrame(animation).Draw(position, origin);
+		public void Draw(Vector2 position, double animation) =>
+			GetFrame(animation).Draw(position, Origin, Scale, Rotation, Color);
 		
-		public void Draw(double animation, Vector2 position, Vector2 origin, Vector2 scale, Angle rotation, Color color) =>
+		public void Draw(Vector2 position, double animation, Vector2 origin, Vector2 scale, Angle rotation, Color color) =>
 			GetFrame(animation).Draw(position, origin, scale, rotation, color);
 
 		// Vectors.
@@ -155,17 +156,16 @@ namespace Monofoxe.Engine.Drawing
 		
 		// Rectangles.
 
-		public void Draw(double animation, Rectangle destRect) =>
-			GetFrame(animation).Draw(destRect, Angle.Left, GraphicsMgr.CurrentColor);
+		public void Draw(Rectangle destRect, double animation) =>
+			GetFrame(animation).Draw(destRect, Angle.Left, Color);
 
-		public void Draw(double animation, Rectangle destRect, Angle rotation, Color color) =>
+		public void Draw(Rectangle destRect, double animation, Angle rotation, Color color) =>
 			GetFrame(animation).Draw(destRect, rotation, color);
 
-		public void Draw(double animation, Rectangle destRect, Rectangle srcRect) => 
-			GetFrame(animation).Draw(destRect, srcRect, Angle.Left, GraphicsMgr.CurrentColor);
+		public void Draw(Rectangle destRect, double animation, Rectangle srcRect) => 
+			GetFrame(animation).Draw(destRect, srcRect, Rotation, Color);
 		
-
-		public void Draw(double animation, Rectangle destRect, Rectangle srcRect, Angle rotation, Color color) =>
+		public void Draw(Rectangle destRect, double animation, Rectangle srcRect, Angle rotation, Color color) =>
 			GetFrame(animation).Draw(destRect, srcRect, rotation, color);
 
 		// Rectangles.

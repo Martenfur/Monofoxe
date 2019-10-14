@@ -97,9 +97,11 @@ namespace Monofoxe.Engine.Drawing
 			);
 		}
 
+		public void Draw(Vector2 position) =>
+			Draw(position, Origin, Scale, Rotation, Color);
 
 		public void Draw(Vector2 position, Vector2 origin) =>
-			Draw(position, origin, Vector2.One, Angle.Left, GraphicsMgr.CurrentColor, SpriteEffects.None);
+			Draw(position, origin, Scale, Rotation, Color);
 		
 		public void Draw(Vector2 position, Vector2 origin, Vector2 scale, Angle rotation, Color color)
 		{
