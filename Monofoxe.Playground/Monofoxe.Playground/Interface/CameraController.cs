@@ -82,7 +82,7 @@ namespace Monofoxe.Playground.Interface
 		public void Reset()
 		{
 			Camera.Zoom = 1;
-			Camera.Rotation = Angle.Left;
+			Camera.Rotation = Angle.Right;
 			Camera.Position = Camera.Offset;
 		}
 
