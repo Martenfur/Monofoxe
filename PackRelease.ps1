@@ -1,5 +1,7 @@
-# NOTE: Script doesn't build projects. You need to build them into release yourself before running it.
-# Maybe rewrite using this https://cakebuild.net someday.
+# Packs templates and installer.
+# NOTE: To create an installer you'll need a NSIS installed,
+# and nsis.exe added to PATH.
+# Maybe rewrite someday using this https://cakebuild.net.
 
 # Credit: https://alastaircrabtree.com/how-to-find-latest-version-of-msbuild-in-powershell/
 Function Find-MsBuild([int] $MaxVersion = 2019)

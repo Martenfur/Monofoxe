@@ -1,4 +1,7 @@
-﻿SetCompressor /SOLID /FINAL lzma
+﻿; Creates the installer.
+; NOTE: Do not run on its own, use PackRelease.ps1 instead.
+
+SetCompressor /SOLID /FINAL lzma
 
 !define APPNAME "Monofoxe"
 !define APPVERSION "v2-dev"
