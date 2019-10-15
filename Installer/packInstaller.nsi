@@ -1,6 +1,7 @@
 ﻿SetCompressor /SOLID /FINAL lzma
 
 !define APPNAME "Monofoxe"
+!define APPVERSION "v2-dev"
 !define NPL_APPNAME "NoPipeline"
 !define INSTALLERVERSION "2.0.0.0"
 
@@ -24,7 +25,7 @@
 
 Name '${APPNAME} ${INSTALLERVERSION}'
 OutFile '..\Release\MonofoxeSetup.exe'
-InstallDir '$PROGRAMFILES\${APPNAME}\' ; Main install directory.
+InstallDir '$PROGRAMFILES\${APPNAME}\${APPVERSION}\' ; Main install directory.
 
 VIProductVersion "${INSTALLERVERSION}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "${APPNAME}"
