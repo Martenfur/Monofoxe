@@ -108,13 +108,11 @@ Copy-Item -path "$srcPipelineLibDir\*" -Filter "*.dll" -Destination "$destReleas
 "Copying libraries for $blankWindows..."
 
 "Copying libraries for $shared..."
-# Copying deafult shader into the content directory.
+# Copying default shader into the content directory.
 New-Item -ItemType Directory -Force -Path "$destReleaseDir$shared\Content\Effects\" > $null
 Copy-Item -path "$srcLibDir\*" -Filter "*.fx" -Destination "$destReleaseDir$shared\Content\Effects\"
 New-Item -ItemType Directory -Force -Path "$destReleaseDir$shared\Content\References\" > $null
 Copy-Item -path "$srcPipelineLibDir\*" -Filter "*.dll" -Destination "$destReleaseDir$shared\Content\References\"
-
-
 
 "Copying raw libraries..."
 New-Item -ItemType Directory -Force -Path "$destLibDir" > $null

@@ -3,7 +3,7 @@
 !define APPNAME "Monofoxe"
 !define APPVERSION "v2-dev"
 !define NPL_APPNAME "NoPipeline"
-!define INSTALLERVERSION "2.0.0.0"
+!define INSTALLERVERSION "2.0.0.0-dev"
 
 !define MUI_ICON "pics\icon.ico"
 !define MUI_UNICON "pics\icon.ico"
@@ -49,8 +49,12 @@ RequestExecutionLevel admin
 ; Stuff to install.
 Section "Monofoxe" Monofoxe
 	SectionIn RO
-	SetOutPath '$INSTDIR'
-  ; Uninstaller.
+	RMDir /r '$INSTDIR'
+  SetOutPath '$INSTDIR\lib'
+  File /r '..\Release\RawLibraries\*.dll'
+  File /r '..\Release\RawLibraries\*.xml'
+  
+  SetOutPath '$INSTDIR'
   WriteUninstaller "uninstall.exe"
 SectionEnd
 
