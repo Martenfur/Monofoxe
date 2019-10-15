@@ -39,7 +39,6 @@ namespace Resources.Sprites
 			AddResource("Bot", sprites["bot"]);
 			AddResource("Player", sprites["player"]);
 			AddResource("Font", sprites["font"]);
-			AddResource("Test", sprites["Folder/test"]);
 			AddResource("AutismCat", sprites["Textures/autism_cat"]);
 			
 			#endregion Sprite constructors.
