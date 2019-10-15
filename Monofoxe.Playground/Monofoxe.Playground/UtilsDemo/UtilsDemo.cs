@@ -248,7 +248,7 @@ namespace Monofoxe.Playground.UtilsDemo
 
 			GraphicsMgr.CurrentColor = Color.White;
 			
-			_fireSprite.Draw(position, _fireAnimation.Progress, Vector2.Zero, Vector2.One, Angle.Left, Color.White);
+			_fireSprite.Draw(position, _fireAnimation.Progress, Vector2.Zero, Vector2.One, Angle.Right, Color.White);
 			
 			position += Vector2.UnitX * spacing;
 			CircleShape.Draw(position, 8, _autoAlarmSwitch);

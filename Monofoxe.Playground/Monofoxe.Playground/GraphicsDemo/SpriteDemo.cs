@@ -102,7 +102,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 				new Rectangle((int)(position.X), (int)(position.Y), 64, 64),
 				0,
 				new Rectangle(64, 64, 64, 64),
-				Angle.Left,
+				Angle.Right,
 				Color.White
 			);
 
