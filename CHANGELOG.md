@@ -17,6 +17,7 @@
 - `Frame`, `Sprite` and `Surface`'s `Rotation` field is `Angle` instead of `float` now.
 - `GameMath` doesn't contain angle-related methods anymore. They are moved to `Angle` instead.
 - All Monofoxe libraries are .NET Standard now.
+- Projects are be able to load without Nopipeline now.
 
 ### FIXES:
 
