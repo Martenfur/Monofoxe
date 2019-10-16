@@ -1,0 +1,3 @@
+[submodule "NoPipeline"]
+	path = NoPipeline
+	url = https://github.com/gnFur/NoPipeline.git
