@@ -11,7 +11,7 @@ SetCompressor /SOLID /FINAL lzma
 !define MUI_ICON "pics\icon.ico"
 !define MUI_UNICON "pics\icon.ico"
 
-!define NOPIPELINEROOT "..\..\NoPipeline\NoPipeline\NoPipeline\bin\Release"
+!define NOPIPELINEROOT "..\NoPipeline\NoPipeline\NoPipeline\bin\Release"
 
 
 !include "Sections.nsh"
