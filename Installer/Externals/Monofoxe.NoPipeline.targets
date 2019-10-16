@@ -1,10 +1,12 @@
 
 <Project InitialTargets="NoPipeline" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Import Project="Monofoxe.props"/>
+
 	<Target Name="NoPipeline">
 		<ItemGroup>
 			<NPLContentReferences Include="@(MonoGameContentReference)"/>
 		</ItemGroup>
 		<Exec Command="NoPipeline.exe &quot;%(NPLContentReferences.FullPath)&quot;" 
-					WorkingDirectory="$(MSBuildProgramFiles32)\Monofoxe Engine\v2-dev\NoPipeline\"/>
+					WorkingDirectory="$(MonofoxeInstallDirectory)\$(MonofoxeVersion)\NoPipeline\"/>
 	</Target>
 </Project>

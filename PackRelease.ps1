@@ -12,10 +12,10 @@ Function Find-MsBuild([int] $MaxVersion = 2019)
     $communityPath = "$Env:programfiles (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\msbuild.exe"
     $communityPath2019 = "$Env:programfiles (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\msbuild.exe"
     $fallback2015Path = "${Env:ProgramFiles(x86)}\MSBuild\14.0\Bin\MSBuild.exe"
-    $fallback2013Path = "${Env:ProgramFiles(x86)}\MSBuild\12.0\Bin\MSBuild.exe"
     $fallbackPath = "C:\Windows\Microsoft.NET\Framework\v4.0.30319"
-		
-    If ((2017 -le $MaxVersion) -And (Test-Path $agentPath)) { return $agentPath } 
+    $fallback2013Path = "${Env:ProgramFiles(x86)}\MSBuild\12.0\Bin\MSBuild.exe"
+
+    if ((2017 -le $MaxVersion) -And (Test-Path $agentPath)) { return $agentPath } 
     If ((2017 -le $MaxVersion) -And (Test-Path $devPath)) { return $devPath } 
     If ((2017 -le $MaxVersion) -And (Test-Path $proPath)) { return $proPath } 
     If ((2017 -le $MaxVersion) -And (Test-Path $communityPath)) { return $communityPath } 
@@ -23,39 +23,36 @@ Function Find-MsBuild([int] $MaxVersion = 2019)
     If ((2015 -le $MaxVersion) -And (Test-Path $fallback2015Path)) { return $fallback2015Path } 
     If ((2013 -le $MaxVersion) -And (Test-Path $fallback2013Path)) { return $fallback2013Path } 
     If (Test-Path $fallbackPath) { return $fallbackPath } 
-        
+
     throw "Yikes - Unable to find msbuild"
 }
+$msbuild = Find-MsBuild
 
-Function Copy-Common([string] $Path)
+Function Assemble-Template([string] $platform, [bool] $copyCommon)
 {
-    Copy-Item -path "$PWD/Common/*" -Destination "$Path" -Recurse -Container
+    "Assembling templates for $platform..."
+    Copy-Item -path "$PWD\Templates\$platform\" -Destination "$destReleaseDir" -Recurse -Container
+    if ($copyCommon)
+    {
+        Copy-Item -path "$destCommonDir/*" -Destination "$destReleaseDir$platform" -Recurse -Container
+        New-Item -ItemType Directory -Force -Path "$destReleaseDir$platform\Content\Effects\" > $null
+        Copy-Item -path "$srcLibDir\*" -Filter "*.fx" -Destination "$destReleaseDir$platform\Content\Effects\"
+    }
+    Copy-Item -path "$PWD/Common/*" -Destination "$destReleaseDir$platform" -Recurse -Container
 }
 
-
 Add-Type -A System.IO.Compression.FileSystem
-
-$msbuild = Find-MsBuild
 
 $srcLibDir = "$PWD\Monofoxe\bin\Release"
 $srcPipelineLibDir = "$PWD\Monofoxe\bin\Pipeline\Release"
 
 $destCommonDir = "$PWD\Templates\CommonFiles"
 $destReleaseDir = "$PWD\Release\"
-$destLibDir = "$destReleaseDir\RawLibraries"
-
 
 $desktopGL = "MonofoxeDesktopGL"
-$desktopGLTemplate = "$PWD\Templates\$desktopGL\"
-
 $blankDesktopGL = "MonofoxeDesktopGLBlank"
-$blankDesktopGLTemplate = "$PWD\Templates\$blankDesktopGL\"
-
 $blankWindows = "MonofoxeWindowsBlank"
-$blankWindowsTemplate = "$PWD\Templates\$blankWindows\"
-
 $shared = "MonofoxeShared"
-$sharedTemplate = "$PWD\Templates\$shared\"
 
 
 "Building solution $msbuild..."
@@ -66,62 +63,21 @@ $sharedTemplate = "$PWD\Templates\$shared\"
 "Cleaning output directory at $destReleaseDir..."
 if (Test-Path "$destReleaseDir" -PathType Container)
 {
-	Remove-Item "$destReleaseDir" -Force -Recurse
+    Remove-Item "$destReleaseDir" -Force -Recurse
 }
 New-Item -ItemType Directory -Force -Path "$destReleaseDir" > $null
 
 
-
-"Copying templates from $desktopGLTemplate..."
-Copy-Item -path "$desktopGLTemplate" -Destination "$destReleaseDir" -Recurse -Container
-Copy-Item -path "$destCommonDir/*" -Destination "$destReleaseDir$desktopGL" -Recurse -Container
-Copy-Common $destReleaseDir$desktopGL
-
-"Copying templates from $blankDesktopGLTemplate..."
-Copy-Item -path "$blankDesktopGLTemplate" -Destination "$destReleaseDir" -Recurse -Container
-
-
-"Copying templates from $blankWindowsTemplate..."
-Copy-Item -path "$blankWindowsTemplate" -Destination "$destReleaseDir" -Recurse -Container
-
-"Copying templates from $sharedTemplate..."
-Copy-Item -path "$sharedTemplate" -Destination "$destReleaseDir" -Recurse -Container
-Copy-Item -path "$destCommonDir/*" -Destination "$destReleaseDir$shared" -Recurse -Container
-
-"Copying libraries for templates from $desktopGL..."
-# Copying default shader into the content directory.
-New-Item -ItemType Directory -Force -Path "$destReleaseDir$desktopGL\Content\Effects\" > $null
-Copy-Item -path "$srcLibDir\*" -Filter "*.fx" -Destination "$destReleaseDir$desktopGL\Content\Effects\"
-New-Item -ItemType Directory -Force -Path "$destReleaseDir$desktopGL\Content\References\" > $null
-Copy-Item -path "$srcPipelineLibDir\*" -Filter "*.dll" -Destination "$destReleaseDir$desktopGL\Content\References\"
-
-"Copying libraries for $blankDesktopGL..."
-
-"Copying libraries for $blankWindows..."
-
-"Copying libraries for $shared..."
-# Copying default shader into the content directory.
-New-Item -ItemType Directory -Force -Path "$destReleaseDir$shared\Content\Effects\" > $null
-Copy-Item -path "$srcLibDir\*" -Filter "*.fx" -Destination "$destReleaseDir$shared\Content\Effects\"
-New-Item -ItemType Directory -Force -Path "$destReleaseDir$shared\Content\References\" > $null
-Copy-Item -path "$srcPipelineLibDir\*" -Filter "*.dll" -Destination "$destReleaseDir$shared\Content\References\"
-
-"Copying raw libraries..."
-New-Item -ItemType Directory -Force -Path "$destLibDir" > $null
-Copy-Item -path "$srcLibDir\*" -Filter "*.dll" -Destination "$destLibDir"
-Copy-Item -path "$srcLibDir\*" -Filter "*.xml" -Destination "$destLibDir"
-Copy-Item -path "$srcLibDir\*" -Filter "*.fx" -Destination "$destLibDir"
-New-Item -ItemType Directory -Force -Path "$destLibDir\Pipeline\" > $null
-Copy-Item -path "$srcPipelineLibDir\*" -Filter "*.dll" -Destination "$destLibDir\Pipeline\"
+Assemble-Template $desktopGL $TRUE
+Assemble-Template $blankDesktopGL $FALSE
+Assemble-Template $blankWindows $FALSE
+Assemble-Template $shared $TRUE
 
 "Packing templates..."
 [IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$desktopGL", "$destReleaseDir$desktopGL.zip")
 [IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$blankDesktopGL", "$destReleaseDir$blankDesktopGL.zip")
 [IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$blankWindows", "$destReleaseDir$blankWindows.zip")
 [IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$shared", "$destReleaseDir$shared.zip")
-
-"Packing raw libraries..."
-[IO.Compression.ZipFile]::CreateFromDirectory("$destLibDir", "$destLibDir.zip")
 
 "Making installer..."
 &makensis Installer/packInstaller.nsi
