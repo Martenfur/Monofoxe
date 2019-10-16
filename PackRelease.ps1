@@ -27,6 +27,10 @@ Function Find-MsBuild([int] $MaxVersion = 2019)
     throw "Yikes - Unable to find msbuild"
 }
 
+Function Copy-Common([string] $Path)
+{
+    Copy-Item -path "$PWD/Common/*" -Destination "$Path" -Recurse -Container
+}
 
 
 Add-Type -A System.IO.Compression.FileSystem
@@ -46,9 +50,6 @@ $desktopGLTemplate = "$PWD\Templates\$desktopGL\"
 
 $blankDesktopGL = "MonofoxeDesktopGLBlank"
 $blankDesktopGLTemplate = "$PWD\Templates\$blankDesktopGL\"
-
-$windows = "MonofoxeWindows"
-$windowsTemplate = "$PWD\Templates\$windows\"
 
 $blankWindows = "MonofoxeWindowsBlank"
 $blankWindowsTemplate = "$PWD\Templates\$blankWindows\"
@@ -74,13 +75,11 @@ New-Item -ItemType Directory -Force -Path "$destReleaseDir" > $null
 "Copying templates from $desktopGLTemplate..."
 Copy-Item -path "$desktopGLTemplate" -Destination "$destReleaseDir" -Recurse -Container
 Copy-Item -path "$destCommonDir/*" -Destination "$destReleaseDir$desktopGL" -Recurse -Container
+Copy-Common $destReleaseDir$desktopGL
 
 "Copying templates from $blankDesktopGLTemplate..."
 Copy-Item -path "$blankDesktopGLTemplate" -Destination "$destReleaseDir" -Recurse -Container
 
-"Copying templates from $windowsTemplate..."
-Copy-Item -path "$windowsTemplate" -Destination "$destReleaseDir" -Recurse -Container
-Copy-Item -path "$destCommonDir/*" -Destination "$destReleaseDir$windows" -Recurse -Container
 
 "Copying templates from $blankWindowsTemplate..."
 Copy-Item -path "$blankWindowsTemplate" -Destination "$destReleaseDir" -Recurse -Container
@@ -88,8 +87,6 @@ Copy-Item -path "$blankWindowsTemplate" -Destination "$destReleaseDir" -Recurse 
 "Copying templates from $sharedTemplate..."
 Copy-Item -path "$sharedTemplate" -Destination "$destReleaseDir" -Recurse -Container
 Copy-Item -path "$destCommonDir/*" -Destination "$destReleaseDir$shared" -Recurse -Container
-
-
 
 "Copying libraries for templates from $desktopGL..."
 # Copying default shader into the content directory.
@@ -99,13 +96,6 @@ New-Item -ItemType Directory -Force -Path "$destReleaseDir$desktopGL\Content\Ref
 Copy-Item -path "$srcPipelineLibDir\*" -Filter "*.dll" -Destination "$destReleaseDir$desktopGL\Content\References\"
 
 "Copying libraries for $blankDesktopGL..."
-
-"Copying libraries for $windows..."
-# Copying default shader into the content directory.
-New-Item -ItemType Directory -Force -Path "$destReleaseDir$windows\Content\Effects\" > $null
-Copy-Item -path "$srcLibDir\*" -Filter "*.fx" -Destination "$destReleaseDir$windows\Content\Effects\"
-New-Item -ItemType Directory -Force -Path "$destReleaseDir$windows\Content\References\" > $null
-Copy-Item -path "$srcPipelineLibDir\*" -Filter "*.dll" -Destination "$destReleaseDir$windows\Content\References\"
 
 "Copying libraries for $blankWindows..."
 
@@ -127,7 +117,6 @@ Copy-Item -path "$srcPipelineLibDir\*" -Filter "*.dll" -Destination "$destLibDir
 "Packing templates..."
 [IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$desktopGL", "$destReleaseDir$desktopGL.zip")
 [IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$blankDesktopGL", "$destReleaseDir$blankDesktopGL.zip")
-[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$windows", "$destReleaseDir$windows.zip")
 [IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$blankWindows", "$destReleaseDir$blankWindows.zip")
 [IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$shared", "$destReleaseDir$shared.zip")
 
@@ -141,7 +130,6 @@ Copy-Item -path "$srcPipelineLibDir\*" -Filter "*.dll" -Destination "$destLibDir
 #Remove-Item "$destReleaseDir$desktopGL" -Force -Recurse
 #Remove-Item "$destReleaseDir$blankDesktopGL" -Force -Recurse
 #Remove-Item "$destReleaseDir$windows" -Force -Recurse
-#Remove-Item "$destReleaseDir$blankWindows" -Force -Recurse
 #Remove-Item "$destReleaseDir$shared" -Force -Recurse
 #Remove-Item "$destLibDir" -Force -Recurse
 

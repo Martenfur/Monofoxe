@@ -30,7 +30,7 @@ SetCompressor /SOLID /FINAL lzma
 
 Name '${APPNAME} ${INSTALLERVERSION}'
 OutFile '..\Release\MonofoxeSetup.exe'
-InstallDir '$PROGRAMFILES\${APPNAME}\${APPVERSION}\' ; Main install directory.
+InstallDir '$PROGRAMFILES\${APPNAME} Engine\${APPVERSION}\' ; Main install directory.
 
 VIProductVersion "${INSTALLERVERSION}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "${APPNAME}"
@@ -61,6 +61,13 @@ Section "Monofoxe" Monofoxe
   
   SetOutPath '$INSTDIR'
   WriteUninstaller "uninstall.exe"
+
+  # NoPipeline.
+  SetOutPath '$INSTDIR\NoPipeline'
+  File /r "${NOPIPELINEROOT}\*.exe"
+  File /r "${NOPIPELINEROOT}\*.dll"
+  File /r "Externals\Monofoxe.NoPipeline.targets"
+  # NoPipeline.
 SectionEnd
 
 Section "MonoGame" Monogame
@@ -70,16 +77,6 @@ Section "MonoGame" Monogame
 	Delete "$INSTDIR\MonoGameSetup.exe"
 SectionEnd
 
-Section "NoPipeline" NoPipeline
-	SetOutPath '$INSTDIR\NoPipeline'
-	File /r "${NOPIPELINEROOT}\*.exe"
-  File /r "${NOPIPELINEROOT}\*.dll"
-  File /r "Externals\Monofoxe.NoPipeline.targets"
-
-	ExecWait "$INSTDIR\NoPipelineSetup.exe"
-	Delete "$INSTDIR\NoPipelineSetup.exe"
-SectionEnd
-
 Section "Visual Studio 2015 Templates" VS2015
 
   IfFileExists `$DOCUMENTS\Visual Studio 2015\Templates\ProjectTemplates\*.*` InstallTemplates CannotInstallTemplates
@@ -87,7 +84,6 @@ Section "Visual Studio 2015 Templates" VS2015
     SetOutPath "$DOCUMENTS\Visual Studio 2015\Templates\ProjectTemplates\Visual C#\Monofoxe"
     File /r '..\Release\MonofoxeDesktopGL.zip'
     File /r '..\Release\MonofoxeDesktopGLBlank.zip'
-    File /r '..\Release\MonofoxeWindows.zip'
     File /r '..\Release\MonofoxeWindowsBlank.zip' 
     File /r '..\Release\MonofoxeShared.zip'
     GOTO EndTemplates
@@ -104,7 +100,6 @@ Section "Visual Studio 2017 Templates" VS2017
     SetOutPath "$DOCUMENTS\Visual Studio 2017\Templates\ProjectTemplates\Visual C#\Monofoxe"
     File /r '..\Release\MonofoxeDesktopGL.zip'
     File /r '..\Release\MonofoxeDesktopGLBlank.zip'
-    File /r '..\Release\MonofoxeWindows.zip'
     File /r '..\Release\MonofoxeWindowsBlank.zip'
     File /r '..\Release\MonofoxeShared.zip'
     GOTO EndTemplates
@@ -121,7 +116,6 @@ Section "Visual Studio 2019 Templates" VS2019
     SetOutPath "$DOCUMENTS\Visual Studio 2019\Templates\ProjectTemplates\Visual C#\Monofoxe"
     File /r '..\Release\MonofoxeDesktopGL.zip'
     File /r '..\Release\MonofoxeDesktopGLBlank.zip'
-    File /r '..\Release\MonofoxeWindows.zip'
     File /r '..\Release\MonofoxeWindowsBlank.zip'
     File /r '..\Release\MonofoxeShared.zip'
     GOTO EndTemplates
@@ -136,7 +130,6 @@ SectionEnd
 
 ; Component menu.
 LangString MonofoxeDesc ${LANG_ENGLISH} "Install Monofoxe!"
-LangString NoPipelineDesc ${LANG_ENGLISH} "Install NoPipeline."
 LangString MonogameDesc ${LANG_ENGLISH} "Install MonoGame 3.7.1. "
 LangString VS2015Desc ${LANG_ENGLISH} "Install the project templates for Visual Studio 2015"
 LangString VS2017Desc ${LANG_ENGLISH} "Install the project templates for Visual Studio 2017"
@@ -144,7 +137,6 @@ LangString VS2019Desc ${LANG_ENGLISH} "Install the project templates for Visual 
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${Monofoxe} $(MonofoxeDesc)
-  !insertmacro MUI_DESCRIPTION_TEXT ${NoPipeline} $(NoPipelineDesc)
   !insertmacro MUI_DESCRIPTION_TEXT ${Monogame} $(MonogameDesc)
   !insertmacro MUI_DESCRIPTION_TEXT ${VS2015} $(VS2015Desc)
   !insertmacro MUI_DESCRIPTION_TEXT ${VS2017} $(VS2017Desc)
@@ -155,13 +147,6 @@ Function checkMonogame
 IfFileExists `$PROGRAMFILES\MonoGame\v3.0\*.*` disable end
   disable:
 	 SectionSetFlags ${Monogame} $1
-  end:
-FunctionEnd
-
-Function checkNoPipeline
-IfFileExists `$PROGRAMFILES\NoPipeline\*.*` disable end
-  disable:
-	 SectionSetFlags ${NoPipeline} $1
   end:
 FunctionEnd
 
@@ -190,7 +175,6 @@ FunctionEnd
 Function .onInit
   IntOp $0 $0 | ${SF_RO}
   Call checkMonogame
-  Call checkNoPipeline
   Call checkVS2015
   Call checkVS2017
   Call checkVS2019
