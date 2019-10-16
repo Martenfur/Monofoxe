@@ -11,6 +11,8 @@ SetCompressor /SOLID /FINAL lzma
 !define MUI_ICON "pics\icon.ico"
 !define MUI_UNICON "pics\icon.ico"
 
+!define NOPIPELINEROOT "..\..\NoPipeline\NoPipeline\NoPipeline\bin\Release"
+
 
 !include "Sections.nsh"
 !include "MUI2.nsh"
@@ -69,8 +71,11 @@ Section "MonoGame" Monogame
 SectionEnd
 
 Section "NoPipeline" NoPipeline
-	SetOutPath '$INSTDIR'
-	File "Externals\NoPipelineSetup.exe"
+	SetOutPath '$INSTDIR\NoPipeline'
+	File /r "${NOPIPELINEROOT}\*.exe"
+  File /r "${NOPIPELINEROOT}\*.dll"
+  File /r "Externals\Monofoxe.NoPipeline.targets"
+
 	ExecWait "$INSTDIR\NoPipelineSetup.exe"
 	Delete "$INSTDIR\NoPipelineSetup.exe"
 SectionEnd

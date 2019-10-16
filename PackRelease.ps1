@@ -58,8 +58,8 @@ $sharedTemplate = "$PWD\Templates\$shared\"
 
 
 "Building solution $msbuild..."
-&$msbuild ("$PWD\Monofoxe\Monofoxe.sln" ,'/verbosity:q','/p:configuration=Debug','/t:Clean,Build') > $null
 &$msbuild ("$PWD\Monofoxe\Monofoxe.sln" ,'/verbosity:q','/p:configuration=Release','/t:Clean,Build') > $null
+&$msbuild ("$PWD\..\NoPipeline\NoPipeline\NoPipeline.sln" ,'/verbosity:q','/p:configuration=Release','/t:Clean,Build') #> $null
 
 
 "Cleaning output directory at $destReleaseDir..."
