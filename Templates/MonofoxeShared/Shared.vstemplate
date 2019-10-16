@@ -16,7 +16,8 @@
 
     <Project TargetFileName="$projectname$.shproj" File="Shared.shproj" ReplaceParameters="true">
       <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.projitems">Shared.projitems</ProjectItem>
-   
+			<ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.props">Monofoxe.props</ProjectItem>
+      
       <ProjectItem ReplaceParameters="true" TargetFileName="Game1.cs">Game1.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="GameController.cs">GameController.cs</ProjectItem>
       
@@ -57,14 +58,6 @@
 
         <Folder Name="Fonts" TargetFolderName="Fonts">
           <ProjectItem ReplaceParameters="false" TargetFileName="Arial.spritefont">Arial.spritefont</ProjectItem>
-        </Folder>
-
-        <Folder Name="References" TargetFolderName="References">
-          <ProjectItem ReplaceParameters="false" TargetFileName="MonoGame.Framework.Content.Pipeline.dll">MonoGame.Framework.Content.Pipeline.dll</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="MonoGame.Framework.dll">MonoGame.Framework.dll</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="Newtonsoft.Json.dll">Newtonsoft.Json.dll</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="Pipefoxe.dll">Pipefoxe.dll</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="System.ValueTuple.dll">System.ValueTuple.dll</ProjectItem>
         </Folder>
 
       </Folder>

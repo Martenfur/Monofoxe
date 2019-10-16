@@ -21,13 +21,7 @@
     	<ProjectItem ReplaceParameters="false" TargetFileName="Icon.ico">Icon.ico</ProjectItem>
 	    <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="app.manifest">app.manifest</ProjectItem>
-      
-      <Folder Name="References" TargetFolderName="References">
-        <ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.Engine.dll">Monofoxe.Engine.dll</ProjectItem>
-        <ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.Engine.xml">Monofoxe.Engine.xml</ProjectItem>
-				<ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.Tiled.dll">Monofoxe.Tiled.dll</ProjectItem>
-        <ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.Tiled.xml">Monofoxe.Tiled.xml</ProjectItem>
-      </Folder>      
+      <ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.props">Monofoxe.props</ProjectItem>
       
       <Folder Name="Properties" TargetFolderName="Properties">
         <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
