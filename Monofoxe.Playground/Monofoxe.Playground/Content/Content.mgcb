@@ -9,42 +9,14 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:..\..\..\Monofoxe\bin\Pipeline\Debug\Pipefoxe.dll
+/reference:../../../Monofoxe/bin/Pipeline/Debug/Pipefoxe.dll
 
 #---------------------------------- Content ---------------------------------#
-
-#begin content.mgcb
-/importer:AssetInfoImporter
-/processor:PassThroughProcessor
-/build:content.mgcb
-
-#begin effects/alphablend.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:effects/alphablend.fx
-
-#begin fonts/arial.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:fonts/arial.spritefont
-
-#begin graphics/default.spritegroup
-/importer:SpriteGroupImporter
-/processor:SpriteGroupProcessor
-/build:graphics/default.spritegroup
 
 #begin Content.mgcb
 /importer:AssetInfoImporter
 /processor:PassThroughProcessor
 /build:Content.mgcb
-
-#begin Graphics/default.spritegroup
-/importer:SpriteGroupImporter
-/processor:SpriteGroupProcessor
-/build:Graphics/default.spritegroup
 
 #begin Effects/AlphaBlend.fx
 /importer:EffectImporter
@@ -55,6 +27,11 @@
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /build:Fonts/Arial.spritefont
+
+#begin Graphics/default.spritegroup
+/importer:SpriteGroupImporter
+/processor:SpriteGroupProcessor
+/build:Graphics/default.spritegroup
 
 #begin Effects/Grayscale.fx
 /importer:EffectImporter
@@ -70,4 +47,5 @@
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
 /build:Maps/test.tmx
+
 

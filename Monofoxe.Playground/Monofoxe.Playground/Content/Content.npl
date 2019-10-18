@@ -1,4 +1,8 @@
 {
+	"references":
+	[
+		"../../../Monofoxe/bin/Pipeline/Debug/Pipefoxe.dll"
+	],
 	"content": 
 	{
 		"contentList": 

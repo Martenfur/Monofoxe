@@ -1,4 +1,8 @@
 {
+	"references":
+	[
+		"%PROGRAMFILES%/Monofoxe Engine/v2-dev/lib/Pipeline/Pipefoxe.dll",
+	],
 	"content": 
 	{
 		"contentList": 
