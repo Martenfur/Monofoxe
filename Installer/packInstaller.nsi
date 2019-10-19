@@ -1,7 +1,6 @@
 ﻿; Creates the installer.
 ; NOTE: Do not run on its own, use PackRelease.ps1 instead.
 
-SetCompressor /SOLID /FINAL lzma
 
 !define APPNAME "Monofoxe"
 !define APPVERSION "v2-dev"
@@ -87,10 +86,7 @@ Section "Visual Studio 2015 Templates" VS2015
   IfFileExists `$DOCUMENTS\Visual Studio 2015\Templates\ProjectTemplates\*.*` InstallTemplates CannotInstallTemplates
   InstallTemplates:
     SetOutPath "$DOCUMENTS\Visual Studio 2015\Templates\ProjectTemplates\Visual C#\Monofoxe"
-    File /r '..\Release\MonofoxeDesktopGL.zip'
-    File /r '..\Release\MonofoxeDesktopGLBlank.zip'
-    File /r '..\Release\MonofoxeWindowsBlank.zip' 
-    File /r '..\Release\MonofoxeShared.zip'
+    File /r '..\Release\*.zip'
     GOTO EndTemplates
   CannotInstallTemplates:
     DetailPrint "Visual Studio 2015 not found"
@@ -103,10 +99,7 @@ Section "Visual Studio 2017 Templates" VS2017
   IfFileExists `$DOCUMENTS\Visual Studio 2017\Templates\ProjectTemplates\*.*` InstallTemplates CannotInstallTemplates
   InstallTemplates:
     SetOutPath "$DOCUMENTS\Visual Studio 2017\Templates\ProjectTemplates\Visual C#\Monofoxe"
-    File /r '..\Release\MonofoxeDesktopGL.zip'
-    File /r '..\Release\MonofoxeDesktopGLBlank.zip'
-    File /r '..\Release\MonofoxeWindowsBlank.zip'
-    File /r '..\Release\MonofoxeShared.zip'
+    File /r '..\Release\*.zip'
     GOTO EndTemplates
   CannotInstallTemplates:
     DetailPrint "Visual Studio 2017 not found"
@@ -119,10 +112,7 @@ Section "Visual Studio 2019 Templates" VS2019
   IfFileExists `$DOCUMENTS\Visual Studio 2019\Templates\ProjectTemplates\*.*` InstallTemplates CannotInstallTemplates
   InstallTemplates:
     SetOutPath "$DOCUMENTS\Visual Studio 2019\Templates\ProjectTemplates\Visual C#\Monofoxe"
-    File /r '..\Release\MonofoxeDesktopGL.zip'
-    File /r '..\Release\MonofoxeDesktopGLBlank.zip'
-    File /r '..\Release\MonofoxeWindowsBlank.zip'
-    File /r '..\Release\MonofoxeShared.zip'
+    File /r '..\Release\*.zip'
     GOTO EndTemplates
   CannotInstallTemplates:
     DetailPrint "Visual Studio 2019 not found"
