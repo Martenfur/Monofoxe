@@ -19,6 +19,11 @@ NoPipeline uses NPL config. It's used to generate MGCB config. Inside it looks l
 
 ```json
 {
+	"references":
+	[
+		"%PROGRAMFILES%/Monofoxe Engine/v2-dev/lib/Pipeline/Pipefoxe.dll",
+		"LocalDirectory/Pipefoxe.dll",
+	],
 	"content": 
 	{
 		"textures": 
@@ -98,6 +103,8 @@ With `watch` parameter present, all the `.spritegoup` files will be built
 by Pipeline Tool, if any `.png` or `.json` file will be changed. Note that
 all the paths listed in `watch` are relative to the main `path`, so final paths 
 will look like this: `Graphics/Default/*.png`.
+
+`references` section specifies external content processors which are used by Pipeline Tool. Paths to references can be either local or absolute with the support for environment variables. 
 
 Monofoxe projects have NPL config set up out of the box. It already has all the basic resource types, but you can add your own in there, if you'd like.
 

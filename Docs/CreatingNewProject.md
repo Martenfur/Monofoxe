@@ -14,11 +14,13 @@ Basically, the main idea behind all this mess is - *each project type can only e
 
 So, knowing that, we can divide projects into three categories:
 
-- ![](WinCrossplatformProjects.png) Basic Crossplatform\Windows projects - standalone projects which contain everything necessary to run a game. The difference between them is that Crossplatform runs on OpenGL and can run on Windows and Linux, whereas Windows project runs on DirectX and only on Windows. I recommend using them for small and quick projects which doesn't need to be ported to other platforms.
+- ![](CrossplatformProject.png) Basic Desktop GL project - standalone project which contains everything necessary to run a game. I recommend using them for small and quick projects which doesn't need to be ported to other platforms.
 
 - ![](SharedProject.png) Shared project - project which contains all the code and resources that should be shared between platforms. It is very much recommended to use it for big/crossplatform projects. 
 
-- ![](WinCrossplatformProjectsEmpty.png) Blank Crossplatform\Windows projects - projects which are made specifically to go with Shared project. They doesn't contain any code or resources. 
+- ![](WinCrossplatformProjectsEmpty.png) Blank Crossplatform\Windows projects - projects which are made specifically to go with Shared project. They doesn't contain any code or resources. The difference between them is that Crossplatform runs on OpenGL and can run on Windows and Linux, whereas Windows project runs on DirectX and only on Windows.  
+
+- ![](LibraryProject.png) Library project - a project which compiles into a standalone library. Use it to separate your game into modules. Unlike shared project, libraries recompile only if their code has been changed, so you can use them to shorten the compile time. This is targeted more towards larger games with lots of code. Also note that library can't contain its own Content, but you can still use content from outside platforms projects or shared libraries though `ResourceHub` class.
 
   
 
@@ -45,7 +47,7 @@ Currently Monofoxe supports only DesktopGL and DirectX desktop platforms...
 
 **But!**
 
-You can throw default Monogame projects into the mix and it should work! Most Likely. Plus, there is an Android project template coming eventually, so stay tuned.
+You can throw default Monogame projects into the mix and it should work! Most likely. Plus, there is an Android project template coming eventually, so stay tuned.
 
 
 
