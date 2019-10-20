@@ -1,0 +1,6 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup>
+		<MonofoxeInstallDirectory>$(MSBuildProgramFiles32)\Monofoxe Engine\</MonofoxeInstallDirectory>
+		<MonofoxeVersion>v2-dev</MonofoxeVersion>
+	</PropertyGroup>
+</Project>
