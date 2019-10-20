@@ -11,33 +11,52 @@ With other resource types things are a bit less convenient. Let's look at the `F
 ```c#
 namespace Resources
 {
-	public static class Fonts
+	public class Fonts : ResourceBox<IFont>
 	{
-		private static ContentManager _content;
-		
-		static string Ascii = " !" + '"' + @"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
-		
-		public static IFont Arial;
+		private ContentManager _content;
 
-		public static void Load()
+		static readonly string Ascii = " !" + '"' + @"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
+		
+		public override string Name => "Fonts";
+
+		public Fonts()
 		{
 			_content = new ContentManager(GameMgr.Game.Services);
 			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.FontsDir;
-			
-			Arial = new Font(_content.Load<SpriteFont>("Arial"));
 		}
 
-		public static void Unload()
+		public override void Load()
 		{
+			if (Loaded)
+			{
+				return;
+			}
+			Loaded = true;
+
+			// Actual resources.
+			AddResource("Arial", new Font(_content.Load<SpriteFont>("Arial")));
+
+			var fontSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "Font");
+			AddResource("FancyFont", new TextureFont(fontSprite, 1, 1, Ascii, false));
+			// Actual resources.
+		}
+
+		public override void Unload()
+		{
+			if (!Loaded)
+			{
+				return;
+			}
+			Loaded = false;
 			_content.Unload();
 		}
-
 	}
 }
 
+
 ```
 
-As you can see, it has `Load()` and `Unload()` methods. They are called in `Game1` class to load and unload the resources.
+As you can see, it has `Load()` and `Unload()` methods. They are called by the `ResourceHub` class to load and unload the resources.
 
 To load another font, you should add a new entry in the class by hand. You can also notice the `AssetMgr` class being used. All it does is provide a bunch of shortcuts for commonly used names. Additionally, it has `GetAssetPaths()` method, which returns names of all the assets.
 

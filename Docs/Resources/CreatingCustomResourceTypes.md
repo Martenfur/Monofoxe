@@ -10,7 +10,7 @@ First of all, we'll need to create a regular dll project.
 
 
 
-## [<< Adding Resources](AddingResources.md) | 
+## [<< Resource Box](ResourceBox.md) | 
 
 [<<< Contents](../Contents.md)
 

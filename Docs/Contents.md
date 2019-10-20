@@ -43,8 +43,10 @@
 - Resources
   - [NoPipeline](Resources/NoPipeline.md) i
   - [Adding resources](Resources/AddingResources) i
+  - [Resource Hub](Resources/ResourceHub.md) x
+  - [Resource Box](Resources/ResourceBox.md) x
   - [Creating custom resource types](Resources/CreatingCustomResourceTypes.md) i
-
+  
 - Utilities
     - [Time keepers]() x
     - [Alarms]() x
