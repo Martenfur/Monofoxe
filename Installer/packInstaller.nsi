@@ -81,19 +81,28 @@ Section "MonoGame" Monogame
 	Delete "$INSTDIR\MonoGameSetup.exe"
 SectionEnd
 
-Section "Visual Studio 2015 Templates" VS2015
+Section "Visual Studio 2015 Templates/" VS2015
 	SetOutPath "$DOCUMENTS\Visual Studio 2015\${TEMPLATES_DIRECTORY}"
 	File /r '..\Release\*.zip'
 SectionEnd
 
-Section "Visual Studio 2017 Templates" VS2017
+Section "Visual Studio 2017 Templates/" VS2017
 	SetOutPath "$DOCUMENTS\Visual Studio 2017\${TEMPLATES_DIRECTORY}"
 	File /r '..\Release\*.zip'
 SectionEnd
 
-Section "Visual Studio 2019 Templates" VS2019
+Section "Visual Studio 2019 Templates/" VS2019
 	SetOutPath "$DOCUMENTS\Visual Studio 2019\${TEMPLATES_DIRECTORY}"
 	File /r '..\Release\*.zip'
+SectionEnd
+
+!define OldMonofoxeInstallationDir '$PROGRAMFILES\Monofoxe\'
+Section "Remove old versions." RemoveOldVersions
+  RMDir /r "$DOCUMENTS\Visual Studio 2015\Templates\ProjectTemplates\Visual C#\Monofoxe"
+  RMDir /r "$DOCUMENTS\Visual Studio 2017\Templates\ProjectTemplates\Visual C#\Monofoxe"
+  RMDir /r "$DOCUMENTS\Visual Studio 2019\Templates\ProjectTemplates\Visual C#\Monofoxe"
+  Delete "${OldMonofoxeInstallationDir}\Uninstall.exe"
+  RMDir /r "${OldMonofoxeInstallationDir}"
 SectionEnd
 
 ; Stuff to install.
@@ -105,6 +114,8 @@ LangString MonogameDesc ${LANG_ENGLISH} "Install MonoGame 3.7.1."
 LangString VS2015Desc ${LANG_ENGLISH} "Install project templates for Visual Studio 2015"
 LangString VS2017Desc ${LANG_ENGLISH} "Install project templates for Visual Studio 2017"
 LangString VS2019Desc ${LANG_ENGLISH} "Install project templates for Visual Studio 2019"
+LangString RemoveOldVersionsDesc ${LANG_ENGLISH} "Remove all previous Monofoxe versions."
+
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
 	!insertmacro MUI_DESCRIPTION_TEXT ${Monofoxe} $(MonofoxeDesc)
@@ -112,6 +123,7 @@ LangString VS2019Desc ${LANG_ENGLISH} "Install project templates for Visual Stud
 	!insertmacro MUI_DESCRIPTION_TEXT ${VS2015} $(VS2015Desc)
 	!insertmacro MUI_DESCRIPTION_TEXT ${VS2017} $(VS2017Desc)
 	!insertmacro MUI_DESCRIPTION_TEXT ${VS2019} $(VS2019Desc)
+	!insertmacro MUI_DESCRIPTION_TEXT ${RemoveOldVersions} $(RemoveOldVersionsDesc)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 Function checkMonogame
