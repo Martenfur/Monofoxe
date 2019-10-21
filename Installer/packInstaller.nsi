@@ -11,7 +11,7 @@
 !define MUI_UNICON "pics\icon.ico"
 
 !define NOPIPELINEROOT "..\NoPipeline\NoPipeline\NoPipeline\bin\Release"
-
+!define TEMPLATES_DIRECTORY "Templates\ProjectTemplates\Visual C#\${APPNAME} ${APPVERSION}"
 
 !include "Sections.nsh"
 !include "MUI2.nsh"
@@ -82,23 +82,20 @@ Section "MonoGame" Monogame
 SectionEnd
 
 Section "Visual Studio 2015 Templates" VS2015
-
-  IfFileExists `$DOCUMENTS\Visual Studio 2015\Templates\ProjectTemplates\*.*` InstallTemplates CannotInstallTemplates
+	IfFileExists `$DOCUMENTS\Visual Studio 2015\Templates\ProjectTemplates\*.*` InstallTemplates CannotInstallTemplates
   InstallTemplates:
-    SetOutPath "$DOCUMENTS\Visual Studio 2015\Templates\ProjectTemplates\Visual C#\Monofoxe"
+    SetOutPath "$DOCUMENTS\Visual Studio 2015\${TEMPLATES_DIRECTORY}"
     File /r '..\Release\*.zip'
     GOTO EndTemplates
   CannotInstallTemplates:
     DetailPrint "Visual Studio 2015 not found"
   EndTemplates:
-
 SectionEnd
 
 Section "Visual Studio 2017 Templates" VS2017
-
-  IfFileExists `$DOCUMENTS\Visual Studio 2017\Templates\ProjectTemplates\*.*` InstallTemplates CannotInstallTemplates
+	IfFileExists `$DOCUMENTS\Visual Studio 2017\Templates\ProjectTemplates\*.*` InstallTemplates CannotInstallTemplates
   InstallTemplates:
-    SetOutPath "$DOCUMENTS\Visual Studio 2017\Templates\ProjectTemplates\Visual C#\Monofoxe"
+    SetOutPath "$DOCUMENTS\Visual Studio 2017\${TEMPLATES_DIRECTORY}"
     File /r '..\Release\*.zip'
     GOTO EndTemplates
   CannotInstallTemplates:
@@ -108,10 +105,9 @@ Section "Visual Studio 2017 Templates" VS2017
 SectionEnd
 
 Section "Visual Studio 2019 Templates" VS2019
-
   IfFileExists `$DOCUMENTS\Visual Studio 2019\Templates\ProjectTemplates\*.*` InstallTemplates CannotInstallTemplates
   InstallTemplates:
-    SetOutPath "$DOCUMENTS\Visual Studio 2019\Templates\ProjectTemplates\Visual C#\Monofoxe"
+    SetOutPath "$DOCUMENTS\Visual Studio 2019\${TEMPLATES_DIRECTORY}"
     File /r '..\Release\*.zip'
     GOTO EndTemplates
   CannotInstallTemplates:
@@ -119,13 +115,13 @@ Section "Visual Studio 2019 Templates" VS2019
   EndTemplates:
 
 SectionEnd
+
 ; Stuff to install.
 
 
-
 ; Component menu.
-LangString MonofoxeDesc ${LANG_ENGLISH} "Install Monofoxe!"
-LangString MonogameDesc ${LANG_ENGLISH} "Install MonoGame 3.7.1. "
+LangString MonofoxeDesc ${LANG_ENGLISH} "Install ${APPNAME}!"
+LangString MonogameDesc ${LANG_ENGLISH} "Install MonoGame 3.7.1."
 LangString VS2015Desc ${LANG_ENGLISH} "Install the project templates for Visual Studio 2015"
 LangString VS2017Desc ${LANG_ENGLISH} "Install the project templates for Visual Studio 2017"
 LangString VS2019Desc ${LANG_ENGLISH} "Install the project templates for Visual Studio 2019"

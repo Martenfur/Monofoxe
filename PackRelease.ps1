@@ -42,7 +42,7 @@ Function Assemble-Template([string] $platform, [bool] $copyCommon)
 
 Add-Type -A System.IO.Compression.FileSystem
 
-$debug = $FALSE
+$debug = $TRUE
 
 $srcLibDir = "$PWD\Monofoxe\bin\Release"
 
