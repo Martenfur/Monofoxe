@@ -54,24 +54,24 @@ RequestExecutionLevel admin
 Section "Monofoxe" Monofoxe
 	SectionIn RO
 	RMDir /r '$INSTDIR'
-  SetOutPath '$INSTDIR\lib'
-  File /r '..\Monofoxe\bin\Release\*.dll'
-  File /r '..\Monofoxe\bin\Release\*.xml'
+	SetOutPath '$INSTDIR\lib'
+	File /r '..\Monofoxe\bin\Release\*.dll'
+	File /r '..\Monofoxe\bin\Release\*.xml'
 
-  SetOutPath '$INSTDIR\lib\Pipeline'
-  File /r '..\Monofoxe\bin\Pipeline\Release\*.dll'
+	SetOutPath '$INSTDIR\lib\Pipeline'
+	File /r '..\Monofoxe\bin\Pipeline\Release\*.dll'
 
-  SetOutPath '$INSTDIR'
-  WriteUninstaller "uninstall.exe"
+	SetOutPath '$INSTDIR'
+	WriteUninstaller "uninstall.exe"
 
-  # NoPipeline.
-  SetOutPath '$INSTDIR\NoPipeline'
-  File /r "${NOPIPELINEROOT}\*.exe"
-  File /r "${NOPIPELINEROOT}\*.dll"
-  File /r "..\Common\Monofoxe.props"
-  
-  File /r "Externals\Monofoxe.NoPipeline.targets"
-  # NoPipeline.
+	# NoPipeline.
+	SetOutPath '$INSTDIR\NoPipeline'
+	File /r "${NOPIPELINEROOT}\*.exe"
+	File /r "${NOPIPELINEROOT}\*.dll"
+	File /r "..\Common\Monofoxe.props"
+
+	File /r "Externals\Monofoxe.NoPipeline.targets"
+	# NoPipeline.
 SectionEnd
 
 Section "MonoGame" Monogame
@@ -82,38 +82,18 @@ Section "MonoGame" Monogame
 SectionEnd
 
 Section "Visual Studio 2015 Templates" VS2015
-	IfFileExists `$DOCUMENTS\Visual Studio 2015\Templates\ProjectTemplates\*.*` InstallTemplates CannotInstallTemplates
-  InstallTemplates:
-    SetOutPath "$DOCUMENTS\Visual Studio 2015\${TEMPLATES_DIRECTORY}"
-    File /r '..\Release\*.zip'
-    GOTO EndTemplates
-  CannotInstallTemplates:
-    DetailPrint "Visual Studio 2015 not found"
-  EndTemplates:
+	SetOutPath "$DOCUMENTS\Visual Studio 2015\${TEMPLATES_DIRECTORY}"
+	File /r '..\Release\*.zip'
 SectionEnd
 
 Section "Visual Studio 2017 Templates" VS2017
-	IfFileExists `$DOCUMENTS\Visual Studio 2017\Templates\ProjectTemplates\*.*` InstallTemplates CannotInstallTemplates
-  InstallTemplates:
-    SetOutPath "$DOCUMENTS\Visual Studio 2017\${TEMPLATES_DIRECTORY}"
-    File /r '..\Release\*.zip'
-    GOTO EndTemplates
-  CannotInstallTemplates:
-    DetailPrint "Visual Studio 2017 not found"
-  EndTemplates:
-
+	SetOutPath "$DOCUMENTS\Visual Studio 2017\${TEMPLATES_DIRECTORY}"
+	File /r '..\Release\*.zip'
 SectionEnd
 
 Section "Visual Studio 2019 Templates" VS2019
-  IfFileExists `$DOCUMENTS\Visual Studio 2019\Templates\ProjectTemplates\*.*` InstallTemplates CannotInstallTemplates
-  InstallTemplates:
-    SetOutPath "$DOCUMENTS\Visual Studio 2019\${TEMPLATES_DIRECTORY}"
-    File /r '..\Release\*.zip'
-    GOTO EndTemplates
-  CannotInstallTemplates:
-    DetailPrint "Visual Studio 2019 not found"
-  EndTemplates:
-
+	SetOutPath "$DOCUMENTS\Visual Studio 2019\${TEMPLATES_DIRECTORY}"
+	File /r '..\Release\*.zip'
 SectionEnd
 
 ; Stuff to install.
@@ -122,64 +102,64 @@ SectionEnd
 ; Component menu.
 LangString MonofoxeDesc ${LANG_ENGLISH} "Install ${APPNAME}!"
 LangString MonogameDesc ${LANG_ENGLISH} "Install MonoGame 3.7.1."
-LangString VS2015Desc ${LANG_ENGLISH} "Install the project templates for Visual Studio 2015"
-LangString VS2017Desc ${LANG_ENGLISH} "Install the project templates for Visual Studio 2017"
-LangString VS2019Desc ${LANG_ENGLISH} "Install the project templates for Visual Studio 2019"
+LangString VS2015Desc ${LANG_ENGLISH} "Install project templates for Visual Studio 2015"
+LangString VS2017Desc ${LANG_ENGLISH} "Install project templates for Visual Studio 2017"
+LangString VS2019Desc ${LANG_ENGLISH} "Install project templates for Visual Studio 2019"
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-  !insertmacro MUI_DESCRIPTION_TEXT ${Monofoxe} $(MonofoxeDesc)
-  !insertmacro MUI_DESCRIPTION_TEXT ${Monogame} $(MonogameDesc)
-  !insertmacro MUI_DESCRIPTION_TEXT ${VS2015} $(VS2015Desc)
-  !insertmacro MUI_DESCRIPTION_TEXT ${VS2017} $(VS2017Desc)
-  !insertmacro MUI_DESCRIPTION_TEXT ${VS2019} $(VS2019Desc)
+	!insertmacro MUI_DESCRIPTION_TEXT ${Monofoxe} $(MonofoxeDesc)
+	!insertmacro MUI_DESCRIPTION_TEXT ${Monogame} $(MonogameDesc)
+	!insertmacro MUI_DESCRIPTION_TEXT ${VS2015} $(VS2015Desc)
+	!insertmacro MUI_DESCRIPTION_TEXT ${VS2017} $(VS2017Desc)
+	!insertmacro MUI_DESCRIPTION_TEXT ${VS2019} $(VS2019Desc)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 Function checkMonogame
 IfFileExists `$PROGRAMFILES\MonoGame\v3.0\*.*` disable end
-  disable:
-	 SectionSetFlags ${Monogame} $1
-  end:
+	disable:
+		SectionSetFlags ${Monogame} $1
+	end:
 FunctionEnd
 
 Function checkVS2015
 IfFileExists `$DOCUMENTS\Visual Studio 2015\Templates\ProjectTemplates\*.*` end disable
-  disable:
-	 SectionSetFlags ${VS2015} $0
-  end:
+	disable:
+		SectionSetFlags ${VS2015} $1
+	end:
 FunctionEnd
 
 Function checkVS2017
 IfFileExists `$DOCUMENTS\Visual Studio 2017\Templates\ProjectTemplates\*.*` end disable
-  disable:
-	 SectionSetFlags ${VS2017} $0
-  end:
+	disable:
+		SectionSetFlags ${VS2017} $1
+	end:
 FunctionEnd
 
 Function checkVS2019
 IfFileExists `$DOCUMENTS\Visual Studio 2019\Templates\ProjectTemplates\*.*` end disable
-  disable:
-	 SectionSetFlags ${VS2019} $0
-  end:
+	disable:
+		SectionSetFlags ${VS2019} $1
+	end:
 FunctionEnd
 ; Component menu.
 
 Function .onInit
-  IntOp $0 $0 | ${SF_RO}
-  Call checkMonogame
-  Call checkVS2015
-  Call checkVS2017
-  Call checkVS2019
-  IntOp $0 ${SF_SELECTED} | ${SF_RO}
+	IntOp $0 $0 | ${SF_RO}
+	Call checkMonogame
+	Call checkVS2015
+	Call checkVS2017
+	Call checkVS2019
+	IntOp $0 ${SF_SELECTED} | ${SF_RO}
 FunctionEnd
 
 ; Uninstaller Section
 
 Section "Uninstall"
-  RMDir /r "$DOCUMENTS\Visual Studio 2015\Templates\ProjectTemplates\Visual C#\Monofoxe"
-  RMDir /r "$DOCUMENTS\Visual Studio 2017\Templates\ProjectTemplates\Visual C#\Monofoxe"
-  RMDir /r "$DOCUMENTS\Visual Studio 2019\Templates\ProjectTemplates\Visual C#\Monofoxe"
-  Delete "$INSTDIR\Uninstall.exe"
-  RMDir /r "$INSTDIR"
+	RMDir /r "$DOCUMENTS\Visual Studio 2015\${TEMPLATES_DIRECTORY}"
+	RMDir /r "$DOCUMENTS\Visual Studio 2017\${TEMPLATES_DIRECTORY}"
+	RMDir /r "$DOCUMENTS\Visual Studio 2019\${TEMPLATES_DIRECTORY}"
+	Delete "$INSTDIR\Uninstall.exe"
+	RMDir /r "$INSTDIR"
 SectionEnd
 
 
