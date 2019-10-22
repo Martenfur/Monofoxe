@@ -72,24 +72,32 @@ namespace Monofoxe.Engine.Utils
 		public double Difference(Angle other)
 		{
 			var difference = Degrees - other.Degrees;
+			/*
+						if (difference > 180)
+						{
+							return 360 - difference;
+						}
 
-			if (difference > 180)
-			{
-				return 360 - difference;
-			}
-			
-			if (difference < -180)
-			{
-				return -difference - 360;
-			}
-
+						if (difference < -180)
+						{
+							return -difference - 360;
+						}
+						*/
+			while (difference < -180) difference += 360;
+			while (difference > 180) difference -= 360;
 			return difference;
 		}
 
 		
 		public Vector2 ToVector2() =>
 			new Vector2((float)Math.Cos(Radians), (float)Math.Sin(Radians));
-			
+	
+		public static Angle Lerp(Angle angle1, Angle angle2, double value)
+		{
+			var diff = angle1.Difference(angle2);
+			return angle1 - diff * value;
+		}
+
 		public static double ToDegrees(double radians) =>
 			(radians / (Math.PI * 2.0)) * 360.0;
 
