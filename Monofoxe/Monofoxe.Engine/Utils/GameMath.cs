@@ -14,7 +14,7 @@ namespace Monofoxe.Engine.Utils
 			a + (b - a) * value;
 
 
-		#region Math.
+		#endregion Math.
 
 
 		#region Distance.
