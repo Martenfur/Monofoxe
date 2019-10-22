@@ -111,9 +111,9 @@ SectionEnd
 ; Component menu.
 LangString MonofoxeDesc ${LANG_ENGLISH} "Install ${APPNAME}!"
 LangString MonogameDesc ${LANG_ENGLISH} "Install MonoGame 3.7.1."
-LangString VS2015Desc ${LANG_ENGLISH} "Install project templates for Visual Studio 2015"
-LangString VS2017Desc ${LANG_ENGLISH} "Install project templates for Visual Studio 2017"
-LangString VS2019Desc ${LANG_ENGLISH} "Install project templates for Visual Studio 2019"
+LangString VS2015Desc ${LANG_ENGLISH} "Install project templates for Visual Studio 2015. Templates are required to create new projects."
+LangString VS2017Desc ${LANG_ENGLISH} "Install project templates for Visual Studio 2017. Templates are required to create new projects."
+LangString VS2019Desc ${LANG_ENGLISH} "Install project templates for Visual Studio 2019. Templates are required to create new projects."
 LangString RemoveOldVersionsDesc ${LANG_ENGLISH} "Remove all previous Monofoxe versions."
 
 
