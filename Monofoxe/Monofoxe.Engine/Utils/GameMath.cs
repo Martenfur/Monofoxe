@@ -8,6 +8,15 @@ namespace Monofoxe.Engine.Utils
 	/// </summary>
 	public static class GameMath
 	{
+		#region Math.
+
+		public static double Lerp(double a, double b, double value) =>
+			a + (b - a) * value;
+
+
+		#region Math.
+
+
 		#region Distance.
 
 		/// <summary>
