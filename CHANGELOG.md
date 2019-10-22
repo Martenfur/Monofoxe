@@ -5,6 +5,8 @@
 - Documentation!
 - Added `ResourceHub` and `ResourceBox` instead of old loading systems.
 - Added `Angle` class for better angle management.
+- Added .NET Standard library template.
+- Nopipeline's NPL config supports adding references with environment variables.
 
 ### CHANGES:
 
@@ -17,7 +19,8 @@
 - `Frame`, `Sprite` and `Surface`'s `Rotation` field is `Angle` instead of `float` now.
 - `GameMath` doesn't contain angle-related methods anymore. They are moved to `Angle` instead.
 - All Monofoxe libraries are .NET Standard now.
-- Projects are be able to load without Nopipeline now.
+- Nopipeline is now embedded into Monofoxe.
+- All projects reference Monofoxe libraries from common place instead of raw per-project libraries.
 
 ### FIXES:
 
