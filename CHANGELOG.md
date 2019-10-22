@@ -30,6 +30,7 @@
 - Fixed memory leak in `Camera`.
 - Fixed `BasicTilemapSystem` not drawing the very last row and column of tiles.
 - Nopipeline now works with paths which contain spaces.
+- Angle difference formula now works properly.
 
 
 

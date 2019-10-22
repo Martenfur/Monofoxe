@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Monofoxe.Engine.Utils;
+using Moq;
 using NUnit.Framework;
 using System;
 
@@ -15,8 +16,8 @@ namespace Tests
 		[Test]
 		public void Constructor_CreatingWithBigDegreeValue_WrapsAround()
 		{
-			var degrees = 56;
-			
+			var degrees = It.IsAny<double>();
+
 			var a = new Angle(degrees + 360);
 			
 			Assert.AreEqual(a.Degrees, degrees);
@@ -25,7 +26,7 @@ namespace Tests
 		[Test]
 		public void Constructor_CreatingWithNegativeDegreeValue_WrapsAround()
 		{
-			var degrees = 56;
+			var degrees = It.IsAny<double>();
 
 			var a = new Angle(degrees - 360);
 
@@ -81,8 +82,8 @@ namespace Tests
 		[Test]
 		public void Difference_Counterclockwise_FindsShortestAngle()
 		{
-			var a1 = new Angle(45);
-			var a2 = new Angle(315);
+			var a1 = new Angle(0);
+			var a2 = new Angle(90);
 
 			var result = a1.Difference(a2);
 
@@ -92,8 +93,8 @@ namespace Tests
 		[Test]
 		public void Difference_Clockwise_FindsShortestAngle()
 		{
-			var a1 = new Angle(315);
-			var a2 = new Angle(45);
+			var a1 = new Angle(0);
+			var a2 = new Angle(270);
 
 			var result = a1.Difference(a2);
 
@@ -115,8 +116,8 @@ namespace Tests
 		[Test]
 		public void Addition_AddingTwoAngles_ReturnsCorrectResult()
 		{
-			var degrees1 = 180;
-			var degrees2 = 35;
+			var degrees1 = It.IsAny<double>();
+			var degrees2 = It.IsAny<double>();
 			var a1 = new Angle(degrees1);
 			var a2 = new Angle(degrees2);
 
@@ -141,14 +142,59 @@ namespace Tests
 		[Test]
 		public void Subtraction_SubtractingTwoAngles_ReturnsCorrectResult()
 		{
-			var degrees1 = 180;
-			var degrees2 = 35;
+			var degrees1 = It.IsAny<double>();
+			var degrees2 = It.IsAny<double>();
 			var a1 = new Angle(degrees1);
 			var a2 = new Angle(degrees2);
 
 			var result = a1 - a2;
 
 			Assert.AreEqual(degrees1 - degrees2, result.Degrees);
+		}
+
+		[Test]
+		public void Lerp_InterpolateAngles_ReturnsCorrectResult()
+		{
+			var degrees1 = It.IsAny<double>();
+			var degrees2 = It.IsAny<double>();
+			var a1 = new Angle(degrees1);
+			var a2 = new Angle(degrees2);
+			var value = It.IsInRange<double>(0, 1, Range.Inclusive);
+
+			var result = Angle.Lerp(a1, a2, value);
+
+			var lerp = degrees1 + (degrees2 - degrees1) * value;
+			Assert.AreEqual(lerp, result.Degrees);
+		}
+
+		[Test]
+		public void Lerp_InterpolateNegativeAngles_ReturnsCorrectResult()
+		{
+			var degrees1 = 0;
+			var degrees2 = 90;
+			var a1 = new Angle(degrees1);
+			var a2 = new Angle(degrees2);
+			var value = 0.5;
+
+			var result = Angle.Lerp(a1, a2, value);
+
+			var lerp = new Angle(GameMath.Lerp(degrees1, degrees2, value));
+			Assert.AreEqual(lerp.Degrees, result.Degrees);
+		}
+
+		[Test]
+		public void Lerp_InterpolateNegativeAngles_ReturnsCorrectResult1()
+		{
+			var degrees1 = 0.0;
+			var degrees2 = -90.0;
+			var a1 = new Angle(degrees1);
+			var a2 = new Angle(degrees2);
+			var value = 0.5;
+
+			var result = Angle.Lerp(a1, a2, value);
+
+			var lerp = new Angle(GameMath.Lerp(degrees1, degrees2, value));
+			Assert.AreEqual(lerp.Degrees, result.Degrees);
 		}
 
 	}
