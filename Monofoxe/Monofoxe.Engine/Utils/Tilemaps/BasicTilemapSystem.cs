@@ -120,7 +120,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 							// A bunch of Tiled magic.
 
 							// Mass-drawing srpites with spritebatch is a bit faster.
-							GraphicsMgr.Batch.Draw(
+							GraphicsMgr._batch.Draw(
 								tilesetTile.Frame.Texture,
 								tilemap.Offset + new Vector2(tilemap.TileWidth * x, tilemap.TileHeight * y) - offset + tile.Tileset.Offset,
 								tilesetTile.Frame.TexturePosition,

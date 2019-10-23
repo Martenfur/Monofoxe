@@ -16,7 +16,7 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Default sprite batch used to draw sprites, text and surfaces.
 		/// </summary>
-		public static SpriteBatch Batch {get; private set;}
+		internal static SpriteBatch _batch {get; private set;}
 
 
 		public static GraphicsDevice Device {get; private set;}
@@ -173,7 +173,7 @@ namespace Monofoxe.Engine.Drawing
 			Device = device;			
 			Device.DepthStencilState = DepthStencilState.DepthRead;
 		
-			Batch = new SpriteBatch(Device);
+			_batch = new SpriteBatch(Device);
 
 			_content = new ContentManager(GameMgr.Game.Services);
 			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.EffectsDir;
@@ -325,7 +325,7 @@ namespace Monofoxe.Engine.Drawing
 				|| _currentGraphicsMode == GraphicsMode.SpritesNonPremultiplied
 			) // If there's something left in batch or vertex buffer, we should draw it.
 			{
-				Batch.End();
+				_batch.End();
 			}
 			DrawVertices();
 			// Drawing GUI stuff.
@@ -364,7 +364,7 @@ namespace Monofoxe.Engine.Drawing
 				{
 					if (_currentGraphicsMode == GraphicsMode.Sprites || _currentGraphicsMode == GraphicsMode.SpritesNonPremultiplied)
 					{
-						Batch.End();
+						_batch.End();
 					}
 					else
 					{
@@ -400,7 +400,7 @@ namespace Monofoxe.Engine.Drawing
 						resultingEffect = _currentEffect;
 					}
 
-					Batch.Begin(SpriteSortMode.Deferred, _blendState, _sampler, null, _rasterizer, resultingEffect, CurrentView);
+					_batch.Begin(SpriteSortMode.Deferred, _blendState, _sampler, null, _rasterizer, resultingEffect, CurrentView);
 				}
 				_currentGraphicsMode = mode;
 				_currentTexture = texture;
