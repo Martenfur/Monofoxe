@@ -53,7 +53,7 @@ You can also check out the [basic feature demos](Monofoxe.Playground/), [Demo ga
 
 # I've suddenly started loving foxes and want to contribute!
 
-That's the spirit. Check out if I need any help on my [Trello board](https://trello.com/b/YIWCjnGi/monofoxe). Stuff under `Open for taking` category is, well, open for taking. You can also contact me via email (`chaifoxes@gmail.com`), on [Twitter](https://twitter.com/ChaiFoxes) or on Discord (`gn Fur#2490`).
+That's the spirit. Check out if I need any help on my [Quire board](https://quire.io/w/Monofoxe/?board=Monofoxe). Stuff under `Open for taking` category is, well, open for taking. You can also contact me via email (`chaifoxes@gmail.com`), on [Twitter](https://twitter.com/ChaiFoxes) or on Discord (`gn Fur#2490`).
 
 **Don't forget to check out Codestyle.cs before contributing!!!**
 
