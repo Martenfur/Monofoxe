@@ -17,7 +17,7 @@ while(!quit)
 {
 	Update();
 	Draw();
-  WaitForNextFrame();
+	WaitForNextFrame();
 }
 ```
 

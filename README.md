@@ -7,8 +7,14 @@ enabling you to just *create a new project and make a damn game* without removin
 Monofoxe took a lot of inspiration from Game Maker, so it should be a bit familiar to some folks.
 
 **Current version: 2.0.0.0-dev** [View changelog](/CHANGELOG.md)
+
+
 [Download in-dev build (recommended)](https://github.com/gnFur/Monofoxe/releases/tag/v2.0.0.0-dev%2B001)
+
+
 [Download last stable release](https://github.com/gnFur/Monofoxe/releases/latest)
+
+[**View Docs**](Docs/README.md)
 
 
 # What can it do?
@@ -51,7 +57,7 @@ Installer bundles Visual Studio 2015, 2017 and 2019 templates, [NoPipeline](http
 
 Just install Monofoxe, create Monofoxe project and you're good to go. 
 
-You can also check out the [basic feature demos](Monofoxe.Playground/), [Demo game](https://bitbucket.org/gnFur/monofoxe.demo/) or the [Docs](Docs/Contents.md) (Currently not finished) to learn how to use Monofoxe.
+You can also check out the [basic feature demos](Monofoxe.Playground/), [Demo game](https://bitbucket.org/gnFur/monofoxe.demo/) or the [Docs](Docs/README.md) (Currently not finished) to learn how to use Monofoxe.
 
 # I've suddenly started loving foxes and want to contribute!
 
