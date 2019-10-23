@@ -69,24 +69,8 @@ namespace Monofoxe.Engine.Utils
 		/// Negative angle represents going counter-clockwise, 
 		/// positive - clockwise.
 		/// </summary>
-		public double Difference(Angle other)
-		{
-			var difference = Degrees - other.Degrees;
-			/*
-						if (difference > 180)
-						{
-							return 360 - difference;
-						}
-
-						if (difference < -180)
-						{
-							return -difference - 360;
-						}
-						*/
-			while (difference < -180) difference += 360;
-			while (difference > 180) difference -= 360;
-			return difference;
-		}
+		public double Difference(Angle other) =>
+			((Degrees - other.Degrees + 180.0) % 360.0 + 360.0) % 360.0 - 180.0;
 
 		
 		public Vector2 ToVector2() =>
@@ -192,6 +176,10 @@ namespace Monofoxe.Engine.Utils
 			hashCode = hashCode * -1521134295 + _degrees.GetHashCode();
 			return hashCode;
 		}
+
+		public override string ToString() =>
+			_degrees.ToString();
+		
 
 		void Normalize() =>
 			_degrees = (_degrees % 360.0 + 360.0) % 360.0;

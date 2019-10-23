@@ -180,8 +180,11 @@ namespace Tests
 
 			var lerp = new Angle(GameMath.Lerp(degrees1, degrees2, value));
 			Assert.AreEqual(lerp.Degrees, result.Degrees);
+<<<<<<< HEAD
 			//Assert.AreEqual(a1.Difference(a2), result.Degrees);
 
+=======
+>>>>>>> bbe35f18c6dd1d5c12699a13c40bbf372cd7964c
 		}
 
 		[Test]
@@ -197,9 +200,12 @@ namespace Tests
 
 			var lerp = new Angle(GameMath.Lerp(degrees1, degrees2, value));
 			Assert.AreEqual(lerp.Degrees, result.Degrees);
+<<<<<<< HEAD
 			//Assert.AreEqual(a1.Difference(a2), result.Degrees);
 
 
+=======
+>>>>>>> bbe35f18c6dd1d5c12699a13c40bbf372cd7964c
 		}
 
 	}
