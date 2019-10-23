@@ -62,7 +62,7 @@ To load another font, you should add a new entry in the class by hand. You can a
 
 
 
-## [<< NoPipeline](NoPipeline.md) | [Creating custom resource types >>](CreatingCustomResourceTypes.md) 
+## [<< NoPipeline](NoPipeline.md) | [Resource Hub >>](ResourceHub.md) 
 
 [<<< Contents](../Contents.md)
 

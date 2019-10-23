@@ -33,7 +33,7 @@
 
 - Graphics
   - [Sprites](Graphics/Sprites.md) x
-  - [Shapes](Graphics/Shapes.md) i
+  - [Shapes](Graphics/Shapes.md) x
   - [Primitives](Graphics/Primitives.md) x
   - [Text](Graphics/Text.md) x
   - [Surfaces](Graphics/Surfaces.md) x
@@ -41,10 +41,10 @@
   - [Sprite groups](Graphics/SpriteGroups.md) x
   
 - Resources
-  - [NoPipeline](Resources/NoPipeline.md) i
-  - [Adding resources](Resources/AddingResources) i
-  - [Resource Hub](Resources/ResourceHub.md) x
-  - [Resource Box](Resources/ResourceBox.md) x
+  - [NoPipeline](Resources/NoPipeline.md)
+  - [Adding resources](Resources/AddingResources)
+  - [Resource Hub](Resources/ResourceHub.md)
+  - [Resource Box](Resources/ResourceBox.md)
   - [Creating custom resource types](Resources/CreatingCustomResourceTypes.md) i
   
 - Utilities
