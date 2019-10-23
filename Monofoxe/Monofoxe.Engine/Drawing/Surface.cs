@@ -102,7 +102,7 @@ namespace Monofoxe.Engine.Drawing
 			// Proper negative scaling.
 
 			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
-			GraphicsMgr.Batch.Draw(
+			GraphicsMgr._batch.Draw(
 				RenderTarget, 
 				position, 
 				RenderTarget.Bounds, 
@@ -122,13 +122,13 @@ namespace Monofoxe.Engine.Drawing
 		public void Draw(Rectangle destRect)
 		{
 			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
-			GraphicsMgr.Batch.Draw(RenderTarget, destRect, RenderTarget.Bounds, Color);
+			GraphicsMgr._batch.Draw(RenderTarget, destRect, RenderTarget.Bounds, Color);
 		}
 		
 		public void Draw(Rectangle destRect, Angle rotation, Color color)
 		{
 			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
-			GraphicsMgr.Batch.Draw(
+			GraphicsMgr._batch.Draw(
 				RenderTarget, 
 				destRect, 
 				RenderTarget.Bounds, 
@@ -147,7 +147,7 @@ namespace Monofoxe.Engine.Drawing
 			srcRect.X += RenderTarget.Bounds.X;
 			srcRect.Y += RenderTarget.Bounds.Y;
 
-			GraphicsMgr.Batch.Draw(RenderTarget, destRect, srcRect, GraphicsMgr.CurrentColor);
+			GraphicsMgr._batch.Draw(RenderTarget, destRect, srcRect, GraphicsMgr.CurrentColor);
 		}
 		
 		public void Draw(Rectangle destRect, Rectangle srcRect, Angle rotation, Color color)
@@ -157,7 +157,7 @@ namespace Monofoxe.Engine.Drawing
 			srcRect.X += RenderTarget.Bounds.X;
 			srcRect.Y += RenderTarget.Bounds.Y;
 
-			GraphicsMgr.Batch.Draw(
+			GraphicsMgr._batch.Draw(
 				RenderTarget, 
 				destRect, 
 				RenderTarget.Bounds, 

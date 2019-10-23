@@ -72,7 +72,7 @@ namespace Monofoxe.Engine.Drawing
 			{
 				GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);	
 			}
-			CurrentFont.Draw(GraphicsMgr.Batch, text, position, HorAlign, VerAlign);
+			CurrentFont.Draw(GraphicsMgr._batch, text, position, HorAlign, VerAlign);
 		}
 
 		/// <summary>
@@ -123,7 +123,7 @@ namespace Monofoxe.Engine.Drawing
 				GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);	
 			}
 
-			CurrentFont.Draw(GraphicsMgr.Batch, text, Vector2.Zero, HorAlign, VerAlign);
+			CurrentFont.Draw(GraphicsMgr._batch, text, Vector2.Zero, HorAlign, VerAlign);
 			
 			GraphicsMgr.ResetTransformMatrix();
 		}

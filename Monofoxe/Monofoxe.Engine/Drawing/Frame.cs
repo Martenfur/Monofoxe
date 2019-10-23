@@ -84,7 +84,7 @@ namespace Monofoxe.Engine.Drawing
 		{
 			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
 
-			GraphicsMgr.Batch.Draw(
+			GraphicsMgr._batch.Draw(
 				Texture, 
 				position, 
 				TexturePosition, 
@@ -131,7 +131,7 @@ namespace Monofoxe.Engine.Drawing
 		{
 			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
 			
-			GraphicsMgr.Batch.Draw(
+			GraphicsMgr._batch.Draw(
 				Texture, 
 				destRect, 
 				TexturePosition, 
@@ -151,7 +151,7 @@ namespace Monofoxe.Engine.Drawing
 			srcRect.X += TexturePosition.X;
 			srcRect.Y += TexturePosition.Y;
 
-			GraphicsMgr.Batch.Draw(
+			GraphicsMgr._batch.Draw(
 				Texture,
 				destRect, 
 				srcRect, 
