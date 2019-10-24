@@ -64,7 +64,7 @@ namespace Monofoxe.Engine.Utils
 		/// <summary>
 		/// Current TimeKeeper. Can affect animation speed.
 		/// </summary>
-		public TimeKeeper TimeKeeper;
+		public TimeKeeper TimeKeeper = TimeKeeper.Global;
 		
 		/// <summary>
 		/// If true, Progress will go from 1 to 0 insteasd of 0 to 1.
@@ -92,14 +92,7 @@ namespace Monofoxe.Engine.Utils
 				return;
 			}
 
-			if (TimeKeeper == null)
-			{
-				LinearProgress += TimeKeeper.GlobalTime(Math.Abs(Speed));
-			}
-			else
-			{
-				LinearProgress += TimeKeeper.Time(Math.Abs(Speed));
-			}
+			LinearProgress += TimeKeeper.Time(Math.Abs(Speed));
 			
 			if (LinearProgress > 1) 
 			{

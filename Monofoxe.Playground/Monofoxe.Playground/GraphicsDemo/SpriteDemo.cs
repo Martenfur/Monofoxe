@@ -44,7 +44,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 		public override void Update()
 		{
 			// Basic animation code.
-			_animation += TimeKeeper.GlobalTime(_animationSpeed);
+			_animation += TimeKeeper.Global.Time(_animationSpeed);
 			if (_animation > 1)
 			{
 				_animation -= 1;
