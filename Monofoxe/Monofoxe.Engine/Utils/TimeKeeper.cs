@@ -9,7 +9,10 @@ namespace Monofoxe.Engine.Utils
 	/// </summary>
 	public class TimeKeeper
 	{
-
+		
+		/// <summary>
+		/// Global TimeKeeper instance.
+		/// </summary>
 		public static readonly TimeKeeper Global = new TimeKeeper();
 
 		internal static double _elapsedTime;

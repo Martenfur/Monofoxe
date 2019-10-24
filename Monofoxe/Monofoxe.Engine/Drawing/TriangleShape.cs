@@ -52,24 +52,12 @@ namespace Monofoxe.Engine.Drawing
 		/// Draws a triangle.
 		/// </summary>
 		public static void Draw(Vector2 p1, Vector2 p2, Vector2 p3, bool isOutline) =>
-			Draw(p1.X, p1.Y, p2.X, p2.Y, p3.X, p3.Y, isOutline, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor);
+			Draw(p1, p2, p3, isOutline, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor);
 		
 		/// <summary>
 		/// Draws a triangle with specified colors.
 		/// </summary>
-		public static void Draw(Vector2 p1, Vector2 p2, Vector2 p3, bool isOutline, Color c1, Color c2, Color c3) =>
-			Draw(p1.X, p1.Y, p2.X, p2.Y, p3.X, p3.Y, isOutline, c1, c2, c3);
-		
-		/// <summary>
-		/// Draws a triangle.
-		/// </summary>
-		public static void Draw(float x1, float y1, float x2, float y2, float x3, float y3, bool isOutline) =>
-			Draw(x1, y1, x2, y2, x3, y3, isOutline, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor);
-			
-		/// <summary>
-		/// Draw a triangle with specified colors.
-		/// </summary>
-		public static void Draw(float x1, float y1, float x2, float y2, float x3, float y3, bool isOutline, Color c1, Color c2, Color c3)
+		public static void Draw(Vector2 p1, Vector2 p2, Vector2 p3, bool isOutline, Color c1, Color c2, Color c3)
 		{
 			GraphicsMode mode;
 			short[] indices;
@@ -86,9 +74,9 @@ namespace Monofoxe.Engine.Drawing
 		
 			var vertices = new List<VertexPositionColorTexture>
 			{
-				new VertexPositionColorTexture(new Vector3(x1, y1, 0), c1, Vector2.Zero),
-				new VertexPositionColorTexture(new Vector3(x2, y2, 0), c2, Vector2.Zero),
-				new VertexPositionColorTexture(new Vector3(x3, y3, 0), c3, Vector2.Zero)
+				new VertexPositionColorTexture(p1.ToVector3(), c1, Vector2.Zero),
+				new VertexPositionColorTexture(p2.ToVector3(), c2, Vector2.Zero),
+				new VertexPositionColorTexture(p3.ToVector3(), c3, Vector2.Zero)
 			};
 
 			GraphicsMgr.AddVertices(mode, null, vertices, indices);

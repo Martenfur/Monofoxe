@@ -42,27 +42,14 @@ namespace Monofoxe.Engine.Drawing
 		/// Draws a line with specified width.
 		/// </summary>
 		public static void Draw(Vector2 pt1, Vector2 pt2, float thickness) =>
-			Draw(pt1.X, pt1.Y, pt2.X, pt2.Y, thickness, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor);
+			Draw(pt1, pt2, thickness, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor);
 
 		/// <summary>
 		/// Draws a line with specified width and colors.
 		/// </summary>
-		public static void Draw(Vector2 pt1, Vector2 pt2, float thickness, Color c1, Color c2) =>
-			Draw(pt1.X, pt1.Y, pt2.X, pt2.Y, thickness, c1, c2);
-
-		/// <summary>
-		/// Draws a line with specified width.
-		/// </summary>
-		public static void Draw(float x1, float y1, float x2, float y2, float thickness) =>
-			Draw(x1, y1, x2, y2, thickness, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor);
-	
-
-		/// <summary>
-		/// Draws a line with specified width and colors.
-		/// </summary>
-		public static void Draw(float x1, float y1, float x2, float y2, float thickness, Color c1, Color c2)
+		public static void Draw(Vector2 pt1, Vector2 pt2, float thickness, Color c1, Color c2)
 		{
-			var normal2 = new Vector2(y2 - y1, x1 - x2);
+			var normal2 = (pt2 - pt1).Rotate90(); // TODO: TEST!!!
 
 			normal2 = normal2.GetSafeNormalize(); // The result is a unit vector rotated by 90 degrees.
 			normal2 *= thickness / 2;
@@ -71,10 +58,10 @@ namespace Monofoxe.Engine.Drawing
 
 			var vertices = new List<VertexPositionColorTexture>
 			{
-				new VertexPositionColorTexture(new Vector3(x1, y1, 0) - normal, c1, Vector2.Zero),
-				new VertexPositionColorTexture(new Vector3(x1, y1, 0) + normal, c1, Vector2.Zero),
-				new VertexPositionColorTexture(new Vector3(x2, y2, 0) + normal, c2, Vector2.Zero),
-				new VertexPositionColorTexture(new Vector3(x2, y2, 0) - normal, c2, Vector2.Zero)
+				new VertexPositionColorTexture(pt1.ToVector3() - normal, c1, Vector2.Zero),
+				new VertexPositionColorTexture(pt1.ToVector3() + normal, c1, Vector2.Zero),
+				new VertexPositionColorTexture(pt2.ToVector3() + normal, c2, Vector2.Zero),
+				new VertexPositionColorTexture(pt2.ToVector3() - normal, c2, Vector2.Zero)
 			};
 
 			// Thick line is in fact just a rotated rectangle.

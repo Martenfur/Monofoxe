@@ -40,14 +40,6 @@ namespace Monofoxe.Engine.Drawing
 		public void Draw() =>
 			Draw(String, Position, Scale, Origin, Rotation);
 		
-
-		
-		/// <summary>
-		/// Draws text in specified coordinates.
-		/// </summary>
-		public static void Draw(string text, float x, float y) => 
-			Draw(text, new Vector2(x, y));
-		
 		/// <summary>
 		/// Draws text in specified coordinates.
 		/// </summary>
@@ -78,20 +70,10 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Draws text in specified coordinates with rotation, scale and origin.
 		/// </summary>
-		public static void Draw(string text, Vector2 position, Vector2 scale, Vector2 origin, Angle rotation) => 
-			Draw(text, position.X, position.Y, scale.X, scale.Y, origin.X, origin.Y, rotation);
-
-		/// <summary>
-		/// Draws text in specified coordinates with rotation, scale and origin.
-		/// </summary>
 		public static void Draw(
-			string text, 
-			float x, 
-			float y, 
-			float scaleX, 
-			float scaleY, 
-			float originX, 
-			float originY, 
+			string text,
+			Vector2 position, 
+			Vector2 scale, Vector2 origin,
 			Angle rotation
 		)
 		{
@@ -101,10 +83,10 @@ namespace Monofoxe.Engine.Drawing
 			}
 
 			var transformMatrix = 
-				Matrix.CreateTranslation(new Vector3(-originX, -originY, 0)) * // Origin.
-				Matrix.CreateRotationZ(-rotation.RadiansF) *		               // Rotation.
-				Matrix.CreateScale(new Vector3(scaleX, scaleY, 1)) *	         // Scale.
-				Matrix.CreateTranslation(new Vector3(x, y, 0));                // Position.
+				Matrix.CreateTranslation(new Vector3(-origin.X, -origin.Y, 0)) *  // Origin.
+				Matrix.CreateRotationZ(-rotation.RadiansF) *		                  // Rotation.
+				Matrix.CreateScale(new Vector3(scale.X, scale.Y, 1)) *	          // Scale.
+				Matrix.CreateTranslation(new Vector3(position.X, position.Y, 0)); // Position.
 			
 			GraphicsMgr.AddTransformMatrix(transformMatrix);
 			
