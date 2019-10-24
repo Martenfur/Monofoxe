@@ -49,7 +49,7 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public static void Draw(Vector2 pt1, Vector2 pt2, float thickness, Color c1, Color c2)
 		{
-			var normal2 = (pt2 - pt1).Rotate90(); // TODO: TEST!!!
+			var normal2 = (pt2 - pt1).Rotate90();
 
 			normal2 = normal2.GetSafeNormalize(); // The result is a unit vector rotated by 90 degrees.
 			normal2 *= thickness / 2;

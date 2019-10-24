@@ -21,6 +21,8 @@
 - All Monofoxe libraries are .NET Standard now.
 - Nopipeline is now embedded into Monofoxe.
 - All projects reference Monofoxe libraries from common place instead of raw per-project libraries.
+- Replaced static methods in `TimeKeeper` with static `Global` instance.
+- Removed drawing methods which work with raw x;y.
 
 ### FIXES:
 
