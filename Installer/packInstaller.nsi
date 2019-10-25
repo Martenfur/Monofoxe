@@ -13,6 +13,8 @@
 !define NOPIPELINEROOT "..\NoPipeline\NoPipeline\NoPipeline\bin\Release"
 !define TEMPLATES_DIRECTORY "Templates\ProjectTemplates\Visual C#\${APPNAME} ${APPVERSION}"
 
+!define REGISTRY_DIRECTORY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME} ${APPVERSION}"
+
 !include "Sections.nsh"
 !include "MUI2.nsh"
 !include "InstallOptions.nsh"
@@ -72,6 +74,17 @@ Section "Monofoxe" Monofoxe
 
 	File /r "Externals\Monofoxe.NoPipeline.targets"
 	# NoPipeline.
+
+	# Registering the installation.
+
+	WriteRegStr HKLM "${REGISTRY_DIRECTORY}" "DisplayName" "${APPNAME}"
+	WriteRegStr HKLM "${REGISTRY_DIRECTORY}" "UninstallString" "$\"$INSTDIR\uninstall.exe$\""
+	WriteRegStr HKLM "${REGISTRY_DIRECTORY}" "QuietUninstallString" "$\"$INSTDIR\uninstall.exe$\""
+	WriteRegStr HKLM "${REGISTRY_DIRECTORY}" "DisplayIcon" "$\"$INSTDIR\uninstall.exe$\""
+	WriteRegStr HKLM "${REGISTRY_DIRECTORY}" "DisplayVersion" "${APPVERSION}"
+	
+	
+	# Registering the installation.
 SectionEnd
 
 Section "MonoGame" Monogame
@@ -172,6 +185,7 @@ Section "Uninstall"
 	RMDir /r "$DOCUMENTS\Visual Studio 2019\${TEMPLATES_DIRECTORY}"
 	Delete "$INSTDIR\Uninstall.exe"
 	RMDir /r "$INSTDIR"
+	DeleteRegKey HKLM "${REGISTRY_DIRECTORY}"
 SectionEnd
 
 

@@ -23,6 +23,7 @@
 - All projects reference Monofoxe libraries from common place instead of raw per-project libraries.
 - Replaced static methods in `TimeKeeper` with static `Global` instance.
 - Removed drawing methods which work with raw x;y.
+- Project templates for VS2019 now have tags.
 
 ### FIXES:
 
@@ -33,6 +34,7 @@
 - Fixed `BasicTilemapSystem` not drawing the very last row and column of tiles.
 - Nopipeline now works with paths which contain spaces.
 - Angle difference formula now works properly.
+- Uninstaller now appears in Add\Remove Programs section.
 
 
 
