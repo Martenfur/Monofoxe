@@ -14,7 +14,13 @@
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
     <Icon>__TemplateIcon.png</Icon>
     <PreviewImage>__PreviewImage.png</PreviewImage>
-	<CreateInPlace>true</CreateInPlace>
+	  <CreateInPlace>true</CreateInPlace>
+    <LanguageTag>C#</LanguageTag>
+    <PlatformTag>Windows</PlatformTag>
+    <PlatformTag>Linux</PlatformTag>
+    <ProjectTypeTag>Desktop</ProjectTypeTag>
+    <ProjectTypeTag>Monofoxe</ProjectTypeTag>
+    <ProjectTypeTag>MonoGame</ProjectTypeTag>
   </TemplateData>
   <TemplateContent>
     <Project TargetFileName="MonofoxeDesktopGL.csproj" File="MonofoxeDesktopGL.csproj" ReplaceParameters="true">

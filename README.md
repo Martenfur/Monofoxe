@@ -7,8 +7,12 @@ enabling you to just *create a new project and make a damn game* without removin
 Monofoxe took a lot of inspiration from Game Maker, so it should be a bit familiar to some folks.
 
 **Current version: 2.0.0.0-dev** [View changelog](/CHANGELOG.md)
-[Download in-dev build (recommended)](https://github.com/gnFur/Monofoxe/releases/tag/v2.0.0.0-dev%2B001)
+
+[Download in-dev build (recommended)](https://github.com/gnFur/Monofoxe/releases/tag/v2.0.0.0-dev%2B002)
+
 [Download last stable release](https://github.com/gnFur/Monofoxe/releases/latest)
+
+[**View Docs**](Docs/README.md)
 
 
 # What can it do?
@@ -46,12 +50,14 @@ Well, up to you. Currently I am developing Monofoxe alone, and can't really prov
 
 # How do I use it?
 
-Download the Monofoxe installer from the [latest release](https://github.com/gnFur/Monofoxe/releases/latest) or [in-dev build (recommended)](https://github.com/gnFur/Monofoxe/releases/tag/v2.0.0.0-dev%2B001).
+Download the Monofoxe installer from the [latest release](https://github.com/gnFur/Monofoxe/releases/latest) or [in-dev build (recommended)](https://github.com/gnFur/Monofoxe/releases/tag/v2.0.0.0-dev%2B002).
 Installer bundles Visual Studio 2015, 2017 and 2019 templates, [NoPipeline](https://github.com/gnFur/NoPipeline) and Monogame 3.7.1 installation. If you don't want 3.7.1, Monofoxe is confirmed to work on 3.6 and 3.7. It most likely will work on Monogame dev build, but it constantly changes, so you never know.
 
 Just install Monofoxe, create Monofoxe project and you're good to go. 
 
-You can also check out the [basic feature demos](Monofoxe.Playground/), [Demo game](https://bitbucket.org/gnFur/monofoxe.demo/) or the [Docs](Docs/Contents.md) (Currently not finished) to learn how to use Monofoxe.
+**NOTE:** Due to VS2019 project search being completely broken, templates may not appear in the search right away. Instead of searching select "Monofoxe" in `Project Types`.
+
+You can also check out the [basic feature demos](Monofoxe.Playground/), [Demo game](https://bitbucket.org/gnFur/monofoxe.demo/) or the [Docs](Docs/README.md) (Currently not finished) to learn how to use Monofoxe.
 
 # I've suddenly started loving foxes and want to contribute!
 

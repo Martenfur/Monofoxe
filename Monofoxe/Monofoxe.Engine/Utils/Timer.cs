@@ -16,7 +16,7 @@ namespace Monofoxe.Engine.Utils
 		/// </summary>
 		public bool Enabled = true;
 
-		public TimeKeeper TimeKeeper;
+		public TimeKeeper TimeKeeper = TimeKeeper.Global;
 
 		public Timer() {}
 		public Timer(TimeKeeper timeKeeper) => 
@@ -41,14 +41,7 @@ namespace Monofoxe.Engine.Utils
 		{
 			if (Enabled)
 			{
-				if (TimeKeeper == null)
-				{
-					Counter += TimeKeeper.GlobalTime();
-				}
-				else
-				{
-					Counter += TimeKeeper.Time();
-				}
+				Counter += TimeKeeper.Time();
 			}
 		}
 

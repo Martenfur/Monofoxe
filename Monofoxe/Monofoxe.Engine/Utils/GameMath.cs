@@ -25,12 +25,6 @@ namespace Monofoxe.Engine.Utils
 		public static float Distance(Vector2 p1, Vector2 p2) =>
 			(p2 - p1).Length();
 		
-		public static float Distance(float x1, float y1, float x2, float y2) =>
-			(float)Math.Sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
-
-		public static float Distance(float x, float y) =>
-			(float)Math.Sqrt(x * x + y * y);
-		
 		#endregion Distance.
 
 

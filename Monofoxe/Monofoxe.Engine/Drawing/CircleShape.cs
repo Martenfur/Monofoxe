@@ -25,7 +25,7 @@ namespace Monofoxe.Engine.Drawing
 		public Color Color = Color.White;
 
 		public void Draw() =>
-			Draw(Position.X, Position.Y, Radius, IsOutline, Color);
+			Draw(Position, Radius, IsOutline, Color);
 		
 		
 
@@ -54,24 +54,13 @@ namespace Monofoxe.Engine.Drawing
 		/// Draws a circle.
 		/// </summary>
 		public static void Draw(Vector2 p, float r, bool isOutline) =>
-			Draw(p.X, p.Y, r, isOutline, GraphicsMgr.CurrentColor);
+			Draw(p, r, isOutline, GraphicsMgr.CurrentColor);
+		
 		
 		/// <summary>
 		/// Draws a circle.
 		/// </summary>
-		public static void Draw(float x, float y, float r, bool isOutline) =>
-			Draw(x, y, r, isOutline, GraphicsMgr.CurrentColor);
-
-		/// <summary>
-		/// Draws a circle.
-		/// </summary>
-		public static void Draw(Vector2 p, float r, bool isOutline, Color color) =>
-			Draw(p.X, p.Y, r, isOutline, color);
-
-		/// <summary>
-		/// Draws a circle.
-		/// </summary>
-		public static void Draw(float x, float y, float r, bool isOutline, Color color)
+		public static void Draw(Vector2 p, float r, bool isOutline, Color color)
 		{
 			short[] indexArray;
 			GraphicsMode prType;
@@ -109,8 +98,8 @@ namespace Monofoxe.Engine.Drawing
 				vertices.Add(
 					new VertexPositionColorTexture(
 						new Vector3(
-							x + r * _circleVectors[i].X, 
-							y + r * _circleVectors[i].Y, 
+							p.X + r * _circleVectors[i].X, 
+							p.Y + r * _circleVectors[i].Y, 
 							0
 						), 
 						color, 

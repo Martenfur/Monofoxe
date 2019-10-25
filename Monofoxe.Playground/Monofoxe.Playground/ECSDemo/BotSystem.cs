@@ -25,7 +25,7 @@ namespace Monofoxe.Playground.ECSDemo
 			{
 				var actor = bot.Owner.GetComponent<ActorComponent>();
 				actor.Move = true;
-				actor.Direction += TimeKeeper.GlobalTime(bot.TurningSpeed); // ni-ni-ni-ni-ni-ni-ni-ni-ni-ni-ni-ni-ni-ni
+				actor.Direction += TimeKeeper.Global.Time(bot.TurningSpeed); // ni-ni-ni-ni-ni-ni-ni-ni-ni-ni-ni-ni-ni-ni
 			}
 		}
 

@@ -26,8 +26,7 @@ namespace Monofoxe.Engine.Drawing
 		public void Draw()
 		{
 			Draw(
-				Position.X - Size.X / 2, Position.Y - Size.Y / 2, 
-				Position.X + Size.X / 2, Position.Y + Size.Y / 2, 
+				Position - Size / 2, Position - Size / 2, 
 				IsOutline, 
 				Color, Color, Color, Color
 			);
@@ -44,24 +43,20 @@ namespace Monofoxe.Engine.Drawing
 		/// Draws a rectangle using top left and bottom right point.
 		/// </summary>
 		public static void Draw(Vector2 p1, Vector2 p2, bool isOutline) =>
-			Draw(p1.X, p1.Y, p2.X, p2.Y, isOutline, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor);
+			Draw(p1, p2, isOutline, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor);
 
 		/// <summary>
 		/// Draws a rectangle using top left and bottom right point with specified colors for each corner.
 		/// </summary>
-		public static void Draw(Vector2 p1, Vector2 p2, bool isOutline, Color c1, Color c2, Color c3, Color c4) =>
-			Draw(p1.X, p1.Y, p2.X, p2.Y, isOutline, c1, c2, c3, c4);
-
-		/// <summary>
-		/// Draws a rectangle using top left and bottom right point.
-		/// </summary>
-		public static void Draw(float x1, float y1, float x2, float y2, bool isOutline) =>
-			Draw(x1, y1, x2, y2, isOutline, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor);
-		
-		/// <summary>
-		/// Draws a rectangle using top left and bottom right point with specified colors for each corner.
-		/// </summary>
-		public static void Draw(float x1, float y1, float x2, float y2, bool isOutline, Color c1, Color c2, Color c3, Color c4)
+		public static void Draw(
+			Vector2 p1, 
+			Vector2 p2, 
+			bool isOutline, 
+			Color c1, 
+			Color c2, 
+			Color c3, 
+			Color c4
+		)
 		{
 			GraphicsMode mode;
 			short[] indices;
@@ -75,7 +70,11 @@ namespace Monofoxe.Engine.Drawing
 				mode = GraphicsMode.TrianglePrimitives;
 				indices = _rectangleIndices[0];
 			}
-		
+			var x1 = p1.X;
+			var y1 = p1.Y;
+			var x2 = p2.X;
+			var y2 = p2.Y;
+
 			var vertices = new List<VertexPositionColorTexture>
 			{
 				new VertexPositionColorTexture(new Vector3(x1, y1, 0), c1, Vector2.Zero),
@@ -92,27 +91,14 @@ namespace Monofoxe.Engine.Drawing
 		/// Draws a rectangle using center point and size.
 		/// </summary>
 		public static void DrawBySize(Vector2 p, Vector2 size, bool isOutline) =>
-			Draw(p.X - size.X / 2, p.Y - size.Y / 2, p.X + size.X / 2, p.Y + size.Y / 2, isOutline, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor);
+			Draw(p - size / 2, p + size / 2f, isOutline, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor);
 
 		/// <summary>
 		/// Draws a rectangle using center point and size with specified colors for each corner.
 		/// </summary>
 		public static void DrawBySize(Vector2 p, Vector2 size, bool isOutline, Color c1, Color c2, Color c3, Color c4) =>
-			Draw(p.X - size.X / 2, p.Y - size.Y / 2, p.X + size.X / 2, p.Y + size.Y / 2, isOutline, c1, c2, c3, c4);
+			Draw(p - size / 2f, p + size / 2f, isOutline, c1, c2, c3, c4);
 
-		/// <summary>
-		/// Draws a rectangle using center point and size.
-		/// </summary>
-		public static void DrawBySize(float x, float y, float w, float h, bool isOutline) =>
-			Draw(x - w / 2, y - h / 2, x + w / 2, y + h / 2, isOutline, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor);
-		
-		/// <summary>
-		/// Draws a rectangle using center point and size with specified colors for each corner.
-		/// </summary>
-		public static void DrawBySize(float x, float y, float w, float h, bool isOutline, Color c1, Color c2, Color c3, Color c4) =>
-				Draw(x - w / 2, y - h / 2, x + w / 2, y + h / 2, isOutline, c1, c2, c3, c4);
-		
-			
 		
 
 	}

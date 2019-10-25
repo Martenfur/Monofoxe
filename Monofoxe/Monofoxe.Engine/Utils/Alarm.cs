@@ -23,8 +23,10 @@ namespace Monofoxe.Engine.Utils
 		/// Tells, if alarm is running right now.
 		/// </summary>
 		public bool Running => Counter > 0;
-		
-		public Alarm(TimeKeeper timeKeeper = null) : base(timeKeeper) {}
+
+		public Alarm() : base() {}
+
+		public Alarm(TimeKeeper timeKeeper) : base(timeKeeper) {}
 			
 		
 		/// <summary>
@@ -57,15 +59,7 @@ namespace Monofoxe.Engine.Utils
 		{
 			if (Enabled && Counter > 0)
 			{
-				
-				if (TimeKeeper == null)
-				{
-					Counter -= TimeKeeper.GlobalTime();
-				}
-				else
-				{
-					Counter -= TimeKeeper.Time();
-				}		
+				Counter -= TimeKeeper.Time();		
 				
 				if (Counter <= 0)
 				{

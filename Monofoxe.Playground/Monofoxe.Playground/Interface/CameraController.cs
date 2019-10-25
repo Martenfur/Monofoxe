@@ -55,12 +55,12 @@ namespace Monofoxe.Playground.Interface
 			
 			var rotatedMovementVector = new Vector2(movementVector3.X, movementVector3.Y);
 			
-			Camera.Position += TimeKeeper.GlobalTime(_cameraSpeed / Camera.Zoom) * rotatedMovementVector;
+			Camera.Position += TimeKeeper.Global.Time(_cameraSpeed / Camera.Zoom) * rotatedMovementVector;
 			// Movement.
 
 			// Zoom.
 			var zoomDirection = Input.CheckButton(ZoomInButton).ToInt() - Input.CheckButton(ZoomOutButton).ToInt();
-			Camera.Zoom += TimeKeeper.GlobalTime(_zoomSpeed) * zoomDirection;
+			Camera.Zoom += TimeKeeper.Global.Time(_zoomSpeed) * zoomDirection;
 			
 			if (Camera.Zoom < _minZoom)
 			{
@@ -74,7 +74,7 @@ namespace Monofoxe.Playground.Interface
 
 			// Rotation.
 			var rotationDirection = Input.CheckButton(RotateLeftButton).ToInt() - Input.CheckButton(RotateRightButton).ToInt();
-			Camera.Rotation += TimeKeeper.GlobalTime(_rotationSpeed) * rotationDirection;
+			Camera.Rotation += TimeKeeper.Global.Time(_rotationSpeed) * rotationDirection;
 			// Rotation.
 			
 		}
