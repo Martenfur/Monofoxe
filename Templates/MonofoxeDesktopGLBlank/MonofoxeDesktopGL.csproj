@@ -15,7 +15,7 @@
     <AssemblyName>$safeprojectname$</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>DesktopGL</MonoGamePlatform>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -53,11 +53,11 @@
     </Reference>
     <Reference Include="Monofoxe.Engine">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\References\Monofoxe.Engine.dll</HintPath>
+      <HintPath>$(MonofoxeInstallDirectory)\$(MonofoxeVersion)\lib\Monofoxe.Engine.dll</HintPath>
     </Reference>
 		<Reference Include="Monofoxe.Tiled">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\References\Monofoxe.Tiled.dll</HintPath>
+      <HintPath>$(MonofoxeInstallDirectory)\$(MonofoxeVersion)\lib\Monofoxe.Tiled.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />

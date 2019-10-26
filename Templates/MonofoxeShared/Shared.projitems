@@ -9,6 +9,7 @@
     <Import_RootNamespace>$safeprojectname$</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+  	<None Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
     <None Include="$(MSBuildThisFileDirectory)Content\Graphics\Template.cstemplate" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Effects.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Fonts.cs" />
@@ -18,13 +19,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)GameController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Effects\AlphaBlend.fx" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Effects\AlphaBlend.fx" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
     <None Include="$(MSBuildThisFileDirectory)Content\Content.npl" />
     <None Include="$(MSBuildThisFileDirectory)Content\Fonts\Arial.spritefont" />
     <None Include="$(MSBuildThisFileDirectory)Content\Graphics\default.spritegroup" />
