@@ -89,12 +89,11 @@ namespace Monofoxe.Engine
 			Game = game;
 			Game.IsMouseVisible = true;
 			
-			Game.Window.TextInput += Input.TextInput;
 			Input.MaxGamepadCount = 2;
 			
 			WindowManager = new WindowMgr(game);
 			
-			LoadAssembliesAndTypes();
+			LoadAssembliesAndTypes(typeof(Game).Assembly);
 
 			SystemMgr.InitSystemPool();
 			AssetMgr.Init();
@@ -167,7 +166,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Loads all assemblies and extracts types form them.
 		/// </summary>
-		private static void LoadAssembliesAndTypes()
+		private static void LoadAssembliesAndTypes(Assembly entryAssembly)
 		{
 			// Loading all assemblies.
 			Assemblies = new Dictionary<string, Assembly>();
@@ -177,7 +176,7 @@ namespace Monofoxe.Engine
 				Assemblies.Add(asm.FullName, asm);
 			}
 
-			LoadAllReferencedAssemblies(Assembly.GetEntryAssembly(), 0);
+			LoadAllReferencedAssemblies(entryAssembly, 0);
 			// Loading all assemblies.
 
 

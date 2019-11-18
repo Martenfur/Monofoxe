@@ -28,10 +28,10 @@
 /processor:FontDescriptionProcessor
 /build:Fonts/Arial.spritefont
 
-#begin Graphics/default.spritegroup
+#begin Graphics/Default.spritegroup
 /importer:SpriteGroupImporter
 /processor:SpriteGroupProcessor
-/build:Graphics/default.spritegroup
+/build:Graphics/Default.spritegroup
 
 #begin Effects/Grayscale.fx
 /importer:EffectImporter
@@ -47,4 +47,5 @@
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
 /build:Maps/test.tmx
+
 

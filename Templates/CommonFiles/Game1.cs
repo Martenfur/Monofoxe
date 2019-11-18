@@ -16,6 +16,13 @@ namespace $safeprojectname$
 		{
 			Content.RootDirectory = AssetMgr.ContentDir;
 			GameMgr.Init(this);
+			
+#if !ANDROID
+			Game.Window.TextInput += Input.TextInput;
+#else
+			GameMgr.WindowManager.SetFullScreen(true); // Has to be exactly here, apparently.
+#endif
+
 		}
 
 		/// <summary>
