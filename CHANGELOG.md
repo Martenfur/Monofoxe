@@ -7,6 +7,7 @@
 - Added `Angle` class for better angle management.
 - Added .NET Standard library template.
 - Nopipeline's NPL config supports adding references with environment variables.
+- Monofoxe is now able to launch on Android.
 
 ### CHANGES:
 
