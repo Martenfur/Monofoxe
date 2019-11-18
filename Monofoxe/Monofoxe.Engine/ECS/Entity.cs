@@ -89,15 +89,17 @@ namespace Monofoxe.Engine.ECS
 		/// </summary>
 		internal Dictionary<Type, Component> _components;
 
-		public Entity(Layer layer, string tag = "entity")
+		public Entity(Layer layer, string tag)
 		{
 			_components = new Dictionary<Type, Component>();
 			Tag = tag;
 			Layer = layer;
 		}
 
+		public Entity(Layer layer) : this(layer, "entity")
+		{ }
 
-		
+
 		#region Events.
 
 		/*
@@ -109,7 +111,7 @@ namespace Monofoxe.Engine.ECS
 		 * NOTE: Component events are executed before entity events.
 		 */
 
-		
+
 		/// <summary>
 		/// Updates at a fixed rate, if entity is enabled.
 		/// </summary>
