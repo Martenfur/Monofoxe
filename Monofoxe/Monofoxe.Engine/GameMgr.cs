@@ -92,8 +92,8 @@ namespace Monofoxe.Engine
 			Input.MaxGamepadCount = 2;
 			
 			WindowManager = new WindowMgr(game);
-			
-			LoadAssembliesAndTypes(typeof(Game).Assembly);
+
+			LoadAssembliesAndTypes(game.GetType().Assembly);
 
 			SystemMgr.InitSystemPool();
 			AssetMgr.Init();
