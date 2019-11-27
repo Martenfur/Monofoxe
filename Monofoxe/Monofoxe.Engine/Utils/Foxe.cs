@@ -77,7 +77,7 @@ namespace Monofoxe.Engine.Utils
 
 			new Foxe(foxeRoom);
 			
-			return new Entity(SceneMgr.GetScene("default")["default"], "You have been bamboozled.");
+			return new Entity(SceneMgr.GetScene("default")["default"]);
 		}
 
 	}

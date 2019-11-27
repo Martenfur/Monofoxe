@@ -95,18 +95,7 @@ namespace Monofoxe.Engine.SceneSystem
 		private SafeList<Entity> _entities = new SafeList<Entity>();
 		internal SafeList<Entity> _depthSortedEntities;
 
-		/// <summary>
-		/// All components, which belong to all entities on the layer.
-		/// </summary>
-		internal ComponentContainer _components = new ComponentContainer();
 		
-
-		/// <summary>
-		/// Disabled components.
-		/// </summary>
-		internal ComponentContainer _disabledComponents = new ComponentContainer();
-		
-
 		/// <summary>
 		/// Shaders applied to the layer.
 		/// NOTE: You should enable postprocessing in camera.
@@ -156,68 +145,6 @@ namespace Monofoxe.Engine.SceneSystem
 			_entities.Remove(entity);
 		
 		
-		internal void AddComponent(Component component)
-		{
-			if (component.Enabled)
-			{
-				_components.Add(component);
-			}
-			else
-			{
-				_disabledComponents.Add(component);
-			}
-
-			// Invoking system's Create method, if component weren't initialized before.
-			if (!component.Initialized)
-			{
-				var componentType = component.GetType();
-				if (SystemMgr._systemPool.TryGetValue(componentType, out BaseSystem system))
-				{
-					if (system.Enabled)
-					{
-						component.System = system;
-						component.Initialized = true;
-						system.Create(component);
-					}
-				}
-
-				_depthListOutdated = true;
-			}
-			// Invoking system's Create method, if component weren't initialized before.
-		}
-
-
-		internal void RemoveComponent(Component component)
-		{
-			// Removing from lists.
-			var componentType = component.GetType();
-			
-			ComponentContainer componentContainer;
-			if (component.Enabled)
-			{
-				componentContainer = _components;
-			}
-			else
-			{
-				componentContainer = _disabledComponents;
-			}
-
-			componentContainer.Remove(component);
-
-			// Performing Destroy event.
-			
-			if (
-				component.Enabled 
-				&& component.Owner.Enabled 
-				&& component.System != null 
-				&& component.System.Enabled
-			)
-			{
-				component.System.Destroy(component);
-			}
-		}
-
-
 		internal void UpdateEntityList()
 		{
 			// Clearing main list from destroyed objects.
@@ -289,20 +216,6 @@ namespace Monofoxe.Engine.SceneSystem
 		}
 		
 
-		
-		internal void EnableComponent(Component component)
-		{
-			_disabledComponents.Remove(component);
-			_components.Add(component);
-		}
-
-		internal void DisableComponent(Component component)
-		{
-			_components.Remove(component);
-			_disabledComponents.Add(component);
-		}
-
-
 		#region Entity methods.
 
 		/// <summary>
@@ -347,75 +260,6 @@ namespace Monofoxe.Engine.SceneSystem
 			return null;
 		}
 		
-
-		/// <summary>
-		/// Returns list of entities with given tag.
-		/// </summary>
-		public List<Entity> GetEntityList(string tag)
-		{
-			var list = new List<Entity>();
-			
-			foreach(var entity in _entities)
-			{
-				if (string.Equals(entity.Tag, tag, StringComparison.OrdinalIgnoreCase))
-				{
-					list.Add(entity);
-				}
-			}
-			return list;
-		}
-		
-		/// <summary>
-		/// Counts amount of entities with given tag.
-		/// </summary>
-		public int CountEntities(string tag)
-		{
-			var counter = 0;
-
-			foreach(var entity in _entities)
-			{
-				if (string.Equals(entity.Tag, tag, StringComparison.OrdinalIgnoreCase))
-				{
-					counter += 1;
-				}
-			}
-			
-			return counter;
-		}
-		
-		/// <summary>
-		/// Checks if given instance exists.
-		/// </summary>
-		public bool EntityExists(string tag)
-		{
-			foreach(var entity in _entities)
-			{
-				if (string.Equals(entity.Tag, tag, StringComparison.OrdinalIgnoreCase))
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-		
-		/// <summary>
-		/// Finds first entity with given tag.
-		/// </summary>
-		public Entity FindEntity(string tag)
-		{
-			foreach(var entity in _entities)
-			{
-				if (string.Equals(entity.Tag, tag, StringComparison.OrdinalIgnoreCase))
-				{
-					return entity;
-				}
-			}
-			
-			return null;
-		}
-
-
-		
 		/// <summary>
 		/// Returns list of entities, which have component - enabled or disabled -  of given type.
 		/// </summary>
@@ -434,12 +278,12 @@ namespace Monofoxe.Engine.SceneSystem
 		}
 		
 		/// <summary>
-		/// Counts amount of entities, which have component - enabled or disabled -   of given type.
+		/// Counts amount of entities, which have component - enabled or disabled - of given type.
 		/// </summary>
 		public int CountEntitiesByComponent<T>() where T : Component
 		{
 			var count = 0;
-			
+			/*
 			if (_components.TryGetList(typeof(T), out List<Component> componentList))
 			{
 				count += componentList.Count;
@@ -448,6 +292,7 @@ namespace Monofoxe.Engine.SceneSystem
 			{
 				count += disabledComponentList.Count;
 			}
+			*/
 			return count;
 		}
 
@@ -456,11 +301,12 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public Entity FindEntityByComponent<T>() where T : Component
 		{
+			/*
 			if (_components.TryGetList(typeof(T), out List<Component> componentList))
 			{
 				return componentList[0].Owner;
 			}
-
+			*/
 			return null;
 		}
 
@@ -472,7 +318,7 @@ namespace Monofoxe.Engine.SceneSystem
 		public List<Component> GetComponentList<T>() where T : Component
 		{
 			var components = new List<Component>();
-			
+			/*
 			if (_components.TryGetList(typeof(T), out List<Component> componentList))
 			{
 				components.AddRange(componentList);
@@ -481,9 +327,10 @@ namespace Monofoxe.Engine.SceneSystem
 			{
 				components.AddRange(disabledComponentList);
 			}
+			*/
 			return components;
 		}
-
+		
 		#endregion Entity methods.
 		
 	}

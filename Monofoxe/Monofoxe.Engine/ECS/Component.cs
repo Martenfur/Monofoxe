@@ -20,38 +20,56 @@
 		/// <summary>
 		/// If component is enabled, it will be processed by Create and Update methods.
 		/// </summary>
-		public bool Enabled 
-		{
-			get => _enabled; 
-			set
-			{
-				if (_enabled != value)
-				{
-					_enabled = value;
-					if (value)
-					{
-						Owner.Layer.EnableComponent(this);
-					}
-					else
-					{
-						Owner.Layer.DisableComponent(this);
-					}
-				}
-			}
-		}
-		private bool _enabled = true;
-		
+		public bool Enabled = true;
+
 		/// <summary>
 		/// If component is visible, it will be processed by Draw method.
 		/// 
 		/// NOTE: components are NOT visible by default!
 		/// </summary>
 		public bool Visible = false;
-		
+
+
+		#region Events.
+
+		/*
+		 * Event order:
+		 * - FixedUpdate
+		 * - Update
+		 * - Draw
+		 */
+
 
 		/// <summary>
-		/// Component's assigned system. Will be null only if no systems exist for this component.
+		/// Updates at a fixed rate, if entity is enabled.
 		/// </summary>
-		public BaseSystem System {get; internal set;}
+		public abstract void FixedUpdate();
+
+
+
+		/// <summary>
+		/// Updates every frame, if entity is enabled.
+		/// </summary>
+		public abstract void Update();
+
+
+
+		/// <summary>
+		/// Draw updates. Triggers only if entity is visible.
+		/// 
+		/// NOTE: DO NOT put any significant logic into Draw.
+		/// It may skip frames.
+		/// </summary>
+		public abstract void Draw();
+
+
+
+		/// <summary>
+		///	Triggers right before destruction, if entity is enabled. 
+		/// </summary>
+		public abstract void Destroy();
+
+		#endregion Events.
+
 	}
 }

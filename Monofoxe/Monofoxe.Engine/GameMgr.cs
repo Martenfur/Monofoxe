@@ -94,8 +94,7 @@ namespace Monofoxe.Engine
 			WindowManager = new WindowMgr(game);
 
 			LoadAssembliesAndTypes(game.GetType().Assembly);
-
-			SystemMgr.InitSystemPool();
+			
 			AssetMgr.Init();
 
 			var defScene = SceneMgr.CreateScene("default");

@@ -176,10 +176,7 @@ namespace Monofoxe.Engine.SceneSystem
 					if (scene.Enabled)
 					{
 						CurrentScene = scene;
-						CurrentLayer = null;
-							
-						SystemMgr.FixedUpdate();
-
+						
 						foreach(var layer in scene.Layers)
 						{
 							if (layer.Enabled)
@@ -214,10 +211,7 @@ namespace Monofoxe.Engine.SceneSystem
 				if (scene.Enabled)
 				{
 					CurrentScene = scene;
-					CurrentLayer = null;
 					
-					SystemMgr.Update();
-
 					foreach(var layer in scene.Layers)
 					{
 						if (layer.Enabled)
@@ -275,14 +269,6 @@ namespace Monofoxe.Engine.SceneSystem
 							{
 								if (entity.Visible && !entity.Destroyed)
 								{
-									foreach(var componentPair in entity._components)
-									{
-										if (componentPair.Value.Visible)
-										{
-											SystemMgr.Draw(componentPair.Value);
-										}
-									}
-									
 									entity.Draw();
 								}
 							}
@@ -327,13 +313,6 @@ namespace Monofoxe.Engine.SceneSystem
 							{
 								if (entity.Visible && !entity.Destroyed)
 								{
-									foreach(var componentPair in entity._components)
-									{
-										if (componentPair.Value.Visible)
-										{
-											SystemMgr.Draw(componentPair.Value);
-										}
-									}
 									entity.Draw();
 								}
 							}

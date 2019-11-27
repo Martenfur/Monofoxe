@@ -228,73 +228,7 @@ namespace Monofoxe.Engine.SceneSystem
 			return null;
 		}
 		
-
-
-		/// <summary>
-		/// Returns list of entities with given tag.
-		/// </summary>
-		public List<Entity> GetEntityList(string tag)
-		{
-			var list = new List<Entity>();
-
-			foreach(var layer in _layers)
-			{
-				list.AddRange(layer.GetEntityList(tag));
-			}
-			return list;
-		}
 		
-
-		/// <summary>
-		/// Counts amount of entities with given tag.
-		/// </summary>
-		public int CountEntities(string tag)
-		{
-			var counter = 0;
-
-			foreach(var layer in _layers)
-			{
-				counter += layer.CountEntities(tag);
-			}
-			
-			return counter;
-		}
-		
-
-		/// <summary>
-		/// Checks if given instance exists.
-		/// </summary>
-		public bool EntityExists(string tag)
-		{
-			foreach(var layer in _layers)
-			{
-				if (layer.EntityExists(tag))
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-		
-
-		/// <summary>
-		/// Finds first entity with given tag.
-		/// </summary>
-		public Entity FindEntity(string tag)
-		{
-			foreach(var layer in _layers)
-			{
-				var entity = layer.FindEntity(tag);
-				if (entity != null)
-				{
-					return entity;
-				}
-			}
-			
-			return null;
-		}
-
-
 		/// <summary>
 		/// Returns list of entities on a scene, which have component of given type.
 		/// </summary>

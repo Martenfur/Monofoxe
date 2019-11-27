@@ -10,11 +10,6 @@ namespace Monofoxe.Engine.ECS
 	/// </summary>
 	public class Entity
 	{
-		/// <summary>
-		/// Unique tag for identifying entity.
-		/// NOTE: Entity tags should be unique!
-		/// </summary>
-		public readonly string Tag;
 		
 		/// <summary>
 		/// Depth of Draw event. Objects with the lowest depth draw the last.
@@ -62,17 +57,9 @@ namespace Monofoxe.Engine.ECS
 			{
 				if (_layer != null)
 				{
-					foreach(var componentPair in _components)
-					{
-						_layer.RemoveComponent(componentPair.Value);
-					}
 					_layer.RemoveEntity(this);
 				}
 				_layer = value;
-				foreach(var componentPair in _components)
-				{
-					_layer.AddComponent(componentPair.Value);
-				}
 				_layer.AddEntity(this);
 			}
 		}
@@ -87,18 +74,14 @@ namespace Monofoxe.Engine.ECS
 		/// <summary>
 		/// Component dictionary.
 		/// </summary>
-		internal Dictionary<Type, Component> _components;
+		private Dictionary<Type, Component> _components;
 
-		public Entity(Layer layer, string tag)
+		public Entity(Layer layer)
 		{
 			_components = new Dictionary<Type, Component>();
-			Tag = tag;
 			Layer = layer;
 		}
-
-		public Entity(Layer layer) : this(layer, "entity")
-		{ }
-
+		
 
 		#region Events.
 
@@ -107,22 +90,32 @@ namespace Monofoxe.Engine.ECS
 		 * - FixedUpdate
 		 * - Update
 		 * - Draw
-		 * 
-		 * NOTE: Component events are executed before entity events.
 		 */
 
 
 		/// <summary>
 		/// Updates at a fixed rate, if entity is enabled.
 		/// </summary>
-		public virtual void FixedUpdate() {}
+		public virtual void FixedUpdate() 
+		{
+			foreach(var component in _components.Values)
+			{
+				component.FixedUpdate();
+			}
+		}
 		
 		
 		
 		/// <summary>
 		/// Updates every frame, if entity is enabled.
 		/// </summary>
-		public virtual void Update() {}
+		public virtual void Update() 
+		{
+			foreach (var component in _components.Values)
+			{
+				component.Update();
+			}
+		}
 		
 		
 
@@ -132,14 +125,26 @@ namespace Monofoxe.Engine.ECS
 		/// NOTE: DO NOT put any significant logic into Draw.
 		/// It may skip frames.
 		/// </summary>
-		public virtual void Draw() {}
+		public virtual void Draw() 
+		{
+			foreach (var component in _components.Values)
+			{
+				component.Draw();
+			}
+		}
 		
 
 
 		/// <summary>
 		///	Triggers right before destruction, if entity is enabled. 
 		/// </summary>
-		public virtual void Destroy() {}
+		public virtual void Destroy() 
+		{
+			foreach (var component in _components.Values)
+			{
+				component.Destroy();
+			}
+		}
 
 		#endregion Events.
 
@@ -158,7 +163,6 @@ namespace Monofoxe.Engine.ECS
 			}
 			_components.Add(component.GetType(), component);
 			component.Owner = this;
-			Layer.AddComponent(component);
 		}
 		
 		
@@ -239,7 +243,6 @@ namespace Monofoxe.Engine.ECS
 			if (_components.TryGetValue(type, out Component component))
 			{
 				_components.Remove(type);
-				Layer.RemoveComponent(component);
 				component.Owner = null;
 				return component;
 			}
@@ -275,10 +278,6 @@ namespace Monofoxe.Engine.ECS
 				{
 					// Performs Destroy event only if entity is enabled.
 					Destroy();
-				}
-				foreach(var componentPair in _components)
-				{
-					Layer.RemoveComponent(componentPair.Value);
 				}
 			}
 		}
