@@ -27,7 +27,7 @@ namespace Monofoxe.Playground.ECSDemo
 
 			_botSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "Bot");
 
-			var entity = new Entity(layer, Tag);
+			var entity = new Entity(layer);
 
 			entity.AddComponent(new PositionComponent(Vector2.Zero));
 			entity.AddComponent(new ActorComponent(_botSprite));

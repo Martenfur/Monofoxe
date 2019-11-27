@@ -18,7 +18,7 @@ namespace Monofoxe.Playground
 			Content.RootDirectory = AssetMgr.ContentDir;
 			GameMgr.Init(this);
 #if !ANDROID
-			Game.Window.TextInput += Input.TextInput;
+			Window.TextInput += Input.TextInput;
 #else
 			GameMgr.WindowManager.SetFullScreen(true); // Has to be exactly here, apparently.
 #endif

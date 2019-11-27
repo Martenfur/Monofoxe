@@ -1,5 +1,5 @@
 ﻿using Monofoxe.Engine.ECS;
-using Monofoxe.Engine.Drawing;
+using Monofoxe.Engine.Utils;
 
 namespace Monofoxe.Playground.ECSDemo
 {
@@ -12,7 +12,29 @@ namespace Monofoxe.Playground.ECSDemo
 
 		public BotComponent()
 		{
-			
+
+		}
+
+		public override void FixedUpdate()
+		{
+		}
+
+		public override void Update()
+		{
+
+			var actor = Owner.GetComponent<ActorComponent>();
+			actor.Move = true;
+			actor.Direction += TimeKeeper.Global.Time(TurningSpeed); // ni-ni-ni-ni-ni-ni-ni-ni-ni-ni-ni-ni-ni-ni
+
+		}
+
+		public override void Draw()
+		{
+		}
+
+		
+		public override void Destroy()
+		{
 		}
 	}
 }

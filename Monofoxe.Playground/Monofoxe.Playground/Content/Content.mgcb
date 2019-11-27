@@ -48,4 +48,9 @@
 /processor:TiledMapProcessor
 /build:Maps/test.tmx
 
+#begin Graphics/default.spritegroup
+/importer:SpriteGroupImporter
+/processor:SpriteGroupProcessor
+/build:Graphics/default.spritegroup
+
 

@@ -9,8 +9,6 @@
     <Import_RootNamespace>Monofoxe.Playground</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)ECSDemo\BotSystem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ECSDemo\ActorSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ECSDemo\BotTemplate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ECSDemo\ECSDemoFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ECSDemo\ActorComponent.cs" />
@@ -24,7 +22,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\SpriteDemo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\ShapeDemoFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GraphicsDemo\ShapeDemo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TiledDemo\TileCollisionSystem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TiledDemo\TileCollisionComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TiledDemo\ExtendedMapBuilder\SolidMapBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TiledDemo\ExtendedMapBuilder\SolidTilesetTile.cs" />

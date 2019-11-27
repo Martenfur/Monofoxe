@@ -28,5 +28,21 @@ namespace Monofoxe.Playground.ECSDemo
 			PreviousPosition = position;
 			StartingPosition = position;
 		}
+
+		public override void Destroy()
+		{
+		}
+
+		public override void Draw()
+		{
+		}
+
+		public override void FixedUpdate()
+		{
+		}
+
+		public override void Update()
+		{
+		}
 	}
 }
