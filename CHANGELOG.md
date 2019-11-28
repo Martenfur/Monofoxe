@@ -26,6 +26,10 @@
 - Removed drawing methods which work with raw x;y.
 - Project templates for VS2019 now have tags.
 - Bumped .NET Framework version to 4.7.2 for templates.
+- Entity methods which count components/entities have been removed.
+- Systems have been removed entirely.
+- Components now have their own events.
+- Calling `base.%EventName%()` is now required in entities for EC to work.
 
 ### FIXES:
 
