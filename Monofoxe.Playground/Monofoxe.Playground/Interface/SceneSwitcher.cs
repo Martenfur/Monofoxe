@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
-using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.Resources;
 using Monofoxe.Engine.SceneSystem;
-using Monofoxe.Playground.ECSDemo;
+using Monofoxe.Playground.ECDemo;
 using Monofoxe.Playground.GraphicsDemo;
 using Monofoxe.Playground.InputDemo;
 using Monofoxe.Playground.SceneSystemDemo;
@@ -24,7 +24,7 @@ namespace Monofoxe.Playground.Interface
 			new PrimitiveDemoFactory(),
 			new SpriteDemoFactory(),
 			new InputDemoFactory(),
-			new ECSDemoFactory(),
+			new ECDemoFactory(),
 			new SceneSystemDemoFactory(),
 			new UtilsDemoFactory(),
 			new TiledDemoFactory(),
@@ -56,6 +56,8 @@ namespace Monofoxe.Playground.Interface
 
 		public override void Update()
 		{
+			base.Update();
+
 			if (Input.CheckButtonPress(_toggleUIButton))
 			{
 				Visible = !Visible;
@@ -85,7 +87,8 @@ namespace Monofoxe.Playground.Interface
 
 		public override void Draw()
 		{
-		
+			base.Draw();
+
 			var canvasSize = GameMgr.WindowManager.CanvasSize;
 
 			Text.CurrentFont = ResourceHub.GetResource<IFont>("Fonts", "Arial");

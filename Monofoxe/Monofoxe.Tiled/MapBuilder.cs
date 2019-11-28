@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Monofoxe.Engine.Drawing;
-using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Utils.Tilemaps;
 using Monofoxe.Tiled.MapStructure;
@@ -173,7 +173,7 @@ namespace Monofoxe.Tiled
 				var layer = MapScene.CreateLayer(tileLayer.Name);
 				layer.Priority = GetLayerPriority(tileLayer);
 				
-				var tilemap = new BasicTilemapComponent(tileLayer.Width, tileLayer.Height, tileLayer.TileWidth, tileLayer.TileHeight);
+				var tilemap = new BasicTilemap(layer, tileLayer.Width, tileLayer.Height, tileLayer.TileWidth, tileLayer.TileHeight);
 				tilemap.Offset = tileLayer.Offset;
 
 				for(var y = 0; y < tilemap.Height; y += 1)	
@@ -194,9 +194,6 @@ namespace Monofoxe.Tiled
 						);
 					}
 				}
-				
-				var tilemapEntity = new Entity(layer, "BasicTilemap");
-				tilemapEntity.AddComponent(tilemap);
 				
 				layers.Add(layer);
 			}
@@ -243,14 +240,13 @@ namespace Monofoxe.Tiled
 				// I'd suggest to not use image layers for anything other than quick prototyping.
 				var layer = MapScene.CreateLayer(imageLayer.Name);
 				layer.Priority = GetLayerPriority(imageLayer);
-
-				var entity = new Entity(layer, "tiledImage");
+				
 				var frame = new Frame(
 					imageLayer.Texture, 
 					imageLayer.Texture.Bounds, 
 					Vector2.Zero
 				);
-				entity.AddComponent(new ImageLayerComponent(imageLayer.Offset, frame));
+				new ImageLayerRenderer(layer, imageLayer.Offset, frame);
 				
 				layers.Add(layer);
 			}

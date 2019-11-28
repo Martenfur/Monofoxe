@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.Utils;
 using Monofoxe.Engine.Cameras;
@@ -25,11 +25,6 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public static Scene CurrentScene {get; private set;}
 
-		/// <summary>
-		/// Current active layer.
-		/// </summary>
-		public static Layer CurrentLayer {get; private set;}
-		
 		
 		/// <summary>
 		/// Counts time until next fixed update.
@@ -155,7 +150,8 @@ namespace Monofoxe.Engine.SceneSystem
 			}
 		}
 
-		
+
+		#region Events.
 
 		/// <summary>
 		/// Executes Fixed Update events.
@@ -176,25 +172,8 @@ namespace Monofoxe.Engine.SceneSystem
 					if (scene.Enabled)
 					{
 						CurrentScene = scene;
-						CurrentLayer = null;
-							
-						SystemMgr.FixedUpdate();
 
-						foreach(var layer in scene.Layers)
-						{
-							if (layer.Enabled)
-							{
-								CurrentLayer = layer;
-						
-								foreach(var entity in layer.Entities)
-								{
-									if (entity.Enabled && !entity.Destroyed)
-									{
-										entity.FixedUpdate(); 
-									}
-								}
-							}
-						}
+						scene.FixedUpdate();
 					}
 				}
 			}
@@ -214,25 +193,8 @@ namespace Monofoxe.Engine.SceneSystem
 				if (scene.Enabled)
 				{
 					CurrentScene = scene;
-					CurrentLayer = null;
-					
-					SystemMgr.Update();
 
-					foreach(var layer in scene.Layers)
-					{
-						if (layer.Enabled)
-						{
-							CurrentLayer = layer;
-						
-							foreach(var entity in layer.Entities)
-							{
-								if (entity.Enabled && !entity.Destroyed)
-								{
-									entity.Update(); 
-								}
-							}
-						}
-					}
+					scene.Update();
 				}
 			}
 			
@@ -249,59 +211,8 @@ namespace Monofoxe.Engine.SceneSystem
 				if (scene.Visible)
 				{
 					CurrentScene = scene;
-					foreach(var layer in scene.Layers)
-					{
-						
-						if (
-							layer.Visible && 
-							!layer.IsGUI && 
-							!GraphicsMgr.CurrentCamera.Filter(scene.Name, layer.Name)
-						)
-						{
-							CurrentLayer = layer;
 
-							bool hasPostprocessing = (
-								GraphicsMgr.CurrentCamera.PostprocessingMode == PostprocessingMode.CameraAndLayers 
-								&& layer.PostprocessorEffects.Count > 0
-							);
-
-							if (hasPostprocessing)
-							{
-								GraphicsMgr.SetSurfaceTarget(GraphicsMgr.CurrentCamera._postprocessorLayerBuffer, GraphicsMgr.CurrentView);
-								GraphicsMgr.Device.Clear(Color.TransparentBlack);
-							}
-
-							foreach (var entity in layer._depthSortedEntities)
-							{
-								if (entity.Visible && !entity.Destroyed)
-								{
-									foreach(var componentPair in entity._components)
-									{
-										if (componentPair.Value.Visible)
-										{
-											SystemMgr.Draw(componentPair.Value);
-										}
-									}
-									
-									entity.Draw();
-								}
-							}
-
-							if (hasPostprocessing)
-							{
-								GraphicsMgr.ResetSurfaceTarget();
-
-								var oldRasterizer = GraphicsMgr.Rasterizer;
-								GraphicsMgr.Rasterizer = GraphicsMgr._cameraRasterizerState;
-								GraphicsMgr.SetTransformMatrix(Matrix.CreateTranslation(Vector3.Zero));
-								layer.ApplyPostprocessing();
-								GraphicsMgr.ResetTransformMatrix();
-								GraphicsMgr.Rasterizer = oldRasterizer;
-							}
-
-						}
-
-					}
+					scene.Draw();
 				}
 			}
 		}
@@ -318,30 +229,13 @@ namespace Monofoxe.Engine.SceneSystem
 				if (scene.Visible)
 				{
 					CurrentScene = scene;
-					foreach(var layer in scene.Layers)
-					{
-						if (layer.Visible && layer.IsGUI)
-						{
-							CurrentLayer = layer;
-							foreach(var entity in layer._depthSortedEntities)
-							{
-								if (entity.Visible && !entity.Destroyed)
-								{
-									foreach(var componentPair in entity._components)
-									{
-										if (componentPair.Value.Visible)
-										{
-											SystemMgr.Draw(componentPair.Value);
-										}
-									}
-									entity.Draw();
-								}
-							}
-						}
-					}
+
+					scene.DrawGUI();
 				}
 			}
 		}
+
+		#endregion Events.
 
 
 	}

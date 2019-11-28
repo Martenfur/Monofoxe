@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
-using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Cameras;
 using Monofoxe.Engine.Resources;
@@ -34,12 +34,14 @@ namespace $safeprojectname$
 		
 		public override void Update()
 		{
-			
+			base.Update();	
 		}
 
 		
 		public override void Draw()
 		{
+			base.Draw();
+			
 			_monofoxe.Draw(Camera.Size / 2f);
 		}
 

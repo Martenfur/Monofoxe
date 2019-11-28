@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine.Drawing;
-using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.SceneSystem;
 
 namespace Monofoxe.Playground.GraphicsDemo
@@ -25,7 +25,8 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 		public override void Draw()
 		{
-		
+			base.Draw();
+
 			// This code shows how to draw shapes using static methods and instanced objects.
 			
 			var startingPosition = new Vector2(100, 100);

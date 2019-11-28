@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.EC;
 
 namespace Monofoxe.Engine.Utils
 {

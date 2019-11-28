@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.Utils;
 using Monofoxe.Engine;
@@ -163,7 +163,7 @@ namespace Monofoxe.Playground.UtilsDemo
 
 		public void GreenEnter(StateMachine<TestStates> stateMachine, Entity caller)
 		{
-			// Here caller isn't really used, but it will be necessary if you're using ECS.
+			// Here caller isn't really used, but it will be necessary if you're using EC.
 			_isRectangle = !_isRectangle;
 		}
 		public void Green(StateMachine<TestStates> stateMachine, Entity caller)
@@ -210,6 +210,8 @@ namespace Monofoxe.Playground.UtilsDemo
 
 		public override void Update()
 		{
+			base.Update();
+
 			// All of those are not entities, so they have to be updated manually.
 			
 			// It needs to be updated automatically.
@@ -242,6 +244,8 @@ namespace Monofoxe.Playground.UtilsDemo
 
 		public override void Draw()
 		{
+			base.Draw();
+
 			var startingPosition = new Vector2(64, 64);
 			var position = startingPosition;
 			var spacing = 100;
@@ -276,6 +280,7 @@ namespace Monofoxe.Playground.UtilsDemo
 
 		public override void Destroy()
 		{
+			base.Destroy();
 			_camera.Dispose();
 		}
 

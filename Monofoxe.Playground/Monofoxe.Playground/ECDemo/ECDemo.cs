@@ -1,22 +1,24 @@
 ﻿using Monofoxe.Engine;
-using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.SceneSystem;
 
-namespace Monofoxe.Playground.ECSDemo
+namespace Monofoxe.Playground.ECDemo
 {
-	public class ECSDemo : Entity
+	public class ECDemo : Entity
 	{
 		
 		public const Buttons ToggleVisibilityButton = Buttons.N;
 		public const Buttons ToggleEnabledButton = Buttons.M;
 		
 
-		public ECSDemo(Layer layer) : base(layer)
+		public ECDemo(Layer layer) : base(layer)
 		{
 		}
 
 		public override void Update()
 		{
+			base.Update();
+
 			if (Input.CheckButtonPress(ToggleVisibilityButton))
 			{
 				// This will turn off Draw events for bot's entity and all of its components.

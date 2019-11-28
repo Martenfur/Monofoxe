@@ -1,6 +1,6 @@
-﻿using Monofoxe.Engine.ECS;
+﻿using Monofoxe.Engine.EC;
 using Monofoxe.Engine.SceneSystem;
-using Monofoxe.Playground.ECSDemo;
+using Monofoxe.Playground.ECDemo;
 using Monofoxe.Tiled;
 using Monofoxe.Tiled.MapStructure.Objects;
 
