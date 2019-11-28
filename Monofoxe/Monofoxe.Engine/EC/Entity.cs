@@ -100,7 +100,10 @@ namespace Monofoxe.Engine.EC
 		{
 			foreach(var component in _components.Values)
 			{
-				component.FixedUpdate();
+				if (component.Enabled)
+				{
+					component.FixedUpdate();
+				}
 			}
 		}
 		
@@ -113,7 +116,10 @@ namespace Monofoxe.Engine.EC
 		{
 			foreach (var component in _components.Values)
 			{
-				component.Update();
+				if (component.Enabled)
+				{
+					component.Update();
+				}
 			}
 		}
 		
@@ -129,7 +135,10 @@ namespace Monofoxe.Engine.EC
 		{
 			foreach (var component in _components.Values)
 			{
-				component.Draw();
+				if (component.Visible)
+				{
+					component.Draw();
+				}
 			}
 		}
 		
