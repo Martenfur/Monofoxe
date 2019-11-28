@@ -15,11 +15,6 @@ namespace Monofoxe.Engine.EC
 		List<T> GetEntityList<T>() where T : Entity;
 		
 		/// <summary>
-		/// Counts amount of entities of certain type.
-		/// </summary>
-		int CountEntities<T>() where T : Entity;
-
-		/// <summary>
 		/// Checks if any instances of an entity exist.
 		/// </summary>
 		bool EntityExists<T>() where T : Entity;
@@ -34,11 +29,6 @@ namespace Monofoxe.Engine.EC
 		/// Returns list of entities, which have component - enabled or disabled - of given type.
 		/// </summary>
 		List<Entity> GetEntityListByComponent<T>() where T : Component;
-		
-		/// <summary>
-		/// Counts amount of entities, which have component - enabled or disabled - of given type.
-		/// </summary>
-		int CountEntitiesByComponent<T>() where T : Component;
 		
 		/// <summary>
 		/// Finds first entity, which has component - enabled or disabled -  of given type.

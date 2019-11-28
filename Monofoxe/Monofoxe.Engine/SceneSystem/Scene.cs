@@ -182,19 +182,6 @@ namespace Monofoxe.Engine.SceneSystem
 			return entities;
 		}
 		
-		/// <summary>
-		/// Counts amount of objects of certain type.
-		/// </summary>
-		public int CountEntities<T>() where T : Entity
-		{
-			var count = 0;
-			
-			foreach(var layer in _layers)
-			{
-				count += layer.CountEntities<T>();				
-			}
-			return count;
-		}
 
 		/// <summary>
 		/// Checks if any instances of an entity exist.
@@ -240,20 +227,6 @@ namespace Monofoxe.Engine.SceneSystem
 				list.AddRange(layer.GetEntityListByComponent<T>());
 			}
 			return list;
-		}
-
-
-		/// <summary>
-		/// Counts amount of entities on a scene, which have component of given type.
-		/// </summary>
-		public int CountEntitiesByComponent<T>() where T : Component
-		{
-			var count = 0;
-			foreach(var layer in _layers)
-			{
-				count += layer.CountEntitiesByComponent<T>();
-			}
-			return count;
 		}
 
 

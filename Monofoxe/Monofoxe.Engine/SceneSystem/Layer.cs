@@ -224,12 +224,7 @@ namespace Monofoxe.Engine.SceneSystem
 		public List<T> GetEntityList<T>() where T : Entity =>
 			_entities.OfType<T>().ToList();
 		
-		/// <summary>
-		/// Counts amount of objects of certain type.
-		/// </summary>
-		public int CountEntities<T>() where T : Entity =>
-			_entities.OfType<T>().Count();
-
+		
 		/// <summary>
 		/// Checks if any instances of an entity exist.
 		/// </summary>
@@ -241,7 +236,7 @@ namespace Monofoxe.Engine.SceneSystem
 				{
 					return true;
 				}
-			}			
+			}
 			return false;
 		}
 
@@ -277,36 +272,19 @@ namespace Monofoxe.Engine.SceneSystem
 			return entityArray.ToList();
 		}
 		
-		/// <summary>
-		/// Counts amount of entities, which have component - enabled or disabled - of given type.
-		/// </summary>
-		public int CountEntitiesByComponent<T>() where T : Component
-		{
-			var count = 0;
-			/*
-			if (_components.TryGetList(typeof(T), out List<Component> componentList))
-			{
-				count += componentList.Count;
-			}
-			if (_disabledComponents.TryGetList(typeof(T), out List<Component> disabledComponentList))
-			{
-				count += disabledComponentList.Count;
-			}
-			*/
-			return count;
-		}
-
+		
 		/// <summary>
 		/// Finds first entity, which has component of given type.
 		/// </summary>
 		public Entity FindEntityByComponent<T>() where T : Component
 		{
-			/*
-			if (_components.TryGetList(typeof(T), out List<Component> componentList))
+			for (var i = 0; i < _entities.Count; i += 1)
 			{
-				return componentList[0].Owner;
+				if (_entities[i].HasComponent<T>())
+				{
+					return _entities[i];
+				}
 			}
-			*/
 			return null;
 		}
 
@@ -318,16 +296,14 @@ namespace Monofoxe.Engine.SceneSystem
 		public List<Component> GetComponentList<T>() where T : Component
 		{
 			var components = new List<Component>();
-			/*
-			if (_components.TryGetList(typeof(T), out List<Component> componentList))
+
+			for (var i = 0; i < _entities.Count; i += 1)
 			{
-				components.AddRange(componentList);
+				if (_entities[i].TryGetComponent<T>(out var component))
+				{
+					components.Add(component);
+				}
 			}
-			if (_disabledComponents.TryGetList(typeof(T), out List<Component> disabledComponentList))
-			{
-				components.AddRange(disabledComponentList);
-			}
-			*/
 			return components;
 		}
 		
