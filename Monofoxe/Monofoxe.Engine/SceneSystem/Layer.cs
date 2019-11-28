@@ -189,7 +189,6 @@ namespace Monofoxe.Engine.SceneSystem
 		}
 
 
-		
 		/// <summary>
 		/// Returns list of all components on the layer - enabled and disabled - of given type.
 		/// </summary>
@@ -208,6 +207,49 @@ namespace Monofoxe.Engine.SceneSystem
 		}
 
 		#endregion Entity methods.
+
+
+
+		#region Ordering.
+
+		/// <summary>
+		/// Changes the update order of an entity and places it 
+		/// at the specified position of an entity list.
+		/// </summary>
+		public void ReorderEntity(Entity entity, int index)
+		{
+			if (!_entities.Contains(entity))
+			{
+				throw new Exception("Cannot reorder entity - it doesn't belong to this layer.");
+			}
+			_entities.Remove(entity);
+			_entities.Insert(index, entity);
+		}
+
+
+		/// <summary>
+		/// Changes the update order of an entity and places it 
+		/// at the top of an entity list.
+		/// </summary>
+		public void ReorderEntityToTop(Entity entity) =>
+			ReorderEntity(entity, 0);
+
+
+		/// <summary>
+		/// Changes the update order of an entity and places it 
+		/// at the bottom of an entity list.
+		/// </summary>
+		public void ReorderEntityToBottom(Entity entity)
+		{
+			if (!_entities.Contains(entity))
+			{
+				throw new Exception("Cannot reorder entity - it doesn't belong to this layer.");
+			}
+			_entities.Remove(entity);
+			_entities.Add(entity);
+		}
+
+		#endregion Ordering.
 
 
 

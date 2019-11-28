@@ -8,6 +8,7 @@
 - Added .NET Standard library template.
 - Nopipeline's NPL config supports adding references with environment variables.
 - Monofoxe is now able to launch on Android.
+- Added an ability to change entity update order.
 
 ### CHANGES:
 
