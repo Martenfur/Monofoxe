@@ -113,6 +113,8 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 		public override void Update()
 		{
+			base.Update();
+
 			if (Input.CheckButtonPress(ToggleWireframeButton))
 			{
 				_useWireframe = !_useWireframe;
@@ -121,6 +123,8 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 		public override void Draw()
 		{
+			base.Draw();
+
 			if (_useWireframe)
 			{
 				GraphicsMgr.Rasterizer = GameController.WireframeRasterizer;

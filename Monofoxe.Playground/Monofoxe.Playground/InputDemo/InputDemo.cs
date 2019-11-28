@@ -37,6 +37,8 @@ namespace Monofoxe.Playground.InputDemo
 
 		public override void Update()
 		{
+			base.Update();
+
 			// Leaving only letters and digits.
 			_keyboardInput.Append(Regex.Replace(Input.KeyboardString, @"[^A-Za-z0-9]+", string.Empty));
 
@@ -71,6 +73,8 @@ namespace Monofoxe.Playground.InputDemo
 
 		public override void Draw()
 		{
+			base.Draw();
+
 			var startingPosition = new Vector2(64, 64);
 			var position = startingPosition;
 			var spacing = 100;

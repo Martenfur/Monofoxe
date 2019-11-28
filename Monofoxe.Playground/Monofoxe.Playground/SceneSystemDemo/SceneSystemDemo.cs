@@ -63,6 +63,8 @@ namespace Monofoxe.Playground.SceneSystemDemo
 
 		public override void Update()
 		{
+			base.Update();
+
 			if (Input.CheckButtonPress(ToggleVisibilityButton))
 			{
 				// This will turn off Draw events for bot's entity and all of its components.
@@ -85,6 +87,7 @@ namespace Monofoxe.Playground.SceneSystemDemo
 
 		public override void Destroy()
 		{
+			base.Destroy();
 			SceneMgr.DestroyScene(_testScene);
 		}
 

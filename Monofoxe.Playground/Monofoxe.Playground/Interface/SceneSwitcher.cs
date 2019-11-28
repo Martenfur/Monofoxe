@@ -56,6 +56,8 @@ namespace Monofoxe.Playground.Interface
 
 		public override void Update()
 		{
+			base.Update();
+
 			if (Input.CheckButtonPress(_toggleUIButton))
 			{
 				Visible = !Visible;
@@ -85,7 +87,8 @@ namespace Monofoxe.Playground.Interface
 
 		public override void Draw()
 		{
-		
+			base.Draw();
+
 			var canvasSize = GameMgr.WindowManager.CanvasSize;
 
 			Text.CurrentFont = ResourceHub.GetResource<IFont>("Fonts", "Arial");

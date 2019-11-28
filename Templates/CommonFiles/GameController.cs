@@ -34,12 +34,14 @@ namespace $safeprojectname$
 		
 		public override void Update()
 		{
-			
+			base.Update();	
 		}
 
 		
 		public override void Draw()
 		{
+			base.Draw();
+			
 			_monofoxe.Draw(Camera.Size / 2f);
 		}
 

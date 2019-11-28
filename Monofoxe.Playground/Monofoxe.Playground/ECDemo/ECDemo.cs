@@ -17,6 +17,8 @@ namespace Monofoxe.Playground.ECDemo
 
 		public override void Update()
 		{
+			base.Update();
+
 			if (Input.CheckButtonPress(ToggleVisibilityButton))
 			{
 				// This will turn off Draw events for bot's entity and all of its components.

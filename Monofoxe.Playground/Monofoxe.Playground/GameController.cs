@@ -66,12 +66,13 @@ namespace Monofoxe.Playground
 
 		public override void Update()
 		{
-
+			base.Update();
 		}
 
 
 		public override void Draw()
 		{
+			base.Draw();
 		}
 
 	}

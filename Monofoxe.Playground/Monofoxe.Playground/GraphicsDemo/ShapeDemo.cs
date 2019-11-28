@@ -25,7 +25,8 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 		public override void Draw()
 		{
-		
+			base.Draw();
+
 			// This code shows how to draw shapes using static methods and instanced objects.
 			
 			var startingPosition = new Vector2(100, 100);

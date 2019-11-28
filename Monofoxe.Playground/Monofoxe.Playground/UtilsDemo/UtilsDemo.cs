@@ -210,6 +210,8 @@ namespace Monofoxe.Playground.UtilsDemo
 
 		public override void Update()
 		{
+			base.Update();
+
 			// All of those are not entities, so they have to be updated manually.
 			
 			// It needs to be updated automatically.
@@ -242,6 +244,8 @@ namespace Monofoxe.Playground.UtilsDemo
 
 		public override void Draw()
 		{
+			base.Draw();
+
 			var startingPosition = new Vector2(64, 64);
 			var position = startingPosition;
 			var spacing = 100;
@@ -276,6 +280,7 @@ namespace Monofoxe.Playground.UtilsDemo
 
 		public override void Destroy()
 		{
+			base.Destroy();
 			_camera.Dispose();
 		}
 

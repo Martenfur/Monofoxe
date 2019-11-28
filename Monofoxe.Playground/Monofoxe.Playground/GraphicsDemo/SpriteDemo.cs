@@ -43,6 +43,8 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 		public override void Update()
 		{
+			base.Update();
+
 			// Basic animation code.
 			_animation += TimeKeeper.Global.Time(_animationSpeed);
 			if (_animation > 1)
@@ -53,6 +55,8 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 		public override void Draw()
 		{
+			base.Draw();
+
 			var startingPosition = new Vector2(100, 100);
 			var position = startingPosition;
 			var spacing = 100;

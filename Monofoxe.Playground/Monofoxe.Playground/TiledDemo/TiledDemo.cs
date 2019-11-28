@@ -41,6 +41,7 @@ namespace Monofoxe.Playground.TiledDemo
 
 		public override void Update()
 		{
+			base.Update();
 
 			if (Input.CheckButtonPress(BuildCustomMapBuilderButton))
 			{
@@ -76,6 +77,8 @@ namespace Monofoxe.Playground.TiledDemo
 
 		public override void Destroy()
 		{
+			base.Destroy();
+
 			if (_builder != null)
 			{
 				_builder.Destroy();
