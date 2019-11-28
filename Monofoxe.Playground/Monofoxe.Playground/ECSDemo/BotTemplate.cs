@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine.Drawing;
-using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.Resources;
 using Monofoxe.Engine.SceneSystem;
 
@@ -14,7 +14,7 @@ namespace Monofoxe.Playground.ECSDemo
 
 		public Entity Make(Layer layer)
 		{
-			// Bot is a pure ECS entity. This means, that it uses
+			// Bot is a pure EC entity. This means, that it uses
 			// non-derived Entity class with no logic in it.
 			// But that poses a problem - where to assemble the entity?
 			// For this purpose, entity templates exist.

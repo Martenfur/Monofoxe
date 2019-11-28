@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine;
 using Monofoxe.Engine.Cameras;
-using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Utils;
 

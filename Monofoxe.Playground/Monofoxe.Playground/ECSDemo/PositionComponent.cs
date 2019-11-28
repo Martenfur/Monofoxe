@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.EC;
 
 namespace Monofoxe.Playground.ECSDemo
 {

@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
-using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Cameras;
 using Resources.Sprites;

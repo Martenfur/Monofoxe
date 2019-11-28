@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine.Drawing;
-using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.Utils;
 
 namespace Monofoxe.Playground.ECSDemo

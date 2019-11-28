@@ -1,5 +1,5 @@
 ﻿using Monofoxe.Engine;
-using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.SceneSystem;
 
 namespace Monofoxe.Playground.ECSDemo

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.Utils;
 using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
@@ -19,10 +19,10 @@ namespace Monofoxe.Playground.ECSDemo
 
 		Sprite _playerSprite;
 
-		// The player uses hybrid ECS - it's a derived entity with components inside.
+		// The player uses hybrid EC - it's a derived entity with components inside.
 		// You also can ditch components and systems entirely and only use entities. 
 		
-		// I recommend useng hybrid entities in places, where ECS is not entirely needed.
+		// I recommend useng hybrid entities in places, where EC is not entirely needed.
 		// For example, if you know that this entity's code will not be reused anywhere else.
 
 		public Player(Layer layer, Vector2 position) : base(layer)

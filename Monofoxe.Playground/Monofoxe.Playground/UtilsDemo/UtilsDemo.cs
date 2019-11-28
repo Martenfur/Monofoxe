@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.Utils;
 using Monofoxe.Engine;
@@ -163,7 +163,7 @@ namespace Monofoxe.Playground.UtilsDemo
 
 		public void GreenEnter(StateMachine<TestStates> stateMachine, Entity caller)
 		{
-			// Here caller isn't really used, but it will be necessary if you're using ECS.
+			// Here caller isn't really used, but it will be necessary if you're using EC.
 			_isRectangle = !_isRectangle;
 		}
 		public void Green(StateMachine<TestStates> stateMachine, Entity caller)

@@ -1,5 +1,5 @@
 ﻿using Monofoxe.Engine.SceneSystem;
-using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine;
 using Monofoxe.Engine.Utils;
 using Monofoxe.Playground.Interface;

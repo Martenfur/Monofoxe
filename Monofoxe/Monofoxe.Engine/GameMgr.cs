@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.Xna.Framework;
-using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Drawing;
 

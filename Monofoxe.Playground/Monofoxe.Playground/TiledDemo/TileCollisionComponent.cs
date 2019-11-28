@@ -1,4 +1,4 @@
-﻿using Monofoxe.Engine.ECS;
+﻿using Monofoxe.Engine.EC;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Utils.Tilemaps;
 using Monofoxe.Playground.ECSDemo;
