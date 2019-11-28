@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Monofoxe.Engine.Cameras;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.EC;
 using Monofoxe.Engine.Utils;
@@ -93,7 +94,7 @@ namespace Monofoxe.Engine.SceneSystem
 		public List<Entity> Entities => _entities.ToList();
 
 		private SafeList<Entity> _entities = new SafeList<Entity>();
-		internal SafeList<Entity> _depthSortedEntities;
+		private SafeList<Entity> _depthSortedEntities;
 
 		
 		/// <summary>
@@ -115,114 +116,13 @@ namespace Monofoxe.Engine.SceneSystem
 		
 		
 
-		/// <summary>
-		/// Sorts entites and components by depth, if depth sorting is enabled.
-		/// </summary>
-		internal void SortByDepth()
-		{
-			if (DepthSorting)
-			{
-				if (_depthListOutdated)
-				{
-					_depthSortedEntities = new SafeList<Entity>(_entities.OrderByDescending(o => o.Depth).ToList());
-					_depthListOutdated = false;
-				}
-			}
-			else
-			{
-				_depthSortedEntities = _entities;
-			}
-		}
-		
-
-		internal void AddEntity(Entity entity)
-		{
-			_entities.Add(entity);
-			_depthListOutdated = true;
-		}
-
-		internal void RemoveEntity(Entity entity) =>
-			_entities.Remove(entity);
-		
-		
-		internal void UpdateEntityList()
-		{
-			// Clearing main list from destroyed objects.
-			foreach(var entity in _entities)
-			{
-				if (entity.Destroyed)
-				{
-					_entities.Remove(entity);
-				}
-			}
-			// Clearing main list from destroyed objects.
-			
-		}
-
-
-		/// <summary>
-		/// Applies shaders to the camera surface.
-		/// </summary>
-		internal void ApplyPostprocessing()
-		{
-			var camera = GraphicsMgr.CurrentCamera;
-			
-			var sufraceChooser = false;
-				
-			for(var i = 0; i < PostprocessorEffects.Count - 1; i += 1)
-			{
-				PostprocessorEffects[i].SetWorldViewProjection(
-					GraphicsMgr.CurrentWorld,
-					GraphicsMgr.CurrentView,
-					GraphicsMgr.CurrentProjection
-				);
-
-				GraphicsMgr.CurrentEffect = PostprocessorEffects[i];
-				if (sufraceChooser)
-				{
-					GraphicsMgr.SetSurfaceTarget(camera._postprocessorLayerBuffer);
-					GraphicsMgr.Device.Clear(Color.TransparentBlack);
-					camera._postprocessorBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Right, Color.White);
-				}
-				else
-				{
-					GraphicsMgr.SetSurfaceTarget(camera._postprocessorBuffer);
-					GraphicsMgr.Device.Clear(Color.TransparentBlack);
-					camera._postprocessorLayerBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Right, Color.White);
-				}
-				
-				GraphicsMgr.ResetSurfaceTarget();
-				sufraceChooser = !sufraceChooser;
-			}
-
-
-			PostprocessorEffects[PostprocessorEffects.Count - 1].SetWorldViewProjection(
-				GraphicsMgr.CurrentWorld,
-				GraphicsMgr.CurrentView,
-				GraphicsMgr.CurrentProjection
-			);
-
-			GraphicsMgr.CurrentEffect = PostprocessorEffects[PostprocessorEffects.Count - 1];
-			if ((PostprocessorEffects.Count % 2) != 0)
-			{
-				camera._postprocessorLayerBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Right, Color.White);
-			}
-			else
-			{
-				camera._postprocessorBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Right, Color.White);
-			}
-
-			GraphicsMgr.CurrentEffect = null;
-		}
-		
-
 		#region Entity methods.
 
 		/// <summary>
 		/// Returns list of entities of certain type.
 		/// </summary>
 		public List<T> GetEntityList<T>() where T : Entity =>
-			_entities.OfType<T>().ToList();
+		_entities.OfType<T>().ToList();
 		
 		
 		/// <summary>
@@ -306,8 +206,186 @@ namespace Monofoxe.Engine.SceneSystem
 			}
 			return components;
 		}
-		
+
 		#endregion Entity methods.
-		
+
+
+
+		#region Events.
+
+		internal void FixedUpdate()
+		{
+			foreach (var entity in _entities)
+			{
+				if (entity.Enabled && !entity.Destroyed)
+				{
+					entity.FixedUpdate();
+				}
+			}
+		}
+
+		internal void Update()
+		{
+			foreach (var entity in _entities)
+			{
+				if (entity.Enabled && !entity.Destroyed)
+				{
+					entity.Update();
+				}
+			}
+		}
+
+		internal void Draw()
+		{
+			bool hasPostprocessing = (
+				GraphicsMgr.CurrentCamera.PostprocessingMode == PostprocessingMode.CameraAndLayers
+				&& PostprocessorEffects.Count > 0
+			);
+
+			if (hasPostprocessing)
+			{
+				GraphicsMgr.SetSurfaceTarget(GraphicsMgr.CurrentCamera._postprocessorLayerBuffer, GraphicsMgr.CurrentView);
+				GraphicsMgr.Device.Clear(Color.TransparentBlack);
+			}
+
+			foreach (var entity in _depthSortedEntities)
+			{
+				if (entity.Visible && !entity.Destroyed)
+				{
+					entity.Draw();
+				}
+			}
+
+			if (hasPostprocessing)
+			{
+				GraphicsMgr.ResetSurfaceTarget();
+
+				var oldRasterizer = GraphicsMgr.Rasterizer;
+				GraphicsMgr.Rasterizer = GraphicsMgr._cameraRasterizerState;
+				GraphicsMgr.SetTransformMatrix(Matrix.CreateTranslation(Vector3.Zero));
+				ApplyPostprocessing();
+				GraphicsMgr.ResetTransformMatrix();
+				GraphicsMgr.Rasterizer = oldRasterizer;
+			}
+		}
+
+
+		internal void DrawGUI()
+		{
+			foreach (var entity in _depthSortedEntities)
+			{
+				if (entity.Visible && !entity.Destroyed)
+				{
+					entity.Draw();
+				}
+			}
+		}
+
+		#endregion Events.
+
+
+
+		/// <summary>
+		/// Sorts entites and components by depth, if depth sorting is enabled.
+		/// </summary>
+		internal void SortByDepth()
+		{
+			if (DepthSorting)
+			{
+				if (_depthListOutdated)
+				{
+					_depthSortedEntities = new SafeList<Entity>(_entities.OrderByDescending(o => o.Depth).ToList());
+					_depthListOutdated = false;
+				}
+			}
+			else
+			{
+				_depthSortedEntities = _entities;
+			}
+		}
+
+
+		internal void AddEntity(Entity entity)
+		{
+			_entities.Add(entity);
+			_depthListOutdated = true;
+		}
+
+		internal void RemoveEntity(Entity entity) =>
+			_entities.Remove(entity);
+
+
+		internal void UpdateEntityList()
+		{
+			// Clearing main list from destroyed objects.
+			foreach (var entity in _entities)
+			{
+				if (entity.Destroyed)
+				{
+					_entities.Remove(entity);
+				}
+			}
+			// Clearing main list from destroyed objects.
+
+		}
+
+
+		/// <summary>
+		/// Applies shaders to the camera surface.
+		/// </summary>
+		private void ApplyPostprocessing()
+		{
+			var camera = GraphicsMgr.CurrentCamera;
+
+			var sufraceChooser = false;
+
+			for (var i = 0; i < PostprocessorEffects.Count - 1; i += 1)
+			{
+				PostprocessorEffects[i].SetWorldViewProjection(
+					GraphicsMgr.CurrentWorld,
+					GraphicsMgr.CurrentView,
+					GraphicsMgr.CurrentProjection
+				);
+
+				GraphicsMgr.CurrentEffect = PostprocessorEffects[i];
+				if (sufraceChooser)
+				{
+					GraphicsMgr.SetSurfaceTarget(camera._postprocessorLayerBuffer);
+					GraphicsMgr.Device.Clear(Color.TransparentBlack);
+					camera._postprocessorBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Right, Color.White);
+				}
+				else
+				{
+					GraphicsMgr.SetSurfaceTarget(camera._postprocessorBuffer);
+					GraphicsMgr.Device.Clear(Color.TransparentBlack);
+					camera._postprocessorLayerBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Right, Color.White);
+				}
+
+				GraphicsMgr.ResetSurfaceTarget();
+				sufraceChooser = !sufraceChooser;
+			}
+
+
+			PostprocessorEffects[PostprocessorEffects.Count - 1].SetWorldViewProjection(
+				GraphicsMgr.CurrentWorld,
+				GraphicsMgr.CurrentView,
+				GraphicsMgr.CurrentProjection
+			);
+
+			GraphicsMgr.CurrentEffect = PostprocessorEffects[PostprocessorEffects.Count - 1];
+			if ((PostprocessorEffects.Count % 2) != 0)
+			{
+				camera._postprocessorLayerBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Right, Color.White);
+			}
+			else
+			{
+				camera._postprocessorBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Right, Color.White);
+			}
+
+			GraphicsMgr.CurrentEffect = null;
+		}
+
+
+
 	}
 }

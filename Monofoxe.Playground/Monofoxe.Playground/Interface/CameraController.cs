@@ -42,6 +42,8 @@ namespace Monofoxe.Playground.Interface
 
 		public override void Update()
 		{
+			base.Update();
+
 			// Movement.
 			var movementVector3 = new Vector3(
 				Input.CheckButton(LeftButton).ToInt() - Input.CheckButton(RightButton).ToInt(),
