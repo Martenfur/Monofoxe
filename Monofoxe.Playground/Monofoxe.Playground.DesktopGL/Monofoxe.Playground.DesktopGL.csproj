@@ -47,12 +47,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Monofoxe.Engine">
-      <HintPath>..\..\Monofoxe\bin\Debug\Monofoxe.Engine.dll</HintPath>
-    </Reference>
-    <Reference Include="Monofoxe.Tiled">
-      <HintPath>..\..\Monofoxe\bin\Debug\Monofoxe.Tiled.dll</HintPath>
-    </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
     </Reference>
@@ -111,6 +105,16 @@
     <None Include="app.config" />
     <None Include="app.manifest" />
     <None Include="Monofoxe.props" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Monofoxe\Monofoxe.Engine\Monofoxe.Engine.csproj">
+      <Project>{9a75ed71-2fdf-47e2-b9e9-1918eca10bc8}</Project>
+      <Name>Monofoxe.Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Monofoxe\Monofoxe.Tiled\Monofoxe.Tiled.csproj">
+      <Project>{21e56073-5e48-4346-9800-872264f5abb5}</Project>
+      <Name>Monofoxe.Tiled</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\Monofoxe.Playground\Monofoxe.Playground.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
