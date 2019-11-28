@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Resources.Sprites;
 using System.Text.RegularExpressions;
-using Monofoxe.Playground.ECSDemo;
+using Monofoxe.Playground.ECDemo;
 using Monofoxe.Engine.Resources;
 
 namespace Monofoxe.Playground.SceneSystemDemo
@@ -40,7 +40,7 @@ namespace Monofoxe.Playground.SceneSystemDemo
 			backgroungLayer.PostprocessorEffects.Add(ResourceHub.GetResource<Effect>("Effects", "Seizure"));
 
 			
-			// See ECSDemo to learn how those work.
+			// See ECDemo to learn how those work.
 			new Player(mainLayer, new Vector2(400, 300));
 
 			// Player will not draw lines to these bots, because they are on a different layer.
@@ -48,7 +48,7 @@ namespace Monofoxe.Playground.SceneSystemDemo
 			{
 				var bot = CreateFromTemplate(backgroungLayer, "Bot");
 				var position = bot.GetComponent<PositionComponent>();
-				position.Position = new Vector2(ECSDemoFactory.Random.Next(100, 700), ECSDemoFactory.Random.Next(100, 500));
+				position.Position = new Vector2(ECDemoFactory.Random.Next(100, 700), ECDemoFactory.Random.Next(100, 500));
 			}
 
 			// Player will draw lines to these bots, because they are on the same layer.
@@ -56,7 +56,7 @@ namespace Monofoxe.Playground.SceneSystemDemo
 			{
 				var bot = CreateFromTemplate(mainLayer, "Bot");
 				var position = bot.GetComponent<PositionComponent>();
-				position.Position = new Vector2(ECSDemoFactory.Random.Next(100, 700), ECSDemoFactory.Random.Next(100, 500));
+				position.Position = new Vector2(ECDemoFactory.Random.Next(100, 700), ECDemoFactory.Random.Next(100, 500));
 			}
 			
 		}

@@ -1,7 +1,7 @@
 ﻿using Monofoxe.Engine.EC;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Utils.Tilemaps;
-using Monofoxe.Playground.ECSDemo;
+using Monofoxe.Playground.ECDemo;
 using Monofoxe.Playground.TiledDemo.ExtendedMapBuilder;
 
 namespace Monofoxe.Playground.TiledDemo

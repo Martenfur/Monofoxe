@@ -4,7 +4,7 @@ using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.EC;
 using Monofoxe.Engine.Resources;
 using Monofoxe.Engine.SceneSystem;
-using Monofoxe.Playground.ECSDemo;
+using Monofoxe.Playground.ECDemo;
 using Monofoxe.Playground.GraphicsDemo;
 using Monofoxe.Playground.InputDemo;
 using Monofoxe.Playground.SceneSystemDemo;
@@ -24,7 +24,7 @@ namespace Monofoxe.Playground.Interface
 			new PrimitiveDemoFactory(),
 			new SpriteDemoFactory(),
 			new InputDemoFactory(),
-			new ECSDemoFactory(),
+			new ECDemoFactory(),
 			new SceneSystemDemoFactory(),
 			new UtilsDemoFactory(),
 			new TiledDemoFactory(),
