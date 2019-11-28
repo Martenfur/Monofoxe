@@ -39,6 +39,13 @@
 		 * - Draw
 		 */
 
+		/// <summary>
+		/// Gets called when component is added to the entity. 
+		/// If removed and added several times, the event will still be called.
+		/// </summary>
+		public abstract void Initialize();
+
+		
 
 		/// <summary>
 		/// Updates at a fixed rate, if entity is enabled.

@@ -29,6 +29,10 @@ namespace Monofoxe.Playground.ECSDemo
 			StartingPosition = position;
 		}
 
+		public override void Initialize()
+		{
+		}
+
 		public override void Destroy()
 		{
 		}
@@ -41,6 +45,7 @@ namespace Monofoxe.Playground.ECSDemo
 		{
 		}
 
+		
 		public override void Update()
 		{
 		}

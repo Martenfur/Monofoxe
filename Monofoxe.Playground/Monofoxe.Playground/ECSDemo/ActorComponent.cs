@@ -25,14 +25,16 @@ namespace Monofoxe.Playground.ECSDemo
 			Sprite = sprite;
 		}
 
+		public override void Initialize()
+		{
+		}
+
 		public override void Destroy()
 		{
-			throw new System.NotImplementedException();
 		}
 
 		public override void FixedUpdate()
 		{
-			throw new System.NotImplementedException();
 		}
 
 		public override void Update()

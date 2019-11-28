@@ -35,11 +35,13 @@ namespace Monofoxe.Playground.ECSDemo
 
 		public override void FixedUpdate()
 		{
-			
+			base.FixedUpdate();
 		}
 
 		public override void Update()
 		{
+			base.Update();
+
 			// Very basic controls.
 			var movement = new Vector2(
 				Input.CheckButton(RightButton).ToInt() - Input.CheckButton(LeftButton).ToInt(),
@@ -54,6 +56,8 @@ namespace Monofoxe.Playground.ECSDemo
 
 		public override void Draw()
 		{
+			base.Draw();
+
 			var position = GetComponent<PositionComponent>();
 
 			// Layers and scenes have methods for searching entities/components.

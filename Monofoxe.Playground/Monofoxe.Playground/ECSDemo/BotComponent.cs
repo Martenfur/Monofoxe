@@ -15,17 +15,19 @@ namespace Monofoxe.Playground.ECSDemo
 
 		}
 
+		public override void Initialize()
+		{
+		}
+
 		public override void FixedUpdate()
 		{
 		}
 
 		public override void Update()
 		{
-
 			var actor = Owner.GetComponent<ActorComponent>();
 			actor.Move = true;
 			actor.Direction += TimeKeeper.Global.Time(TurningSpeed); // ni-ni-ni-ni-ni-ni-ni-ni-ni-ni-ni-ni-ni-ni
-
 		}
 
 		public override void Draw()

@@ -11,10 +11,12 @@ namespace Monofoxe.Playground.TiledDemo
 	/// </summary>
 	public class TileCollisionComponent : Component
 	{
+		public override void Initialize()
+		{
+		}
 
 		public override void FixedUpdate()
 		{
-			throw new System.NotImplementedException();
 		}
 
 		public override void Update()
@@ -61,12 +63,10 @@ namespace Monofoxe.Playground.TiledDemo
 
 		public override void Draw()
 		{
-			throw new System.NotImplementedException();
 		}
 
 		public override void Destroy()
 		{
-			throw new System.NotImplementedException();
 		}
 
 	}
