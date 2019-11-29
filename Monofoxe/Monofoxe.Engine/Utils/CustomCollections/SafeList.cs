@@ -8,7 +8,7 @@ namespace Monofoxe.Engine.Utils.CustomCollections
 	/// <summary> 
 	/// Safe list. Makes possible to safely remove from and add items to the list during enumeration.
 	/// </summary>
-	public class SafeList<T> : IEnumerable<T>
+	public class SafeList<T>
 	{
 		private List<T> _items, _outdatedItems;
 		private bool _isOutdated = false;
@@ -53,7 +53,7 @@ namespace Monofoxe.Engine.Utils.CustomCollections
 			_items.Insert(index, item);
 		
 		public void AddRange(SafeList<T> items) =>
-			_items.AddRange(items);
+			_items.AddRange(items._items);
 
 		public int Count =>
 			_items.Count;
@@ -83,13 +83,6 @@ namespace Monofoxe.Engine.Utils.CustomCollections
 		public T[] ToArray() =>
 			_items.ToArray();
 		
-		
-		public IOrderedEnumerable<T> OrdeByDescending<TKey>(Func<T, TKey> func) =>
-			_items.OrderByDescending(func);
-
-		public IOrderedEnumerable<T> OrdeBy<TKey>(Func<T, TKey> func) =>
-			_items.OrderBy(func);
-		
 
 		/// <summary>
 		/// Removes old elements from the list and adds new ones.
@@ -105,14 +98,7 @@ namespace Monofoxe.Engine.Utils.CustomCollections
 			}
 		}
 
-		
-		public IEnumerator<T> GetEnumerator()
-		{
-			Update();
-			return _outdatedItems.GetEnumerator();
-		}
-		
-		IEnumerator IEnumerable.GetEnumerator()
+		public List<T>.Enumerator GetEnumerator()
 		{
 			Update();
 			return _outdatedItems.GetEnumerator();

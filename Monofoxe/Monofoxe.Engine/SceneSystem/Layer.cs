@@ -113,17 +113,26 @@ namespace Monofoxe.Engine.SceneSystem
 			
 			DepthSorting = false;
 		}
-		
-		
+
+
 
 		#region Entity methods.
 
 		/// <summary>
 		/// Returns list of entities of certain type.
 		/// </summary>
-		public List<T> GetEntityList<T>() where T : Entity =>
-		_entities.OfType<T>().ToList();
-		
+		public List<T> GetEntityList<T>() where T : Entity
+		{
+			var entities = new List<T>();
+			foreach (var entity in _entities)
+			{
+				if (entity is T)
+				{
+					entities.Add((T)entity);
+				}
+			}
+			return entities;
+		}
 		
 		/// <summary>
 		/// Checks if any instances of an entity exist.
@@ -336,7 +345,10 @@ namespace Monofoxe.Engine.SceneSystem
 			{
 				if (_depthListOutdated)
 				{
-					_depthSortedEntities = new SafeList<Entity>(_entities.OrderByDescending(o => o.Depth).ToList());
+					_depthSortedEntities = 
+						new SafeList<Entity>(
+							_entities.ToList().OrderByDescending(o => o.Depth).ToList()
+						); // TODO: Replace this bullshit with something prettier.
 					_depthListOutdated = false;
 				}
 			}
