@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine.Cameras;
@@ -95,7 +94,7 @@ namespace Monofoxe.Engine.SceneSystem
 
 		private SafeList<Entity> _entities = new SafeList<Entity>();
 		private SafeList<Entity> _depthSortedEntities;
-
+		private EntityDepthComparer _depthComparer = new EntityDepthComparer();
 		
 		/// <summary>
 		/// Shaders applied to the layer.
@@ -178,7 +177,7 @@ namespace Monofoxe.Engine.SceneSystem
 				entityArray[i] = components[i].Owner;
 			}
 
-			return entityArray.ToList();
+			return new List<Entity>(entityArray);
 		}
 		
 		
@@ -345,10 +344,8 @@ namespace Monofoxe.Engine.SceneSystem
 			{
 				if (_depthListOutdated)
 				{
-					_depthSortedEntities = 
-						new SafeList<Entity>(
-							_entities.ToList().OrderByDescending(o => o.Depth).ToList()
-						); // TODO: Replace this bullshit with something prettier.
+					_depthSortedEntities = new SafeList<Entity>(_entities.ToList());
+					_depthSortedEntities.Sort(_depthComparer); 
 					_depthListOutdated = false;
 				}
 			}

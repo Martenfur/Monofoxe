@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Monofoxe.Engine.EC;
 
 namespace Monofoxe.Engine.Utils.CustomCollections
 {
@@ -82,6 +83,12 @@ namespace Monofoxe.Engine.Utils.CustomCollections
 		
 		public T[] ToArray() =>
 			_items.ToArray();
+
+		public void Sort(IComparer<T> comparer)
+		{
+			_isOutdated = true;
+			_items.Sort(comparer);
+		}
 		
 
 		/// <summary>
@@ -105,4 +112,5 @@ namespace Monofoxe.Engine.Utils.CustomCollections
 		}
 		
 	}
+
 }
