@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -61,8 +60,8 @@ namespace Monofoxe.Engine
 
 		private static StringBuilder _keyboardBuffer = new StringBuilder();
 		private static Keys _keyboardLastKeyBuffer = Keys.None;		
-		private static Keys[] _currentKeys = new Keys[0]; // A little bit of wasted memory, but code gets much simplier.
-		private static Keys[] _previousKeys = new Keys[0];
+		private static List<Keys> _currentKeys = new List<Keys>();
+		private static List<Keys> _previousKeys = new List<Keys>();
 
 		#endregion Keyboard.
 		
@@ -168,12 +167,14 @@ namespace Monofoxe.Engine
 
 			KeyboardLastKey = _keyboardLastKeyBuffer;
 
-			_previousKeys = _currentKeys;
-			_currentKeys = Keyboard.GetState().GetPressedKeys();
+			_previousKeys.Clear();
+			_previousKeys.AddRange(_currentKeys);
+			_currentKeys.Clear();
+			_currentKeys.AddRange(Keyboard.GetState().GetPressedKeys());
 			
-			if (_currentKeys.Length > 0)
+			if (_currentKeys.Count > 0)
 			{
-				KeyboardKey = _currentKeys.Last();
+				KeyboardKey = _currentKeys[_currentKeys.Count - 1];
 			}
 			else
 			{
@@ -350,21 +351,21 @@ namespace Monofoxe.Engine
 		/// Checks if any keyboard key in down in current step.
 		/// </summary>
 		public static bool KeyboardCheckAnyKey() => 
-			!_keyboardCleared && _currentKeys.Length > 0;
+			!_keyboardCleared && _currentKeys.Count > 0;
 		
 
 		/// <summary>
 		/// Checks if any keyboard key in pressed.
 		/// </summary>
 		public static bool KeyboardCheckAnyKeyPress() => 
-			!_keyboardCleared && _currentKeys.Length > 0 && _previousKeys.Length == 0;
+			!_keyboardCleared && _currentKeys.Count > 0 && _previousKeys.Count == 0;
 
 
 		/// <summary>
 		/// Checks if any keyboard key in released.
 		/// </summary>
 		public static bool KeyboardCheckAnyKeyRelease() => 
-			!_keyboardCleared && _currentKeys.Length == 0 && _previousKeys.Length > 0;
+			!_keyboardCleared && _currentKeys.Count == 0 && _previousKeys.Count > 0;
 
 
 		/// <summary>
