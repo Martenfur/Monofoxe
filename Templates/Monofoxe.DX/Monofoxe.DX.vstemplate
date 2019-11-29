@@ -22,7 +22,7 @@
 		<ProjectTypeTag>MonoGame</ProjectTypeTag>
 	</TemplateData>
 	<TemplateContent>
-		<Project TargetFileName="MonofoxeWindowsApplication.csproj" File="MonofoxeWindowsApplication.csproj" ReplaceParameters="true">
+		<Project TargetFileName="Monofoxe.DX.csproj" File="Monofoxe.DX.csproj" ReplaceParameters="true">
 			<ProjectItem ReplaceParameters="false" TargetFileName="Icon.ico">Icon.ico</ProjectItem>
 			<ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
 			<ProjectItem ReplaceParameters="true" TargetFileName="app.manifest">app.manifest</ProjectItem>

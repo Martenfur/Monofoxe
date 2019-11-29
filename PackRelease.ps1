@@ -49,10 +49,11 @@ $srcLibDir = "$PWD\Monofoxe\bin\Release"
 $destCommonDir = "$PWD\Templates\CommonFiles"
 $destReleaseDir = "$PWD\Release\"
 
-$desktopGL = "MonofoxeDesktopGL"
-$blankDesktopGL = "MonofoxeDesktopGLBlank"
-$blankWindows = "MonofoxeWindowsBlank"
+$blankDesktopGL = "Monofoxe.GL"
+$blankWindows = "Monofoxe.DX"
 $shared = "MonofoxeShared"
+$crossplatform = "MonofoxeCrossplatform"
+
 $library = "MonofoxeDotnetStandardLibrary"
 
 "Building solution $msbuild..."
@@ -68,18 +69,19 @@ if (Test-Path "$destReleaseDir" -PathType Container)
 New-Item -ItemType Directory -Force -Path "$destReleaseDir" > $null
 
 
-Assemble-Template $desktopGL $TRUE
 Assemble-Template $blankDesktopGL $FALSE
 Assemble-Template $blankWindows $FALSE
 Assemble-Template $shared $TRUE
 Assemble-Template $library $FALSE
+Assemble-Template $crossplatform $FALSE
 
+
+New-Item -ItemType Directory -Force -Path "$destReleaseDir/Solution" > $null
 
 "Packing templates..."
-[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$desktopGL", "$destReleaseDir$desktopGL.zip")
-[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$blankDesktopGL", "$destReleaseDir$blankDesktopGL.zip")
-[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$blankWindows", "$destReleaseDir$blankWindows.zip")
-[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$shared", "$destReleaseDir$shared.zip")
+[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$blankDesktopGL", "$destReleaseDir\$crossplatform\$blankDesktopGL.zip")
+[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$blankWindows", "$destReleaseDir\$crossplatform\$blankWindows.zip")
+[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$shared", "$destReleaseDir\$crossplatform\$shared.zip")
 [IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$library", "$destReleaseDir$library.zip")
 
 
@@ -87,15 +89,13 @@ Assemble-Template $library $FALSE
 &makensis Installer/packInstaller.nsi
 
 "Cleaning..."
-if ($debug)
+if (!$debug)
 {
-	Remove-Item "$destReleaseDir$desktopGL" -Force -Recurse
 	Remove-Item "$destReleaseDir$blankDesktopGL" -Force -Recurse
 	Remove-Item "$destReleaseDir$blankWindows" -Force -Recurse
 	Remove-Item "$destReleaseDir$shared" -Force -Recurse
 	Remove-Item "$destReleaseDir$library" -Force -Recurse
 
-	Remove-Item "$destReleaseDir$desktopGL.zip" -Force -Recurse
 	Remove-Item "$destReleaseDir$blankDesktopGL.zip" -Force -Recurse
 	Remove-Item "$destReleaseDir$blankWindows.zip" -Force -Recurse
 	Remove-Item "$destReleaseDir$shared.zip" -Force -Recurse

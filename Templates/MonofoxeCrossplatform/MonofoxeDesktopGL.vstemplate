@@ -1,0 +1,39 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+	<TemplateData>
+		<Name>Monofoxe Cross Platform Project</Name>
+		<Description>A Monofoxe game project for Windows, Mac and Linux using OpenGL. It already some base class structure. Use blank project, if you intend to also use shared project.</Description>
+		<ProjectType>CSharp</ProjectType>
+		<NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+		<ProjectSubType>
+		</ProjectSubType>
+		<SortOrder>43300</SortOrder>
+		<CreateNewFolder>true</CreateNewFolder>
+		<DefaultName>Foxe</DefaultName>
+		<ProvideDefaultName>true</ProvideDefaultName>
+		<LocationField>Enabled</LocationField>
+		<EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+		<Icon>__TemplateIcon.png</Icon>
+		<PreviewImage>__PreviewImage.png</PreviewImage>
+		<CreateInPlace>true</CreateInPlace>
+		<LanguageTag>C#</LanguageTag>
+		<PlatformTag>Windows</PlatformTag>
+		<PlatformTag>Linux</PlatformTag>
+		<ProjectTypeTag>Desktop</ProjectTypeTag>
+		<ProjectTypeTag>Monofoxe</ProjectTypeTag>
+		<ProjectTypeTag>MonoGame</ProjectTypeTag>
+	</TemplateData>
+	<TemplateContent>
+		<ProjectCollection>
+			<ProjectTemplateLink ProjectName="Monofoxe.GL">
+				Monofoxe.GL\Monofoxe.GL.vstemplate
+			</ProjectTemplateLink>
+			<ProjectTemplateLink ProjectName="Monofoxe.DX">
+				Monofoxe.DX\Monofoxe.DX.vstemplate
+			</ProjectTemplateLink>
+			<ProjectTemplateLink ProjectName="Shared">
+				MonofoxeShared\Shared.vstemplate
+			</ProjectTemplateLink>
+			
+		</ProjectCollection>
+	</TemplateContent>
+</VSTemplate>

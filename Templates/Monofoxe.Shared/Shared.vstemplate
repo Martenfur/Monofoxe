@@ -1,36 +1,32 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
 	<TemplateData>
-		<Name>Monofoxe Cross Platform Desktop Project</Name>
-		<Description>A Monofoxe game project for Windows, Mac and Linux using OpenGL. It already some base class structure. Use blank project, if you intend to also use shared project.</Description>
+		<Name>Monofoxe Shared Project</Name>
+		<Description>A Monofoxe Shared Project. Used to share common code between platform-specific projects. Use it if you want to make a cross-platform game.</Description>
 		<ProjectType>CSharp</ProjectType>
-		<NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
-		<ProjectSubType>
-		</ProjectSubType>
-		<SortOrder>43300</SortOrder>
-		<CreateNewFolder>true</CreateNewFolder>
-		<DefaultName>Foxe</DefaultName>
+		<SortOrder>1000</SortOrder>
+		<CreateInPlace>true</CreateInPlace>
+		<CreateNewFolder>false</CreateNewFolder>
+		<DefaultName>Foxe.Shared</DefaultName>
 		<ProvideDefaultName>true</ProvideDefaultName>
 		<LocationField>Enabled</LocationField>
-		<EnableLocationBrowseButton>true</EnableLocationBrowseButton>
 		<Icon>__TemplateIcon.png</Icon>
 		<PreviewImage>__PreviewImage.png</PreviewImage>
-		<CreateInPlace>true</CreateInPlace>
 		<LanguageTag>C#</LanguageTag>
 		<PlatformTag>Windows</PlatformTag>
 		<PlatformTag>Linux</PlatformTag>
-		<ProjectTypeTag>Desktop</ProjectTypeTag>
+		<PlatformTag>Android</PlatformTag>
+		<ProjectTypeTag>Shared</ProjectTypeTag>
 		<ProjectTypeTag>Monofoxe</ProjectTypeTag>
 		<ProjectTypeTag>MonoGame</ProjectTypeTag>
 	</TemplateData>
 	<TemplateContent>
-		<Project TargetFileName="MonofoxeDesktopGL.csproj" File="MonofoxeDesktopGL.csproj" ReplaceParameters="true">
-			<ProjectItem ReplaceParameters="true" TargetFileName="Game1.cs">Game1.cs</ProjectItem>
-			<ProjectItem ReplaceParameters="false" TargetFileName="Icon.ico">Icon.ico</ProjectItem>
-			<ProjectItem ReplaceParameters="false" TargetFileName="Icon.bmp">Icon.bmp</ProjectItem>
-			<ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
-			<ProjectItem ReplaceParameters="true" TargetFileName="GameController.cs">GameController.cs</ProjectItem>
-			<ProjectItem ReplaceParameters="true" TargetFileName="app.manifest">app.manifest</ProjectItem>
+
+		<Project TargetFileName="$projectname$.shproj" File="Shared.shproj" ReplaceParameters="true">
+			<ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.projitems">Shared.projitems</ProjectItem>
 			<ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.props">Monofoxe.props</ProjectItem>
+			
+			<ProjectItem ReplaceParameters="true" TargetFileName="Game1.cs">Game1.cs</ProjectItem>
+			<ProjectItem ReplaceParameters="true" TargetFileName="GameController.cs">GameController.cs</ProjectItem>
 			
 			<Folder Name="Resources" TargetFolderName="Resources">
 				<Folder Name="Sprites" TargetFolderName="Sprites">
@@ -40,14 +36,6 @@
 				<ProjectItem ReplaceParameters="false" TargetFileName="Fonts.cs">Fonts.cs</ProjectItem>
 				<ProjectItem ReplaceParameters="false" TargetFileName="Maps.cs">Maps.cs</ProjectItem>
 			</Folder>
-
-
-
-			<Folder Name="Properties" TargetFolderName="Properties">
-				<ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
-			</Folder>
-			
-			
 			
 			<Folder Name="Content" TargetFolderName="Content">
 				<ProjectItem ReplaceParameters="true" TargetFileName="Content.mgcb">Content.mgcb</ProjectItem>
@@ -71,7 +59,7 @@
 					<Folder Name="Sounds" TargetFolderName="Sounds">
 					</Folder>
 				</Folder>
-
+				
 				<Folder Name="Maps" TargetFolderName="Maps">
 				</Folder>
 
@@ -83,5 +71,6 @@
 
 
 		</Project>
+
 	</TemplateContent>
 </VSTemplate>
