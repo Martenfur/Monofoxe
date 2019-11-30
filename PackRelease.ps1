@@ -49,10 +49,10 @@ $srcLibDir = "$PWD\Monofoxe\bin\Release"
 $destCommonDir = "$PWD\Templates\CommonFiles"
 $destReleaseDir = "$PWD\Release\"
 
-$blankDesktopGL = "Monofoxe.GL"
-$blankWindows = "Monofoxe.DX"
-$shared = "MonofoxeShared"
-$crossplatform = "MonofoxeCrossplatform"
+$blankDesktopGL = "GL"
+$blankWindows = "DX"
+$shared = "Shared"
+$crossplatform = "Crossplatform"
 
 $library = "MonofoxeDotnetStandardLibrary"
 
@@ -75,13 +75,18 @@ Assemble-Template $shared $TRUE
 Assemble-Template $library $FALSE
 Assemble-Template $crossplatform $FALSE
 
+echo "$destReleaseDir$blankDesktopGL/*"
+echo "$destReleaseDir$crossplatform\$blankDesktopGL\"
 
-New-Item -ItemType Directory -Force -Path "$destReleaseDir/Solution" > $null
+Copy-Item -path "$destReleaseDir$blankDesktopGL\" -Destination "$destReleaseDir$crossplatform\" -Recurse -Container
+Copy-Item -path "$destReleaseDir$blankWindows\" -Destination "$destReleaseDir$crossplatform\" -Recurse -Container
+Copy-Item -path "$destReleaseDir$shared\" -Destination "$destReleaseDir$crossplatform\" -Recurse -Container
+
 
 "Packing templates..."
-[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$blankDesktopGL", "$destReleaseDir\$crossplatform\$blankDesktopGL.zip")
-[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$blankWindows", "$destReleaseDir\$crossplatform\$blankWindows.zip")
-[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$shared", "$destReleaseDir\$crossplatform\$shared.zip")
+[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$blankDesktopGL", "$destReleaseDir$blankDesktopGL.zip")
+[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$blankWindows", "$destReleaseDir$blankWindows.zip")
+[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$shared", "$destReleaseDir$shared.zip")
 [IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$library", "$destReleaseDir$library.zip")
 
 

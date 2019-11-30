@@ -23,7 +23,7 @@
     <ProjectTypeTag>MonoGame</ProjectTypeTag>
   </TemplateData>
   <TemplateContent>
-    <Project TargetFileName="Monofoxe.GL.csproj" File="Monofoxe.GL.csproj" ReplaceParameters="true">
+    <Project TargetFileName="GL.csproj" File="GL.csproj" ReplaceParameters="true">
       <ProjectItem ReplaceParameters="false" TargetFileName="Icon.ico">Icon.ico</ProjectItem>
 	    <ProjectItem ReplaceParameters="false" TargetFileName="Icon.bmp">Icon.bmp</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>

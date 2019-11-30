@@ -1,4 +1,4 @@
-<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="ProjectGroup">
 	<TemplateData>
 		<Name>Monofoxe Cross Platform Project</Name>
 		<Description>A Monofoxe game project for Windows, Mac and Linux using OpenGL. It already some base class structure. Use blank project, if you intend to also use shared project.</Description>
@@ -7,7 +7,7 @@
 		<ProjectSubType>
 		</ProjectSubType>
 		<SortOrder>43300</SortOrder>
-		<CreateNewFolder>true</CreateNewFolder>
+		<CreateNewFolder>false</CreateNewFolder>
 		<DefaultName>Foxe</DefaultName>
 		<ProvideDefaultName>true</ProvideDefaultName>
 		<LocationField>Enabled</LocationField>
@@ -24,16 +24,20 @@
 	</TemplateData>
 	<TemplateContent>
 		<ProjectCollection>
-			<ProjectTemplateLink ProjectName="Monofoxe.GL">
-				Monofoxe.GL\Monofoxe.GL.vstemplate
+			<ProjectTemplateLink ProjectName="$safeprojectname$" CopyParameters="true">
+				Shared\Shared.vstemplate
 			</ProjectTemplateLink>
-			<ProjectTemplateLink ProjectName="Monofoxe.DX">
-				Monofoxe.DX\Monofoxe.DX.vstemplate
+			<ProjectTemplateLink ProjectName="$safeprojectname$.GL" CopyParameters="true">
+				GL\GL.vstemplate
 			</ProjectTemplateLink>
-			<ProjectTemplateLink ProjectName="Shared">
-				MonofoxeShared\Shared.vstemplate
+			<ProjectTemplateLink ProjectName="$safeprojectname$.DX" CopyParameters="true">
+				DX\DX.vstemplate
 			</ProjectTemplateLink>
-			
 		</ProjectCollection>
+
+		<CustomParameters>
+			<CustomParameter Name="$foxe$" Value="Red Foxe"/>
+		</CustomParameters>	
+
 	</TemplateContent>
 </VSTemplate>
