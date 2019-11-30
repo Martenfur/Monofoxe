@@ -27,17 +27,15 @@ Function Find-MsBuild([int] $MaxVersion = 2019)
 }
 $msbuild = Find-MsBuild
 
-Function Assemble-Template([string] $platform, [bool] $copyCommon)
+Function Assemble-Template([string] $platform)
 {
 	"Assembling templates for $platform..."
 	Copy-Item -path "$PWD\Templates\$platform\" -Destination "$destReleaseDir" -Recurse -Container
-	if ($copyCommon)
-	{
-		Copy-Item -path "$destCommonDir/*" -Destination "$destReleaseDir$platform" -Recurse -Container
-		New-Item -ItemType Directory -Force -Path "$destReleaseDir$platform\Content\Effects\" > $null
-		Copy-Item -path "$srcLibDir\*" -Filter "*.fx" -Destination "$destReleaseDir$platform\Content\Effects\"
-	}
 	Copy-Item -path "$PWD/Common/*" -Destination "$destReleaseDir$platform" -Recurse -Container
+
+	Copy-Item -path "$destReleaseDir$platform\" -Destination "$destReleaseDir$crossplatform\" -Recurse -Container
+
+	[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$platform", "$destReleaseDir$platform.zip")
 }
 
 Add-Type -A System.IO.Compression.FileSystem
@@ -49,12 +47,11 @@ $srcLibDir = "$PWD\Monofoxe\bin\Release"
 $destCommonDir = "$PWD\Templates\CommonFiles"
 $destReleaseDir = "$PWD\Release\"
 
-$blankDesktopGL = "GL"
-$blankWindows = "DX"
+$GL = "GL"
+$DX = "DX"
 $shared = "Shared"
-$crossplatform = "Crossplatform"
-
 $library = "MonofoxeDotnetStandardLibrary"
+$crossplatform = "Crossplatform"
 
 "Building solution $msbuild..."
 &$msbuild ("$PWD\Monofoxe\Monofoxe.sln" ,'/verbosity:q','/p:configuration=Release','/t:Clean,Build')
@@ -69,25 +66,15 @@ if (Test-Path "$destReleaseDir" -PathType Container)
 New-Item -ItemType Directory -Force -Path "$destReleaseDir" > $null
 
 
-Assemble-Template $blankDesktopGL $FALSE
-Assemble-Template $blankWindows $FALSE
-Assemble-Template $shared $TRUE
-Assemble-Template $library $FALSE
-Assemble-Template $crossplatform $FALSE
 
-echo "$destReleaseDir$blankDesktopGL/*"
-echo "$destReleaseDir$crossplatform\$blankDesktopGL\"
+Copy-Item -path "$PWD\Templates\$crossplatform\" -Destination "$destReleaseDir" -Recurse -Container
 
-Copy-Item -path "$destReleaseDir$blankDesktopGL\" -Destination "$destReleaseDir$crossplatform\" -Recurse -Container
-Copy-Item -path "$destReleaseDir$blankWindows\" -Destination "$destReleaseDir$crossplatform\" -Recurse -Container
-Copy-Item -path "$destReleaseDir$shared\" -Destination "$destReleaseDir$crossplatform\" -Recurse -Container
+Assemble-Template $GL
+Assemble-Template $DX
+Assemble-Template $shared
+Assemble-Template $library
 
-
-"Packing templates..."
-[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$blankDesktopGL", "$destReleaseDir$blankDesktopGL.zip")
-[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$blankWindows", "$destReleaseDir$blankWindows.zip")
-[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$shared", "$destReleaseDir$shared.zip")
-[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$library", "$destReleaseDir$library.zip")
+[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$crossplatform", "$destReleaseDir$crossplatform.zip")
 
 
 "Making installer..."
@@ -96,15 +83,17 @@ Copy-Item -path "$destReleaseDir$shared\" -Destination "$destReleaseDir$crosspla
 "Cleaning..."
 if (!$debug)
 {
-	Remove-Item "$destReleaseDir$blankDesktopGL" -Force -Recurse
-	Remove-Item "$destReleaseDir$blankWindows" -Force -Recurse
+	Remove-Item "$destReleaseDir$GL" -Force -Recurse
+	Remove-Item "$destReleaseDir$DX" -Force -Recurse
 	Remove-Item "$destReleaseDir$shared" -Force -Recurse
 	Remove-Item "$destReleaseDir$library" -Force -Recurse
+	Remove-Item "$destReleaseDir$crossplatform" -Force -Recurse
 
-	Remove-Item "$destReleaseDir$blankDesktopGL.zip" -Force -Recurse
-	Remove-Item "$destReleaseDir$blankWindows.zip" -Force -Recurse
+	Remove-Item "$destReleaseDir$GL.zip" -Force -Recurse
+	Remove-Item "$destReleaseDir$DX.zip" -Force -Recurse
 	Remove-Item "$destReleaseDir$shared.zip" -Force -Recurse
 	Remove-Item "$destReleaseDir$library.zip" -Force -Recurse
+	Remove-Item "$destReleaseDir$crossplatform.zip" -Force -Recurse
 }
 
 Read-Host -Prompt "Done! Press Enter to exit"

@@ -1,7 +1,7 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="ProjectGroup">
 	<TemplateData>
-		<Name>Monofoxe Cross Platform Project</Name>
-		<Description>A Monofoxe game project for Windows, Mac and Linux using OpenGL. It already some base class structure. Use blank project, if you intend to also use shared project.</Description>
+		<Name>Monofoxe Crossplatform Project</Name>
+		<Description>A Monofoxe game project for Windows, Mac and Linux. Includes Shared, DX and GL projects.</Description>
 		<ProjectType>CSharp</ProjectType>
 		<NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
 		<ProjectSubType>
@@ -18,7 +18,8 @@
 		<LanguageTag>C#</LanguageTag>
 		<PlatformTag>Windows</PlatformTag>
 		<PlatformTag>Linux</PlatformTag>
-		<ProjectTypeTag>Desktop</ProjectTypeTag>
+		<PlatformTag>DirectX</PlatformTag>
+		<PlatformTag>OpenGL</PlatformTag>
 		<ProjectTypeTag>Monofoxe</ProjectTypeTag>
 		<ProjectTypeTag>MonoGame</ProjectTypeTag>
 	</TemplateData>
@@ -34,10 +35,5 @@
 				DX\DX.vstemplate
 			</ProjectTemplateLink>
 		</ProjectCollection>
-
-		<CustomParameters>
-			<CustomParameter Name="$foxe$" Value="Red Foxe"/>
-		</CustomParameters>	
-
 	</TemplateContent>
 </VSTemplate>
