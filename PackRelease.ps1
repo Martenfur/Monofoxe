@@ -27,15 +27,19 @@ Function Find-MsBuild([int] $MaxVersion = 2019)
 }
 $msbuild = Find-MsBuild
 
+$projectTemplatesPath = "$PWD\Templates\ProjectTemplates\";
+$itemTemplatesPath = "$PWD\Templates\ItemTemplates\";
+
+
 Function Assemble-Template([string] $platform)
 {
 	"Assembling templates for $platform..."
-	Copy-Item -path "$PWD\Templates\$platform\" -Destination "$destReleaseDir" -Recurse -Container
-	Copy-Item -path "$PWD/Common/*" -Destination "$destReleaseDir$platform" -Recurse -Container
+	Copy-Item -path "$projectTemplatesPath$platform\" -Destination "$destProjectTemplatesDir" -Recurse -Container
+	Copy-Item -path "$PWD/Common/*" -Destination "$destProjectTemplatesDir$platform" -Recurse -Container
 
-	Copy-Item -path "$destReleaseDir$platform\" -Destination "$destReleaseDir$crossplatform\" -Recurse -Container
+	Copy-Item -path "$destProjectTemplatesDir$platform\" -Destination "$destProjectTemplatesDir$crossplatform\" -Recurse -Container
 
-	[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$platform", "$destReleaseDir$platform.zip")
+	[IO.Compression.ZipFile]::CreateFromDirectory("$destProjectTemplatesDir$platform", "$destProjectTemplatesDir$platform.zip")
 }
 
 Add-Type -A System.IO.Compression.FileSystem
@@ -46,6 +50,9 @@ $srcLibDir = "$PWD\Monofoxe\bin\Release"
 
 $destCommonDir = "$PWD\Templates\CommonFiles"
 $destReleaseDir = "$PWD\Release\"
+$destProjectTemplatesDir = "$destReleaseDir\ProjectTemplates\"
+$destItemTemplatesDir = "$destReleaseDir\ItemTemplates\"
+
 
 $GL = "GL"
 $DX = "DX"
@@ -64,10 +71,12 @@ if (Test-Path "$destReleaseDir" -PathType Container)
 	Remove-Item "$destReleaseDir" -Force -Recurse
 }
 New-Item -ItemType Directory -Force -Path "$destReleaseDir" > $null
+New-Item -ItemType Directory -Force -Path "$destProjectTemplatesDir" > $null
+New-Item -ItemType Directory -Force -Path "$destItemTemplatesDir" > $null
 
 
 
-Copy-Item -path "$PWD\Templates\$crossplatform\" -Destination "$destReleaseDir" -Recurse -Container
+Copy-Item -path "$projectTemplatesPath$crossplatform\" -Destination "$destProjectTemplatesDir" -Recurse -Container
 
 Assemble-Template $GL
 Assemble-Template $DX
@@ -75,7 +84,7 @@ Assemble-Template $library
 
 Assemble-Template $shared
 
-[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$crossplatform", "$destReleaseDir$crossplatform.zip")
+[IO.Compression.ZipFile]::CreateFromDirectory("$destProjectTemplatesDir$crossplatform", "$destProjectTemplatesDir$crossplatform.zip")
 
 
 "Making installer..."
