@@ -11,7 +11,9 @@
 !define MUI_UNICON "pics\icon.ico"
 
 !define NOPIPELINEROOT "..\NoPipeline\NoPipeline\NoPipeline\bin\Release"
-!define TEMPLATES_DIRECTORY "Templates\ProjectTemplates\Visual C#\${APPNAME} ${APPVERSION}"
+!define PROJECT_TEMPLATES_DIRECTORY "Templates\ProjectTemplates\Visual C#\${APPNAME} ${APPVERSION}"
+!define ITEM_TEMPLATES_DIRECTORY "Templates\ItemTemplates\Visual C#\${APPNAME} ${APPVERSION}"
+
 
 !define REGISTRY_DIRECTORY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME} ${APPVERSION}"
 
@@ -95,18 +97,24 @@ Section "MonoGame" Monogame
 SectionEnd
 
 Section "Visual Studio 2015 Templates/" VS2015
-	SetOutPath "$DOCUMENTS\Visual Studio 2015\${TEMPLATES_DIRECTORY}"
-	File /r '..\Release\*.zip'
+	SetOutPath "$DOCUMENTS\Visual Studio 2015\${PROJECT_TEMPLATES_DIRECTORY}"
+	File /r '..\Release\ProjectTemplates\*.zip'
+	SetOutPath "$DOCUMENTS\Visual Studio 2015\${ITEM_TEMPLATES_DIRECTORY}"
+	File /r '..\Release\ItemTemplates\*.zip'
 SectionEnd
 
 Section "Visual Studio 2017 Templates/" VS2017
-	SetOutPath "$DOCUMENTS\Visual Studio 2017\${TEMPLATES_DIRECTORY}"
-	File /r '..\Release\*.zip'
+	SetOutPath "$DOCUMENTS\Visual Studio 2017\${PROJECT_TEMPLATES_DIRECTORY}"
+	File /r '..\Release\ProjectTemplates\*.zip'
+	SetOutPath "$DOCUMENTS\Visual Studio 2017\${ITEM_TEMPLATES_DIRECTORY}"
+	File /r '..\Release\ItemTemplates\*.zip'
 SectionEnd
 
 Section "Visual Studio 2019 Templates/" VS2019
-	SetOutPath "$DOCUMENTS\Visual Studio 2019\${TEMPLATES_DIRECTORY}"
-	File /r '..\Release\*.zip'
+	SetOutPath "$DOCUMENTS\Visual Studio 2019\${PROJECT_TEMPLATES_DIRECTORY}"
+	File /r '..\Release\ProjectTemplates\*.zip'
+	SetOutPath "$DOCUMENTS\Visual Studio 2019\${ITEM_TEMPLATES_DIRECTORY}"
+	File /r '..\Release\ItemTemplates\*.zip'
 SectionEnd
 
 !define OldMonofoxeInstallationDir '$PROGRAMFILES\Monofoxe\'
@@ -180,9 +188,13 @@ FunctionEnd
 ; Uninstaller Section
 
 Section "Uninstall"
-	RMDir /r "$DOCUMENTS\Visual Studio 2015\${TEMPLATES_DIRECTORY}"
-	RMDir /r "$DOCUMENTS\Visual Studio 2017\${TEMPLATES_DIRECTORY}"
-	RMDir /r "$DOCUMENTS\Visual Studio 2019\${TEMPLATES_DIRECTORY}"
+	RMDir /r "$DOCUMENTS\Visual Studio 2015\${PROJECT_TEMPLATES_DIRECTORY}"
+	RMDir /r "$DOCUMENTS\Visual Studio 2017\${PROJECT_TEMPLATES_DIRECTORY}"
+	RMDir /r "$DOCUMENTS\Visual Studio 2019\${PROJECT_TEMPLATES_DIRECTORY}"
+	RMDir /r "$DOCUMENTS\Visual Studio 2015\${ITEM_TEMPLATES_DIRECTORY}"
+	RMDir /r "$DOCUMENTS\Visual Studio 2017\${ITEM_TEMPLATES_DIRECTORY}"
+	RMDir /r "$DOCUMENTS\Visual Studio 2019\${ITEM_TEMPLATES_DIRECTORY}"
+	
 	Delete "$INSTDIR\Uninstall.exe"
 	RMDir /r "$INSTDIR"
 	DeleteRegKey HKLM "${REGISTRY_DIRECTORY}"

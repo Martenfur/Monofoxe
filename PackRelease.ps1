@@ -27,33 +27,40 @@ Function Find-MsBuild([int] $MaxVersion = 2019)
 }
 $msbuild = Find-MsBuild
 
-Function Assemble-Template([string] $platform, [bool] $copyCommon)
+$projectTemplatesPath = "$PWD\Templates\ProjectTemplates\";
+$itemTemplatesPath = "$PWD\Templates\ItemTemplates\";
+
+
+Function Pack-Item-Template([string] $item)
+{
+	"Packing $item..."
+	[IO.Compression.ZipFile]::CreateFromDirectory("$itemTemplatesPath$item", "$destItemTemplatesDir$item.zip")
+}
+
+Function Assemble-Template([string] $platform)
 {
 	"Assembling templates for $platform..."
-	Copy-Item -path "$PWD\Templates\$platform\" -Destination "$destReleaseDir" -Recurse -Container
-	if ($copyCommon)
-	{
-		Copy-Item -path "$destCommonDir/*" -Destination "$destReleaseDir$platform" -Recurse -Container
-		New-Item -ItemType Directory -Force -Path "$destReleaseDir$platform\Content\Effects\" > $null
-		Copy-Item -path "$srcLibDir\*" -Filter "*.fx" -Destination "$destReleaseDir$platform\Content\Effects\"
-	}
-	Copy-Item -path "$PWD/Common/*" -Destination "$destReleaseDir$platform" -Recurse -Container
+	Copy-Item -path "$projectTemplatesPath$platform\" -Destination "$destProjectTemplatesDir" -Recurse -Container
+	Copy-Item -path "$PWD/Common/*" -Destination "$destProjectTemplatesDir$platform" -Recurse -Container
+
+	Copy-Item -path "$destProjectTemplatesDir$platform\" -Destination "$destProjectTemplatesDir$crossplatform\" -Recurse -Container
+
+	[IO.Compression.ZipFile]::CreateFromDirectory("$destProjectTemplatesDir$platform", "$destProjectTemplatesDir$platform.zip")
 }
 
 Add-Type -A System.IO.Compression.FileSystem
 
-$debug = $TRUE
+$debug = $FALSE
 
 $srcLibDir = "$PWD\Monofoxe\bin\Release"
 
 $destCommonDir = "$PWD\Templates\CommonFiles"
 $destReleaseDir = "$PWD\Release\"
+$destProjectTemplatesDir = "$destReleaseDir\ProjectTemplates\"
+$destItemTemplatesDir = "$destReleaseDir\ItemTemplates\"
 
-$desktopGL = "MonofoxeDesktopGL"
-$blankDesktopGL = "MonofoxeDesktopGLBlank"
-$blankWindows = "MonofoxeWindowsBlank"
-$shared = "MonofoxeShared"
-$library = "MonofoxeDotnetStandardLibrary"
+$crossplatform = "Crossplatform"
+
 
 "Building solution $msbuild..."
 &$msbuild ("$PWD\Monofoxe\Monofoxe.sln" ,'/verbosity:q','/p:configuration=Release','/t:Clean,Build')
@@ -66,40 +73,36 @@ if (Test-Path "$destReleaseDir" -PathType Container)
 	Remove-Item "$destReleaseDir" -Force -Recurse
 }
 New-Item -ItemType Directory -Force -Path "$destReleaseDir" > $null
+New-Item -ItemType Directory -Force -Path "$destProjectTemplatesDir" > $null
+New-Item -ItemType Directory -Force -Path "$destItemTemplatesDir" > $null
 
 
-Assemble-Template $desktopGL $TRUE
-Assemble-Template $blankDesktopGL $FALSE
-Assemble-Template $blankWindows $FALSE
-Assemble-Template $shared $TRUE
-Assemble-Template $library $FALSE
+
+Copy-Item -path "$projectTemplatesPath$crossplatform\" -Destination "$destProjectTemplatesDir" -Recurse -Container
+
+Pack-Item-Template "Entity"
+Pack-Item-Template "Component"
+Pack-Item-Template "EntityTemplate"
+Pack-Item-Template "TiledEntityFactory"
+Pack-Item-Template "ResourceBox"
+
+Assemble-Template "GL"
+Assemble-Template "DX"
+Assemble-Template "MonofoxeDotnetStandardLibrary"
+Assemble-Template "Shared"
 
 
-"Packing templates..."
-[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$desktopGL", "$destReleaseDir$desktopGL.zip")
-[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$blankDesktopGL", "$destReleaseDir$blankDesktopGL.zip")
-[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$blankWindows", "$destReleaseDir$blankWindows.zip")
-[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$shared", "$destReleaseDir$shared.zip")
-[IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$library", "$destReleaseDir$library.zip")
+[IO.Compression.ZipFile]::CreateFromDirectory("$destProjectTemplatesDir$crossplatform", "$destProjectTemplatesDir$crossplatform.zip")
 
 
 "Making installer..."
 &makensis Installer/packInstaller.nsi
 
 "Cleaning..."
-if ($debug)
+if (!$debug)
 {
-	Remove-Item "$destReleaseDir$desktopGL" -Force -Recurse
-	Remove-Item "$destReleaseDir$blankDesktopGL" -Force -Recurse
-	Remove-Item "$destReleaseDir$blankWindows" -Force -Recurse
-	Remove-Item "$destReleaseDir$shared" -Force -Recurse
-	Remove-Item "$destReleaseDir$library" -Force -Recurse
-
-	Remove-Item "$destReleaseDir$desktopGL.zip" -Force -Recurse
-	Remove-Item "$destReleaseDir$blankDesktopGL.zip" -Force -Recurse
-	Remove-Item "$destReleaseDir$blankWindows.zip" -Force -Recurse
-	Remove-Item "$destReleaseDir$shared.zip" -Force -Recurse
-	Remove-Item "$destReleaseDir$library.zip" -Force -Recurse
+	Remove-Item "$destProjectTemplatesDir" -Force -Recurse
+	Remove-Item "$destItemTemplatesDir" -Force -Recurse
 }
 
 Read-Host -Prompt "Done! Press Enter to exit"
