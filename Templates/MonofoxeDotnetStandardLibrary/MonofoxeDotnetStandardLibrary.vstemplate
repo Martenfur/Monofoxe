@@ -25,7 +25,6 @@
 	</TemplateData>
 	<TemplateContent>
 		<Project TargetFileName="MonofoxeDotnetStandardLibrary.csproj" File="MonofoxeDotnetStandardLibrary.csproj" ReplaceParameters="true">
-			<ProjectItem ReplaceParameters="false" TargetFileName="Icon.ico">Icon.ico</ProjectItem>
 			<ProjectItem ReplaceParameters="false" TargetFileName="Icon.bmp">Icon.bmp</ProjectItem>
 			<ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.props">Monofoxe.props</ProjectItem>
 		</Project>

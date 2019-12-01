@@ -4,6 +4,8 @@
 		<Description>A Monofoxe Shared Project. Used to share common code between platform-specific projects. Use it if you want to make a cross-platform game.</Description>
 		<ProjectType>CSharp</ProjectType>
 		<SortOrder>1000</SortOrder>
+		<ProjectSubType>
+		</ProjectSubType>
 		<CreateInPlace>true</CreateInPlace>
 		<CreateNewFolder>false</CreateNewFolder>
 		<DefaultName>Foxe.Shared</DefaultName>

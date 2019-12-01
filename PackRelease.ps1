@@ -71,8 +71,9 @@ Copy-Item -path "$PWD\Templates\$crossplatform\" -Destination "$destReleaseDir" 
 
 Assemble-Template $GL
 Assemble-Template $DX
-Assemble-Template $shared
 Assemble-Template $library
+
+Assemble-Template $shared
 
 [IO.Compression.ZipFile]::CreateFromDirectory("$destReleaseDir$crossplatform", "$destReleaseDir$crossplatform.zip")
 
