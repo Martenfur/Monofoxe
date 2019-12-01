@@ -1,7 +1,8 @@
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using Monofoxe.Engine;
-using Monofoxe.Engine.Resources;
+using Microsoft.Xna.Framework;
+using Monofoxe.Engine.Drawing;
+using Monofoxe.Engine.EC;
+using Monofoxe.Engine.SceneSystem;
+using Monofoxe.Engine.Utils;
 using System;
 using System.Collections.Generic;
 

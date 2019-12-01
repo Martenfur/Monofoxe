@@ -31,6 +31,12 @@ $projectTemplatesPath = "$PWD\Templates\ProjectTemplates\";
 $itemTemplatesPath = "$PWD\Templates\ItemTemplates\";
 
 
+Function Pack-Item-Template([string] $item)
+{
+	"Packing $item..."
+	[IO.Compression.ZipFile]::CreateFromDirectory("$itemTemplatesPath$item", "$destItemTemplatesDir$item.zip")
+}
+
 Function Assemble-Template([string] $platform)
 {
 	"Assembling templates for $platform..."
@@ -44,7 +50,7 @@ Function Assemble-Template([string] $platform)
 
 Add-Type -A System.IO.Compression.FileSystem
 
-$debug = $TRUE
+$debug = $FALSE
 
 $srcLibDir = "$PWD\Monofoxe\bin\Release"
 
@@ -53,12 +59,8 @@ $destReleaseDir = "$PWD\Release\"
 $destProjectTemplatesDir = "$destReleaseDir\ProjectTemplates\"
 $destItemTemplatesDir = "$destReleaseDir\ItemTemplates\"
 
-
-$GL = "GL"
-$DX = "DX"
-$shared = "Shared"
-$library = "MonofoxeDotnetStandardLibrary"
 $crossplatform = "Crossplatform"
+
 
 "Building solution $msbuild..."
 &$msbuild ("$PWD\Monofoxe\Monofoxe.sln" ,'/verbosity:q','/p:configuration=Release','/t:Clean,Build')
@@ -78,11 +80,17 @@ New-Item -ItemType Directory -Force -Path "$destItemTemplatesDir" > $null
 
 Copy-Item -path "$projectTemplatesPath$crossplatform\" -Destination "$destProjectTemplatesDir" -Recurse -Container
 
-Assemble-Template $GL
-Assemble-Template $DX
-Assemble-Template $library
+Pack-Item-Template "Entity"
+Pack-Item-Template "Component"
+Pack-Item-Template "EntityTemplate"
+Pack-Item-Template "TiledEntityFactory"
+Pack-Item-Template "ResourceBox"
 
-Assemble-Template $shared
+Assemble-Template "GL"
+Assemble-Template "DX"
+Assemble-Template "MonofoxeDotnetStandardLibrary"
+Assemble-Template "Shared"
+
 
 [IO.Compression.ZipFile]::CreateFromDirectory("$destProjectTemplatesDir$crossplatform", "$destProjectTemplatesDir$crossplatform.zip")
 
@@ -93,17 +101,8 @@ Assemble-Template $shared
 "Cleaning..."
 if (!$debug)
 {
-	Remove-Item "$destReleaseDir$GL" -Force -Recurse
-	Remove-Item "$destReleaseDir$DX" -Force -Recurse
-	Remove-Item "$destReleaseDir$shared" -Force -Recurse
-	Remove-Item "$destReleaseDir$library" -Force -Recurse
-	Remove-Item "$destReleaseDir$crossplatform" -Force -Recurse
-
-	Remove-Item "$destReleaseDir$GL.zip" -Force -Recurse
-	Remove-Item "$destReleaseDir$DX.zip" -Force -Recurse
-	Remove-Item "$destReleaseDir$shared.zip" -Force -Recurse
-	Remove-Item "$destReleaseDir$library.zip" -Force -Recurse
-	Remove-Item "$destReleaseDir$crossplatform.zip" -Force -Recurse
+	Remove-Item "$destProjectTemplatesDir" -Force -Recurse
+	Remove-Item "$destItemTemplatesDir" -Force -Recurse
 }
 
 Read-Host -Prompt "Done! Press Enter to exit"

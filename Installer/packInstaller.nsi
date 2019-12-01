@@ -99,19 +99,22 @@ SectionEnd
 Section "Visual Studio 2015 Templates/" VS2015
 	SetOutPath "$DOCUMENTS\Visual Studio 2015\${PROJECT_TEMPLATES_DIRECTORY}"
 	File /r '..\Release\ProjectTemplates\*.zip'
-
+	SetOutPath "$DOCUMENTS\Visual Studio 2015\${ITEM_TEMPLATES_DIRECTORY}"
+	File /r '..\Release\ItemTemplates\*.zip'
 SectionEnd
 
 Section "Visual Studio 2017 Templates/" VS2017
 	SetOutPath "$DOCUMENTS\Visual Studio 2017\${PROJECT_TEMPLATES_DIRECTORY}"
 	File /r '..\Release\ProjectTemplates\*.zip'
-
+	SetOutPath "$DOCUMENTS\Visual Studio 2017\${ITEM_TEMPLATES_DIRECTORY}"
+	File /r '..\Release\ItemTemplates\*.zip'
 SectionEnd
 
 Section "Visual Studio 2019 Templates/" VS2019
 	SetOutPath "$DOCUMENTS\Visual Studio 2019\${PROJECT_TEMPLATES_DIRECTORY}"
 	File /r '..\Release\ProjectTemplates\*.zip'
-
+	SetOutPath "$DOCUMENTS\Visual Studio 2019\${ITEM_TEMPLATES_DIRECTORY}"
+	File /r '..\Release\ItemTemplates\*.zip'
 SectionEnd
 
 !define OldMonofoxeInstallationDir '$PROGRAMFILES\Monofoxe\'
@@ -188,6 +191,10 @@ Section "Uninstall"
 	RMDir /r "$DOCUMENTS\Visual Studio 2015\${PROJECT_TEMPLATES_DIRECTORY}"
 	RMDir /r "$DOCUMENTS\Visual Studio 2017\${PROJECT_TEMPLATES_DIRECTORY}"
 	RMDir /r "$DOCUMENTS\Visual Studio 2019\${PROJECT_TEMPLATES_DIRECTORY}"
+	RMDir /r "$DOCUMENTS\Visual Studio 2015\${ITEM_TEMPLATES_DIRECTORY}"
+	RMDir /r "$DOCUMENTS\Visual Studio 2017\${ITEM_TEMPLATES_DIRECTORY}"
+	RMDir /r "$DOCUMENTS\Visual Studio 2019\${ITEM_TEMPLATES_DIRECTORY}"
+	
 	Delete "$INSTDIR\Uninstall.exe"
 	RMDir /r "$INSTDIR"
 	DeleteRegKey HKLM "${REGISTRY_DIRECTORY}"
