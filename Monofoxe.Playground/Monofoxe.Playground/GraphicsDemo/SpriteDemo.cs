@@ -22,7 +22,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 		double _animation = 0;
 		double _animationSpeed = 0.25;
 
-		SpriteBatch _batch;
+		VertexBatch _batch;
 
 		Surface _surface;
 
@@ -36,7 +36,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 			_monofoxeSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "Monofoxe");
 			_fireSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "Fire");
 
-			_batch = new SpriteBatch(GraphicsMgr.Device);
+			_batch = new VertexBatch(GraphicsMgr.Device);
 			_seizure = ResourceHub.GetResource<Effect>("Effects", "Seizure");
 			InitSurface();
 		}
@@ -129,7 +129,6 @@ namespace Monofoxe.Playground.GraphicsDemo
 			// After it, you can draw anything you like using any method.
 
 			_batch.Begin( // If you don't want to create new SpriteBatch, you can use GraphicsMgr.Batch instead.
-				SpriteSortMode.Deferred, 
 				null, 
 				null, 
 				null, 
