@@ -22,9 +22,7 @@ namespace Monofoxe.Engine.Drawing
 		Effect _effect;
 		bool _beginCalled;
 
-		SpriteEffect _spriteEffect;
-		readonly EffectPass _spritePass;
-
+		
 		Rectangle _tempRect = new Rectangle(0, 0, 0, 0);
 		Vector2 _texCoordTL = new Vector2(0, 0);
 		Vector2 _texCoordBR = new Vector2(0, 0);
@@ -70,21 +68,10 @@ namespace Monofoxe.Engine.Drawing
 
 		
 
-		/// <summary>
-		/// Constructs a <see cref="SpriteBatch"/>.
-		/// </summary>
-		/// <param name="graphicsDevice">The <see cref="GraphicsDevice"/>, which will be used for sprite rendering.</param>        
-		/// <exception cref="ArgumentNullException">Thrown when <paramref name="graphicsDevice"/> is null.</exception>
 		public VertexBatch(GraphicsDevice graphicsDevice) : this(graphicsDevice, 0)
 		{
 		}
 
-		/// <summary>
-		/// Constructs a <see cref="SpriteBatch"/>.
-		/// </summary>
-		/// <param name="graphicsDevice">The <see cref="GraphicsDevice"/>, which will be used for sprite rendering.</param>
-		/// <param name="capacity">The initial capacity of the internal array holding batch items (the value will be rounded to the next multiple of 64).</param>
-		/// <exception cref="ArgumentNullException">Thrown when <paramref name="graphicsDevice"/> is null.</exception>
 		public VertexBatch(GraphicsDevice graphicsDevice, int capacity)
 		{
 			if (graphicsDevice == null)
@@ -94,9 +81,7 @@ namespace Monofoxe.Engine.Drawing
 
 			this.GraphicsDevice = graphicsDevice;
 
-			_spriteEffect = new SpriteEffect(graphicsDevice);
-			_spritePass = _spriteEffect.CurrentTechnique.Passes[0];
-
+			
 			_batcher = new VertexBatcher(graphicsDevice, capacity);
 
 			_beginCalled = false;
@@ -105,15 +90,6 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Begins a new sprite and text batch with the specified render state.
 		/// </summary>
-		/// <param name="blendState">State of the blending. Uses <see cref="BlendState.AlphaBlend"/> if null.</param>
-		/// <param name="samplerState">State of the sampler. Uses <see cref="SamplerState.LinearClamp"/> if null.</param>
-		/// <param name="depthStencilState">State of the depth-stencil buffer. Uses <see cref="DepthStencilState.None"/> if null.</param>
-		/// <param name="rasterizerState">State of the rasterization. Uses <see cref="RasterizerState.CullCounterClockwise"/> if null.</param>
-		/// <param name="effect">A custom <see cref="Effect"/> to override the default sprite effect. Uses default sprite effect if null.</param>
-		/// <param name="transformMatrix">An optional matrix used to transform the sprite geometry. Uses <see cref="Matrix.Identity"/> if null.</param>
-		/// <exception cref="InvalidOperationException">Thrown if <see cref="Begin"/> is called next time without previous <see cref="End"/>.</exception>
-		/// <remarks>This method uses optional parameters.</remarks>
-		/// <remarks>The <see cref="Begin"/> Begin should be called before drawing commands, and you cannot call it again before subsequent <see cref="End"/>.</remarks>
 		public void Begin
 		(
 				 BlendState blendState = null,
@@ -134,21 +110,12 @@ namespace Monofoxe.Engine.Drawing
 			_rasterizerState = rasterizerState ?? RasterizerState.CullCounterClockwise;
 			_effect = effect;
 			
-			if (transformMatrix.HasValue)
-			{
-				_spriteEffect.Parameters["MatrixTransform"].SetValue(transformMatrix.Value);
-			}
-			else
-			{
-				_spriteEffect.Parameters["MatrixTransform"].SetValue(Matrix.Identity);
-			}
 			_beginCalled = true;
 		}
 
 		/// <summary>
 		/// Flushes all batched text and sprites to the screen.
 		/// </summary>
-		/// <remarks>This command should be called after <see cref="Begin"/> and drawing commands.</remarks>
 		public void End()
 		{
 			if (!_beginCalled)
@@ -169,7 +136,7 @@ namespace Monofoxe.Engine.Drawing
 			gd.RasterizerState = _rasterizerState;
 			gd.SamplerStates[0] = _samplerState;
 
-			_spritePass.Apply();
+			//_spritePass.Apply();
 		}
 
 		void CheckValid(Texture2D texture)
@@ -183,15 +150,6 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Submit a sprite for drawing in the current batch.
 		/// </summary>
-		/// <param name="texture">A texture.</param>
-		/// <param name="position">The drawing location on screen.</param>
-		/// <param name="sourceRectangle">An optional region on the texture which will be rendered. If null - draws full texture.</param>
-		/// <param name="color">A color mask.</param>
-		/// <param name="rotation">A rotation of this sprite.</param>
-		/// <param name="origin">Center of the rotation. 0,0 by default.</param>
-		/// <param name="scale">A scaling of this sprite.</param>
-		/// <param name="effects">Modificators for drawing. Can be combined.</param>
-		/// <param name="layerDepth">A depth of the layer of this sprite.</param>
 		public void Draw(Texture2D texture,
 				Vector2 position,
 				Rectangle? sourceRectangle,
@@ -275,15 +233,6 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Submit a sprite for drawing in the current batch.
 		/// </summary>
-		/// <param name="texture">A texture.</param>
-		/// <param name="position">The drawing location on screen.</param>
-		/// <param name="sourceRectangle">An optional region on the texture which will be rendered. If null - draws full texture.</param>
-		/// <param name="color">A color mask.</param>
-		/// <param name="rotation">A rotation of this sprite.</param>
-		/// <param name="origin">Center of the rotation. 0,0 by default.</param>
-		/// <param name="scale">A scaling of this sprite.</param>
-		/// <param name="effects">Modificators for drawing. Can be combined.</param>
-		/// <param name="layerDepth">A depth of the layer of this sprite.</param>
 		public void Draw(Texture2D texture,
 				Vector2 position,
 				Rectangle? sourceRectangle,
@@ -301,14 +250,6 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Submit a sprite for drawing in the current batch.
 		/// </summary>
-		/// <param name="texture">A texture.</param>
-		/// <param name="destinationRectangle">The drawing bounds on screen.</param>
-		/// <param name="sourceRectangle">An optional region on the texture which will be rendered. If null - draws full texture.</param>
-		/// <param name="color">A color mask.</param>
-		/// <param name="rotation">A rotation of this sprite.</param>
-		/// <param name="origin">Center of the rotation. 0,0 by default.</param>
-		/// <param name="effects">Modificators for drawing. Can be combined.</param>
-		/// <param name="layerDepth">A depth of the layer of this sprite.</param>
 		public void Draw(Texture2D texture,
 			Rectangle destinationRectangle,
 			Rectangle? sourceRectangle,
@@ -404,10 +345,6 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Submit a sprite for drawing in the current batch.
 		/// </summary>
-		/// <param name="texture">A texture.</param>
-		/// <param name="position">The drawing location on screen.</param>
-		/// <param name="sourceRectangle">An optional region on the texture which will be rendered. If null - draws full texture.</param>
-		/// <param name="color">A color mask.</param>
 		public void Draw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color)
 		{
 			CheckValid(texture);
@@ -448,10 +385,6 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Submit a sprite for drawing in the current batch.
 		/// </summary>
-		/// <param name="texture">A texture.</param>
-		/// <param name="destinationRectangle">The drawing bounds on screen.</param>
-		/// <param name="sourceRectangle">An optional region on the texture which will be rendered. If null - draws full texture.</param>
-		/// <param name="color">A color mask.</param>
 		public void Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color)
 		{
 			CheckValid(texture);
@@ -489,9 +422,6 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Submit a sprite for drawing in the current batch.
 		/// </summary>
-		/// <param name="texture">A texture.</param>
-		/// <param name="position">The drawing location on screen.</param>
-		/// <param name="color">A color mask.</param>
 		public void Draw(Texture2D texture, Vector2 position, Color color)
 		{
 			CheckValid(texture);
@@ -514,9 +444,6 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Submit a sprite for drawing in the current batch.
 		/// </summary>
-		/// <param name="texture">A texture.</param>
-		/// <param name="destinationRectangle">The drawing bounds on screen.</param>
-		/// <param name="color">A color mask.</param>
 		public void Draw(Texture2D texture, Rectangle destinationRectangle, Color color)
 		{
 			CheckValid(texture);
@@ -541,22 +468,10 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public void Dispose()
 		{
-			if (!IsDisposed)
-			{
-
-				if (_spriteEffect != null)
-				{
-					_spriteEffect.Dispose();
-					_spriteEffect = null;
-				}
-
-			}
 			graphicsDevice = null;
 			disposed = true;
 
 			GC.SuppressFinalize(this);
-
-			//base.Dispose(disposing);
 		}
 	}
 }

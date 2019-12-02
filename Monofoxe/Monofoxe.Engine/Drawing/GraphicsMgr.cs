@@ -143,7 +143,7 @@ namespace Monofoxe.Engine.Drawing
 		/// Default shader with proper alpha blending. 
 		/// Replaces BasicEffect. Applied, when CurrentEffect is null.
 		/// </summary>
-		private static Effect _defaultEffect;
+		internal static Effect _defaultEffect;
 		private static string _defaultEffectName = "AlphaBlend";
 
 		/// <summary>

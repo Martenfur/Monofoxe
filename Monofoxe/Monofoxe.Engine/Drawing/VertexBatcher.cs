@@ -229,6 +229,16 @@ namespace Monofoxe.Engine.Drawing
 				return;
 
 			var vertexCount = end - start;
+			if (effect == null)
+			{
+				effect = GraphicsMgr._defaultEffect;
+
+				effect.Parameters["World"].SetValue(GraphicsMgr.CurrentWorld);
+				effect.Parameters["View"].SetValue(GraphicsMgr.CurrentView);
+				effect.Parameters["Projection"].SetValue(GraphicsMgr.CurrentProjection);
+
+				Console.WriteLine("WHAT THE FUCK");
+			}
 
 			// If the effect is not null, then apply each pass and render the geometry
 			if (effect != null)
