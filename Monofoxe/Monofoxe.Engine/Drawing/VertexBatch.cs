@@ -90,14 +90,13 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Begins a new sprite and text batch with the specified render state.
 		/// </summary>
-		public void Begin
-		(
-				 BlendState blendState = null,
-				 SamplerState samplerState = null,
-				 DepthStencilState depthStencilState = null,
-				 RasterizerState rasterizerState = null,
-				 Effect effect = null,
-				 Matrix? transformMatrix = null
+		public void Begin(
+			BlendState blendState = null,
+			SamplerState samplerState = null,
+			DepthStencilState depthStencilState = null,
+			RasterizerState rasterizerState = null,
+			Effect effect = null,
+			Matrix? transformMatrix = null
 		)
 		{
 			if (_beginCalled)
@@ -150,15 +149,17 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Submit a sprite for drawing in the current batch.
 		/// </summary>
-		public void Draw(Texture2D texture,
-				Vector2 position,
-				Rectangle? sourceRectangle,
-				Color color,
-				float rotation,
-				Vector2 origin,
-				Vector2 scale,
-				SpriteEffects effects,
-								float layerDepth)
+		public void Draw(
+			Texture2D texture,
+			Vector2 position,
+			Rectangle? sourceRectangle,
+			Color color,
+			float rotation,
+			Vector2 origin,
+			Vector2 scale,
+			SpriteEffects effects,
+			float layerDepth
+		)
 		{
 			CheckValid(texture);
 
@@ -233,15 +234,17 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Submit a sprite for drawing in the current batch.
 		/// </summary>
-		public void Draw(Texture2D texture,
-				Vector2 position,
-				Rectangle? sourceRectangle,
-				Color color,
-				float rotation,
-				Vector2 origin,
-				float scale,
-				SpriteEffects effects,
-								float layerDepth)
+		public void Draw(
+		Texture2D texture,
+			Vector2 position,
+			Rectangle? sourceRectangle,
+			Color color,
+			float rotation,
+			Vector2 origin,
+			float scale,
+			SpriteEffects effects,
+			float layerDepth
+		)
 		{
 			var scaleVec = new Vector2(scale, scale);
 			Draw(texture, position, sourceRectangle, color, rotation, origin, scaleVec, effects, layerDepth);
@@ -257,7 +260,8 @@ namespace Monofoxe.Engine.Drawing
 			float rotation,
 			Vector2 origin,
 			SpriteEffects effects,
-						float layerDepth)
+			float layerDepth
+		)
 		{
 			CheckValid(texture);
 

@@ -28,9 +28,10 @@ namespace Monofoxe.Engine.Drawing
 		/// The maximum number of batch items that can be processed per iteration
 		/// </summary>
 		private const int MaxBatchSize = short.MaxValue / 6; // 6 = 4 vertices unique and 2 shared, per quad
-																												 /// <summary>
-																												 /// Initialization size for the vertex array, in batch units.
-																												 /// </summary>
+
+		/// <summary>
+		/// Initialization size for the vertex array, in batch units.
+		/// </summary>
 		private const int InitialVertexArraySize = 256;
 
 		/// <summary>
@@ -76,7 +77,6 @@ namespace Monofoxe.Engine.Drawing
 		/// Reuse a previously allocated SpriteBatchItem from the item pool. 
 		/// if there is none available grow the pool and initialize new items.
 		/// </summary>
-		/// <returns></returns>
 		public VertexBatchItem CreateBatchItem()
 		{
 			if (_batchItemCount >= _batchItemList.Length)
@@ -97,7 +97,6 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Resize and recreate the missing indices for the index and vertex position color buffers.
 		/// </summary>
-		/// <param name="numBatchItems"></param>
 		private unsafe void EnsureArrayCapacity(int numBatchItems)
 		{
 			int neededCapacity = 6 * numBatchItems;
@@ -147,7 +146,6 @@ namespace Monofoxe.Engine.Drawing
 		/// Sorts the batch items and then groups batch drawing into maximal allowed batch sets that do not
 		/// overflow the 16 bit array indices for vertices.
 		/// </summary>
-		/// <param name="effect">The custom effect to apply to the drawn geometry</param>
 		public unsafe void DrawBatch(Effect effect)
 		{
 			if (effect != null && effect.IsDisposed)
@@ -157,7 +155,7 @@ namespace Monofoxe.Engine.Drawing
 			if (_batchItemCount == 0)
 				return;
 
-			
+
 			// Determine how many iterations through the drawing code we need to make
 			int batchIndex = 0;
 			int batchCount = _batchItemCount;
@@ -219,10 +217,6 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Sends the triangle list to the graphics device. Here is where the actual drawing starts.
 		/// </summary>
-		/// <param name="start">Start index of vertices to draw. Not used except to compute the count of vertices to draw.</param>
-		/// <param name="end">End index of vertices to draw. Not used except to compute the count of vertices to draw.</param>
-		/// <param name="effect">The custom effect to apply to the geometry</param>
-		/// <param name="texture">The texture to draw.</param>
 		private void FlushVertexArray(int start, int end, Effect effect, Texture texture)
 		{
 			if (start == end)
@@ -240,42 +234,27 @@ namespace Monofoxe.Engine.Drawing
 				Console.WriteLine("WHAT THE FUCK");
 			}
 
-			// If the effect is not null, then apply each pass and render the geometry
-			if (effect != null)
-			{
-				var passes = effect.CurrentTechnique.Passes;
-				foreach (var pass in passes)
-				{
-					pass.Apply();
 
-					// Whatever happens in pass.Apply, make sure the texture being drawn
-					// ends up in Textures[0].
-					_device.Textures[0] = texture;
-
-					_device.DrawUserIndexedPrimitives(
-							PrimitiveType.TriangleList,
-							_vertexArray,
-							0,
-							vertexCount,
-							_index,
-							0,
-							(vertexCount / 4) * 2,
-							VertexPositionColorTexture.VertexDeclaration);
-				}
-			}
-			else
+			var passes = effect.CurrentTechnique.Passes;
+			foreach (var pass in passes)
 			{
-				// If no custom effect is defined, then simply render.
+				pass.Apply();
+
+				// Whatever happens in pass.Apply, make sure the texture being drawn
+				// ends up in Textures[0].
+				_device.Textures[0] = texture;
+
 				_device.DrawUserIndexedPrimitives(
-						PrimitiveType.TriangleList,
-						_vertexArray,
-						0,
-						vertexCount,
-						_index,
-						0,
-						(vertexCount / 4) * 2,
-						VertexPositionColorTexture.VertexDeclaration);
+					PrimitiveType.TriangleList,
+					_vertexArray,
+					0,
+					vertexCount,
+					_index,
+					0,
+					(vertexCount / 4) * 2,
+					VertexPositionColorTexture.VertexDeclaration);
 			}
+
 		}
 	}
 }
