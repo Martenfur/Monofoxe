@@ -129,6 +129,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 			// After it, you can draw anything you like using any method.
 
 			_batch.Begin( // If you don't want to create new SpriteBatch, you can use GraphicsMgr.Batch instead.
+				texture,
 				null, 
 				SamplerState.PointWrap, 
 				null, 
@@ -137,6 +138,9 @@ namespace Monofoxe.Playground.GraphicsDemo
 				GraphicsMgr.CurrentView // Passig current transform matrix to match the camera.
 			);
 			_batch.Draw(texture, position, GraphicsMgr.CurrentColor);
+			_batch.Draw(texture, position, GraphicsMgr.CurrentColor);
+			_batch.Draw(texture, position, GraphicsMgr.CurrentColor);
+
 			_batch.End();
 			
 			// After you're done, you can draw anything you like without switching graphics mode again.

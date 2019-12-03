@@ -20,6 +20,7 @@ namespace Monofoxe.Engine.Drawing
 		DepthStencilState _depthStencilState;
 		RasterizerState _rasterizerState;
 		Effect _effect;
+		Texture2D _texture;
 		bool _beginCalled;
 
 		
@@ -68,11 +69,8 @@ namespace Monofoxe.Engine.Drawing
 
 		
 
-		public VertexBatch(GraphicsDevice graphicsDevice) : this(graphicsDevice, 0)
-		{
-		}
-
-		public VertexBatch(GraphicsDevice graphicsDevice, int capacity)
+		
+		public VertexBatch(GraphicsDevice graphicsDevice)
 		{
 			if (graphicsDevice == null)
 			{
@@ -82,7 +80,7 @@ namespace Monofoxe.Engine.Drawing
 			GraphicsDevice = graphicsDevice;
 
 			
-			_batcher = new VertexBatcher(graphicsDevice, capacity);
+			_batcher = new VertexBatcher(graphicsDevice);
 
 			_beginCalled = false;
 		}
@@ -91,6 +89,7 @@ namespace Monofoxe.Engine.Drawing
 		/// Begins a new sprite and text batch with the specified render state.
 		/// </summary>
 		public void Begin(
+			Texture2D texture,
 			BlendState blendState = null,
 			SamplerState samplerState = null,
 			DepthStencilState depthStencilState = null,
@@ -128,7 +127,7 @@ namespace Monofoxe.Engine.Drawing
 
 			Setup();
 
-			_batcher.DrawBatch(_effect);
+			_batcher.DrawBatch(_effect, _texture);
 		}
 
 		void Setup()
@@ -154,9 +153,24 @@ namespace Monofoxe.Engine.Drawing
 			}
 		}
 
-		/// <summary>
-		/// Submit a sprite for drawing in the current batch.
-		/// </summary>
+		public void Draw(Texture2D texture, Vector2 position, Color color)
+		{
+			//CheckValid(texture);
+
+			_batcher.Set(
+				position.X,
+				position.Y,
+				texture.Width,
+				texture.Height,
+				color,
+				Vector2.Zero,
+				Vector2.One,
+				0
+			);
+
+		}
+
+		/*
 		public void Draw(
 			Texture2D texture,
 			Vector2 position,
@@ -242,9 +256,6 @@ namespace Monofoxe.Engine.Drawing
 
 		}
 
-		/// <summary>
-		/// Submit a sprite for drawing in the current batch.
-		/// </summary>
 		public void Draw(
 			Texture2D texture,
 			Vector2 position,
@@ -261,9 +272,6 @@ namespace Monofoxe.Engine.Drawing
 			Draw(texture, position, sourceRectangle, color, rotation, origin, scaleVec, effects, layerDepth);
 		}
 
-		/// <summary>
-		/// Submit a sprite for drawing in the current batch.
-		/// </summary>
 		public void Draw(Texture2D texture,
 			Rectangle destinationRectangle,
 			Rectangle? sourceRectangle,
@@ -425,26 +433,6 @@ namespace Monofoxe.Engine.Drawing
 
 		}
 
-		public void Draw(Texture2D texture, Vector2 position, Color color)
-		{
-			CheckValid(texture);
-
-			var item = _batcher.CreateBatchItem();
-			item.Texture = texture;
-
-			item.Set(
-				position.X,
-				position.Y,
-				texture.Width,
-				texture.Height,
-				color,
-				Vector2.Zero,
-				Vector2.One,
-				0
-			);
-
-		}
-
 		public void Draw(Texture2D texture, Rectangle destinationRectangle, Color color)
 		{
 			CheckValid(texture);
@@ -464,7 +452,7 @@ namespace Monofoxe.Engine.Drawing
 			);
 
 		}
-
+		*/
 		/// <summary>
 		/// Immediately releases the unmanaged resources used by this object.
 		/// </summary>

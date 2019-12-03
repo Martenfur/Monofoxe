@@ -34,14 +34,6 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		private const int InitialVertexArraySize = 256;
 
-		/// <summary>
-		/// The list of batch items to process.
-		/// </summary>
-		private VertexBatchItem[] _batchItemList;
-		/// <summary>
-		/// Index pointer to the next available SpriteBatchItem in _batchItemList.
-		/// </summary>
-		private int _batchItemCount;
 
 		/// <summary>
 		/// The target graphics device.
@@ -51,48 +43,26 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Vertex index array. The values in this array never change.
 		/// </summary>
-		private short[] _index;
+		private short[] _indexPool;
+		private int _indexPoolCount = 0;
+		private const int _indexPoolCapacity = short.MaxValue * 6;
 
-		private VertexPositionColorTexture[] _vertexArray;
+		private VertexPositionColorTexture[] _vertexPool;
+		private int _vertexPoolCount = 0;
+		private const int _vertexPoolCapacity = short.MaxValue;
 
-		public VertexBatcher(GraphicsDevice device, int capacity = 0)
+
+		public VertexBatcher(GraphicsDevice device)
 		{
 			_device = device;
 
-			if (capacity <= 0)
-				capacity = InitialBatchSize;
-			else
-				capacity = (capacity + 63) & (~63); // ensure chunks of 64.
+			_indexPool = new short[_indexPoolCapacity];
+			_vertexPool = new VertexPositionColorTexture[_vertexPoolCapacity];
 
-			_batchItemList = new VertexBatchItem[capacity];
-			_batchItemCount = 0;
 
-			for (int i = 0; i < capacity; i++)
-				_batchItemList[i] = new VertexBatchItem();
-
-			EnsureArrayCapacity(capacity);
+			//EnsureArrayCapacity(capacity);
 		}
 
-		/// <summary>
-		/// Reuse a previously allocated SpriteBatchItem from the item pool. 
-		/// if there is none available grow the pool and initialize new items.
-		/// </summary>
-		public VertexBatchItem CreateBatchItem()
-		{
-			if (_batchItemCount >= _batchItemList.Length)
-			{
-				var oldSize = _batchItemList.Length;
-				var newSize = oldSize + oldSize / 2; // grow by x1.5
-				newSize = (newSize + 63) & (~63); // grow in chunks of 64.
-				Array.Resize(ref _batchItemList, newSize);
-				for (int i = oldSize; i < newSize; i++)
-					_batchItemList[i] = new VertexBatchItem();
-
-				EnsureArrayCapacity(Math.Min(newSize, MaxBatchSize));
-			}
-			var item = _batchItemList[_batchItemCount++];
-			return item;
-		}
 
 		/// <summary>
 		/// Resize and recreate the missing indices for the index and vertex position color buffers.
@@ -100,17 +70,17 @@ namespace Monofoxe.Engine.Drawing
 		private unsafe void EnsureArrayCapacity(int numBatchItems)
 		{
 			int neededCapacity = 6 * numBatchItems;
-			if (_index != null && neededCapacity <= _index.Length)
+			if (_indexPool != null && neededCapacity <= _indexPool.Length)
 			{
 				// Short circuit out of here because we have enough capacity.
 				return;
 			}
 			short[] newIndex = new short[6 * numBatchItems];
 			int start = 0;
-			if (_index != null)
+			if (_indexPool != null)
 			{
-				_index.CopyTo(newIndex, 0);
-				start = _index.Length / 6;
+				_indexPool.CopyTo(newIndex, 0);
+				start = _indexPool.Length / 6;
 			}
 			fixed (short* indexFixedPtr = newIndex)
 			{
@@ -137,92 +107,37 @@ namespace Monofoxe.Engine.Drawing
 					*(indexPtr + 5) = (short)(i * 4 + 2);
 				}
 			}
-			_index = newIndex;
+			_indexPool = newIndex;
 
-			_vertexArray = new VertexPositionColorTexture[4 * numBatchItems];
+			_vertexPool = new VertexPositionColorTexture[4 * numBatchItems];
 		}
 
 		/// <summary>
 		/// Sorts the batch items and then groups batch drawing into maximal allowed batch sets that do not
 		/// overflow the 16 bit array indices for vertices.
 		/// </summary>
-		public unsafe void DrawBatch(Effect effect)
+		public unsafe void DrawBatch(Effect effect, Texture2D texture)
 		{
 			if (effect != null && effect.IsDisposed)
 				throw new ObjectDisposedException("effect");
 
 			// nothing to do
-			if (_batchItemCount == 0)
-				return;
-
-
-			// Determine how many iterations through the drawing code we need to make
-			int batchIndex = 0;
-			int batchCount = _batchItemCount;
-
-			// Iterate through the batches, doing short.MaxValue sets of vertices only.
-			while (batchCount > 0)
+			if (_vertexPoolCount == 0)
 			{
-				// setup the vertexArray array
-				var startIndex = 0;
-				var index = 0;
-				Texture2D tex = null;
-
-				int numBatchesToProcess = batchCount;
-				if (numBatchesToProcess > MaxBatchSize)
-				{
-					numBatchesToProcess = MaxBatchSize;
-				}
-				// Avoid the array checking overhead by using pointer indexing!
-				fixed (VertexPositionColorTexture* vertexArrayFixedPtr = _vertexArray)
-				{
-					var vertexArrayPtr = vertexArrayFixedPtr;
-
-					// Draw the batches
-					for (int i = 0; i < numBatchesToProcess; i++, batchIndex++, index += 4, vertexArrayPtr += 4)
-					{
-						VertexBatchItem item = _batchItemList[batchIndex];
-						// if the texture changed, we need to flush and bind the new texture
-						var shouldFlush = !ReferenceEquals(item.Texture, tex);
-						if (shouldFlush)
-						{
-							FlushVertexArray(startIndex, index, effect, tex);
-
-							tex = item.Texture;
-							startIndex = index = 0;
-							vertexArrayPtr = vertexArrayFixedPtr;
-							_device.Textures[0] = tex;
-						}
-
-						// store the SpriteBatchItem data in our vertexArray
-						*(vertexArrayPtr + 0) = item.vertexTL;
-						*(vertexArrayPtr + 1) = item.vertexTR;
-						*(vertexArrayPtr + 2) = item.vertexBL;
-						*(vertexArrayPtr + 3) = item.vertexBR;
-
-						// Release the texture.
-						item.Texture = null;
-					}
-				}
-				// flush the remaining vertexArray data
-				FlushVertexArray(startIndex, index, effect, tex);
-				// Update our batch count to continue the process of culling down
-				// large batches
-				batchCount -= numBatchesToProcess;
+				return;
 			}
-			// return items to the pool.  
-			_batchItemCount = 0;
+
+			FlushVertexArray(effect, texture);
+
+			_vertexPoolCount = 0;
+			_indexPoolCount = 0;
 		}
 
 		/// <summary>
 		/// Sends the triangle list to the graphics device. Here is where the actual drawing starts.
 		/// </summary>
-		private void FlushVertexArray(int start, int end, Effect effect, Texture texture)
+		private void FlushVertexArray(Effect effect, Texture texture)
 		{
-			if (start == end)
-				return;
-
-			var vertexCount = end - start;
 			if (effect == null)
 			{
 				effect = GraphicsMgr._defaultEffect;
@@ -231,9 +146,8 @@ namespace Monofoxe.Engine.Drawing
 				effect.Parameters["View"].SetValue(GraphicsMgr.CurrentView);
 				effect.Parameters["Projection"].SetValue(GraphicsMgr.CurrentProjection);
 
-				Console.WriteLine("WHAT THE FUCK");
 			}
-
+			Console.WriteLine("Drawing shit!");
 
 			var passes = effect.CurrentTechnique.Passes;
 			foreach (var pass in passes)
@@ -246,15 +160,179 @@ namespace Monofoxe.Engine.Drawing
 
 				_device.DrawUserIndexedPrimitives(
 					PrimitiveType.TriangleList,
-					_vertexArray,
+					_vertexPool,
 					0,
-					vertexCount,
-					_index,
+					_vertexPoolCount,
+					_indexPool,
 					0,
-					(vertexCount / 4) * 2,
-					VertexPositionColorTexture.VertexDeclaration);
+					_indexPoolCount / 3,
+					VertexPositionColorTexture.VertexDeclaration
+				);
 			}
 
+		}
+
+		unsafe void SetVertex(
+			VertexPositionColorTexture* poolPtr,
+			float x, float y, float z,
+			Color color,
+			float texX, float texY
+		)
+		{
+			var vertexPtr = poolPtr + _vertexPoolCount;
+
+			(*vertexPtr).Position.X = x;
+			(*vertexPtr).Position.Y = y;
+			(*vertexPtr).Position.Z = z;
+
+			(*vertexPtr).Color = color;
+			(*vertexPtr).TextureCoordinate.X = texX;
+			(*vertexPtr).TextureCoordinate.Y = texY;
+
+			_vertexPoolCount += 1;
+
+			Console.WriteLine("VERTICES: " + _vertexPoolCount);
+
+		}
+
+
+		unsafe void SetQuadIndices(short* poolPtr)
+		{
+			var indexPtr = poolPtr + _indexPoolCount;
+
+			*(indexPtr + 0) = (short)(_vertexPoolCount);
+			*(indexPtr + 1) = (short)(_vertexPoolCount + 1);
+			*(indexPtr + 2) = (short)(_vertexPoolCount + 2);
+			// Second triangle.
+			*(indexPtr + 3) = (short)(_vertexPoolCount + 1);
+			*(indexPtr + 4) = (short)(_vertexPoolCount + 3);
+			*(indexPtr + 5) = (short)(_vertexPoolCount + 2);
+
+			_indexPoolCount += 6;
+
+			Console.WriteLine("INDEXES: " + _indexPoolCount);
+			
+		}
+
+		public unsafe void Set(
+			float x, float y,
+			float dx, float dy,
+			float w, float h,
+			float sin, float cos,
+			Color color,
+			Vector2 texCoordTL,
+			Vector2 texCoordBR,
+			float depth
+		)
+		{
+			fixed (short* indexPtr = _indexPool)
+			{
+				SetQuadIndices(indexPtr);
+			}
+
+			fixed (VertexPositionColorTexture* vertexPtr = _vertexPool)
+			{
+				SetVertex(
+					vertexPtr,
+					x + dx * cos - dy * sin,
+					y + dx * sin + dy * cos,
+					depth,
+					color,
+					texCoordTL.X,
+					texCoordTL.Y
+				);
+
+				SetVertex(
+					vertexPtr,
+					x + (dx + w) * cos - dy * sin,
+					y + (dx + w) * sin + dy * cos,
+					depth,
+					color,
+					texCoordBR.X,
+					texCoordTL.Y
+				);
+
+				SetVertex(
+					vertexPtr,
+					x + dx * cos - (dy + h) * sin,
+					y + dx * sin + (dy + h) * cos,
+					depth,
+					color,
+					texCoordTL.X,
+					texCoordBR.Y
+				);
+
+				SetVertex(
+					vertexPtr,
+					x + (dx + w) * cos - (dy + h) * sin,
+					y + (dx + w) * sin + (dy + h) * cos,
+					depth,
+					color,
+					texCoordBR.X,
+					texCoordBR.Y
+				);
+
+			}
+
+		}
+
+		public unsafe void Set(
+			float x, float y,
+			float w, float h,
+			Color color,
+			Vector2 texCoordTL,
+			Vector2 texCoordBR,
+			float depth
+		)
+		{
+			fixed (short* indexPtr = _indexPool)
+			{
+				SetQuadIndices(indexPtr);
+			}
+
+			fixed (VertexPositionColorTexture* vertexPtr = _vertexPool)
+			{
+				SetVertex(
+						vertexPtr,
+						x,
+						y,
+						depth,
+						color,
+						texCoordTL.X,
+						texCoordTL.Y
+					);
+
+				SetVertex(
+					vertexPtr,
+					x + w,
+					y,
+					depth,
+					color,
+					texCoordBR.X,
+					texCoordTL.Y
+				);
+
+				SetVertex(
+					vertexPtr,
+					x,
+					y + h,
+					depth,
+					color,
+					texCoordTL.X,
+					texCoordBR.Y
+				);
+
+				SetVertex(
+					vertexPtr,
+					x + w,
+					y + h,
+					depth,
+					color,
+					texCoordBR.X,
+					texCoordBR.Y
+				);
+
+			}
 		}
 	}
 }
