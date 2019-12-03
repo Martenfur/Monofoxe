@@ -79,7 +79,7 @@ namespace Monofoxe.Engine.Drawing
 				throw new ArgumentNullException("graphicsDevice");
 			}
 
-			this.GraphicsDevice = graphicsDevice;
+			GraphicsDevice = graphicsDevice;
 
 			
 			_batcher = new VertexBatcher(graphicsDevice, capacity);
@@ -100,7 +100,9 @@ namespace Monofoxe.Engine.Drawing
 		)
 		{
 			if (_beginCalled)
+			{
 				throw new InvalidOperationException("Begin cannot be called again until End has been successfully called.");
+			}
 
 			// defaults
 			_blendState = blendState ?? BlendState.AlphaBlend;
@@ -118,7 +120,9 @@ namespace Monofoxe.Engine.Drawing
 		public void End()
 		{
 			if (!_beginCalled)
+			{
 				throw new InvalidOperationException("Begin must be called before calling End.");
+			}
 
 			_beginCalled = false;
 
@@ -141,9 +145,13 @@ namespace Monofoxe.Engine.Drawing
 		void CheckValid(Texture2D texture)
 		{
 			if (texture == null)
+			{
 				throw new ArgumentNullException("texture");
+			}
 			if (!_beginCalled)
+			{
 				throw new InvalidOperationException("Draw was called, but Begin has not yet been called. Begin must be called successfully before you can call Draw.");
+			}
 		}
 
 		/// <summary>
@@ -203,39 +211,42 @@ namespace Monofoxe.Engine.Drawing
 
 			if (rotation == 0f)
 			{
-				item.Set(position.X - origin.X,
-								position.Y - origin.Y,
-								w,
-								h,
-								color,
-								_texCoordTL,
-								_texCoordBR,
-								layerDepth);
+				item.Set(
+					position.X - origin.X,
+					position.Y - origin.Y,
+					w,
+					h,
+					color,
+					_texCoordTL,
+					_texCoordBR,
+					layerDepth
+				);
 			}
 			else
 			{
-				item.Set(position.X,
-								position.Y,
-								-origin.X,
-								-origin.Y,
-								w,
-								h,
-								(float)Math.Sin(rotation),
-								(float)Math.Cos(rotation),
-								color,
-								_texCoordTL,
-								_texCoordBR,
-								layerDepth);
+				item.Set(
+					position.X,
+					position.Y,
+					-origin.X,
+					-origin.Y,
+					w,
+					h,
+					(float)Math.Sin(rotation),
+					(float)Math.Cos(rotation),
+					color,
+					_texCoordTL,
+					_texCoordBR,
+					layerDepth
+				);
 			}
 
-			FlushIfNeeded();
 		}
 
 		/// <summary>
 		/// Submit a sprite for drawing in the current batch.
 		/// </summary>
 		public void Draw(
-		Texture2D texture,
+			Texture2D texture,
 			Vector2 position,
 			Rectangle? sourceRectangle,
 			Color color,
@@ -309,46 +320,38 @@ namespace Monofoxe.Engine.Drawing
 
 			if (rotation == 0f)
 			{
-				item.Set(destinationRectangle.X - origin.X,
-								destinationRectangle.Y - origin.Y,
-								destinationRectangle.Width,
-								destinationRectangle.Height,
-								color,
-								_texCoordTL,
-								_texCoordBR,
-								layerDepth);
+				item.Set(
+					destinationRectangle.X - origin.X,
+					destinationRectangle.Y - origin.Y,
+					destinationRectangle.Width,
+					destinationRectangle.Height,
+					color,
+					_texCoordTL,
+					_texCoordBR,
+					layerDepth
+				);
 			}
 			else
 			{
-				item.Set(destinationRectangle.X,
-								destinationRectangle.Y,
-								-origin.X,
-								-origin.Y,
-								destinationRectangle.Width,
-								destinationRectangle.Height,
-								(float)Math.Sin(rotation),
-								(float)Math.Cos(rotation),
-								color,
-								_texCoordTL,
-								_texCoordBR,
-								layerDepth);
+				item.Set(
+					destinationRectangle.X,
+					destinationRectangle.Y,
+					-origin.X,
+					-origin.Y,
+					destinationRectangle.Width,
+					destinationRectangle.Height,
+					(float)Math.Sin(rotation),
+					(float)Math.Cos(rotation),
+					color,
+					_texCoordTL,
+					_texCoordBR,
+					layerDepth
+				);
 			}
 
-			FlushIfNeeded();
 		}
 
-		// Mark the end of a draw operation for Immediate SpriteSortMode.
-		internal void FlushIfNeeded()
-		{
-			//	if (_sortMode == SpriteSortMode.Immediate)
-			//	{
-			//		_batcher.DrawBatch(_sortMode, _effect);
-			//}
-		}
-
-		/// <summary>
-		/// Submit a sprite for drawing in the current batch.
-		/// </summary>
+		
 		public void Draw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color)
 		{
 			CheckValid(texture);
@@ -374,25 +377,23 @@ namespace Monofoxe.Engine.Drawing
 				_texCoordBR = Vector2.One;
 			}
 
-			item.Set(position.X,
-							 position.Y,
-							 size.X,
-							 size.Y,
-							 color,
-							 _texCoordTL,
-							 _texCoordBR,
-							 0);
+			item.Set(
+				position.X,
+				position.Y,
+				size.X,
+				size.Y,
+				color,
+				_texCoordTL,
+				_texCoordBR,
+				0
+			);
 
-			FlushIfNeeded();
 		}
 
-		/// <summary>
-		/// Submit a sprite for drawing in the current batch.
-		/// </summary>
 		public void Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color)
 		{
 			CheckValid(texture);
-
+			
 			var item = _batcher.CreateBatchItem();
 			item.Texture = texture;
 
@@ -411,21 +412,19 @@ namespace Monofoxe.Engine.Drawing
 				_texCoordBR = Vector2.One;
 			}
 
-			item.Set(destinationRectangle.X,
-							 destinationRectangle.Y,
-							 destinationRectangle.Width,
-							 destinationRectangle.Height,
-							 color,
-							 _texCoordTL,
-							 _texCoordBR,
-							 0);
+			item.Set(
+				destinationRectangle.X,
+				destinationRectangle.Y,
+				destinationRectangle.Width,
+				destinationRectangle.Height,
+				color,
+				_texCoordTL,
+				_texCoordBR,
+				0
+			);
 
-			FlushIfNeeded();
 		}
 
-		/// <summary>
-		/// Submit a sprite for drawing in the current batch.
-		/// </summary>
 		public void Draw(Texture2D texture, Vector2 position, Color color)
 		{
 			CheckValid(texture);
@@ -433,21 +432,19 @@ namespace Monofoxe.Engine.Drawing
 			var item = _batcher.CreateBatchItem();
 			item.Texture = texture;
 
-			item.Set(position.X,
-							 position.Y,
-							 texture.Width,
-							 texture.Height,
-							 color,
-							 Vector2.Zero,
-							 Vector2.One,
-							 0);
+			item.Set(
+				position.X,
+				position.Y,
+				texture.Width,
+				texture.Height,
+				color,
+				Vector2.Zero,
+				Vector2.One,
+				0
+			);
 
-			FlushIfNeeded();
 		}
 
-		/// <summary>
-		/// Submit a sprite for drawing in the current batch.
-		/// </summary>
 		public void Draw(Texture2D texture, Rectangle destinationRectangle, Color color)
 		{
 			CheckValid(texture);
@@ -455,16 +452,17 @@ namespace Monofoxe.Engine.Drawing
 			var item = _batcher.CreateBatchItem();
 			item.Texture = texture;
 
-			item.Set(destinationRectangle.X,
-							 destinationRectangle.Y,
-							 destinationRectangle.Width,
-							 destinationRectangle.Height,
-							 color,
-							 Vector2.Zero,
-							 Vector2.One,
-							 0);
+			item.Set(
+				destinationRectangle.X,
+				destinationRectangle.Y,
+				destinationRectangle.Width,
+				destinationRectangle.Height,
+				color,
+				Vector2.Zero,
+				Vector2.One,
+				0
+			);
 
-			FlushIfNeeded();
 		}
 
 		/// <summary>
