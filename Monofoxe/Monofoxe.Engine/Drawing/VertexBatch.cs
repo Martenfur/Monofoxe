@@ -13,8 +13,7 @@ namespace Monofoxe.Engine.Drawing
 	public class VertexBatch : IDisposable
 	{
 		#region Private Fields
-		readonly VertexBatcher _batcher;
-
+		
 		BlendState _blendState;
 		SamplerState _samplerState;
 		DepthStencilState _depthStencilState;
@@ -66,9 +65,7 @@ namespace Monofoxe.Engine.Drawing
 		}
 
 		#endregion
-
 		
-
 		
 		public VertexBatch(GraphicsDevice graphicsDevice)
 		{
@@ -80,9 +77,11 @@ namespace Monofoxe.Engine.Drawing
 			GraphicsDevice = graphicsDevice;
 
 			
-			_batcher = new VertexBatcher(graphicsDevice);
-
+			
 			_beginCalled = false;
+			
+			_indexPool = new short[_indexPoolCapacity];
+			_vertexPool = new VertexPositionColorTexture[_vertexPoolCapacity];
 		}
 
 		/// <summary>
@@ -125,39 +124,265 @@ namespace Monofoxe.Engine.Drawing
 
 			_beginCalled = false;
 
-			Setup();
-
-			_batcher.DrawBatch(_effect, _texture);
-		}
-
-		void Setup()
-		{
 			var gd = GraphicsDevice;
 			gd.BlendState = _blendState;
 			gd.DepthStencilState = _depthStencilState;
 			gd.RasterizerState = _rasterizerState;
 			gd.SamplerStates[0] = _samplerState;
 
-			//_spritePass.Apply();
+			DrawBatch(_effect, _texture);
 		}
+		
 
-		void CheckValid(Texture2D texture)
+		void CheckValid()
 		{
-			if (texture == null)
-			{
-				throw new ArgumentNullException("texture");
-			}
 			if (!_beginCalled)
 			{
 				throw new InvalidOperationException("Draw was called, but Begin has not yet been called. Begin must be called successfully before you can call Draw.");
 			}
 		}
 
+
+		#region Batcher stuff.
+		
+		/// <summary>
+		/// Vertex index array. The values in this array never change.
+		/// </summary>
+		private short[] _indexPool;
+		private int _indexPoolCount = 0;
+		private const int _indexPoolCapacity = short.MaxValue * 6;
+
+		private VertexPositionColorTexture[] _vertexPool;
+		private int _vertexPoolCount = 0;
+		private const int _vertexPoolCapacity = short.MaxValue;
+		
+
+		/// <summary>
+		/// Sorts the batch items and then groups batch drawing into maximal allowed batch sets that do not
+		/// overflow the 16 bit array indices for vertices.
+		/// </summary>
+		public unsafe void DrawBatch(Effect effect, Texture2D texture)
+		{
+			if (effect != null && effect.IsDisposed)
+				throw new ObjectDisposedException("effect");
+
+			// nothing to do
+			if (_vertexPoolCount == 0)
+			{
+				return;
+			}
+
+			FlushVertexArray(effect, texture);
+
+			_vertexPoolCount = 0;
+			_indexPoolCount = 0;
+		}
+
+		/// <summary>
+		/// Sends the triangle list to the graphics device. Here is where the actual drawing starts.
+		/// </summary>
+		private void FlushVertexArray(Effect effect, Texture texture)
+		{
+			if (effect == null)
+			{
+				effect = GraphicsMgr._defaultEffect;
+
+				effect.Parameters["World"].SetValue(GraphicsMgr.CurrentWorld);
+				effect.Parameters["View"].SetValue(GraphicsMgr.CurrentView);
+				effect.Parameters["Projection"].SetValue(GraphicsMgr.CurrentProjection);
+
+			}
+			
+			var passes = effect.CurrentTechnique.Passes;
+			foreach (var pass in passes)
+			{
+				pass.Apply();
+
+				// Whatever happens in pass.Apply, make sure the texture being drawn
+				// ends up in Textures[0].
+				GraphicsDevice.Textures[0] = texture;
+
+				GraphicsDevice.DrawUserIndexedPrimitives(
+					PrimitiveType.TriangleList,
+					_vertexPool,
+					0,
+					_vertexPoolCount,
+					_indexPool,
+					0,
+					_indexPoolCount / 3,
+					VertexPositionColorTexture.VertexDeclaration
+				);
+			}
+
+		}
+
+		unsafe void SetVertex(
+			VertexPositionColorTexture* poolPtr,
+			float x, float y, float z,
+			Color color,
+			float texX, float texY
+		)
+		{
+			var vertexPtr = poolPtr + _vertexPoolCount;
+
+			(*vertexPtr).Position.X = x;
+			(*vertexPtr).Position.Y = y;
+			(*vertexPtr).Position.Z = z;
+
+			(*vertexPtr).Color = color;
+			(*vertexPtr).TextureCoordinate.X = texX;
+			(*vertexPtr).TextureCoordinate.Y = texY;
+
+			_vertexPoolCount += 1;
+			
+		}
+
+
+		unsafe void SetQuadIndices(short* poolPtr)
+		{
+			var indexPtr = poolPtr + _indexPoolCount;
+
+			*(indexPtr + 0) = (short)(_vertexPoolCount);
+			*(indexPtr + 1) = (short)(_vertexPoolCount + 1);
+			*(indexPtr + 2) = (short)(_vertexPoolCount + 2);
+			// Second triangle.
+			*(indexPtr + 3) = (short)(_vertexPoolCount + 1);
+			*(indexPtr + 4) = (short)(_vertexPoolCount + 3);
+			*(indexPtr + 5) = (short)(_vertexPoolCount + 2);
+
+			_indexPoolCount += 6;
+
+		}
+
+		public unsafe void Set(
+			float x, float y,
+			float dx, float dy,
+			float w, float h,
+			float sin, float cos,
+			Color color,
+			Vector2 texCoordTL,
+			Vector2 texCoordBR,
+			float depth
+		)
+		{
+			fixed (short* indexPtr = _indexPool)
+			{
+				SetQuadIndices(indexPtr);
+			}
+
+			fixed (VertexPositionColorTexture* vertexPtr = _vertexPool)
+			{
+				SetVertex(
+					vertexPtr,
+					x + dx * cos - dy * sin,
+					y + dx * sin + dy * cos,
+					depth,
+					color,
+					texCoordTL.X,
+					texCoordTL.Y
+				);
+
+				SetVertex(
+					vertexPtr,
+					x + (dx + w) * cos - dy * sin,
+					y + (dx + w) * sin + dy * cos,
+					depth,
+					color,
+					texCoordBR.X,
+					texCoordTL.Y
+				);
+
+				SetVertex(
+					vertexPtr,
+					x + dx * cos - (dy + h) * sin,
+					y + dx * sin + (dy + h) * cos,
+					depth,
+					color,
+					texCoordTL.X,
+					texCoordBR.Y
+				);
+
+				SetVertex(
+					vertexPtr,
+					x + (dx + w) * cos - (dy + h) * sin,
+					y + (dx + w) * sin + (dy + h) * cos,
+					depth,
+					color,
+					texCoordBR.X,
+					texCoordBR.Y
+				);
+
+			}
+
+		}
+
+		public unsafe void Set(
+			float x, float y,
+			float w, float h,
+			Color color,
+			Vector2 texCoordTL,
+			Vector2 texCoordBR,
+			float depth
+		)
+		{
+			fixed (short* indexPtr = _indexPool)
+			{
+				SetQuadIndices(indexPtr);
+			}
+
+			fixed (VertexPositionColorTexture* vertexPtr = _vertexPool)
+			{
+				SetVertex(
+						vertexPtr,
+						x,
+						y,
+						depth,
+						color,
+						texCoordTL.X,
+						texCoordTL.Y
+					);
+
+				SetVertex(
+					vertexPtr,
+					x + w,
+					y,
+					depth,
+					color,
+					texCoordBR.X,
+					texCoordTL.Y
+				);
+
+				SetVertex(
+					vertexPtr,
+					x,
+					y + h,
+					depth,
+					color,
+					texCoordTL.X,
+					texCoordBR.Y
+				);
+
+				SetVertex(
+					vertexPtr,
+					x + w,
+					y + h,
+					depth,
+					color,
+					texCoordBR.X,
+					texCoordBR.Y
+				);
+
+			}
+		}
+
+		#endregion
+
+
 		public void Draw(Texture2D texture, Vector2 position, Color color)
 		{
-			//CheckValid(texture);
+			CheckValid();
 
-			_batcher.Set(
+			Set(
 				position.X,
 				position.Y,
 				texture.Width,
