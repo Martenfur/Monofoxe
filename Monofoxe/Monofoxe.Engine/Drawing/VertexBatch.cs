@@ -109,7 +109,7 @@ namespace Monofoxe.Engine.Drawing
 			_depthStencilState = depthStencilState ?? DepthStencilState.None;
 			_rasterizerState = rasterizerState ?? RasterizerState.CullCounterClockwise;
 			_effect = effect;
-			
+			_texture = texture;
 			_beginCalled = true;
 		}
 

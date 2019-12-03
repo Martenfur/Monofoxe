@@ -137,8 +137,8 @@ namespace Monofoxe.Playground.GraphicsDemo
 				null,//GraphicsMgr, 
 				GraphicsMgr.CurrentView // Passig current transform matrix to match the camera.
 			);
-			_batch.Draw(texture, position, GraphicsMgr.CurrentColor);
-			_batch.Draw(texture, position, GraphicsMgr.CurrentColor);
+			_batch.Draw(texture, position + Vector2.One * 16, GraphicsMgr.CurrentColor);
+			_batch.Draw(texture, position + Vector2.One * 32, GraphicsMgr.CurrentColor);
 			_batch.Draw(texture, position, GraphicsMgr.CurrentColor);
 
 			_batch.End();
