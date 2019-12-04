@@ -65,8 +65,20 @@ namespace Monofoxe.Engine.Drawing
 		}
 
 		#endregion
-		
-		
+
+
+		/// <summary>
+		/// Vertex index array. The values in this array never change.
+		/// </summary>
+		private short[] _indexPool;
+		private int _indexPoolCount = 0;
+		private const int _indexPoolCapacity = short.MaxValue * 6;
+
+		private VertexPositionColorTexture[] _vertexPool;
+		private int _vertexPoolCount = 0;
+		private const int _vertexPoolCapacity = short.MaxValue;
+
+
 		public VertexBatch(GraphicsDevice graphicsDevice)
 		{
 			if (graphicsDevice == null)
@@ -142,21 +154,22 @@ namespace Monofoxe.Engine.Drawing
 			}
 		}
 
+		private bool FlushIfOverflow(int newVerticesCount, int newIndicesCount)
+		{
+			if (
+				_vertexPoolCount + newVerticesCount < _vertexPoolCapacity
+				&& _indexPoolCount + newIndicesCount < _indexPoolCapacity
+			)
+			{
+				return false;
+			}
+
+			DrawBatch(_effect, _texture);
+			return true;
+		}
 
 		#region Batcher stuff.
 		
-		/// <summary>
-		/// Vertex index array. The values in this array never change.
-		/// </summary>
-		private short[] _indexPool;
-		private int _indexPoolCount = 0;
-		private const int _indexPoolCapacity = short.MaxValue * 6;
-
-		private VertexPositionColorTexture[] _vertexPool;
-		private int _vertexPoolCount = 0;
-		private const int _vertexPoolCapacity = short.MaxValue;
-		
-
 		/// <summary>
 		/// Sorts the batch items and then groups batch drawing into maximal allowed batch sets that do not
 		/// overflow the 16 bit array indices for vertices.
@@ -172,17 +185,6 @@ namespace Monofoxe.Engine.Drawing
 				return;
 			}
 
-			FlushVertexArray(effect, texture);
-
-			_vertexPoolCount = 0;
-			_indexPoolCount = 0;
-		}
-
-		/// <summary>
-		/// Sends the triangle list to the graphics device. Here is where the actual drawing starts.
-		/// </summary>
-		private void FlushVertexArray(Effect effect, Texture texture)
-		{
 			if (effect == null)
 			{
 				effect = GraphicsMgr._defaultEffect;
@@ -192,7 +194,7 @@ namespace Monofoxe.Engine.Drawing
 				effect.Parameters["Projection"].SetValue(GraphicsMgr.CurrentProjection);
 
 			}
-			
+
 			var passes = effect.CurrentTechnique.Passes;
 			foreach (var pass in passes)
 			{
@@ -214,6 +216,8 @@ namespace Monofoxe.Engine.Drawing
 				);
 			}
 
+			_vertexPoolCount = 0;
+			_indexPoolCount = 0;
 		}
 
 		unsafe void SetVertex(
@@ -325,6 +329,8 @@ namespace Monofoxe.Engine.Drawing
 			float depth
 		)
 		{
+			FlushIfOverflow(4, 6);
+
 			fixed (short* indexPtr = _indexPool)
 			{
 				SetQuadIndices(indexPtr);

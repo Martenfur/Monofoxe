@@ -20,6 +20,7 @@ namespace Monofoxe.Playground.Interface
 	{
 		public List<SceneFactory> Factories = new List<SceneFactory>
 		{
+			new VertexBatchTestFactory(),
 			new ShapeDemoFactory(),
 			new PrimitiveDemoFactory(),
 			new SpriteDemoFactory(),
