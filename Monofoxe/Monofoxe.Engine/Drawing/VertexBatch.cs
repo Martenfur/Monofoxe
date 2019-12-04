@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace Monofoxe.Engine.Drawing
 {
 	/// <summary>
 	/// Helper class for drawing text strings and sprites in one or more optimized batches.
 	/// </summary>
-	public class VertexBatch : IDisposable
+	public class VertexBatch
 	{
-		#region Private Fields
 		
 		BlendState _blendState;
 		SamplerState _samplerState;
@@ -23,53 +19,17 @@ namespace Monofoxe.Engine.Drawing
 		bool _beginCalled;
 
 		
-		Rectangle _tempRect = new Rectangle(0, 0, 0, 0);
 		Vector2 _texCoordTL = new Vector2(0, 0);
 		Vector2 _texCoordBR = new Vector2(0, 0);
-		#endregion
-
-		#region Stuff.
-
-		bool disposed;
-
+		
+		
+		
 		// The GraphicsDevice property should only be accessed in Dispose(bool) if the disposing
 		// parameter is true. If disposing is false, the GraphicsDevice may or may not be
 		// disposed yet.
-		GraphicsDevice graphicsDevice;
+		public GraphicsDevice GraphicsDevice { get; private set; }
+		
 
-		public GraphicsDevice GraphicsDevice
-		{
-			get
-			{
-				return graphicsDevice;
-			}
-
-			internal set
-			{
-				Debug.Assert(value != null);
-
-				if (graphicsDevice == value)
-					return;
-
-				graphicsDevice = value;
-
-			}
-		}
-
-		public bool IsDisposed
-		{
-			get
-			{
-				return disposed;
-			}
-		}
-
-		#endregion
-
-
-		/// <summary>
-		/// Vertex index array. The values in this array never change.
-		/// </summary>
 		private short[] _indexPool;
 		private int _indexPoolCount = 0;
 		private const int _indexPoolCapacity = short.MaxValue * 6;
@@ -88,8 +48,6 @@ namespace Monofoxe.Engine.Drawing
 
 			GraphicsDevice = graphicsDevice;
 
-			
-			
 			_beginCalled = false;
 			
 			_indexPool = new short[_indexPoolCapacity];
@@ -100,13 +58,11 @@ namespace Monofoxe.Engine.Drawing
 		/// Begins a new sprite and text batch with the specified render state.
 		/// </summary>
 		public void Begin(
-			Texture2D texture,
 			BlendState blendState = null,
 			SamplerState samplerState = null,
 			DepthStencilState depthStencilState = null,
 			RasterizerState rasterizerState = null,
-			Effect effect = null,
-			Matrix? transformMatrix = null
+			Effect effect = null
 		)
 		{
 			if (_beginCalled)
@@ -114,14 +70,13 @@ namespace Monofoxe.Engine.Drawing
 				throw new InvalidOperationException("Begin cannot be called again until End has been successfully called.");
 			}
 
-			// defaults
 			_blendState = blendState ?? BlendState.AlphaBlend;
 			_samplerState = samplerState ?? SamplerState.LinearClamp;
 			_depthStencilState = depthStencilState ?? DepthStencilState.None;
 			_rasterizerState = rasterizerState ?? RasterizerState.CullCounterClockwise;
 			_effect = effect;
-			_texture = texture;
 			_beginCalled = true;
+			_texture = null;
 		}
 
 		/// <summary>
@@ -146,7 +101,7 @@ namespace Monofoxe.Engine.Drawing
 		}
 		
 
-		void CheckValid()
+		private void CheckValid()
 		{
 			if (!_beginCalled)
 			{
@@ -168,13 +123,21 @@ namespace Monofoxe.Engine.Drawing
 			return true;
 		}
 
-		#region Batcher stuff.
+		private void SwitchTexture(Texture2D texture)
+		{ 
+			if (_texture != null && texture != _texture)
+			{
+				DrawBatch(_effect, _texture);
+			}
+			_texture = texture;
+		}
+
 		
 		/// <summary>
 		/// Sorts the batch items and then groups batch drawing into maximal allowed batch sets that do not
 		/// overflow the 16 bit array indices for vertices.
 		/// </summary>
-		public unsafe void DrawBatch(Effect effect, Texture2D texture)
+		private unsafe void DrawBatch(Effect effect, Texture2D texture)
 		{
 			if (effect != null && effect.IsDisposed)
 				throw new ObjectDisposedException("effect");
@@ -192,7 +155,6 @@ namespace Monofoxe.Engine.Drawing
 				effect.Parameters["World"].SetValue(GraphicsMgr.CurrentWorld);
 				effect.Parameters["View"].SetValue(GraphicsMgr.CurrentView);
 				effect.Parameters["Projection"].SetValue(GraphicsMgr.CurrentProjection);
-
 			}
 
 			var passes = effect.CurrentTechnique.Passes;
@@ -220,7 +182,7 @@ namespace Monofoxe.Engine.Drawing
 			_indexPoolCount = 0;
 		}
 
-		unsafe void SetVertex(
+		private unsafe void SetVertex(
 			VertexPositionColorTexture* poolPtr,
 			float x, float y, float z,
 			Color color,
@@ -242,153 +204,14 @@ namespace Monofoxe.Engine.Drawing
 		}
 
 
-		unsafe void SetQuadIndices(short* poolPtr)
-		{
-			var indexPtr = poolPtr + _indexPoolCount;
-
-			*(indexPtr + 0) = (short)(_vertexPoolCount);
-			*(indexPtr + 1) = (short)(_vertexPoolCount + 1);
-			*(indexPtr + 2) = (short)(_vertexPoolCount + 2);
-			// Second triangle.
-			*(indexPtr + 3) = (short)(_vertexPoolCount + 1);
-			*(indexPtr + 4) = (short)(_vertexPoolCount + 3);
-			*(indexPtr + 5) = (short)(_vertexPoolCount + 2);
-
-			_indexPoolCount += 6;
-
-		}
-
-		public unsafe void Set(
-			float x, float y,
-			float dx, float dy,
-			float w, float h,
-			float sin, float cos,
-			Color color,
-			Vector2 texCoordTL,
-			Vector2 texCoordBR,
-			float depth
-		)
-		{
-			fixed (short* indexPtr = _indexPool)
-			{
-				SetQuadIndices(indexPtr);
-			}
-
-			fixed (VertexPositionColorTexture* vertexPtr = _vertexPool)
-			{
-				SetVertex(
-					vertexPtr,
-					x + dx * cos - dy * sin,
-					y + dx * sin + dy * cos,
-					depth,
-					color,
-					texCoordTL.X,
-					texCoordTL.Y
-				);
-
-				SetVertex(
-					vertexPtr,
-					x + (dx + w) * cos - dy * sin,
-					y + (dx + w) * sin + dy * cos,
-					depth,
-					color,
-					texCoordBR.X,
-					texCoordTL.Y
-				);
-
-				SetVertex(
-					vertexPtr,
-					x + dx * cos - (dy + h) * sin,
-					y + dx * sin + (dy + h) * cos,
-					depth,
-					color,
-					texCoordTL.X,
-					texCoordBR.Y
-				);
-
-				SetVertex(
-					vertexPtr,
-					x + (dx + w) * cos - (dy + h) * sin,
-					y + (dx + w) * sin + (dy + h) * cos,
-					depth,
-					color,
-					texCoordBR.X,
-					texCoordBR.Y
-				);
-
-			}
-
-		}
-
-		public unsafe void Set(
-			float x, float y,
-			float w, float h,
-			Color color,
-			Vector2 texCoordTL,
-			Vector2 texCoordBR,
-			float depth
-		)
-		{
-			FlushIfOverflow(4, 6);
-
-			fixed (short* indexPtr = _indexPool)
-			{
-				SetQuadIndices(indexPtr);
-			}
-
-			fixed (VertexPositionColorTexture* vertexPtr = _vertexPool)
-			{
-				SetVertex(
-						vertexPtr,
-						x,
-						y,
-						depth,
-						color,
-						texCoordTL.X,
-						texCoordTL.Y
-					);
-
-				SetVertex(
-					vertexPtr,
-					x + w,
-					y,
-					depth,
-					color,
-					texCoordBR.X,
-					texCoordTL.Y
-				);
-
-				SetVertex(
-					vertexPtr,
-					x,
-					y + h,
-					depth,
-					color,
-					texCoordTL.X,
-					texCoordBR.Y
-				);
-
-				SetVertex(
-					vertexPtr,
-					x + w,
-					y + h,
-					depth,
-					color,
-					texCoordBR.X,
-					texCoordBR.Y
-				);
-
-			}
-		}
-
-		#endregion
 
 
 		public void Draw(Texture2D texture, Vector2 position, Color color)
 		{
 			CheckValid();
+			SwitchTexture(texture);
 
-			Set(
+			SetQuad(
 				position.X,
 				position.Y,
 				texture.Width,
@@ -687,13 +510,116 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Immediately releases the unmanaged resources used by this object.
 		/// </summary>
-		public void Dispose()
-		{
-			graphicsDevice = null;
-			disposed = true;
+		
+		
+		#region Quads.
 
-			GC.SuppressFinalize(this);
+		private unsafe void SetQuadIndices(short* poolPtr)
+		{
+			var indexPtr = poolPtr + _indexPoolCount;
+
+			*(indexPtr + 0) = (short)(_vertexPoolCount);
+			*(indexPtr + 1) = (short)(_vertexPoolCount + 1);
+			*(indexPtr + 2) = (short)(_vertexPoolCount + 2);
+			// Second triangle.
+			*(indexPtr + 3) = (short)(_vertexPoolCount + 1);
+			*(indexPtr + 4) = (short)(_vertexPoolCount + 3);
+			*(indexPtr + 5) = (short)(_vertexPoolCount + 2);
+
+			_indexPoolCount += 6;
 		}
+
+		private unsafe void SetQuad(
+			float x, float y,
+			float dx, float dy,
+			float w, float h,
+			float sin, float cos,
+			Color color,
+			Vector2 texCoordTL,
+			Vector2 texCoordBR,
+			float depth
+		)
+		{
+
+			FlushIfOverflow(4, 6);
+			fixed (short* indexPtr = _indexPool)
+			{
+				SetQuadIndices(indexPtr);
+			}
+
+			fixed (VertexPositionColorTexture* vertexPtr = _vertexPool)
+			{
+				SetVertex(
+					vertexPtr,
+					x + dx * cos - dy * sin,
+					y + dx * sin + dy * cos,
+					depth,
+					color,
+					texCoordTL.X,
+					texCoordTL.Y
+				);
+
+				SetVertex(
+					vertexPtr,
+					x + (dx + w) * cos - dy * sin,
+					y + (dx + w) * sin + dy * cos,
+					depth,
+					color,
+					texCoordBR.X,
+					texCoordTL.Y
+				);
+
+				SetVertex(
+					vertexPtr,
+					x + dx * cos - (dy + h) * sin,
+					y + dx * sin + (dy + h) * cos,
+					depth,
+					color,
+					texCoordTL.X,
+					texCoordBR.Y
+				);
+
+				SetVertex(
+					vertexPtr,
+					x + (dx + w) * cos - (dy + h) * sin,
+					y + (dx + w) * sin + (dy + h) * cos,
+					depth,
+					color,
+					texCoordBR.X,
+					texCoordBR.Y
+				);
+
+			}
+
+		}
+
+		private unsafe void SetQuad(
+			float x, float y,
+			float w, float h,
+			Color color,
+			Vector2 texCoordTL,
+			Vector2 texCoordBR,
+			float depth
+		)
+		{
+			FlushIfOverflow(4, 6);
+
+			fixed (short* indexPtr = _indexPool)
+			{
+				SetQuadIndices(indexPtr);
+			}
+
+			fixed (VertexPositionColorTexture* vertexPtr = _vertexPool)
+			{
+				SetVertex(vertexPtr, x, y, depth, color, texCoordTL.X, texCoordTL.Y);
+				SetVertex(vertexPtr, x + w, y, depth, color, texCoordBR.X, texCoordTL.Y);
+				SetVertex(vertexPtr, x, y + h, depth, color, texCoordTL.X, texCoordBR.Y);
+				SetVertex(vertexPtr, x + w, y + h, depth, color, texCoordBR.X, texCoordBR.Y);
+			}
+		}
+
+		#endregion
+
 	}
 }
 
