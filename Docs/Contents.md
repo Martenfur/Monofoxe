@@ -20,11 +20,10 @@
 
 - Entities
   - [Entities](Entities/Entities.md)
-  - [Introduction to ECS](Entities/IntroductionToECS.md)
+  - [Introduction to EC](Entities/IntroductionToEC.md)
   - [Components](Entities/Components.md)
   - [Entity templates](Entities/EntityTemplates.md)
-  - [Systems](Entities/Systems.md)
-
+  
 - Scene system
   - [Layers](SceneSystem/Layers.md)
   - [Scenes](SceneSystem/Scenes.md)
