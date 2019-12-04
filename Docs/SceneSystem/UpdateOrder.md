@@ -11,7 +11,6 @@ if (FixedUpdateTimerIsTriggered)
 	{
 		foreach(var layer in scene.Layers)
 		{
-			FixedUpdateForSystems();
 			foreach(var entity in layer.Entities)
 				FixedUpdateForEntity();
 		}
@@ -19,7 +18,7 @@ if (FixedUpdateTimerIsTriggered)
 }
 ```
 
-First event to execute is `FixedUpdate()`. It only executes if its internal timer is up. Is iterated though all scenes, layers, entities and executes their FixedUpdate events. Note how systems execute their code **before** any entity had a chance to execute its `FixedUpdate()`. This is very important to keep in mind. 
+First event to execute is `FixedUpdate()`. It only executes if its internal timer is up. The code iterates through all scenes, layers, entities and executes their FixedUpdate events. Component's events are evecuted inside the entity's `Update()`.
 
 After `FixedUpdate()`, regular `Update()` is executed:
 
@@ -28,7 +27,6 @@ foreach(var scene in scenes)
 {
 	foreach(var layer in scene.Layers)
 	{
-		UpdateForSystems();
 		foreach(var entity in layer.Entities)
 			UpdateForEntity();
 	}
@@ -52,7 +50,6 @@ foreach(var camera in cameras)
 		
 			foreach(var entity in layer.DepthSortedEntities)
 			{
-				DrawForEntityComponents();
 				DrawForEntity();
 			}
 		}
@@ -60,7 +57,7 @@ foreach(var camera in cameras)
 }
 ```
 
-The main difference now is that `Draw()` executes for each camera separately. So if you have two cameras, each entity will be drawn twice. Also here's where `IsGUI` flag comes into play. If the layer is considered as GUI, it can't be drawn on camera and is not executed. Another thing to remember is that now components are processed together with entities.
+The main difference now is that `Draw()` executes for each camera separately. So if you have two cameras, each entity will be drawn twice. Also here's where `IsGUI` flag comes into play. If the layer is considered as GUI, it can't be drawn on camera and is not executed. 
 
 After all that, we execute `Draw()` again, but for layers marked as GUI:
 
@@ -74,7 +71,6 @@ foreach(var scene in scenes)
 		
 		foreach(var entity in layer.DepthSortedEntities)
 		{
-			DrawForEntityComponents();
 			DrawForEntity();
 		}
 	}
