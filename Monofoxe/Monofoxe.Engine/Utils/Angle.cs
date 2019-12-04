@@ -115,6 +115,17 @@ namespace Monofoxe.Engine.Utils
 		public static Angle operator +(Angle a, int num) =>
 			new Angle(a._degrees + num);
 
+		public static Angle operator +(double num, Angle a) =>
+			new Angle(a._degrees + num);
+
+		public static Angle operator +(float num, Angle a) =>
+			new Angle(a._degrees + num);
+
+		public static Angle operator +(int num, Angle a) =>
+			new Angle(a._degrees + num);
+
+
+
 		public static Angle operator -(Angle a1, Angle a2) =>
 			new Angle(a1._degrees - a2._degrees);
 
@@ -127,6 +138,17 @@ namespace Monofoxe.Engine.Utils
 		public static Angle operator -(Angle a, int num) =>
 			new Angle(a._degrees - num);
 
+		public static Angle operator -(double num, Angle a) =>
+			new Angle(num - a._degrees);
+
+		public static Angle operator -(float num, Angle a) =>
+			new Angle(num - a._degrees);
+
+		public static Angle operator -(int num, Angle a) =>
+			new Angle(num - a._degrees);
+
+
+
 		public static Angle operator *(Angle a, double num) =>
 			new Angle(a._degrees * num);
 
@@ -136,6 +158,17 @@ namespace Monofoxe.Engine.Utils
 		public static Angle operator *(Angle a, int num) =>
 			new Angle(a._degrees * num);
 
+		public static Angle operator *(double num, Angle a) =>
+			new Angle(a._degrees * num);
+
+		public static Angle operator *(float num, Angle a) =>
+			new Angle(a._degrees * num);
+
+		public static Angle operator *(int num, Angle a) =>
+			new Angle(a._degrees * num);
+
+
+
 		public static Angle operator /(Angle a, double num) =>
 			new Angle(a._degrees / num);
 
@@ -144,6 +177,17 @@ namespace Monofoxe.Engine.Utils
 
 		public static Angle operator /(Angle a, int num) =>
 			new Angle(a._degrees / num);
+
+		public static Angle operator /(double num, Angle a) =>
+			new Angle(num / a._degrees);
+
+		public static Angle operator /(float num, Angle a) =>
+			new Angle(num / a._degrees);
+
+		public static Angle operator /(int num, Angle a) =>
+			new Angle(num / a._degrees);
+
+
 
 		public static bool operator >(Angle a1, Angle a2) =>
 			a1._degrees > a2._degrees;
