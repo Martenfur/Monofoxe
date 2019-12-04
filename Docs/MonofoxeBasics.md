@@ -29,7 +29,7 @@ The only thing you should notice from it is that it creates an instance of `Game
 
 By default it already has some simple logic. You can modify this class however you like.
 
-The `Content` folder contains all the game's resources in their original format. it also has a `.mgcb` ([Content Pipeline](http://www.monogame.net/documentation/?page=Pipeline)) and `.npl` ([NoPipeline](https://github.com/gnFur/NoPipeline)) configs which tell how resources should be processed. Don't worry about those for now.
+The `Content` folder contains all the game's resources in their original format. it also has a `.mgcb` ([Content Pipeline](http://www.monogame.net/documentation/?page=Pipeline)) and `.npl` ([NoPipeline](https://github.com/Martenfur/NoPipeline)) configs which tell how resources should be processed. Don't worry about those for now.
 
 The last notable folder is `Resources`. It provides a way to load and reference your resources. More detailed explanation will be provided in Resources section. 
 
