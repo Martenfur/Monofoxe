@@ -1,6 +1,6 @@
 # Introduction
 
-Sup. I am gn Fur and I made a game engine. It's called Monofoxe! 
+Sup. I am Martenfur and I made a game engine. It's called Monofoxe! 
 
 ![]()
 
