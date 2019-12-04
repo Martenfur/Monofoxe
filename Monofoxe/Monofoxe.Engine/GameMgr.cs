@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.Xna.Framework;
-using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Drawing;
 
@@ -89,14 +89,12 @@ namespace Monofoxe.Engine
 			Game = game;
 			Game.IsMouseVisible = true;
 			
-			Game.Window.TextInput += Input.TextInput;
 			Input.MaxGamepadCount = 2;
 			
 			WindowManager = new WindowMgr(game);
-			
-			LoadAssembliesAndTypes();
 
-			SystemMgr.InitSystemPool();
+			LoadAssembliesAndTypes(game.GetType().Assembly);
+			
 			AssetMgr.Init();
 
 			var defScene = SceneMgr.CreateScene("default");
@@ -167,7 +165,7 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Loads all assemblies and extracts types form them.
 		/// </summary>
-		private static void LoadAssembliesAndTypes()
+		private static void LoadAssembliesAndTypes(Assembly entryAssembly)
 		{
 			// Loading all assemblies.
 			Assemblies = new Dictionary<string, Assembly>();
@@ -177,7 +175,7 @@ namespace Monofoxe.Engine
 				Assemblies.Add(asm.FullName, asm);
 			}
 
-			LoadAllReferencedAssemblies(Assembly.GetEntryAssembly(), 0);
+			LoadAllReferencedAssemblies(entryAssembly, 0);
 			// Loading all assemblies.
 
 

@@ -4,6 +4,7 @@ using Monofoxe.Tiled;
 using Monofoxe.Engine.Drawing;
 using Resources;
 using Monofoxe.Engine.Resources;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Monofoxe.Playground
 {
@@ -16,6 +17,12 @@ namespace Monofoxe.Playground
 		{
 			Content.RootDirectory = AssetMgr.ContentDir;
 			GameMgr.Init(this);
+#if !ANDROID
+			Window.TextInput += Input.TextInput;
+#else
+			GameMgr.WindowManager.SetFullScreen(true); // Has to be exactly here, apparently.
+#endif
+
 		}
 
 		/// <summary>

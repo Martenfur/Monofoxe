@@ -1,0 +1,39 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="ProjectGroup">
+	<TemplateData>
+		<Name>Monofoxe Crossplatform Project</Name>
+		<Description>A Monofoxe game project for Windows, Mac and Linux. Includes Shared, DX and GL projects.</Description>
+		<ProjectType>CSharp</ProjectType>
+		<NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+		<ProjectSubType>
+		</ProjectSubType>
+		<SortOrder>43300</SortOrder>
+		<CreateNewFolder>false</CreateNewFolder>
+		<DefaultName>Foxe</DefaultName>
+		<ProvideDefaultName>true</ProvideDefaultName>
+		<LocationField>Enabled</LocationField>
+		<EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+		<Icon>__TemplateIcon.png</Icon>
+		<PreviewImage>__PreviewImage.png</PreviewImage>
+		<CreateInPlace>true</CreateInPlace>
+		<LanguageTag>C#</LanguageTag>
+		<PlatformTag>Windows</PlatformTag>
+		<PlatformTag>Linux</PlatformTag>
+		<PlatformTag>DirectX</PlatformTag>
+		<PlatformTag>OpenGL</PlatformTag>
+		<ProjectTypeTag>Monofoxe</ProjectTypeTag>
+		<ProjectTypeTag>MonoGame</ProjectTypeTag>
+	</TemplateData>
+	<TemplateContent>
+		<ProjectCollection>
+			<ProjectTemplateLink ProjectName="$safeprojectname$" CopyParameters="true">
+				Shared\Shared.vstemplate
+			</ProjectTemplateLink>
+			<ProjectTemplateLink ProjectName="$safeprojectname$.GL" CopyParameters="true">
+				GL\GL.vstemplate
+			</ProjectTemplateLink>
+			<ProjectTemplateLink ProjectName="$safeprojectname$.DX" CopyParameters="true">
+				DX\DX.vstemplate
+			</ProjectTemplateLink>
+		</ProjectCollection>
+	</TemplateContent>
+</VSTemplate>

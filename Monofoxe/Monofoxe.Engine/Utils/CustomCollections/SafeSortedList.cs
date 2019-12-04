@@ -12,7 +12,7 @@ namespace Monofoxe.Engine.Utils.CustomCollections
 	/// It also does not resort whole list every update, so be careful with changing item's sorting parameter on the fly.
 	/// Good idea will be to re-add item back to the list.
 	/// </summary>
-	public class SafeSortedList<T> : IEnumerable<T>
+	public class SafeSortedList<T>
 	{
 		private Func<T, int> _sortingParameter;
 		private List<T> _items, _outdatedItems;
@@ -98,17 +98,12 @@ namespace Monofoxe.Engine.Utils.CustomCollections
 			}
 		}
 
-		
-		public IEnumerator<T> GetEnumerator()
+
+		public List<T>.Enumerator GetEnumerator()
 		{
 			Update();
 			return _outdatedItems.GetEnumerator();
 		}
-		
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			Update();
-			return _outdatedItems.GetEnumerator();
-		}
+
 	}
 }

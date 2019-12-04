@@ -1,8 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Monofoxe.Engine.ECS;
+﻿using Microsoft.Xna.Framework;
+using Monofoxe.Engine.Cameras;
+using Monofoxe.Engine.Drawing;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.Utils.CustomCollections;
+using System;
+using System.Collections.Generic;
 
 
 namespace Monofoxe.Engine.SceneSystem
@@ -13,7 +15,7 @@ namespace Monofoxe.Engine.SceneSystem
 	public class Scene : IEntityMethods
 	{
 		public readonly string Name;
-		
+
 		/// <summary>
 		/// List of all scene's layers.
 		/// </summary>
@@ -47,20 +49,26 @@ namespace Monofoxe.Engine.SceneSystem
 		private int _priority;
 
 
+		/// <summary>
+		/// Current active layer.
+		/// </summary>
+		public static Layer CurrentLayer { get; private set; }
+
+
 		public Scene(string name) =>
 			Name = name;
-		
-		
+
+
 		internal void Destroy()
 		{
-			foreach(var layer in _layers)
+			foreach (var layer in _layers)
 			{
 				DestroyLayer(layer);
 			}
 			_layers.Clear(); // Also removes newly added layers from the list.
 		}
-		
-		
+
+
 		#region Layer methods.
 
 		/// <summary>
@@ -72,7 +80,7 @@ namespace Monofoxe.Engine.SceneSystem
 			{
 				throw new Exception("Layer with such name already exists!");
 			}
-			
+
 			return new Layer(name, priority, this);
 		}
 
@@ -83,7 +91,7 @@ namespace Monofoxe.Engine.SceneSystem
 		{
 			if (_layers.Contains(layer))
 			{
-				foreach(var entity in layer.Entities)
+				foreach (var entity in layer.Entities)
 				{
 					entity.DestroyEntity();
 				}
@@ -96,11 +104,11 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public void DestroyLayer(string name)
 		{
-			for(var i = _layers.Count - 1; i >= 0; i += 1)
+			for (var i = _layers.Count - 1; i >= 0; i += 1)
 			{
 				if (string.Equals(_layers[i].Name, name, StringComparison.OrdinalIgnoreCase))
 				{
-					foreach(var entity in _layers[i].Entities)
+					foreach (var entity in _layers[i].Entities)
 					{
 						entity.DestroyEntity();
 					}
@@ -117,7 +125,7 @@ namespace Monofoxe.Engine.SceneSystem
 		{
 			get
 			{
-				foreach(var layer in _layers)
+				foreach (var layer in _layers)
 				{
 					if (string.Equals(layer.Name, name, StringComparison.OrdinalIgnoreCase))
 					{
@@ -133,7 +141,7 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public bool TryGetLayer(string name, out Layer layer)
 		{
-			foreach(var l in _layers)
+			foreach (var l in _layers)
 			{
 				if (string.Equals(l.Name, name, StringComparison.OrdinalIgnoreCase))
 				{
@@ -152,7 +160,7 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public bool HasLayer(string name)
 		{
-			foreach(var layer in _layers)
+			foreach (var layer in _layers)
 			{
 				if (string.Equals(layer.Name, name, StringComparison.OrdinalIgnoreCase))
 				{
@@ -161,7 +169,7 @@ namespace Monofoxe.Engine.SceneSystem
 			}
 			return false;
 		}
-		
+
 		#endregion Layer methods.
 
 
@@ -174,34 +182,21 @@ namespace Monofoxe.Engine.SceneSystem
 		public List<T> GetEntityList<T>() where T : Entity
 		{
 			var entities = new List<T>();
-			
-			foreach(var layer in _layers)
+
+			foreach (var layer in _layers)
 			{
 				entities.AddRange(layer.GetEntityList<T>());
 			}
 			return entities;
 		}
-		
-		/// <summary>
-		/// Counts amount of objects of certain type.
-		/// </summary>
-		public int CountEntities<T>() where T : Entity
-		{
-			var count = 0;
-			
-			foreach(var layer in _layers)
-			{
-				count += layer.CountEntities<T>();				
-			}
-			return count;
-		}
+
 
 		/// <summary>
 		/// Checks if any instances of an entity exist.
 		/// </summary>
 		public bool EntityExists<T>() where T : Entity
 		{
-			foreach(var layer in _layers)	
+			foreach (var layer in _layers)
 			{
 				if (layer.EntityExists<T>())
 				{
@@ -217,7 +212,7 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public T FindEntity<T>() where T : Entity
 		{
-			foreach(var layer in _layers)
+			foreach (var layer in _layers)
 			{
 				var entity = layer.FindEntity<T>();
 				if (entity != null)
@@ -225,72 +220,6 @@ namespace Monofoxe.Engine.SceneSystem
 					return entity;
 				}
 			}
-			return null;
-		}
-		
-
-
-		/// <summary>
-		/// Returns list of entities with given tag.
-		/// </summary>
-		public List<Entity> GetEntityList(string tag)
-		{
-			var list = new List<Entity>();
-
-			foreach(var layer in _layers)
-			{
-				list.AddRange(layer.GetEntityList(tag));
-			}
-			return list;
-		}
-		
-
-		/// <summary>
-		/// Counts amount of entities with given tag.
-		/// </summary>
-		public int CountEntities(string tag)
-		{
-			var counter = 0;
-
-			foreach(var layer in _layers)
-			{
-				counter += layer.CountEntities(tag);
-			}
-			
-			return counter;
-		}
-		
-
-		/// <summary>
-		/// Checks if given instance exists.
-		/// </summary>
-		public bool EntityExists(string tag)
-		{
-			foreach(var layer in _layers)
-			{
-				if (layer.EntityExists(tag))
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-		
-
-		/// <summary>
-		/// Finds first entity with given tag.
-		/// </summary>
-		public Entity FindEntity(string tag)
-		{
-			foreach(var layer in _layers)
-			{
-				var entity = layer.FindEntity(tag);
-				if (entity != null)
-				{
-					return entity;
-				}
-			}
-			
 			return null;
 		}
 
@@ -301,7 +230,7 @@ namespace Monofoxe.Engine.SceneSystem
 		public List<Entity> GetEntityListByComponent<T>() where T : Component
 		{
 			var list = new List<Entity>();
-			foreach(var layer in _layers)
+			foreach (var layer in _layers)
 			{
 				list.AddRange(layer.GetEntityListByComponent<T>());
 			}
@@ -310,25 +239,11 @@ namespace Monofoxe.Engine.SceneSystem
 
 
 		/// <summary>
-		/// Counts amount of entities on a scene, which have component of given type.
-		/// </summary>
-		public int CountEntitiesByComponent<T>() where T : Component
-		{
-			var count = 0;
-			foreach(var layer in _layers)
-			{
-				count += layer.CountEntitiesByComponent<T>();
-			}
-			return count;
-		}
-
-
-		/// <summary>
 		/// Finds first entity on a scene, which has component of given type.
 		/// </summary>
 		public Entity FindEntityByComponent<T>() where T : Component
 		{
-			foreach(var layer in _layers)
+			foreach (var layer in _layers)
 			{
 				var entity = layer.FindEntityByComponent<T>();
 				if (entity != null)
@@ -347,7 +262,7 @@ namespace Monofoxe.Engine.SceneSystem
 		public List<Component> GetComponentList<T>() where T : Component
 		{
 			var list = new List<Component>();
-			foreach(var layer in _layers)
+			foreach (var layer in _layers)
 			{
 				list.AddRange(layer.GetComponentList<T>());
 			}
@@ -355,5 +270,69 @@ namespace Monofoxe.Engine.SceneSystem
 		}
 
 		#endregion Entity methods.
+
+
+
+		#region Events.
+
+		internal void FixedUpdate()
+		{
+			foreach (var layer in _layers)
+			{
+				if (layer.Enabled)
+				{
+					CurrentLayer = layer;
+
+					layer.FixedUpdate();
+				}
+			}
+		}
+
+		internal void Update()
+		{
+			foreach (var layer in _layers)
+			{
+				if (layer.Enabled)
+				{
+					CurrentLayer = layer;
+
+					layer.Update();
+				}
+			}
+		}
+
+
+		internal void Draw()
+		{
+			foreach (var layer in _layers)
+			{
+				if (
+					layer.Visible &&
+					!layer.IsGUI &&
+					!GraphicsMgr.CurrentCamera.Filter(Name, layer.Name)
+				)
+				{
+					CurrentLayer = layer;
+
+					layer.Draw();
+				}
+			}
+		}
+
+		internal void DrawGUI()
+		{
+			foreach (var layer in _layers)
+			{
+				if (layer.Visible && layer.IsGUI)
+				{
+					CurrentLayer = layer;
+
+					layer.DrawGUI();
+				}
+			}
+		}
+
+		#endregion Events.
+
 	}
 }

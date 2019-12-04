@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Monofoxe.Engine.Cameras;
 using Monofoxe.Engine.Drawing;
-using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.Utils;
 using Monofoxe.Engine.Utils.CustomCollections;
 
@@ -93,20 +93,9 @@ namespace Monofoxe.Engine.SceneSystem
 		public List<Entity> Entities => _entities.ToList();
 
 		private SafeList<Entity> _entities = new SafeList<Entity>();
-		internal SafeList<Entity> _depthSortedEntities;
-
-		/// <summary>
-		/// All components, which belong to all entities on the layer.
-		/// </summary>
-		internal ComponentContainer _components = new ComponentContainer();
+		private SafeList<Entity> _depthSortedEntities;
+		private EntityDepthComparer _depthComparer = new EntityDepthComparer();
 		
-
-		/// <summary>
-		/// Disabled components.
-		/// </summary>
-		internal ComponentContainer _disabledComponents = new ComponentContainer();
-		
-
 		/// <summary>
 		/// Shaders applied to the layer.
 		/// NOTE: You should enable postprocessing in camera.
@@ -123,8 +112,228 @@ namespace Monofoxe.Engine.SceneSystem
 			
 			DepthSorting = false;
 		}
+
+
+
+		#region Entity methods.
+
+		/// <summary>
+		/// Returns list of entities of certain type.
+		/// </summary>
+		public List<T> GetEntityList<T>() where T : Entity
+		{
+			var entities = new List<T>();
+			foreach (var entity in _entities)
+			{
+				if (entity is T)
+				{
+					entities.Add((T)entity);
+				}
+			}
+			return entities;
+		}
+		
+		/// <summary>
+		/// Checks if any instances of an entity exist.
+		/// </summary>
+		public bool EntityExists<T>() where T : Entity
+		{
+			foreach(var entity in _entities)
+			{
+				if (entity is T)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// Finds first entity of given type.
+		/// </summary>
+		public T FindEntity<T>() where T : Entity
+		{
+			foreach(var entity in _entities)
+			{
+				if (entity is T)
+				{
+					return (T)entity;
+				}
+			}
+			return null;
+		}
+		
+		/// <summary>
+		/// Returns list of entities, which have component - enabled or disabled -  of given type.
+		/// </summary>
+		public List<Entity> GetEntityListByComponent<T>() where T : Component
+		{
+			var components = GetComponentList<T>();
+
+			var entityArray = new Entity[components.Count];
+
+			for(var i = 0; i < components.Count; i += 1)
+			{
+				entityArray[i] = components[i].Owner;
+			}
+
+			return new List<Entity>(entityArray);
+		}
 		
 		
+		/// <summary>
+		/// Finds first entity, which has component of given type.
+		/// </summary>
+		public Entity FindEntityByComponent<T>() where T : Component
+		{
+			for (var i = 0; i < _entities.Count; i += 1)
+			{
+				if (_entities[i].HasComponent<T>())
+				{
+					return _entities[i];
+				}
+			}
+			return null;
+		}
+
+
+		/// <summary>
+		/// Returns list of all components on the layer - enabled and disabled - of given type.
+		/// </summary>
+		public List<Component> GetComponentList<T>() where T : Component
+		{
+			var components = new List<Component>();
+
+			for (var i = 0; i < _entities.Count; i += 1)
+			{
+				if (_entities[i].TryGetComponent<T>(out var component))
+				{
+					components.Add(component);
+				}
+			}
+			return components;
+		}
+
+		#endregion Entity methods.
+
+
+
+		#region Ordering.
+
+		/// <summary>
+		/// Changes the update order of an entity and places it 
+		/// at the specified position of an entity list.
+		/// </summary>
+		public void ReorderEntity(Entity entity, int index)
+		{
+			if (!_entities.Contains(entity))
+			{
+				throw new Exception("Cannot reorder entity - it doesn't belong to this layer.");
+			}
+			_entities.Remove(entity);
+			_entities.Insert(index, entity);
+		}
+
+
+		/// <summary>
+		/// Changes the update order of an entity and places it 
+		/// at the top of an entity list.
+		/// </summary>
+		public void ReorderEntityToTop(Entity entity) =>
+			ReorderEntity(entity, 0);
+
+
+		/// <summary>
+		/// Changes the update order of an entity and places it 
+		/// at the bottom of an entity list.
+		/// </summary>
+		public void ReorderEntityToBottom(Entity entity)
+		{
+			if (!_entities.Contains(entity))
+			{
+				throw new Exception("Cannot reorder entity - it doesn't belong to this layer.");
+			}
+			_entities.Remove(entity);
+			_entities.Add(entity);
+		}
+
+		#endregion Ordering.
+
+
+
+		#region Events.
+
+		internal void FixedUpdate()
+		{
+			foreach (var entity in _entities)
+			{
+				if (entity.Enabled && !entity.Destroyed)
+				{
+					entity.FixedUpdate();
+				}
+			}
+		}
+
+		internal void Update()
+		{
+			foreach (var entity in _entities)
+			{
+				if (entity.Enabled && !entity.Destroyed)
+				{
+					entity.Update();
+				}
+			}
+		}
+
+		internal void Draw()
+		{
+			bool hasPostprocessing = (
+				GraphicsMgr.CurrentCamera.PostprocessingMode == PostprocessingMode.CameraAndLayers
+				&& PostprocessorEffects.Count > 0
+			);
+
+			if (hasPostprocessing)
+			{
+				GraphicsMgr.SetSurfaceTarget(GraphicsMgr.CurrentCamera._postprocessorLayerBuffer, GraphicsMgr.CurrentView);
+				GraphicsMgr.Device.Clear(Color.TransparentBlack);
+			}
+
+			foreach (var entity in _depthSortedEntities)
+			{
+				if (entity.Visible && !entity.Destroyed)
+				{
+					entity.Draw();
+				}
+			}
+
+			if (hasPostprocessing)
+			{
+				GraphicsMgr.ResetSurfaceTarget();
+
+				var oldRasterizer = GraphicsMgr.Rasterizer;
+				GraphicsMgr.Rasterizer = GraphicsMgr._cameraRasterizerState;
+				GraphicsMgr.SetTransformMatrix(Matrix.CreateTranslation(Vector3.Zero));
+				ApplyPostprocessing();
+				GraphicsMgr.ResetTransformMatrix();
+				GraphicsMgr.Rasterizer = oldRasterizer;
+			}
+		}
+
+
+		internal void DrawGUI()
+		{
+			foreach (var entity in _depthSortedEntities)
+			{
+				if (entity.Visible && !entity.Destroyed)
+				{
+					entity.Draw();
+				}
+			}
+		}
+
+		#endregion Events.
+
+
 
 		/// <summary>
 		/// Sorts entites and components by depth, if depth sorting is enabled.
@@ -135,7 +344,8 @@ namespace Monofoxe.Engine.SceneSystem
 			{
 				if (_depthListOutdated)
 				{
-					_depthSortedEntities = new SafeList<Entity>(_entities.OrderByDescending(o => o.Depth).ToList());
+					_depthSortedEntities = new SafeList<Entity>(_entities.ToList());
+					_depthSortedEntities.Sort(_depthComparer); 
 					_depthListOutdated = false;
 				}
 			}
@@ -144,7 +354,7 @@ namespace Monofoxe.Engine.SceneSystem
 				_depthSortedEntities = _entities;
 			}
 		}
-		
+
 
 		internal void AddEntity(Entity entity)
 		{
@@ -154,74 +364,12 @@ namespace Monofoxe.Engine.SceneSystem
 
 		internal void RemoveEntity(Entity entity) =>
 			_entities.Remove(entity);
-		
-		
-		internal void AddComponent(Component component)
-		{
-			if (component.Enabled)
-			{
-				_components.Add(component);
-			}
-			else
-			{
-				_disabledComponents.Add(component);
-			}
-
-			// Invoking system's Create method, if component weren't initialized before.
-			if (!component.Initialized)
-			{
-				var componentType = component.GetType();
-				if (SystemMgr._systemPool.TryGetValue(componentType, out BaseSystem system))
-				{
-					if (system.Enabled)
-					{
-						component.System = system;
-						component.Initialized = true;
-						system.Create(component);
-					}
-				}
-
-				_depthListOutdated = true;
-			}
-			// Invoking system's Create method, if component weren't initialized before.
-		}
-
-
-		internal void RemoveComponent(Component component)
-		{
-			// Removing from lists.
-			var componentType = component.GetType();
-			
-			ComponentContainer componentContainer;
-			if (component.Enabled)
-			{
-				componentContainer = _components;
-			}
-			else
-			{
-				componentContainer = _disabledComponents;
-			}
-
-			componentContainer.Remove(component);
-
-			// Performing Destroy event.
-			
-			if (
-				component.Enabled 
-				&& component.Owner.Enabled 
-				&& component.System != null 
-				&& component.System.Enabled
-			)
-			{
-				component.System.Destroy(component);
-			}
-		}
 
 
 		internal void UpdateEntityList()
 		{
 			// Clearing main list from destroyed objects.
-			foreach(var entity in _entities)
+			foreach (var entity in _entities)
 			{
 				if (entity.Destroyed)
 				{
@@ -229,20 +377,20 @@ namespace Monofoxe.Engine.SceneSystem
 				}
 			}
 			// Clearing main list from destroyed objects.
-			
+
 		}
 
 
 		/// <summary>
 		/// Applies shaders to the camera surface.
 		/// </summary>
-		internal void ApplyPostprocessing()
+		private void ApplyPostprocessing()
 		{
 			var camera = GraphicsMgr.CurrentCamera;
-			
+
 			var sufraceChooser = false;
-				
-			for(var i = 0; i < PostprocessorEffects.Count - 1; i += 1)
+
+			for (var i = 0; i < PostprocessorEffects.Count - 1; i += 1)
 			{
 				PostprocessorEffects[i].SetWorldViewProjection(
 					GraphicsMgr.CurrentWorld,
@@ -263,7 +411,7 @@ namespace Monofoxe.Engine.SceneSystem
 					GraphicsMgr.Device.Clear(Color.TransparentBlack);
 					camera._postprocessorLayerBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Right, Color.White);
 				}
-				
+
 				GraphicsMgr.ResetSurfaceTarget();
 				sufraceChooser = !sufraceChooser;
 			}
@@ -287,204 +435,8 @@ namespace Monofoxe.Engine.SceneSystem
 
 			GraphicsMgr.CurrentEffect = null;
 		}
-		
-
-		
-		internal void EnableComponent(Component component)
-		{
-			_disabledComponents.Remove(component);
-			_components.Add(component);
-		}
-
-		internal void DisableComponent(Component component)
-		{
-			_components.Remove(component);
-			_disabledComponents.Add(component);
-		}
 
 
-		#region Entity methods.
 
-		/// <summary>
-		/// Returns list of entities of certain type.
-		/// </summary>
-		public List<T> GetEntityList<T>() where T : Entity =>
-			_entities.OfType<T>().ToList();
-		
-		/// <summary>
-		/// Counts amount of objects of certain type.
-		/// </summary>
-		public int CountEntities<T>() where T : Entity =>
-			_entities.OfType<T>().Count();
-
-		/// <summary>
-		/// Checks if any instances of an entity exist.
-		/// </summary>
-		public bool EntityExists<T>() where T : Entity
-		{
-			foreach(var entity in _entities)
-			{
-				if (entity is T)
-				{
-					return true;
-				}
-			}			
-			return false;
-		}
-
-		/// <summary>
-		/// Finds first entity of given type.
-		/// </summary>
-		public T FindEntity<T>() where T : Entity
-		{
-			foreach(var entity in _entities)
-			{
-				if (entity is T)
-				{
-					return (T)entity;
-				}
-			}
-			return null;
-		}
-		
-
-		/// <summary>
-		/// Returns list of entities with given tag.
-		/// </summary>
-		public List<Entity> GetEntityList(string tag)
-		{
-			var list = new List<Entity>();
-			
-			foreach(var entity in _entities)
-			{
-				if (string.Equals(entity.Tag, tag, StringComparison.OrdinalIgnoreCase))
-				{
-					list.Add(entity);
-				}
-			}
-			return list;
-		}
-		
-		/// <summary>
-		/// Counts amount of entities with given tag.
-		/// </summary>
-		public int CountEntities(string tag)
-		{
-			var counter = 0;
-
-			foreach(var entity in _entities)
-			{
-				if (string.Equals(entity.Tag, tag, StringComparison.OrdinalIgnoreCase))
-				{
-					counter += 1;
-				}
-			}
-			
-			return counter;
-		}
-		
-		/// <summary>
-		/// Checks if given instance exists.
-		/// </summary>
-		public bool EntityExists(string tag)
-		{
-			foreach(var entity in _entities)
-			{
-				if (string.Equals(entity.Tag, tag, StringComparison.OrdinalIgnoreCase))
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-		
-		/// <summary>
-		/// Finds first entity with given tag.
-		/// </summary>
-		public Entity FindEntity(string tag)
-		{
-			foreach(var entity in _entities)
-			{
-				if (string.Equals(entity.Tag, tag, StringComparison.OrdinalIgnoreCase))
-				{
-					return entity;
-				}
-			}
-			
-			return null;
-		}
-
-
-		
-		/// <summary>
-		/// Returns list of entities, which have component - enabled or disabled -  of given type.
-		/// </summary>
-		public List<Entity> GetEntityListByComponent<T>() where T : Component
-		{
-			var components = GetComponentList<T>();
-
-			var entityArray = new Entity[components.Count];
-
-			for(var i = 0; i < components.Count; i += 1)
-			{
-				entityArray[i] = components[i].Owner;
-			}
-
-			return entityArray.ToList();
-		}
-		
-		/// <summary>
-		/// Counts amount of entities, which have component - enabled or disabled -   of given type.
-		/// </summary>
-		public int CountEntitiesByComponent<T>() where T : Component
-		{
-			var count = 0;
-			
-			if (_components.TryGetList(typeof(T), out List<Component> componentList))
-			{
-				count += componentList.Count;
-			}
-			if (_disabledComponents.TryGetList(typeof(T), out List<Component> disabledComponentList))
-			{
-				count += disabledComponentList.Count;
-			}
-			return count;
-		}
-
-		/// <summary>
-		/// Finds first entity, which has component of given type.
-		/// </summary>
-		public Entity FindEntityByComponent<T>() where T : Component
-		{
-			if (_components.TryGetList(typeof(T), out List<Component> componentList))
-			{
-				return componentList[0].Owner;
-			}
-
-			return null;
-		}
-
-
-		
-		/// <summary>
-		/// Returns list of all components on the layer - enabled and disabled - of given type.
-		/// </summary>
-		public List<Component> GetComponentList<T>() where T : Component
-		{
-			var components = new List<Component>();
-			
-			if (_components.TryGetList(typeof(T), out List<Component> componentList))
-			{
-				components.AddRange(componentList);
-			}
-			if (_disabledComponents.TryGetList(typeof(T), out List<Component> disabledComponentList))
-			{
-				components.AddRange(disabledComponentList);
-			}
-			return components;
-		}
-
-		#endregion Entity methods.
-		
 	}
 }

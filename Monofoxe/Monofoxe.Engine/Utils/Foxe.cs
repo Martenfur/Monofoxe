@@ -1,5 +1,5 @@
 ﻿using System;
-using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.SceneSystem;
 
 
@@ -77,7 +77,7 @@ namespace Monofoxe.Engine.Utils
 
 			new Foxe(foxeRoom);
 			
-			return new Entity(SceneMgr.GetScene("default")["default"], "You have been bamboozled.");
+			return new Entity(SceneMgr.GetScene("default")["default"]);
 		}
 
 	}

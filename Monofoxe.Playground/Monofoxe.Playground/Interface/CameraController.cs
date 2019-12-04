@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine;
 using Monofoxe.Engine.Cameras;
-using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Utils;
 
@@ -42,6 +42,8 @@ namespace Monofoxe.Playground.Interface
 
 		public override void Update()
 		{
+			base.Update();
+
 			// Movement.
 			var movementVector3 = new Vector3(
 				Input.CheckButton(LeftButton).ToInt() - Input.CheckButton(RightButton).ToInt(),
