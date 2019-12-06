@@ -27,6 +27,8 @@ namespace Monofoxe.Playground.GraphicsDemo
 		Effect _seizure;
 		Effect _grayscale;
 
+		VertexPositionColorTexture[] _vertices;
+		short[] _indices;
 		public VertexBatchTest(Layer layer) : base(layer)
 		{
 			_monofoxeSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "AutismCat");
@@ -37,6 +39,23 @@ namespace Monofoxe.Playground.GraphicsDemo
 			_seizure = ResourceHub.GetResource<Effect>("Effects", "Seizure");
 			_grayscale = ResourceHub.GetResource<Effect>("Effects", "Grayscale");
 
+			_vertices = new VertexPositionColorTexture[5];
+
+			_vertices[0] = new VertexPositionColorTexture(new Vector3(100, 100, 0), Color.White, new Vector2(0, 0));
+			_vertices[1] = new VertexPositionColorTexture(new Vector3(100 + 32, 100, 0), Color.Red, new Vector2(1, 0));
+			_vertices[2] = new VertexPositionColorTexture(new Vector3(100 + 32, 100 + 32, 0), Color.White, new Vector2(1, 1));
+			_vertices[3] = new VertexPositionColorTexture(new Vector3(100 + 32, 100 + 64, 0), Color.White, Vector2.Zero);
+			_vertices[4] = new VertexPositionColorTexture(new Vector3(100 - 32, 100 + 64, 0), Color.White, Vector2.Zero);
+
+			_indices = new short[]
+			{
+				0, 1, 2,
+				0, 2, 3,
+				0, 3, 4,
+			};
+			// - Primitives need a technique set.
+			// - Sprites need it too.
+			//
 		}
 
 		public override void Update()
@@ -86,17 +105,19 @@ namespace Monofoxe.Playground.GraphicsDemo
 					SamplerState.PointWrap,
 					null,
 					null,
-					_seizure
+					null//_seizure
 				);
 				for (var x = 0; x < 1; x += 1)
 				{
 					for (var y = 0; y < 1; y += 1)
 					{
-						_vbatch.Draw(texture, position + new Vector2(x, y), GraphicsMgr.CurrentColor);
-						//_vbatch.Draw(texture1, position + new Vector2(x, y), GraphicsMgr.CurrentColor);
-
+						//_vbatch.DrawQuad(texture, position + new Vector2(x, y), GraphicsMgr.CurrentColor);
 					}
 				}
+
+				_vbatch.DrawPrimitive(null, _vertices, _indices);
+
+
 				_vbatch.End();
 
 			}
@@ -119,6 +140,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 						//_batch.Draw(texture1, position + new Vector2(x + 32, y + 32), GraphicsMgr.CurrentColor);
 					}
 				}
+
 				_batch.End();
 
 			}

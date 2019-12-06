@@ -34,8 +34,8 @@ namespace Monofoxe.Engine.Drawing
 		private const int _indexPoolCapacity = short.MaxValue * 6;
 
 		private VertexPositionColorTexture[] _vertexPool;
-		private int _vertexPoolCount = 0;
-		private const int _vertexPoolCapacity = short.MaxValue;
+		private short _vertexPoolCount = 0;
+		private const short _vertexPoolCapacity = short.MaxValue;
 
 		private Effect _defaultEffect;
 		private EffectPass _defaultEffectPass;
@@ -60,8 +60,10 @@ namespace Monofoxe.Engine.Drawing
 
 			_defaultEffect = defaultEffect;
 			_defaultEffectPass = _defaultEffect.CurrentTechnique.Passes[0];
-			
+
 		}
+
+
 
 		/// <summary>
 		/// Begins a new sprite and text batch with the specified render state.
@@ -91,7 +93,7 @@ namespace Monofoxe.Engine.Drawing
 			_depthStencilState = depthStencilState ?? DepthStencilState.None;
 			_rasterizerState = rasterizerState ?? RasterizerState.CullCounterClockwise;
 			_effect = effect;
-			
+
 			_beginCalled = true;
 			_texture = null;
 		}
@@ -112,6 +114,8 @@ namespace Monofoxe.Engine.Drawing
 			DrawBatch();
 		}
 
+
+
 		void ApplyDefaultShader()
 		{
 			var gd = GraphicsDevice;
@@ -125,10 +129,10 @@ namespace Monofoxe.Engine.Drawing
 			_defaultEffect.Parameters["World"].SetValue(_world);
 			_defaultEffect.Parameters["View"].SetValue(_view);
 			_defaultEffect.Parameters["Projection"].SetValue(_projection);
-			
+
 			// We can use vertex shader from the default effect if the custom effect doesn't have one. 
 			// Pixel shader get completely overwritten by the custom effect, though. 
-			_defaultEffectPass.Apply(); 
+			_defaultEffectPass.Apply();
 
 			GraphicsDevice.Textures[0] = _texture;
 		}
@@ -157,7 +161,7 @@ namespace Monofoxe.Engine.Drawing
 
 		private void SwitchTexture(Texture2D texture)
 		{
-			if (_texture != null && texture != _texture)
+			if (texture != _texture)
 			{
 				DrawBatch();
 			}
@@ -250,7 +254,7 @@ namespace Monofoxe.Engine.Drawing
 
 
 
-		public void Draw(Texture2D texture, Vector2 position, Color color)
+		public void DrawQuad(Texture2D texture, Vector2 position, Color color)
 		{
 			CheckValid();
 			SwitchTexture(texture);
@@ -268,6 +272,55 @@ namespace Monofoxe.Engine.Drawing
 
 		}
 
+
+		public void DrawPrimitive(Texture2D texture, VertexPositionColorTexture[] vertices, short[] indices)
+		{
+			CheckValid();
+			SwitchTexture(texture);
+
+			_defaultEffect.CurrentTechnique = _defaultEffect.Techniques["Basic"];
+			_defaultEffectPass = _defaultEffect.CurrentTechnique.Passes[0];
+
+			SetPrimitive(vertices, indices);
+
+		}
+
+		private unsafe void SetPrimitive(VertexPositionColorTexture[] vertices, short[] indices)
+		{
+			FlushIfOverflow(vertices.Length, indices.Length);
+
+			fixed (short* poolPtr = _indexPool, newIndices = indices)
+			{
+				var indexPtr = poolPtr + _indexPoolCount;
+				
+				for (var i = 0; i < indices.Length; i += 1, indexPtr += 1)
+				{
+					*indexPtr = (short)(*(newIndices + i) + _vertexPoolCount);
+				}
+				_indexPoolCount += indices.Length;
+				// TODO: optimize
+			}
+
+			fixed (VertexPositionColorTexture* poolPtr = _vertexPool, newVertices = vertices)
+			{
+				var newVerticesPtr = newVertices;
+
+				var verticesMax = poolPtr + _vertexPoolCount + vertices.Length;
+				for (
+					var vertexPtr = poolPtr + _vertexPoolCount;
+					vertexPtr < verticesMax; 
+					vertexPtr += 1, newVerticesPtr += 1
+				)
+				{
+					*vertexPtr = *newVerticesPtr;
+				}
+				_vertexPoolCount += (short)vertices.Length;
+			}
+			Console.WriteLine(_indexPoolCount + " " + _vertexPoolCount);
+
+		}
+
+		#region Your present.
 		/*
 		public void Draw(
 			Texture2D texture,
@@ -457,7 +510,7 @@ namespace Monofoxe.Engine.Drawing
 
 		}
 
-		
+
 		public void Draw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color)
 		{
 			CheckValid(texture);
@@ -499,7 +552,7 @@ namespace Monofoxe.Engine.Drawing
 		public void Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color)
 		{
 			CheckValid(texture);
-			
+
 			var item = _batcher.CreateBatchItem();
 			item.Texture = texture;
 
@@ -551,10 +604,7 @@ namespace Monofoxe.Engine.Drawing
 
 		}
 		*/
-		/// <summary>
-		/// Immediately releases the unmanaged resources used by this object.
-		/// </summary>
-
+		#endregion
 
 		#region Quads.
 
@@ -661,6 +711,12 @@ namespace Monofoxe.Engine.Drawing
 				SetVertex(vertexPtr, x + w, y + h, depth, color, texCoordBR.X, texCoordBR.Y);
 			}
 		}
+
+		#endregion
+
+		#region Primitives.
+
+
 
 		#endregion
 
