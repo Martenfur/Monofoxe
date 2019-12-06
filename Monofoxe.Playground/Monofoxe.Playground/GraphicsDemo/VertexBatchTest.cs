@@ -24,12 +24,18 @@ namespace Monofoxe.Playground.GraphicsDemo
 		Sprite _monofoxeSprite;
 		Sprite _tex;
 
+		Effect _seizure;
+		Effect _grayscale;
+
 		public VertexBatchTest(Layer layer) : base(layer)
 		{
 			_monofoxeSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "AutismCat");
 			_tex = ResourceHub.GetResource<Sprite>("DefaultSprites", "Monofoxe");
-			_vbatch = new VertexBatch(GraphicsMgr.Device);
+			_vbatch = new VertexBatch(GraphicsMgr.Device, GraphicsMgr._defaultEffect);
 			_batch = new SpriteBatch(GraphicsMgr.Device);
+
+			_seizure = ResourceHub.GetResource<Effect>("Effects", "Seizure");
+			_grayscale = ResourceHub.GetResource<Effect>("Effects", "Grayscale");
 
 		}
 
@@ -69,19 +75,22 @@ namespace Monofoxe.Playground.GraphicsDemo
 			var sw = new Stopwatch();
 
 			sw.Start();
-			if (flag)
+			if (!flag)
 			{
 
-				_vbatch.Begin( // If you don't want to create new SpriteBatch, you can use GraphicsMgr.Batch instead.
+				_vbatch.Begin(
+					GraphicsMgr.CurrentWorld,
+					GraphicsMgr.CurrentView,
+					GraphicsMgr.CurrentProjection,
 					null,
 					SamplerState.PointWrap,
 					null,
 					null,
-					null 
+					_seizure
 				);
-				for (var x = 0; x < 100; x += 1)
+				for (var x = 0; x < 1; x += 1)
 				{
-					for (var y = 0; y < 100; y += 1)
+					for (var y = 0; y < 1; y += 1)
 					{
 						_vbatch.Draw(texture, position + new Vector2(x, y), GraphicsMgr.CurrentColor);
 						//_vbatch.Draw(texture1, position + new Vector2(x, y), GraphicsMgr.CurrentColor);

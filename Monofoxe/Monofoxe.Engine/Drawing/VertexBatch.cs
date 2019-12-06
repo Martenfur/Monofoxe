@@ -2,6 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
+// Based on default Monogame's Spritebatch by maintainy bois.
+// https://github.com/MonoGame/MonoGame/blob/master/MonoGame.Framework/Graphics/SpriteBatch.cs
+
+
 namespace Monofoxe.Engine.Drawing
 {
 	/// <summary>
@@ -9,7 +13,7 @@ namespace Monofoxe.Engine.Drawing
 	/// </summary>
 	public class VertexBatch
 	{
-		
+
 		BlendState _blendState;
 		SamplerState _samplerState;
 		DepthStencilState _depthStencilState;
@@ -18,17 +22,12 @@ namespace Monofoxe.Engine.Drawing
 		Texture2D _texture;
 		bool _beginCalled;
 
-		
-		Vector2 _texCoordTL = new Vector2(0, 0);
-		Vector2 _texCoordBR = new Vector2(0, 0);
-		
-		
-		
+
 		// The GraphicsDevice property should only be accessed in Dispose(bool) if the disposing
 		// parameter is true. If disposing is false, the GraphicsDevice may or may not be
 		// disposed yet.
 		public GraphicsDevice GraphicsDevice { get; private set; }
-		
+
 
 		private short[] _indexPool;
 		private int _indexPoolCount = 0;
@@ -38,8 +37,14 @@ namespace Monofoxe.Engine.Drawing
 		private int _vertexPoolCount = 0;
 		private const int _vertexPoolCapacity = short.MaxValue;
 
+		private Effect _defaultEffect;
+		private EffectPass _defaultEffectPass;
 
-		public VertexBatch(GraphicsDevice graphicsDevice)
+		Matrix _world;
+		Matrix _view;
+		Matrix _projection;
+
+		public VertexBatch(GraphicsDevice graphicsDevice, Effect defaultEffect)
 		{
 			if (graphicsDevice == null)
 			{
@@ -49,15 +54,22 @@ namespace Monofoxe.Engine.Drawing
 			GraphicsDevice = graphicsDevice;
 
 			_beginCalled = false;
-			
+
 			_indexPool = new short[_indexPoolCapacity];
 			_vertexPool = new VertexPositionColorTexture[_vertexPoolCapacity];
+
+			_defaultEffect = defaultEffect;
+			_defaultEffectPass = _defaultEffect.CurrentTechnique.Passes[0];
+			
 		}
 
 		/// <summary>
 		/// Begins a new sprite and text batch with the specified render state.
 		/// </summary>
 		public void Begin(
+			Matrix world,
+			Matrix view,
+			Matrix projection,
 			BlendState blendState = null,
 			SamplerState samplerState = null,
 			DepthStencilState depthStencilState = null,
@@ -70,11 +82,16 @@ namespace Monofoxe.Engine.Drawing
 				throw new InvalidOperationException("Begin cannot be called again until End has been successfully called.");
 			}
 
+			_world = world;
+			_view = view;
+			_projection = projection;
+
 			_blendState = blendState ?? BlendState.AlphaBlend;
 			_samplerState = samplerState ?? SamplerState.LinearClamp;
 			_depthStencilState = depthStencilState ?? DepthStencilState.None;
 			_rasterizerState = rasterizerState ?? RasterizerState.CullCounterClockwise;
 			_effect = effect;
+			
 			_beginCalled = true;
 			_texture = null;
 		}
@@ -91,15 +108,30 @@ namespace Monofoxe.Engine.Drawing
 
 			_beginCalled = false;
 
+
+			DrawBatch();
+		}
+
+		void ApplyDefaultShader()
+		{
 			var gd = GraphicsDevice;
 			gd.BlendState = _blendState;
 			gd.DepthStencilState = _depthStencilState;
 			gd.RasterizerState = _rasterizerState;
 			gd.SamplerStates[0] = _samplerState;
 
-			DrawBatch(_effect, _texture);
+			// The default shader is used for the transfrm matrix.
+
+			_defaultEffect.Parameters["World"].SetValue(_world);
+			_defaultEffect.Parameters["View"].SetValue(_view);
+			_defaultEffect.Parameters["Projection"].SetValue(_projection);
+			
+			// We can use vertex shader from the default effect if the custom effect doesn't have one. 
+			// Pixel shader get completely overwritten by the custom effect, though. 
+			_defaultEffectPass.Apply(); 
+
+			GraphicsDevice.Textures[0] = _texture;
 		}
-		
 
 		private void CheckValid()
 		{
@@ -119,27 +151,29 @@ namespace Monofoxe.Engine.Drawing
 				return false;
 			}
 
-			DrawBatch(_effect, _texture);
+			DrawBatch();
 			return true;
 		}
 
 		private void SwitchTexture(Texture2D texture)
-		{ 
+		{
 			if (_texture != null && texture != _texture)
 			{
-				DrawBatch(_effect, _texture);
+				DrawBatch();
 			}
 			_texture = texture;
 		}
 
-		
+
 		/// <summary>
 		/// Sorts the batch items and then groups batch drawing into maximal allowed batch sets that do not
 		/// overflow the 16 bit array indices for vertices.
 		/// </summary>
-		private unsafe void DrawBatch(Effect effect, Texture2D texture)
+		private unsafe void DrawBatch()
 		{
-			if (effect != null && effect.IsDisposed)
+			ApplyDefaultShader();
+
+			if (_effect != null && _effect.IsDisposed)
 				throw new ObjectDisposedException("effect");
 
 			// nothing to do
@@ -148,24 +182,8 @@ namespace Monofoxe.Engine.Drawing
 				return;
 			}
 
-			if (effect == null)
+			if (_effect == null)
 			{
-				effect = GraphicsMgr._defaultEffect;
-
-				effect.Parameters["World"].SetValue(GraphicsMgr.CurrentWorld);
-				effect.Parameters["View"].SetValue(GraphicsMgr.CurrentView);
-				effect.Parameters["Projection"].SetValue(GraphicsMgr.CurrentProjection);
-			}
-
-			var passes = effect.CurrentTechnique.Passes;
-			foreach (var pass in passes)
-			{
-				pass.Apply();
-
-				// Whatever happens in pass.Apply, make sure the texture being drawn
-				// ends up in Textures[0].
-				GraphicsDevice.Textures[0] = texture;
-
 				GraphicsDevice.DrawUserIndexedPrimitives(
 					PrimitiveType.TriangleList,
 					_vertexPool,
@@ -176,6 +194,32 @@ namespace Monofoxe.Engine.Drawing
 					_indexPoolCount / 3,
 					VertexPositionColorTexture.VertexDeclaration
 				);
+			}
+			else
+			{
+
+				var passes = _effect.CurrentTechnique.Passes;
+				foreach (var pass in passes)
+				{
+					pass.Apply();
+
+					// Whatever happens in pass.Apply, make sure the texture being drawn
+					// ends up in Textures[0].
+					GraphicsDevice.Textures[0] = _texture;
+
+					GraphicsDevice.DrawUserIndexedPrimitives(
+						PrimitiveType.TriangleList,
+						_vertexPool,
+						0,
+						_vertexPoolCount,
+						_indexPool,
+						0,
+						_indexPoolCount / 3,
+						VertexPositionColorTexture.VertexDeclaration
+					);
+
+				}
+
 			}
 
 			_vertexPoolCount = 0;
@@ -200,7 +244,7 @@ namespace Monofoxe.Engine.Drawing
 			(*vertexPtr).TextureCoordinate.Y = texY;
 
 			_vertexPoolCount += 1;
-			
+
 		}
 
 
@@ -510,8 +554,8 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Immediately releases the unmanaged resources used by this object.
 		/// </summary>
-		
-		
+
+
 		#region Quads.
 
 		private unsafe void SetQuadIndices(short* poolPtr)
