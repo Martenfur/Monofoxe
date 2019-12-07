@@ -115,15 +115,16 @@ namespace Monofoxe.Playground.GraphicsDemo
 					for (var y = 0; y < 1; y += 1)
 					{
 						_vbatch.DrawQuad(position + new Vector2(x, y), GraphicsMgr.CurrentColor);
+
 					}
 				}
-
+				
 				_vbatch.Texture = null;
 				_vbatch.DrawPrimitive(_vertices, _indices);
 
 
 				_vbatch.Texture = texture;
-				_vbatch.DrawQuad(position + new Vector2(100, 400), GraphicsMgr.CurrentColor);
+				_vbatch.DrawQuad(position, position + new Vector2(120, 50), Vector2.Zero, Vector2.One * 200, Color.White, 0, Vector2.Zero, SpriteFlipFlags.None, 0);
 
 				_vbatch.FlushBatch();
 

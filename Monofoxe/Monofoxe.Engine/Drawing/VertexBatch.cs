@@ -71,7 +71,7 @@ namespace Monofoxe.Engine.Drawing
 			}
 		}
 		RasterizerState _rasterizerState;
-		
+
 		public Effect Effect
 		{
 			get => _effect;
@@ -87,7 +87,7 @@ namespace Monofoxe.Engine.Drawing
 		Effect _effect;
 
 
-		public Texture2D Texture 
+		public Texture2D Texture
 		{
 			get => _texture;
 			set
@@ -138,8 +138,8 @@ namespace Monofoxe.Engine.Drawing
 		Matrix _projection;
 
 		public VertexBatch(
-			GraphicsDevice graphicsDevice, 
-			Effect defaultEffect, 
+			GraphicsDevice graphicsDevice,
+			Effect defaultEffect,
 			BlendState blendState = null,
 			SamplerState samplerState = null,
 			DepthStencilState depthStencilState = null,
@@ -152,7 +152,7 @@ namespace Monofoxe.Engine.Drawing
 			_samplerState = samplerState ?? SamplerState.LinearClamp;
 			_depthStencilState = depthStencilState ?? DepthStencilState.None;
 			_rasterizerState = rasterizerState ?? RasterizerState.CullCounterClockwise;
-			
+
 			_indexPool = new short[_indexPoolCapacity];
 			_vertexPool = new VertexPositionColorTexture[_vertexPoolCapacity];
 
@@ -160,7 +160,7 @@ namespace Monofoxe.Engine.Drawing
 			_defaultEffectPass = _defaultEffect.CurrentTechnique.Passes[0];
 		}
 
-		
+
 		public void SetWorldViewProjection(
 			Matrix world,
 			Matrix view,
@@ -217,7 +217,7 @@ namespace Monofoxe.Engine.Drawing
 			return true;
 		}
 
-		
+
 		public void FlushBatch()
 		{
 			if (_vertexPoolCount == 0 || _indexPoolCount == 0)
@@ -314,76 +314,62 @@ namespace Monofoxe.Engine.Drawing
 		}
 
 
-		#region Your present.
-		/*
-		public void Draw(
-			Texture2D texture,
+
+		public void DrawQuad(
 			Vector2 position,
-			Rectangle? sourceRectangle,
+			Vector2 srcRectangleTL,
+			Vector2 srcRectangleBR,
 			Color color,
-			float rotation,
+			double rotation,
 			Vector2 origin,
 			Vector2 scale,
-			SpriteEffects effects,
+			SpriteFlipFlags flipFlags,
 			float layerDepth
 		)
 		{
-			CheckValid(texture);
-
-			var item = _batcher.CreateBatchItem();
-			item.Texture = texture;
-
 
 			origin = origin * scale;
 
-			float w, h;
-			if (sourceRectangle.HasValue)
-			{
-				var srcRect = sourceRectangle.GetValueOrDefault();
-				w = srcRect.Width * scale.X;
-				h = srcRect.Height * scale.Y;
-				_texCoordTL.X = srcRect.X / (float)texture.Width;
-				_texCoordTL.Y = srcRect.Y / (float)texture.Height;
-				_texCoordBR.X = (srcRect.X + srcRect.Width) / (float)texture.Width;
-				_texCoordBR.Y = (srcRect.Y + srcRect.Height) / (float)texture.Height;
-			}
-			else
-			{
-				w = texture.Width * scale.X;
-				h = texture.Height * scale.Y;
-				_texCoordTL = Vector2.Zero;
-				_texCoordBR = Vector2.One;
-			}
+			Vector2 texCoordTL;
+			Vector2 texCoordBR;
 
-			if ((effects & SpriteEffects.FlipVertically) != 0)
+
+			var w = (srcRectangleBR.X - srcRectangleTL.X) * scale.X;
+			var h = (srcRectangleBR.Y - srcRectangleTL.Y) * scale.Y;
+			texCoordTL.X = srcRectangleTL.X / (float)_texture.Width;
+			texCoordTL.Y = srcRectangleTL.Y / (float)_texture.Height;
+			texCoordBR.X = srcRectangleBR.X / (float)_texture.Width;
+			texCoordBR.Y = srcRectangleBR.Y / (float)_texture.Height;
+
+			if ((flipFlags & SpriteFlipFlags.FlipVertically) != 0)
 			{
-				var temp = _texCoordBR.Y;
-				_texCoordBR.Y = _texCoordTL.Y;
-				_texCoordTL.Y = temp;
+				var temp = texCoordBR.Y;
+				texCoordBR.Y = texCoordTL.Y;
+				texCoordTL.Y = temp;
 			}
-			if ((effects & SpriteEffects.FlipHorizontally) != 0)
+			if ((flipFlags & SpriteFlipFlags.FlipHorizontally) != 0)
 			{
-				var temp = _texCoordBR.X;
-				_texCoordBR.X = _texCoordTL.X;
-				_texCoordTL.X = temp;
+				var temp = texCoordBR.X;
+				texCoordBR.X = texCoordTL.X;
+				texCoordTL.X = temp;
 			}
 
 			if (rotation == 0f)
 			{
-				item.Set(
+				SetQuad(
 					position.X - origin.X,
 					position.Y - origin.Y,
 					w,
 					h,
 					color,
-					_texCoordTL,
-					_texCoordBR,
+					texCoordTL,
+					texCoordBR,
 					layerDepth
 				);
 			}
 			else
 			{
-				item.Set(
+				SetQuad(
 					position.X,
 					position.Y,
 					-origin.X,
@@ -393,111 +379,102 @@ namespace Monofoxe.Engine.Drawing
 					(float)Math.Sin(rotation),
 					(float)Math.Cos(rotation),
 					color,
-					_texCoordTL,
-					_texCoordBR,
+					texCoordTL,
+					texCoordBR,
 					layerDepth
 				);
 			}
 
 		}
 
-		public void Draw(
-			Texture2D texture,
-			Vector2 position,
-			Rectangle? sourceRectangle,
+		public void DrawQuad(
+			Vector2 destRectangleTL,
+			Vector2 destRectangleBR,
+			Vector2 srcRectangleTL,
+			Vector2 srcRectangleBR,
 			Color color,
-			float rotation,
+			double rotation,
 			Vector2 origin,
-			float scale,
-			SpriteEffects effects,
+			SpriteFlipFlags effects,
 			float layerDepth
 		)
 		{
-			var scaleVec = new Vector2(scale, scale);
-			Draw(texture, position, sourceRectangle, color, rotation, origin, scaleVec, effects, layerDepth);
-		}
+			Vector2 texCoordTL;
+			Vector2 texCoordBR;
 
-		public void Draw(Texture2D texture,
-			Rectangle destinationRectangle,
-			Rectangle? sourceRectangle,
-			Color color,
-			float rotation,
-			Vector2 origin,
-			SpriteEffects effects,
-			float layerDepth
-		)
-		{
-			CheckValid(texture);
+			var srcRectangleSize = new Vector2(
+				srcRectangleBR.X - srcRectangleTL.X,
+				srcRectangleBR.Y - srcRectangleTL.Y
+			);
+			var destRectangleSize = new Vector2(
+				destRectangleBR.X - destRectangleTL.X,
+				destRectangleBR.Y - destRectangleTL.Y
+			);
 
-			var item = _batcher.CreateBatchItem();
-			item.Texture = texture;
+			texCoordTL.X = srcRectangleTL.X / (float)_texture.Width;
+			texCoordTL.Y = srcRectangleTL.Y / (float)_texture.Height;
+			texCoordBR.X = srcRectangleBR.X / (float)_texture.Width;
+			texCoordBR.Y = srcRectangleBR.Y / (float)_texture.Height;
 
-			if (sourceRectangle.HasValue)
+			if (srcRectangleSize.X != 0)
 			{
-				var srcRect = sourceRectangle.GetValueOrDefault();
-				_texCoordTL.X = srcRect.X / (float)texture.Width;
-				_texCoordTL.Y = srcRect.Y / (float)texture.Height;
-				_texCoordBR.X = (srcRect.X + srcRect.Width) / (float)texture.Width;
-				_texCoordBR.Y = (srcRect.Y + srcRect.Height) / (float)texture.Height;
-
-				if (srcRect.Width != 0)
-					origin.X = origin.X * (float)destinationRectangle.Width / (float)srcRect.Width;
-				else
-					origin.X = origin.X * (float)destinationRectangle.Width / (float)texture.Width;
-				if (srcRect.Height != 0)
-					origin.Y = origin.Y * (float)destinationRectangle.Height / (float)srcRect.Height;
-				else
-					origin.Y = origin.Y * (float)destinationRectangle.Height / (float)texture.Height;
+				origin.X = origin.X * destRectangleSize.X / srcRectangleSize.X;
 			}
 			else
 			{
-				_texCoordTL = Vector2.Zero;
-				_texCoordBR = Vector2.One;
-
-				origin.X = origin.X * (float)destinationRectangle.Width / (float)texture.Width;
-				origin.Y = origin.Y * (float)destinationRectangle.Height / (float)texture.Height;
+				origin.X = origin.X * destRectangleSize.X / srcRectangleSize.X;
+			}
+			if (srcRectangleSize.Y != 0)
+			{
+				origin.Y = origin.Y * destRectangleSize.Y / srcRectangleSize.Y;
+			}
+			else
+			{
+				origin.Y = origin.Y * destRectangleSize.Y / srcRectangleSize.Y;
 			}
 
-			if ((effects & SpriteEffects.FlipVertically) != 0)
+
+
+			if ((effects & SpriteFlipFlags.FlipVertically) != 0)
 			{
-				var temp = _texCoordBR.Y;
-				_texCoordBR.Y = _texCoordTL.Y;
-				_texCoordTL.Y = temp;
+				var temp = texCoordBR.Y;
+				texCoordBR.Y = texCoordTL.Y;
+				texCoordTL.Y = temp;
 			}
-			if ((effects & SpriteEffects.FlipHorizontally) != 0)
+			if ((effects & SpriteFlipFlags.FlipHorizontally) != 0)
 			{
-				var temp = _texCoordBR.X;
-				_texCoordBR.X = _texCoordTL.X;
-				_texCoordTL.X = temp;
+				var temp = texCoordBR.X;
+				texCoordBR.X = texCoordTL.X;
+				texCoordTL.X = temp;
 			}
 
 			if (rotation == 0f)
 			{
-				item.Set(
-					destinationRectangle.X - origin.X,
-					destinationRectangle.Y - origin.Y,
-					destinationRectangle.Width,
-					destinationRectangle.Height,
+				SetQuad(
+					destRectangleTL.X - origin.X,
+					destRectangleTL.Y - origin.Y,
+					destRectangleSize.X,
+					destRectangleSize.Y,
 					color,
-					_texCoordTL,
-					_texCoordBR,
+					texCoordTL,
+					texCoordBR,
 					layerDepth
 				);
 			}
 			else
 			{
-				item.Set(
-					destinationRectangle.X,
-					destinationRectangle.Y,
+				SetQuad(
+					destRectangleTL.X,
+					destRectangleTL.Y,
 					-origin.X,
 					-origin.Y,
-					destinationRectangle.Width,
-					destinationRectangle.Height,
+					destRectangleSize.X,
+					destRectangleSize.Y,
 					(float)Math.Sin(rotation),
 					(float)Math.Cos(rotation),
 					color,
-					_texCoordTL,
-					_texCoordBR,
+					texCoordTL,
+					texCoordBR,
 					layerDepth
 				);
 			}
@@ -505,100 +482,75 @@ namespace Monofoxe.Engine.Drawing
 		}
 
 
-		public void Draw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color)
+		public void DrawQuad(
+			Vector2 position,
+			Vector2 srcRectangleTL,
+			Vector2 srcRectangleBR,
+			Color color
+		)
 		{
-			CheckValid(texture);
+			Vector2 texCoordTL;
+			Vector2 texCoordBR;
 
-			var item = _batcher.CreateBatchItem();
-			item.Texture = texture;
+			texCoordTL.X = srcRectangleTL.X / (float)_texture.Width;
+			texCoordTL.Y = srcRectangleTL.Y / (float)_texture.Height;
+			texCoordBR.X = srcRectangleBR.X / (float)_texture.Width;
+			texCoordBR.Y = srcRectangleBR.Y / (float)_texture.Height;
 
-			Vector2 size;
-
-			if (sourceRectangle.HasValue)
-			{
-				var srcRect = sourceRectangle.GetValueOrDefault();
-				size = new Vector2(srcRect.Width, srcRect.Height);
-				_texCoordTL.X = srcRect.X / (float)texture.Width;
-				_texCoordTL.Y = srcRect.Y / (float)texture.Height;
-				_texCoordBR.X = (srcRect.X + srcRect.Width) / (float)texture.Width;
-				_texCoordBR.Y = (srcRect.Y + srcRect.Height) / (float)texture.Height;
-			}
-			else
-			{
-				size = new Vector2(texture.Width, texture.Height);
-				_texCoordTL = Vector2.Zero;
-				_texCoordBR = Vector2.One;
-			}
-
-			item.Set(
+			SetQuad(
 				position.X,
 				position.Y,
-				size.X,
-				size.Y,
+				srcRectangleBR.X - srcRectangleTL.X,
+				srcRectangleBR.Y - srcRectangleTL.Y,
 				color,
-				_texCoordTL,
-				_texCoordBR,
+				texCoordTL,
+				texCoordBR,
 				0
 			);
 
 		}
 
-		public void Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color)
+		public void DrawQuad(
+			Vector2 destRectangleTL,
+			Vector2 destRectangleBR,
+			Vector2 srcRectangleTL,
+			Vector2 srcRectangleBR,
+			Color color
+		)
 		{
-			CheckValid(texture);
+			Vector2 texCoordTL;
+			Vector2 texCoordBR;
 
-			var item = _batcher.CreateBatchItem();
-			item.Texture = texture;
+			texCoordTL.X = srcRectangleTL.X / (float)_texture.Width;
+			texCoordTL.Y = srcRectangleTL.Y / (float)_texture.Height;
+			texCoordBR.X = srcRectangleBR.X / (float)_texture.Width;
+			texCoordBR.Y = srcRectangleBR.Y / (float)_texture.Height;
 
-
-			if (sourceRectangle.HasValue)
-			{
-				var srcRect = sourceRectangle.GetValueOrDefault();
-				_texCoordTL.X = srcRect.X / (float)texture.Width;
-				_texCoordTL.Y = srcRect.Y / (float)texture.Height;
-				_texCoordBR.X = (srcRect.X + srcRect.Width) / (float)texture.Width;
-				_texCoordBR.Y = (srcRect.Y + srcRect.Height) / (float)texture.Height;
-			}
-			else
-			{
-				_texCoordTL = Vector2.Zero;
-				_texCoordBR = Vector2.One;
-			}
-
-			item.Set(
-				destinationRectangle.X,
-				destinationRectangle.Y,
-				destinationRectangle.Width,
-				destinationRectangle.Height,
+			SetQuad(
+				destRectangleTL.X,
+				destRectangleTL.Y,
+				destRectangleBR.X - destRectangleTL.X,
+				destRectangleBR.Y - destRectangleTL.Y,
 				color,
-				_texCoordTL,
-				_texCoordBR,
+				texCoordTL,
+				texCoordBR,
 				0
 			);
-
 		}
 
-		public void Draw(Texture2D texture, Rectangle destinationRectangle, Color color)
+		public void DrawQuad(Vector2 destRectangleTL, Vector2 destRectangleBR, Color color)
 		{
-			CheckValid(texture);
-
-			var item = _batcher.CreateBatchItem();
-			item.Texture = texture;
-
-			item.Set(
-				destinationRectangle.X,
-				destinationRectangle.Y,
-				destinationRectangle.Width,
-				destinationRectangle.Height,
+			SetQuad(
+				destRectangleTL.X,
+				destRectangleTL.Y,
+				destRectangleBR.X - destRectangleTL.X,
+				destRectangleBR.Y - destRectangleTL.Y,
 				color,
 				Vector2.Zero,
 				Vector2.One,
 				0
 			);
-
 		}
-		*/
-		#endregion
 
 		#region Quads.
 
