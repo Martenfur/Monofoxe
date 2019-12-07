@@ -14,24 +14,117 @@ namespace Monofoxe.Engine.Drawing
 	public class VertexBatch
 	{
 
+		#region Fields.
+
+		public BlendState BlendState
+		{
+			get => _blendState;
+			set
+			{
+				if (value != _blendState)
+				{
+					FlushBatch();
+					_blendState = value;
+				}
+			}
+		}
 		BlendState _blendState;
+
+		public SamplerState SamplerState
+		{
+			get => _samplerState;
+			set
+			{
+				if (value != _samplerState)
+				{
+					FlushBatch();
+					_samplerState = value;
+				}
+			}
+		}
 		SamplerState _samplerState;
+
+		public DepthStencilState DepthStencilState
+		{
+			get => _depthStencilState;
+			set
+			{
+				if (value != _depthStencilState)
+				{
+					FlushBatch();
+					_depthStencilState = value;
+				}
+			}
+		}
 		DepthStencilState _depthStencilState;
+
+		public RasterizerState RasterizerState
+		{
+			get => _rasterizerState;
+			set
+			{
+				if (value != _rasterizerState)
+				{
+					FlushBatch();
+					_rasterizerState = value;
+				}
+			}
+		}
 		RasterizerState _rasterizerState;
+		
+		public Effect Effect
+		{
+			get => _effect;
+			set
+			{
+				if (value != _effect)
+				{
+					FlushBatch();
+					_effect = value;
+				}
+			}
+		}
 		Effect _effect;
+
+
+		public Texture2D Texture 
+		{
+			get => _texture;
+			set
+			{
+				if (value != _texture)
+				{
+					FlushBatch();
+
+					_texture = value;
+
+					if (_texture != null)
+					{
+						_defaultEffect.CurrentTechnique = _defaultEffect.Techniques["TexturePremultiplied"];
+					}
+					else
+					{
+						_defaultEffect.CurrentTechnique = _defaultEffect.Techniques["Basic"];
+					}
+					_defaultEffectPass = _defaultEffect.CurrentTechnique.Passes[0];
+				}
+
+			}
+		}
 		Texture2D _texture;
-		bool _beginCalled;
+
+		#endregion
 
 
-		// The GraphicsDevice property should only be accessed in Dispose(bool) if the disposing
-		// parameter is true. If disposing is false, the GraphicsDevice may or may not be
-		// disposed yet.
 		public GraphicsDevice GraphicsDevice { get; private set; }
+
+		public bool NeedsFlush => _vertexPoolCount > 0 && _indexPoolCount > 0;
+
 
 
 		private short[] _indexPool;
 		private int _indexPoolCount = 0;
-		private const int _indexPoolCapacity = short.MaxValue * 6;
+		private const int _indexPoolCapacity = short.MaxValue * 6; // TODO: Figure out better value.
 
 		private VertexPositionColorTexture[] _vertexPool;
 		private short _vertexPoolCount = 0;
@@ -44,76 +137,49 @@ namespace Monofoxe.Engine.Drawing
 		Matrix _view;
 		Matrix _projection;
 
-		public VertexBatch(GraphicsDevice graphicsDevice, Effect defaultEffect)
-		{
-			if (graphicsDevice == null)
-			{
-				throw new ArgumentNullException("graphicsDevice");
-			}
-
-			GraphicsDevice = graphicsDevice;
-
-			_beginCalled = false;
-
-			_indexPool = new short[_indexPoolCapacity];
-			_vertexPool = new VertexPositionColorTexture[_vertexPoolCapacity];
-
-			_defaultEffect = defaultEffect;
-			_defaultEffectPass = _defaultEffect.CurrentTechnique.Passes[0];
-
-		}
-
-
-
-		/// <summary>
-		/// Begins a new sprite and text batch with the specified render state.
-		/// </summary>
-		public void Begin(
-			Matrix world,
-			Matrix view,
-			Matrix projection,
+		public VertexBatch(
+			GraphicsDevice graphicsDevice, 
+			Effect defaultEffect, 
 			BlendState blendState = null,
 			SamplerState samplerState = null,
 			DepthStencilState depthStencilState = null,
-			RasterizerState rasterizerState = null,
-			Effect effect = null
+			RasterizerState rasterizerState = null
 		)
 		{
-			if (_beginCalled)
-			{
-				throw new InvalidOperationException("Begin cannot be called again until End has been successfully called.");
-			}
-
-			_world = world;
-			_view = view;
-			_projection = projection;
+			GraphicsDevice = graphicsDevice ?? throw new ArgumentNullException("graphicsDevice");
 
 			_blendState = blendState ?? BlendState.AlphaBlend;
 			_samplerState = samplerState ?? SamplerState.LinearClamp;
 			_depthStencilState = depthStencilState ?? DepthStencilState.None;
 			_rasterizerState = rasterizerState ?? RasterizerState.CullCounterClockwise;
-			_effect = effect;
+			
+			_indexPool = new short[_indexPoolCapacity];
+			_vertexPool = new VertexPositionColorTexture[_vertexPoolCapacity];
 
-			_beginCalled = true;
-			_texture = null;
+			_defaultEffect = defaultEffect;
+			_defaultEffectPass = _defaultEffect.CurrentTechnique.Passes[0];
 		}
 
-		/// <summary>
-		/// Flushes all batched text and sprites to the screen.
-		/// </summary>
-		public void End()
+		
+		public void SetWorldViewProjection(
+			Matrix world,
+			Matrix view,
+			Matrix projection
+		)
 		{
-			if (!_beginCalled)
+			if (
+				_world != world
+				|| _view != view
+				|| _projection != projection
+			)
 			{
-				throw new InvalidOperationException("Begin must be called before calling End.");
+				FlushBatch();
 			}
 
-			_beginCalled = false;
-
-
-			DrawBatch();
+			_world = world;
+			_view = view;
+			_projection = projection;
 		}
-
 
 
 		void ApplyDefaultShader()
@@ -147,47 +213,22 @@ namespace Monofoxe.Engine.Drawing
 				return false;
 			}
 
-			DrawBatch();
+			FlushBatch();
 			return true;
 		}
 
-		private void SwitchTexture(Texture2D texture)
+		
+		public void FlushBatch()
 		{
-			if (texture != _texture)
+			if (_vertexPoolCount == 0 || _indexPoolCount == 0)
 			{
-				DrawBatch();
-
-				if (texture != null)
-				{
-					_defaultEffect.CurrentTechnique = _defaultEffect.Techniques["TexturePremultiplied"];
-				}
-				else
-				{
-					_defaultEffect.CurrentTechnique = _defaultEffect.Techniques["Basic"];
-				}
-				_defaultEffectPass = _defaultEffect.CurrentTechnique.Passes[0];
+				return;
 			}
-
-			_texture = texture;
-		}
-
-
-		/// <summary>
-		/// Sorts the batch items and then groups batch drawing into maximal allowed batch sets that do not
-		/// overflow the 16 bit array indices for vertices.
-		/// </summary>
-		private unsafe void DrawBatch()
-		{
-			ApplyDefaultShader();
 
 			if (_effect != null && _effect.IsDisposed)
 				throw new ObjectDisposedException("effect");
 
-			// nothing to do
-			if (_vertexPoolCount == 0)
-			{
-				return;
-			}
+			ApplyDefaultShader();
 
 			if (_effect == null)
 			{
@@ -257,15 +298,13 @@ namespace Monofoxe.Engine.Drawing
 
 
 
-		public void DrawQuad(Texture2D texture, Vector2 position, Color color)
+		public void DrawQuad(Vector2 position, Color color)
 		{
-			SwitchTexture(texture);
-
 			SetQuad(
 				position.X,
 				position.Y,
-				texture.Width,
-				texture.Height,
+				_texture.Width,
+				_texture.Height,
 				color,
 				Vector2.Zero,
 				Vector2.One,
@@ -676,10 +715,8 @@ namespace Monofoxe.Engine.Drawing
 
 		#region Primitives.
 
-		public void DrawPrimitive(Texture2D texture, VertexPositionColorTexture[] vertices, short[] indices)
+		public void DrawPrimitive(VertexPositionColorTexture[] vertices, short[] indices)
 		{
-			SwitchTexture(texture);
-
 			SetPrimitive(vertices, indices);
 		}
 

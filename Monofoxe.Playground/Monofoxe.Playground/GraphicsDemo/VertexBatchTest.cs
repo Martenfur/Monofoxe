@@ -33,7 +33,14 @@ namespace Monofoxe.Playground.GraphicsDemo
 		{
 			_monofoxeSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "AutismCat");
 			_tex = ResourceHub.GetResource<Sprite>("DefaultSprites", "Monofoxe");
-			_vbatch = new VertexBatch(GraphicsMgr.Device, GraphicsMgr._defaultEffect);
+			_vbatch = new VertexBatch(
+				GraphicsMgr.Device, 
+				GraphicsMgr._defaultEffect, 
+				null,
+				SamplerState.PointWrap,
+				null,
+				null
+			);
 			_batch = new SpriteBatch(GraphicsMgr.Device);
 
 			_seizure = ResourceHub.GetResource<Effect>("Effects", "Seizure");
@@ -97,29 +104,28 @@ namespace Monofoxe.Playground.GraphicsDemo
 			if (!flag)
 			{
 
-				_vbatch.Begin(
+				_vbatch.SetWorldViewProjection(
 					GraphicsMgr.CurrentWorld,
 					GraphicsMgr.CurrentView,
-					GraphicsMgr.CurrentProjection,
-					null,
-					SamplerState.PointWrap,
-					null,
-					null,
-					null//_seizure
+					GraphicsMgr.CurrentProjection
 				);
+				_vbatch.Texture = texture;
 				for (var x = 0; x < 1; x += 1)
 				{
 					for (var y = 0; y < 1; y += 1)
 					{
-						_vbatch.DrawQuad(texture, position + new Vector2(x, y), GraphicsMgr.CurrentColor);
+						_vbatch.DrawQuad(position + new Vector2(x, y), GraphicsMgr.CurrentColor);
 					}
 				}
 
-				_vbatch.DrawPrimitive(null, _vertices, _indices);
+				_vbatch.Texture = null;
+				_vbatch.DrawPrimitive(_vertices, _indices);
 
-				_vbatch.DrawQuad(texture, position + new Vector2(100, 400), GraphicsMgr.CurrentColor);
 
-				_vbatch.End();
+				_vbatch.Texture = texture;
+				_vbatch.DrawQuad(position + new Vector2(100, 400), GraphicsMgr.CurrentColor);
+
+				_vbatch.FlushBatch();
 
 			}
 			else
