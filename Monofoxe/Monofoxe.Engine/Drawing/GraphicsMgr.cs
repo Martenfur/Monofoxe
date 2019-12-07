@@ -461,12 +461,12 @@ namespace Monofoxe.Engine.Drawing
 			{
 				if (_currentTexture != null)
 				{
-					resultingEffect.Parameters["BasicTexture"].SetValue(_currentTexture);
+					//resultingEffect.Parameters["BasicTexture"].SetValue(_currentTexture);
 					resultingEffect.CurrentTechnique = _defaultEffect.Techniques["TexturePremultiplied"];
 				}
 				else
 				{
-					resultingEffect.Parameters["BasicTexture"].SetValue((Texture2D)null);
+					//resultingEffect.Parameters["BasicTexture"].SetValue((Texture2D)null);
 					resultingEffect.CurrentTechnique = _defaultEffect.Techniques["Basic"];
 				}
 

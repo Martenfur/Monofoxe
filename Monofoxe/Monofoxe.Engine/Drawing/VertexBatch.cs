@@ -137,14 +137,6 @@ namespace Monofoxe.Engine.Drawing
 			GraphicsDevice.Textures[0] = _texture;
 		}
 
-		private void CheckValid()
-		{
-			if (!_beginCalled)
-			{
-				throw new InvalidOperationException("Draw was called, but Begin has not yet been called. Begin must be called successfully before you can call Draw.");
-			}
-		}
-
 		private bool FlushIfOverflow(int newVerticesCount, int newIndicesCount)
 		{
 			if (
@@ -164,7 +156,18 @@ namespace Monofoxe.Engine.Drawing
 			if (texture != _texture)
 			{
 				DrawBatch();
+
+				if (texture != null)
+				{
+					_defaultEffect.CurrentTechnique = _defaultEffect.Techniques["TexturePremultiplied"];
+				}
+				else
+				{
+					_defaultEffect.CurrentTechnique = _defaultEffect.Techniques["Basic"];
+				}
+				_defaultEffectPass = _defaultEffect.CurrentTechnique.Passes[0];
 			}
+
 			_texture = texture;
 		}
 
@@ -256,7 +259,6 @@ namespace Monofoxe.Engine.Drawing
 
 		public void DrawQuad(Texture2D texture, Vector2 position, Color color)
 		{
-			CheckValid();
 			SwitchTexture(texture);
 
 			SetQuad(
@@ -272,53 +274,6 @@ namespace Monofoxe.Engine.Drawing
 
 		}
 
-
-		public void DrawPrimitive(Texture2D texture, VertexPositionColorTexture[] vertices, short[] indices)
-		{
-			CheckValid();
-			SwitchTexture(texture);
-
-			_defaultEffect.CurrentTechnique = _defaultEffect.Techniques["Basic"];
-			_defaultEffectPass = _defaultEffect.CurrentTechnique.Passes[0];
-
-			SetPrimitive(vertices, indices);
-
-		}
-
-		private unsafe void SetPrimitive(VertexPositionColorTexture[] vertices, short[] indices)
-		{
-			FlushIfOverflow(vertices.Length, indices.Length);
-
-			fixed (short* poolPtr = _indexPool, newIndices = indices)
-			{
-				var indexPtr = poolPtr + _indexPoolCount;
-				
-				for (var i = 0; i < indices.Length; i += 1, indexPtr += 1)
-				{
-					*indexPtr = (short)(*(newIndices + i) + _vertexPoolCount);
-				}
-				_indexPoolCount += indices.Length;
-				// TODO: optimize
-			}
-
-			fixed (VertexPositionColorTexture* poolPtr = _vertexPool, newVertices = vertices)
-			{
-				var newVerticesPtr = newVertices;
-
-				var verticesMax = poolPtr + _vertexPoolCount + vertices.Length;
-				for (
-					var vertexPtr = poolPtr + _vertexPoolCount;
-					vertexPtr < verticesMax; 
-					vertexPtr += 1, newVerticesPtr += 1
-				)
-				{
-					*vertexPtr = *newVerticesPtr;
-				}
-				_vertexPoolCount += (short)vertices.Length;
-			}
-			Console.WriteLine(_indexPoolCount + " " + _vertexPoolCount);
-
-		}
 
 		#region Your present.
 		/*
@@ -608,17 +563,24 @@ namespace Monofoxe.Engine.Drawing
 
 		#region Quads.
 
-		private unsafe void SetQuadIndices(short* poolPtr)
+		private unsafe void SetQuadIndices()
 		{
-			var indexPtr = poolPtr + _indexPoolCount;
+			fixed (short* poolPtr = _indexPool)
+			{
+				var indexPtr = poolPtr + _indexPoolCount;
 
-			*(indexPtr + 0) = (short)(_vertexPoolCount);
-			*(indexPtr + 1) = (short)(_vertexPoolCount + 1);
-			*(indexPtr + 2) = (short)(_vertexPoolCount + 2);
-			// Second triangle.
-			*(indexPtr + 3) = (short)(_vertexPoolCount + 1);
-			*(indexPtr + 4) = (short)(_vertexPoolCount + 3);
-			*(indexPtr + 5) = (short)(_vertexPoolCount + 2);
+				// 0 - 1
+				// | / |
+				// 2 - 3
+
+				*(indexPtr + 0) = _vertexPoolCount;
+				*(indexPtr + 1) = (short)(_vertexPoolCount + 1);
+				*(indexPtr + 2) = (short)(_vertexPoolCount + 2);
+				// Second triangle.
+				*(indexPtr + 3) = (short)(_vertexPoolCount + 1);
+				*(indexPtr + 4) = (short)(_vertexPoolCount + 3);
+				*(indexPtr + 5) = (short)(_vertexPoolCount + 2);
+			}
 
 			_indexPoolCount += 6;
 		}
@@ -636,10 +598,9 @@ namespace Monofoxe.Engine.Drawing
 		{
 
 			FlushIfOverflow(4, 6);
-			fixed (short* indexPtr = _indexPool)
-			{
-				SetQuadIndices(indexPtr);
-			}
+
+			SetQuadIndices();
+
 
 			fixed (VertexPositionColorTexture* vertexPtr = _vertexPool)
 			{
@@ -698,10 +659,7 @@ namespace Monofoxe.Engine.Drawing
 		{
 			FlushIfOverflow(4, 6);
 
-			fixed (short* indexPtr = _indexPool)
-			{
-				SetQuadIndices(indexPtr);
-			}
+			SetQuadIndices();
 
 			fixed (VertexPositionColorTexture* vertexPtr = _vertexPool)
 			{
@@ -714,8 +672,54 @@ namespace Monofoxe.Engine.Drawing
 
 		#endregion
 
+
+
 		#region Primitives.
 
+		public void DrawPrimitive(Texture2D texture, VertexPositionColorTexture[] vertices, short[] indices)
+		{
+			SwitchTexture(texture);
+
+			SetPrimitive(vertices, indices);
+		}
+
+
+		private unsafe void SetPrimitive(VertexPositionColorTexture[] vertices, short[] indices)
+		{
+			FlushIfOverflow(vertices.Length, indices.Length);
+
+			fixed (short* poolPtr = _indexPool, newIndices = indices)
+			{
+				var newIndicesPtr = newIndices;
+
+				var indicesMax = poolPtr + _indexPoolCount + indices.Length;
+				for (
+					var indexPtr = poolPtr + _indexPoolCount;
+					indexPtr < indicesMax;
+					indexPtr += 1, newIndicesPtr += 1
+				)
+				{
+					*indexPtr = (short)(*newIndicesPtr + _vertexPoolCount);
+				}
+				_indexPoolCount += (short)indices.Length;
+			}
+
+			fixed (VertexPositionColorTexture* poolPtr = _vertexPool, newVertices = vertices)
+			{
+				var newVerticesPtr = newVertices;
+
+				var verticesMax = poolPtr + _vertexPoolCount + vertices.Length;
+				for (
+					var vertexPtr = poolPtr + _vertexPoolCount;
+					vertexPtr < verticesMax;
+					vertexPtr += 1, newVerticesPtr += 1
+				)
+				{
+					*vertexPtr = *newVerticesPtr;
+				}
+				_vertexPoolCount += (short)vertices.Length;
+			}
+		}
 
 
 		#endregion

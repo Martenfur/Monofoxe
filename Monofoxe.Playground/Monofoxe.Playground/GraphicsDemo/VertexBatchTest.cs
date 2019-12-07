@@ -111,12 +111,13 @@ namespace Monofoxe.Playground.GraphicsDemo
 				{
 					for (var y = 0; y < 1; y += 1)
 					{
-						//_vbatch.DrawQuad(texture, position + new Vector2(x, y), GraphicsMgr.CurrentColor);
+						_vbatch.DrawQuad(texture, position + new Vector2(x, y), GraphicsMgr.CurrentColor);
 					}
 				}
 
 				_vbatch.DrawPrimitive(null, _vertices, _indices);
 
+				_vbatch.DrawQuad(texture, position + new Vector2(100, 400), GraphicsMgr.CurrentColor);
 
 				_vbatch.End();
 

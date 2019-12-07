@@ -10,14 +10,8 @@ DO NOT modify it, unless you know, what you're doing and have good reasons!
 float4x4 World;
 float4x4 View;
 float4x4 Projection;
-float4 AmbientColor = float4(1, 1, 1, 1);
 
-uniform const texture BasicTexture;
-
-uniform const sampler BaseSampler : register(s0) = sampler_state
-{
-  Texture = (BasicTexture);
-};
+const sampler BaseSampler : register(s0);
 
 struct VertexShaderInput
 {
