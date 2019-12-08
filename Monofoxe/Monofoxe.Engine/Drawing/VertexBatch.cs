@@ -274,28 +274,9 @@ namespace Monofoxe.Engine.Drawing
 			_indexPoolCount = 0;
 		}
 
-		private unsafe void SetVertex(
-			VertexPositionColorTexture* poolPtr,
-			float x, float y, float z,
-			Color color,
-			float texX, float texY
-		)
-		{
-			var vertexPtr = poolPtr + _vertexPoolCount;
+		
 
-			(*vertexPtr).Position.X = x;
-			(*vertexPtr).Position.Y = y;
-			(*vertexPtr).Position.Z = z;
-
-			(*vertexPtr).Color = color;
-			(*vertexPtr).TextureCoordinate.X = texX;
-			(*vertexPtr).TextureCoordinate.Y = texY;
-
-			_vertexPoolCount += 1;
-
-		}
-
-
+		#region Quads.
 
 
 		public void DrawQuad(Vector2 position, Color color)
@@ -310,10 +291,62 @@ namespace Monofoxe.Engine.Drawing
 				Vector2.One,
 				0
 			);
-
 		}
 
+		public void DrawQuad(
+			Vector2 position,
+			Vector2 srcRectangleTL,
+			Vector2 srcRectangleBR,
+			Color color
+		)
+		{
+			Vector2 texCoordTL;
+			Vector2 texCoordBR;
 
+			texCoordTL.X = srcRectangleTL.X / (float)_texture.Width;
+			texCoordTL.Y = srcRectangleTL.Y / (float)_texture.Height;
+			texCoordBR.X = srcRectangleBR.X / (float)_texture.Width;
+			texCoordBR.Y = srcRectangleBR.Y / (float)_texture.Height;
+
+			SetQuad(
+				position.X,
+				position.Y,
+				srcRectangleBR.X - srcRectangleTL.X,
+				srcRectangleBR.Y - srcRectangleTL.Y,
+				color,
+				texCoordTL,
+				texCoordBR,
+				0
+			);
+		}
+
+		public void DrawQuad(
+			Vector2 destRectangleTL,
+			Vector2 destRectangleBR,
+			Vector2 srcRectangleTL,
+			Vector2 srcRectangleBR,
+			Color color
+		)
+		{
+			Vector2 texCoordTL;
+			Vector2 texCoordBR;
+
+			texCoordTL.X = srcRectangleTL.X / (float)_texture.Width;
+			texCoordTL.Y = srcRectangleTL.Y / (float)_texture.Height;
+			texCoordBR.X = srcRectangleBR.X / (float)_texture.Width;
+			texCoordBR.Y = srcRectangleBR.Y / (float)_texture.Height;
+
+			SetQuad(
+				destRectangleTL.X,
+				destRectangleTL.Y,
+				destRectangleBR.X - destRectangleTL.X,
+				destRectangleBR.Y - destRectangleTL.Y,
+				color,
+				texCoordTL,
+				texCoordBR,
+				0
+			);
+		}
 
 		public void DrawQuad(
 			Vector2 position,
@@ -395,7 +428,7 @@ namespace Monofoxe.Engine.Drawing
 			Color color,
 			double rotation,
 			Vector2 origin,
-			SpriteFlipFlags effects,
+			SpriteFlipFlags flipFlags,
 			float layerDepth
 		)
 		{
@@ -435,13 +468,13 @@ namespace Monofoxe.Engine.Drawing
 
 
 
-			if ((effects & SpriteFlipFlags.FlipVertically) != 0)
+			if ((flipFlags & SpriteFlipFlags.FlipVertically) != 0)
 			{
 				var temp = texCoordBR.Y;
 				texCoordBR.Y = texCoordTL.Y;
 				texCoordTL.Y = temp;
 			}
-			if ((effects & SpriteFlipFlags.FlipHorizontally) != 0)
+			if ((flipFlags & SpriteFlipFlags.FlipHorizontally) != 0)
 			{
 				var temp = texCoordBR.X;
 				texCoordBR.X = texCoordTL.X;
@@ -481,78 +514,8 @@ namespace Monofoxe.Engine.Drawing
 
 		}
 
+		
 
-		public void DrawQuad(
-			Vector2 position,
-			Vector2 srcRectangleTL,
-			Vector2 srcRectangleBR,
-			Color color
-		)
-		{
-			Vector2 texCoordTL;
-			Vector2 texCoordBR;
-
-			texCoordTL.X = srcRectangleTL.X / (float)_texture.Width;
-			texCoordTL.Y = srcRectangleTL.Y / (float)_texture.Height;
-			texCoordBR.X = srcRectangleBR.X / (float)_texture.Width;
-			texCoordBR.Y = srcRectangleBR.Y / (float)_texture.Height;
-
-			SetQuad(
-				position.X,
-				position.Y,
-				srcRectangleBR.X - srcRectangleTL.X,
-				srcRectangleBR.Y - srcRectangleTL.Y,
-				color,
-				texCoordTL,
-				texCoordBR,
-				0
-			);
-
-		}
-
-		public void DrawQuad(
-			Vector2 destRectangleTL,
-			Vector2 destRectangleBR,
-			Vector2 srcRectangleTL,
-			Vector2 srcRectangleBR,
-			Color color
-		)
-		{
-			Vector2 texCoordTL;
-			Vector2 texCoordBR;
-
-			texCoordTL.X = srcRectangleTL.X / (float)_texture.Width;
-			texCoordTL.Y = srcRectangleTL.Y / (float)_texture.Height;
-			texCoordBR.X = srcRectangleBR.X / (float)_texture.Width;
-			texCoordBR.Y = srcRectangleBR.Y / (float)_texture.Height;
-
-			SetQuad(
-				destRectangleTL.X,
-				destRectangleTL.Y,
-				destRectangleBR.X - destRectangleTL.X,
-				destRectangleBR.Y - destRectangleTL.Y,
-				color,
-				texCoordTL,
-				texCoordBR,
-				0
-			);
-		}
-
-		public void DrawQuad(Vector2 destRectangleTL, Vector2 destRectangleBR, Color color)
-		{
-			SetQuad(
-				destRectangleTL.X,
-				destRectangleTL.Y,
-				destRectangleBR.X - destRectangleTL.X,
-				destRectangleBR.Y - destRectangleTL.Y,
-				color,
-				Vector2.Zero,
-				Vector2.One,
-				0
-			);
-		}
-
-		#region Quads.
 
 		private unsafe void SetQuadIndices()
 		{
@@ -659,6 +622,26 @@ namespace Monofoxe.Engine.Drawing
 				SetVertex(vertexPtr, x, y + h, depth, color, texCoordTL.X, texCoordBR.Y);
 				SetVertex(vertexPtr, x + w, y + h, depth, color, texCoordBR.X, texCoordBR.Y);
 			}
+		}
+
+		private unsafe void SetVertex(
+			VertexPositionColorTexture* poolPtr,
+			float x, float y, float z,
+			Color color,
+			float texX, float texY
+		)
+		{
+			var vertexPtr = poolPtr + _vertexPoolCount;
+
+			(*vertexPtr).Position.X = x;
+			(*vertexPtr).Position.Y = y;
+			(*vertexPtr).Position.Z = z;
+
+			(*vertexPtr).Color = color;
+			(*vertexPtr).TextureCoordinate.X = texX;
+			(*vertexPtr).TextureCoordinate.Y = texY;
+
+			_vertexPoolCount += 1;
 		}
 
 		#endregion
