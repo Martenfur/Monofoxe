@@ -81,21 +81,21 @@ namespace Monofoxe.Engine.Drawing
 		
 		public void Draw(Vector2 position, Vector2 origin, Vector2 scale, Angle rotation, Color color)
 		{
-			var mirroring = SpriteEffects.None;
+			var mirroring = SpriteFlipFlags.None;
 
 			// Proper negative scaling.
 			var scaleOffset = Vector2.Zero;
 
 			if (scale.X < 0)
 			{
-				mirroring = mirroring | SpriteEffects.FlipHorizontally;
+				mirroring = mirroring | SpriteFlipFlags.FlipHorizontally;
 				scale.X *= -1;
 				scaleOffset.X = Width;
 			}
 
 			if (scale.Y < 0)
 			{
-				mirroring = mirroring | SpriteEffects.FlipVertically;
+				mirroring = mirroring | SpriteFlipFlags.FlipVertically;
 				scale.Y *= -1;
 				scaleOffset.Y = Height;
 			}
@@ -135,7 +135,7 @@ namespace Monofoxe.Engine.Drawing
 				color, 
 				rotation.RadiansF,
 				Vector2.Zero,
-				SpriteEffects.None, 
+				SpriteFlipFlags.None, 
 				0
 			);
 		}
@@ -164,7 +164,7 @@ namespace Monofoxe.Engine.Drawing
 				color, 
 				rotation.RadiansF, 
 				Vector2.Zero,
-				SpriteEffects.None, 
+				SpriteFlipFlags.None, 
 				0
 			);
 		}

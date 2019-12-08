@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace Monofoxe.Engine.Drawing
 {
@@ -11,7 +12,7 @@ namespace Monofoxe.Engine.Drawing
 	/// </summary>
 	public class TriangleStripPrimitive : Primitive2D
 	{
-		protected override GraphicsMode _graphicsMode => GraphicsMode.TrianglePrimitives;
+		protected override PrimitiveType _primitiveType => PrimitiveType.TriangleList;
 
 		/// <summary>
 		/// Sets indices according to trianglestrip pattern.

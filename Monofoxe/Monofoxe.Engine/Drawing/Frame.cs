@@ -79,22 +79,23 @@ namespace Monofoxe.Engine.Drawing
 			Vector2 scale, 
 			Angle rotation, 
 			Color color, 
-			SpriteEffects effect
+			SpriteFlipFlags flipFlags
 		)
 		{
-			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
-
-			GraphicsMgr._batch.Draw(
-				Texture, 
-				position, 
-				TexturePosition, 
-				color, 
-				rotation.RadiansF, 
+			GraphicsMgr.VertexBatch.Texture = Texture;
+			
+			GraphicsMgr.VertexBatch.DrawQuad(
+				position,
+				new Vector2(TexturePosition.X, TexturePosition.Y),
+				new Vector2(TexturePosition.X + TexturePosition.Width, TexturePosition.Y + TexturePosition.Height),
+				color,
+				rotation.RadiansF,
 				origin,
-				scale, 
-				effect, 
+				scale,
+				flipFlags,
 				0
 			);
+			
 		}
 
 		public void Draw(Vector2 position) =>
@@ -105,61 +106,63 @@ namespace Monofoxe.Engine.Drawing
 
 		public void Draw(Vector2 position, Vector2 origin, Vector2 scale, Angle rotation, Color color)
 		{
-			var mirroring = SpriteEffects.None;
+			var flipFlags = SpriteFlipFlags.None;
 
 			// Proper negative scaling.
 			if (scale.X < 0)
 			{
-				mirroring = mirroring | SpriteEffects.FlipHorizontally;
+				flipFlags = flipFlags | SpriteFlipFlags.FlipHorizontally;
 				scale.X *= -1;
 				origin.X = Width - origin.X;
 			}
 
 			if (scale.Y < 0)
 			{
-				mirroring = mirroring | SpriteEffects.FlipVertically;
+				flipFlags = flipFlags | SpriteFlipFlags.FlipVertically;
 				scale.Y *= -1;
 				origin.Y = Height - origin.Y;
 			}
 			// Proper negative scaling.
 
-			Draw(position, origin, scale, rotation, color, mirroring);
+			Draw(position, origin, scale, rotation, color, flipFlags);
 		}
 
 		
 		public void Draw(Rectangle destRect, Angle rotation, Color color)
 		{
-			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
-			
-			GraphicsMgr._batch.Draw(
-				Texture, 
-				destRect, 
-				TexturePosition, 
-				color, 
+			GraphicsMgr.VertexBatch.Texture = Texture;
+			//TODO: Get rid of Rectangle.
+			GraphicsMgr.VertexBatch.DrawQuad(
+				new Vector2(destRect.X, destRect.Y),
+				new Vector2(destRect.X + destRect.Width, destRect.Y + destRect.Height),
+
+				new Vector2(TexturePosition.X, TexturePosition.Y),
+				new Vector2(TexturePosition.X + TexturePosition.Width, TexturePosition.Y + TexturePosition.Height),
+				color,
 				rotation.RadiansF,
-				// NOTE: Offsets are bugged in 3.6 and mess everything up. Disabled them for now.
-				Vector2.Zero, // offset,
-				SpriteEffects.None, 
+				Vector2.Zero,
+				SpriteFlipFlags.None,
 				0
 			);
 		}
 
 		public void Draw(Rectangle destRect, Rectangle srcRect, Angle rotation, Color color)
 		{
-			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
-			
 			srcRect.X += TexturePosition.X;
 			srcRect.Y += TexturePosition.Y;
+			
+			GraphicsMgr.VertexBatch.Texture = Texture;
+			//TODO: Get rid of Rectangle.
+			GraphicsMgr.VertexBatch.DrawQuad(
+				new Vector2(destRect.X, destRect.Y),
+				new Vector2(destRect.X + destRect.Width, destRect.Y + destRect.Height),
 
-			GraphicsMgr._batch.Draw(
-				Texture,
-				destRect, 
-				srcRect, 
-				color, 
-				rotation.RadiansF, 
-				// NOTE: Offsets are bugged in 3.6 and mess everything up. Disabled them for now.
-				Vector2.Zero, // offset,
-				SpriteEffects.None, 
+				new Vector2(srcRect.X, srcRect.Y),
+				new Vector2(srcRect.X + srcRect.Width, srcRect.Y + srcRect.Height),
+				color,
+				rotation.RadiansF,
+				Vector2.Zero,
+				SpriteFlipFlags.None,
 				0
 			);
 		}

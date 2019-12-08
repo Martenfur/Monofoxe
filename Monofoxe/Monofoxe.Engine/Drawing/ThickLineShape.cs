@@ -56,7 +56,7 @@ namespace Monofoxe.Engine.Drawing
 
 			var normal = normal2.ToVector3();
 
-			var vertices = new List<VertexPositionColorTexture>
+			var vertices = new VertexPositionColorTexture[]
 			{
 				new VertexPositionColorTexture(pt1.ToVector3() - normal, c1, Vector2.Zero),
 				new VertexPositionColorTexture(pt1.ToVector3() + normal, c1, Vector2.Zero),
@@ -65,7 +65,9 @@ namespace Monofoxe.Engine.Drawing
 			};
 
 			// Thick line is in fact just a rotated rectangle.
-			GraphicsMgr.AddVertices(GraphicsMode.TrianglePrimitives, null, vertices, _thickLineIndices); 
+			
+			GraphicsMgr.VertexBatch.Texture = null;
+			GraphicsMgr.VertexBatch.DrawPrimitive(PrimitiveType.TriangleList, vertices, _thickLineIndices);
 		}
 		
 	}

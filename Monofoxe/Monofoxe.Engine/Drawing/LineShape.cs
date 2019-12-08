@@ -47,7 +47,8 @@ namespace Monofoxe.Engine.Drawing
 				new VertexPositionColorTexture(p2.ToVector3(), c2, Vector2.Zero)
 			};
 			
-			GraphicsMgr.AddVertices(GraphicsMode.LinePrimitives, null, vertices, new short[]{0, 1});
+			GraphicsMgr.VertexBatch.Texture = null;
+			GraphicsMgr.VertexBatch.DrawPrimitive(PrimitiveType.LineList, vertices.ToArray(), new short[] { 0, 1 });
 		}
 		
 		

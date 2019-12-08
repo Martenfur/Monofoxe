@@ -21,7 +21,7 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Graphics mode which will be used while drawing primitive.
 		/// </summary>
-		protected abstract GraphicsMode _graphicsMode {get;}
+		protected abstract PrimitiveType _primitiveType {get;}
 		
 		/// <summary>
 		/// Frame texture.
@@ -99,12 +99,8 @@ namespace Monofoxe.Engine.Drawing
 		
 		public void Draw()
 		{
-			GraphicsMgr.AddVertices(
-				_graphicsMode, 
-				_texture, 
-				GetConvertedVertices(), 
-				GetIndices()
-			);
+			GraphicsMgr.VertexBatch.Texture = _texture;
+			GraphicsMgr.VertexBatch.DrawPrimitive(_primitiveType, GetConvertedVertices().ToArray(), GetIndices());
 		}
 
 		

@@ -63,11 +63,11 @@ namespace Monofoxe.Engine.Drawing
 		public static void Draw(Vector2 p, float r, bool isOutline, Color color)
 		{
 			short[] indexArray;
-			GraphicsMode prType;
+			PrimitiveType prType;
 			if (isOutline)
 			{
 				indexArray = new short[CircleVerticesCount * 2];
-				prType = GraphicsMode.LinePrimitives;
+				prType = PrimitiveType.LineList;
 				
 				for(var i = 0; i < CircleVerticesCount - 1; i += 1)
 				{
@@ -80,7 +80,7 @@ namespace Monofoxe.Engine.Drawing
 			else
 			{
 				indexArray = new short[CircleVerticesCount * 3];
-				prType = GraphicsMode.TrianglePrimitives;
+				prType = PrimitiveType.TriangleList;
 
 				for(var i = 0; i < CircleVerticesCount - 1; i += 1)
 				{
@@ -107,7 +107,8 @@ namespace Monofoxe.Engine.Drawing
 					)
 				);
 			}
-			GraphicsMgr.AddVertices(prType, null, vertices, indexArray);
+			GraphicsMgr.VertexBatch.Texture = null;
+			GraphicsMgr.VertexBatch.DrawPrimitive(prType, vertices.ToArray(), indexArray);
 		}
 
 	}

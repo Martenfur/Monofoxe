@@ -11,13 +11,12 @@ namespace Monofoxe.Engine.Drawing
 
 	public static class GraphicsMgr
 	{
-		private const int _vertexBufferSize = 320000;
-
 		/// <summary>
 		/// Default sprite batch used to draw sprites, text and surfaces.
 		/// </summary>
-		internal static SpriteBatch _batch {get; private set;}
+		//internal static SpriteBatch _batch {get; private set;}
 
+		public static VertexBatch VertexBatch;
 
 		public static GraphicsDevice Device {get; private set;}
 		
@@ -41,20 +40,12 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public static Color CurrentColor = Color.White;
 		
-		private static List<VertexPositionColorTexture> _vertices = new List<VertexPositionColorTexture>();
-		private static List<short> _indices = new List<short>();
-
+		
 		/// <summary>
 		/// Amount of draw calls per frame.
+		/// TODO: Remove.
 		/// </summary>
 		public static int __drawcalls {get; private set;}
-
-
-		/// <summary>
-		/// Current graphics mode. Tells, which type of graphics is being drawn right now.
-		/// </summary>
-		private static GraphicsMode _currentGraphicsMode = GraphicsMode.None;
-		private static Texture2D _currentTexture;
 		
 		/// <summary>
 		/// We can set surface targets inside another surfaces.
@@ -72,7 +63,7 @@ namespace Monofoxe.Engine.Drawing
 		{
 			set
 			{
-				SwitchGraphicsMode(GraphicsMode.None);
+				VertexBatch.FlushBatch(); // TODO: Add scissor rectangle support.
 				_scissorRectangle = value;
 			}
 			get => _scissorRectangle;
@@ -87,7 +78,7 @@ namespace Monofoxe.Engine.Drawing
 		{
 			set
 			{
-				SwitchGraphicsMode(GraphicsMode.None); 
+				VertexBatch.RasterizerState = value; 
 				_rasterizer = value;
 			}
 			get => _rasterizer;
@@ -102,7 +93,7 @@ namespace Monofoxe.Engine.Drawing
 		{
 			set
 			{
-				SwitchGraphicsMode(GraphicsMode.None); 
+				VertexBatch.SamplerState = value; 
 				_sampler = value;
 			}
 			get => _sampler;
@@ -117,7 +108,7 @@ namespace Monofoxe.Engine.Drawing
 		{
 			set
 			{
-				SwitchGraphicsMode(GraphicsMode.None); 
+				VertexBatch.BlendState = value; 
 				_blendState = value;
 			}
 			get => _blendState;
@@ -132,7 +123,7 @@ namespace Monofoxe.Engine.Drawing
 		{
 			set
 			{
-				SwitchGraphicsMode(GraphicsMode.None);
+				VertexBatch.Effect = value;
 				_currentEffect = value;
 			}
 			get => _currentEffect;
@@ -173,7 +164,8 @@ namespace Monofoxe.Engine.Drawing
 			Device = device;			
 			Device.DepthStencilState = DepthStencilState.DepthRead;
 		
-			_batch = new SpriteBatch(Device);
+			//_batch = new SpriteBatch(Device);
+
 
 			_content = new ContentManager(GameMgr.Game.Services);
 			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.EffectsDir;
@@ -189,6 +181,8 @@ namespace Monofoxe.Engine.Drawing
 			};
 			
 			CurrentWorld = Matrix.CreateTranslation(Vector3.Zero);
+
+			VertexBatch = new VertexBatch(Device, _defaultEffect);
 		}
 
 
@@ -309,30 +303,23 @@ namespace Monofoxe.Engine.Drawing
 					camera.Render();
 				}
 			}
-			SwitchGraphicsMode(GraphicsMode.None);
+			VertexBatch.FlushBatch();
+
+			VertexBatch.FlushBatch();
 			_rasterizer = oldRasterizerState;
 			_blendState = oldBlendState;
 			// Drawing camera surfaces.
 
 			
 			// Drawing GUI stuff.
-			_currentGraphicsMode = GraphicsMode.None;
 			
 			SceneMgr.CallDrawGUIEvents();
 
-			if (
-				_currentGraphicsMode == GraphicsMode.Sprites 
-				|| _currentGraphicsMode == GraphicsMode.SpritesNonPremultiplied
-			) // If there's something left in batch or vertex buffer, we should draw it.
-			{
-				_batch.End();
-			}
-			DrawVertices();
+			
+			VertexBatch.FlushBatch();
 			// Drawing GUI stuff.
 
-
-			_currentGraphicsMode = GraphicsMode.None;
-
+			
 			// Safety checks.
 			if (_surfaceStack.Count != 0)
 			{
@@ -347,178 +334,7 @@ namespace Monofoxe.Engine.Drawing
 		}
 
 
-
-		#region Base.
-
-		/// <summary>
-		/// Switches graphics mode.
-		/// 
-		/// Call it before manually using sprite batches or vertex buffers.
-		/// </summary>
-		public static void SwitchGraphicsMode(GraphicsMode mode, Texture2D texture = null)
-		{
-			if (mode != _currentGraphicsMode || texture != _currentTexture) // No need to switch to same graphics mode.
-			{
-				// Ending drawing stuff of previous call.
-				if (_currentGraphicsMode != GraphicsMode.None)
-				{
-					if (_currentGraphicsMode == GraphicsMode.Sprites || _currentGraphicsMode == GraphicsMode.SpritesNonPremultiplied)
-					{
-						_batch.End();
-					}
-					else
-					{
-						DrawVertices();
-					}
-				}
-				// Ending drawing stuff of previous call.
-
-				if (mode == GraphicsMode.Sprites || mode == GraphicsMode.SpritesNonPremultiplied)
-				{
-					Device.ScissorRectangle = _scissorRectangle;
-					
-					Effect resultingEffect;
-
-					if (_currentEffect == null)
-					{
-						resultingEffect = _defaultEffect;
-
-						resultingEffect.Parameters["World"].SetValue(CurrentWorld);
-						resultingEffect.Parameters["View"].SetValue(CurrentView);
-						resultingEffect.Parameters["Projection"].SetValue(CurrentProjection);
-						if (mode == GraphicsMode.Sprites)
-						{
-							resultingEffect.CurrentTechnique = _defaultEffect.Techniques["TexturePremultiplied"];
-						}
-						else
-						{
-							resultingEffect.CurrentTechnique = _defaultEffect.Techniques["TextureNonPremultiplied"];
-						}
-					}
-					else
-					{
-						resultingEffect = _currentEffect;
-					}
-
-					_batch.Begin(SpriteSortMode.Deferred, _blendState, _sampler, null, _rasterizer, resultingEffect, CurrentView);
-				}
-				_currentGraphicsMode = mode;
-				_currentTexture = texture;
-			}
-		}
-
-
-
-		/// <summary>
-		/// Adds vertices and indices to global vertex and index list.
-		/// If current and suggested graphics modes are different, draws accumulated vertices first.
-		/// </summary>
-		public static void AddVertices(GraphicsMode mode, Texture2D texture, List<VertexPositionColorTexture> vertices, short[] indices)
-		{
-			if (_indices.Count + indices.Length >= _vertexBufferSize)
-			{
-				DrawVertices(); // If buffer overflows, we need to empty it.
-			}
-
-			SwitchGraphicsMode(mode, texture);
-
-			var indicesCopy = new short[indices.Length];
-			Array.Copy(indices, indicesCopy, indices.Length); // We must copy an array to prevent modifying original.
-
-			for(var i = 0; i < indices.Length; i += 1)
-			{
-				indicesCopy[i] += (short)_vertices.Count; // We need to offset each index because of single buffer for everything.
-			} 
-
-			_vertices.AddRange(vertices);
-			_indices.AddRange(indicesCopy);
-		}
-
-
-
-		/// <summary>
-		/// Draws vertices from vertex buffer and empties it.
-		/// </summary>
-		private static void DrawVertices()
-		{
-			Effect resultingEffect;
-
-			if (_currentEffect == null)
-			{
-				resultingEffect = _defaultEffect;
-			}
-			else
-			{
-				resultingEffect = _currentEffect;
-			}
-
-			resultingEffect.Parameters["View"].SetValue(CurrentView);
-			resultingEffect.Parameters["Projection"].SetValue(CurrentProjection);
-
-			__drawcalls += 1;
-
-			if (_vertices.Count > 0)
-			{
-				if (_currentTexture != null)
-				{
-					//resultingEffect.Parameters["BasicTexture"].SetValue(_currentTexture);
-					resultingEffect.CurrentTechnique = _defaultEffect.Techniques["TexturePremultiplied"];
-				}
-				else
-				{
-					//resultingEffect.Parameters["BasicTexture"].SetValue((Texture2D)null);
-					resultingEffect.CurrentTechnique = _defaultEffect.Techniques["Basic"];
-				}
-
-				PrimitiveType type;
-				int prCount;
-
-				if (_currentGraphicsMode == GraphicsMode.LinePrimitives)
-				{
-					type = PrimitiveType.LineList;
-					prCount = _indices.Count / 2;
-				}
-				else
-				{
-					type = PrimitiveType.TriangleList;
-					prCount = _indices.Count / 3;
-				}
-				
-				if (_rasterizer != null)
-				{
-					Device.RasterizerState = _rasterizer;
-				}
-
-				if (_sampler != null)
-				{
-					Device.SamplerStates[0] = _sampler;
-				}
-				
-				if (_blendState != null)
-				{
-					Device.BlendState = _blendState;
-				}
-
-				Device.ScissorRectangle = _scissorRectangle;
 		
-				foreach(var pass in _defaultEffect.CurrentTechnique.Passes)
-				{
-					pass.Apply();
-					Device.DrawUserIndexedPrimitives(type, _vertices.ToArray(), 0, _vertices.Count, _indices.ToArray(), 0, prCount);
-				}
-
-				// TODO: replace lists with arrays.
-				_vertices.Clear();
-				_indices.Clear();
-				
-			}
-		}
-
-		#endregion Base.
-
-		
-		
-
 		#region Matrices.
 
 		/// <summary>
@@ -526,7 +342,7 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public static void SetTransformMatrix(Matrix matrix)
 		{
-			SwitchGraphicsMode(GraphicsMode.None);
+			VertexBatch.FlushBatch();
 			_transformMatrixStack.Push(CurrentView);
 			CurrentView = matrix;
 		}
@@ -536,7 +352,7 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public static void AddTransformMatrix(Matrix matrix)
 		{
-			SwitchGraphicsMode(GraphicsMode.None);
+			VertexBatch.FlushBatch();
 			_transformMatrixStack.Push(CurrentView);
 			CurrentView = matrix * CurrentView;
 		}
@@ -551,7 +367,7 @@ namespace Monofoxe.Engine.Drawing
 				throw new InvalidOperationException("Matrix stack is empty! Did you forgot to set a matrix somewhere?");
 			}
 
-			SwitchGraphicsMode(GraphicsMode.None); 
+			VertexBatch.FlushBatch(); 
 			CurrentView = _transformMatrixStack.Pop();
 		}
 

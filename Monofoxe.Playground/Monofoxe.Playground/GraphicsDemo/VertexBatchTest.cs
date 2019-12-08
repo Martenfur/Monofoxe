@@ -110,11 +110,11 @@ namespace Monofoxe.Playground.GraphicsDemo
 					GraphicsMgr.CurrentProjection
 				);
 				_vbatch.Texture = texture;
-				for (var x = 0; x < 1; x += 1)
+				for (var x = 0; x < 10; x += 1)
 				{
-					for (var y = 0; y < 1; y += 1)
+					for (var y = 0; y < 10; y += 1)
 					{
-						_vbatch.DrawQuad(position + new Vector2(x, y), GraphicsMgr.CurrentColor);
+						_vbatch.DrawQuad(position + new Vector2(x, y) * 4, GraphicsMgr.CurrentColor);
 
 					}
 				}
@@ -123,7 +123,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 				_vbatch.DrawPrimitive(PrimitiveType.LineList, _vertices, _indices);
 
 
-				_vbatch.Texture = texture;
+				//_vbatch.Texture = texture;
 				//_vbatch.DrawQuad(position, position + new Vector2(120, 50), Vector2.Zero, Vector2.One * 200, Color.White, 0, Vector2.Zero, SpriteFlipFlags.None, 0);
 
 				_vbatch.FlushBatch();

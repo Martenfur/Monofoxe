@@ -59,27 +59,28 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public static void Draw(Vector2 p1, Vector2 p2, Vector2 p3, bool isOutline, Color c1, Color c2, Color c3)
 		{
-			GraphicsMode mode;
+			PrimitiveType mode;
 			short[] indices;
 			if (isOutline)
 			{
-				mode = GraphicsMode.LinePrimitives;
+				mode = PrimitiveType.LineList;
 				indices = _triangleIndices[1];
 			}
 			else
 			{
-				mode = GraphicsMode.TrianglePrimitives;
+				mode = PrimitiveType.TriangleList;
 				indices = _triangleIndices[0];
 			}
 		
-			var vertices = new List<VertexPositionColorTexture>
+			var vertices = new VertexPositionColorTexture[]
 			{
 				new VertexPositionColorTexture(p1.ToVector3(), c1, Vector2.Zero),
 				new VertexPositionColorTexture(p2.ToVector3(), c2, Vector2.Zero),
 				new VertexPositionColorTexture(p3.ToVector3(), c3, Vector2.Zero)
 			};
 
-			GraphicsMgr.AddVertices(mode, null, vertices, indices);
+			GraphicsMgr.VertexBatch.Texture = null;
+			GraphicsMgr.VertexBatch.DrawPrimitive(mode, vertices, indices);
 		}
 		
 	}

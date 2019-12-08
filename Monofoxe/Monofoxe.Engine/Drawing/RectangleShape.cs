@@ -58,16 +58,16 @@ namespace Monofoxe.Engine.Drawing
 			Color c4
 		)
 		{
-			GraphicsMode mode;
+			PrimitiveType mode;
 			short[] indices;
 			if (isOutline)
 			{
-				mode = GraphicsMode.LinePrimitives;
+				mode = PrimitiveType.LineList;
 				indices = _rectangleIndices[1];
 			}
 			else
 			{
-				mode = GraphicsMode.TrianglePrimitives;
+				mode = PrimitiveType.TriangleList;
 				indices = _rectangleIndices[0];
 			}
 			var x1 = p1.X;
@@ -75,15 +75,16 @@ namespace Monofoxe.Engine.Drawing
 			var x2 = p2.X;
 			var y2 = p2.Y;
 
-			var vertices = new List<VertexPositionColorTexture>
+			var vertices = new VertexPositionColorTexture[]
 			{
 				new VertexPositionColorTexture(new Vector3(x1, y1, 0), c1, Vector2.Zero),
 				new VertexPositionColorTexture(new Vector3(x2, y1, 0), c2, Vector2.Zero),
 				new VertexPositionColorTexture(new Vector3(x2, y2, 0), c3, Vector2.Zero),
 				new VertexPositionColorTexture(new Vector3(x1, y2, 0), c4, Vector2.Zero)
 			};
-
-			GraphicsMgr.AddVertices(mode, null, vertices, indices);
+			
+			GraphicsMgr.VertexBatch.Texture = null;
+			GraphicsMgr.VertexBatch.DrawPrimitive(mode, vertices, indices);
 		}
 
 

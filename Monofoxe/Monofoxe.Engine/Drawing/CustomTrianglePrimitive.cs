@@ -1,11 +1,13 @@
-﻿namespace Monofoxe.Engine.Drawing
+﻿using Microsoft.Xna.Framework.Graphics;
+
+namespace Monofoxe.Engine.Drawing
 {
 	/// <summary>
 	/// Triangle primitive, which can accept any array of indices. 
 	/// </summary>
 	public class CustomTrianglePrimitive : Primitive2D
 	{
-		protected override GraphicsMode _graphicsMode => GraphicsMode.TrianglePrimitives;
+		protected override PrimitiveType _primitiveType => PrimitiveType.TriangleList;
 		
 		/// <summary>
 		/// Array of primitive indices. They tell primitive what vertices to draw in what order.

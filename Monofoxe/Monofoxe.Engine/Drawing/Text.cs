@@ -49,13 +49,14 @@ namespace Monofoxe.Engine.Drawing
 			{
 				throw new NullReferenceException("CurrentFont is null! Did you forgot to set a font?");
 			}
-
+			
 			/*
 			 * Font is a wrapper for MG's SpriteFont, which uses non-premultiplied alpha.
 			 * Using GraphicsMode.Sprites will result in black pixels everywhere.
 			 * TextureFont, on the other hand, is just a bunch of regular sprites, 
 			 * so it's fine to draw with sprite mode.
 			 */
+			 /*
 			if (CurrentFont is Font)
 			{
 				GraphicsMgr.SwitchGraphicsMode(GraphicsMode.SpritesNonPremultiplied);
@@ -64,7 +65,7 @@ namespace Monofoxe.Engine.Drawing
 			{
 				GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);	
 			}
-			CurrentFont.Draw(GraphicsMgr._batch, text, position, HorAlign, VerAlign);
+			CurrentFont.Draw(GraphicsMgr._batch, text, position, HorAlign, VerAlign);*/
 		}
 
 		/// <summary>
@@ -96,6 +97,7 @@ namespace Monofoxe.Engine.Drawing
 			 * TextureFont, on the other hand, is just regular sprites, so it's fine to 
 			 * draw with sprite mode.
 			 */
+			 /*
 			if (CurrentFont is Font)
 			{
 				GraphicsMgr.SwitchGraphicsMode(GraphicsMode.SpritesNonPremultiplied);
@@ -104,8 +106,8 @@ namespace Monofoxe.Engine.Drawing
 			{
 				GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);	
 			}
-
-			CurrentFont.Draw(GraphicsMgr._batch, text, Vector2.Zero, HorAlign, VerAlign);
+			//TODO: Fix.
+			CurrentFont.Draw(GraphicsMgr._batch, text, Vector2.Zero, HorAlign, VerAlign);*/
 			
 			GraphicsMgr.ResetTransformMatrix();
 		}
