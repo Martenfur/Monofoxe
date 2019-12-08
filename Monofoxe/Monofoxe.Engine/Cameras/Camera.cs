@@ -354,7 +354,7 @@ namespace Monofoxe.Engine.Cameras
 		internal void Render()
 		{
 			ApplyPostprocessing();
-
+			
 			Surface.Draw(
 				PortPosition, 
 				PortOffset, 

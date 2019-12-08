@@ -30,7 +30,7 @@ namespace Monofoxe.Engine.Drawing
 			get => _currentWorld; 
 			private set
 			{
-				VertexBatch.SetWorldViewProjection(_currentWorld, _currentView, _currentProjection);
+				VertexBatch.SetWorldViewProjection(value, _currentView, _currentProjection);
 				_currentWorld = value;
 			}
 		}
@@ -44,7 +44,7 @@ namespace Monofoxe.Engine.Drawing
 			get => _currentView;
 			private set
 			{
-				VertexBatch.SetWorldViewProjection(_currentWorld, _currentView, _currentProjection);
+				VertexBatch.SetWorldViewProjection(_currentWorld, value, _currentProjection);
 				_currentView = value;
 			}
 		}
@@ -55,7 +55,7 @@ namespace Monofoxe.Engine.Drawing
 			get => _currentProjection;
 			private set
 			{
-				VertexBatch.SetWorldViewProjection(_currentWorld, _currentView, _currentProjection);
+				VertexBatch.SetWorldViewProjection(_currentWorld, _currentView, value);
 				_currentProjection = value;
 			}
 		}
