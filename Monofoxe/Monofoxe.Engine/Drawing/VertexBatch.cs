@@ -113,6 +113,25 @@ namespace Monofoxe.Engine.Drawing
 		}
 		Texture2D _texture;
 
+
+		/// <summary>
+		/// Disables rendering for everything that's outside of rectangle.
+		/// NOTE: To enable scissoring, enable scissor test in Rasterizer.
+		/// </summary>
+		public Rectangle ScissorRectangle
+		{
+			set
+			{
+				if (value != _scissorRectangle)
+				{
+					FlushBatch();
+					_scissorRectangle = value;
+				}
+			}
+			get => _scissorRectangle;
+		}
+		private Rectangle _scissorRectangle;
+
 		#endregion
 
 
@@ -138,7 +157,7 @@ namespace Monofoxe.Engine.Drawing
 		Matrix _projection;
 
 		PrimitiveType _primitiveType = PrimitiveType.TriangleList;
-		
+
 
 		public VertexBatch(
 			GraphicsDevice graphicsDevice,
@@ -155,7 +174,7 @@ namespace Monofoxe.Engine.Drawing
 			_samplerState = samplerState ?? SamplerState.LinearClamp;
 			_depthStencilState = depthStencilState ?? DepthStencilState.None;
 			_rasterizerState = rasterizerState ?? RasterizerState.CullCounterClockwise;
-
+			
 			_indexPool = new short[_indexPoolCapacity];
 			_vertexPool = new VertexPositionColorTexture[_vertexPoolCapacity];
 
@@ -192,6 +211,7 @@ namespace Monofoxe.Engine.Drawing
 			gd.DepthStencilState = _depthStencilState;
 			gd.RasterizerState = _rasterizerState;
 			gd.SamplerStates[0] = _samplerState;
+			gd.ScissorRectangle = _scissorRectangle;
 
 			// The default shader is used for the transfrm matrix.
 
@@ -288,7 +308,7 @@ namespace Monofoxe.Engine.Drawing
 			_indexPoolCount = 0;
 		}
 
-		
+
 
 		#region Quads.
 
@@ -528,7 +548,7 @@ namespace Monofoxe.Engine.Drawing
 
 		}
 
-		
+
 
 
 		private unsafe void SetQuadIndices()

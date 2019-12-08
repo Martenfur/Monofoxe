@@ -82,23 +82,6 @@ namespace Monofoxe.Engine.Drawing
 		private static Stack<Surface> _surfaceStack = new Stack<Surface>();
 		private static Surface _currentSurface;
 
-		#region Modifiers.
-
-		/// <summary>
-		/// Disables rendering for everything that's outside of rectangle.
-		/// NOTE: To enable scissoring, enable scissor test in Rasterizer.
-		/// </summary>
-		public static Rectangle ScissorRectangle
-		{
-			set
-			{
-				VertexBatch.FlushBatch(); // TODO: Add scissor rectangle support.
-				_scissorRectangle = value;
-			}
-			get => _scissorRectangle;
-		}
-		private static Rectangle _scissorRectangle;
-
 		
 		/// <summary>
 		/// Default shader with proper alpha blending. 
@@ -112,9 +95,7 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		internal static RasterizerState _cameraRasterizerState;
 
-		#endregion Modifiers.
-
-
+		
 		/// <summary>
 		/// Matrix for offsetting, scaling and rotating canvas contents.
 		/// </summary>
