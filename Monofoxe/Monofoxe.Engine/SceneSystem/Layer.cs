@@ -310,12 +310,12 @@ namespace Monofoxe.Engine.SceneSystem
 			{
 				GraphicsMgr.ResetSurfaceTarget();
 
-				var oldRasterizer = GraphicsMgr.Rasterizer;
-				GraphicsMgr.Rasterizer = GraphicsMgr._cameraRasterizerState;
+				var oldRasterizer = GraphicsMgr.VertexBatch.RasterizerState;
+				GraphicsMgr.VertexBatch.RasterizerState = GraphicsMgr._cameraRasterizerState;
 				GraphicsMgr.SetTransformMatrix(Matrix.CreateTranslation(Vector3.Zero));
 				ApplyPostprocessing();
 				GraphicsMgr.ResetTransformMatrix();
-				GraphicsMgr.Rasterizer = oldRasterizer;
+				GraphicsMgr.VertexBatch.RasterizerState = oldRasterizer;
 			}
 		}
 
@@ -398,7 +398,7 @@ namespace Monofoxe.Engine.SceneSystem
 					GraphicsMgr.CurrentProjection
 				);
 
-				GraphicsMgr.CurrentEffect = PostprocessorEffects[i];
+				GraphicsMgr.VertexBatch.Effect = PostprocessorEffects[i];
 				if (sufraceChooser)
 				{
 					GraphicsMgr.SetSurfaceTarget(camera._postprocessorLayerBuffer);
@@ -423,7 +423,7 @@ namespace Monofoxe.Engine.SceneSystem
 				GraphicsMgr.CurrentProjection
 			);
 
-			GraphicsMgr.CurrentEffect = PostprocessorEffects[PostprocessorEffects.Count - 1];
+			GraphicsMgr.VertexBatch.Effect = PostprocessorEffects[PostprocessorEffects.Count - 1];
 			if ((PostprocessorEffects.Count % 2) != 0)
 			{
 				camera._postprocessorLayerBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Right, Color.White);
@@ -433,7 +433,7 @@ namespace Monofoxe.Engine.SceneSystem
 				camera._postprocessorBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Right, Color.White);
 			}
 
-			GraphicsMgr.CurrentEffect = null;
+			GraphicsMgr.VertexBatch.Effect = null;
 		}
 
 

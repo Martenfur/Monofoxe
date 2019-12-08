@@ -127,7 +127,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 			if (_useWireframe)
 			{
-				GraphicsMgr.Rasterizer = GameController.WireframeRasterizer;
+				GraphicsMgr.VertexBatch.RasterizerState = GameController.WireframeRasterizer;
 			}
 
 			var startingPosition = new Vector2(100, 100);
@@ -217,7 +217,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 			if (_useWireframe)
 			{
-				GraphicsMgr.Rasterizer = GameController.DefaultRasterizer;
+				GraphicsMgr.VertexBatch.RasterizerState = GameController.DefaultRasterizer;
 			}
 
 		}

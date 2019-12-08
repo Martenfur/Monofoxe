@@ -75,10 +75,10 @@ namespace Monofoxe.Playground.GraphicsDemo
 				GraphicsMgr.CurrentProjection
 			);
 
-			GraphicsMgr.CurrentEffect = _seizure;
+			GraphicsMgr.VertexBatch.Effect = _seizure;
 			// If you want to animate the sprite, you must pass a value from 0 to 1 to it.
 			_fireSprite.Draw(position, _animation);
-			GraphicsMgr.CurrentEffect = null;
+			GraphicsMgr.VertexBatch.Effect = null;
 
 			position += Vector2.UnitX * spacing;
 

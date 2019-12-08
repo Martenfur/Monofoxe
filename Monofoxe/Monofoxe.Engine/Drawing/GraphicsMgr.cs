@@ -99,65 +99,6 @@ namespace Monofoxe.Engine.Drawing
 		}
 		private static Rectangle _scissorRectangle;
 
-		/// <summary>
-		/// Rasterizer state. 
-		/// NOTE: Do NOT modify object which you'll set. This will lead to errors and unexpected behaviour.
-		/// </summary>
-		public static RasterizerState Rasterizer
-		{
-			set
-			{
-				VertexBatch.RasterizerState = value; 
-				_rasterizer = value;
-			}
-			get => _rasterizer;
-		}
-		private static RasterizerState _rasterizer;
-
-		/// <summary>
-		/// Sampler state. Used for interpolation and texture wrappping.
-		/// NOTE: Do NOT modify object which you'll set. This will lead to errors and unexpected behaviour.
-		/// </summary>
-		public static SamplerState Sampler
-		{
-			set
-			{
-				VertexBatch.SamplerState = value; 
-				_sampler = value;
-			}
-			get => _sampler;
-		}
-		private static SamplerState _sampler;
-		
-		/// <summary>
-		/// Blend state. Used for color blending.
-		/// NOTE: Do NOT modify object which you'll set. This will lead to errors and unexpected behaviour.
-		/// </summary>
-		public static BlendState BlendState
-		{
-			set
-			{
-				VertexBatch.BlendState = value; 
-				_blendState = value;
-			}
-			get => _blendState;
-		}
-		private static BlendState _blendState;
-
-
-		/// <summary>
-		/// Current shader. Set to null to reset to the default shader.
-		/// </summary>
-		public static Effect CurrentEffect
-		{
-			set
-			{
-				VertexBatch.Effect = value;
-				_currentEffect = value;
-			}
-			get => _currentEffect;
-		}
-		private static Effect _currentEffect;
 		
 		/// <summary>
 		/// Default shader with proper alpha blending. 
@@ -319,8 +260,8 @@ namespace Monofoxe.Engine.Drawing
 			Device.Clear(Color.TransparentBlack);
 			
 			// We don't need in-game rasterizer to apply to camera surfaces.
-			var oldRasterizerState = _rasterizer;
-			var oldBlendState = _blendState;
+			//var oldRasterizerState = _rasterizer;
+			//var oldBlendState = _blendState;
 
 			//Rasterizer = _cameraRasterizerState;
 			//BlendState = BlendState.AlphaBlend;

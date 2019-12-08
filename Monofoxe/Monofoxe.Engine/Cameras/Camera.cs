@@ -315,7 +315,7 @@ namespace Monofoxe.Engine.Cameras
 						GraphicsMgr.CurrentProjection
 					);
 
-					GraphicsMgr.CurrentEffect = PostprocessorEffects[i];
+					GraphicsMgr.VertexBatch.Effect = PostprocessorEffects[i];
 					if (sufraceChooser)
 					{
 						GraphicsMgr.SetSurfaceTarget(Surface);
@@ -347,7 +347,7 @@ namespace Monofoxe.Engine.Cameras
 					GraphicsMgr.CurrentProjection
 				);
 
-				GraphicsMgr.CurrentEffect = PostprocessorEffects[PostprocessorEffects.Count - 1];
+				GraphicsMgr.VertexBatch.Effect = PostprocessorEffects[PostprocessorEffects.Count - 1];
 			}
 		}
 
@@ -362,7 +362,7 @@ namespace Monofoxe.Engine.Cameras
 				PortRotation, 
 				Color.White
 			);
-			GraphicsMgr.CurrentEffect = null;
+			GraphicsMgr.VertexBatch.Effect = null;
 		}
 
 	}
