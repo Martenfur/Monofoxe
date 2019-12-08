@@ -137,6 +137,9 @@ namespace Monofoxe.Engine.Drawing
 		Matrix _view;
 		Matrix _projection;
 
+		PrimitiveType _primitiveType = PrimitiveType.TriangleList;
+		
+
 		public VertexBatch(
 			GraphicsDevice graphicsDevice,
 			Effect defaultEffect,
@@ -230,16 +233,27 @@ namespace Monofoxe.Engine.Drawing
 
 			ApplyDefaultShader();
 
+			int primitivesCount;
+
+			if (_primitiveType == PrimitiveType.TriangleList || _primitiveType == PrimitiveType.TriangleStrip)
+			{
+				primitivesCount = _indexPoolCount / 3;
+			}
+			else
+			{
+				primitivesCount = _indexPoolCount / 2;
+			}
+
 			if (_effect == null)
 			{
 				GraphicsDevice.DrawUserIndexedPrimitives(
-					PrimitiveType.TriangleList,
+					_primitiveType,
 					_vertexPool,
 					0,
 					_vertexPoolCount,
 					_indexPool,
 					0,
-					_indexPoolCount / 3,
+					primitivesCount,
 					VertexPositionColorTexture.VertexDeclaration
 				);
 			}
@@ -256,13 +270,13 @@ namespace Monofoxe.Engine.Drawing
 					GraphicsDevice.Textures[0] = _texture;
 
 					GraphicsDevice.DrawUserIndexedPrimitives(
-						PrimitiveType.TriangleList,
+						_primitiveType,
 						_vertexPool,
 						0,
 						_vertexPoolCount,
 						_indexPool,
 						0,
-						_indexPoolCount / 3,
+						primitivesCount,
 						VertexPositionColorTexture.VertexDeclaration
 					);
 
@@ -612,6 +626,7 @@ namespace Monofoxe.Engine.Drawing
 		)
 		{
 			FlushIfOverflow(4, 6);
+			SetPrimitiveType(PrimitiveType.TriangleList);
 
 			SetQuadIndices();
 
@@ -650,15 +665,16 @@ namespace Monofoxe.Engine.Drawing
 
 		#region Primitives.
 
-		public void DrawPrimitive(VertexPositionColorTexture[] vertices, short[] indices)
+		public void DrawPrimitive(PrimitiveType primitiveType, VertexPositionColorTexture[] vertices, short[] indices)
 		{
-			SetPrimitive(vertices, indices);
+			SetPrimitive(primitiveType, vertices, indices);
 		}
 
 
-		private unsafe void SetPrimitive(VertexPositionColorTexture[] vertices, short[] indices)
+		private unsafe void SetPrimitive(PrimitiveType primitiveType, VertexPositionColorTexture[] vertices, short[] indices)
 		{
 			FlushIfOverflow(vertices.Length, indices.Length);
+			SetPrimitiveType(primitiveType);
 
 			fixed (short* poolPtr = _indexPool, newIndices = indices)
 			{
@@ -693,6 +709,15 @@ namespace Monofoxe.Engine.Drawing
 			}
 		}
 
+
+		private void SetPrimitiveType(PrimitiveType primitiveType)
+		{
+			if (_primitiveType != primitiveType)
+			{
+				FlushBatch();
+				_primitiveType = primitiveType;
+			}
+		}
 
 		#endregion
 

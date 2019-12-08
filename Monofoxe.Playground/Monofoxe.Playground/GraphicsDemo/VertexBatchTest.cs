@@ -120,11 +120,11 @@ namespace Monofoxe.Playground.GraphicsDemo
 				}
 				
 				_vbatch.Texture = null;
-				_vbatch.DrawPrimitive(_vertices, _indices);
+				_vbatch.DrawPrimitive(PrimitiveType.LineList, _vertices, _indices);
 
 
 				_vbatch.Texture = texture;
-				_vbatch.DrawQuad(position, position + new Vector2(120, 50), Vector2.Zero, Vector2.One * 200, Color.White, 0, Vector2.Zero, SpriteFlipFlags.None, 0);
+				//_vbatch.DrawQuad(position, position + new Vector2(120, 50), Vector2.Zero, Vector2.One * 200, Color.White, 0, Vector2.Zero, SpriteFlipFlags.None, 0);
 
 				_vbatch.FlushBatch();
 
