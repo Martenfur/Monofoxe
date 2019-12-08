@@ -101,18 +101,20 @@ namespace Monofoxe.Engine.Drawing
 			}
 			// Proper negative scaling.
 
-			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
-			GraphicsMgr._batch.Draw(
-				RenderTarget, 
-				position, 
-				RenderTarget.Bounds, 
-				color, 
-				rotation.RadiansF, 
-				scaleOffset + origin, 
-				scale, 
-				mirroring, 
+			GraphicsMgr.VertexBatch.Texture = RenderTarget;
+			GraphicsMgr.VertexBatch.DrawQuad(
+				position,
+				Vector2.Zero,
+				new Vector2(RenderTarget.Width, RenderTarget.Height),
+				color,
+				rotation.RadiansF,
+				scaleOffset + origin,
+				scale,
+				mirroring,
 				0
 			);
+
+			
 		}
 
 		// Vectors.
@@ -121,47 +123,59 @@ namespace Monofoxe.Engine.Drawing
 
 		public void Draw(Rectangle destRect)
 		{
-			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
-			GraphicsMgr._batch.Draw(RenderTarget, destRect, RenderTarget.Bounds, Color);
+			//TODO: Remove rectangles.
+			GraphicsMgr.VertexBatch.Texture = RenderTarget;
+			GraphicsMgr.VertexBatch.DrawQuad(
+				new Vector2(destRect.X, destRect.Y),
+				new Vector2(destRect.X + destRect.Width, destRect.Y + destRect.Height),
+				Vector2.Zero,
+				new Vector2(RenderTarget.Width, RenderTarget.Height),
+				Color
+			);
 		}
-		
+
 		public void Draw(Rectangle destRect, Angle rotation, Color color)
 		{
-			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
-			GraphicsMgr._batch.Draw(
-				RenderTarget, 
-				destRect, 
-				RenderTarget.Bounds, 
-				color, 
+			GraphicsMgr.VertexBatch.Texture = RenderTarget;
+			GraphicsMgr.VertexBatch.DrawQuad(
+				new Vector2(destRect.X, destRect.Y),
+				new Vector2(destRect.X + destRect.Width, destRect.Y + destRect.Height),
+				Vector2.Zero,
+				new Vector2(RenderTarget.Width, RenderTarget.Height),
+				color,
 				rotation.RadiansF,
 				Vector2.Zero,
-				SpriteFlipFlags.None, 
+				SpriteFlipFlags.None,
 				0
 			);
 		}
 
 		public void Draw(Rectangle destRect, Rectangle srcRect)
 		{
-			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
-			
 			srcRect.X += RenderTarget.Bounds.X;
 			srcRect.Y += RenderTarget.Bounds.Y;
-
-			GraphicsMgr._batch.Draw(RenderTarget, destRect, srcRect, GraphicsMgr.CurrentColor);
+			
+			GraphicsMgr.VertexBatch.Texture = RenderTarget;
+			GraphicsMgr.VertexBatch.DrawQuad(
+				new Vector2(destRect.X, destRect.Y),
+				new Vector2(destRect.X + destRect.Width, destRect.Y + destRect.Height),
+				new Vector2(srcRect.X, srcRect.Y),
+				new Vector2(srcRect.X + srcRect.Width, srcRect.Y + srcRect.Height),
+				Color
+			);
 		}
 		
 		public void Draw(Rectangle destRect, Rectangle srcRect, Angle rotation, Color color)
 		{
-			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
-						
 			srcRect.X += RenderTarget.Bounds.X;
 			srcRect.Y += RenderTarget.Bounds.Y;
 
-			GraphicsMgr._batch.Draw(
-				RenderTarget, 
-				destRect, 
-				RenderTarget.Bounds, 
-				color, 
+			GraphicsMgr.VertexBatch.DrawQuad(
+				new Vector2(destRect.X, destRect.Y),
+				new Vector2(destRect.X + destRect.Width, destRect.Y + destRect.Height),
+				new Vector2(srcRect.X, srcRect.Y),
+				new Vector2(srcRect.X + srcRect.Width, srcRect.Y + srcRect.Height),
+				color,	
 				rotation.RadiansF, 
 				Vector2.Zero,
 				SpriteFlipFlags.None, 

@@ -95,7 +95,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 			// But beforehand we must reset Monofoxe's graphics pipeline.
 			// This method draws all batched graphics and resets internal graphics pipeline mode. 
-			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.None);
+			GraphicsMgr.VertexBatch.FlushBatch();
 
 			// After it, you can draw anything you like using any method.
 			var sw = new Stopwatch();

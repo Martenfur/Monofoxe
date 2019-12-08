@@ -25,12 +25,41 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public static Camera CurrentCamera {get; private set;}
 
-		public static Matrix CurrentWorld {get; private set;}
+		public static Matrix CurrentWorld 
+		{
+			get => _currentWorld; 
+			private set
+			{
+				VertexBatch.SetWorldViewProjection(_currentWorld, _currentView, _currentProjection);
+				_currentWorld = value;
+			}
+		}
+		private static Matrix _currentWorld;
+
 		/// <summary>
 		/// Current view. Used to offset, rotate and scale graphics.
 		/// </summary>
-		public static Matrix CurrentView {get; private set;}
-		public static Matrix CurrentProjection {get; private set;}
+		public static Matrix CurrentView
+		{
+			get => _currentView;
+			private set
+			{
+				VertexBatch.SetWorldViewProjection(_currentWorld, _currentView, _currentProjection);
+				_currentView = value;
+			}
+		}
+		private static Matrix _currentView;
+
+		public static Matrix CurrentProjection
+		{
+			get => _currentProjection;
+			private set
+			{
+				VertexBatch.SetWorldViewProjection(_currentWorld, _currentView, _currentProjection);
+				_currentProjection = value;
+			}
+		}
+		private static Matrix _currentProjection;
 
 		private static Stack<Matrix> _transformMatrixStack = new Stack<Matrix>();
 
@@ -179,10 +208,10 @@ namespace Monofoxe.Engine.Drawing
 				ScissorTestEnable = false,
 				FillMode = FillMode.Solid
 			};
-			
-			CurrentWorld = Matrix.CreateTranslation(Vector3.Zero);
-
 			VertexBatch = new VertexBatch(Device, _defaultEffect);
+			
+
+			CurrentWorld = Matrix.CreateTranslation(Vector3.Zero);
 		}
 
 
@@ -293,8 +322,8 @@ namespace Monofoxe.Engine.Drawing
 			var oldRasterizerState = _rasterizer;
 			var oldBlendState = _blendState;
 
-			_rasterizer = _cameraRasterizerState;
-			_blendState = BlendState.AlphaBlend;
+			//Rasterizer = _cameraRasterizerState;
+			//BlendState = BlendState.AlphaBlend;
 
 			foreach(var camera in CameraMgr.Cameras)
 			{
@@ -303,11 +332,11 @@ namespace Monofoxe.Engine.Drawing
 					camera.Render();
 				}
 			}
-			VertexBatch.FlushBatch();
 
 			VertexBatch.FlushBatch();
-			_rasterizer = oldRasterizerState;
-			_blendState = oldBlendState;
+			
+			//Rasterizer = oldRasterizerState;
+			//BlendState = oldBlendState;
 			// Drawing camera surfaces.
 
 			
