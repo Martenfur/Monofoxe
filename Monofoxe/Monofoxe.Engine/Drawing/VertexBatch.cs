@@ -354,6 +354,9 @@ namespace Monofoxe.Engine.Drawing
 				color,
 				Vector2.Zero,
 				Vector2.One,
+				0,
+				0,
+				0,
 				0
 			);
 		}
@@ -376,6 +379,9 @@ namespace Monofoxe.Engine.Drawing
 				color,
 				texCoordTL,
 				texCoordBR,
+				0,
+				0,
+				0,
 				0
 			);
 		}
@@ -398,6 +404,9 @@ namespace Monofoxe.Engine.Drawing
 				color,
 				texCoordTL,
 				texCoordBR,
+				0,
+				0,
+				0,
 				0
 			);
 		}
@@ -410,7 +419,7 @@ namespace Monofoxe.Engine.Drawing
 			Vector2 origin,
 			Vector2 scale,
 			SpriteFlipFlags flipFlags,
-			float layerDepth
+			Vector4 zDepth
 		)
 		{
 
@@ -450,7 +459,10 @@ namespace Monofoxe.Engine.Drawing
 					color,
 					texCoordTL,
 					texCoordBR,
-					layerDepth
+					zDepth.X,
+					zDepth.Y,
+					zDepth.Z,
+					zDepth.W
 				);
 			}
 			else
@@ -467,7 +479,10 @@ namespace Monofoxe.Engine.Drawing
 					color,
 					texCoordTL,
 					texCoordBR,
-					layerDepth
+					zDepth.X,
+					zDepth.Y,
+					zDepth.Z,
+					zDepth.W
 				);
 			}
 
@@ -480,7 +495,7 @@ namespace Monofoxe.Engine.Drawing
 			double rotation,
 			Vector2 origin,
 			SpriteFlipFlags flipFlags,
-			float layerDepth
+			Vector4 zDepth
 		)
 		{
 			Vector2 texCoordTL;
@@ -533,7 +548,10 @@ namespace Monofoxe.Engine.Drawing
 					color,
 					texCoordTL,
 					texCoordBR,
-					layerDepth
+					zDepth.X,
+					zDepth.Y,
+					zDepth.Z,
+					zDepth.W
 				);
 			}
 			else
@@ -550,7 +568,10 @@ namespace Monofoxe.Engine.Drawing
 					color,
 					texCoordTL,
 					texCoordBR,
-					layerDepth
+					zDepth.X,
+					zDepth.Y,
+					zDepth.Z,
+					zDepth.W
 				);
 			}
 
@@ -589,7 +610,10 @@ namespace Monofoxe.Engine.Drawing
 			Color color,
 			Vector2 texCoordTL,
 			Vector2 texCoordBR,
-			float depth
+			float depthTL,
+			float depthTR,
+			float depthBL,
+			float depthBR
 		)
 		{
 
@@ -604,7 +628,7 @@ namespace Monofoxe.Engine.Drawing
 					vertexPtr,
 					x + dx * cos - dy * sin,
 					y + dx * sin + dy * cos,
-					depth,
+					depthTL,
 					color,
 					texCoordTL.X,
 					texCoordTL.Y
@@ -614,7 +638,7 @@ namespace Monofoxe.Engine.Drawing
 					vertexPtr,
 					x + (dx + w) * cos - dy * sin,
 					y + (dx + w) * sin + dy * cos,
-					depth,
+					depthTR,
 					color,
 					texCoordBR.X,
 					texCoordTL.Y
@@ -624,7 +648,7 @@ namespace Monofoxe.Engine.Drawing
 					vertexPtr,
 					x + dx * cos - (dy + h) * sin,
 					y + dx * sin + (dy + h) * cos,
-					depth,
+					depthBL,
 					color,
 					texCoordTL.X,
 					texCoordBR.Y
@@ -634,7 +658,7 @@ namespace Monofoxe.Engine.Drawing
 					vertexPtr,
 					x + (dx + w) * cos - (dy + h) * sin,
 					y + (dx + w) * sin + (dy + h) * cos,
-					depth,
+					depthBR,
 					color,
 					texCoordBR.X,
 					texCoordBR.Y
@@ -650,7 +674,10 @@ namespace Monofoxe.Engine.Drawing
 			Color color,
 			Vector2 texCoordTL,
 			Vector2 texCoordBR,
-			float depth
+			float depthTL,
+			float depthTR,
+			float depthBL,
+			float depthBR
 		)
 		{
 			FlushIfOverflow(4, 6);
@@ -660,10 +687,10 @@ namespace Monofoxe.Engine.Drawing
 
 			fixed (VertexPositionColorTexture* vertexPtr = _vertexPool)
 			{
-				SetVertex(vertexPtr, x, y, depth, color, texCoordTL.X, texCoordTL.Y);
-				SetVertex(vertexPtr, x + w, y, depth, color, texCoordBR.X, texCoordTL.Y);
-				SetVertex(vertexPtr, x, y + h, depth, color, texCoordTL.X, texCoordBR.Y);
-				SetVertex(vertexPtr, x + w, y + h, depth, color, texCoordBR.X, texCoordBR.Y);
+				SetVertex(vertexPtr, x, y, depthTL, color, texCoordTL.X, texCoordTL.Y);
+				SetVertex(vertexPtr, x + w, y, depthTR, color, texCoordBR.X, texCoordTL.Y);
+				SetVertex(vertexPtr, x, y + h, depthBL, color, texCoordTL.X, texCoordBR.Y);
+				SetVertex(vertexPtr, x + w, y + h, depthBR, color, texCoordBR.X, texCoordBR.Y);
 			}
 		}
 

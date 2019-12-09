@@ -42,7 +42,7 @@ namespace Monofoxe.Engine.Drawing
 
 		public Color Color = Color.White;
 
-		
+		public Vector4 ZDepth = Vector4.Zero;
 
 		/// <summary>
 		/// Frame's parent sprite.
@@ -70,7 +70,7 @@ namespace Monofoxe.Engine.Drawing
 		}
 
 		public void Draw() =>
-			Draw(Position, Origin, Scale, Rotation, Color);
+			Draw(Position, Origin, Scale, Rotation, Color, ZDepth);
 		
 
 		public void Draw(
@@ -79,7 +79,8 @@ namespace Monofoxe.Engine.Drawing
 			Vector2 scale, 
 			Angle rotation, 
 			Color color, 
-			SpriteFlipFlags flipFlags
+			SpriteFlipFlags flipFlags,
+			Vector4 zDepth
 		)
 		{
 			GraphicsMgr.VertexBatch.Texture = Texture;
@@ -92,18 +93,18 @@ namespace Monofoxe.Engine.Drawing
 				origin,
 				scale,
 				flipFlags,
-				0
+				zDepth
 			);
 			
 		}
 
 		public void Draw(Vector2 position) =>
-			Draw(position, Origin, Scale, Rotation, Color);
+			Draw(position, Origin, Scale, Rotation, Color, ZDepth);
 
 		public void Draw(Vector2 position, Vector2 origin) =>
-			Draw(position, origin, Scale, Rotation, Color);
+			Draw(position, origin, Scale, Rotation, Color, ZDepth);
 
-		public void Draw(Vector2 position, Vector2 origin, Vector2 scale, Angle rotation, Color color)
+		public void Draw(Vector2 position, Vector2 origin, Vector2 scale, Angle rotation, Color color, Vector4 zDepth)
 		{
 			var flipFlags = SpriteFlipFlags.None;
 
@@ -123,7 +124,7 @@ namespace Monofoxe.Engine.Drawing
 			}
 			// Proper negative scaling.
 
-			Draw(position, origin, scale, rotation, color, flipFlags);
+			Draw(position, origin, scale, rotation, color, flipFlags, zDepth);
 		}
 
 		
@@ -136,13 +137,13 @@ namespace Monofoxe.Engine.Drawing
 				TexturePosition,
 				color,
 				rotation.RadiansF,
-				Vector2.Zero,
+				Origin,
 				SpriteFlipFlags.None,
-				0
+				ZDepth
 			);
 		}
 
-		public void Draw(RectangleF destRect, RectangleF srcRect, Angle rotation, Color color)
+		public void Draw(RectangleF destRect, RectangleF srcRect, Angle rotation, Color color, Vector4 zDepth)
 		{
 			srcRect.X += TexturePosition.X;
 			srcRect.Y += TexturePosition.Y;
@@ -156,7 +157,7 @@ namespace Monofoxe.Engine.Drawing
 				rotation.RadiansF,
 				Vector2.Zero,
 				SpriteFlipFlags.None,
-				0
+				zDepth
 			);
 		}
 
