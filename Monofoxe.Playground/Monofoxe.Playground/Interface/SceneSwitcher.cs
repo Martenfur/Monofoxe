@@ -113,7 +113,7 @@ namespace Monofoxe.Playground.Interface
 			// Bottom bar.
 			GraphicsMgr.VertexBatch.PushViewMatrix();
 			GraphicsMgr.VertexBatch.View = 
-				Matrix.CreateTranslation(new Vector3(0, canvasSize.Y - _barHeight, 0));
+				Matrix.CreateTranslation(new Vector3(0, canvasSize.Y - _barHeight, 0)) * GraphicsMgr.VertexBatch.View;
 
 			GraphicsMgr.CurrentColor = _barColor;
 			RectangleShape.Draw(Vector2.Zero, canvasSize, false);
