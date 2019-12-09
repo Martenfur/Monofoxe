@@ -95,20 +95,20 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 			// But beforehand we must reset Monofoxe's graphics pipeline.
 			// This method draws all batched graphics and resets internal graphics pipeline mode. 
-			GraphicsMgr.VertexBatch.FlushBatch();
+			//GraphicsMgr.VertexBatch.FlushBatch();
 
 			// After it, you can draw anything you like using any method.
 			var sw = new Stopwatch();
+
+			_vbatch.World = GraphicsMgr.VertexBatch.World;
+			_vbatch.View = GraphicsMgr.VertexBatch.View;
+			_vbatch.Projection = GraphicsMgr.VertexBatch.Projection;
+
 
 			sw.Start();
 			if (!flag)
 			{
 
-				_vbatch.SetWorldViewProjection(
-					GraphicsMgr.CurrentWorld,
-					GraphicsMgr.CurrentView,
-					GraphicsMgr.CurrentProjection
-				);
 				_vbatch.Texture = texture;
 				for (var x = 0; x < 10; x += 1)
 				{
@@ -123,8 +123,8 @@ namespace Monofoxe.Playground.GraphicsDemo
 				_vbatch.DrawPrimitive(PrimitiveType.LineList, _vertices, _indices);
 
 
-				//_vbatch.Texture = texture;
-				//_vbatch.DrawQuad(position, position + new Vector2(120, 50), Vector2.Zero, Vector2.One * 200, Color.White, 0, Vector2.Zero, SpriteFlipFlags.None, 0);
+				_vbatch.Texture = texture;
+				_vbatch.DrawQuad(position, position + new Vector2(120, 50), Vector2.Zero, Vector2.One * 200, Color.White, 0, Vector2.Zero, SpriteFlipFlags.None, 0);
 
 				_vbatch.FlushBatch();
 
@@ -138,7 +138,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 				null,
 				null,
 				null,//GraphicsMgr, 
-				GraphicsMgr.CurrentView // Passig current transform matrix to match the camera.
+				GraphicsMgr.VertexBatch.View // Passig current transform matrix to match the camera.
 			);
 				for (var x = 0; x < 100; x += 1)
 				{

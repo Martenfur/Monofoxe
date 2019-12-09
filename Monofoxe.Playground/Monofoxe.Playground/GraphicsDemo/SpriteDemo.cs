@@ -70,9 +70,9 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 			// Setting a shader for the sprite.
 			_seizure.SetWorldViewProjection(
-				GraphicsMgr.CurrentWorld, 
-				GraphicsMgr.CurrentView, 
-				GraphicsMgr.CurrentProjection
+				GraphicsMgr.VertexBatch.World, 
+				GraphicsMgr.VertexBatch.View, 
+				GraphicsMgr.VertexBatch.Projection
 			);
 
 			GraphicsMgr.VertexBatch.Effect = _seizure;
@@ -135,7 +135,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 				null, 
 				null, 
 				null,
-				GraphicsMgr.CurrentView 
+				GraphicsMgr.VertexBatch.View 
 			);
 			_batch.Draw(texture, position, GraphicsMgr.CurrentColor);
 

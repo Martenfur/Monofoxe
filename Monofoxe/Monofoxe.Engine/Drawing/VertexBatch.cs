@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 
 // Based on default Monogame's Spritebatch by maintainy bois.
 // https://github.com/MonoGame/MonoGame/blob/master/MonoGame.Framework/Graphics/SpriteBatch.cs
@@ -152,9 +153,53 @@ namespace Monofoxe.Engine.Drawing
 		private Effect _defaultEffect;
 		private EffectPass _defaultEffectPass;
 
+		public Matrix World 
+		{
+			get => _world;
+			set
+			{
+				if (_world != value)
+				{
+					FlushBatch();
+					_world = value;
+				}
+			}
+		}
 		Matrix _world;
+
+		public Matrix View
+		{
+			get => _view;
+			set
+			{
+				if (_view != value)
+				{
+					FlushBatch();
+					_view = value;
+				}
+			}
+		}
 		Matrix _view;
+		
+		public Matrix Projection
+		{
+			get => _projection;
+			set
+			{
+				if (_projection != value)
+				{
+					FlushBatch();
+					_projection = value;
+				}
+			}
+		}
 		Matrix _projection;
+
+
+		private static Stack<Matrix> _worldStack = new Stack<Matrix>();
+		private static Stack<Matrix> _viewStack = new Stack<Matrix>();
+		private static Stack<Matrix> _projectionStack = new Stack<Matrix>();
+
 
 		PrimitiveType _primitiveType = PrimitiveType.TriangleList;
 
@@ -182,26 +227,6 @@ namespace Monofoxe.Engine.Drawing
 			_defaultEffectPass = _defaultEffect.CurrentTechnique.Passes[0];
 		}
 
-
-		public void SetWorldViewProjection(
-			Matrix world,
-			Matrix view,
-			Matrix projection
-		)
-		{
-			if (
-				_world != world
-				|| _view != view
-				|| _projection != projection
-			)
-			{
-				FlushBatch();
-			}
-
-			_world = world;
-			_view = view;
-			_projection = projection;
-		}
 
 
 		void ApplyDefaultShader()
@@ -737,6 +762,95 @@ namespace Monofoxe.Engine.Drawing
 				FlushBatch();
 				_primitiveType = primitiveType;
 			}
+		}
+
+		#endregion
+
+
+
+		#region Matrices. 
+		// TODO: Update comments.
+		/// <summary>
+		/// Sets new transform matrix multiplied by current world matrix.
+		/// </summary>
+		public void PushWorldMatrix(Matrix matrix)
+		{
+			_worldStack.Push(_world);
+			World = matrix;
+		}
+
+		/// <summary>
+		/// Sets new transform matrix multiplied by current world matrix.
+		/// </summary>
+		public void PushWorldMatrix() =>
+			_worldStack.Push(_world);
+
+		/// <summary>
+		/// Resets to a previous world matrix.
+		/// </summary>
+		public void PopWorldMatrix()
+		{
+			if (_worldStack.Count == 0)
+			{
+				throw new InvalidOperationException("World matrix stack is empty! Did you forgot to set a matrix somewhere?");
+			}
+			World = _worldStack.Pop();
+		}
+
+
+		/// <summary>
+		/// Sets new transform matrix multiplied by current view matrix.
+		/// </summary>
+		public void PushViewMatrix(Matrix matrix)
+		{
+			_viewStack.Push(_view);
+			View = matrix;
+		}
+
+		/// <summary>
+		/// Sets new transform matrix multiplied by current view matrix.
+		/// </summary>
+		public void PushViewMatrix() =>
+			_viewStack.Push(_view);
+
+		/// <summary>
+		/// Resets to a previous view matrix.
+		/// </summary>
+		public void PopViewMatrix()
+		{
+			if (_viewStack.Count == 0)
+			{
+				throw new InvalidOperationException("View matrix stack is empty! Did you forgot to set a matrix somewhere?");
+			}
+			View = _viewStack.Pop();
+		}
+
+
+		/// <summary>
+		/// Sets new transform matrix multiplied by current projection matrix.
+		/// </summary>
+		public void PushProjectionMatrix(Matrix matrix)
+		{
+			_projectionStack.Push(_projection);
+			Projection = matrix;
+		}
+
+		/// <summary>
+		/// Sets new transform matrix multiplied by current projection matrix.
+		/// </summary>
+		public void PushProjectionMatrix() =>
+			_projectionStack.Push(_projection);
+
+		/// <summary>
+		/// Resets to a previous projection matrix.
+		/// </summary>
+		public void PopProjectionMatrix()
+		{
+			if (_projectionStack.Count == 0)
+			{
+				throw new InvalidOperationException("World matrix stack is empty! Did you forgot to set a matrix somewhere?");
+			}
+			Projection = _projectionStack.Pop();
 		}
 
 		#endregion

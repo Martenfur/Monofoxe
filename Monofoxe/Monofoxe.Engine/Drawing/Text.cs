@@ -88,8 +88,9 @@ namespace Monofoxe.Engine.Drawing
 				Matrix.CreateRotationZ(-rotation.RadiansF) *		                  // Rotation.
 				Matrix.CreateScale(new Vector3(scale.X, scale.Y, 1)) *	          // Scale.
 				Matrix.CreateTranslation(new Vector3(position.X, position.Y, 0)); // Position.
-			
-			GraphicsMgr.AddTransformMatrix(transformMatrix);
+
+			GraphicsMgr.VertexBatch.PushViewMatrix();
+			GraphicsMgr.VertexBatch.View = transformMatrix * GraphicsMgr.VertexBatch.View;
 			
 			/*
 			 * Font is a wrapper for MG's SpriteFont, which uses non-premultiplied alpha.
@@ -109,7 +110,7 @@ namespace Monofoxe.Engine.Drawing
 			//TODO: Fix.
 			CurrentFont.Draw(GraphicsMgr._batch, text, Vector2.Zero, HorAlign, VerAlign);*/
 			
-			GraphicsMgr.ResetTransformMatrix();
+			GraphicsMgr.VertexBatch.PopViewMatrix();
 		}
 		
 	}

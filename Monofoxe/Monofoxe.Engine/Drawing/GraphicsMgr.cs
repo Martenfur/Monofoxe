@@ -25,44 +25,6 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public static Camera CurrentCamera {get; private set;}
 
-		public static Matrix CurrentWorld 
-		{
-			get => _currentWorld; 
-			private set
-			{
-				VertexBatch.SetWorldViewProjection(value, _currentView, _currentProjection);
-				_currentWorld = value;
-			}
-		}
-		private static Matrix _currentWorld;
-
-		/// <summary>
-		/// Current view. Used to offset, rotate and scale graphics.
-		/// </summary>
-		public static Matrix CurrentView
-		{
-			get => _currentView;
-			private set
-			{
-				VertexBatch.SetWorldViewProjection(_currentWorld, value, _currentProjection);
-				_currentView = value;
-			}
-		}
-		private static Matrix _currentView;
-
-		public static Matrix CurrentProjection
-		{
-			get => _currentProjection;
-			private set
-			{
-				VertexBatch.SetWorldViewProjection(_currentWorld, _currentView, value);
-				_currentProjection = value;
-			}
-		}
-		private static Matrix _currentProjection;
-
-		private static Stack<Matrix> _transformMatrixStack = new Stack<Matrix>();
-
 		
 		/// <summary>
 		/// Current drawing color. Affects shapes, sprites, text and primitives.
@@ -133,7 +95,7 @@ namespace Monofoxe.Engine.Drawing
 			VertexBatch = new VertexBatch(Device, _defaultEffect);
 			
 
-			CurrentWorld = Matrix.CreateTranslation(Vector3.Zero);
+			VertexBatch.World = Matrix.CreateTranslation(Vector3.Zero);
 		}
 
 
@@ -209,8 +171,8 @@ namespace Monofoxe.Engine.Drawing
 					// Updating current transform matrix and camera.
 					camera.UpdateTransformMatrix();
 					CurrentCamera = camera;
-					CurrentView = camera.TransformMatrix;
-					CurrentProjection = Matrix.CreateOrthographicOffCenter(0, camera.Size.X, camera.Size.Y, 0, 0, 1);
+					VertexBatch.View = camera.TransformMatrix;
+					VertexBatch.Projection = Matrix.CreateOrthographicOffCenter(0, camera.Size.X, camera.Size.Y, 0, 0, 1);
 					// Updating current transform matrix and camera.
 
 					Input.MousePosition = camera.GetRelativeMousePosition();
@@ -232,7 +194,7 @@ namespace Monofoxe.Engine.Drawing
 
 			// Resetting camera, transform matrix and mouse position.
 			CurrentCamera = null;
-			CurrentView = CanvasMatrix;
+			VertexBatch.View = CanvasMatrix;
 			Input.MousePosition = Input.ScreenMousePosition;
 			// Resetting camera, transform matrix and mouse position
 			
@@ -276,57 +238,13 @@ namespace Monofoxe.Engine.Drawing
 			{
 				throw new InvalidOperationException("Unbalanced surface stack! Did you forgot to reset a surface somewhere?");
 			}
-
+			/* TODO: Add for vertexbatch?
 			if (_transformMatrixStack.Count != 0)
 			{
 				throw new InvalidOperationException("Unbalanced matrix stack! Did you forgot to reset a matrix somewhere?");
-			}
+			}*/
 			// Safety checks.
 		}
-
-
-		
-		#region Matrices.
-
-		/// <summary>
-		/// Sets new transform matrix.
-		/// </summary>
-		public static void SetTransformMatrix(Matrix matrix)
-		{
-			VertexBatch.FlushBatch();
-			_transformMatrixStack.Push(CurrentView);
-			CurrentView = matrix;
-		}
-
-		/// <summary>
-		/// Sets new transform matrix multiplied by current transform matrix.
-		/// </summary>
-		public static void AddTransformMatrix(Matrix matrix)
-		{
-			VertexBatch.FlushBatch();
-			_transformMatrixStack.Push(CurrentView);
-			CurrentView = matrix * CurrentView;
-		}
-
-		/// <summary>
-		/// Resets to a previous transform matrix.
-		/// </summary>
-		public static void ResetTransformMatrix()
-		{
-			if (_transformMatrixStack.Count == 0)
-			{
-				throw new InvalidOperationException("Matrix stack is empty! Did you forgot to set a matrix somewhere?");
-			}
-
-			VertexBatch.FlushBatch(); 
-			CurrentView = _transformMatrixStack.Pop();
-		}
-
-		#endregion Matrices.
-
-
-
-		
 
 
 		#region Surfaces.
@@ -341,15 +259,15 @@ namespace Monofoxe.Engine.Drawing
 		/// Sets surface as a render target.
 		/// </summary>
 		/// <param name="surf">Target surface.</param>
-		/// <param name="matrix">Surface transformation matrix.</param>
-		public static void SetSurfaceTarget(Surface surf, Matrix matrix)
+		/// <param name="view">Surface transformation matrix.</param>
+		public static void SetSurfaceTarget(Surface surf, Matrix view)
 		{
-			SetTransformMatrix(matrix);
-
+			VertexBatch.PushViewMatrix(view);
+			
 			_surfaceStack.Push(_currentSurface);
 			_currentSurface = surf;
 
-			CurrentProjection = Matrix.CreateOrthographicOffCenter(0,	_currentSurface.Width, _currentSurface.Height, 0, 0, 1);
+			VertexBatch.Projection = Matrix.CreateOrthographicOffCenter(0,	_currentSurface.Width, _currentSurface.Height, 0, 0, 1);
 
 			Device.SetRenderTarget(_currentSurface.RenderTarget);
 		}
@@ -359,23 +277,23 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public static void ResetSurfaceTarget()
 		{
-			ResetTransformMatrix();
+			VertexBatch.PopViewMatrix();
 
 			if (_surfaceStack.Count == 0)
 			{
 				throw new InvalidOperationException("Surface stack is empty! Did you forgot to set a surface somewhere?");
 			}
 			_currentSurface = _surfaceStack.Pop();
-
+			// TODO: Replace with projection stack?
 			if (_currentSurface != null)
 			{
-				CurrentProjection = Matrix.CreateOrthographicOffCenter(0,	_currentSurface.Width, _currentSurface.Height, 0, 0, 1);
+				VertexBatch.Projection = Matrix.CreateOrthographicOffCenter(0,	_currentSurface.Width, _currentSurface.Height, 0, 0, 1);
 				
 				Device.SetRenderTarget(_currentSurface.RenderTarget);
 			}
 			else
 			{
-				CurrentProjection = Matrix.CreateOrthographicOffCenter(
+				VertexBatch.Projection = Matrix.CreateOrthographicOffCenter(
 					0, 
 					GameMgr.WindowManager.PreferredBackBufferWidth, 
 					GameMgr.WindowManager.PreferredBackBufferHeight, 

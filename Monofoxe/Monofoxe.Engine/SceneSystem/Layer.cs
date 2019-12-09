@@ -294,7 +294,7 @@ namespace Monofoxe.Engine.SceneSystem
 
 			if (hasPostprocessing)
 			{
-				GraphicsMgr.SetSurfaceTarget(GraphicsMgr.CurrentCamera._postprocessorLayerBuffer, GraphicsMgr.CurrentView);
+				GraphicsMgr.SetSurfaceTarget(GraphicsMgr.CurrentCamera._postprocessorLayerBuffer, GraphicsMgr.VertexBatch.View);
 				GraphicsMgr.Device.Clear(Color.TransparentBlack);
 			}
 
@@ -312,9 +312,9 @@ namespace Monofoxe.Engine.SceneSystem
 
 				var oldRasterizer = GraphicsMgr.VertexBatch.RasterizerState;
 				GraphicsMgr.VertexBatch.RasterizerState = GraphicsMgr._cameraRasterizerState;
-				GraphicsMgr.SetTransformMatrix(Matrix.CreateTranslation(Vector3.Zero));
+				GraphicsMgr.VertexBatch.PushViewMatrix(Matrix.CreateTranslation(Vector3.Zero));
 				ApplyPostprocessing();
-				GraphicsMgr.ResetTransformMatrix();
+				GraphicsMgr.VertexBatch.PopViewMatrix();
 				GraphicsMgr.VertexBatch.RasterizerState = oldRasterizer;
 			}
 		}
@@ -393,9 +393,9 @@ namespace Monofoxe.Engine.SceneSystem
 			for (var i = 0; i < PostprocessorEffects.Count - 1; i += 1)
 			{
 				PostprocessorEffects[i].SetWorldViewProjection(
-					GraphicsMgr.CurrentWorld,
-					GraphicsMgr.CurrentView,
-					GraphicsMgr.CurrentProjection
+					GraphicsMgr.VertexBatch.World,
+					GraphicsMgr.VertexBatch.View,
+					GraphicsMgr.VertexBatch.Projection
 				);
 
 				GraphicsMgr.VertexBatch.Effect = PostprocessorEffects[i];
@@ -418,9 +418,9 @@ namespace Monofoxe.Engine.SceneSystem
 
 
 			PostprocessorEffects[PostprocessorEffects.Count - 1].SetWorldViewProjection(
-				GraphicsMgr.CurrentWorld,
-				GraphicsMgr.CurrentView,
-				GraphicsMgr.CurrentProjection
+				GraphicsMgr.VertexBatch.World,
+				GraphicsMgr.VertexBatch.View,
+				GraphicsMgr.VertexBatch.Projection
 			);
 
 			GraphicsMgr.VertexBatch.Effect = PostprocessorEffects[PostprocessorEffects.Count - 1];
