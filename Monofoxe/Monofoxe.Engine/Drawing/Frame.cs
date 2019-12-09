@@ -130,7 +130,7 @@ namespace Monofoxe.Engine.Drawing
 		public void Draw(RectangleF destRect, Angle rotation, Color color)
 		{
 			GraphicsMgr.VertexBatch.Texture = Texture;
-			//TODO: Get rid of Rectangle.
+			
 			GraphicsMgr.VertexBatch.DrawQuad(
 				destRect,
 				TexturePosition,
@@ -148,7 +148,7 @@ namespace Monofoxe.Engine.Drawing
 			srcRect.Y += TexturePosition.Y;
 			
 			GraphicsMgr.VertexBatch.Texture = Texture;
-			//TODO: Get rid of Rectangle.
+			
 			GraphicsMgr.VertexBatch.DrawQuad(
 				destRect,
 				srcRect,

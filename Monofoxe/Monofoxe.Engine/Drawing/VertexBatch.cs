@@ -196,9 +196,15 @@ namespace Monofoxe.Engine.Drawing
 		Matrix _projection;
 
 
-		private static Stack<Matrix> _worldStack = new Stack<Matrix>();
-		private static Stack<Matrix> _viewStack = new Stack<Matrix>();
-		private static Stack<Matrix> _projectionStack = new Stack<Matrix>();
+
+		private Stack<Matrix> _worldStack = new Stack<Matrix>();
+		public bool WorldStackEmpty => _worldStack.Count == 0;
+
+		private Stack<Matrix> _viewStack = new Stack<Matrix>();
+		public bool ViewStackEmpty => _viewStack.Count == 0;
+
+		private Stack<Matrix> _projectionStack = new Stack<Matrix>();
+		public bool ProjectionStackEmpty => _projectionStack.Count == 0;
 
 
 		PrimitiveType _primitiveType = PrimitiveType.TriangleList;
@@ -746,9 +752,9 @@ namespace Monofoxe.Engine.Drawing
 
 
 		#region Matrices. 
-		// TODO: Update comments.
+
 		/// <summary>
-		/// Sets new transform matrix multiplied by current world matrix.
+		/// Sets new transform matrix and pushes old matrix into the stack.
 		/// </summary>
 		public void PushWorldMatrix(Matrix matrix)
 		{
@@ -757,13 +763,13 @@ namespace Monofoxe.Engine.Drawing
 		}
 
 		/// <summary>
-		/// Sets new transform matrix multiplied by current world matrix.
+		/// Pushes the transform matrix into the stack without modifying current matrix.
 		/// </summary>
 		public void PushWorldMatrix() =>
 			_worldStack.Push(_world);
 
 		/// <summary>
-		/// Resets to a previous world matrix.
+		/// Pops a transform matrix from a stack and overrides current matrix.
 		/// </summary>
 		public void PopWorldMatrix()
 		{
@@ -776,7 +782,7 @@ namespace Monofoxe.Engine.Drawing
 
 
 		/// <summary>
-		/// Sets new transform matrix multiplied by current view matrix.
+		/// Sets new transform matrix and pushes old matrix into the stack.
 		/// </summary>
 		public void PushViewMatrix(Matrix matrix)
 		{
@@ -785,13 +791,13 @@ namespace Monofoxe.Engine.Drawing
 		}
 
 		/// <summary>
-		/// Sets new transform matrix multiplied by current view matrix.
+		/// Pushes the transform matrix into the stack without modifying current matrix.
 		/// </summary>
 		public void PushViewMatrix() =>
 			_viewStack.Push(_view);
 
 		/// <summary>
-		/// Resets to a previous view matrix.
+		/// Pops a transform matrix from a stack and overrides current matrix.
 		/// </summary>
 		public void PopViewMatrix()
 		{
@@ -804,7 +810,7 @@ namespace Monofoxe.Engine.Drawing
 
 
 		/// <summary>
-		/// Sets new transform matrix multiplied by current projection matrix.
+		/// Sets new transform matrix and pushes old matrix into the stack.
 		/// </summary>
 		public void PushProjectionMatrix(Matrix matrix)
 		{
@@ -813,13 +819,13 @@ namespace Monofoxe.Engine.Drawing
 		}
 
 		/// <summary>
-		/// Sets new transform matrix multiplied by current projection matrix.
+		/// Pushes the transform matrix into the stack without modifying current matrix.
 		/// </summary>
 		public void PushProjectionMatrix() =>
 			_projectionStack.Push(_projection);
 
 		/// <summary>
-		/// Resets to a previous projection matrix.
+		/// Pops a transform matrix from a stack and overrides current matrix.
 		/// </summary>
 		public void PopProjectionMatrix()
 		{

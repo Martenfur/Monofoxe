@@ -122,7 +122,6 @@ namespace Monofoxe.Engine.Drawing
 
 		public void Draw(RectangleF destRect)
 		{
-			//TODO: Remove rectangles.
 			GraphicsMgr.VertexBatch.Texture = RenderTarget;
 			GraphicsMgr.VertexBatch.DrawQuad(
 				destRect,

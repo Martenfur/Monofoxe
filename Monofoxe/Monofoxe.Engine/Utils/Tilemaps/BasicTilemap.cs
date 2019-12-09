@@ -192,7 +192,6 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 								flip,
 								0
 							);
-							// TODO: Fix.
 						}
 					}
 

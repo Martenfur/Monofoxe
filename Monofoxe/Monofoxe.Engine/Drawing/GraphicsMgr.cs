@@ -31,13 +31,7 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public static Color CurrentColor = Color.White;
 		
-		
-		/// <summary>
-		/// Amount of draw calls per frame.
-		/// TODO: Remove.
-		/// </summary>
-		public static int __drawcalls {get; private set;}
-		
+
 		/// <summary>
 		/// We can set surface targets inside another surfaces.
 		/// </summary>
@@ -104,7 +98,6 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public static void Update(GameTime gameTime)
 		{
-			__drawcalls = 0;
 			
 			#region Canvas matrix.
 
@@ -239,11 +232,18 @@ namespace Monofoxe.Engine.Drawing
 			{
 				throw new InvalidOperationException("Unbalanced surface stack! Did you forgot to reset a surface somewhere?");
 			}
-			/* TODO: Add for vertexbatch?
-			if (_transformMatrixStack.Count != 0)
+			if (!VertexBatch.WorldStackEmpty)
 			{
-				throw new InvalidOperationException("Unbalanced matrix stack! Did you forgot to reset a matrix somewhere?");
-			}*/
+				throw new InvalidOperationException("Unbalanced World matrix stack! Did you forgot to pop a matrix somewhere?");
+			}
+			if (!VertexBatch.ViewStackEmpty)
+			{
+				throw new InvalidOperationException("Unbalanced View matrix stack! Did you forgot to pop a matrix somewhere?");
+			}
+			if (!VertexBatch.ProjectionStackEmpty)
+			{
+				throw new InvalidOperationException("Unbalanced Projection matrix stack! Did you forgot to pop a matrix somewhere?");
+			}
 			// Safety checks.
 		}
 
