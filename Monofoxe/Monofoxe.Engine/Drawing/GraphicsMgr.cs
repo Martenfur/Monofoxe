@@ -185,7 +185,8 @@ namespace Monofoxe.Engine.Drawing
 					}
 
 					SceneMgr.CallDrawEvents();
-					
+					VertexBatch.FlushBatch();
+
 					ResetSurfaceTarget();
 				}
 			}
@@ -262,6 +263,7 @@ namespace Monofoxe.Engine.Drawing
 		/// <param name="view">Surface transformation matrix.</param>
 		public static void SetSurfaceTarget(Surface surf, Matrix view)
 		{
+			VertexBatch.FlushBatch();
 			VertexBatch.PushViewMatrix(view);
 			
 			_surfaceStack.Push(_currentSurface);
@@ -277,6 +279,7 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public static void ResetSurfaceTarget()
 		{
+			VertexBatch.FlushBatch();
 			VertexBatch.PopViewMatrix();
 
 			if (_surfaceStack.Count == 0)
