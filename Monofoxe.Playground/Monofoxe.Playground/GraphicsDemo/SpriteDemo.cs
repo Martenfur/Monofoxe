@@ -156,8 +156,8 @@ namespace Monofoxe.Playground.GraphicsDemo
 			Text.Draw("This text is drawn using default" + Environment.NewLine + "Monogame spritefont.", position);
 			position += Vector2.UnitY * 48;
 			Text.CurrentFont = ResourceHub.GetResource<IFont>("Fonts", "FancyFont");
-			Text.Draw("This text is drawn using custom" + Environment.NewLine + "font made from a sprite.", position);
-
+			Text.Draw("This text is drawn using custom" + Environment.NewLine + "font made from a sprite.", position, Vector2.One * 1.1f, Vector2.Zero, new Angle(-10));
+			
 		}
 
 		/// <summary>

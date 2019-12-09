@@ -209,7 +209,7 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Draws text. Not recommended to call on its own, use Text class instead.
 		/// </summary>
-		public void Draw(SpriteBatch batch, string text, Vector2 position, TextAlign halign, TextAlign valign)
+		public void Draw(string text, Vector2 position, TextAlign halign, TextAlign valign)
 		{
 			string[] lines = text.Split(new []{Environment.NewLine}, StringSplitOptions.None);
 
@@ -239,8 +239,17 @@ namespace Monofoxe.Engine.Drawing
 
 					var border = new Vector2(-glyph.LeftSideBearing, 0);
 					var lineOffset = new Vector2(strSize.X * align.X, textH * align.Y);
-					
-					batch.Draw(frame.Texture, position + offset + frame.Origin + border - lineOffset, frame.TexturePosition, GraphicsMgr.CurrentColor);
+
+					GraphicsMgr.VertexBatch.Texture = frame.Texture;
+					GraphicsMgr.VertexBatch.DrawQuad(
+						position + offset + frame.Origin + border - lineOffset, 
+						new Vector2(frame.TexturePosition.X, frame.TexturePosition.Y),
+						new Vector2(
+							frame.TexturePosition.X + frame.TexturePosition.Width, 
+							frame.TexturePosition.Y + frame.TexturePosition.Height
+						),
+						GraphicsMgr.CurrentColor
+					);
 					offset.X += glyph.Width + Spacing;
 				}
 				offset.X = 0;

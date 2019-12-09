@@ -12,6 +12,8 @@ namespace Monofoxe.Engine.Drawing
 	/// </summary>
 	public class Font : IFont
 	{
+		private static SpriteBatch _batch;
+
 		public Texture2D Texture => _spriteFont.Texture;
 
 		public ReadOnlyCollection<char> Characters => _spriteFont.Characters;
@@ -36,8 +38,14 @@ namespace Monofoxe.Engine.Drawing
 		
 		private SpriteFont _spriteFont;
 
-		public Font(SpriteFont spriteFont) => 
+		public Font(SpriteFont spriteFont)
+		{
+			if (_batch == null)
+			{
+				_batch = new SpriteBatch(GraphicsMgr.Device);
+			}
 			_spriteFont = spriteFont;
+		}
 
 		/// <summary>
 		/// Returns a Dictionary of Glyphs for current font.
@@ -98,7 +106,7 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Draws text. Not recommended to call on its own, use Text class instead.
 		/// </summary>
-		public void Draw(SpriteBatch batch, string text, Vector2 position, TextAlign halign, TextAlign valign)
+		public void Draw(string text, Vector2 position, TextAlign halign, TextAlign valign)
 		{
 			string[] lines = text.Split(new []{Environment.NewLine}, StringSplitOptions.None);
 
@@ -107,14 +115,25 @@ namespace Monofoxe.Engine.Drawing
 			var align = new Vector2((float)halign, (float)valign) / 2f;
 			var offset = Vector2.Zero;
 
-			
+			GraphicsMgr.VertexBatch.FlushBatch();
+
+			_batch.Begin(
+				SpriteSortMode.Deferred, 
+				GraphicsMgr.VertexBatch.BlendState, 
+				GraphicsMgr.VertexBatch.SamplerState,
+				GraphicsMgr.VertexBatch.DepthStencilState,
+				GraphicsMgr.VertexBatch.RasterizerState,
+				GraphicsMgr.VertexBatch.Effect,
+				GraphicsMgr.VertexBatch.View
+			);
 			foreach(var line in lines)
 			{
 				Vector2 lineSize = _spriteFont.MeasureString(line);
 				Vector2 lineOffset = new Vector2(lineSize.X * align.X, textH * align.Y);
-				batch.DrawString(_spriteFont, line, position - lineOffset + offset, GraphicsMgr.CurrentColor);	
+				_batch.DrawString(_spriteFont, line, position - lineOffset + offset, GraphicsMgr.CurrentColor);	
 				offset.Y += lineSize.Y;
 			}
+			_batch.End();
 		}
 	}
 }

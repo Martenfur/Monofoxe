@@ -64,8 +64,8 @@ namespace Monofoxe.Engine.Drawing
 			else
 			{
 				GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);	
-			}
-			CurrentFont.Draw(GraphicsMgr._batch, text, position, HorAlign, VerAlign);*/
+			}*/
+			CurrentFont.Draw(text, position, HorAlign, VerAlign);
 		}
 
 		/// <summary>
@@ -108,7 +108,8 @@ namespace Monofoxe.Engine.Drawing
 				GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);	
 			}
 			//TODO: Fix.
-			CurrentFont.Draw(GraphicsMgr._batch, text, Vector2.Zero, HorAlign, VerAlign);*/
+			*/
+			CurrentFont.Draw(text, Vector2.Zero, HorAlign, VerAlign);
 			
 			GraphicsMgr.VertexBatch.PopViewMatrix();
 		}
