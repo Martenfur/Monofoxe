@@ -115,10 +115,6 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 			}
 			// Bounding.
 
-			// Telling whatever is waiting to be drawn to draw itself.
-			// If not flushed, drawing raw sprite batch may interfere with primitives.
-			GraphicsMgr.VertexBatch.FlushBatch();
-
 			for (var y = startY; y < endY; y += 1)
 			{
 				for (var x = startX; x < endX; x += 1)
@@ -182,10 +178,11 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 								}
 							}
 							// A bunch of Tiled magic.
-							/*
+
+							GraphicsMgr.VertexBatch.Texture = tilesetTile.Frame.Texture;
+								
 							// Mass-drawing srpites with spritebatch is a bit faster.
-							GraphicsMgr._batch.Draw(
-								tilesetTile.Frame.Texture,
+							GraphicsMgr.VertexBatch.DrawQuad(
 								Offset + new Vector2(TileWidth * x, TileHeight * y) - offset + tile.Tileset.Offset,
 								tilesetTile.Frame.TexturePosition,
 								Color.White,
@@ -194,7 +191,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 								Vector2.One,
 								flip,
 								0
-							);*/
+							);
 							// TODO: Fix.
 						}
 					}

@@ -204,11 +204,11 @@ namespace Monofoxe.Engine.Drawing
 			Device.Clear(Color.TransparentBlack);
 			
 			// We don't need in-game rasterizer to apply to camera surfaces.
-			//var oldRasterizerState = _rasterizer;
-			//var oldBlendState = _blendState;
+			var oldRasterizerState = VertexBatch.RasterizerState;
+			var oldBlendState = VertexBatch.BlendState;
 
-			//Rasterizer = _cameraRasterizerState;
-			//BlendState = BlendState.AlphaBlend;
+			VertexBatch.RasterizerState = _cameraRasterizerState;
+			VertexBatch.BlendState = BlendState.AlphaBlend;
 
 			foreach(var camera in CameraMgr.Cameras)
 			{
@@ -219,9 +219,9 @@ namespace Monofoxe.Engine.Drawing
 			}
 
 			VertexBatch.FlushBatch();
-			
-			//Rasterizer = oldRasterizerState;
-			//BlendState = oldBlendState;
+
+			VertexBatch.RasterizerState = oldRasterizerState;
+			VertexBatch.BlendState = oldBlendState;
 			// Drawing camera surfaces.
 
 			

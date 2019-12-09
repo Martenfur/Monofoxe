@@ -104,8 +104,7 @@ namespace Monofoxe.Engine.Drawing
 			GraphicsMgr.VertexBatch.Texture = RenderTarget;
 			GraphicsMgr.VertexBatch.DrawQuad(
 				position,
-				Vector2.Zero,
-				new Vector2(RenderTarget.Width, RenderTarget.Height),
+				new RectangleF(0, 0, RenderTarget.Width, RenderTarget.Height),
 				color,
 				rotation.RadiansF,
 				scaleOffset + origin,
@@ -121,27 +120,23 @@ namespace Monofoxe.Engine.Drawing
 
 		// Rectangles.
 
-		public void Draw(Rectangle destRect)
+		public void Draw(RectangleF destRect)
 		{
 			//TODO: Remove rectangles.
 			GraphicsMgr.VertexBatch.Texture = RenderTarget;
 			GraphicsMgr.VertexBatch.DrawQuad(
-				new Vector2(destRect.X, destRect.Y),
-				new Vector2(destRect.X + destRect.Width, destRect.Y + destRect.Height),
-				Vector2.Zero,
-				new Vector2(RenderTarget.Width, RenderTarget.Height),
+				destRect,
+				new RectangleF(0, 0, RenderTarget.Width, RenderTarget.Height),
 				Color
 			);
 		}
 
-		public void Draw(Rectangle destRect, Angle rotation, Color color)
+		public void Draw(RectangleF destRect, Angle rotation, Color color)
 		{
 			GraphicsMgr.VertexBatch.Texture = RenderTarget;
 			GraphicsMgr.VertexBatch.DrawQuad(
-				new Vector2(destRect.X, destRect.Y),
-				new Vector2(destRect.X + destRect.Width, destRect.Y + destRect.Height),
-				Vector2.Zero,
-				new Vector2(RenderTarget.Width, RenderTarget.Height),
+				destRect,
+				new RectangleF(0, 0, RenderTarget.Width, RenderTarget.Height),
 				color,
 				rotation.RadiansF,
 				Vector2.Zero,
@@ -150,31 +145,23 @@ namespace Monofoxe.Engine.Drawing
 			);
 		}
 
-		public void Draw(Rectangle destRect, Rectangle srcRect)
+		public void Draw(RectangleF destRect, RectangleF srcRect)
 		{
 			srcRect.X += RenderTarget.Bounds.X;
 			srcRect.Y += RenderTarget.Bounds.Y;
 			
 			GraphicsMgr.VertexBatch.Texture = RenderTarget;
-			GraphicsMgr.VertexBatch.DrawQuad(
-				new Vector2(destRect.X, destRect.Y),
-				new Vector2(destRect.X + destRect.Width, destRect.Y + destRect.Height),
-				new Vector2(srcRect.X, srcRect.Y),
-				new Vector2(srcRect.X + srcRect.Width, srcRect.Y + srcRect.Height),
-				Color
-			);
+			GraphicsMgr.VertexBatch.DrawQuad(destRect, srcRect, Color);
 		}
 		
-		public void Draw(Rectangle destRect, Rectangle srcRect, Angle rotation, Color color)
+		public void Draw(RectangleF destRect, RectangleF srcRect, Angle rotation, Color color)
 		{
 			srcRect.X += RenderTarget.Bounds.X;
 			srcRect.Y += RenderTarget.Bounds.Y;
 
 			GraphicsMgr.VertexBatch.DrawQuad(
-				new Vector2(destRect.X, destRect.Y),
-				new Vector2(destRect.X + destRect.Width, destRect.Y + destRect.Height),
-				new Vector2(srcRect.X, srcRect.Y),
-				new Vector2(srcRect.X + srcRect.Width, srcRect.Y + srcRect.Height),
+				destRect, 
+				srcRect, 
 				color,	
 				rotation.RadiansF, 
 				Vector2.Zero,

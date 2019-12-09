@@ -50,21 +50,6 @@ namespace Monofoxe.Engine.Drawing
 				throw new NullReferenceException("CurrentFont is null! Did you forgot to set a font?");
 			}
 			
-			/*
-			 * Font is a wrapper for MG's SpriteFont, which uses non-premultiplied alpha.
-			 * Using GraphicsMode.Sprites will result in black pixels everywhere.
-			 * TextureFont, on the other hand, is just a bunch of regular sprites, 
-			 * so it's fine to draw with sprite mode.
-			 */
-			 /*
-			if (CurrentFont is Font)
-			{
-				GraphicsMgr.SwitchGraphicsMode(GraphicsMode.SpritesNonPremultiplied);
-			}
-			else
-			{
-				GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);	
-			}*/
 			CurrentFont.Draw(text, position, HorAlign, VerAlign);
 		}
 
@@ -83,32 +68,15 @@ namespace Monofoxe.Engine.Drawing
 				throw new NullReferenceException("CurrentFont is null! Did you forgot to set a font?");
 			}
 
-			var transformMatrix = 
-				Matrix.CreateTranslation(new Vector3(-origin.X, -origin.Y, 0)) *  // Origin.
-				Matrix.CreateRotationZ(-rotation.RadiansF) *		                  // Rotation.
-				Matrix.CreateScale(new Vector3(scale.X, scale.Y, 1)) *	          // Scale.
-				Matrix.CreateTranslation(new Vector3(position.X, position.Y, 0)); // Position.
+			var transformMatrix =
+				Matrix.CreateTranslation(-origin.ToVector3())          // Origin.
+				* Matrix.CreateRotationZ(-rotation.RadiansF)		       // Rotation.
+				* Matrix.CreateScale(new Vector3(scale.X, scale.Y, 1)) // Scale.
+				* Matrix.CreateTranslation(position.ToVector3());      // Position.
 
 			GraphicsMgr.VertexBatch.PushViewMatrix();
 			GraphicsMgr.VertexBatch.View = transformMatrix * GraphicsMgr.VertexBatch.View;
 			
-			/*
-			 * Font is a wrapper for MG's SpriteFont, which uses non-premultiplied alpha.
-			 * Using GraphicsMode.Sprites will result in black pixels everywhere.
-			 * TextureFont, on the other hand, is just regular sprites, so it's fine to 
-			 * draw with sprite mode.
-			 */
-			 /*
-			if (CurrentFont is Font)
-			{
-				GraphicsMgr.SwitchGraphicsMode(GraphicsMode.SpritesNonPremultiplied);
-			}
-			else
-			{
-				GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);	
-			}
-			//TODO: Fix.
-			*/
 			CurrentFont.Draw(text, Vector2.Zero, HorAlign, VerAlign);
 			
 			GraphicsMgr.VertexBatch.PopViewMatrix();

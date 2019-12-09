@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.EC;
 using Monofoxe.Engine.SceneSystem;
@@ -243,7 +244,7 @@ namespace Monofoxe.Tiled
 				
 				var frame = new Frame(
 					imageLayer.Texture, 
-					imageLayer.Texture.Bounds, 
+					imageLayer.Texture.Bounds.ToRectangleF(), 
 					Vector2.Zero
 				);
 				new ImageLayerRenderer(layer, imageLayer.Offset, frame);

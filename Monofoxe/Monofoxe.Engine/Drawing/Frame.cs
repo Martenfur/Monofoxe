@@ -18,17 +18,17 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Position of the frame on the atlas.
 		/// </summary>
-		public readonly Rectangle TexturePosition;
+		public readonly RectangleF TexturePosition;
 
 		/// <summary>
 		/// Width of the frame.
 		/// </summary>
-		public int Width => TexturePosition.Width;
+		public float Width => TexturePosition.Width;
 
 		/// <summary>
 		/// Height of the frame.
 		/// </summary>
-		public int Height => TexturePosition.Height;
+		public float Height => TexturePosition.Height;
 		
 		
 
@@ -61,7 +61,7 @@ namespace Monofoxe.Engine.Drawing
 		}
 		private Sprite _parentSprite = null;
 
-		public Frame(Texture2D texture, Rectangle texturePosition, Vector2 origin)
+		public Frame(Texture2D texture, RectangleF texturePosition, Vector2 origin)
 		{
 			Texture = texture;
 			TexturePosition = texturePosition;
@@ -86,8 +86,7 @@ namespace Monofoxe.Engine.Drawing
 			
 			GraphicsMgr.VertexBatch.DrawQuad(
 				position,
-				new Vector2(TexturePosition.X, TexturePosition.Y),
-				new Vector2(TexturePosition.X + TexturePosition.Width, TexturePosition.Y + TexturePosition.Height),
+				TexturePosition,
 				color,
 				rotation.RadiansF,
 				origin,
@@ -128,16 +127,13 @@ namespace Monofoxe.Engine.Drawing
 		}
 
 		
-		public void Draw(Rectangle destRect, Angle rotation, Color color)
+		public void Draw(RectangleF destRect, Angle rotation, Color color)
 		{
 			GraphicsMgr.VertexBatch.Texture = Texture;
 			//TODO: Get rid of Rectangle.
 			GraphicsMgr.VertexBatch.DrawQuad(
-				new Vector2(destRect.X, destRect.Y),
-				new Vector2(destRect.X + destRect.Width, destRect.Y + destRect.Height),
-
-				new Vector2(TexturePosition.X, TexturePosition.Y),
-				new Vector2(TexturePosition.X + TexturePosition.Width, TexturePosition.Y + TexturePosition.Height),
+				destRect,
+				TexturePosition,
 				color,
 				rotation.RadiansF,
 				Vector2.Zero,
@@ -146,7 +142,7 @@ namespace Monofoxe.Engine.Drawing
 			);
 		}
 
-		public void Draw(Rectangle destRect, Rectangle srcRect, Angle rotation, Color color)
+		public void Draw(RectangleF destRect, RectangleF srcRect, Angle rotation, Color color)
 		{
 			srcRect.X += TexturePosition.X;
 			srcRect.Y += TexturePosition.Y;
@@ -154,11 +150,8 @@ namespace Monofoxe.Engine.Drawing
 			GraphicsMgr.VertexBatch.Texture = Texture;
 			//TODO: Get rid of Rectangle.
 			GraphicsMgr.VertexBatch.DrawQuad(
-				new Vector2(destRect.X, destRect.Y),
-				new Vector2(destRect.X + destRect.Width, destRect.Y + destRect.Height),
-
-				new Vector2(srcRect.X, srcRect.Y),
-				new Vector2(srcRect.X + srcRect.Width, srcRect.Y + srcRect.Height),
+				destRect,
+				srcRect,
 				color,
 				rotation.RadiansF,
 				Vector2.Zero,

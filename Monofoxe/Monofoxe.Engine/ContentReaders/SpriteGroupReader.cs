@@ -45,7 +45,7 @@ namespace Monofoxe.Engine.ContentReaders
 				{
 					var textureIndex = input.ReadInt32();
 
-					var frameTexturePos = new Rectangle(
+					var frameTexturePos = new RectangleF(
 						input.ReadInt32(), 
 						input.ReadInt32(), 
 						spriteW,

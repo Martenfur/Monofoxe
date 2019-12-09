@@ -19,7 +19,7 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Sprite width. Can be accessed only if all sprite frames have the same size.
 		/// </summary>
-		public int Width 
+		public float Width 
 		{
 			get
 			{
@@ -34,7 +34,7 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Sprite height. Can be accessed only if all sprite frames have the same size.
 		/// </summary>
-		public int Height
+		public float Height
 		{
 			get
 			{
@@ -156,16 +156,16 @@ namespace Monofoxe.Engine.Drawing
 		
 		// Rectangles.
 		
-		public void Draw(Rectangle destRect, double animation) =>
+		public void Draw(RectangleF destRect, double animation) =>
 			GetFrame(animation).Draw(destRect, Rotation, Color);
 
-		public void Draw(Rectangle destRect, double animation, Angle rotation, Color color) =>
+		public void Draw(RectangleF destRect, double animation, Angle rotation, Color color) =>
 			GetFrame(animation).Draw(destRect, rotation, color);
 			
-		public void Draw(Rectangle destRect, double animation, Rectangle srcRect) => 
+		public void Draw(RectangleF destRect, double animation, RectangleF srcRect) => 
 			GetFrame(animation).Draw(destRect, srcRect, Rotation, Color);
 
-		public void Draw(Rectangle destRect, double animation, Rectangle srcRect, Angle rotation, Color color) =>
+		public void Draw(RectangleF destRect, double animation, RectangleF srcRect, Angle rotation, Color color) =>
 			GetFrame(animation).Draw(destRect, srcRect, rotation, color);
 
 		// Rectangles.

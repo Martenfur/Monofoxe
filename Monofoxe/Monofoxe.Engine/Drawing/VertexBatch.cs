@@ -352,26 +352,21 @@ namespace Monofoxe.Engine.Drawing
 			);
 		}
 
-		public void DrawQuad(
-			Vector2 position,
-			Vector2 srcRectangleTL,
-			Vector2 srcRectangleBR,
-			Color color
-		)
+		public void DrawQuad(Vector2 position, RectangleF srcRectangle, Color color)
 		{
 			Vector2 texCoordTL;
 			Vector2 texCoordBR;
 
-			texCoordTL.X = srcRectangleTL.X / (float)_texture.Width;
-			texCoordTL.Y = srcRectangleTL.Y / (float)_texture.Height;
-			texCoordBR.X = srcRectangleBR.X / (float)_texture.Width;
-			texCoordBR.Y = srcRectangleBR.Y / (float)_texture.Height;
+			texCoordTL.X = srcRectangle.X / (float)_texture.Width;
+			texCoordTL.Y = srcRectangle.Y / (float)_texture.Height;
+			texCoordBR.X = (srcRectangle.X + srcRectangle.Width) / (float)_texture.Width;
+			texCoordBR.Y = (srcRectangle.Y + srcRectangle.Height) / (float)_texture.Height;
 
 			SetQuad(
 				position.X,
 				position.Y,
-				srcRectangleBR.X - srcRectangleTL.X,
-				srcRectangleBR.Y - srcRectangleTL.Y,
+				srcRectangle.Width,
+				srcRectangle.Height,
 				color,
 				texCoordTL,
 				texCoordBR,
@@ -379,27 +374,21 @@ namespace Monofoxe.Engine.Drawing
 			);
 		}
 
-		public void DrawQuad(
-			Vector2 destRectangleTL,
-			Vector2 destRectangleBR,
-			Vector2 srcRectangleTL,
-			Vector2 srcRectangleBR,
-			Color color
-		)
+		public void DrawQuad(RectangleF destRectangle, RectangleF srcRectangle, Color color)
 		{
 			Vector2 texCoordTL;
 			Vector2 texCoordBR;
 
-			texCoordTL.X = srcRectangleTL.X / (float)_texture.Width;
-			texCoordTL.Y = srcRectangleTL.Y / (float)_texture.Height;
-			texCoordBR.X = srcRectangleBR.X / (float)_texture.Width;
-			texCoordBR.Y = srcRectangleBR.Y / (float)_texture.Height;
+			texCoordTL.X = srcRectangle.X / (float)_texture.Width;
+			texCoordTL.Y = srcRectangle.Y / (float)_texture.Height;
+			texCoordBR.X = (srcRectangle.X + srcRectangle.Width) / (float)_texture.Width;
+			texCoordBR.Y = (srcRectangle.Y + srcRectangle.Height) / (float)_texture.Height;
 
 			SetQuad(
-				destRectangleTL.X,
-				destRectangleTL.Y,
-				destRectangleBR.X - destRectangleTL.X,
-				destRectangleBR.Y - destRectangleTL.Y,
+				destRectangle.X,
+				destRectangle.Y,
+				srcRectangle.Width,
+				srcRectangle.Height,
 				color,
 				texCoordTL,
 				texCoordBR,
@@ -409,8 +398,7 @@ namespace Monofoxe.Engine.Drawing
 
 		public void DrawQuad(
 			Vector2 position,
-			Vector2 srcRectangleTL,
-			Vector2 srcRectangleBR,
+			RectangleF srcRectangle,
 			Color color,
 			double rotation,
 			Vector2 origin,
@@ -426,12 +414,12 @@ namespace Monofoxe.Engine.Drawing
 			Vector2 texCoordBR;
 
 
-			var w = (srcRectangleBR.X - srcRectangleTL.X) * scale.X;
-			var h = (srcRectangleBR.Y - srcRectangleTL.Y) * scale.Y;
-			texCoordTL.X = srcRectangleTL.X / (float)_texture.Width;
-			texCoordTL.Y = srcRectangleTL.Y / (float)_texture.Height;
-			texCoordBR.X = srcRectangleBR.X / (float)_texture.Width;
-			texCoordBR.Y = srcRectangleBR.Y / (float)_texture.Height;
+			var w = srcRectangle.Width * scale.X;
+			var h = srcRectangle.Height * scale.Y;
+			texCoordTL.X = srcRectangle.X / (float)_texture.Width;
+			texCoordTL.Y = srcRectangle.Y / (float)_texture.Height;
+			texCoordBR.X = (srcRectangle.X + srcRectangle.Width) / (float)_texture.Width;
+			texCoordBR.Y = (srcRectangle.Y + srcRectangle.Height) / (float)_texture.Height;
 
 			if ((flipFlags & SpriteFlipFlags.FlipVertically) != 0)
 			{
@@ -480,10 +468,8 @@ namespace Monofoxe.Engine.Drawing
 		}
 
 		public void DrawQuad(
-			Vector2 destRectangleTL,
-			Vector2 destRectangleBR,
-			Vector2 srcRectangleTL,
-			Vector2 srcRectangleBR,
+			RectangleF destRectangle,
+			RectangleF srcRectangle,
 			Color color,
 			double rotation,
 			Vector2 origin,
@@ -494,35 +480,26 @@ namespace Monofoxe.Engine.Drawing
 			Vector2 texCoordTL;
 			Vector2 texCoordBR;
 
-			var srcRectangleSize = new Vector2(
-				srcRectangleBR.X - srcRectangleTL.X,
-				srcRectangleBR.Y - srcRectangleTL.Y
-			);
-			var destRectangleSize = new Vector2(
-				destRectangleBR.X - destRectangleTL.X,
-				destRectangleBR.Y - destRectangleTL.Y
-			);
+			texCoordTL.X = srcRectangle.X / (float)_texture.Width;
+			texCoordTL.Y = srcRectangle.Y / (float)_texture.Height;
+			texCoordBR.X = (srcRectangle.X + srcRectangle.Width) / (float)_texture.Width;
+			texCoordBR.Y = (srcRectangle.Y + srcRectangle.Height) / (float)_texture.Height;
 
-			texCoordTL.X = srcRectangleTL.X / (float)_texture.Width;
-			texCoordTL.Y = srcRectangleTL.Y / (float)_texture.Height;
-			texCoordBR.X = srcRectangleBR.X / (float)_texture.Width;
-			texCoordBR.Y = srcRectangleBR.Y / (float)_texture.Height;
-
-			if (srcRectangleSize.X != 0)
+			if (srcRectangle.Width != 0)
 			{
-				origin.X = origin.X * destRectangleSize.X / srcRectangleSize.X;
+				origin.X = origin.X * destRectangle.Width / srcRectangle.Width;
 			}
 			else
 			{
-				origin.X = origin.X * destRectangleSize.X / srcRectangleSize.X;
+				origin.X = origin.X * destRectangle.Width / srcRectangle.Width;
 			}
-			if (srcRectangleSize.Y != 0)
+			if (srcRectangle.Height != 0)
 			{
-				origin.Y = origin.Y * destRectangleSize.Y / srcRectangleSize.Y;
+				origin.Y = origin.Y * destRectangle.Height / srcRectangle.Height;
 			}
 			else
 			{
-				origin.Y = origin.Y * destRectangleSize.Y / srcRectangleSize.Y;
+				origin.Y = origin.Y * destRectangle.Height / srcRectangle.Height;
 			}
 
 
@@ -543,10 +520,10 @@ namespace Monofoxe.Engine.Drawing
 			if (rotation == 0f)
 			{
 				SetQuad(
-					destRectangleTL.X - origin.X,
-					destRectangleTL.Y - origin.Y,
-					destRectangleSize.X,
-					destRectangleSize.Y,
+					destRectangle.X - origin.X,
+					destRectangle.Y - origin.Y,
+					destRectangle.Width,
+					destRectangle.Height,
 					color,
 					texCoordTL,
 					texCoordBR,
@@ -556,12 +533,12 @@ namespace Monofoxe.Engine.Drawing
 			else
 			{
 				SetQuad(
-					destRectangleTL.X,
-					destRectangleTL.Y,
+					destRectangle.X,
+					destRectangle.Y,
 					-origin.X,
-					-origin.Y,
-					destRectangleSize.X,
-					destRectangleSize.Y,
+					-origin.Y, 
+					destRectangle.Width,
+					destRectangle.Height,
 					(float)Math.Sin(rotation),
 					(float)Math.Cos(rotation),
 					color,

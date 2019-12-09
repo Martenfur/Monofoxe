@@ -69,13 +69,13 @@ namespace Monofoxe.Engine.Drawing
 					rightBearing = -1;
 
 					// Scanning from left side. If non-transparent pixel was found -- stop.
-					for(var x = frame.TexturePosition.X; x < frame.TexturePosition.X + frame.TexturePosition.Width; x += 1)
+					for(int x = (int)frame.TexturePosition.X; x < frame.TexturePosition.X + frame.TexturePosition.Width; x += 1)
 					{
-						for(var y = frame.TexturePosition.Y; y < frame.TexturePosition.Y + frame.TexturePosition.Height; y += 1)
+						for(int y = (int)frame.TexturePosition.Y; y < frame.TexturePosition.Y + frame.TexturePosition.Height; y += 1)
 						{
 							if (data[frame.Texture.Width * y + x].A != 0)
 							{
-								leftBearing = x + (int)frame.Origin.X - frame.TexturePosition.X;
+								leftBearing = x + (int)frame.Origin.X - (int)frame.TexturePosition.X;
 								break;
 							}
 						}
@@ -93,13 +93,13 @@ namespace Monofoxe.Engine.Drawing
 					else
 					{
 						// Scanning from right side. If non-transparent pixel was found -- stop.
-						for(var x = frame.TexturePosition.X + frame.TexturePosition.Width - 1; x >= frame.TexturePosition.X; x -= 1)
+						for(int x = (int)frame.TexturePosition.X + (int)frame.TexturePosition.Width - 1; x >= frame.TexturePosition.X; x -= 1)
 						{
-							for(var y = frame.TexturePosition.Y; y < frame.TexturePosition.Y + frame.TexturePosition.Height; y += 1)
+							for(int y = (int)frame.TexturePosition.Y; y < frame.TexturePosition.Y + frame.TexturePosition.Height; y += 1)
 							{
 								if (data[frame.Texture.Width * y + x].A != 0)
 								{
-									rightBearing = frame.Width - (x + (int)frame.Origin.X - frame.TexturePosition.X + 1);
+									rightBearing = (int)(frame.Width - (x + frame.Origin.X - frame.TexturePosition.X + 1));
 									break;
 								}
 							}
@@ -115,7 +115,7 @@ namespace Monofoxe.Engine.Drawing
 				var glyph = new SpriteFont.Glyph
 				{
 					Character = ch,
-					BoundsInTexture = frame.TexturePosition,
+					BoundsInTexture = frame.TexturePosition.ToRectangle(),
 					Width = frame.Width - leftBearing - rightBearing,
 					WidthIncludingBearings = frame.Width,
 					LeftSideBearing = leftBearing,
@@ -243,11 +243,7 @@ namespace Monofoxe.Engine.Drawing
 					GraphicsMgr.VertexBatch.Texture = frame.Texture;
 					GraphicsMgr.VertexBatch.DrawQuad(
 						position + offset + frame.Origin + border - lineOffset, 
-						new Vector2(frame.TexturePosition.X, frame.TexturePosition.Y),
-						new Vector2(
-							frame.TexturePosition.X + frame.TexturePosition.Width, 
-							frame.TexturePosition.Y + frame.TexturePosition.Height
-						),
+						frame.TexturePosition,
 						GraphicsMgr.CurrentColor
 					);
 					offset.X += glyph.Width + Spacing;

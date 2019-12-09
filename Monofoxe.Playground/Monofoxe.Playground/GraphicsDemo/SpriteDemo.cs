@@ -69,12 +69,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 			position += Vector2.UnitX * spacing * 2;
 
 			// Setting a shader for the sprite.
-			_seizure.SetWorldViewProjection(
-				GraphicsMgr.VertexBatch.World, 
-				GraphicsMgr.VertexBatch.View, 
-				GraphicsMgr.VertexBatch.Projection
-			);
-
+			
 			GraphicsMgr.VertexBatch.Effect = _seizure;
 			// If you want to animate the sprite, you must pass a value from 0 to 1 to it.
 			_fireSprite.Draw(position, _animation);
@@ -103,9 +98,9 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 			// You also can draw only a part of the sprite.
 			_monofoxeSprite.Draw(
-				new Rectangle((int)(position.X), (int)(position.Y), 64, 64),
+				new RectangleF(position.X, position.Y, 64, 64),
 				0,
-				new Rectangle(64, 64, 64, 64),
+				new RectangleF(64, 64, 64, 64),
 				Angle.Right,
 				Color.White
 			);

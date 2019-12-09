@@ -392,12 +392,7 @@ namespace Monofoxe.Engine.SceneSystem
 
 			for (var i = 0; i < PostprocessorEffects.Count - 1; i += 1)
 			{
-				PostprocessorEffects[i].SetWorldViewProjection(
-					GraphicsMgr.VertexBatch.World,
-					GraphicsMgr.VertexBatch.View,
-					GraphicsMgr.VertexBatch.Projection
-				);
-
+				
 				GraphicsMgr.VertexBatch.Effect = PostprocessorEffects[i];
 				if (sufraceChooser)
 				{
@@ -416,12 +411,6 @@ namespace Monofoxe.Engine.SceneSystem
 				sufraceChooser = !sufraceChooser;
 			}
 
-
-			PostprocessorEffects[PostprocessorEffects.Count - 1].SetWorldViewProjection(
-				GraphicsMgr.VertexBatch.World,
-				GraphicsMgr.VertexBatch.View,
-				GraphicsMgr.VertexBatch.Projection
-			);
 
 			GraphicsMgr.VertexBatch.Effect = PostprocessorEffects[PostprocessorEffects.Count - 1];
 			if ((PostprocessorEffects.Count % 2) != 0)
