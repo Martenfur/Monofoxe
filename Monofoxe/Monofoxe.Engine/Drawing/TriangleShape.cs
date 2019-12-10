@@ -41,11 +41,11 @@ namespace Monofoxe.Engine.Drawing
 			Draw(Point1 + Position, Point2 + Position, Point3 + Position, IsOutline, Color, Color, Color);
 		
 
-		private static readonly short[][] _triangleIndices = 
-		{
-			new short[]{0, 1, 2}, // Filled.
-			new short[]{0, 1, 1, 2, 2, 0} // Outline.
-		};
+		
+		private static VertexPositionColorTexture[] _triangleVertices = new VertexPositionColorTexture[4];
+
+		private static short[] _filledTriangleIndices = { 0, 1, 2 };
+		private static short[] _outlineTriangleIndices = { 0, 1, 1, 2, 2, 0 };
 		
 
 		/// <summary>
@@ -59,28 +59,23 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public static void Draw(Vector2 p1, Vector2 p2, Vector2 p3, bool isOutline, Color c1, Color c2, Color c3)
 		{
-			PrimitiveType mode;
-			short[] indices;
+			_triangleVertices[0].Position = new Vector3(p1.X, p1.Y, 0);
+			_triangleVertices[0].Color = c1;
+			_triangleVertices[1].Position = new Vector3(p2.X, p2.Y, 0);
+			_triangleVertices[1].Color = c2;
+			_triangleVertices[2].Position = new Vector3(p3.X, p3.Y, 0);
+			_triangleVertices[2].Color = c3;
+			
+			GraphicsMgr.VertexBatch.Texture = null;
 			if (isOutline)
 			{
-				mode = PrimitiveType.LineList;
-				indices = _triangleIndices[1];
+				GraphicsMgr.VertexBatch.DrawPrimitive(PrimitiveType.LineList, _triangleVertices, _outlineTriangleIndices);
 			}
 			else
 			{
-				mode = PrimitiveType.TriangleList;
-				indices = _triangleIndices[0];
+				GraphicsMgr.VertexBatch.DrawPrimitive(PrimitiveType.TriangleList, _triangleVertices, _filledTriangleIndices);
 			}
-		
-			var vertices = new VertexPositionColorTexture[]
-			{
-				new VertexPositionColorTexture(p1.ToVector3(), c1, Vector2.Zero),
-				new VertexPositionColorTexture(p2.ToVector3(), c2, Vector2.Zero),
-				new VertexPositionColorTexture(p3.ToVector3(), c3, Vector2.Zero)
-			};
-
-			GraphicsMgr.VertexBatch.Texture = null;
-			GraphicsMgr.VertexBatch.DrawPrimitive(mode, vertices, indices);
+			
 		}
 		
 	}
