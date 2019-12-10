@@ -1,5 +1,13 @@
 # v 2.0.0.0-dev:
 
+### IN THIS BUILD:
+- Added `VertexBatch` class.
+- Replaced GraphicsMgr's internal SpriteBatch with `VertexBatch`
+- Moved graphics states from `GraphicsMgr` to `VertexBatch`.
+- Moved matrix stack from `GraphicsMgr` to `VertexBatch`.
+- Added per-vertex z depth for sprites, surfaces and frames.
+- Fixed `Origin` property not being used in `Surface`.
+
 ### FEATURES:
 
 - Documentation!
@@ -11,6 +19,8 @@
 - Added an ability to change entity update order.
 - Added an all-in-one multiplatform project template.
 - Added various item templates.
+- Added `VertexBatch` class.
+- Added per-vertex z depth for sprites, surfaces and frames.
 
 ### CHANGES:
 
@@ -33,6 +43,9 @@
 - Systems have been removed entirely.
 - Components now have their own events.
 - Calling `base.%EventName%()` is now required in entities for EC to work.
+- Replaced GraphicsMgr's internal `SpriteBatch` with `VertexBatch`
+- Moved graphics states from `GraphicsMgr` to `VertexBatch`.
+- Moved matrix stack from `GraphicsMgr` to `VertexBatch`.
 
 ### FIXES:
 
@@ -45,7 +58,7 @@
 - Angle difference formula now works properly.
 - Uninstaller now appears in Add\Remove Programs section.
 - Fixed various project warnings.
-
+- Fixed `Origin` property not being used in `Surface`.
 
 
 <hr/>
