@@ -100,7 +100,7 @@ namespace Monofoxe.Engine.Drawing
 		public void Draw()
 		{
 			GraphicsMgr.VertexBatch.Texture = _texture;
-			GraphicsMgr.VertexBatch.DrawPrimitive(_primitiveType, GetConvertedVertices().ToArray(), GetIndices());
+			GraphicsMgr.VertexBatch.AddPrimitive(_primitiveType, GetConvertedVertices().ToArray(), GetIndices());
 		}
 
 		

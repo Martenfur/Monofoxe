@@ -88,11 +88,11 @@ namespace Monofoxe.Engine.Drawing
 			GraphicsMgr.VertexBatch.Texture = null;
 			if (isOutline)
 			{
-				GraphicsMgr.VertexBatch.DrawPrimitive(PrimitiveType.LineList, _circleVertices, _outlineCircleIndices);
+				GraphicsMgr.VertexBatch.AddPrimitive(PrimitiveType.LineList, _circleVertices, _outlineCircleIndices);
 			}
 			else
 			{
-				GraphicsMgr.VertexBatch.DrawPrimitive(PrimitiveType.TriangleList, _circleVertices, _filledCircleIndices);
+				GraphicsMgr.VertexBatch.AddPrimitive(PrimitiveType.TriangleList, _circleVertices, _filledCircleIndices);
 			}
 
 		}

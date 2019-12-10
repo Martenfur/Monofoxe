@@ -105,7 +105,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 			{
 				for (var y = 0; y < 10; y += 1)
 				{
-					GraphicsMgr.VertexBatch.DrawQuad(
+					GraphicsMgr.VertexBatch.AddQuad(
 						position + new Vector2(x, y) * 4, 
 						texture.Bounds.ToRectangleF(), 
 						GraphicsMgr.CurrentColor,
@@ -137,13 +137,13 @@ namespace Monofoxe.Playground.GraphicsDemo
 				{
 					for (var y = 0; y < 10; y += 1)
 					{
-						_vbatch.DrawQuad(position + new Vector2(x, y) * 4, GraphicsMgr.CurrentColor);
+						_vbatch.AddQuad(position + new Vector2(x, y) * 4, GraphicsMgr.CurrentColor);
 
 					}
 				}
 				
 				_vbatch.Texture = null;
-				_vbatch.DrawPrimitive(PrimitiveType.LineList, _vertices, _indices);
+				_vbatch.AddPrimitive(PrimitiveType.LineList, _vertices, _indices);
 
 
 				_vbatch.Texture = texture;

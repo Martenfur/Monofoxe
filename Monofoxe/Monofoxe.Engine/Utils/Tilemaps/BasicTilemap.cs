@@ -182,7 +182,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 							GraphicsMgr.VertexBatch.Texture = tilesetTile.Frame.Texture;
 								
 							// Mass-drawing srpites directly with vertexbatch is a bit faster.
-							GraphicsMgr.VertexBatch.DrawQuad(
+							GraphicsMgr.VertexBatch.AddQuad(
 								Offset + new Vector2(TileWidth * x, TileHeight * y) - offset + tile.Tileset.Offset,
 								tilesetTile.Frame.TexturePosition,
 								Color.White,

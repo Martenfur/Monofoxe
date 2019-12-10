@@ -51,7 +51,7 @@ namespace Monofoxe.Engine.Drawing
 			_lineVertices[1].Color = c2;
 			
 			GraphicsMgr.VertexBatch.Texture = null;
-			GraphicsMgr.VertexBatch.DrawPrimitive(PrimitiveType.LineList, _lineVertices, _lineIndices);
+			GraphicsMgr.VertexBatch.AddPrimitive(PrimitiveType.LineList, _lineVertices, _lineIndices);
 		}
 		
 		

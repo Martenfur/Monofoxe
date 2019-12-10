@@ -241,7 +241,7 @@ namespace Monofoxe.Engine.Drawing
 					var lineOffset = new Vector2(strSize.X * align.X, textH * align.Y);
 
 					GraphicsMgr.VertexBatch.Texture = frame.Texture;
-					GraphicsMgr.VertexBatch.DrawQuad(
+					GraphicsMgr.VertexBatch.AddQuad(
 						position + offset + frame.Origin + border - lineOffset, 
 						frame.TexturePosition,
 						GraphicsMgr.CurrentColor

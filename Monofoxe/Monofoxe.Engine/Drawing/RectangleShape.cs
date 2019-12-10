@@ -69,11 +69,11 @@ namespace Monofoxe.Engine.Drawing
 			GraphicsMgr.VertexBatch.Texture = null;
 			if (isOutline)
 			{
-				GraphicsMgr.VertexBatch.DrawPrimitive(PrimitiveType.LineList, _rectangleVertices, _outlineRectangleIndices);
+				GraphicsMgr.VertexBatch.AddPrimitive(PrimitiveType.LineList, _rectangleVertices, _outlineRectangleIndices);
 			}
 			else
 			{
-				GraphicsMgr.VertexBatch.DrawPrimitive(PrimitiveType.TriangleList, _rectangleVertices, _filledRectangleIndices);
+				GraphicsMgr.VertexBatch.AddPrimitive(PrimitiveType.TriangleList, _rectangleVertices, _filledRectangleIndices);
 			}
 		}
 

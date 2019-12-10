@@ -68,7 +68,7 @@ namespace Monofoxe.Engine.Drawing
 			// Thick line is in fact just a rotated rectangle.
 
 			GraphicsMgr.VertexBatch.Texture = null;
-			GraphicsMgr.VertexBatch.DrawPrimitive(PrimitiveType.TriangleList, _thickLineVertices, _thickLineIndices);
+			GraphicsMgr.VertexBatch.AddPrimitive(PrimitiveType.TriangleList, _thickLineVertices, _thickLineIndices);
 		}
 		
 	}

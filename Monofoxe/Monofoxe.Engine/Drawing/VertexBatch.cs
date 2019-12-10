@@ -139,12 +139,10 @@ namespace Monofoxe.Engine.Drawing
 		public GraphicsDevice GraphicsDevice { get; private set; }
 
 		public bool NeedsFlush => _vertexPoolCount > 0 && _indexPoolCount > 0;
-
-
-
+		
 		private short[] _indexPool;
 		private int _indexPoolCount = 0;
-		private const int _indexPoolCapacity = short.MaxValue * 6; // TODO: Figure out better value.
+		private const int _indexPoolCapacity = short.MaxValue * 8;
 
 		private VertexPositionColorTexture[] _vertexPool;
 		private short _vertexPoolCount = 0;
@@ -345,7 +343,7 @@ namespace Monofoxe.Engine.Drawing
 		#region Quads.
 
 
-		public void DrawQuad(Vector2 position, Color color)
+		public void AddQuad(Vector2 position, Color color)
 		{
 			SetQuad(
 				position.X,
@@ -362,7 +360,7 @@ namespace Monofoxe.Engine.Drawing
 			);
 		}
 
-		public void DrawQuad(Vector2 position, RectangleF srcRectangle, Color color)
+		public void AddQuad(Vector2 position, RectangleF srcRectangle, Color color)
 		{
 			Vector2 texCoordTL;
 			Vector2 texCoordBR;
@@ -387,7 +385,7 @@ namespace Monofoxe.Engine.Drawing
 			);
 		}
 
-		public void DrawQuad(RectangleF destRectangle, RectangleF srcRectangle, Color color)
+		public void AddQuad(RectangleF destRectangle, RectangleF srcRectangle, Color color)
 		{
 			Vector2 texCoordTL;
 			Vector2 texCoordBR;
@@ -412,7 +410,7 @@ namespace Monofoxe.Engine.Drawing
 			);
 		}
 
-		public void DrawQuad(
+		public void AddQuad(
 			Vector2 position,
 			RectangleF srcRectangle,
 			Color color,
@@ -489,7 +487,7 @@ namespace Monofoxe.Engine.Drawing
 
 		}
 
-		public void DrawQuad(
+		public void AddQuad(
 			RectangleF destRectangle,
 			RectangleF srcRectangle,
 			Color color,
@@ -721,13 +719,7 @@ namespace Monofoxe.Engine.Drawing
 
 		#region Primitives.
 
-		public void DrawPrimitive(PrimitiveType primitiveType, VertexPositionColorTexture[] vertices, short[] indices)
-		{
-			SetPrimitive(primitiveType, vertices, indices);
-		}
-
-
-		private unsafe void SetPrimitive(PrimitiveType primitiveType, VertexPositionColorTexture[] vertices, short[] indices)
+		public unsafe void AddPrimitive(PrimitiveType primitiveType, VertexPositionColorTexture[] vertices, short[] indices)
 		{
 			FlushIfOverflow(vertices.Length, indices.Length);
 			SetPrimitiveType(primitiveType);

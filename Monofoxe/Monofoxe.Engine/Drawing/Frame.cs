@@ -85,7 +85,7 @@ namespace Monofoxe.Engine.Drawing
 		{
 			GraphicsMgr.VertexBatch.Texture = Texture;
 			
-			GraphicsMgr.VertexBatch.DrawQuad(
+			GraphicsMgr.VertexBatch.AddQuad(
 				position,
 				TexturePosition,
 				color,
@@ -132,7 +132,7 @@ namespace Monofoxe.Engine.Drawing
 		{
 			GraphicsMgr.VertexBatch.Texture = Texture;
 			
-			GraphicsMgr.VertexBatch.DrawQuad(
+			GraphicsMgr.VertexBatch.AddQuad(
 				destRect,
 				TexturePosition,
 				color,
@@ -150,7 +150,7 @@ namespace Monofoxe.Engine.Drawing
 			
 			GraphicsMgr.VertexBatch.Texture = Texture;
 			
-			GraphicsMgr.VertexBatch.DrawQuad(
+			GraphicsMgr.VertexBatch.AddQuad(
 				destRect,
 				srcRect,
 				color,

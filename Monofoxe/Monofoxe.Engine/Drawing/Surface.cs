@@ -120,7 +120,7 @@ namespace Monofoxe.Engine.Drawing
 			// Proper negative scaling.
 
 			GraphicsMgr.VertexBatch.Texture = RenderTarget;
-			GraphicsMgr.VertexBatch.DrawQuad(
+			GraphicsMgr.VertexBatch.AddQuad(
 				position,
 				new RectangleF(0, 0, RenderTarget.Width, RenderTarget.Height),
 				color,
@@ -139,7 +139,7 @@ namespace Monofoxe.Engine.Drawing
 		public void Draw(RectangleF destRect)
 		{
 			GraphicsMgr.VertexBatch.Texture = RenderTarget;
-			GraphicsMgr.VertexBatch.DrawQuad(
+			GraphicsMgr.VertexBatch.AddQuad(
 				destRect,
 				new RectangleF(0, 0, RenderTarget.Width, RenderTarget.Height),
 				Color
@@ -149,7 +149,7 @@ namespace Monofoxe.Engine.Drawing
 		public void Draw(RectangleF destRect, Angle rotation, Color color)
 		{
 			GraphicsMgr.VertexBatch.Texture = RenderTarget;
-			GraphicsMgr.VertexBatch.DrawQuad(
+			GraphicsMgr.VertexBatch.AddQuad(
 				destRect,
 				new RectangleF(0, 0, RenderTarget.Width, RenderTarget.Height),
 				color,
@@ -166,7 +166,7 @@ namespace Monofoxe.Engine.Drawing
 			srcRect.Y += RenderTarget.Bounds.Y;
 			
 			GraphicsMgr.VertexBatch.Texture = RenderTarget;
-			GraphicsMgr.VertexBatch.DrawQuad(destRect, srcRect, Color);
+			GraphicsMgr.VertexBatch.AddQuad(destRect, srcRect, Color);
 		}
 
 		public void Draw(RectangleF destRect, RectangleF srcRect, Angle rotation, Color color) =>
@@ -177,7 +177,7 @@ namespace Monofoxe.Engine.Drawing
 			srcRect.X += RenderTarget.Bounds.X;
 			srcRect.Y += RenderTarget.Bounds.Y;
 
-			GraphicsMgr.VertexBatch.DrawQuad(
+			GraphicsMgr.VertexBatch.AddQuad(
 				destRect, 
 				srcRect, 
 				color,	
