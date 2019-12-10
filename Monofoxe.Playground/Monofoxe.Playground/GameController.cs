@@ -33,10 +33,11 @@ namespace Monofoxe.Playground
 			GameMgr.WindowManager.CenterWindow();
 			GameMgr.WindowManager.CanvasMode = CanvasMode.KeepAspectRatio;
 
+
 			//GraphicsMgr.Sampler = SamplerState.PointClamp;
 			GraphicsMgr.VertexBatch.SamplerState = SamplerState.PointWrap; // Will make textures repeat without interpolation.
+			MainCamera.Resize(800, 600);
 
-			
 			DefaultRasterizer = new RasterizerState();
 			DefaultRasterizer.CullMode = CullMode.CullCounterClockwiseFace;
 			DefaultRasterizer.FillMode = FillMode.Solid;
@@ -46,7 +47,6 @@ namespace Monofoxe.Playground
 			WireframeRasterizer.CullMode = CullMode.CullCounterClockwiseFace;
 			WireframeRasterizer.FillMode = FillMode.WireFrame;
 			WireframeRasterizer.MultiSampleAntiAlias = false;
-
 
 			GraphicsMgr.VertexBatch.RasterizerState = DefaultRasterizer;
 			

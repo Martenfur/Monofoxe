@@ -237,13 +237,7 @@ namespace Monofoxe.Engine.Drawing
 
 		void ApplyDefaultShader()
 		{
-			var gd = GraphicsDevice;
-			gd.BlendState = _blendState;
-			gd.DepthStencilState = _depthStencilState;
-			gd.RasterizerState = _rasterizerState;
-			gd.SamplerStates[0] = _samplerState;
-			gd.ScissorRectangle = _scissorRectangle;
-
+			
 			// The default shader is used for the transfrm matrix.
 
 			_defaultEffect.Parameters["World"].SetValue(_world);
@@ -252,6 +246,13 @@ namespace Monofoxe.Engine.Drawing
 
 			// We can use vertex shader from the default effect if the custom effect doesn't have one. 
 			// Pixel shader get completely overwritten by the custom effect, though. 
+			var gd = GraphicsDevice;
+			gd.BlendState = _blendState;
+			gd.DepthStencilState = _depthStencilState;
+			gd.RasterizerState = _rasterizerState;
+			gd.SamplerStates[0] = _samplerState;
+			gd.ScissorRectangle = _scissorRectangle;
+
 			_defaultEffectPass.Apply();
 
 			GraphicsDevice.Textures[0] = _texture;

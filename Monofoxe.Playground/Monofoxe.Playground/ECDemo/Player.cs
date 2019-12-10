@@ -28,6 +28,8 @@ namespace Monofoxe.Playground.ECDemo
 		public Player(Layer layer, Vector2 position) : base(layer)
 		{
 			_playerSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "Player");
+			_playerSprite.ZDepth = new Vector4(0f, 0f, -1, -1f);
+			_playerSprite.Scale = Vector2.One * 2;
 			// You can add components right in the constructor.
 			AddComponent(new PositionComponent(position));
 			AddComponent(new ActorComponent(_playerSprite));
