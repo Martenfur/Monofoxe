@@ -17,6 +17,8 @@ namespace Monofoxe.Engine.Drawing
 
 		public Color Color = Color.White;
 
+		public Vector4 ZDepth = Vector4.Zero;
+
 		public RenderTarget2D RenderTarget {get; private set;}
 
 		public int Width => RenderTarget.Width;
@@ -70,16 +72,32 @@ namespace Monofoxe.Engine.Drawing
 
 
 		public void Draw() =>
-			Draw(Position, Origin, Scale, Rotation, Color);
+			Draw(Position, Origin, Scale, Rotation, Color, ZDepth);
 		
 		
 		// Vectors.
 
 		public void Draw(Vector2 position) =>
-			Draw(position, Origin, Scale, Rotation, Color);
+			Draw(position, Origin, Scale, Rotation, Color, ZDepth);
+
+
+		public void Draw(
+			Vector2 position,
+			Vector2 origin,
+			Vector2 scale,
+			Angle rotation,
+			Color color
+		) =>
+			Draw(position, origin, scale, rotation, color, ZDepth);
 		
-		
-		public void Draw(Vector2 position, Vector2 origin, Vector2 scale, Angle rotation, Color color)
+		public void Draw(
+			Vector2 position, 
+			Vector2 origin, 
+			Vector2 scale, 
+			Angle rotation, 
+			Color color,
+			Vector4 zDepth
+		)
 		{
 			var mirroring = SpriteFlipFlags.None;
 
@@ -110,10 +128,8 @@ namespace Monofoxe.Engine.Drawing
 				scaleOffset + origin,
 				scale,
 				mirroring,
-				0
-			);
-
-			
+				zDepth
+			);			
 		}
 
 		// Vectors.
@@ -138,9 +154,9 @@ namespace Monofoxe.Engine.Drawing
 				new RectangleF(0, 0, RenderTarget.Width, RenderTarget.Height),
 				color,
 				rotation.RadiansF,
-				Vector2.Zero,
+				Origin,
 				SpriteFlipFlags.None,
-				0
+				ZDepth
 			);
 		}
 
@@ -152,8 +168,11 @@ namespace Monofoxe.Engine.Drawing
 			GraphicsMgr.VertexBatch.Texture = RenderTarget;
 			GraphicsMgr.VertexBatch.DrawQuad(destRect, srcRect, Color);
 		}
-		
-		public void Draw(RectangleF destRect, RectangleF srcRect, Angle rotation, Color color)
+
+		public void Draw(RectangleF destRect, RectangleF srcRect, Angle rotation, Color color) =>
+			Draw(destRect, srcRect, rotation, color, ZDepth);
+
+		public void Draw(RectangleF destRect, RectangleF srcRect, Angle rotation, Color color, Vector4 zDepth)
 		{
 			srcRect.X += RenderTarget.Bounds.X;
 			srcRect.Y += RenderTarget.Bounds.Y;
@@ -163,9 +182,9 @@ namespace Monofoxe.Engine.Drawing
 				srcRect, 
 				color,	
 				rotation.RadiansF, 
-				Vector2.Zero,
+				Origin,
 				SpriteFlipFlags.None, 
-				0
+				zDepth
 			);
 		}
 
