@@ -31,13 +31,6 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public static Color CurrentColor = Color.White;
 		
-
-		/// <summary>
-		/// We can set surface targets inside another surfaces.
-		/// </summary>
-		private static Stack<Surface> _surfaceStack = new Stack<Surface>();
-		private static Surface _currentSurface;
-
 		
 		/// <summary>
 		/// Default shader with proper alpha blending. 
@@ -170,7 +163,7 @@ namespace Monofoxe.Engine.Drawing
 
 					Input.MousePosition = camera.GetRelativeMousePosition();
 
-					SetSurfaceTarget(camera.Surface, camera.TransformMatrix);
+					Surface.SetTarget(camera.Surface, camera.TransformMatrix);
 					
 					if (camera.ClearBackground)
 					{
@@ -180,7 +173,7 @@ namespace Monofoxe.Engine.Drawing
 					SceneMgr.CallDrawEvents();
 					VertexBatch.FlushBatch();
 
-					ResetSurfaceTarget();
+					Surface.ResetTarget();
 				}
 			}
 			#endregion Main draw events.
@@ -228,7 +221,7 @@ namespace Monofoxe.Engine.Drawing
 
 			
 			// Safety checks.
-			if (_surfaceStack.Count != 0)
+			if (!Surface.SurfaceStackEmpty)
 			{
 				throw new InvalidOperationException("Unbalanced surface stack! Did you forgot to reset a surface somewhere?");
 			}
@@ -246,71 +239,6 @@ namespace Monofoxe.Engine.Drawing
 			}
 			// Safety checks.
 		}
-
-
-		#region Surfaces.
-
-		/// <summary>
-		/// Sets surface as a render target.
-		/// </summary>
-		public static void SetSurfaceTarget(Surface surf) => 
-			SetSurfaceTarget(surf, Matrix.CreateTranslation(Vector3.Zero));
-
-		/// <summary>
-		/// Sets surface as a render target.
-		/// </summary>
-		/// <param name="surf">Target surface.</param>
-		/// <param name="view">Surface transformation matrix.</param>
-		public static void SetSurfaceTarget(Surface surf, Matrix view)
-		{
-			VertexBatch.FlushBatch();
-			VertexBatch.PushViewMatrix(view);
-			
-			_surfaceStack.Push(_currentSurface);
-			_currentSurface = surf;
-
-			VertexBatch.Projection = Matrix.CreateOrthographicOffCenter(0,	_currentSurface.Width, _currentSurface.Height, 0, 0, 1);
-
-			Device.SetRenderTarget(_currentSurface.RenderTarget);
-		}
-
-		/// <summary>
-		/// Resets render target to a previous surface.
-		/// </summary>
-		public static void ResetSurfaceTarget()
-		{
-			VertexBatch.FlushBatch();
-			VertexBatch.PopViewMatrix();
-
-			if (_surfaceStack.Count == 0)
-			{
-				throw new InvalidOperationException("Surface stack is empty! Did you forgot to set a surface somewhere?");
-			}
-			_currentSurface = _surfaceStack.Pop();
-			// TODO: Replace with projection stack?
-			if (_currentSurface != null)
-			{
-				VertexBatch.Projection = Matrix.CreateOrthographicOffCenter(0,	_currentSurface.Width, _currentSurface.Height, 0, 0, 1);
-				
-				Device.SetRenderTarget(_currentSurface.RenderTarget);
-			}
-			else
-			{
-				VertexBatch.Projection = Matrix.CreateOrthographicOffCenter(
-					0, 
-					GameMgr.WindowManager.PreferredBackBufferWidth, 
-					GameMgr.WindowManager.PreferredBackBufferHeight, 
-					0,
-					0,
-					1
-				);
-				
-				Device.SetRenderTarget(null);
-			}
-		}
-		
-		#endregion Surfaces.
-		
 		
 	}
 }

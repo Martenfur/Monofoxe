@@ -162,14 +162,14 @@ namespace Monofoxe.Playground.GraphicsDemo
 		{
 			_surface = new Surface(128, 128);
 
-			GraphicsMgr.SetSurfaceTarget(_surface);
+			Surface.SetTarget(_surface);
 
 			GraphicsMgr.Device.Clear(_secondaryColor);
 
 			GraphicsMgr.CurrentColor = _mainColor;
 			CircleShape.Draw(new Vector2(64, 64), 64, false);
 
-			GraphicsMgr.ResetSurfaceTarget();
+			Surface.ResetTarget();
 		}
 
 

@@ -294,7 +294,7 @@ namespace Monofoxe.Engine.SceneSystem
 
 			if (hasPostprocessing)
 			{
-				GraphicsMgr.SetSurfaceTarget(GraphicsMgr.CurrentCamera._postprocessorLayerBuffer, GraphicsMgr.VertexBatch.View);
+				Surface.SetTarget(GraphicsMgr.CurrentCamera._postprocessorLayerBuffer, GraphicsMgr.VertexBatch.View);
 				GraphicsMgr.Device.Clear(Color.TransparentBlack);
 			}
 
@@ -308,7 +308,7 @@ namespace Monofoxe.Engine.SceneSystem
 
 			if (hasPostprocessing)
 			{
-				GraphicsMgr.ResetSurfaceTarget();
+				Surface.ResetTarget();
 
 				var oldRasterizer = GraphicsMgr.VertexBatch.RasterizerState;
 				GraphicsMgr.VertexBatch.RasterizerState = GraphicsMgr._cameraRasterizerState;
@@ -396,18 +396,18 @@ namespace Monofoxe.Engine.SceneSystem
 				GraphicsMgr.VertexBatch.Effect = PostprocessorEffects[i];
 				if (sufraceChooser)
 				{
-					GraphicsMgr.SetSurfaceTarget(camera._postprocessorLayerBuffer);
+					Surface.SetTarget(camera._postprocessorLayerBuffer);
 					GraphicsMgr.Device.Clear(Color.TransparentBlack);
 					camera._postprocessorBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Right, Color.White);
 				}
 				else
 				{
-					GraphicsMgr.SetSurfaceTarget(camera._postprocessorBuffer);
+					Surface.SetTarget(camera._postprocessorBuffer);
 					GraphicsMgr.Device.Clear(Color.TransparentBlack);
 					camera._postprocessorLayerBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Right, Color.White);
 				}
 
-				GraphicsMgr.ResetSurfaceTarget();
+				Surface.ResetTarget();
 				sufraceChooser = !sufraceChooser;
 			}
 

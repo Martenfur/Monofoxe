@@ -313,18 +313,18 @@ namespace Monofoxe.Engine.Cameras
 					GraphicsMgr.VertexBatch.Effect = PostprocessorEffects[i];
 					if (sufraceChooser)
 					{
-						GraphicsMgr.SetSurfaceTarget(Surface);
+						Surface.SetTarget(Surface);
 						GraphicsMgr.Device.Clear(Color.TransparentBlack);
 						_postprocessorBuffer.Draw(Vector2.Zero);
 					}
 					else
 					{
-						GraphicsMgr.SetSurfaceTarget(_postprocessorBuffer);
+						Surface.SetTarget(_postprocessorBuffer);
 						GraphicsMgr.Device.Clear(Color.TransparentBlack);
 						Surface.Draw(Vector2.Zero);
 					}
 					
-					GraphicsMgr.ResetSurfaceTarget();
+					Surface.ResetTarget();
 					sufraceChooser = !sufraceChooser;
 				}
 				

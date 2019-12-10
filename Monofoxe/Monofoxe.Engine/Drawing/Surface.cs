@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine.Utils;
@@ -23,6 +24,15 @@ namespace Monofoxe.Engine.Drawing
 
 		public int Width => RenderTarget.Width;
 		public int Height => RenderTarget.Height;
+
+
+		internal static bool SurfaceStackEmpty => _surfaceStack.Count == 0;
+
+		/// <summary>
+		/// We can set surface targets inside another surfaces.
+		/// </summary>
+		private static Stack<Surface> _surfaceStack = new Stack<Surface>();
+		private static Surface _currentSurface;
 
 
 		public Surface(int w, int h, Vector2 position, Vector2 scale, Vector2 origin, Angle rotation)
@@ -189,7 +199,68 @@ namespace Monofoxe.Engine.Drawing
 		}
 
 		// Rectangles.
+
+
 		
+		/// <summary>
+		/// Sets surface as a render target.
+		/// </summary>
+		public static void SetTarget(Surface surf) =>
+			SetTarget(surf, Matrix.CreateTranslation(Vector3.Zero));
+
+		/// <summary>
+		/// Sets surface as a render target.
+		/// </summary>
+		/// <param name="surf">Target surface.</param>
+		/// <param name="view">Surface transformation matrix.</param>
+		public static void SetTarget(Surface surf, Matrix view)
+		{
+			GraphicsMgr.VertexBatch.FlushBatch();
+			GraphicsMgr.VertexBatch.PushViewMatrix(view);
+
+			_surfaceStack.Push(_currentSurface);
+			_currentSurface = surf;
+
+			GraphicsMgr.VertexBatch.Projection = Matrix.CreateOrthographicOffCenter(0, _currentSurface.Width, _currentSurface.Height, 0, 0, 1);
+
+			GraphicsMgr.Device.SetRenderTarget(_currentSurface.RenderTarget);
+		}
+
+		/// <summary>
+		/// Resets render target to a previous surface.
+		/// </summary>
+		public static void ResetTarget()
+		{
+			GraphicsMgr.VertexBatch.FlushBatch();
+			GraphicsMgr.VertexBatch.PopViewMatrix();
+
+			if (_surfaceStack.Count == 0)
+			{
+				throw new InvalidOperationException("Surface stack is empty! Did you forgot to set a surface somewhere?");
+			}
+			_currentSurface = _surfaceStack.Pop();
+			// TODO: Replace with projection stack?
+			if (_currentSurface != null)
+			{
+				GraphicsMgr.VertexBatch.Projection = Matrix.CreateOrthographicOffCenter(0, _currentSurface.Width, _currentSurface.Height, 0, 0, 1);
+
+				GraphicsMgr.Device.SetRenderTarget(_currentSurface.RenderTarget);
+			}
+			else
+			{
+				GraphicsMgr.VertexBatch.Projection = Matrix.CreateOrthographicOffCenter(
+					0,
+					GameMgr.WindowManager.PreferredBackBufferWidth,
+					GameMgr.WindowManager.PreferredBackBufferHeight,
+					0,
+					0,
+					1
+				);
+
+				GraphicsMgr.Device.SetRenderTarget(null);
+			}
+		}
+
 
 
 		public void Dispose() =>
