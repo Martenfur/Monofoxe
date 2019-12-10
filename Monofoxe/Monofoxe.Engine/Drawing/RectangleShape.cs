@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Monofoxe.Engine.Drawing
@@ -32,13 +31,13 @@ namespace Monofoxe.Engine.Drawing
 			);
 		}
 		
-		private static readonly short[][] _rectangleIndices = 
-		{
-			new short[]{0, 1, 3, 1, 2, 3}, // Filled.
-			new short[]{0, 1, 1, 2, 2, 3, 3, 0} // Outline.
-		};
-
 		
+		private static VertexPositionColorTexture[] _rectangleVertices = new VertexPositionColorTexture[4];
+
+		private static short[] _filledRectangleIndices = { 0, 1, 3, 1, 2, 3 }; 
+		private static short[] _outlineRectangleIndices = { 0, 1, 1, 2, 2, 3, 3, 0 };
+
+
 		/// <summary>
 		/// Draws a rectangle using top left and bottom right point.
 		/// </summary>
@@ -58,33 +57,24 @@ namespace Monofoxe.Engine.Drawing
 			Color c4
 		)
 		{
-			PrimitiveType mode;
-			short[] indices;
+			_rectangleVertices[0].Position = new Vector3(p1.X, p1.Y, 0);
+			_rectangleVertices[0].Color = c1;
+			_rectangleVertices[1].Position = new Vector3(p2.X, p1.Y, 0);
+			_rectangleVertices[1].Color = c2;
+			_rectangleVertices[2].Position = new Vector3(p2.X, p2.Y, 0);
+			_rectangleVertices[2].Color = c3;
+			_rectangleVertices[3].Position = new Vector3(p1.X, p2.Y, 0);
+			_rectangleVertices[3].Color = c4;
+						
+			GraphicsMgr.VertexBatch.Texture = null;
 			if (isOutline)
 			{
-				mode = PrimitiveType.LineList;
-				indices = _rectangleIndices[1];
+				GraphicsMgr.VertexBatch.DrawPrimitive(PrimitiveType.LineList, _rectangleVertices, _outlineRectangleIndices);
 			}
 			else
 			{
-				mode = PrimitiveType.TriangleList;
-				indices = _rectangleIndices[0];
+				GraphicsMgr.VertexBatch.DrawPrimitive(PrimitiveType.TriangleList, _rectangleVertices, _filledRectangleIndices);
 			}
-			var x1 = p1.X;
-			var y1 = p1.Y;
-			var x2 = p2.X;
-			var y2 = p2.Y;
-
-			var vertices = new VertexPositionColorTexture[]
-			{
-				new VertexPositionColorTexture(new Vector3(x1, y1, 0), c1, Vector2.Zero),
-				new VertexPositionColorTexture(new Vector3(x2, y1, 0), c2, Vector2.Zero),
-				new VertexPositionColorTexture(new Vector3(x2, y2, 0), c3, Vector2.Zero),
-				new VertexPositionColorTexture(new Vector3(x1, y2, 0), c4, Vector2.Zero)
-			};
-			
-			GraphicsMgr.VertexBatch.Texture = null;
-			GraphicsMgr.VertexBatch.DrawPrimitive(mode, vertices, indices);
 		}
 
 
