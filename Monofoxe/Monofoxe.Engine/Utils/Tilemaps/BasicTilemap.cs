@@ -190,7 +190,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 								Vector2.Zero,
 								Vector2.One,
 								flip,
-								Vector4.One * -0.5f
+								Vector4.One
 							);
 						}
 					}

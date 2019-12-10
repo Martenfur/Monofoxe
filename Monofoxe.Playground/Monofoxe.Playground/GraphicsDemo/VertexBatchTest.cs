@@ -29,6 +29,9 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 		VertexPositionColorTexture[] _vertices;
 		short[] _indices;
+
+		TriangleFanPrimitive _primitive;
+
 		public VertexBatchTest(Layer layer) : base(layer)
 		{
 			_monofoxeSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "AutismCat");
@@ -63,6 +66,13 @@ namespace Monofoxe.Playground.GraphicsDemo
 			// - Primitives need a technique set.
 			// - Sprites need it too.
 			//
+
+			_primitive = new TriangleFanPrimitive();
+			_primitive.Vertices.Add(new Vertex(new Vector3(0, 0, 0), Color.White, Vector2.Zero));
+			_primitive.Vertices.Add(new Vertex(new Vector3(32, 0, -1), Color.White, Vector2.Zero));
+			_primitive.Vertices.Add(new Vertex(new Vector3(32, 32, 0), Color.White, Vector2.Zero));
+			_primitive.Vertices.Add(new Vertex(new Vector3(0, 32, -1), Color.White, Vector2.Zero));
+			
 		}
 
 		public override void Update()
@@ -86,18 +96,31 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 
 
+
 			// You can extract raw texture from the frames. Note that you will get the whole texture atlas.
 			var texture = _monofoxeSprite[0].Texture;
-			var texture1 = _tex[0].Texture;
-
-			// But how are we gonna draw it? Monofoxe can't draw textures by itself.
-			// We can use default Monogame's SpriteBatch for this.
-
-			// But beforehand we must reset Monofoxe's graphics pipeline.
-			// This method draws all batched graphics and resets internal graphics pipeline mode. 
-			//GraphicsMgr.VertexBatch.FlushBatch();
-
-			// After it, you can draw anything you like using any method.
+			
+			GraphicsMgr.VertexBatch.Texture = texture;
+			for (var x = 0; x < 10; x += 1)
+			{
+				for (var y = 0; y < 10; y += 1)
+				{
+					GraphicsMgr.VertexBatch.DrawQuad(
+						position + new Vector2(x, y) * 4, 
+						texture.Bounds.ToRectangleF(), 
+						GraphicsMgr.CurrentColor,
+						0, 
+						Vector2.Zero,
+						Vector2.One,
+						SpriteFlipFlags.None,
+						new Vector4(-0.5f, -0.5f, -0.5f, -0.5f)
+					);
+				}
+			}
+			
+			_primitive.Position = position;
+			_primitive.Draw();
+			return;
 			var sw = new Stopwatch();
 
 			_vbatch.World = GraphicsMgr.VertexBatch.World;
