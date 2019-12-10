@@ -32,10 +32,11 @@ namespace Monofoxe.Engine.Drawing
 		public Color Color = Color.White;
 
 		public void Draw() =>
-			Draw(Point1 + Position, Point2 + Position, Thickness, Color, Color);	
-		
-		
-		
+			Draw(Point1 + Position, Point2 + Position, Thickness, Color, Color);
+
+
+		private static VertexPositionColorTexture[] _thickLineVertices = new VertexPositionColorTexture[4];
+
 		private static readonly short[] _thickLineIndices = new short[]{0, 1, 3, 1, 2, 3};
 		
 		/// <summary>
@@ -49,25 +50,25 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public static void Draw(Vector2 pt1, Vector2 pt2, float thickness, Color c1, Color c2)
 		{
-			var normal2 = (pt2 - pt1).Rotate90();
+			var normal = (pt2 - pt1).Rotate90();
 
-			normal2 = normal2.GetSafeNormalize(); // The result is a unit vector rotated by 90 degrees.
-			normal2 *= thickness / 2;
+			normal = normal.GetSafeNormalize(); // The result is a unit vector rotated by 90 degrees.
+			normal *= thickness / 2;
+			
+			_thickLineVertices[0].Position = (pt1 - normal).ToVector3();
+			_thickLineVertices[0].Color = c1;
+			_thickLineVertices[1].Position = (pt1 + normal).ToVector3();
+			_thickLineVertices[1].Color = c1;
+			_thickLineVertices[2].Position = (pt2 + normal).ToVector3();
+			_thickLineVertices[2].Color = c2;
+			_thickLineVertices[3].Position = (pt2 - normal).ToVector3();
+			_thickLineVertices[3].Color = c2;
 
-			var normal = normal2.ToVector3();
-
-			var vertices = new VertexPositionColorTexture[]
-			{
-				new VertexPositionColorTexture(pt1.ToVector3() - normal, c1, Vector2.Zero),
-				new VertexPositionColorTexture(pt1.ToVector3() + normal, c1, Vector2.Zero),
-				new VertexPositionColorTexture(pt2.ToVector3() + normal, c2, Vector2.Zero),
-				new VertexPositionColorTexture(pt2.ToVector3() - normal, c2, Vector2.Zero)
-			};
 
 			// Thick line is in fact just a rotated rectangle.
-			
+
 			GraphicsMgr.VertexBatch.Texture = null;
-			GraphicsMgr.VertexBatch.DrawPrimitive(PrimitiveType.TriangleList, vertices, _thickLineIndices);
+			GraphicsMgr.VertexBatch.DrawPrimitive(PrimitiveType.TriangleList, _thickLineVertices, _thickLineIndices);
 		}
 		
 	}
