@@ -204,7 +204,7 @@ namespace Monofoxe.Engine.Cameras
 		{
 			TransformMatrix = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) * // Coordinates.
 				Matrix.CreateRotationZ(-Rotation.RadiansF) *                  // Rotation.
-				Matrix.CreateScale(Vector3.One * Zoom) *                                   // Scale.
+				Matrix.CreateScale(new Vector3(Zoom, Zoom, 1)) *                                   // Scale.
 				Matrix.CreateTranslation(new Vector3(Offset.X, Offset.Y, 0));              // Offset.									
 		}
 
@@ -224,7 +224,7 @@ namespace Monofoxe.Engine.Cameras
 			 */
 			var transformMatrix = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) *
 				Matrix.CreateRotationZ((PortRotation - Rotation).RadiansF) *            
-				Matrix.CreateScale(Vector3.One * Zoom) *
+				Matrix.CreateScale(new Vector3(Zoom, Zoom, 1)) *
 				Matrix.CreateTranslation(new Vector3(Offset.X, Offset.Y, 0));
 			
 			var matrix =  Matrix.Invert(transformMatrix);
