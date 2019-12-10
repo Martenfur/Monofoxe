@@ -27,7 +27,7 @@ namespace $safeprojectname$
 			GameMgr.WindowManager.CenterWindow();
 			GameMgr.WindowManager.CanvasMode = CanvasMode.Fill;
 			
-			GraphicsMgr.Sampler = SamplerState.PointClamp;
+			GraphicsMgr.VertexBatch.SamplerState = SamplerState.PointClamp;
 
 			_monofoxe = ResourceHub.GetResource<Sprite>("DefaultSprites", "Monofoxe");
 		}
