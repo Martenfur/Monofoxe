@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace Monofoxe.Engine.Drawing
 {
@@ -61,8 +60,8 @@ namespace Monofoxe.Engine.Drawing
 
 		private static VertexPositionColorTexture[] _circleVertices = new VertexPositionColorTexture[_circleVerticesCount];
 
-		private static short[] _filledCircleIndexBuffer = new short[_circleVerticesCount * 3];
-		private static short[] _outlineCircleIndexBuffer = new short[_circleVerticesCount * 2];
+		private static short[] _filledCircleIndices = new short[_circleVerticesCount * 3];
+		private static short[] _outlineCircleIndices = new short[_circleVerticesCount * 2];
 
 		/// <summary>
 		/// Draws a circle.
@@ -89,11 +88,11 @@ namespace Monofoxe.Engine.Drawing
 			GraphicsMgr.VertexBatch.Texture = null;
 			if (isOutline)
 			{
-				GraphicsMgr.VertexBatch.DrawPrimitive(PrimitiveType.LineList, _circleVertices, _outlineCircleIndexBuffer);
+				GraphicsMgr.VertexBatch.DrawPrimitive(PrimitiveType.LineList, _circleVertices, _outlineCircleIndices);
 			}
 			else
 			{
-				GraphicsMgr.VertexBatch.DrawPrimitive(PrimitiveType.TriangleList, _circleVertices, _filledCircleIndexBuffer);
+				GraphicsMgr.VertexBatch.DrawPrimitive(PrimitiveType.TriangleList, _circleVertices, _filledCircleIndices);
 			}
 
 		}
@@ -101,23 +100,23 @@ namespace Monofoxe.Engine.Drawing
 
 		private static void CreateIndexBuffers()
 		{
-			_filledCircleIndexBuffer = new short[_circleVerticesCount * 3];
+			_filledCircleIndices = new short[_circleVerticesCount * 3];
 			for (var i = 0; i < _circleVerticesCount - 1; i += 1)
 			{
-				_filledCircleIndexBuffer[i * 3] = 0;
-				_filledCircleIndexBuffer[i * 3] = (short)i;
-				_filledCircleIndexBuffer[i * 3 + 1] = (short)(i + 1);
+				_filledCircleIndices[i * 3] = 0;
+				_filledCircleIndices[i * 3] = (short)i;
+				_filledCircleIndices[i * 3 + 1] = (short)(i + 1);
 			}
 
 
-			_outlineCircleIndexBuffer = new short[_circleVerticesCount * 2];
+			_outlineCircleIndices = new short[_circleVerticesCount * 2];
 			for (var i = 0; i < _circleVerticesCount - 1; i += 1)
 			{
-				_outlineCircleIndexBuffer[i * 2] = (short)i;
-				_outlineCircleIndexBuffer[i * 2 + 1] = (short)(i + 1);
+				_outlineCircleIndices[i * 2] = (short)i;
+				_outlineCircleIndices[i * 2 + 1] = (short)(i + 1);
 			}
-			_outlineCircleIndexBuffer[(_circleVerticesCount - 1) * 2] = (short)(_circleVerticesCount - 1);
-			_outlineCircleIndexBuffer[(_circleVerticesCount - 1) * 2 + 1] = 0;
+			_outlineCircleIndices[(_circleVerticesCount - 1) * 2] = (short)(_circleVerticesCount - 1);
+			_outlineCircleIndices[(_circleVerticesCount - 1) * 2 + 1] = 0;
 		}
 
 	}
