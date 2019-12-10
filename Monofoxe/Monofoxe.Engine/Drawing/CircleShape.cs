@@ -36,20 +36,34 @@ namespace Monofoxe.Engine.Drawing
 		{
 			set
 			{
-				_circleVectors = new List<Vector2>();
-			
+				if (_circleVerticesCount == value)
+				{
+					return;
+				}
+				_circleVerticesCount = value;
+				_circleVectors = new Vector2[value];
+				_circleVertices = new VertexPositionColorTexture[value];
+
 				var angAdd = Math.PI * 2 / value;
 				
 				for(var i = 0; i < value; i += 1)
 				{
-					_circleVectors.Add(new Vector2((float)Math.Cos(angAdd * i), (float)Math.Sin(angAdd * i)));
+					_circleVectors[i] = new Vector2((float)Math.Cos(angAdd * i), (float)Math.Sin(angAdd * i));
 				}
+				CreateIndexBuffers();
 			}
-			get => _circleVectors.Count;
+			get => _circleVerticesCount;
 		}
-		private static List<Vector2> _circleVectors; 
+		private static int _circleVerticesCount = 16;
 
-		
+
+		private static Vector2[] _circleVectors = new Vector2[_circleVerticesCount];
+
+		private static VertexPositionColorTexture[] _circleVertices = new VertexPositionColorTexture[_circleVerticesCount];
+
+		private static short[] _filledCircleIndexBuffer = new short[_circleVerticesCount * 3];
+		private static short[] _outlineCircleIndexBuffer = new short[_circleVerticesCount * 2];
+
 		/// <summary>
 		/// Draws a circle.
 		/// </summary>
@@ -62,53 +76,48 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public static void Draw(Vector2 p, float r, bool isOutline, Color color)
 		{
-			short[] indexArray;
-			PrimitiveType prType;
+			
+			for(var i = 0; i < _circleVerticesCount; i += 1)
+			{
+				_circleVertices[i].Position = new Vector3(
+					p.X + r * _circleVectors[i].X, 
+					p.Y + r * _circleVectors[i].Y, 
+					0
+				);
+				_circleVertices[i].Color = color;
+			}
+			GraphicsMgr.VertexBatch.Texture = null;
 			if (isOutline)
 			{
-				indexArray = new short[CircleVerticesCount * 2];
-				prType = PrimitiveType.LineList;
-				
-				for(var i = 0; i < CircleVerticesCount - 1; i += 1)
-				{
-					indexArray[i * 2] = (short)i;
-					indexArray[i * 2 + 1] = (short)(i + 1);
-				}
-				indexArray[(CircleVerticesCount - 1) * 2] = (short)(CircleVerticesCount - 1);
-				indexArray[(CircleVerticesCount - 1) * 2 + 1] = 0;
+				GraphicsMgr.VertexBatch.DrawPrimitive(PrimitiveType.LineList, _circleVertices, _outlineCircleIndexBuffer);
 			}
 			else
 			{
-				indexArray = new short[CircleVerticesCount * 3];
-				prType = PrimitiveType.TriangleList;
-
-				for(var i = 0; i < CircleVerticesCount - 1; i += 1)
-				{
-					indexArray[i * 3] = 0;
-					indexArray[i * 3] = (short)i;
-					indexArray[i * 3 + 1] = (short)(i + 1);
-				}
-
+				GraphicsMgr.VertexBatch.DrawPrimitive(PrimitiveType.TriangleList, _circleVertices, _filledCircleIndexBuffer);
 			}
 
-			var vertices = new List<VertexPositionColorTexture>();
-			
-			for(var i = 0; i < CircleVerticesCount; i += 1)
+		}
+		
+
+		private static void CreateIndexBuffers()
+		{
+			_filledCircleIndexBuffer = new short[_circleVerticesCount * 3];
+			for (var i = 0; i < _circleVerticesCount - 1; i += 1)
 			{
-				vertices.Add(
-					new VertexPositionColorTexture(
-						new Vector3(
-							p.X + r * _circleVectors[i].X, 
-							p.Y + r * _circleVectors[i].Y, 
-							0
-						), 
-						color, 
-						Vector2.Zero
-					)
-				);
+				_filledCircleIndexBuffer[i * 3] = 0;
+				_filledCircleIndexBuffer[i * 3] = (short)i;
+				_filledCircleIndexBuffer[i * 3 + 1] = (short)(i + 1);
 			}
-			GraphicsMgr.VertexBatch.Texture = null;
-			GraphicsMgr.VertexBatch.DrawPrimitive(prType, vertices.ToArray(), indexArray);
+
+
+			_outlineCircleIndexBuffer = new short[_circleVerticesCount * 2];
+			for (var i = 0; i < _circleVerticesCount - 1; i += 1)
+			{
+				_outlineCircleIndexBuffer[i * 2] = (short)i;
+				_outlineCircleIndexBuffer[i * 2 + 1] = (short)(i + 1);
+			}
+			_outlineCircleIndexBuffer[(_circleVerticesCount - 1) * 2] = (short)(_circleVerticesCount - 1);
+			_outlineCircleIndexBuffer[(_circleVerticesCount - 1) * 2 + 1] = 0;
 		}
 
 	}
