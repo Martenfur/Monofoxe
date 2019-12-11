@@ -61,16 +61,15 @@ namespace Monofoxe.Playground.GraphicsDemo
 			var position = startingPosition;
 			var spacing = 100;
 
-			GraphicsMgr.CurrentColor = Color.White; // Sprites are affected by current color too.
 			
-			// Sprites can't have static methods. So we are pulling them from sprite group.
+			// Sprites can't have static methods.
 			_monofoxeSprite.Draw(position);
 
 			position += Vector2.UnitX * spacing * 2;
 
 			// Setting a shader for the sprite.
-			
 			GraphicsMgr.VertexBatch.Effect = _seizure;
+
 			// If you want to animate the sprite, you must pass a value from 0 to 1 to it.
 			_fireSprite.Draw(position, _animation);
 			GraphicsMgr.VertexBatch.Effect = null;
@@ -90,7 +89,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 				new Vector2(_fireSprite.Width, _fireSprite.Height) / 2, 
 				new Vector2(1, 2) * (float)Math.Sin(_animation * Math.PI * 2 * 2), 
 				new Angle(360 * _animation), 
-				Color.Red // Overrides CurrentColor.
+				Color.Red
 			);
 
 
@@ -114,14 +113,13 @@ namespace Monofoxe.Playground.GraphicsDemo
 			var texture = _monofoxeSprite[0].Texture;
 			var texturePosition = _monofoxeSprite[0].TexturePosition; // This will give you texture's position on the atlas.
 
-			// But how are we gonna draw it? Monofoxe can't draw textures by itself.
-			// We can use default Monogame's SpriteBatch for this.
+			// We can also use default Monogame's SpriteBatch (or anything, for that matter).
 
-			// But beforehand we must reset Monofoxe's graphics pipeline.
-			// This method draws all batched graphics and resets internal graphics pipeline mode. 
+			// But beforehand we must flush Monofoxe's own batcher.
+			// This method draws all batched graphics. 
 			GraphicsMgr.VertexBatch.FlushBatch();
 
-			// After it, you can draw anything you like using any method.
+			// After that, you can draw anything you like using any method.
 
 			_batch.Begin(
 				SpriteSortMode.Deferred,
