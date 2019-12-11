@@ -398,8 +398,8 @@ namespace Monofoxe.Engine.Drawing
 			SetQuad(
 				destRectangle.X,
 				destRectangle.Y,
-				srcRectangle.Width,
-				srcRectangle.Height,
+				destRectangle.Width,
+				destRectangle.Height,
 				color,
 				texCoordTL,
 				texCoordBR,
