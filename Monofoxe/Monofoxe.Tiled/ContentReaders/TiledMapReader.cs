@@ -102,7 +102,7 @@ namespace Monofoxe.Tiled.ContentReaders
 			var tile = new TiledMapTilesetTile();
 			tile.GID = input.ReadInt32();
 			tile.TextureID = input.ReadInt32();
-			tile.TexturePosition = input.ReadObject<Rectangle>().ToRectangleF();
+			tile.TexturePosition = input.ReadObject<Rectangle>();
 
 			tile.ObjectsDrawingOrder = (TiledMapObjectDrawingOrder)input.ReadByte();
 			

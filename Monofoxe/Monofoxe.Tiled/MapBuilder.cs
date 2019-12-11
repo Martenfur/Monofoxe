@@ -97,7 +97,7 @@ namespace Monofoxe.Tiled
 
 							var tileTexture = tileset.Textures[tile.TextureID];
 							
-							var frame = new Frame(tileTexture, tile.TexturePosition, Vector2.Zero);
+							var frame = new Frame(tileTexture, tile.TexturePosition.ToRectangleF(), Vector2.Zero);
 						
 							var tilesetTile = new BasicTilesetTile(frame);
 							tilesetTilesList.Add(tilesetTile);
