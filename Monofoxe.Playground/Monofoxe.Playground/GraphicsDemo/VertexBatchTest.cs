@@ -92,35 +92,12 @@ namespace Monofoxe.Playground.GraphicsDemo
 			var startingPosition = new Vector2(100, 100);
 			var position = startingPosition;
 
-			GraphicsMgr.CurrentColor = Color.White; // Sprites are affected by current color too.
-
-
+			GraphicsMgr.CurrentColor = Color.Pink;
 
 
 			// You can extract raw texture from the frames. Note that you will get the whole texture atlas.
 			var texture = _monofoxeSprite[0].Texture;
 			
-			GraphicsMgr.VertexBatch.Texture = texture;
-			for (var x = 0; x < 10; x += 1)
-			{
-				for (var y = 0; y < 10; y += 1)
-				{
-					GraphicsMgr.VertexBatch.AddQuad(
-						position + new Vector2(x, y) * 4, 
-						texture.Bounds.ToRectangleF(), 
-						GraphicsMgr.CurrentColor,
-						0, 
-						Vector2.Zero,
-						Vector2.One,
-						SpriteFlipFlags.None,
-						new Vector4(-0.5f, -0.5f, -0.5f, -0.5f)
-					);
-				}
-			}
-			
-			_primitive.Position = position;
-			_primitive.Draw();
-			return;
 			var sw = new Stopwatch();
 
 			_vbatch.World = GraphicsMgr.VertexBatch.World;
@@ -133,17 +110,58 @@ namespace Monofoxe.Playground.GraphicsDemo
 			{
 
 				_vbatch.Texture = texture;
-				for (var x = 0; x < 10; x += 1)
+				for (var x = 0; x < 0; x += 1)
 				{
-					for (var y = 0; y < 10; y += 1)
+					for (var y = 0; y < 0; y += 1)
 					{
-						_vbatch.AddQuad(position + new Vector2(x, y) * 4, GraphicsMgr.CurrentColor);
+						_vbatch.AddQuad(position + new Vector2(x, y), GraphicsMgr.CurrentColor);
 
 					}
 				}
-				
+				position += Vector2.UnitX * 250;
+
+				var bounds = texture.Bounds.ToRectangleF();
+				var halfBounds = new RectangleF(0 ,0, bounds.Width/ 2, bounds.Height / 2);
+
+				_vbatch.AddQuad(position, GraphicsMgr.CurrentColor);
+				position += Vector2.UnitX * 100;
+				_vbatch.AddQuad(position, halfBounds, GraphicsMgr.CurrentColor);
+				position += Vector2.UnitX * 100;
+
+				_vbatch.AddQuad(
+					new RectangleF(position, new Vector2(300, 100)), 
+					halfBounds, 
+					GraphicsMgr.CurrentColor
+				); // Bugged.
+
+				position += Vector2.UnitY * 150;
+				_vbatch.AddQuad(
+					position, 
+					halfBounds, 
+					GraphicsMgr.CurrentColor, 
+					GameMgr.ElapsedTimeTotal * 10f * 0, 
+					new Vector2(texture.Width / 4, texture.Height / 4), 
+					Vector2.One * 2, 
+					SpriteFlipFlags.FlipHorizontally, 
+					Vector4.Zero
+				);
+
+				position += Vector2.UnitY * 150;
+				_vbatch.AddQuad(
+					new RectangleF(position, new Vector2(200, 100)),
+					halfBounds,
+					GraphicsMgr.CurrentColor,
+					GameMgr.ElapsedTimeTotal * 10f * 0,
+					new Vector2(texture.Width / 4, texture.Height / 4),
+					SpriteFlipFlags.FlipHorizontally | SpriteFlipFlags.FlipVertically,
+					Vector4.Zero
+				);
+
+
 				_vbatch.Texture = null;
 				_vbatch.AddPrimitive(PrimitiveType.LineList, _vertices, _indices);
+
+				_vbatch.AddPrimitive(PrimitiveType.TriangleList, _vertices, _indices);
 
 
 				_vbatch.Texture = texture;
