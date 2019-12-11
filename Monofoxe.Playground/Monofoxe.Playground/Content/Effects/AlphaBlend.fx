@@ -1,10 +1,10 @@
 ﻿
 /*
 Base shader for drawing everything, when there are no other shaders applied.
-Main reason for it is proper alpha blending for pretty much everything.
+It's used by VertexBatch to apply proper transform matrix.
 
 NOTE: This shader is vital part of the engine. 
-DO NOT modify it, unless you know, what you're doing and have good reasons!
+DO NOT modify it, unless you know, what you're doing and have good reasons to!
 */
 
 float4x4 World;
@@ -52,7 +52,7 @@ float4 PS_TexturePremultiplied(VertexShaderOutput input) : COLOR0
 }
 
 /*
-Non-premultiplying shader. Used for Monogame's spritefonts.
+Non-premultiplying shader.
 */
 float4 PS_TextureNonPremultiplied(VertexShaderOutput input) : COLOR0
 {
@@ -83,8 +83,6 @@ Techniques are chosen by the engine automatically.
 			PixelShader = compile ps_4_0_level_9_1 psName(); \
 		} \
 	}
-
-
 #else
 
 #define TECHNIQUE(name, vsName, psName) \
@@ -96,7 +94,6 @@ Techniques are chosen by the engine automatically.
 			PixelShader = compile ps_3_0 psName(); \
 		} \
 	}
-
 #endif
 
 
