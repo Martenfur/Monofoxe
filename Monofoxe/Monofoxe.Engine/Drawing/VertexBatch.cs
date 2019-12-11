@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -148,7 +149,6 @@ namespace Monofoxe.Engine.Drawing
 		private short _vertexPoolCount = 0;
 		private const short _vertexPoolCapacity = short.MaxValue;
 
-		private Effect _defaultEffect;
 		private EffectPass _defaultEffectPass;
 
 		public Matrix World 
@@ -208,9 +208,21 @@ namespace Monofoxe.Engine.Drawing
 		PrimitiveType _primitiveType = PrimitiveType.TriangleList;
 
 
+		/// <summary>
+		/// Default shader with proper alpha blending. 
+		/// Replaces BasicEffect. Applied, when CurrentEffect is null.
+		/// </summary>
+		private static Effect _defaultEffect;
+		private static string _defaultEffectName = "AlphaBlend";
+
+		/// <summary>
+		/// Used to load default shader.
+		/// </summary>
+		private static ContentManager _content;
+
+
 		public VertexBatch(
 			GraphicsDevice graphicsDevice,
-			Effect defaultEffect,
 			BlendState blendState = null,
 			SamplerState samplerState = null,
 			DepthStencilState depthStencilState = null,
@@ -227,7 +239,14 @@ namespace Monofoxe.Engine.Drawing
 			_indexPool = new short[_indexPoolCapacity];
 			_vertexPool = new VertexPositionColorTexture[_vertexPoolCapacity];
 
-			_defaultEffect = defaultEffect;
+
+			if (_defaultEffect == null)
+			{
+				_content = new ContentManager(GameMgr.Game.Services);
+				_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.EffectsDir;
+				_defaultEffect = _content.Load<Effect>(_defaultEffectName);
+			}
+
 			_defaultEffectPass = _defaultEffect.CurrentTechnique.Passes[0];
 		}
 

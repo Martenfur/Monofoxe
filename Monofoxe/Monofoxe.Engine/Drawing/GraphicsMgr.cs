@@ -33,13 +33,6 @@ namespace Monofoxe.Engine.Drawing
 		
 		
 		/// <summary>
-		/// Default shader with proper alpha blending. 
-		/// Replaces BasicEffect. Applied, when CurrentEffect is null.
-		/// </summary>
-		public static Effect _defaultEffect;
-		private static string _defaultEffectName = "AlphaBlend";
-
-		/// <summary>
 		/// Used for drawing cameras.
 		/// </summary>
 		internal static RasterizerState _cameraRasterizerState;
@@ -50,12 +43,6 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public static Matrix CanvasMatrix = Matrix.CreateTranslation(Vector3.Zero); //We need zero matrix here, or else mouse position will derp out.
 		
-		
-		/// <summary>
-		/// Used to load default shader.
-		/// </summary>
-		private static ContentManager _content;
-		
 		/// <summary>
 		/// Initialization function for draw manager. 
 		/// </summary>
@@ -63,13 +50,7 @@ namespace Monofoxe.Engine.Drawing
 		{
 			Device = device;			
 			Device.DepthStencilState = DepthStencilState.DepthRead;
-		
-			//_batch = new SpriteBatch(Device);
 
-
-			_content = new ContentManager(GameMgr.Game.Services);
-			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.EffectsDir;
-			_defaultEffect = _content.Load<Effect>(_defaultEffectName);
 			
 			CircleShape.CircleVerticesCount = 16;
 			
@@ -79,7 +60,7 @@ namespace Monofoxe.Engine.Drawing
 				ScissorTestEnable = false,
 				FillMode = FillMode.Solid
 			};
-			VertexBatch = new VertexBatch(Device, _defaultEffect);
+			VertexBatch = new VertexBatch(Device);
 			
 
 			VertexBatch.World = Matrix.CreateTranslation(Vector3.Zero);

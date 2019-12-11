@@ -28,7 +28,6 @@ namespace Monofoxe.Playground.GraphicsDemo
 			_monofoxeSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "AutismCat");
 			_vbatch = new VertexBatch(
 				GraphicsMgr.Device,
-				GraphicsMgr._defaultEffect,
 				null,
 				SamplerState.PointWrap,
 				null,
