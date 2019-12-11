@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Monofoxe.Engine.EC;
-using Monofoxe.Engine.Utils;
+﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
-using Monofoxe.Engine.SceneSystem;
-using Microsoft.Xna.Framework;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.Resources;
+using Monofoxe.Engine.SceneSystem;
 
 namespace Monofoxe.Playground.ECDemo
 {
@@ -28,6 +25,7 @@ namespace Monofoxe.Playground.ECDemo
 		public Player(Layer layer, Vector2 position) : base(layer)
 		{
 			_playerSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "Player");
+			
 			// You can add components right in the constructor.
 			AddComponent(new PositionComponent(position));
 			AddComponent(new ActorComponent(_playerSprite));

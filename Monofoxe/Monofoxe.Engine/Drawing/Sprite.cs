@@ -19,7 +19,7 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Sprite width. Can be accessed only if all sprite frames have the same size.
 		/// </summary>
-		public int Width 
+		public float Width 
 		{
 			get
 			{
@@ -34,7 +34,7 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Sprite height. Can be accessed only if all sprite frames have the same size.
 		/// </summary>
-		public int Height
+		public float Height
 		{
 			get
 			{
@@ -57,6 +57,8 @@ namespace Monofoxe.Engine.Drawing
 		public double Animation;
 
 		public Color Color = Color.White;
+
+		public Vector4 ZDepth = Vector4.Zero;
 
 		/// <summary>
 		/// True, if size of every frame is identical.
@@ -138,35 +140,62 @@ namespace Monofoxe.Engine.Drawing
 		
 		
 		public void Draw() =>
-			GetFrame(Animation).Draw(Position, Origin, Scale, Rotation, Color);
+			GetFrame(Animation).Draw(Position, Origin, Scale, Rotation, Color, ZDepth);
 		
 		// Vectors.
 
 		public void Draw(Vector2 position) =>
-			_frames[0].Draw(position, Origin, Scale, Rotation, Color);
+			_frames[0].Draw(position, Origin, Scale, Rotation, Color, ZDepth);
 
 		public void Draw(Vector2 position, double animation) =>
-			GetFrame(animation).Draw(position, Origin, Scale, Rotation, Color);
+			GetFrame(animation).Draw(position, Origin, Scale, Rotation, Color, ZDepth);
 		
 		public void Draw(Vector2 position, double animation, Vector2 origin, Vector2 scale, Angle rotation, Color color) =>
-			GetFrame(animation).Draw(position, origin, scale, rotation, color);
+			GetFrame(animation).Draw(position, origin, scale, rotation, color, ZDepth);
+
+		public void Draw(
+			Vector2 position, 
+			double animation, 
+			Vector2 origin, 
+			Vector2 scale, 
+			Angle rotation, 
+			Color color, 
+			Vector4 zDepth
+		) =>
+			GetFrame(animation).Draw(position, origin, scale, rotation, color, zDepth);
 
 		// Vectors.
-		
-		
+
+
 		// Rectangles.
-		
-		public void Draw(Rectangle destRect, double animation) =>
+
+		public void Draw(RectangleF destRect, double animation) =>
 			GetFrame(animation).Draw(destRect, Rotation, Color);
 
-		public void Draw(Rectangle destRect, double animation, Angle rotation, Color color) =>
+		public void Draw(RectangleF destRect, double animation, Angle rotation, Color color) =>
 			GetFrame(animation).Draw(destRect, rotation, color);
 			
-		public void Draw(Rectangle destRect, double animation, Rectangle srcRect) => 
-			GetFrame(animation).Draw(destRect, srcRect, Rotation, Color);
+		public void Draw(RectangleF destRect, double animation, RectangleF srcRect) => 
+			GetFrame(animation).Draw(destRect, srcRect, Rotation, Color, ZDepth);
 
-		public void Draw(Rectangle destRect, double animation, Rectangle srcRect, Angle rotation, Color color) =>
-			GetFrame(animation).Draw(destRect, srcRect, rotation, color);
+		public void Draw(
+			RectangleF destRect, 
+			double animation, 
+			RectangleF srcRect, 
+			Angle rotation, 
+			Color color
+		) =>
+			GetFrame(animation).Draw(destRect, srcRect, rotation, color, ZDepth);
+		
+		public void Draw(
+			RectangleF destRect, 
+			double animation, 
+			RectangleF srcRect, 
+			Angle rotation, 
+			Color color, 
+			Vector4 zDepth
+		) =>
+			GetFrame(animation).Draw(destRect, srcRect, rotation, color, zDepth);
 
 		// Rectangles.
 

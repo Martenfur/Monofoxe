@@ -127,7 +127,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 			if (_useWireframe)
 			{
-				GraphicsMgr.Rasterizer = GameController.WireframeRasterizer;
+				GraphicsMgr.VertexBatch.RasterizerState = GameController.WireframeRasterizer;
 			}
 
 			var startingPosition = new Vector2(100, 100);
@@ -166,7 +166,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 				{
 					var v = _mesh.Vertices[c];
 					// Displacing vertices to make ripple effect.
-					v.Position = new Vector2(i, k) * cell + Vector2.One * (float)Math.Sin(GameMgr.ElapsedTimeTotal + i) * 4;
+					v.Position = new Vector3(i, k, 0) * cell.ToVector3() + new Vector3(1, 1, 0) * (float)Math.Sin(GameMgr.ElapsedTimeTotal + i) * 4;
 					_mesh.Vertices[c] = v;
 					c += 1;
 				}
@@ -184,9 +184,10 @@ namespace Monofoxe.Playground.GraphicsDemo
 			var vertex = _linestrip.Vertices[0];
 
 			// Tail effect.
-			vertex.Position = position + new Vector2(
+			vertex.Position = position.ToVector3() + new Vector3(
 				(float)Math.Cos(GameMgr.ElapsedTimeTotal * 2), 
-				(float)Math.Sin(-GameMgr.ElapsedTimeTotal * 4)
+				(float)Math.Sin(-GameMgr.ElapsedTimeTotal * 4),
+				0
 			) * 50;
 			_linestrip.Vertices[0] = vertex;
 
@@ -217,7 +218,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 			if (_useWireframe)
 			{
-				GraphicsMgr.Rasterizer = GameController.DefaultRasterizer;
+				GraphicsMgr.VertexBatch.RasterizerState = GameController.DefaultRasterizer;
 			}
 
 		}

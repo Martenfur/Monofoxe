@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Monofoxe.Engine;
 using Monofoxe.Tiled.MapStructure;
 using Monofoxe.Tiled.MapStructure.Objects;
 
@@ -101,7 +102,7 @@ namespace Monofoxe.Tiled.ContentReaders
 			var tile = new TiledMapTilesetTile();
 			tile.GID = input.ReadInt32();
 			tile.TextureID = input.ReadInt32();
-			tile.TexturePosition = input.ReadObject<Rectangle>();
+			tile.TexturePosition = input.ReadObject<Rectangle>().ToRectangleF();
 
 			tile.ObjectsDrawingOrder = (TiledMapObjectDrawingOrder)input.ReadByte();
 			

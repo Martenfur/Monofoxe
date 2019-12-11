@@ -115,10 +115,6 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 			}
 			// Bounding.
 
-			// Telling whatever is waiting to be drawn to draw itself.
-			// If graphics mode is not switched, drawing raw sprite batch may interfere with primitives.
-			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
-
 			for (var y = startY; y < endY; y += 1)
 			{
 				for (var x = startX; x < endX; x += 1)
@@ -132,7 +128,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 
 						if (tilesetTile != null)
 						{
-							var flip = SpriteEffects.None;
+							var flip = SpriteFlipFlags.None;
 							var offset = Vector2.UnitY * (tilesetTile.Frame.Height - TileHeight);
 							var rotation = 0;
 
@@ -154,7 +150,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 								offset.Y = -TileHeight;
 								offset.X = 0;
 
-								flip |= SpriteEffects.FlipHorizontally;
+								flip |= SpriteFlipFlags.FlipHorizontally;
 							}
 
 							if (tile.FlipHor)
@@ -162,11 +158,11 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 								// Sprite is rotated by 90 degrees, so X axis becomes Y.
 								if (tile.FlipDiag)
 								{
-									flip ^= SpriteEffects.FlipVertically;
+									flip ^= SpriteFlipFlags.FlipVertically;
 								}
 								else
 								{
-									flip ^= SpriteEffects.FlipHorizontally;
+									flip ^= SpriteFlipFlags.FlipHorizontally;
 								}
 							}
 
@@ -174,18 +170,19 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 							{
 								if (tile.FlipDiag)
 								{
-									flip ^= SpriteEffects.FlipHorizontally;
+									flip ^= SpriteFlipFlags.FlipHorizontally;
 								}
 								else
 								{
-									flip ^= SpriteEffects.FlipVertically;
+									flip ^= SpriteFlipFlags.FlipVertically;
 								}
 							}
 							// A bunch of Tiled magic.
 
-							// Mass-drawing srpites with spritebatch is a bit faster.
-							GraphicsMgr._batch.Draw(
-								tilesetTile.Frame.Texture,
+							GraphicsMgr.VertexBatch.Texture = tilesetTile.Frame.Texture;
+								
+							// Mass-drawing srpites directly with vertexbatch is a bit faster.
+							GraphicsMgr.VertexBatch.AddQuad(
 								Offset + new Vector2(TileWidth * x, TileHeight * y) - offset + tile.Tileset.Offset,
 								tilesetTile.Frame.TexturePosition,
 								Color.White,
@@ -193,7 +190,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 								Vector2.Zero,
 								Vector2.One,
 								flip,
-								0
+								Vector4.One
 							);
 						}
 					}

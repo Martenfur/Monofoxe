@@ -20,6 +20,7 @@ namespace Monofoxe.Playground.Interface
 	{
 		public List<SceneFactory> Factories = new List<SceneFactory>
 		{
+			new VertexBatchTestFactory(),
 			new ShapeDemoFactory(),
 			new PrimitiveDemoFactory(),
 			new SpriteDemoFactory(),
@@ -110,7 +111,9 @@ namespace Monofoxe.Playground.Interface
 
 
 			// Bottom bar.
-			GraphicsMgr.AddTransformMatrix(Matrix.CreateTranslation(new Vector3(0, canvasSize.Y - _barHeight, 0)));
+			GraphicsMgr.VertexBatch.PushViewMatrix();
+			GraphicsMgr.VertexBatch.View = 
+				Matrix.CreateTranslation(new Vector3(0, canvasSize.Y - _barHeight, 0)) * GraphicsMgr.VertexBatch.View;
 
 			GraphicsMgr.CurrentColor = _barColor;
 			RectangleShape.Draw(Vector2.Zero, canvasSize, false);
@@ -136,7 +139,7 @@ namespace Monofoxe.Playground.Interface
 				_indent
 			);
 
-			GraphicsMgr.ResetTransformMatrix();
+			GraphicsMgr.VertexBatch.PopViewMatrix();
 			// Bottom bar.
 		}
 

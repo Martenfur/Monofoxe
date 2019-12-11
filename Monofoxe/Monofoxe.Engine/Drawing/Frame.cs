@@ -18,17 +18,17 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Position of the frame on the atlas.
 		/// </summary>
-		public readonly Rectangle TexturePosition;
+		public readonly RectangleF TexturePosition;
 
 		/// <summary>
 		/// Width of the frame.
 		/// </summary>
-		public int Width => TexturePosition.Width;
+		public float Width => TexturePosition.Width;
 
 		/// <summary>
 		/// Height of the frame.
 		/// </summary>
-		public int Height => TexturePosition.Height;
+		public float Height => TexturePosition.Height;
 		
 		
 
@@ -42,7 +42,7 @@ namespace Monofoxe.Engine.Drawing
 
 		public Color Color = Color.White;
 
-		
+		public Vector4 ZDepth = Vector4.Zero;
 
 		/// <summary>
 		/// Frame's parent sprite.
@@ -61,7 +61,7 @@ namespace Monofoxe.Engine.Drawing
 		}
 		private Sprite _parentSprite = null;
 
-		public Frame(Texture2D texture, Rectangle texturePosition, Vector2 origin)
+		public Frame(Texture2D texture, RectangleF texturePosition, Vector2 origin)
 		{
 			Texture = texture;
 			TexturePosition = texturePosition;
@@ -70,7 +70,7 @@ namespace Monofoxe.Engine.Drawing
 		}
 
 		public void Draw() =>
-			Draw(Position, Origin, Scale, Rotation, Color);
+			Draw(Position, Origin, Scale, Rotation, Color, ZDepth);
 		
 
 		public void Draw(
@@ -79,88 +79,85 @@ namespace Monofoxe.Engine.Drawing
 			Vector2 scale, 
 			Angle rotation, 
 			Color color, 
-			SpriteEffects effect
+			SpriteFlipFlags flipFlags,
+			Vector4 zDepth
 		)
 		{
-			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
-
-			GraphicsMgr._batch.Draw(
-				Texture, 
-				position, 
-				TexturePosition, 
-				color, 
-				rotation.RadiansF, 
+			GraphicsMgr.VertexBatch.Texture = Texture;
+			
+			GraphicsMgr.VertexBatch.AddQuad(
+				position,
+				TexturePosition,
+				color,
+				rotation.RadiansF,
 				origin,
-				scale, 
-				effect, 
-				0
+				scale,
+				flipFlags,
+				zDepth
 			);
+			
 		}
 
 		public void Draw(Vector2 position) =>
-			Draw(position, Origin, Scale, Rotation, Color);
+			Draw(position, Origin, Scale, Rotation, Color, ZDepth);
 
 		public void Draw(Vector2 position, Vector2 origin) =>
-			Draw(position, origin, Scale, Rotation, Color);
+			Draw(position, origin, Scale, Rotation, Color, ZDepth);
 
-		public void Draw(Vector2 position, Vector2 origin, Vector2 scale, Angle rotation, Color color)
+		public void Draw(Vector2 position, Vector2 origin, Vector2 scale, Angle rotation, Color color, Vector4 zDepth)
 		{
-			var mirroring = SpriteEffects.None;
+			var flipFlags = SpriteFlipFlags.None;
 
 			// Proper negative scaling.
 			if (scale.X < 0)
 			{
-				mirroring = mirroring | SpriteEffects.FlipHorizontally;
+				flipFlags = flipFlags | SpriteFlipFlags.FlipHorizontally;
 				scale.X *= -1;
 				origin.X = Width - origin.X;
 			}
 
 			if (scale.Y < 0)
 			{
-				mirroring = mirroring | SpriteEffects.FlipVertically;
+				flipFlags = flipFlags | SpriteFlipFlags.FlipVertically;
 				scale.Y *= -1;
 				origin.Y = Height - origin.Y;
 			}
 			// Proper negative scaling.
 
-			Draw(position, origin, scale, rotation, color, mirroring);
+			Draw(position, origin, scale, rotation, color, flipFlags, zDepth);
 		}
 
 		
-		public void Draw(Rectangle destRect, Angle rotation, Color color)
+		public void Draw(RectangleF destRect, Angle rotation, Color color)
 		{
-			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
+			GraphicsMgr.VertexBatch.Texture = Texture;
 			
-			GraphicsMgr._batch.Draw(
-				Texture, 
-				destRect, 
-				TexturePosition, 
-				color, 
+			GraphicsMgr.VertexBatch.AddQuad(
+				destRect,
+				TexturePosition,
+				color,
 				rotation.RadiansF,
-				// NOTE: Offsets are bugged in 3.6 and mess everything up. Disabled them for now.
-				Vector2.Zero, // offset,
-				SpriteEffects.None, 
-				0
+				Origin,
+				SpriteFlipFlags.None,
+				ZDepth
 			);
 		}
 
-		public void Draw(Rectangle destRect, Rectangle srcRect, Angle rotation, Color color)
+		public void Draw(RectangleF destRect, RectangleF srcRect, Angle rotation, Color color, Vector4 zDepth)
 		{
-			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.Sprites);
-			
 			srcRect.X += TexturePosition.X;
 			srcRect.Y += TexturePosition.Y;
-
-			GraphicsMgr._batch.Draw(
-				Texture,
-				destRect, 
-				srcRect, 
-				color, 
-				rotation.RadiansF, 
-				// NOTE: Offsets are bugged in 3.6 and mess everything up. Disabled them for now.
-				Vector2.Zero, // offset,
-				SpriteEffects.None, 
-				0
+			
+			GraphicsMgr.VertexBatch.Texture = Texture;
+			
+			GraphicsMgr.VertexBatch.AddQuad(
+				destRect,
+				srcRect,
+				color,
+				rotation.RadiansF,
+				Vector2.Zero,
+				SpriteFlipFlags.None,
+				zDepth
 			);
 		}
 

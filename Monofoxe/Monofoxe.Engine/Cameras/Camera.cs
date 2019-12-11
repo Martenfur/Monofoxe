@@ -204,7 +204,7 @@ namespace Monofoxe.Engine.Cameras
 		{
 			TransformMatrix = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) * // Coordinates.
 				Matrix.CreateRotationZ(-Rotation.RadiansF) *                  // Rotation.
-				Matrix.CreateScale(Vector3.One * Zoom) *                                   // Scale.
+				Matrix.CreateScale(new Vector3(Zoom, Zoom, 1)) *                                   // Scale.
 				Matrix.CreateTranslation(new Vector3(Offset.X, Offset.Y, 0));              // Offset.									
 		}
 
@@ -224,7 +224,7 @@ namespace Monofoxe.Engine.Cameras
 			 */
 			var transformMatrix = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) *
 				Matrix.CreateRotationZ((PortRotation - Rotation).RadiansF) *            
-				Matrix.CreateScale(Vector3.One * Zoom) *
+				Matrix.CreateScale(new Vector3(Zoom, Zoom, 1)) *
 				Matrix.CreateTranslation(new Vector3(Offset.X, Offset.Y, 0));
 			
 			var matrix =  Matrix.Invert(transformMatrix);
@@ -309,27 +309,22 @@ namespace Monofoxe.Engine.Cameras
 				
 				for(var i = 0; i < PostprocessorEffects.Count - 1; i += 1)
 				{
-					PostprocessorEffects[i].SetWorldViewProjection(
-						GraphicsMgr.CurrentWorld,
-						GraphicsMgr.CurrentView, 
-						GraphicsMgr.CurrentProjection
-					);
-
-					GraphicsMgr.CurrentEffect = PostprocessorEffects[i];
+					
+					GraphicsMgr.VertexBatch.Effect = PostprocessorEffects[i];
 					if (sufraceChooser)
 					{
-						GraphicsMgr.SetSurfaceTarget(Surface);
+						Surface.SetTarget(Surface);
 						GraphicsMgr.Device.Clear(Color.TransparentBlack);
 						_postprocessorBuffer.Draw(Vector2.Zero);
 					}
 					else
 					{
-						GraphicsMgr.SetSurfaceTarget(_postprocessorBuffer);
+						Surface.SetTarget(_postprocessorBuffer);
 						GraphicsMgr.Device.Clear(Color.TransparentBlack);
 						Surface.Draw(Vector2.Zero);
 					}
 					
-					GraphicsMgr.ResetSurfaceTarget();
+					Surface.ResetTarget();
 					sufraceChooser = !sufraceChooser;
 				}
 				
@@ -341,20 +336,14 @@ namespace Monofoxe.Engine.Cameras
 					_postprocessorBuffer = buffer;
 				}
 
-				PostprocessorEffects[PostprocessorEffects.Count - 1].SetWorldViewProjection(
-					GraphicsMgr.CurrentWorld,
-					GraphicsMgr.CurrentView,
-					GraphicsMgr.CurrentProjection
-				);
-
-				GraphicsMgr.CurrentEffect = PostprocessorEffects[PostprocessorEffects.Count - 1];
+				GraphicsMgr.VertexBatch.Effect = PostprocessorEffects[PostprocessorEffects.Count - 1];
 			}
 		}
 
 		internal void Render()
 		{
 			ApplyPostprocessing();
-
+			
 			Surface.Draw(
 				PortPosition, 
 				PortOffset, 
@@ -362,7 +351,7 @@ namespace Monofoxe.Engine.Cameras
 				PortRotation, 
 				Color.White
 			);
-			GraphicsMgr.CurrentEffect = null;
+			GraphicsMgr.VertexBatch.Effect = null;
 		}
 
 	}

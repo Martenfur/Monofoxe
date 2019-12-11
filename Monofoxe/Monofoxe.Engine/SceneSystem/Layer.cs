@@ -294,7 +294,7 @@ namespace Monofoxe.Engine.SceneSystem
 
 			if (hasPostprocessing)
 			{
-				GraphicsMgr.SetSurfaceTarget(GraphicsMgr.CurrentCamera._postprocessorLayerBuffer, GraphicsMgr.CurrentView);
+				Surface.SetTarget(GraphicsMgr.CurrentCamera._postprocessorLayerBuffer, GraphicsMgr.VertexBatch.View);
 				GraphicsMgr.Device.Clear(Color.TransparentBlack);
 			}
 
@@ -308,14 +308,14 @@ namespace Monofoxe.Engine.SceneSystem
 
 			if (hasPostprocessing)
 			{
-				GraphicsMgr.ResetSurfaceTarget();
+				Surface.ResetTarget();
 
-				var oldRasterizer = GraphicsMgr.Rasterizer;
-				GraphicsMgr.Rasterizer = GraphicsMgr._cameraRasterizerState;
-				GraphicsMgr.SetTransformMatrix(Matrix.CreateTranslation(Vector3.Zero));
+				var oldRasterizer = GraphicsMgr.VertexBatch.RasterizerState;
+				GraphicsMgr.VertexBatch.RasterizerState = GraphicsMgr._cameraRasterizerState;
+				GraphicsMgr.VertexBatch.PushViewMatrix(Matrix.CreateTranslation(Vector3.Zero));
 				ApplyPostprocessing();
-				GraphicsMgr.ResetTransformMatrix();
-				GraphicsMgr.Rasterizer = oldRasterizer;
+				GraphicsMgr.VertexBatch.PopViewMatrix();
+				GraphicsMgr.VertexBatch.RasterizerState = oldRasterizer;
 			}
 		}
 
@@ -392,38 +392,27 @@ namespace Monofoxe.Engine.SceneSystem
 
 			for (var i = 0; i < PostprocessorEffects.Count - 1; i += 1)
 			{
-				PostprocessorEffects[i].SetWorldViewProjection(
-					GraphicsMgr.CurrentWorld,
-					GraphicsMgr.CurrentView,
-					GraphicsMgr.CurrentProjection
-				);
-
-				GraphicsMgr.CurrentEffect = PostprocessorEffects[i];
+				
+				GraphicsMgr.VertexBatch.Effect = PostprocessorEffects[i];
 				if (sufraceChooser)
 				{
-					GraphicsMgr.SetSurfaceTarget(camera._postprocessorLayerBuffer);
+					Surface.SetTarget(camera._postprocessorLayerBuffer);
 					GraphicsMgr.Device.Clear(Color.TransparentBlack);
 					camera._postprocessorBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Right, Color.White);
 				}
 				else
 				{
-					GraphicsMgr.SetSurfaceTarget(camera._postprocessorBuffer);
+					Surface.SetTarget(camera._postprocessorBuffer);
 					GraphicsMgr.Device.Clear(Color.TransparentBlack);
 					camera._postprocessorLayerBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Right, Color.White);
 				}
 
-				GraphicsMgr.ResetSurfaceTarget();
+				Surface.ResetTarget();
 				sufraceChooser = !sufraceChooser;
 			}
 
 
-			PostprocessorEffects[PostprocessorEffects.Count - 1].SetWorldViewProjection(
-				GraphicsMgr.CurrentWorld,
-				GraphicsMgr.CurrentView,
-				GraphicsMgr.CurrentProjection
-			);
-
-			GraphicsMgr.CurrentEffect = PostprocessorEffects[PostprocessorEffects.Count - 1];
+			GraphicsMgr.VertexBatch.Effect = PostprocessorEffects[PostprocessorEffects.Count - 1];
 			if ((PostprocessorEffects.Count % 2) != 0)
 			{
 				camera._postprocessorLayerBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Right, Color.White);
@@ -433,7 +422,7 @@ namespace Monofoxe.Engine.SceneSystem
 				camera._postprocessorBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Right, Color.White);
 			}
 
-			GraphicsMgr.CurrentEffect = null;
+			GraphicsMgr.VertexBatch.Effect = null;
 		}
 
 

@@ -16,12 +16,12 @@ namespace Monofoxe.Engine.Drawing
 		/// List of all primitive's vertices. 
 		/// NOTE: all vertices treat position as an origin point;
 		/// </summary>
-		public List<Vertex> Vertices;
+		public List<Vertex> Vertices = new List<Vertex>();
 		
 		/// <summary>
 		/// Graphics mode which will be used while drawing primitive.
 		/// </summary>
-		protected abstract GraphicsMode _graphicsMode {get;}
+		protected abstract PrimitiveType _primitiveType {get;}
 		
 		/// <summary>
 		/// Frame texture.
@@ -90,7 +90,7 @@ namespace Monofoxe.Engine.Drawing
 				// Since we may work with sprites, which are only little parts of whole texture atlas,
 				// we need to convert local sprite coordinates to global atlas coordinates.
 				var atlasPos = _textureOffset + vertex.TexturePosition * _textureRatio;
-				vertices.Add(new VertexPositionColorTexture((vertex.Position + Position).ToVector3(), vertex.Color, atlasPos));
+				vertices.Add(new VertexPositionColorTexture(vertex.Position + Position.ToVector3(), vertex.Color, atlasPos));
 			}
 
 			return vertices;
@@ -99,12 +99,8 @@ namespace Monofoxe.Engine.Drawing
 		
 		public void Draw()
 		{
-			GraphicsMgr.AddVertices(
-				_graphicsMode, 
-				_texture, 
-				GetConvertedVertices(), 
-				GetIndices()
-			);
+			GraphicsMgr.VertexBatch.Texture = _texture;
+			GraphicsMgr.VertexBatch.AddPrimitive(_primitiveType, GetConvertedVertices().ToArray(), GetIndices());
 		}
 
 		
