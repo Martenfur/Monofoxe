@@ -2,7 +2,7 @@
 
 ### IN THIS BUILD:
 - Added `VertexBatch` class.
-- Replaced GraphicsMgr's internal SpriteBatch with `VertexBatch`
+- Replaced `GraphicsMgr`'s internal `SpriteBatch` with `VertexBatch`
 - Moved graphics states from `GraphicsMgr` to `VertexBatch`.
 - Moved matrix stack from `GraphicsMgr` to `VertexBatch`.
 - Added per-vertex z depth for sprites, surfaces and frames.
