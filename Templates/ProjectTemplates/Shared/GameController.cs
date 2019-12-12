@@ -27,9 +27,11 @@ namespace $safeprojectname$
 			GameMgr.WindowManager.CenterWindow();
 			GameMgr.WindowManager.CanvasMode = CanvasMode.Fill;
 			
-			GraphicsMgr.Sampler = SamplerState.PointClamp;
+			GraphicsMgr.VertexBatch.SamplerState = SamplerState.PointClamp;
 
 			_monofoxe = ResourceHub.GetResource<Sprite>("DefaultSprites", "Monofoxe");
+			
+			Text.CurrentFont = ResourceHub.GetResource<IFont>("Fonts", "Arial");
 		}
 		
 		public override void Update()

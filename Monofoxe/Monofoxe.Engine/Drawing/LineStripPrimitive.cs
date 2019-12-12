@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace Monofoxe.Engine.Drawing
 {
@@ -9,7 +10,7 @@ namespace Monofoxe.Engine.Drawing
 	public class LineStripPrimitive : Primitive2D
 	{
 		
-		protected override GraphicsMode _graphicsMode => GraphicsMode.LinePrimitives;
+		protected override PrimitiveType _primitiveType => PrimitiveType.LineList;
 
 		/// <summary>
 		/// If true, a line between first and last vertex will be drawn.

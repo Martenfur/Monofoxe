@@ -61,24 +61,18 @@ namespace Monofoxe.Playground.GraphicsDemo
 			var position = startingPosition;
 			var spacing = 100;
 
-			GraphicsMgr.CurrentColor = Color.White; // Sprites are affected by current color too.
 			
-			// Sprites can't have static methods. So we are pulling them from sprite group.
+			// Sprites can't have static methods.
 			_monofoxeSprite.Draw(position);
 
 			position += Vector2.UnitX * spacing * 2;
 
 			// Setting a shader for the sprite.
-			_seizure.SetWorldViewProjection(
-				GraphicsMgr.CurrentWorld, 
-				GraphicsMgr.CurrentView, 
-				GraphicsMgr.CurrentProjection
-			);
+			GraphicsMgr.VertexBatch.Effect = _seizure;
 
-			GraphicsMgr.CurrentEffect = _seizure;
 			// If you want to animate the sprite, you must pass a value from 0 to 1 to it.
 			_fireSprite.Draw(position, _animation);
-			GraphicsMgr.CurrentEffect = null;
+			GraphicsMgr.VertexBatch.Effect = null;
 
 			position += Vector2.UnitX * spacing;
 
@@ -95,7 +89,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 				new Vector2(_fireSprite.Width, _fireSprite.Height) / 2, 
 				new Vector2(1, 2) * (float)Math.Sin(_animation * Math.PI * 2 * 2), 
 				new Angle(360 * _animation), 
-				Color.Red // Overrides CurrentColor.
+				Color.Red
 			);
 
 
@@ -103,9 +97,9 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 			// You also can draw only a part of the sprite.
 			_monofoxeSprite.Draw(
-				new Rectangle((int)(position.X), (int)(position.Y), 64, 64),
+				new RectangleF(position.X, position.Y, 64, 64),
 				0,
-				new Rectangle(64, 64, 64, 64),
+				new RectangleF(64, 64, 64, 64),
 				Angle.Right,
 				Color.White
 			);
@@ -119,25 +113,25 @@ namespace Monofoxe.Playground.GraphicsDemo
 			var texture = _monofoxeSprite[0].Texture;
 			var texturePosition = _monofoxeSprite[0].TexturePosition; // This will give you texture's position on the atlas.
 
-			// But how are we gonna draw it? Monofoxe can't draw textures by itself.
-			// We can use default Monogame's SpriteBatch for this.
+			// We can also use default Monogame's SpriteBatch (or anything, for that matter).
 
-			// But beforehand we must reset Monofoxe's graphics pipeline.
-			// This method draws all batched graphics and resets internal graphics pipeline mode. 
-			GraphicsMgr.SwitchGraphicsMode(GraphicsMode.None); 
+			// But beforehand we must flush Monofoxe's own batcher.
+			// This method draws all batched graphics. 
+			GraphicsMgr.VertexBatch.FlushBatch();
 
-			// After it, you can draw anything you like using any method.
+			// After that, you can draw anything you like using any method.
 
-			_batch.Begin( // If you don't want to create new SpriteBatch, you can use GraphicsMgr.Batch instead.
-				SpriteSortMode.Deferred, 
+			_batch.Begin(
+				SpriteSortMode.Deferred,
+				null, 
+				SamplerState.PointWrap, 
 				null, 
 				null, 
-				null, 
-				null, 
-				null, 
-				GraphicsMgr.CurrentView // Passig current transform matrix to match the camera.
+				null,
+				GraphicsMgr.VertexBatch.View 
 			);
 			_batch.Draw(texture, position, GraphicsMgr.CurrentColor);
+
 			_batch.End();
 			
 			// After you're done, you can draw anything you like without switching graphics mode again.
@@ -155,8 +149,8 @@ namespace Monofoxe.Playground.GraphicsDemo
 			Text.Draw("This text is drawn using default" + Environment.NewLine + "Monogame spritefont.", position);
 			position += Vector2.UnitY * 48;
 			Text.CurrentFont = ResourceHub.GetResource<IFont>("Fonts", "FancyFont");
-			Text.Draw("This text is drawn using custom" + Environment.NewLine + "font made from a sprite.", position);
-
+			Text.Draw("This text is drawn using custom" + Environment.NewLine + "font made from a sprite.", position, Vector2.One * 1.1f, Vector2.Zero, new Angle(-10));
+			
 		}
 
 		/// <summary>
@@ -166,14 +160,14 @@ namespace Monofoxe.Playground.GraphicsDemo
 		{
 			_surface = new Surface(128, 128);
 
-			GraphicsMgr.SetSurfaceTarget(_surface);
+			Surface.SetTarget(_surface);
 
 			GraphicsMgr.Device.Clear(_secondaryColor);
 
 			GraphicsMgr.CurrentColor = _mainColor;
 			CircleShape.Draw(new Vector2(64, 64), 64, false);
 
-			GraphicsMgr.ResetSurfaceTarget();
+			Surface.ResetTarget();
 		}
 
 

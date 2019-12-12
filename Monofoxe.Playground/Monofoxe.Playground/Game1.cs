@@ -36,6 +36,13 @@ namespace Monofoxe.Playground
 			base.Initialize();
 			TiledEntityFactoryPool.InitFactoryPool();
 
+			var depth = new DepthStencilState();
+			depth.DepthBufferEnable = true;
+			depth.DepthBufferWriteEnable = true;
+			GraphicsMgr.Device.PresentationParameters.DepthStencilFormat = DepthFormat.Depth24Stencil8;
+
+			GraphicsMgr.VertexBatch.DepthStencilState = depth;
+
 			new GameController();
 		}
 

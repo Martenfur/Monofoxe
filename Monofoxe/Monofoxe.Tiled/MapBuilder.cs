@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.EC;
 using Monofoxe.Engine.SceneSystem;
@@ -96,7 +97,7 @@ namespace Monofoxe.Tiled
 
 							var tileTexture = tileset.Textures[tile.TextureID];
 							
-							var frame = new Frame(tileTexture, tile.TexturePosition, Vector2.Zero);
+							var frame = new Frame(tileTexture, tile.TexturePosition.ToRectangleF(), Vector2.Zero);
 						
 							var tilesetTile = new BasicTilesetTile(frame);
 							tilesetTilesList.Add(tilesetTile);
@@ -243,7 +244,7 @@ namespace Monofoxe.Tiled
 				
 				var frame = new Frame(
 					imageLayer.Texture, 
-					imageLayer.Texture.Bounds, 
+					imageLayer.Texture.Bounds.ToRectangleF(), 
 					Vector2.Zero
 				);
 				new ImageLayerRenderer(layer, imageLayer.Offset, frame);

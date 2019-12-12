@@ -3,6 +3,7 @@ using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.EC;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Utils;
+using Monofoxe.Engine.Resources;
 using Monofoxe.Tiled;
 using Monofoxe.Tiled.MapStructure.Objects;
 using System;
