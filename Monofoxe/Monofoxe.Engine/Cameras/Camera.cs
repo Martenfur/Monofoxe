@@ -107,13 +107,11 @@ namespace Monofoxe.Engine.Cameras
 		/// If true, clears camera surface every step.
 		/// </summary>
 		public bool ClearBackground = true;
+		
 
-		/// <summary>
-		/// Transformation matrix.
-		/// </summary>
-		public Matrix TransformMatrix {get; private set;}
-
-
+		public Matrix View;
+		public Matrix Projection;
+		
 
 		private Dictionary<string, HashSet<string>> _filter = 
 			new Dictionary<string, HashSet<string>>(StringComparer.OrdinalIgnoreCase);
@@ -202,7 +200,7 @@ namespace Monofoxe.Engine.Cameras
 		/// </summary>
 		public void UpdateTransformMatrix()
 		{
-			TransformMatrix = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) * // Coordinates.
+			View = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) * // Coordinates.
 				Matrix.CreateRotationZ(-Rotation.RadiansF) *                  // Rotation.
 				Matrix.CreateScale(new Vector3(Zoom, Zoom, 1)) *                                   // Scale.
 				Matrix.CreateTranslation(new Vector3(Offset.X, Offset.Y, 0));              // Offset.									

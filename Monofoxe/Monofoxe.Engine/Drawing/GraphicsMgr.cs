@@ -138,13 +138,13 @@ namespace Monofoxe.Engine.Drawing
 					// Updating current transform matrix and camera.
 					camera.UpdateTransformMatrix();
 					CurrentCamera = camera;
-					VertexBatch.View = camera.TransformMatrix;
+					VertexBatch.View = camera.View;
 					VertexBatch.Projection = Matrix.CreateOrthographicOffCenter(0, camera.Size.X, camera.Size.Y, 0, 0, 1);
 					// Updating current transform matrix and camera.
 
 					Input.MousePosition = camera.GetRelativeMousePosition();
 
-					Surface.SetTarget(camera.Surface, camera.TransformMatrix);
+					Surface.SetTarget(camera.Surface, camera.View);
 					
 					if (camera.ClearBackground)
 					{

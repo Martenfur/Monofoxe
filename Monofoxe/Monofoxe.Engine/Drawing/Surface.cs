@@ -211,9 +211,14 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Sets surface as a render target.
 		/// </summary>
-		/// <param name="surf">Target surface.</param>
-		/// <param name="view">Surface transformation matrix.</param>
-		public static void SetTarget(Surface surf, Matrix view)
+		public static void SetTarget(Surface surf, Matrix view) =>
+			SetTarget(surf, Matrix.CreateTranslation(Vector3.Zero), Matrix.CreateOrthographicOffCenter(0, _currentSurface.Width, _currentSurface.Height, 0, 0, 1));
+
+
+		/// <summary>
+		/// Sets surface as a render target.
+		/// </summary>
+		public static void SetTarget(Surface surf, Matrix view, Matrix projection)
 		{
 			GraphicsMgr.VertexBatch.FlushBatch();
 			GraphicsMgr.VertexBatch.PushViewMatrix(view);
@@ -221,7 +226,7 @@ namespace Monofoxe.Engine.Drawing
 			_surfaceStack.Push(_currentSurface);
 			_currentSurface = surf;
 
-			GraphicsMgr.VertexBatch.Projection = Matrix.CreateOrthographicOffCenter(0, _currentSurface.Width, _currentSurface.Height, 0, 0, 1);
+			GraphicsMgr.VertexBatch.Projection = projection;
 
 			GraphicsMgr.Device.SetRenderTarget(_currentSurface.RenderTarget);
 		}
