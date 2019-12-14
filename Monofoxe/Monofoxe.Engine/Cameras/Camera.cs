@@ -200,11 +200,23 @@ namespace Monofoxe.Engine.Cameras
 		/// </summary>
 		public void UpdateTransformMatrix()
 		{
-			View = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) * // Coordinates.
-				Matrix.CreateRotationZ(-Rotation.RadiansF) *                  // Rotation.
-				Matrix.CreateScale(new Vector3(Zoom, Zoom, 1)) *                                   // Scale.
-				Matrix.CreateTranslation(new Vector3(Offset.X, Offset.Y, 0));              // Offset.									
+			View = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) * // Position.
+				Matrix.CreateRotationZ(-Rotation.RadiansF) *                              // Rotation.
+				Matrix.CreateScale(new Vector3(Zoom, Zoom, 1)) *                          // Scale.
+				Matrix.CreateTranslation(new Vector3(Offset.X, Offset.Y, 0));             // Offset.									
 		}
+
+		public Matrix ConstructViewMatrix()
+		{
+			return Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) * // Position.
+				Matrix.CreateRotationZ(-Rotation.RadiansF) *                              // Rotation.
+				Matrix.CreateScale(new Vector3(Zoom, Zoom, 1)) *                          // Scale.
+				Matrix.CreateTranslation(new Vector3(Offset.X, Offset.Y, 0));             // Offset.									
+		}
+
+		public Matrix ConstructProjectionMatrix() =>
+			Matrix.CreateOrthographicOffCenter(0, Size.X, Size.Y, 0, 0, 1); // TODO: Add custom zNear/zFar.
+
 
 
 		/// <summary>

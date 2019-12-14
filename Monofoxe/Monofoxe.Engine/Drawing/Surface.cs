@@ -212,8 +212,8 @@ namespace Monofoxe.Engine.Drawing
 		/// Sets surface as a render target.
 		/// </summary>
 		public static void SetTarget(Surface surf, Matrix view) =>
-			SetTarget(surf, Matrix.CreateTranslation(Vector3.Zero), Matrix.CreateOrthographicOffCenter(0, _currentSurface.Width, _currentSurface.Height, 0, 0, 1));
-
+			SetTarget(surf, view, Matrix.CreateOrthographicOffCenter(0, surf.Width, surf.Height, 0, 0, 1));
+		
 
 		/// <summary>
 		/// Sets surface as a render target.
@@ -222,11 +222,11 @@ namespace Monofoxe.Engine.Drawing
 		{
 			GraphicsMgr.VertexBatch.FlushBatch();
 			GraphicsMgr.VertexBatch.PushViewMatrix(view);
+			GraphicsMgr.VertexBatch.PushProjectionMatrix(projection);
 
 			_surfaceStack.Push(_currentSurface);
 			_currentSurface = surf;
 
-			GraphicsMgr.VertexBatch.Projection = projection;
 
 			GraphicsMgr.Device.SetRenderTarget(_currentSurface.RenderTarget);
 		}
@@ -238,30 +238,20 @@ namespace Monofoxe.Engine.Drawing
 		{
 			GraphicsMgr.VertexBatch.FlushBatch();
 			GraphicsMgr.VertexBatch.PopViewMatrix();
+			GraphicsMgr.VertexBatch.PopProjectionMatrix();
 
 			if (_surfaceStack.Count == 0)
 			{
 				throw new InvalidOperationException("Surface stack is empty! Did you forgot to set a surface somewhere?");
 			}
 			_currentSurface = _surfaceStack.Pop();
-			// TODO: Replace with projection stack?
+			
 			if (_currentSurface != null)
 			{
-				GraphicsMgr.VertexBatch.Projection = Matrix.CreateOrthographicOffCenter(0, _currentSurface.Width, _currentSurface.Height, 0, 0, 1);
-
 				GraphicsMgr.Device.SetRenderTarget(_currentSurface.RenderTarget);
 			}
 			else
 			{
-				GraphicsMgr.VertexBatch.Projection = Matrix.CreateOrthographicOffCenter(
-					0,
-					GameMgr.WindowManager.PreferredBackBufferWidth,
-					GameMgr.WindowManager.PreferredBackBufferHeight,
-					0,
-					0,
-					1
-				);
-
 				GraphicsMgr.Device.SetRenderTarget(null);
 			}
 		}

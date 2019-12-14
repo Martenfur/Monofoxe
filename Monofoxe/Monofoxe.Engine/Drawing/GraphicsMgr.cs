@@ -135,16 +135,15 @@ namespace Monofoxe.Engine.Drawing
 			{
 				if (camera.Enabled)
 				{
-					// Updating current transform matrix and camera.
-					camera.UpdateTransformMatrix();
 					CurrentCamera = camera;
-					VertexBatch.View = camera.View;
-					VertexBatch.Projection = Matrix.CreateOrthographicOffCenter(0, camera.Size.X, camera.Size.Y, 0, 0, 1);
-					// Updating current transform matrix and camera.
-
+					
+					Surface.SetTarget(
+						camera.Surface, 
+						camera.ConstructViewMatrix(), 
+						camera.ConstructProjectionMatrix()
+					);
+					
 					Input.MousePosition = camera.GetRelativeMousePosition();
-
-					Surface.SetTarget(camera.Surface, camera.View);
 					
 					if (camera.ClearBackground)
 					{
@@ -162,7 +161,17 @@ namespace Monofoxe.Engine.Drawing
 
 			// Resetting camera, transform matrix and mouse position.
 			CurrentCamera = null;
-			VertexBatch.View = CanvasMatrix;
+			VertexBatch.PushProjectionMatrix(
+				Matrix.CreateOrthographicOffCenter(
+					0,
+					GameMgr.WindowManager.PreferredBackBufferWidth,
+					GameMgr.WindowManager.PreferredBackBufferHeight,
+					0,
+					0,
+					1
+				)
+			);
+			VertexBatch.PushViewMatrix(CanvasMatrix);
 			Input.MousePosition = Input.ScreenMousePosition;
 			// Resetting camera, transform matrix and mouse position
 			
@@ -193,13 +202,13 @@ namespace Monofoxe.Engine.Drawing
 
 			
 			// Drawing GUI stuff.
-			
 			SceneMgr.CallDrawGUIEvents();
-
 			
 			VertexBatch.FlushBatch();
 			// Drawing GUI stuff.
 
+			VertexBatch.PopViewMatrix();
+			VertexBatch.PopProjectionMatrix();
 			
 			// Safety checks.
 			if (!Surface.SurfaceStackEmpty)
