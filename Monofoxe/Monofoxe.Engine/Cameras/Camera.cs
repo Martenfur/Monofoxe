@@ -9,11 +9,11 @@ namespace Monofoxe.Engine.Cameras
 {
 
 	/// <summary>
-	/// Game camera. Support positioning, rotating and scaling.
+	/// Game camera. Supports positioning, rotating and scaling.
 	/// NOTE: There always should be at least one camera, 
 	/// otherwise Draw events won't be triggered.
 	/// </summary>
-	public class Camera : IDisposable
+	public abstract class Camera : IDisposable
 	{
 		/// <summary>
 		/// Priority of a camera. 
@@ -36,7 +36,7 @@ namespace Monofoxe.Engine.Cameras
 		/// View coordinates.
 		/// NOTE: They don't take into account offset and rotation.
 		/// </summary>
-		public Vector2 Position;
+		public Vector3 Position;
 
 		/// <summary>
 		/// View size.
@@ -46,7 +46,7 @@ namespace Monofoxe.Engine.Cameras
 		/// <summary>
 		/// Camera offset.
 		/// </summary>
-		public Vector2 Offset;
+		public Vector3 Offset;
 
 		/// <summary>
 		/// View rotation. Measured in degrees.
@@ -57,6 +57,16 @@ namespace Monofoxe.Engine.Cameras
 		/// View zoom.
 		/// </summary>
 		public float Zoom = 1;
+
+		/// <summary>
+		/// If depth buffer is enabled, vertices with Z further than far plane will not be drawn.
+		/// </summary>
+		public float ZFarPlane = 1;
+
+		/// <summary>
+		/// If depth buffer is enabled, vertices with Z closer than near plane will not be drawn.
+		/// </summary>
+		public float ZNearPlane = 0;
 
 
 		/// <summary>
@@ -195,55 +205,18 @@ namespace Monofoxe.Engine.Cameras
 			Surface.Dispose();
 		}
 		
-		/// <summary>
-		/// Updates camera's transform matrix.
-		/// </summary>
-		public void UpdateTransformMatrix()
-		{
-			View = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) * // Position.
-				Matrix.CreateRotationZ(-Rotation.RadiansF) *                              // Rotation.
-				Matrix.CreateScale(new Vector3(Zoom, Zoom, 1)) *                          // Scale.
-				Matrix.CreateTranslation(new Vector3(Offset.X, Offset.Y, 0));             // Offset.									
-		}
-
-		public Matrix ConstructViewMatrix()
-		{
-			return Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) * // Position.
-				Matrix.CreateRotationZ(-Rotation.RadiansF) *                              // Rotation.
-				Matrix.CreateScale(new Vector3(Zoom, Zoom, 1)) *                          // Scale.
-				Matrix.CreateTranslation(new Vector3(Offset.X, Offset.Y, 0));             // Offset.									
-		}
-
-		public Matrix ConstructProjectionMatrix() =>
-			Matrix.CreateOrthographicOffCenter(0, Size.X, Size.Y, 0, 0, 1); // TODO: Add custom zNear/zFar.
-
+		
+		public abstract Matrix ConstructViewMatrix();
+		
+		public abstract Matrix ConstructProjectionMatrix();
+			
 
 
 		/// <summary>
 		/// Returns mouse position relative to the camera.
 		/// </summary>
-		public Vector2 GetRelativeMousePosition()
-		{
-			/*
-			 * Well, I am giving up.
-			 * Mouse *works* with port position, offset and scale,
-			 * but rotation breaks everything for some reason.
-			 * Maybe a hero of the future will fix it, but this is 
-			 * so rare usecase, that it doesn't really worth the hassle. :S
-			 * TODO: Fix port rotation problems.
-			 */
-			var transformMatrix = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) *
-				Matrix.CreateRotationZ((PortRotation - Rotation).RadiansF) *            
-				Matrix.CreateScale(new Vector3(Zoom, Zoom, 1)) *
-				Matrix.CreateTranslation(new Vector3(Offset.X, Offset.Y, 0));
-			
-			var matrix =  Matrix.Invert(transformMatrix);
-			var mouseVec = (Input.ScreenMousePosition - PortPosition) / PortScale + PortOffset;
-
-			var transformedMouseVec = Vector3.Transform(new Vector3(mouseVec.X, mouseVec.Y, 0), matrix);
-			return new Vector2(transformedMouseVec.X, transformedMouseVec.Y);
-		}
-
+		public abstract Vector2 GetRelativeMousePosition();
+		
 
 		public void AddFilterEntry(string sceneName, string layerName)
 		{

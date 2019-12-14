@@ -36,7 +36,7 @@ namespace Monofoxe.Playground.Interface
 		public CameraController(Layer layer, Camera camera) : base(layer)
 		{
 			Camera = camera;
-			Camera.Offset = Camera.Size / 2;
+			Camera.Offset = Camera.Size.ToVector3() / 2;
 			Reset();
 		}
 
@@ -57,7 +57,7 @@ namespace Monofoxe.Playground.Interface
 			
 			var rotatedMovementVector = new Vector2(movementVector3.X, movementVector3.Y);
 			
-			Camera.Position += TimeKeeper.Global.Time(_cameraSpeed / Camera.Zoom) * rotatedMovementVector;
+			Camera.Position += TimeKeeper.Global.Time(_cameraSpeed / Camera.Zoom) * rotatedMovementVector.ToVector3();
 			// Movement.
 
 			// Zoom.

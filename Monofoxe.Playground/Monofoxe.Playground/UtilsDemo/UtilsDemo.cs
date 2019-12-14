@@ -48,7 +48,7 @@ namespace Monofoxe.Playground.UtilsDemo
 
 		double _counter = 0;
 
-		Camera _camera;
+		Camera2D _camera;
 
 		StateMachine<TestStates> _stateMachine;
 		Color _color;
@@ -100,7 +100,7 @@ namespace Monofoxe.Playground.UtilsDemo
 
 
 			// Camera.
-			_camera = new Camera(400, 600);
+			_camera = new Camera2D(400, 600);
 			_camera.PortPosition = new Vector2(400, 0);
 			_camera.BackgroundColor = Color.Black;
 			_camera.PostprocessorEffects.Add(_grayscale);

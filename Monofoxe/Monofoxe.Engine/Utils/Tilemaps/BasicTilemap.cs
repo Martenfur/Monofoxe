@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.EC;
 using Monofoxe.Engine.SceneSystem;
@@ -83,9 +82,9 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 
 		public override void Draw()
 		{
-			var offsetCameraPos = GraphicsMgr.CurrentCamera.Position
+			var offsetCameraPos = GraphicsMgr.CurrentCamera.Position.ToVector2()
 				- Offset
-				- GraphicsMgr.CurrentCamera.Offset / GraphicsMgr.CurrentCamera.Zoom;
+				- GraphicsMgr.CurrentCamera.Offset.ToVector2() / GraphicsMgr.CurrentCamera.Zoom;
 
 			var scaledCameraSize = GraphicsMgr.CurrentCamera.Size / GraphicsMgr.CurrentCamera.Zoom;
 			var startX = (int)(offsetCameraPos.X / TileWidth) - Padding;

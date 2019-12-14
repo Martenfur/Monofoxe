@@ -1,6 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Monofoxe.Engine.Utils;
+﻿using Microsoft.Xna.Framework;
+using System;
 
 namespace Monofoxe.Engine
 {
@@ -9,6 +8,12 @@ namespace Monofoxe.Engine
 	/// </summary>
 	public static class Vector3Extensions
 	{
+		/// <summary>
+		/// Converts Vector3 to Vector2 by dropping Z.
+		/// </summary>
+		public static Vector2 ToVector2(this Vector3 v) =>
+			new Vector2(v.X, v.Y);
+
 		// Why RoundV and not Round? For some reason there is name clash with
 		// Vector3 static methods on newer MG build.
 
