@@ -14,8 +14,14 @@ namespace Monofoxe.Engine.Drawing
 	/// 5 - 4 
 	/// </summary>
 	public class TriangleFanPrimitive : Primitive2D
-	{	
+	{
+		
 		protected override PrimitiveType _primitiveType => PrimitiveType.TriangleList;
+
+
+		public TriangleFanPrimitive(int capacity) : base(capacity)
+		{
+		}
 
 		/// <summary>
 		/// Sets indexes according to trianglefan pattern.
@@ -31,7 +37,7 @@ namespace Monofoxe.Engine.Drawing
 
 			var indices = new List<short>();
 			
-			for(var i = 1; i < Vertices.Count - 1; i += 1)
+			for(var i = 1; i < Vertices.Length - 1; i += 1)
 			{
 				indices.Add(0);
 				indices.Add((short)i);

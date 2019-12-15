@@ -6,6 +6,7 @@
 - Added projection matrix to the camera.
 - `Camera`'s `Posision` and `Origin` are `Vector3` instead of `Vector2` now.
 - Added an option to set custom projection matrix to the `Surface`.
+- `Primitive2D` now uses array of vertices instead of a list.
 
 ### FEATURES:
 
@@ -50,6 +51,7 @@
 - Moved matrix stack from `GraphicsMgr` to `VertexBatch`.
 - Made `Camera` abstract class and added `Camera2D` class.
 - `Camera`'s `Posision` and `Origin` are `Vector3` instead of `Vector2` now.
+- `Primitive2D` now uses array of vertices instead of a list.
 
 ### FIXES:
 

@@ -12,7 +12,12 @@ namespace Monofoxe.Engine.Drawing
 	/// </summary>
 	public class TriangleStripPrimitive : Primitive2D
 	{
+		
 		protected override PrimitiveType _primitiveType => PrimitiveType.TriangleList;
+
+		public TriangleStripPrimitive(int capacity) : base(capacity)
+		{
+		}
 
 		/// <summary>
 		/// Sets indices according to trianglestrip pattern.
@@ -27,7 +32,7 @@ namespace Monofoxe.Engine.Drawing
 			var indices = new List<short>();
 			
 			var flip = true;
-			for(var i = 0; i < Vertices.Count - 2; i += 1)
+			for(var i = 0; i < Vertices.Length - 2; i += 1)
 			{
 				indices.Add((short)i);
 				if (flip) // Taking in account counter-clockwise culling.

@@ -27,7 +27,7 @@ namespace Monofoxe.Engine.Drawing
 		public int Height;
 
 
-		public MeshPrimitive(int width = 1, int height = 1)
+		public MeshPrimitive(int width = 1, int height = 1) : base(width * height)
 		{
 			Width = width;
 			Height = height;
