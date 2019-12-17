@@ -23,6 +23,11 @@ namespace Monofoxe.Engine.Drawing
 
 		public Color Color = Color.White;
 
+		static CircleShape()
+		{
+			CircleVerticesCount = 16;
+		}
+
 		public void Draw() =>
 			Draw(Position, Radius, IsOutline, Color);
 		
@@ -53,7 +58,7 @@ namespace Monofoxe.Engine.Drawing
 			}
 			get => _circleVerticesCount;
 		}
-		private static int _circleVerticesCount = 16;
+		private static int _circleVerticesCount = 0;
 
 
 		private static Vector2[] _circleVectors = new Vector2[_circleVerticesCount];
