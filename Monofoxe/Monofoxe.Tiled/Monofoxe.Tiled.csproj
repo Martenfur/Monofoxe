@@ -4,12 +4,12 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <Version>2.0.0-dev</Version>
-    <Authors>gn Fur</Authors>
+    <Authors>Martenfur</Authors>
     <Company>Chai Foxes</Company>
-    <Product>Monofoxe Engine</Product>
-    <Description>A Monogame-based game engine with extremely high fox concenration.</Description>
-    <PackageProjectUrl>https://github.com/gnFur/Monofoxe/</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/gnFur/Monofoxe/</RepositoryUrl>
+    <Product>Monofoxe Tiled</Product>
+    <Description>Tiled Map Editor integration for Monofoxe.</Description>
+    <PackageProjectUrl>https://github.com/Martenfur/Monofoxe/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Martenfur/Monofoxe/</RepositoryUrl>
     <Copyright></Copyright>
   </PropertyGroup>
 
