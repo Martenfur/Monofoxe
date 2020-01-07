@@ -8,7 +8,7 @@ Monofoxe took a lot of inspiration from Game Maker, so it should be a bit famili
 
 **Current version: 2.0.0.0-dev** [View changelog](/CHANGELOG.md)
 
-[Download in-dev build (recommended)](https://github.com/gnFur/Monofoxe/releases/tag/v2.0.0.0-dev%2B004)
+[Download in-dev build (recommended)](https://github.com/Martenfur/Monofoxe/releases/)
 
 [Download last stable release](https://github.com/gnFur/Monofoxe/releases/latest)
 
@@ -30,7 +30,7 @@ Everything Monogame does, plus:
 * Hybrid ECS.
 * Scene system (with layers!).
 * Tiled maps support.
-* Enhanced resource management via [NoPipeline](https://github.com/gnFur/NoPipeline).
+* Enhanced resource management via [NoPipeline](https://github.com/Martenur/NoPipeline).
 
 
 Coming in the future:
@@ -50,8 +50,8 @@ Well, up to you. Currently I am developing Monofoxe alone, and can't really prov
 
 # How do I use it?
 
-Download the Monofoxe installer from the [latest release](https://github.com/gnFur/Monofoxe/releases/latest) or [in-dev build (recommended)](https://github.com/gnFur/Monofoxe/releases/tag/v2.0.0.0-dev%2B004).
-Installer bundles Visual Studio 2015, 2017 and 2019 templates, [NoPipeline](https://github.com/gnFur/NoPipeline) and Monogame 3.7.1 installation. If you don't want 3.7.1, Monofoxe is confirmed to work on 3.6 and 3.7. It most likely will work on Monogame dev build, but it constantly changes, so you never know.
+Download the Monofoxe installer from the [latest release](https://github.com/Martenfur/Monofoxe/releases/latest) or [in-dev build (recommended)](https://github.com/Martenfur/Monofoxe/releases/).
+Installer bundles Visual Studio 2015, 2017 and 2019 templates, [NoPipeline](https://github.com/Martenfur/NoPipeline) and Monogame 3.7.1 installation. If you don't want 3.7.1, Monofoxe is confirmed to work on 3.6 and 3.7. It most likely will work on Monogame dev build, but it constantly changes, so you never know.
 
 Just install Monofoxe, create Monofoxe project and you're good to go. 
 
@@ -61,7 +61,7 @@ You can also check out the [basic feature demos](Monofoxe.Playground/), [Demo ga
 
 # I've suddenly started loving foxes and want to contribute!
 
-That's the spirit. Check out if I need any help on my [Quire board](https://quire.io/w/Monofoxe/?board=Monofoxe). Stuff under `Open for taking` category is, well, open for taking. You can also contact me via email (`chaifoxes@gmail.com`), on [Twitter](https://twitter.com/ChaiFoxes) or on Discord (`gn Fur#2490`).
+That's the spirit. Check out if I need any help on my [Quire board](https://quire.io/w/Monofoxe/?board=Monofoxe). Stuff under `Open for taking` category is, well, open for taking. You can also contact me via email (`chaifoxes@gmail.com`), on [Twitter](https://twitter.com/ChaiFoxes) or on Discord (`Martenfur#2490`).
 
 **Don't forget to check out Codestyle.cs before contributing!!!**
 
