@@ -113,7 +113,8 @@
     </None>
     <None Include="app.manifest" />
   </ItemGroup>
-  <Import Project="../$ext_safeprojectname$/$ext_safeprojectname$.projitems" Label="Shared" />
+  <Import Project="..\$ext_safeprojectname$\$ext_safeprojectname$.projitems" Label="Shared" Condition="Exists('..\$ext_safeprojectname$\$ext_safeprojectname$.projitems')"/>
+
 
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MonofoxeInstallDirectory)\$(MonofoxeVersion)\NoPipeline\Monofoxe.NoPipeline.targets"/>

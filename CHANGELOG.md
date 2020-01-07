@@ -8,6 +8,7 @@
 - Added an option to set custom projection matrix to the `Surface`.
 - `Primitive2D` now uses array of vertices instead of a list.
 - Fixed circles not being drawn in some cases.
+- Fixed project templates.
 
 ### FEATURES:
 
