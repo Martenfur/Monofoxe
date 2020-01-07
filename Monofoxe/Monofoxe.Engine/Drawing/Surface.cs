@@ -211,17 +211,22 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Sets surface as a render target.
 		/// </summary>
-		/// <param name="surf">Target surface.</param>
-		/// <param name="view">Surface transformation matrix.</param>
-		public static void SetTarget(Surface surf, Matrix view)
+		public static void SetTarget(Surface surf, Matrix view) =>
+			SetTarget(surf, view, Matrix.CreateOrthographicOffCenter(0, surf.Width, surf.Height, 0, 0, 1));
+		
+
+		/// <summary>
+		/// Sets surface as a render target.
+		/// </summary>
+		public static void SetTarget(Surface surf, Matrix view, Matrix projection)
 		{
 			GraphicsMgr.VertexBatch.FlushBatch();
 			GraphicsMgr.VertexBatch.PushViewMatrix(view);
+			GraphicsMgr.VertexBatch.PushProjectionMatrix(projection);
 
 			_surfaceStack.Push(_currentSurface);
 			_currentSurface = surf;
 
-			GraphicsMgr.VertexBatch.Projection = Matrix.CreateOrthographicOffCenter(0, _currentSurface.Width, _currentSurface.Height, 0, 0, 1);
 
 			GraphicsMgr.Device.SetRenderTarget(_currentSurface.RenderTarget);
 		}
@@ -233,30 +238,20 @@ namespace Monofoxe.Engine.Drawing
 		{
 			GraphicsMgr.VertexBatch.FlushBatch();
 			GraphicsMgr.VertexBatch.PopViewMatrix();
+			GraphicsMgr.VertexBatch.PopProjectionMatrix();
 
 			if (_surfaceStack.Count == 0)
 			{
 				throw new InvalidOperationException("Surface stack is empty! Did you forgot to set a surface somewhere?");
 			}
 			_currentSurface = _surfaceStack.Pop();
-			// TODO: Replace with projection stack?
+			
 			if (_currentSurface != null)
 			{
-				GraphicsMgr.VertexBatch.Projection = Matrix.CreateOrthographicOffCenter(0, _currentSurface.Width, _currentSurface.Height, 0, 0, 1);
-
 				GraphicsMgr.Device.SetRenderTarget(_currentSurface.RenderTarget);
 			}
 			else
 			{
-				GraphicsMgr.VertexBatch.Projection = Matrix.CreateOrthographicOffCenter(
-					0,
-					GameMgr.WindowManager.PreferredBackBufferWidth,
-					GameMgr.WindowManager.PreferredBackBufferHeight,
-					0,
-					0,
-					1
-				);
-
 				GraphicsMgr.Device.SetRenderTarget(null);
 			}
 		}

@@ -14,7 +14,7 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public short[] Indices;
 
-		public CustomLinePrimitive(short[] indices = null)
+		public CustomLinePrimitive(int capacity, short[] indices = null) : base(capacity)
 		{
 			Indices = indices;
 		}

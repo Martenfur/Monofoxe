@@ -16,7 +16,7 @@ namespace Monofoxe.Engine.Drawing
 		/// List of all primitive's vertices. 
 		/// NOTE: all vertices treat position as an origin point;
 		/// </summary>
-		public List<Vertex> Vertices = new List<Vertex>();
+		public Vertex[] Vertices;
 		
 		/// <summary>
 		/// Graphics mode which will be used while drawing primitive.
@@ -36,6 +36,12 @@ namespace Monofoxe.Engine.Drawing
 		/// Ratio between texture size and frame size.
 		/// </summary>
 		protected Vector2 _textureRatio;
+
+
+		public Primitive2D(int capacity)
+		{
+			Vertices = new Vertex[capacity];
+		}
 
 
 		/// <summary>
@@ -82,25 +88,27 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Converts list of Monofoxe Vertex objects to Monogame's vertices.
 		/// </summary>
-		protected List<VertexPositionColorTexture> GetConvertedVertices()
+		protected VertexPositionColorTexture[] GetConvertedVertices()
 		{
-			var vertices = new List<VertexPositionColorTexture>();
-			foreach(var vertex in Vertices)
+			var convertedVertices = new VertexPositionColorTexture[Vertices.Length];
+			for(var i = 0; i < Vertices.Length; i += 1)
 			{
+				convertedVertices[i].Position = Vertices[i].Position + Position.ToVector3();
+				convertedVertices[i].Color = Vertices[i].Color;
+
 				// Since we may work with sprites, which are only little parts of whole texture atlas,
 				// we need to convert local sprite coordinates to global atlas coordinates.
-				var atlasPos = _textureOffset + vertex.TexturePosition * _textureRatio;
-				vertices.Add(new VertexPositionColorTexture(vertex.Position + Position.ToVector3(), vertex.Color, atlasPos));
+				convertedVertices[i].TextureCoordinate = _textureOffset + Vertices[i].TexturePosition * _textureRatio;
 			}
 
-			return vertices;
+			return convertedVertices;
 		}
 
 		
 		public void Draw()
 		{
 			GraphicsMgr.VertexBatch.Texture = _texture;
-			GraphicsMgr.VertexBatch.AddPrimitive(_primitiveType, GetConvertedVertices().ToArray(), GetIndices());
+			GraphicsMgr.VertexBatch.AddPrimitive(_primitiveType, GetConvertedVertices(), GetIndices());
 		}
 
 		

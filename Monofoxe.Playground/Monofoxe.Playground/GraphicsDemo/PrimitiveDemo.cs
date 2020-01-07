@@ -37,29 +37,26 @@ namespace Monofoxe.Playground.GraphicsDemo
 		public PrimitiveDemo(Layer layer) : base(layer)
 		{	
 			// Primitives can only be drawn from instances. There are no static methods.
-			_trianglefan = new TriangleFanPrimitive(); 
-			_trianglefan.Vertices = new List<Vertex>
-			{
-				new Vertex(new Vector2(0, 0)),
-				new Vertex(new Vector2(16, 0)),
-				new Vertex(new Vector2(40, 10)),
-				new Vertex(new Vector2(64, 64)),
-				new Vertex(new Vector2(0, 32)),
-			};
+			_trianglefan = new TriangleFanPrimitive(5);
+
+			_trianglefan.Vertices[0] = new Vertex(new Vector2(0, 0));
+			_trianglefan.Vertices[1] = new Vertex(new Vector2(16, 0));
+			_trianglefan.Vertices[2] = new Vertex(new Vector2(40, 10));
+			_trianglefan.Vertices[3] = new Vertex(new Vector2(64, 64));
+			_trianglefan.Vertices[4] = new Vertex(new Vector2(0, 32));
+			
 
 
-			_trianglestrip = new TriangleStripPrimitive();
-			_trianglestrip.Vertices = new List<Vertex>
-			{
-				new Vertex(new Vector2(0, 0), _mainColor),
-				new Vertex(new Vector2(32, 32), _secondaryColor),
-				new Vertex(new Vector2(64, 0),  _secondaryColor2),
-				new Vertex(new Vector2(96, 32),  _secondaryColor),
-				new Vertex(new Vector2(64+32, 0),  _secondaryColor2),
-				new Vertex(new Vector2(96+32, 32), _secondaryColor),
-				new Vertex(new Vector2(64+64, 0),  _secondaryColor2),
-				new Vertex(new Vector2(96+64, 32), _mainColor),
-			};
+			_trianglestrip = new TriangleStripPrimitive(8);
+			_trianglestrip.Vertices[0] = new Vertex(new Vector2(0, 0), _mainColor);
+			_trianglestrip.Vertices[1] = new Vertex(new Vector2(32, 32), _secondaryColor);
+			_trianglestrip.Vertices[2] = new Vertex(new Vector2(64, 0),  _secondaryColor2);
+			_trianglestrip.Vertices[3] = new Vertex(new Vector2(96, 32),  _secondaryColor);
+			_trianglestrip.Vertices[4] = new Vertex(new Vector2(64+32, 0),  _secondaryColor2);
+			_trianglestrip.Vertices[5] = new Vertex(new Vector2(96+32, 32), _secondaryColor);
+			_trianglestrip.Vertices[6] = new Vertex(new Vector2(64+64, 0),  _secondaryColor2);
+			_trianglestrip.Vertices[7] = new Vertex(new Vector2(96+64, 32), _mainColor);
+		
 
 			_mesh = new MeshPrimitive(16, 16);
 			_mesh.Position = new Vector2(0, 100);
@@ -68,30 +65,30 @@ namespace Monofoxe.Playground.GraphicsDemo
 			// If in atlas, textures wouldn't be able to repeat.
 			_autismCatSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "AutismCat");
 			_mesh.SetTextureFromFrame(_autismCatSprite[0]);
-			_mesh.Vertices = new List<Vertex>(8 * 8);
 			
+			var vIndex = 0;
 			for(var k = 0; k < _mesh.Height; k += 1)
 			{
 				for(var i = 0; i < _mesh.Width; i += 1)
 				{
-					_mesh.Vertices.Add(
+
+					_mesh.Vertices[vIndex] = 
 						new Vertex(
 							Vector2.Zero, // Positions will be set later.
 							Color.White, 
 							new Vector2(i / (float)(_mesh.Width - 1), k / (float)(_mesh.Height - 1)) * _meshRepeat
-						)
-					);
+						);
+					
+					vIndex += 1;
 				}
 			}
 
 
-			_linestrip = new LineStripPrimitive();
-
-			_linestrip.Vertices = new List<Vertex>();
+			_linestrip = new LineStripPrimitive(16);
 			
 			for(var i = 0; i < 16; i += 1)
 			{
-				_linestrip.Vertices.Add(new Vertex(Vector2.Zero, new Color(16 * i, 8 * i, 4 * i)));
+				_linestrip.Vertices[i] = new Vertex(Vector2.Zero, new Color(16 * i, 8 * i, 4 * i));
 			}
 
 
@@ -99,14 +96,13 @@ namespace Monofoxe.Playground.GraphicsDemo
 			// CustomTrianglePrimitive and CustomLinePrimitive give you
 			// access to the index array. Index array tells inwhat order vertices should be drawn.
 			// One vertex can be used multiple times in an index array.
-			_custom = new CustomTrianglePrimitive();
-			_custom.Vertices = new List<Vertex>()
-			{
-				new Vertex(new Vector2(0, 0), Color.Green),
-				new Vertex(new Vector2(32, 0)),
-				new Vertex(new Vector2(32, 32)),
-				new Vertex(new Vector2(64, 32), Color.Blue),
-			};
+			_custom = new CustomTrianglePrimitive(4);
+
+			_custom.Vertices[0] = new Vertex(new Vector2(0, 0), Color.Green);
+			_custom.Vertices[1] = new Vertex(new Vector2(32, 0));
+			_custom.Vertices[2] = new Vertex(new Vector2(32, 32));
+			_custom.Vertices[3] = new Vertex(new Vector2(64, 32), Color.Blue);
+			
 			_custom.Indices = new short[]{0, 1, 2, 1, 3, 2};
 			
 		}
@@ -191,7 +187,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 			) * 50;
 			_linestrip.Vertices[0] = vertex;
 
-			for(var i = 1; i < _linestrip.Vertices.Count; i += 1)
+			for(var i = 1; i < _linestrip.Vertices.Length; i += 1)
 			{
 				vertex = _linestrip.Vertices[i];
 				var delta = _linestrip.Vertices[i - 1].Position - vertex.Position;

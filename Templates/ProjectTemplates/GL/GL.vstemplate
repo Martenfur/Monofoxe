@@ -1,6 +1,6 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
 	<TemplateData>
-		<Name>Blank Monofoxe OpenGL Project</Name>
+		<Name>Monofoxe OpenGL Project</Name>
 		<Description>A blank Monofoxe game project for Windows, Mac and Linux using OpenGL. Use together with Shared project.</Description>
 		<ProjectType>CSharp</ProjectType>
 		<NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>

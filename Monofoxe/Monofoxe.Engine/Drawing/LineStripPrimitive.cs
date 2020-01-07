@@ -15,7 +15,12 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// If true, a line between first and last vertex will be drawn.
 		/// </summary>
-		public bool Looped = false;
+		public bool Looped;
+
+		public LineStripPrimitive(int capacity, bool looped = false) : base(capacity)
+		{
+			Looped = looped;
+		}
 
 		/// <summary>
 		/// Sets indices according to line strip pattern.
@@ -26,14 +31,14 @@ namespace Monofoxe.Engine.Drawing
 			
 			var indices = new List<short>();
 
-			for(var i = 0; i < Vertices.Count - 1; i += 1)
+			for(var i = 0; i < Vertices.Length - 1; i += 1)
 			{
 				indices.Add((short)i);
 				indices.Add((short)(i + 1));
 			}
 			if (Looped)
 			{
-				indices.Add((short)(Vertices.Count - 1));
+				indices.Add((short)(Vertices.Length - 1));
 				indices.Add(0);
 			}
 

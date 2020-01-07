@@ -13,7 +13,7 @@ namespace Monofoxe.Playground
 {
 	public class GameController : Entity
 	{
-		public Camera MainCamera = new Camera(800, 600);
+		public Camera2D MainCamera = new Camera2D(800, 600);
 
 		Layer _guiLayer;
 

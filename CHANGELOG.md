@@ -1,12 +1,14 @@
 # v 2.0.0.0-dev:
 
 ### IN THIS BUILD:
-- Added `VertexBatch` class.
-- Replaced `GraphicsMgr`'s internal `SpriteBatch` with `VertexBatch`
-- Moved graphics states from `GraphicsMgr` to `VertexBatch`.
-- Moved matrix stack from `GraphicsMgr` to `VertexBatch`.
-- Added per-vertex z depth for sprites, surfaces and frames.
-- Fixed `Origin` property not being used in `Surface`.
+- Made `Camera` abstract class and added `Camera2D` class.
+- Added `ZNearPlane` and `ZFarPlane` to the camera.
+- Added projection matrix to the camera.
+- `Camera`'s `Posision` and `Origin` are `Vector3` instead of `Vector2` now.
+- Added an option to set custom projection matrix to the `Surface`.
+- `Primitive2D` now uses array of vertices instead of a list.
+- Fixed circles not being drawn in some cases.
+- Fixed project templates.
 
 ### FEATURES:
 
@@ -21,6 +23,9 @@
 - Added various item templates.
 - Added `VertexBatch` class.
 - Added per-vertex z depth for sprites, surfaces and frames.
+- Added `ZNearPlane` and `ZFarPlane` to the camera.
+- Added projection matrix to the camera.
+- Added an option to set custom projection matrix to the `Surface`.
 
 ### CHANGES:
 
@@ -46,6 +51,9 @@
 - Replaced GraphicsMgr's internal `SpriteBatch` with `VertexBatch`
 - Moved graphics states from `GraphicsMgr` to `VertexBatch`.
 - Moved matrix stack from `GraphicsMgr` to `VertexBatch`.
+- Made `Camera` abstract class and added `Camera2D` class.
+- `Camera`'s `Posision` and `Origin` are `Vector3` instead of `Vector2` now.
+- `Primitive2D` now uses array of vertices instead of a list.
 
 ### FIXES:
 

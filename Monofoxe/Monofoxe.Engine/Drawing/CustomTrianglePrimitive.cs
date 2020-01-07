@@ -14,7 +14,7 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public short[] Indices;
 
-		public CustomTrianglePrimitive(short[] indices = null)
+		public CustomTrianglePrimitive(int capacity, short[] indices = null) : base(capacity)
 		{
 			Indices = indices;
 		}

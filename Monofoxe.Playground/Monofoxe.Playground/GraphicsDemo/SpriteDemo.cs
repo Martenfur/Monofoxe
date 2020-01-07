@@ -140,6 +140,14 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 			position += Vector2.UnitX * 512;
 
+			GraphicsMgr.CurrentColor = Color.Red;
+			Surface.SetTarget(_surface);
+
+			var po = new Vector2(_surface.Width, _surface.Height) / 2 + new Angle(GameMgr.ElapsedTimeTotal * 10).ToVector2() * 64;
+			RectangleShape.DrawBySize(po, Vector2.One * 8, false);
+
+			Surface.ResetTarget();
+
 			_surface.Draw(position);
 
 			position += new Vector2(16, 150);

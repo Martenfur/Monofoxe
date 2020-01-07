@@ -63,7 +63,7 @@ $crossplatform = "Crossplatform"
 
 
 "Building solution $msbuild..."
-&$msbuild ("$PWD\Monofoxe\Monofoxe.sln" ,'/verbosity:q','/p:configuration=Release','/t:Clean,Build')
+&$msbuild ("$PWD\Monofoxe\Monofoxe.sln" ,'/verbosity:q','/p:configuration=Release','/t:Clean,Build', '/p:NoWarn=1591')
 &$msbuild ("$PWD\NoPipeline\NoPipeline\NoPipeline.sln" ,'/verbosity:q','/p:configuration=Release','/t:Clean,Build')
 
 
