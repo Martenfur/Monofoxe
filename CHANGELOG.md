@@ -1,14 +1,8 @@
 # v 2.0.0.0-dev:
 
 ### IN THIS BUILD:
-- Made `Camera` abstract class and added `Camera2D` class.
-- Added `ZNearPlane` and `ZFarPlane` to the camera.
-- Added projection matrix to the camera.
-- `Camera`'s `Posision` and `Origin` are `Vector3` instead of `Vector2` now.
-- Added an option to set custom projection matrix to the `Surface`.
-- `Primitive2D` now uses array of vertices instead of a list.
-- Fixed circles not being drawn in some cases.
-- Fixed project templates.
+
+- Fixed crashing when adding/removing components during component event. 
 
 ### FEATURES:
 
