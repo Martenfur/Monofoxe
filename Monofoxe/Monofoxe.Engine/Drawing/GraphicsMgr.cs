@@ -174,9 +174,12 @@ namespace Monofoxe.Engine.Drawing
 			VertexBatch.PushViewMatrix(CanvasMatrix);
 			Input.MousePosition = Input.ScreenMousePosition;
 			// Resetting camera, transform matrix and mouse position
-			
+
 
 			// Drawing camera surfaces.
+			var oldEffect = VertexBatch.Effect;
+			VertexBatch.Effect = null;
+
 			Device.Clear(Color.TransparentBlack);
 			
 			// We don't need in-game rasterizer to apply to camera surfaces.
@@ -198,9 +201,10 @@ namespace Monofoxe.Engine.Drawing
 
 			VertexBatch.RasterizerState = oldRasterizerState;
 			VertexBatch.BlendState = oldBlendState;
+			VertexBatch.Effect = oldEffect;
 			// Drawing camera surfaces.
 
-			
+
 			// Drawing GUI stuff.
 			SceneMgr.CallDrawGUIEvents();
 			
