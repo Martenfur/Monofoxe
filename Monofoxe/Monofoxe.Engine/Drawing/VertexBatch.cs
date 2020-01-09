@@ -208,12 +208,48 @@ namespace Monofoxe.Engine.Drawing
 		PrimitiveType _primitiveType = PrimitiveType.TriangleList;
 
 
+		public Effect DefaultEffect
+		{
+			get => _defaultEffect;
+			set
+			{
+				// TODO: Revisit.
+				if (value != _defaultEffect)
+				{
+					FlushBatch();
+
+					if (value == null)
+					{
+						_defaultEffect = _alphaBlendEffect;
+					}
+					else
+					{
+						_defaultEffect = value;
+					}
+
+					if (_texture != null)
+					{
+						// TODO: Move to the separate method.
+						_defaultEffect.CurrentTechnique = _defaultEffect.Techniques["TexturePremultiplied"];
+					}
+					else
+					{
+						_defaultEffect.CurrentTechnique = _defaultEffect.Techniques["Basic"];
+					}
+
+					_defaultEffectPass = _defaultEffect.CurrentTechnique.Passes[0];
+				}
+			}
+		}
+		private Effect _defaultEffect;
+
+
 		/// <summary>
 		/// Default shader with proper alpha blending. 
-		/// Replaces BasicEffect. Applied, when CurrentEffect is null.
+		/// Replaces BasicEffect. Applied, when CurrentEffect and DefaulrEffect are null.
 		/// </summary>
-		private static Effect _defaultEffect;
-		private static string _defaultEffectName = "AlphaBlend";
+		private static Effect _alphaBlendEffect;
+		private static string _alphaBlendName = "AlphaBlend";
 
 		/// <summary>
 		/// Used to load default shader.
@@ -240,14 +276,14 @@ namespace Monofoxe.Engine.Drawing
 			_vertexPool = new VertexPositionColorTexture[_vertexPoolCapacity];
 
 
-			if (_defaultEffect == null)
+			if (_alphaBlendEffect == null)
 			{
 				_content = new ContentManager(GameMgr.Game.Services);
 				_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.EffectsDir;
-				_defaultEffect = _content.Load<Effect>(_defaultEffectName);
+				_alphaBlendEffect = _content.Load<Effect>(_alphaBlendName);
 			}
-
-			_defaultEffectPass = _defaultEffect.CurrentTechnique.Passes[0];
+			DefaultEffect = _alphaBlendEffect;
+			//_defaultEffectPass = _defaultEffect.CurrentTechnique.Passes[0];
 		}
 
 
