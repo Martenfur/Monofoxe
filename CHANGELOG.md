@@ -2,6 +2,7 @@
 
 ### IN THIS BUILD:
 - Fixed VertexBatch.Effect being reset every frame.
+- Fixed crashing when adding/removing components during component event. 
 
 ### FEATURES:
 
