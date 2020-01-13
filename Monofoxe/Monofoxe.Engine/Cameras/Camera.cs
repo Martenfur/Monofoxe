@@ -325,6 +325,8 @@ namespace Monofoxe.Engine.Cameras
 
 		internal void Render()
 		{
+			var oldEffect = GraphicsMgr.VertexBatch.Effect;
+
 			ApplyPostprocessing();
 			
 			Surface.Draw(
@@ -334,7 +336,7 @@ namespace Monofoxe.Engine.Cameras
 				PortRotation, 
 				Color.White
 			);
-			GraphicsMgr.VertexBatch.Effect = null;
+			GraphicsMgr.VertexBatch.Effect = oldEffect;
 		}
 
 	}

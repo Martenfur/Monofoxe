@@ -387,7 +387,7 @@ namespace Monofoxe.Engine.SceneSystem
 		private void ApplyPostprocessing()
 		{
 			var camera = GraphicsMgr.CurrentCamera;
-
+			var oldEffect = GraphicsMgr.VertexBatch.Effect;
 			var sufraceChooser = false;
 
 			for (var i = 0; i < PostprocessorEffects.Count - 1; i += 1)
@@ -422,7 +422,7 @@ namespace Monofoxe.Engine.SceneSystem
 				camera._postprocessorBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Right, Color.White);
 			}
 
-			GraphicsMgr.VertexBatch.Effect = null;
+			GraphicsMgr.VertexBatch.Effect = oldEffect;
 		}
 
 

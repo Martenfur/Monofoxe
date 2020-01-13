@@ -14,6 +14,7 @@ Monofoxe took a lot of inspiration from Game Maker, so it should be a bit famili
 
 [**View Docs**](Docs/README.md)
 
+[**Join Monofoxe Discord**](https://discord.gg/SZ9Z5WR)
 
 # What can it do?
 
@@ -27,7 +28,7 @@ Everything Monogame does, plus:
 * Useful math for collisions and other game stuff.
 * Timers, alarms, cameras, state machines, tilemaps, foxes!
 * FMOD audio support (As a standalone [library](https://github.com/gnFur/ChaiFoxes.FMODAudio/)).
-* Hybrid ECS.
+* Hybrid EC.
 * Scene system (with layers!).
 * Tiled maps support.
 * Enhanced resource management via [NoPipeline](https://github.com/Martenur/NoPipeline).
@@ -61,7 +62,7 @@ You can also check out the [basic feature demos](Monofoxe.Playground/), [Demo ga
 
 # I've suddenly started loving foxes and want to contribute!
 
-That's the spirit. Check out if I need any help on my [Quire board](https://quire.io/w/Monofoxe/?board=Monofoxe). Stuff under `Open for taking` category is, well, open for taking. You can also contact me via email (`chaifoxes@gmail.com`), on [Twitter](https://twitter.com/ChaiFoxes) or on Discord (`Martenfur#2490`).
+That's the spirit. Check out if I need any help on my [Quire board](https://quire.io/w/Monofoxe/?board=Monofoxe). Stuff under `Open for taking` category is, well, open for taking. You can also contact me via email (`chaifoxes@gmail.com`), on [Twitter](https://twitter.com/ChaiFoxes) or on [Discord](https://discord.gg/SZ9Z5WR).
 
 **Don't forget to check out Codestyle.cs before contributing!!!**
 

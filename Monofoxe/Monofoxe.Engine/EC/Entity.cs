@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Monofoxe.Engine.SceneSystem;
+using Monofoxe.Engine.Utils.CustomCollections;
 
 namespace Monofoxe.Engine.EC
 {
@@ -70,15 +71,16 @@ namespace Monofoxe.Engine.EC
 		/// </summary>
 		public Scene Scene => _layer.Scene;
 
+		// We need two collections to eliminate collection modification 
+		// during foreach while keeping GetComponent faste.
+		private Dictionary<Type, Component> _componentDictionary;
+		private SafeList<Component> _componentList;
 
-		/// <summary>
-		/// Component dictionary.
-		/// </summary>
-		private Dictionary<Type, Component> _components;
 
 		public Entity(Layer layer)
 		{
-			_components = new Dictionary<Type, Component>();
+			_componentDictionary = new Dictionary<Type, Component>();
+			_componentList = new SafeList<Component>();
 			Layer = layer;
 		}
 		
@@ -98,7 +100,7 @@ namespace Monofoxe.Engine.EC
 		/// </summary>
 		public virtual void FixedUpdate() 
 		{
-			foreach(var component in _components.Values)
+			foreach(var component in _componentList)
 			{
 				if (component.Enabled)
 				{
@@ -114,7 +116,7 @@ namespace Monofoxe.Engine.EC
 		/// </summary>
 		public virtual void Update() 
 		{
-			foreach (var component in _components.Values)
+			foreach (var component in _componentList)
 			{
 				if (component.Enabled)
 				{
@@ -133,7 +135,7 @@ namespace Monofoxe.Engine.EC
 		/// </summary>
 		public virtual void Draw() 
 		{
-			foreach (var component in _components.Values)
+			foreach (var component in _componentList)
 			{
 				if (component.Visible)
 				{
@@ -149,7 +151,7 @@ namespace Monofoxe.Engine.EC
 		/// </summary>
 		public virtual void Destroy() 
 		{
-			foreach (var component in _components.Values)
+			foreach (var component in _componentDictionary.Values)
 			{
 				component.Destroy();
 			}
@@ -170,7 +172,8 @@ namespace Monofoxe.Engine.EC
 			{
 				throw new Exception("Component " + component + "already has an owner!");
 			}
-			_components.Add(component.GetType(), component);
+			_componentDictionary.Add(component.GetType(), component);
+			_componentList.Add(component);
 			component.Owner = this;
 			component.Initialize();
 		}
@@ -181,13 +184,13 @@ namespace Monofoxe.Engine.EC
 		/// Returns component of given class.
 		/// </summary>
 		public T GetComponent<T>() where T : Component =>
-			(T)_components[typeof(T)];
+			(T)_componentDictionary[typeof(T)];
 		
 		/// <summary>
 		/// Returns component of given class.
 		/// </summary>
 		public Component GetComponent(Type type) =>
-			_components[type];
+			_componentDictionary[type];
 		
 
 		/// <summary>
@@ -195,7 +198,7 @@ namespace Monofoxe.Engine.EC
 		/// </summary>
 		public bool TryGetComponent<T>(out T component) where T : Component
 		{
-			var result = _components.TryGetValue(typeof(T), out Component c);
+			var result = _componentDictionary.TryGetValue(typeof(T), out Component c);
 			component = (T)c; // Needs a manual cast.
 			return result;
 		}
@@ -204,7 +207,7 @@ namespace Monofoxe.Engine.EC
 		/// Retrieves component of given class, if it exists, and returns true. If it doesn't, returns false.
 		/// </summary>
 		public bool TryGetComponent(out Component component, Type type) =>
-			_components.TryGetValue(type, out component);
+			_componentDictionary.TryGetValue(type, out component);
 		
 
 		/// <summary>
@@ -212,10 +215,10 @@ namespace Monofoxe.Engine.EC
 		/// </summary>
 		public Component[] GetAllComponents()
 		{
-			var array = new Component[_components.Count];
+			var array = new Component[_componentDictionary.Count];
 			var id = 0;
 
-			foreach(var componentPair in _components)
+			foreach(var componentPair in _componentDictionary)
 			{
 				array[id] = componentPair.Value;
 				id += 1;
@@ -229,13 +232,13 @@ namespace Monofoxe.Engine.EC
 		/// Checks if an entity has the component of given type.
 		/// </summary>
 		public bool HasComponent<T>() where T : Component =>
-			_components.ContainsKey(typeof(T));
+			_componentDictionary.ContainsKey(typeof(T));
 		
 		/// <summary>
 		/// Checks if an entity has the component of given type.
 		/// </summary>
 		public bool HasComponent(Type type) =>
-			_components.ContainsKey(type);
+			_componentDictionary.ContainsKey(type);
 		
 
 		
@@ -250,9 +253,10 @@ namespace Monofoxe.Engine.EC
 		/// </summary>
 		public Component RemoveComponent(Type type)
 		{
-			if (_components.TryGetValue(type, out Component component))
+			if (_componentDictionary.TryGetValue(type, out Component component))
 			{
-				_components.Remove(type);
+				_componentDictionary.Remove(type);
+				_componentList.Remove(component);
 				component.Owner = null;
 				return component;
 			}
