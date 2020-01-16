@@ -25,7 +25,7 @@ Game iterates through `Update()` and `Draw()` methods over and over again until 
 
 You can look deeper into `Game1` in Monogame tutorials, but for the time being you don't need to worry about it.
 
-The only thing you should notice from it is that it creates an instance of `GameController` class, which should initialize the rest of your game.
+The only thing you should notice from it is that it creates an instance of `GameController` class, which should initialize the rest of your game. `GameController` is just a regular entity, it's not necessary for the game to run.
 
 By default it already has some simple logic. You can modify this class however you like.
 

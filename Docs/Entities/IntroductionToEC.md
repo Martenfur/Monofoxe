@@ -48,7 +48,7 @@ EC is great, but it's not a magical cure for everything. Sometimes it's actually
 
 
 
-## [<< Entities](Entity.md)	|	[Components >>](Components.md)
+## [<< Entities](Entities.md)	|	[Components >>](Components.md)
 
 [<<< Contents](../Contents.md)
 

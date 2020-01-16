@@ -43,7 +43,7 @@ public class FoxeEntity : Entity
 
 	public override void Update()
 	{
-		base.Update(); // This is where all the components are drawn.
+		base.Update(); // This is where all the components are updated.
 
 		// Moving entity around with the keyboard.
 		Position += new Vector2(
@@ -76,6 +76,6 @@ new Foxe(Layer, new Vector2(200, 100));
 
 
 
-## [<< Input](../Input.md)	|	[Introduction to ECS >>](IntroductionToECS.md)
+## [<< Input](../Input.md)	|	[Introduction to EC >>](IntroductionToEC.md)
 
 [<<< Contents](../Contents.md)
