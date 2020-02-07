@@ -672,6 +672,7 @@ namespace Monofoxe.Engine.Drawing
 		{
 
 			FlushIfOverflow(4, 6);
+			SetPrimitiveType(PrimitiveType.TriangleList);
 
 			SetQuadIndices();
 

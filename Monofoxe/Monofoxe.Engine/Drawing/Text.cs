@@ -37,8 +37,13 @@ namespace Monofoxe.Engine.Drawing
 		// Text.
 
 
-		public void Draw() =>
+		public void Draw()
+		{
+			var oldColor = GraphicsMgr.CurrentColor;
+			GraphicsMgr.CurrentColor = Color;
 			Draw(String, Position, Scale, Origin, Rotation);
+			GraphicsMgr.CurrentColor = oldColor;
+		}
 		
 		/// <summary>
 		/// Draws text in specified coordinates.

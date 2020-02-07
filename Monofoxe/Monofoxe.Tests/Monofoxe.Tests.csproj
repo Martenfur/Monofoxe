@@ -13,11 +13,12 @@
     <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Monofoxe.Engine\Monofoxe.Engine.csproj" />
+  </ItemGroup>
   
   <ItemGroup>
-    <Reference Include="Monofoxe.Engine">
-      <HintPath>..\bin\Debug\Monofoxe.Engine.dll</HintPath>
-    </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
     </Reference>

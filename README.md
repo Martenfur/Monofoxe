@@ -31,7 +31,7 @@ Everything Monogame does, plus:
 * Hybrid EC.
 * Scene system (with layers!).
 * Tiled maps support.
-* Enhanced resource management via [NoPipeline](https://github.com/Martenur/NoPipeline).
+* Enhanced resource management via [NoPipeline](https://github.com/Martenfur/NoPipeline).
 
 
 Coming in the future:
