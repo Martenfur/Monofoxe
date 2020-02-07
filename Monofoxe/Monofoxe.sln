@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pipefoxe", "Pipefoxe\Pipefoxe.csproj", "{D59079B2-CC07-4783-9C7F-05E78EBBC5FD}"
 EndProject
@@ -11,7 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monofoxe.Engine", "Monofoxe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monofoxe.Tiled", "Monofoxe.Tiled\Monofoxe.Tiled.csproj", "{E615232A-8EDD-43BB-84D0-3BA376ACA7E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monofoxe.Tests", "Monofoxe.Tests\Monofoxe.Tests.csproj", "{799409E8-B82F-4DBF-BBDE-B9EF253B2404}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monofoxe.Tests", "Monofoxe.Tests\Monofoxe.Tests.csproj", "{799409E8-B82F-4DBF-BBDE-B9EF253B2404}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A430DAE4-9E80-4735-894E-886C8F800156}"
+	ProjectSection(SolutionItems) = preProject
+		..\.editorconfig = ..\.editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

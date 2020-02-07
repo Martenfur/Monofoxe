@@ -17,6 +17,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pipefoxe", "..\Monofoxe\Pip
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Monofoxe", "Monofoxe", "{43BF570E-E7D7-45B5-8B04-E9C82D7C99A6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{965CC0AA-84E2-4C16-A950-E3E25CAF5CBC}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Monofoxe.Playground\Monofoxe.Playground.projitems*{058e861c-4b60-4410-a73b-4bca5dc70ec2}*SharedItemsImports = 4
