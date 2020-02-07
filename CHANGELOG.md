@@ -1,9 +1,6 @@
 # v 2.0.0.0-dev:
 
 ### IN THIS BUILD:
-- Fixed VertexBatch.Effect being reset every frame.
-- Fixed crashing when adding/removing components during component event. 
-- Fixed Text.Color not being used.
 
 ### FEATURES:
 
