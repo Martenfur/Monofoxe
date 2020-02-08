@@ -1,11 +1,11 @@
 # Components
 
-Let's refresh -- component in ECS is just a data structure which gets processed by the system. Since our ECS is a bit bendy, components shouldn't necessarily be processed by the systems. Entities can do this as well, since they have access to their own components.
+Let's refresh - component in EC is just an addon for an entity. It runs its own Update/Draw methods and may not depend on the entity's logic whatsoever.
 
 Creating a component is very easy:
 
 ```C#
-using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.EC;
 
 public class CTest : Component // You can name your components either CYourName or YourNameComponent.
 {
@@ -18,15 +18,24 @@ Just inherit Component class and you're done.
 Components also have several fields:
 
 - `Owner` - Reference to an entity which owns this component. There can be only one owner.
-- `System` - Reference to a system which processes this component. Set automatically.
 - `Initialized` - Tells if `Create` event has been called for this component.
 - `Enabled` - If true, component will be processed by system's `Update()` and `FixedUpdate()` events.
 - `Visible` - If true, component will be processed by system's `Draw()` event. **NOTE**: `Visible` is false by default. Set it to true in component's constructor or system's `Create` event if you want component to be drawn.
 
+Like entities, components have events:
+
+- `Initialize()` - Executes every time when component is added to the entity. If component is readded several times, the event will also execute several times.
+- `Update()` - Executes every frame and is designed to hold game logic.
+- `FixedUpdate()` - Executes at fixed intervals governed by `GameMgr.FixedUpdateRate`. 
+- `Draw()` - Executes every frame for each camera (so if you got several cameras, Draw will execute several times per frame) and is designed to hold drawing logic. **IMPORTANT**: Do not put any heavy logic into Draw. It may start skipping frames due to how Monogame works. 
+- `Destroy()` - Executes when the component is destroyed.
+
+
+
 ## How do I add components to entities?
 
 ```C#
-var entity = new Entity(Layer, "testEntity");
+var entity = new Entity(Layer);
 var testComponent = new CTest();
 entity.AddComponent(testComponent);
 ```
@@ -47,7 +56,7 @@ component.Owner.GetComponent<CTest>();
 
  
 
-## [<< Introduction to ECS](IntroductionToECS.md)	|	[Entity templates >>](EntityTemplates.md)
+## [<< Introduction to EC](IntroductionToEC.md)	|	[Entity templates >>](EntityTemplates.md)
 
 [<<< Contents](../Contents.md)
 

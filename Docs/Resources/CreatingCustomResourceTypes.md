@@ -10,7 +10,7 @@ First of all, we'll need to create a regular dll project.
 
 
 
-## [<< Resource Box](ResourceBox.md) | 
+## [<< Resource Box](ResourceBox.md) | [Time Keeper >>](../Utils/TimeKeeper.md)
 
 [<<< Contents](../Contents.md)
 

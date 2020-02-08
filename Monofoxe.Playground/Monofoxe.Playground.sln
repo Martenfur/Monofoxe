@@ -6,16 +6,33 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Monofoxe.Playground", "Monofoxe.Playground\Monofoxe.Playground.shproj", "{A0CDBD0E-3A41-42B7-9425-A838BC2C7383}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monofoxe.Playground.DesktopGL", "Monofoxe.Playground.DesktopGL\Monofoxe.Playground.DesktopGL.csproj", "{058E861C-4B60-4410-A73B-4BCA5DC70EC2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D59079B2-CC07-4783-9C7F-05E78EBBC5FD} = {D59079B2-CC07-4783-9C7F-05E78EBBC5FD}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monofoxe.Playground.Windows", "Monofoxe.Playground.Windows\Monofoxe.Playground.Windows.csproj", "{5431EE33-D78F-4263-A4AE-61852A61386D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D59079B2-CC07-4783-9C7F-05E78EBBC5FD} = {D59079B2-CC07-4783-9C7F-05E78EBBC5FD}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monofoxe.Engine", "..\Monofoxe\Monofoxe.Engine\Monofoxe.Engine.csproj", "{9A75ED71-2FDF-47E2-B9E9-1918ECA10BC8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D59079B2-CC07-4783-9C7F-05E78EBBC5FD} = {D59079B2-CC07-4783-9C7F-05E78EBBC5FD}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monofoxe.Tiled", "..\Monofoxe\Monofoxe.Tiled\Monofoxe.Tiled.csproj", "{21E56073-5E48-4346-9800-872264F5ABB5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D59079B2-CC07-4783-9C7F-05E78EBBC5FD} = {D59079B2-CC07-4783-9C7F-05E78EBBC5FD}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pipefoxe", "..\Monofoxe\Pipefoxe\Pipefoxe.csproj", "{D59079B2-CC07-4783-9C7F-05E78EBBC5FD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Monofoxe", "Monofoxe", "{43BF570E-E7D7-45B5-8B04-E9C82D7C99A6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{965CC0AA-84E2-4C16-A950-E3E25CAF5CBC}"
+	ProjectSection(SolutionItems) = preProject
+		..\.editorconfig = ..\.editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

@@ -2,7 +2,7 @@
 
 Ok, now we know how to press buttons and everything, but what about actual game objects? We could put all the game logic into `Game1.Update()`, but that won't be very convenient. 
 
-This is why entities exist! Class `Entity` in `Monofoxe.Engine.ECS` is the basic game object which can contain game logic. It has several events:
+This is why entities exist! Class `Entity` in `Monofoxe.Engine.EC` is the basic game object which can contain game logic. It has several events:
 
 - `Update()` - Executes every frame and is designed to hold game logic.
 - `FixedUpdate()` - Executes at fixed intervals governed by `GameMgr.FixedUpdateRate`. By default `Update()` is configured to execute at fixed intervals too, but you can change that.
@@ -28,7 +28,7 @@ Let's look at an example of creating an entity:
 using Microsoft.Xna.Framework;
 using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
-using Monofoxe.Engine.ECS;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.SceneSystem;
 using System;
 
@@ -43,6 +43,8 @@ public class FoxeEntity : Entity
 
 	public override void Update()
 	{
+		base.Update(); // This is where all the components are updated.
+
 		// Moving entity around with the keyboard.
 		Position += new Vector2(
 			Input.CheckButton(Buttons.Right).ToInt() - Input.CheckButton(Buttons.Left).ToInt(),
@@ -54,10 +56,13 @@ public class FoxeEntity : Entity
 	{
 		GraphicsMgr.CurrentColor = Color.White;
 		CircleShape.Draw(Position, 8, false); // Drawing filled white circle at the position.
+
+		base.Draw(); // This is where all the components are drawn.
 	}
 
 	public override void Destroy()
 	{
+		base.Destroy();
 		Console.WriteLine("Oh no. :c");
 	}
 }
@@ -71,6 +76,6 @@ new Foxe(Layer, new Vector2(200, 100));
 
 
 
-## [<< Input](../Input.md)	|	[Introduction to ECS >>](IntroductionToECS.md)
+## [<< Input](../Input.md)	|	[Introduction to EC >>](IntroductionToEC.md)
 
 [<<< Contents](../Contents.md)

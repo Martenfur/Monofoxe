@@ -1,8 +1,6 @@
 # v 2.0.0.0-dev:
 
 ### IN THIS BUILD:
-- Fixed VertexBatch.Effect being reset every frame.
-- Fixed crashing when adding/removing components during component event. 
 
 ### FEATURES:
 
@@ -61,7 +59,7 @@
 - Uninstaller now appears in Add\Remove Programs section.
 - Fixed various project warnings.
 - Fixed `Origin` property not being used in `Surface`.
-
+- Fixed Text.Color not being used.
 
 <hr/>
 # v 1.0.1.1
