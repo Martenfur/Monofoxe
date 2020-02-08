@@ -2,6 +2,8 @@
 
 ### IN THIS BUILD:
 
+- `Input.ScrollWheelValue` now returns signed scroll speed value instead of only its sign. 
+
 ### FEATURES:
 
 - Documentation!
@@ -46,6 +48,7 @@
 - Made `Camera` abstract class and added `Camera2D` class.
 - `Camera`'s `Posision` and `Origin` are `Vector3` instead of `Vector2` now.
 - `Primitive2D` now uses array of vertices instead of a list.
+- `Input.ScrollWheelValue` now returns signed scroll speed value instead of only its sign.
 
 ### FIXES:
 

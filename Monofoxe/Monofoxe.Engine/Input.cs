@@ -148,7 +148,7 @@ namespace Monofoxe.Engine
 			sign of scroll value delta (raw delta has some big weird value and depends on fps).
 			Thank you, XNA devs. You've made me write even more code! ^0^
 			*/
-			MouseWheelValue = Math.Sign(_mouseWheelAdditionPrev - mouseState.ScrollWheelValue);
+			MouseWheelValue = _mouseWheelAdditionPrev - mouseState.ScrollWheelValue;
 			_mouseWheelAdditionPrev = mouseState.ScrollWheelValue;
 
 			#endregion Mouse.
