@@ -123,11 +123,11 @@ namespace Monofoxe.Engine.SceneSystem
 		public List<T> GetEntityList<T>() where T : Entity
 		{
 			var entities = new List<T>();
-			foreach (var entity in _entities)
+			for (var i = 0; i < _entities.Count; i += 1)
 			{
-				if (entity is T)
+				if (_entities[i] is T)
 				{
-					entities.Add((T)entity);
+					entities.Add((T)_entities[i]);
 				}
 			}
 			return entities;
@@ -138,9 +138,9 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public bool EntityExists<T>() where T : Entity
 		{
-			foreach(var entity in _entities)
+			for (var i = 0; i < _entities.Count; i += 1)
 			{
-				if (entity is T)
+				if (_entities[i] is T)
 				{
 					return true;
 				}
@@ -153,11 +153,11 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public T FindEntity<T>() where T : Entity
 		{
-			foreach(var entity in _entities)
+			for (var i = 0; i < _entities.Count; i += 1)
 			{
-				if (entity is T)
+				if (_entities[i] is T)
 				{
-					return (T)entity;
+					return (T)_entities[i];
 				}
 			}
 			return null;

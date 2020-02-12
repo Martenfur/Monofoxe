@@ -4,6 +4,7 @@
 
 - `Input.ScrollWheelValue` now returns signed scroll speed value instead of only its sign. 
 - Fixed instantiated rectangle shape not being drawn properly.
+- Fixed entity methods crashing the game after creating new Entity.
 
 ### FEATURES:
 
@@ -65,6 +66,7 @@
 - Fixed `Origin` property not being used in `Surface`.
 - Fixed Text.Color not being used.
 - Fixed instantiated rectangle shape not being drawn properly.
+- Fixed entity methods crashing the game after creating new Entity.
 
 <hr/>
 # v 1.0.1.1
