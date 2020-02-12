@@ -25,7 +25,7 @@ namespace Monofoxe.Engine.Drawing
 		public void Draw()
 		{
 			Draw(
-				Position - Size / 2, Position - Size / 2, 
+				Position - Size / 2, Position + Size / 2, 
 				IsOutline, 
 				Color, Color, Color, Color
 			);

@@ -3,6 +3,7 @@
 ### IN THIS BUILD:
 
 - `Input.ScrollWheelValue` now returns signed scroll speed value instead of only its sign. 
+- Fixed instantiated rectangle shape not being drawn properly.
 
 ### FEATURES:
 
@@ -63,6 +64,7 @@
 - Fixed various project warnings.
 - Fixed `Origin` property not being used in `Surface`.
 - Fixed Text.Color not being used.
+- Fixed instantiated rectangle shape not being drawn properly.
 
 <hr/>
 # v 1.0.1.1
