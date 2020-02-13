@@ -73,11 +73,11 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public static Scene GetScene(string name)
 		{
-			foreach(var scene in _scenes)
+			for (var i = 0; i < _scenes.Count; i += 1)
 			{
-				if (string.Equals(scene.Name, name, StringComparison.OrdinalIgnoreCase))
+				if (string.Equals(_scenes[i].Name, name, StringComparison.OrdinalIgnoreCase))
 				{
-					return scene;
+					return _scenes[i];
 				}
 			}
 			return null;
@@ -88,11 +88,11 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public static bool TryGetScene(string name, out Scene scene)
 		{
-			foreach(var s in _scenes)
+			for (var i = 0; i < _scenes.Count; i += 1)
 			{
-				if (string.Equals(s.Name, name, StringComparison.OrdinalIgnoreCase))
+				if (string.Equals(_scenes[i].Name, name, StringComparison.OrdinalIgnoreCase))
 				{
-					scene = s;
+					scene = _scenes[i];
 					return true;
 				}
 			}
@@ -105,9 +105,9 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public static bool HasScene(string name)
 		{
-			foreach(var scene in _scenes)
+			for(var i = 0; i < _scenes.Count; i += 1)
 			{
-				if (string.Equals(scene.Name, name, StringComparison.OrdinalIgnoreCase))
+				if (string.Equals(_scenes[i].Name, name, StringComparison.OrdinalIgnoreCase))
 				{
 					return true;
 				}

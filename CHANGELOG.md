@@ -3,9 +3,6 @@
 ## [Unreleased]
 
 
-
-<hr/>
-
 ### Changed:
 
 - `Input.ScrollWheelValue` now returns signed scroll speed value instead of only its sign.
@@ -13,7 +10,9 @@
 ### Fixed:
 
 - Fixed instantiated rectangle shape not being drawn properly.
-- Fixed entity methods crashing the game after creating new Entity.
+- Fixed entity methods crashing the game after creating new `Entity`.
+- Fixed crashes when `Scene`'s layer methods were called.
+- Fixed crashes when `SceneMgr`'s scene methods were called.
 
 ## [v2.0.0.0-dev+007] - *07.02.2020*
 
