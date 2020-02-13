@@ -1,84 +1,111 @@
-# v 2.0.0.0-dev:
+# [Changelog](http://keepachangelog.com/en/1.0.0/):
 
-### IN THIS BUILD:
+## [Unreleased]
 
-- `Input.ScrollWheelValue` now returns signed scroll speed value instead of only its sign. 
+
+
+<hr/>
+
+### Changed:
+
+- `Input.ScrollWheelValue` now returns signed scroll speed value instead of only its sign.
+
+### Fixed:
+
 - Fixed instantiated rectangle shape not being drawn properly.
 - Fixed entity methods crashing the game after creating new Entity.
 
-### FEATURES:
+## [v2.0.0.0-dev+007] - *07.03.2020*
 
-- Documentation!
-- Added `ResourceHub` and `ResourceBox` instead of old loading systems.
-- Added `Angle` class for better angle management.
-- Added .NET Standard library template.
-- Nopipeline's NPL config supports adding references with environment variables.
+## Fixed:
+
+- Fixed `VertexBatch.Effect` being reset every frame.
+- Fixed crashing when adding/removing components during component event.
+- Fixed `Text.Color` not being used.
+
+<hr/>
+
+## [v2.0.0.0-dev+006] - *07.01.2020*
+
+## Added:
+
+- Added `ZNearPlane` and `ZFarPlane` to the `Camera`.
+- Added projection matrix to the camera.
+- Added an option to set custom projection matrix to the Surface.
+
+### Changed:
+
+- Made `Camera` abstract class and added `Camera2D` class.
+- `Camera`'s `Position` and `Origin` are `Vector3` instead of `Vector2` now.
+- `Primitive2D` now uses array of vertices instead of a list.
+
+## Fixed:
+
+- Fixed circles not being drawn in some cases.
+- Fixed project templates.
+
+<hr/>
+
+## [v2.0.0.0-dev+005] - 12.12.2019
+
+## Added:
+
+- Added `VertexBatch` class.
+- Added per-vertex z depth for sprites, surfaces and frames.
+
+## Changed:
+- Replaced `GraphicsMgr`'s internal `SpriteBatch` with `VertexBatch`
+- Moved graphics states from `GraphicsMgr` to `VertexBatch`.
+- Moved matrix stack from `GraphicsMgr` to `VertexBatch`.
+
+## Fixed:
+- Fixed `Origin` property not being used in `Surface`.
+
+<hr/>
+
+## [v2.0.0.0-dev+004] - *01.12.2019*
+
+## Added:
+
 - Monofoxe is now able to launch on Android.
 - Added an ability to change entity update order.
 - Added an all-in-one multiplatform project template.
 - Added various item templates.
-- Added `VertexBatch` class.
-- Added per-vertex z depth for sprites, surfaces and frames.
-- Added `ZNearPlane` and `ZFarPlane` to the camera.
-- Added projection matrix to the camera.
-- Added an option to set custom projection matrix to the `Surface`.
 
-### CHANGES:
-
-- Camera implements `IDisposable` interface now.
-- `Alarm`, `AutoAlarm` and `Animation` use `EventHandler` instead of `Action` now.
-- Spritegroup cstemplates doesn't require quotes for variable values now.
-- Changed Draw methods in `Frame`, `Sprite` and `Surface` to use their properties by default instead of default struct values.
-- Moved `animation` argument in `Sprite.Draw` method after `position`.
-- Specifying origin in `Sprite.Draw()` isn't mandatory anymore. 
-- `Frame`, `Sprite` and `Surface`'s `Rotation` field is `Angle` instead of `float` now.
-- `GameMath` doesn't contain angle-related methods anymore. They are moved to `Angle` instead.
-- All Monofoxe libraries are .NET Standard now.
-- Nopipeline is now embedded into Monofoxe.
-- All projects reference Monofoxe libraries from common place instead of raw per-project libraries.
-- Replaced static methods in `TimeKeeper` with static `Global` instance.
-- Removed drawing methods which work with raw x;y.
-- Project templates for VS2019 now have tags.
-- Bumped .NET Framework version to 4.7.2 for templates.
-- Entity methods which count components/entities have been removed.
-- Systems have been removed entirely.
+## Changed:
 - Components now have their own events.
 - Calling `base.%EventName%()` is now required in entities for EC to work.
-- Replaced GraphicsMgr's internal `SpriteBatch` with `VertexBatch`
-- Moved graphics states from `GraphicsMgr` to `VertexBatch`.
-- Moved matrix stack from `GraphicsMgr` to `VertexBatch`.
-- Made `Camera` abstract class and added `Camera2D` class.
-- `Camera`'s `Posision` and `Origin` are `Vector3` instead of `Vector2` now.
-- `Primitive2D` now uses array of vertices instead of a list.
-- `Input.ScrollWheelValue` now returns signed scroll speed value instead of only its sign.
 
-### FIXES:
+## Removed:
 
-- Layer depth sorting now works properly.
-- `CameraMgr.Cameras` is a List instead of `IReadOnlyColection` now.
-- `KeepAspestRatio` canvas mode now scales canvas correctly.
-- Fixed memory leak in `Camera`.
-- Fixed `BasicTilemapSystem` not drawing the very last row and column of tiles.
-- Nopipeline now works with paths which contain spaces.
-- Angle difference formula now works properly.
-- Uninstaller now appears in Add\Remove Programs section.
-- Fixed various project warnings.
-- Fixed `Origin` property not being used in `Surface`.
-- Fixed Text.Color not being used.
-- Fixed instantiated rectangle shape not being drawn properly.
-- Fixed entity methods crashing the game after creating new Entity.
+- Entity methods which count components/entities.
+- Systems have been removed entirely.
 
 <hr/>
-# v 1.0.1.1
 
-### FIXES:
+## [v2.0.0.0-dev+003] - *25.10.2019*
+
+### Changed:
+
+- Bumped .NET Framework version to 4.7.2 for templates.
+
+### Fixed:
+
+- Fixed various project warnings.
+
+<hr/>
+
+## [v1.0.1.1] - *30.06.2019*
+
+### Fixed:
 
 - Fixed `MapBuilder` crashing when some tilesets are ignored.
 
 <hr/>
-# v1.0.1.0
 
-### FEATURES:
+## [v1.0.1.0] - *29.06.2019*
+
+### Added:
 
 - Added Animation class.
 - Added Easing class.
@@ -86,7 +113,7 @@
 - Added a set of demos. See Monofoxe.Playground project.
 - Added Windows DirectX templates.
 
-### CHANGES:
+### Changed:
 
 - Moved Cameras from Monofoxe.Engine.Utils to Monofoxe.Engine namespace.
 - Moved NumberExtensions and Vector2Extensions to Monofoxe.Engine namespace.
@@ -94,7 +121,7 @@
 - Added GraphicsMgr.CurrentWorld.
 - Renamed GraphicsMgr.CurrentTransformMatrix to GraphicsMgr.CurrentView.
 
-### FIXES:
+### Fixed:
 
 - `AlphaBlend.fx` now works for DirectX.
 - Content.mgcb now correctly builds for cross-platform projects.
@@ -111,7 +138,9 @@
 - Fixed `ToggleFullScreen` not working properly with Canvas.
 
 <hr/>
-# v1.0.0.0
 
+## [v1.0.0.0] - *26.06.2019*
 
+### Added
+- **It's alive!!!**
 
