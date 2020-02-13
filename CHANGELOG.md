@@ -15,7 +15,7 @@
 - Fixed instantiated rectangle shape not being drawn properly.
 - Fixed entity methods crashing the game after creating new Entity.
 
-## [v2.0.0.0-dev+007] - *07.03.2020*
+## [v2.0.0.0-dev+007] - *07.02.2020*
 
 ## Fixed:
 
