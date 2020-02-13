@@ -28,7 +28,7 @@ namespace Monofoxe.Engine.SceneSystem
 		public bool Visible = true;
 
 		/// <summary>
-		/// If true, scene won't be updated.
+		/// If false, scene won't be updated.
 		/// </summary>
 		public bool Enabled = true;
 

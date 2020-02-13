@@ -32,7 +32,7 @@ namespace Monofoxe.Engine.SceneSystem
 		public bool Visible = true;
 
 		/// <summary>
-		/// If true, layer won't be updated.
+		/// If false, layer won't be updated.
 		/// </summary>
 		public bool Enabled = true;
 
