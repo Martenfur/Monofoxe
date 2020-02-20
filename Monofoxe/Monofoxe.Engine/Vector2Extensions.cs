@@ -70,5 +70,30 @@ namespace Monofoxe.Engine
 		public static Vector2 Rotate90(this Vector2 v) =>
 			new Vector2(v.Y, -v.X);
 
+		/// <summary>
+		/// Rotates vector by the given angle.
+		/// </summary>
+		public static Vector2 Rotate(this Vector2 v, Angle angle)
+		{
+			var e = angle.ToVector2();
+
+			return new Vector2(
+				v.X * e.X - v.Y * e.Y,
+				v.X * e.Y + v.Y * e.X
+			);
+		}
+
+		/// <summary>
+		/// Rotates vector by the given direction vector.
+		/// NOTE: Rotation vector should be unit vector.
+		/// </summary>
+		public static Vector2 Rotate(this Vector2 v, Vector2 rotationVector)
+		{
+			return new Vector2(
+				v.X * rotationVector.X - v.Y * rotationVector.Y,
+				v.X * rotationVector.Y + v.Y * rotationVector.X
+			);
+		}
+
 	}
 }

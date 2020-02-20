@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+### Added:
+
+- Added `Rotate` method for `Vector2`.
 
 ### Changed:
 
