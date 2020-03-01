@@ -9,6 +9,11 @@
 ### Changed:
 
 - `Input.ScrollWheelValue` now returns signed scroll speed value instead of only its sign.
+- Reworked `Alarm` class and merged it with `AutoAlarm` and `Timer`.
+
+### Removed:
+
+- Removed `AutoAlarm` and `Timer` classes.
 
 ### Fixed:
 
