@@ -36,7 +36,7 @@ namespace Monofoxe.Playground.UtilsDemo
 		
 		TimeKeeper _slowTimeKeeper;
 
-		AutoAlarm _autoAlarm;
+		Alarm _autoAlarm;
 
 		Alarm _slowAlarm;
 
@@ -89,12 +89,13 @@ namespace Monofoxe.Playground.UtilsDemo
 			// Slowing down time for this time keeper.
 			_slowTimeKeeper.TimeMultiplier = 0.5f;
 
-			_autoAlarm = new AutoAlarm(_alarmPeriod);
-			_slowAlarm = new Alarm();
+			_autoAlarm = new Alarm(_alarmPeriod, OnTriggerAction.Loop);
+			_autoAlarm.Start();
+			_slowAlarm = new Alarm(_alarmPeriod);
 			// This alarm will now use custom TimeKeeper, which is 2 times 
 			// slower than global TimeKeeper. 
 			_slowAlarm.TimeKeeper = _slowTimeKeeper;
-			_slowAlarm.Set(_alarmPeriod);
+			_slowAlarm.Start();
 			_slowAlarm.TriggerEvent += AlarmTrigger;
 			// Alarms.
 
@@ -145,15 +146,15 @@ namespace Monofoxe.Playground.UtilsDemo
 		public void AlarmTrigger(Alarm alarm)
 		{
 			// This is actually a bad practice. 
-			// Alarm doesn't take into account leftover time
+			// Alarm in OnTriggerAction.Stop mode doesn't take into account leftover time
 			// and will reset counter to 0. This will introduce errors,
 			// which will add up over time. If you need to set Alarm 
-			// right after it triggers, use AutoAlarm.
+			// right after it triggers, use OnTriggerAction.Loop.
 			//
-			// This demo shows comparison of Alarm and AutoAlarm.
-			// You will notice that circles start blinking out of sync
+			// This demo shows comparison of Stop and Loop modes.
+			// You will notice that circles will start blinking out of sync
 			// over time.
-			alarm.Set(_alarmPeriod); 
+			alarm.Start(); 
 
 			_slowAlarmSwitch = !_slowAlarmSwitch;
 		}
@@ -254,12 +255,17 @@ namespace Monofoxe.Playground.UtilsDemo
 			
 			_fireSprite.Draw(position, _fireAnimation.Progress, Vector2.Zero, Vector2.One, Angle.Right, Color.White);
 			
+			GraphicsMgr.CurrentColor = Color.SeaGreen;
 			position += Vector2.UnitX * spacing;
 			CircleShape.Draw(position, 8, _autoAlarmSwitch);
 
+
+			GraphicsMgr.CurrentColor = Color.Sienna;
 			position += Vector2.UnitX * 32;
 			CircleShape.Draw(position, 8, _slowAlarmSwitch);
 
+
+			GraphicsMgr.CurrentColor = Color.Thistle;
 			position += Vector2.UnitX * 32;
 			CircleShape.Draw(position, 8, _counterSwitch);
 
