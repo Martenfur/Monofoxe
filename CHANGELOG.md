@@ -5,6 +5,7 @@
 ### Added:
 
 - Added `Rotate` method for `Vector2`.
+- Added half-pixel offset support for `VertexBatch`.
 
 ### Changed:
 

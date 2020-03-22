@@ -140,7 +140,7 @@ namespace Monofoxe.Engine.Drawing
 		public GraphicsDevice GraphicsDevice { get; private set; }
 
 		public bool NeedsFlush => _vertexPoolCount > 0 && _indexPoolCount > 0;
-		
+
 		private short[] _indexPool;
 		private int _indexPoolCount = 0;
 		private const int _indexPoolCapacity = short.MaxValue * 8;
@@ -151,7 +151,7 @@ namespace Monofoxe.Engine.Drawing
 
 		private EffectPass _defaultEffectPass;
 
-		public Matrix World 
+		public Matrix World
 		{
 			get => _world;
 			set
@@ -178,7 +178,7 @@ namespace Monofoxe.Engine.Drawing
 			}
 		}
 		Matrix _view;
-		
+
 		public Matrix Projection
 		{
 			get => _projection;
@@ -195,15 +195,21 @@ namespace Monofoxe.Engine.Drawing
 
 
 
-		private Stack<Matrix> _worldStack = new Stack<Matrix>();
 		public bool WorldStackEmpty => _worldStack.Count == 0;
+		private Stack<Matrix> _worldStack = new Stack<Matrix>();
 
-		private Stack<Matrix> _viewStack = new Stack<Matrix>();
 		public bool ViewStackEmpty => _viewStack.Count == 0;
+		private Stack<Matrix> _viewStack = new Stack<Matrix>();
 
-		private Stack<Matrix> _projectionStack = new Stack<Matrix>();
 		public bool ProjectionStackEmpty => _projectionStack.Count == 0;
+		private Stack<Matrix> _projectionStack = new Stack<Matrix>();
 
+		/// <summary>
+		/// Pixel offset is necessary for proper 2D rendering.
+		/// If true, offsets x and y by -0.5.
+		/// Should be true for OpenGL and false for DirectX. 
+		/// </summary>
+		public bool UsesHalfPixelOffset = false;
 
 		PrimitiveType _primitiveType = PrimitiveType.TriangleList;
 
@@ -271,7 +277,7 @@ namespace Monofoxe.Engine.Drawing
 			_samplerState = samplerState ?? SamplerState.LinearClamp;
 			_depthStencilState = depthStencilState ?? DepthStencilState.None;
 			_rasterizerState = rasterizerState ?? RasterizerState.CullCounterClockwise;
-			
+
 			_indexPool = new short[_indexPoolCapacity];
 			_vertexPool = new VertexPositionColorTexture[_vertexPoolCapacity];
 
@@ -290,12 +296,19 @@ namespace Monofoxe.Engine.Drawing
 
 		void ApplyDefaultShader()
 		{
-			
-			// The default shader is used for the transfrm matrix.
+
+			// The default shader is used for the transform matrix.
 
 			_defaultEffect.Parameters["World"].SetValue(_world);
 			_defaultEffect.Parameters["View"].SetValue(_view);
-			_defaultEffect.Parameters["Projection"].SetValue(_projection);
+			if (UsesHalfPixelOffset)
+			{
+				_defaultEffect.Parameters["Projection"].SetValue(Matrix.CreateTranslation(-0.5f, -0.5f, 0) * _projection);
+			}
+			else
+			{
+				_defaultEffect.Parameters["Projection"].SetValue(_projection);
+			}
 
 			// We can use vertex shader from the default effect if the custom effect doesn't have one. 
 			// Pixel shader get completely overwritten by the custom effect, though. 
@@ -614,7 +627,7 @@ namespace Monofoxe.Engine.Drawing
 					destRectangle.X,
 					destRectangle.Y,
 					-origin.X,
-					-origin.Y, 
+					-origin.Y,
 					destRectangle.Width,
 					destRectangle.Height,
 					(float)Math.Sin(rotation),

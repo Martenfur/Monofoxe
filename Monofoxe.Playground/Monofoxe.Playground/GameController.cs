@@ -1,13 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine;
+using Monofoxe.Engine.Cameras;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.EC;
 using Monofoxe.Engine.SceneSystem;
-using Monofoxe.Engine.Cameras;
-using Resources.Sprites;
 using Monofoxe.Playground.Interface;
-using Monofoxe.Engine.Resources;
 
 namespace Monofoxe.Playground
 {
@@ -35,7 +33,12 @@ namespace Monofoxe.Playground
 
 
 			GraphicsMgr.VertexBatch.SamplerState = SamplerState.PointWrap; // Will make textures repeat without interpolation.
-			
+
+#if LINUX
+			// -0.5 pixel offset because OpenGL is a snowflake.
+			GraphicsMgr.VertexBatch.UsesHalfPixelOffset = true;
+#endif
+
 			DefaultRasterizer = new RasterizerState();
 			DefaultRasterizer.CullMode = CullMode.CullCounterClockwiseFace;
 			DefaultRasterizer.FillMode = FillMode.Solid;
@@ -47,10 +50,10 @@ namespace Monofoxe.Playground
 			WireframeRasterizer.MultiSampleAntiAlias = false;
 
 			GraphicsMgr.VertexBatch.RasterizerState = DefaultRasterizer;
-			
+
 			_guiLayer = Scene.CreateLayer("gui");
 			_guiLayer.IsGUI = true;
-			
+
 
 			var cameraController = new CameraController(_guiLayer, MainCamera);
 
