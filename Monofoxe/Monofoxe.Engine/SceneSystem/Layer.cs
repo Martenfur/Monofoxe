@@ -10,6 +10,8 @@ using Monofoxe.Engine.Utils.CustomCollections;
 
 namespace Monofoxe.Engine.SceneSystem
 {
+	public delegate void LayerEventDelegate(Layer layer);
+
 	/// <summary>
 	/// A layer is a container for entities and components.
 	/// </summary>
@@ -102,7 +104,6 @@ namespace Monofoxe.Engine.SceneSystem
 		/// NOTE: Shaders won't be applied, if layer is GUI.
 		/// </summary>
 		public List<Effect> PostprocessorEffects {get; private set;} = new List<Effect>();
-
 
 		internal Layer(string name, int priority, Scene scene)
 		{
@@ -262,9 +263,35 @@ namespace Monofoxe.Engine.SceneSystem
 
 
 		#region Events.
-
+		
+		/// <summary>
+		/// Triggers every frame before all entities perform Update.
+		/// </summary>
+		public event LayerEventDelegate OnPreUpdate;
+		/// <summary>
+		/// Triggers every frame after all entities perform Update.
+		/// </summary>
+		public event LayerEventDelegate OnPostUpdate;
+		/// <summary>
+		/// Triggers every frame before all entities perform FixedUpdate.
+		/// </summary>
+		public event LayerEventDelegate OnPreFixedUpdate;
+		/// <summary>
+		/// Triggers every frame after all entities perform FixedUpdate.
+		/// </summary>
+		public event LayerEventDelegate OnPostFixedUpdate;
+		/// <summary>
+		/// Triggers every frame before all entities perform Draw.
+		/// </summary>
+		public event LayerEventDelegate OnPreDraw;
+		/// <summary>
+		/// Triggers every frame after all entities perform Draw.
+		/// </summary>
+		public event LayerEventDelegate OnPostDraw;
+		
 		internal void FixedUpdate()
 		{
+			OnPreFixedUpdate?.Invoke(this);
 			foreach (var entity in _entities)
 			{
 				if (entity.Enabled && !entity.Destroyed)
@@ -272,10 +299,12 @@ namespace Monofoxe.Engine.SceneSystem
 					entity.FixedUpdate();
 				}
 			}
+		  OnPostFixedUpdate?.Invoke(this);
 		}
 
 		internal void Update()
 		{
+			OnPreUpdate?.Invoke(this);
 			foreach (var entity in _entities)
 			{
 				if (entity.Enabled && !entity.Destroyed)
@@ -283,6 +312,7 @@ namespace Monofoxe.Engine.SceneSystem
 					entity.Update();
 				}
 			}
+			OnPostUpdate?.Invoke(this);
 		}
 
 		internal void Draw()
@@ -298,6 +328,8 @@ namespace Monofoxe.Engine.SceneSystem
 				GraphicsMgr.Device.Clear(Color.TransparentBlack);
 			}
 
+			
+			OnPreDraw?.Invoke(this);
 			foreach (var entity in _depthSortedEntities)
 			{
 				if (entity.Visible && !entity.Destroyed)
@@ -305,6 +337,7 @@ namespace Monofoxe.Engine.SceneSystem
 					entity.Draw();
 				}
 			}
+			OnPostDraw?.Invoke(this);
 
 			if (hasPostprocessing)
 			{
@@ -322,6 +355,8 @@ namespace Monofoxe.Engine.SceneSystem
 
 		internal void DrawGUI()
 		{
+			// There is no need for separate DrawGUI events because layer can execute either Draw or DrawGUI once per frame.
+			OnPreDraw?.Invoke(this);
 			foreach (var entity in _depthSortedEntities)
 			{
 				if (entity.Visible && !entity.Destroyed)
@@ -329,6 +364,7 @@ namespace Monofoxe.Engine.SceneSystem
 					entity.Draw();
 				}
 			}
+			OnPostDraw?.Invoke(this);
 		}
 
 		#endregion Events.

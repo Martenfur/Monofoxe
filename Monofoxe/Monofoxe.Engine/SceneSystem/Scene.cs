@@ -9,6 +9,8 @@ using System.Collections.Generic;
 
 namespace Monofoxe.Engine.SceneSystem
 {
+	public delegate void SceneEventDelegate(Scene scene);
+
 	/// <summary>
 	/// Container for layers.
 	/// </summary>
@@ -274,9 +276,44 @@ namespace Monofoxe.Engine.SceneSystem
 
 
 		#region Events.
+		
+		/// <summary>
+		/// Triggers every frame before all layers perform Update.
+		/// </summary>
+		public event SceneEventDelegate OnPreUpdate;
+		/// <summary>
+		/// Triggers every frame after all layers perform Update.
+		/// </summary>
+		public event SceneEventDelegate OnPostUpdate;
+		/// <summary>
+		/// Triggers every frame before all layers perform FixedUpdate.
+		/// </summary>
+		public event SceneEventDelegate OnPreFixedUpdate;
+		/// <summary>
+		/// Triggers every frame after all layers perform FixedUpdate.
+		/// </summary>
+		public event SceneEventDelegate OnPostFixedUpdate;
+		/// <summary>
+		/// Triggers every frame before all non-GUI layers perform Draw.
+		/// </summary>
+		public event SceneEventDelegate OnPreDraw;
+		/// <summary>
+		/// Triggers every frame after all non-GUI layers perform Draw.
+		/// </summary>
+		public event SceneEventDelegate OnPostDraw;
+		/// <summary>
+		/// Triggers every frame before all GUI layers perform Draw.
+		/// </summary>
+		public event SceneEventDelegate OnPreDrawGUI;
+		/// <summary>
+		/// Triggers every frame after all GUI layers perform Draw.
+		/// </summary>
+		public event SceneEventDelegate OnPostDrawGUI;
+
 
 		internal void FixedUpdate()
 		{
+			OnPreFixedUpdate?.Invoke(this);
 			foreach (var layer in _layers)
 			{
 				if (layer.Enabled)
@@ -286,10 +323,12 @@ namespace Monofoxe.Engine.SceneSystem
 					layer.FixedUpdate();
 				}
 			}
+			OnPostFixedUpdate?.Invoke(this);
 		}
 
 		internal void Update()
 		{
+			OnPreUpdate?.Invoke(this);
 			foreach (var layer in _layers)
 			{
 				if (layer.Enabled)
@@ -299,11 +338,13 @@ namespace Monofoxe.Engine.SceneSystem
 					layer.Update();
 				}
 			}
+			OnPostUpdate?.Invoke(this);
 		}
 
 
 		internal void Draw()
 		{
+			OnPreDraw?.Invoke(this);
 			foreach (var layer in _layers)
 			{
 				if (
@@ -317,10 +358,12 @@ namespace Monofoxe.Engine.SceneSystem
 					layer.Draw();
 				}
 			}
+			OnPostDraw?.Invoke(this);
 		}
 
 		internal void DrawGUI()
 		{
+			OnPreDrawGUI?.Invoke(this);
 			foreach (var layer in _layers)
 			{
 				if (layer.Visible && layer.IsGUI)
@@ -330,6 +373,7 @@ namespace Monofoxe.Engine.SceneSystem
 					layer.DrawGUI();
 				}
 			}
+			OnPostDrawGUI?.Invoke(this);
 		}
 
 		#endregion Events.

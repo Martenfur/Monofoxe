@@ -6,6 +6,7 @@ using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.EC;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Playground.Interface;
+using System.Diagnostics;
 
 namespace Monofoxe.Playground
 {
@@ -18,6 +19,8 @@ namespace Monofoxe.Playground
 		public static RasterizerState DefaultRasterizer;
 		public static RasterizerState WireframeRasterizer;
 
+		private Stopwatch _stopwatch = new Stopwatch();
+		
 		public GameController() : base(SceneMgr.GetScene("default")["default"])
 		{
 			GameMgr.MaxGameSpeed = 60;
@@ -63,18 +66,29 @@ namespace Monofoxe.Playground
 			// Enabling applying postprocessing effects to separate layers.
 			// Note that this will create an additional surface.
 			MainCamera.PostprocessingMode = PostprocessingMode.CameraAndLayers;
+
+			SceneMgr.OnPreDraw += OnPreDraw; // You can do the same for individual layers or scenes.
+			SceneMgr.OnPostDraw += OnPostDraw;
 		}
 
-		public override void Update()
+
+		private void OnPreDraw() =>
+			_stopwatch.Start();
+
+		private void OnPostDraw()
 		{
-			base.Update();
+			_stopwatch.Stop();
+			GameMgr.WindowManager.WindowTitle = "Rendering time: " + _stopwatch.Elapsed;
+			_stopwatch.Reset();
 		}
 
 
-		public override void Draw()
+		public override void Destroy()
 		{
-			base.Draw();
-		}
+			base.Destroy();
 
+			SceneMgr.OnPreDraw -= OnPreDraw;
+			SceneMgr.OnPostDraw -= OnPostDraw;
+		}
 	}
 }
