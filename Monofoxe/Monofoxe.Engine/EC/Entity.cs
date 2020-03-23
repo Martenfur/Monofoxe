@@ -176,6 +176,7 @@ namespace Monofoxe.Engine.EC
 			_componentList.Add(component);
 			component.Owner = this;
 			component.Initialize();
+			component.Initialized = true;
 		}
 		
 		

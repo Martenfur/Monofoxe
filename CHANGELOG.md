@@ -23,6 +23,7 @@
 - Fixed entity methods crashing the game after creating new `Entity`.
 - Fixed crashes when `Scene`'s layer methods were called.
 - Fixed crashes when `SceneMgr`'s scene methods were called.
+- Fixed Component.Initialized never being set.
 
 ## [v2.0.0.0-dev+007] - *07.02.2020*
 
