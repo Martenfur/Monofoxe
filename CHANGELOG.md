@@ -6,6 +6,7 @@
 
 - Added `Rotate` method for `Vector2`.
 - Added half-pixel offset support for `VertexBatch`.
+- Added Pre and Post events to layers, scenes and scene manager.
 
 ### Changed:
 
