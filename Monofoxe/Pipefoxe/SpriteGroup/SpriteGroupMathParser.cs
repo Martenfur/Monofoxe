@@ -8,29 +8,41 @@ using static Pipefoxe.SpriteGroup.SpriteGroupMathTokenizer;
 
 namespace Pipefoxe.SpriteGroup
 {
+	/// <summary>
+	/// This class parse the expresion and returns the number that corresponds to it
+	/// Might be slow since it uses recursion to parse the expresion
+	/// Not benchmarked yet
+	/// </summary>
+	//  Based on the code by Brad Robinson in this Medium Article https://medium.com/@toptensoftware/writing-a-simple-math-expression-engine-in-c-d414de18d4ce
 	public class SpriteGroupMathParser
 	{
 
 		public SpriteGroupMathParser(RawSprite sprite)
 		{
-			_rawSprite = sprite;
+			_rawSprite = sprite; // Maybe this should not be here but hey... Fox are sneaky 
 		}
 
 		SpriteGroupMathTokenizer _tokenizer;
 		RawSprite _rawSprite;
-		bool _yAxis = false;
+		bool _yAxis = false; // Yes, constant center made me do this, why, because I am awesome
+
 		public int Parse(string text, bool yAxis = false)
 		{
 			_tokenizer = new SpriteGroupMathTokenizer(text);
 			_yAxis = yAxis;
 			var expr = ParseAddSubstract();
 
-			if(_tokenizer.CurrentToken != Token.EOF)
+			if (_tokenizer.CurrentToken != Token.EOF)
 			{
 				throw new Exception("Unexpected characters at end of expression");
 			}
 			return expr.Eval();
 		}
+		/// <summary>
+		/// Handles Unary expresions, this let us negate expresions (even be redundant like 10 + +1)
+		/// It reuses the <seealso cref="Token.Sub"/> and <seealso cref="Token.Sum"/> to handle it
+		/// </summary>
+		/// <returns>The Unary expresion reduced</returns>
 		Node ParseUnary()
 		{
 			switch (_tokenizer.CurrentToken)
@@ -41,12 +53,16 @@ namespace Pipefoxe.SpriteGroup
 				case Token.Sub:
 					_tokenizer.NextToken();
 
-					Node rhs = ParseUnary();
+					Node rhs = ParseUnary(); // recursive methods are fun, this let us be as redundant as we want
 
 					return new UnaryOperationNode(rhs, a => -a);
 			}
 			return ParseLeaf();
 		}
+		/// <summary>
+		/// Handles sums and substraction, it follows PEMDAS by asking if their left hand side and right hand side are multiplication
+		/// </summary>
+		/// <returns></returns>
 		Node ParseAddSubstract()
 		{
 			Node lhs = ParseMultiplyDivide();
@@ -63,7 +79,7 @@ namespace Pipefoxe.SpriteGroup
 						op = (a, b) => a - b;
 						break;
 				}
-				if(op == null)
+				if (op == null)
 				{
 					return lhs;
 				}
@@ -72,8 +88,12 @@ namespace Pipefoxe.SpriteGroup
 				Node rhs = ParseMultiplyDivide();
 				lhs = new BinaryOperationNode(lhs, rhs, op);
 			}
-		
+
 		}
+		/// <summary>
+		/// Resolves Multiplication and division in PEMDAS order, let <see cref="ParseUnary"/> resolve negatives and such expresions
+		/// </summary>
+		/// <returns></returns>
 		Node ParseMultiplyDivide()
 		{
 			Node lhs = ParseUnary();
@@ -100,6 +120,10 @@ namespace Pipefoxe.SpriteGroup
 				lhs = new BinaryOperationNode(lhs, rhs, op);
 			}
 		}
+		/// <summary>
+		/// This recognize our terminal elements, like number and constants, also reduce parenthesis expresions
+		/// </summary>
+		/// <returns>Terminal element</returns>
 		Node ParseLeaf()
 		{
 			switch (_tokenizer.CurrentToken)
@@ -111,9 +135,10 @@ namespace Pipefoxe.SpriteGroup
 					_tokenizer.NextToken();
 					Node node = ParseAddSubstract();
 
-					if (_tokenizer.CurrentToken != Token.CloseParenthesis) { 
-					throw new Exception("Missing Close Parenthesis");
-			     }
+					if (_tokenizer.CurrentToken != Token.CloseParenthesis)
+					{
+						throw new Exception("Missing Close Parenthesis");
+					}
 					_tokenizer.NextToken();
 
 					return node;
@@ -137,11 +162,13 @@ namespace Pipefoxe.SpriteGroup
 					}
 					return new NumberNode(_rawSprite.RawTexture.Width / _rawSprite.FramesH / 2);
 				default:
-					throw new Exception($"Unexpect token: {_tokenizer.CurrentToken}");
+					throw new Exception($"Unexpect token: {_tokenizer.CurrentToken}"); // TODO: Make a SyntaxException or something similar
 			}
 		}
-		
+
 	}
+	#region NodeClasses
+
 	abstract class Node
 	{
 		public abstract int Eval();
@@ -201,5 +228,6 @@ namespace Pipefoxe.SpriteGroup
 			return _op(num);
 		}
 	}
+	#endregion
 }
 

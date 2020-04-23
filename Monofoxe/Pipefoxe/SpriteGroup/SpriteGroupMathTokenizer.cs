@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace Pipefoxe.SpriteGroup
 {
+	/// <summary>
+	/// This class just goes char by char parsing the text
+	/// works alongside <seealso cref="SpriteGroupMathParser"/> to parse an expresion
+	/// </summary>
+	// based on https://medium.com/@toptensoftware/writing-a-simple-math-expression-engine-in-c-d414de18d4ce
 	public class SpriteGroupMathTokenizer
 	{
 		public enum Token
@@ -44,7 +49,11 @@ namespace Pipefoxe.SpriteGroup
 			NextChar();
 			NextToken();
 		}
-		public void NextToken() {
+		/// <summary>
+		/// This methods gets the next token, this also gets numeric values if it results being a number
+		/// </summary>
+		public void NextToken()
+		{
 			while (char.IsWhiteSpace(_currentChar))
 			{
 				NextChar();
