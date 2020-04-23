@@ -131,40 +131,12 @@ namespace Pipefoxe.SpriteGroup
 
 						int xOffset, yOffset;
 
-						// Hey, look, switch is being useful for once! :000
-
+						SpriteGroupMathParser parser = new SpriteGroupMathParser(spr);
 						// Parsing offset keywords.
-						switch(xOffsetRaw)
-						{
-							case keywordCenter:
-								xOffset = spr.RawTexture.Width / spr.FramesH / 2;
-							break;
-							case keywordLeft:
-								xOffset = 0;
-							break;
-							case keywordRight:
-								xOffset = spr.RawTexture.Width / spr.FramesH;
-							break;
-							default:
-								xOffset = int.Parse(xOffsetRaw);
-							break;
-						}
+						xOffset = parser.Parse(xOffsetRaw);
+						yOffset = parser.Parse(yOffsetRaw, true);
 
-						switch(yOffsetRaw)
-						{
-							case keywordCenter:
-								yOffset = spr.RawTexture.Height / spr.FramesV / 2;
-							break;
-							case keywordTop:
-								yOffset = 0;
-							break;
-							case keywordBottom:
-								yOffset = spr.RawTexture.Height / spr.FramesV;
-							break;
-							default:
-								yOffset = int.Parse(yOffsetRaw);
-							break;
-						}
+						
 						// Parsing offset keywords.
 
 						spr.Offset = new Point(xOffset, yOffset);
