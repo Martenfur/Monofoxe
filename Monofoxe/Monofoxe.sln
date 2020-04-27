@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pipefoxe", "Pipefoxe\Pipefoxe.csproj", "{D59079B2-CC07-4783-9C7F-05E78EBBC5FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pipefoxe", "Pipefoxe\Pipefoxe.csproj", "{D59079B2-CC07-4783-9C7F-05E78EBBC5FD}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Monofoxe.Tiled.MapStructure", "Monofoxe.Tiled.MapStructure\Monofoxe.Tiled.MapStructure.shproj", "{785E8147-0E69-45DF-92F7-B4F315739D0C}"
 EndProject
@@ -21,7 +21,8 @@ EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Monofoxe.Tiled.MapStructure\Monofoxe.Tiled.MapStructure.projitems*{785e8147-0e69-45df-92f7-b4f315739d0c}*SharedItemsImports = 13
-		Monofoxe.Tiled.MapStructure\Monofoxe.Tiled.MapStructure.projitems*{d59079b2-cc07-4783-9c7f-05e78ebbc5fd}*SharedItemsImports = 4
+		Monofoxe.Tiled.MapStructure\Monofoxe.Tiled.MapStructure.projitems*{d59079b2-cc07-4783-9c7f-05e78ebbc5fd}*SharedItemsImports = 5
+		Monofoxe.Tiled.MapStructure\Monofoxe.Tiled.MapStructure.projitems*{e615232a-8edd-43bb-84d0-3ba376aca7e6}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
