@@ -4,6 +4,9 @@ using System;
 
 namespace Monofoxe.Engine
 {
+	/// <summary>
+	/// Contains Color extensions and methods to work with <see cref="Color"/> 
+	/// </summary>
 	public static class ColorHelper
 	{
 
@@ -20,7 +23,7 @@ namespace Monofoxe.Engine
 			r = color.R / 255f;
 			g = color.G / 255f;
 			b = color.B / 255f;
-
+			
 			float Max = Math.Max(Math.Max(r, g), b);
 			float Min = Math.Min(Math.Min(r, g), b);
 
