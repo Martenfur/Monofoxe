@@ -64,7 +64,7 @@ namespace Monofoxe.Engine
 			}
 
 
-			return new HsvColor(hue, saturation, value);
+			return new HsvColor(hue, saturation, value, color.A);
 		}
 
 
