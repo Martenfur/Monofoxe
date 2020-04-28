@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 
-namespace Pipefoxe.SpriteGroup
+namespace Pipefoxe.SpriteGroup.AST
 {
 	/// <summary>
 	/// This class just goes char by char parsing the text

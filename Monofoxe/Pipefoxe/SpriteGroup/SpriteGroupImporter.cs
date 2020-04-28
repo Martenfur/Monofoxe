@@ -6,16 +6,16 @@ using Microsoft.Xna.Framework.Content.Pipeline;
 using Newtonsoft.Json.Linq;
 
 /*
- * FUTURE NOTE:
- * To create Pipeline Extension project,
- * choose C# Class Library template,
- * then reference Monogame for Desktop GL
- * and get Monogame.Framework.Content.Pipeline
- * from NuGet.
- * 
- * To add library to pipeline project, reference
- * dll with project name.
- */
+	* FUTURE NOTE:
+	* To create Pipeline Extension project,
+	* choose C# Class Library template,
+	* then reference Monogame for Desktop GL
+	* and get Monogame.Framework.Content.Pipeline
+	* from NuGet.
+	* 
+	* To add library to pipeline project, reference
+	* dll with project name.
+	*/
 namespace Pipefoxe.SpriteGroup
 {
 
@@ -23,29 +23,18 @@ namespace Pipefoxe.SpriteGroup
 	/// Sprite group importer. Parses json config, and loads textures,
 	/// which will be passed to AtlasProcessor.
 	/// </summary>
-	[ContentImporter(".spritegroup", DefaultProcessor = "SpriteGroupProcessor", 
+	[ContentImporter(".spritegroup", DefaultProcessor = "SpriteGroupProcessor",
 	DisplayName = "Sprite Group Importer - Monofoxe")]
 	public class SpriteGroupImporter : ContentImporter<SpriteGroupData>
 	{
-		/*
-		 * Offset keywords are used to quickly set 
-		 * sprite offsets to center or any side, without
-		 * knowing actual sprite size.
-		 */
-		const string keywordCenter = "center";
-		const string keywordTop = "top";
-		const string keywordBottom = "bottom";
-		const string keywordLeft = "left";
-		const string keywordRight = "right";
-
 
 		public override SpriteGroupData Import(string filename, ContentImporterContext context)
 		{
 			var groupData = new SpriteGroupData();
-			
+
 			string[] textureRegex;
 
-			#region Parsing config.	
+			#region Parsing config.
 
 			try
 			{
@@ -65,23 +54,23 @@ namespace Pipefoxe.SpriteGroup
 				var textureWildcards = (JArray)configData["singleTexturesWildcards"];
 
 				textureRegex = new string[textureWildcards.Count];
-				for(var i = 0; i < textureWildcards.Count; i += 1)
+				for (var i = 0; i < textureWildcards.Count; i += 1)
 				{
 					textureRegex[i] = WildCardToRegular(textureWildcards[i].ToString());
 				}
 			}
-			catch(Exception)
+			catch (Exception)
 			{
 				throw new InvalidContentException("Incorrect JSON format!");
 			}
 
 			#endregion Parsing config.
-			
-			
+
+
 			ImportTextures(groupData.RootDir, "", groupData, textureRegex);
 
 			return groupData;
-			
+
 		}
 
 
@@ -97,30 +86,30 @@ namespace Pipefoxe.SpriteGroup
 		{
 			var dirInfo = new DirectoryInfo(dirPath);
 
-			foreach(var file in dirInfo.GetFiles("*.png"))
+			foreach (var file in dirInfo.GetFiles("*.png"))
 			{
 				var spr = new RawSprite();
 				spr.Name = dirName + Path.GetFileNameWithoutExtension(file.Name);
 				spr.RawTexture = Image.FromFile(file.FullName);
 
 				var configPath = Path.ChangeExtension(file.FullName, ".json");
-				
+
 
 				#region Reading config.
 				/*
-				 * Just reading sprite jsons.
-				 * If you want to add more parameters, begin from here.
-				 */
+					* Just reading sprite jsons.
+					* If you want to add more parameters, begin from here.
+					*/
 				if (File.Exists(configPath))
 				{
 					try
 					{
 						var conf = File.ReadAllText(configPath);
-						JToken confData = JObject.Parse(conf); 			
+						JToken confData = JObject.Parse(conf);
 
 						spr.FramesH = int.Parse(confData["h"].ToString());
 						spr.FramesV = int.Parse(confData["v"].ToString());
-						
+
 						if (spr.FramesH < 1 || spr.FramesV < 1) // Frame amount cannot be lesser than 1.
 						{
 							throw new Exception();
@@ -129,26 +118,28 @@ namespace Pipefoxe.SpriteGroup
 						var xOffsetRaw = confData["offset_x"].ToString().ToLower();
 						var yOffsetRaw = confData["offset_y"].ToString().ToLower();
 
-						int xOffset, yOffset;
+						var center = new Point(spr.RawTexture.Width / spr.FramesH / 2, spr.RawTexture.Height / spr.FramesV / 2);
 
-						SpriteGroupMathParser parser = new SpriteGroupMathParser(spr);
 						// Parsing offset keywords.
-						xOffset = parser.Parse(xOffsetRaw);
-						yOffset = parser.Parse(yOffsetRaw, true);
+						spr.Offset = SpriteGroupMathParser.Parse(
+						textX: xOffsetRaw,
+						textY: yOffsetRaw,
+						constantLeft: 0,
+						constantRight: spr.RawTexture.Width / spr.FramesH,
+						constantTop: 0,
+						constantBottom: spr.RawTexture.Height / spr.FramesV,
+						constantCenter: center
+						);
 
-						
-						// Parsing offset keywords.
-
-						spr.Offset = new Point(xOffset, yOffset);
 
 					}
-					catch(Exception)
+					catch (Exception)
 					{
 						throw new Exception("Error while pasring sprite JSON for file: " + file.Name);
 					}
 				}
 				#endregion Reading config.
-				
+
 
 				if (PathMatchesRegex('/' + dirName + '/' + file.Name, textureRegex)) // Separating atlas sprites from single textures.
 				{
@@ -162,21 +153,21 @@ namespace Pipefoxe.SpriteGroup
 
 
 			// Recursively repeating for all subdirectories.
-			foreach(var dir in dirInfo.GetDirectories())
+			foreach (var dir in dirInfo.GetDirectories())
 			{
 				ImportTextures(dir.FullName, dirName + dir.Name + '/', groupData, textureRegex);
 			}
 			// Recursively repeating for all subdirectories.
 
 		}
-		
+
 
 
 		private string WildCardToRegular(string value) =>
-			"^" + Regex.Escape(value).Replace("\\*", ".*") + "$"; 
-		
-		
-		
+		"^" + Regex.Escape(value).Replace("\\*", ".*") + "$";
+
+
+
 		/// <summary>
 		/// Checks if path matches regex filter.
 		/// </summary>
@@ -184,7 +175,7 @@ namespace Pipefoxe.SpriteGroup
 		{
 			var safePath = path.Replace('\\', '/'); // Just to not mess with regex and wildcards.
 
-			foreach(var regex in regexArray)
+			foreach (var regex in regexArray)
 			{
 				if (Regex.IsMatch(safePath, regex, RegexOptions.IgnoreCase))
 				{
@@ -193,6 +184,6 @@ namespace Pipefoxe.SpriteGroup
 			}
 			return false;
 		}
-		
+
 	}
 }

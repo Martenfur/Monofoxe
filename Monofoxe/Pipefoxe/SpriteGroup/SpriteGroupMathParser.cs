@@ -1,5 +1,7 @@
-﻿using System;
-using static Pipefoxe.SpriteGroup.SpriteGroupMathTokenizer;
+﻿using Pipefoxe.SpriteGroup.AST;
+using System;
+using System.Drawing;
+using static Pipefoxe.SpriteGroup.AST.SpriteGroupMathTokenizer;
 
 namespace Pipefoxe.SpriteGroup
 {
@@ -9,56 +11,93 @@ namespace Pipefoxe.SpriteGroup
 	/// Not benchmarked yet
 	/// </summary>
 	//  Based on the code by Brad Robinson in this Medium Article https://medium.com/@toptensoftware/writing-a-simple-math-expression-engine-in-c-d414de18d4ce
-	public class SpriteGroupMathParser
+	public static class SpriteGroupMathParser
 	{
 
-		public SpriteGroupMathParser(RawSprite sprite)
+		private static SpriteGroupMathTokenizer _tokenizer;
+		private static int ConstantLeft;
+		private static int ConstantRight;
+		private static int ConstantTop;
+		private static int ConstantBottom;
+		private static int ConstantCenter;
+
+		/// <summary>
+		/// Parses the offset and resolves the math expressions
+		/// </summary>
+		/// <param name="textX">first string to parse </param>
+		/// <param name="textY">second string to parse</param>
+		/// <param name="constantLeft">value of the "Left" keyword constant</param>
+		/// <param name="constantRight">value of the "Right" keyword constant</param>
+		/// <param name="constantTop">value of the "Top" keyword constant</param>
+		/// <param name="constantBottom">value of the "Bottom" keyword constant</param>
+		/// <param name="constantCenter">value of the component"Center" keyword constant</param>
+		/// <returns>A point with the parsed X and Y positions</returns>
+		public static Point Parse(string textX,
+			string textY,
+			int constantLeft,
+			int constantRight,
+			int constantTop,
+			int constantBottom,
+			Point constantCenter
+			)
 		{
-			_rawSprite = sprite; // Maybe this should not be here but hey... Fox are sneaky 
-		}
+			Point res = new Point();
+			ConstantBottom = constantBottom;
+			ConstantLeft = constantLeft;
+			ConstantRight = constantRight;
+			ConstantTop = constantTop;
+			ConstantCenter = constantCenter.X;
 
-		SpriteGroupMathTokenizer _tokenizer;
-		RawSprite _rawSprite;
-		bool _yAxis = false; // Yes, constant center made me do this, why, because I am awesome
-
-		public int Parse(string text, bool yAxis = false)
-		{
-			_tokenizer = new SpriteGroupMathTokenizer(text);
-			_yAxis = yAxis;
-			var expr = ParseAddSubstract();
-
+			_tokenizer = new SpriteGroupMathTokenizer(textX);
+			var expr1 = ParseAddSubstract();
+			res.X = expr1.Eval();
 			if (_tokenizer.CurrentToken != Token.EOF)
 			{
-				throw new Exception("Unexpected characters at end of expression");
+				throw new TokenNotExpectedException("Unexpected characters at end of expression");
 			}
-			return expr.Eval();
+
+			ConstantCenter = constantCenter.Y;
+			_tokenizer = new SpriteGroupMathTokenizer(textY);
+			var expr2 = ParseAddSubstract();
+			res.Y = expr2.Eval();
+			if (_tokenizer.CurrentToken != Token.EOF)
+			{
+				throw new TokenNotExpectedException("Unexpected characters at end of expression");
+			}
+			return res;
 		}
+
 		/// <summary>
 		/// Handles Unary expresions, this let us negate expresions (even be redundant like 10 + +1)
 		/// It reuses the <seealso cref="Token.Sub"/> and <seealso cref="Token.Sum"/> to handle it
 		/// </summary>
 		/// <returns>The Unary expresion reduced</returns>
-		Node ParseUnary()
+		private static Node ParseUnary()
 		{
 			switch (_tokenizer.CurrentToken)
 			{
 				case Token.Sum:
+					{ 
 					_tokenizer.NextToken();
 					return ParseUnary();
+					}
 				case Token.Sub:
-					_tokenizer.NextToken();
+					{
+						_tokenizer.NextToken();
 
-					Node rhs = ParseUnary(); // recursive methods are fun, this let us be as redundant as we want
+						Node rhs = ParseUnary(); // recursive methods are fun, this let us be as redundant as we want
 
-					return new UnaryOperationNode(rhs, a => -a);
+						return new UnaryOperationNode(rhs, a => -a);
+					}
 			}
 			return ParseLeaf();
 		}
+
 		/// <summary>
 		/// Handles sums and substraction, it follows PEMDAS by asking if their left hand side and right hand side are multiplication
 		/// </summary>
 		/// <returns></returns>
-		Node ParseAddSubstract()
+		private static Node ParseAddSubstract()
 		{
 			Node lhs = ParseMultiplyDivide();
 
@@ -68,11 +107,15 @@ namespace Pipefoxe.SpriteGroup
 				switch (_tokenizer.CurrentToken)
 				{
 					case Token.Sum:
-						op = (a, b) => a + b;
-						break;
+						{
+							op = (a, b) => a + b;
+							break;
+						}
 					case Token.Sub:
-						op = (a, b) => a - b;
-						break;
+						{
+							op = (a, b) => a - b;
+							break;
+						}
 				}
 				if (op == null)
 				{
@@ -85,11 +128,12 @@ namespace Pipefoxe.SpriteGroup
 			}
 
 		}
+
 		/// <summary>
 		/// Resolves Multiplication and division in PEMDAS order, let <see cref="ParseUnary"/> resolve negatives and such expresions
 		/// </summary>
 		/// <returns></returns>
-		Node ParseMultiplyDivide()
+		private static Node ParseMultiplyDivide()
 		{
 			Node lhs = ParseUnary();
 
@@ -99,11 +143,15 @@ namespace Pipefoxe.SpriteGroup
 				switch (_tokenizer.CurrentToken)
 				{
 					case Token.Mul:
-						op = (a, b) => a * b;
-						break;
+						{
+							op = (a, b) => a * b;
+							break;
+						}
 					case Token.Div:
-						op = (a, b) => a / b;
-						break;
+						{
+							op = (a, b) => a / b;
+							break;
+						}
 				}
 				if (op == null)
 				{
@@ -115,114 +163,66 @@ namespace Pipefoxe.SpriteGroup
 				lhs = new BinaryOperationNode(lhs, rhs, op);
 			}
 		}
+
 		/// <summary>
 		/// This recognize our terminal elements, like number and constants, also reduce parenthesis expresions
 		/// </summary>
 		/// <returns>Terminal element</returns>
-		Node ParseLeaf()
+		private static Node ParseLeaf()
 		{
 			switch (_tokenizer.CurrentToken)
 			{
 				case Token.Number:
-					_tokenizer.NextToken();
-					return new NumberNode(_tokenizer.Number);
+					{
+						_tokenizer.NextToken();
+						return new NumberNode(_tokenizer.Number);
+					}
 				case Token.OpenParenthesis:
-					_tokenizer.NextToken();
-					Node node = ParseAddSubstract();
-
-					if (_tokenizer.CurrentToken != Token.CloseParenthesis)
 					{
-						throw new Exception("Missing Close Parenthesis");
-					}
-					_tokenizer.NextToken();
+						_tokenizer.NextToken();
+						Node node = ParseAddSubstract();
 
-					return node;
+						if (_tokenizer.CurrentToken != Token.CloseParenthesis)
+						{
+							throw new Exception("Missing Close Parenthesis");
+						}
+						_tokenizer.NextToken();
+
+						return node;
+					}
 				case Token.ConstantBottom:
-					_tokenizer.NextToken();
-					return new NumberNode(_rawSprite.RawTexture.Height / _rawSprite.FramesV);
-				case Token.ConstantTop:
-					_tokenizer.NextToken();
-					return new NumberNode(0);
-				case Token.ConstantRight:
-					_tokenizer.NextToken();
-					return new NumberNode(_rawSprite.RawTexture.Width / _rawSprite.FramesH);
-				case Token.ConstantLeft:
-					_tokenizer.NextToken();
-					return new NumberNode(0);
-				case Token.ConstantCenter:
-					_tokenizer.NextToken();
-					if (_yAxis)
 					{
-						return new NumberNode(_rawSprite.RawTexture.Height / _rawSprite.FramesV / 2);
+						_tokenizer.NextToken();
+						return new NumberNode(ConstantBottom);
 					}
-					return new NumberNode(_rawSprite.RawTexture.Width / _rawSprite.FramesH / 2);
+				case Token.ConstantTop:
+					{
+						_tokenizer.NextToken();
+						return new NumberNode(ConstantTop);
+					}
+				case Token.ConstantRight:
+					{
+						_tokenizer.NextToken();
+						return new NumberNode(ConstantRight);
+					}
+				case Token.ConstantLeft:
+					{
+						_tokenizer.NextToken();
+						return new NumberNode(ConstantLeft);
+					}
+				case Token.ConstantCenter:
+					{
+						_tokenizer.NextToken();
+						return new NumberNode(ConstantCenter);
+					}
 				default:
-					throw new Exception($"Unexpect token: {_tokenizer.CurrentToken}"); // TODO: Make a SyntaxException or something similar
+					{
+						throw new TokenNotExpectedException($"Unexpect token: {_tokenizer.CurrentToken}");
+					}
 			}
 		}
 
 	}
-	#region NodeClasses
 
-	abstract class Node
-	{
-		public abstract int Eval();
-	}
-	class NumberNode : Node
-	{
-		public NumberNode(int number)
-		{
-			_number = number;
-		}
-
-		int _number;
-
-		public override int Eval()
-		{
-			return _number;
-		}
-	}
-	class BinaryOperationNode : Node
-	{
-
-		public BinaryOperationNode(Node lhs, Node rhs, Func<int, int, int> op)
-		{
-			_lhs = lhs;
-			_rhs = rhs;
-			_op = op;
-		}
-
-		Node _lhs;
-		Node _rhs;
-		Func<int, int, int> _op;
-
-		public override int Eval()
-		{
-
-			var lhsVal = _lhs.Eval();
-			var rhsVal = _rhs.Eval();
-
-			var result = _op(lhsVal, rhsVal);
-			return result;
-		}
-	}
-	class UnaryOperationNode : Node
-	{
-		public UnaryOperationNode(Node num, Func<int, int> op)
-		{
-			_num = num;
-			_op = op;
-		}
-		Node _num;
-		Func<int, int> _op;
-
-		public override int Eval()
-		{
-			int num = _num.Eval();
-
-			return _op(num);
-		}
-	}
-	#endregion
 }
 
