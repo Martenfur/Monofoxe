@@ -7,11 +7,13 @@
 - Added `Rotate` method for `Vector2`.
 - Added half-pixel offset support for `VertexBatch`.
 - Added Pre and Post events to layers, scenes and scene manager.
+- Added `ZDepth` to all shape classes.
 
 ### Changed:
 
 - `Input.ScrollWheelValue` now returns signed scroll speed value instead of only its sign.
 - Reworked `Alarm` class and merged it with `AutoAlarm` and `Timer`.
+- Changed `IDrawable` interface to `Drawable` class.
 
 ### Removed:
 
