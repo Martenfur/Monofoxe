@@ -7,10 +7,8 @@ namespace Monofoxe.Engine.Drawing
 	/// <summary>
 	/// Drawable triangle shape. Can be drawn by using static methods or be instantiated.
 	/// </summary>
-	public class TriangleShape : IDrawable
+	public class TriangleShape : Drawable
 	{
-		public Vector2 Position {get; set;}
-
 		/// <summary>
 		/// First triangle point. 
 		/// NOTE: all triangle points treat position as an origin point;
@@ -36,9 +34,10 @@ namespace Monofoxe.Engine.Drawing
 
 		public Color Color = Color.White;
 
+		public float ZDepth = 0;
 
-		public void Draw() =>
-			Draw(Point1 + Position, Point2 + Position, Point3 + Position, IsOutline, Color, Color, Color);
+		public override void Draw() =>
+			Draw(Point1 + Position, Point2 + Position, Point3 + Position, IsOutline, Color, Color, Color, ZDepth);
 		
 
 		
@@ -57,13 +56,13 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Draws a triangle with specified colors.
 		/// </summary>
-		public static void Draw(Vector2 p1, Vector2 p2, Vector2 p3, bool isOutline, Color c1, Color c2, Color c3)
+		public static void Draw(Vector2 p1, Vector2 p2, Vector2 p3, bool isOutline, Color c1, Color c2, Color c3, float zDepth = 0)
 		{
-			_triangleVertices[0].Position = new Vector3(p1.X, p1.Y, 0);
+			_triangleVertices[0].Position = new Vector3(p1.X, p1.Y, zDepth);
 			_triangleVertices[0].Color = c1;
-			_triangleVertices[1].Position = new Vector3(p2.X, p2.Y, 0);
+			_triangleVertices[1].Position = new Vector3(p2.X, p2.Y, zDepth);
 			_triangleVertices[1].Color = c2;
-			_triangleVertices[2].Position = new Vector3(p3.X, p3.Y, 0);
+			_triangleVertices[2].Position = new Vector3(p3.X, p3.Y, zDepth);
 			_triangleVertices[2].Color = c3;
 			
 			GraphicsMgr.VertexBatch.Texture = null;

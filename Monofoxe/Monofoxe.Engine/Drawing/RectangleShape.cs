@@ -3,13 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Monofoxe.Engine.Drawing
 {
-	public class RectangleShape : IDrawable
+	public class RectangleShape : Drawable
 	{
-		/// <summary>
-		/// Center point of a rectangle.
-		/// </summary>
-		public Vector2 Position {get; set;}
-
 		public Vector2 Size = Vector2.One;
 
 		/// <summary>
@@ -19,15 +14,18 @@ namespace Monofoxe.Engine.Drawing
 
 		public Color Color = Color.White;
 
+		public float ZDepth = 0;
+
 		/// <summary>
 		/// Draws a rectangle using instance properties.
 		/// </summary>
-		public void Draw()
+		public override void Draw()
 		{
 			Draw(
 				Position - Size / 2, Position + Size / 2, 
 				IsOutline, 
-				Color, Color, Color, Color
+				Color, Color, Color, Color, 
+				ZDepth
 			);
 		}
 		
@@ -54,16 +52,17 @@ namespace Monofoxe.Engine.Drawing
 			Color c1, 
 			Color c2, 
 			Color c3, 
-			Color c4
+			Color c4,
+			float zDepth = 0
 		)
 		{
-			_rectangleVertices[0].Position = new Vector3(p1.X, p1.Y, 0);
+			_rectangleVertices[0].Position = new Vector3(p1.X, p1.Y, zDepth);
 			_rectangleVertices[0].Color = c1;
-			_rectangleVertices[1].Position = new Vector3(p2.X, p1.Y, 0);
+			_rectangleVertices[1].Position = new Vector3(p2.X, p1.Y, zDepth);
 			_rectangleVertices[1].Color = c2;
-			_rectangleVertices[2].Position = new Vector3(p2.X, p2.Y, 0);
+			_rectangleVertices[2].Position = new Vector3(p2.X, p2.Y, zDepth);
 			_rectangleVertices[2].Color = c3;
-			_rectangleVertices[3].Position = new Vector3(p1.X, p2.Y, 0);
+			_rectangleVertices[3].Position = new Vector3(p1.X, p2.Y, zDepth);
 			_rectangleVertices[3].Color = c4;
 						
 			GraphicsMgr.VertexBatch.Texture = null;

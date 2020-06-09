@@ -9,7 +9,7 @@ namespace Monofoxe.Engine.Drawing
 	/// <summary>
 	/// Drawable sprite. 
 	/// </summary>
-	public class Sprite : IDrawable, ICloneable
+	public class Sprite : Drawable, ICloneable
 	{
 		/// <summary>
 		/// An array of sprite's frames.
@@ -46,8 +46,7 @@ namespace Monofoxe.Engine.Drawing
 			}
 		}
 
-		public Vector2 Position {get; set;}
-		
+
 		public Vector2 Scale = Vector2.One;
 
 		public Vector2 Origin;
@@ -139,7 +138,7 @@ namespace Monofoxe.Engine.Drawing
 			_frames[Math.Max(0, Math.Min(_frames.Length - 1, (int)(animation * _frames.Length)))];
 		
 		
-		public void Draw() =>
+		public override void Draw() =>
 			GetFrame(Animation).Draw(Position, Origin, Scale, Rotation, Color, ZDepth);
 		
 		// Vectors.

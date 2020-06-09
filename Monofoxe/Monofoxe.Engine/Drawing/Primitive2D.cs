@@ -8,10 +8,8 @@ namespace Monofoxe.Engine.Drawing
 	/// <summary>
 	/// Base 2D primitive class. Can be used to create other types of primitives.
 	/// </summary>
-	public abstract class Primitive2D : IDrawable
+	public abstract class Primitive2D : Drawable
 	{
-		public Vector2 Position {get; set;}
-
 		/// <summary>
 		/// List of all primitive's vertices. 
 		/// NOTE: all vertices treat position as an origin point;
@@ -105,7 +103,7 @@ namespace Monofoxe.Engine.Drawing
 		}
 
 		
-		public void Draw()
+		public override void Draw()
 		{
 			GraphicsMgr.VertexBatch.Texture = _texture;
 			GraphicsMgr.VertexBatch.AddPrimitive(_primitiveType, GetConvertedVertices(), GetIndices());
