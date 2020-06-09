@@ -209,17 +209,8 @@ namespace Monofoxe.Engine.Utils
 
 		#endregion Operators.
 			
-		public override int GetHashCode()
-		{
-			// No idea, lul.
-			var hashCode = 129319411;
-			hashCode = hashCode * -1521134295 + Degrees.GetHashCode();
-			hashCode = hashCode * -1521134295 + Radians.GetHashCode();
-			hashCode = hashCode * -1521134295 + DegreesF.GetHashCode();
-			hashCode = hashCode * -1521134295 + RadiansF.GetHashCode();
-			hashCode = hashCode * -1521134295 + _degrees.GetHashCode();
-			return hashCode;
-		}
+		public override int GetHashCode() =>
+			_degrees.GetHashCode();
 
 		public override string ToString() =>
 			_degrees.ToString();
