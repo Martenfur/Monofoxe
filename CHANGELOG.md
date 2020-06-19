@@ -18,6 +18,7 @@
 ### Removed:
 
 - Removed `AutoAlarm` and `Timer` classes.
+- Removed `MousePosition` from `Input` class.
 
 ### Fixed:
 
@@ -25,7 +26,9 @@
 - Fixed entity methods crashing the game after creating new `Entity`.
 - Fixed crashes when `Scene`'s layer methods were called.
 - Fixed crashes when `SceneMgr`'s scene methods were called.
-- Fixed Component.Initialized never being set.
+- Fixed `Component.Initialized` never being set.
+- Fixed gamepad press/release not working correctly.
+- Fixed gamepad index not being used in input methods.
 
 ## [v2.0.0.0-dev+007] - *07.02.2020*
 

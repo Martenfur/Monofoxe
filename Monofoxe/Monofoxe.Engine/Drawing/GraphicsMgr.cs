@@ -143,8 +143,6 @@ namespace Monofoxe.Engine.Drawing
 						camera.ConstructProjectionMatrix()
 					);
 					
-					Input.MousePosition = camera.GetRelativeMousePosition();
-					
 					if (camera.ClearBackground)
 					{
 						Device.Clear(camera.BackgroundColor);
@@ -172,7 +170,6 @@ namespace Monofoxe.Engine.Drawing
 				)
 			);
 			VertexBatch.PushViewMatrix(CanvasMatrix);
-			Input.MousePosition = Input.ScreenMousePosition;
 			// Resetting camera, transform matrix and mouse position
 
 
