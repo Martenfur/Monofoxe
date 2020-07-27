@@ -166,7 +166,7 @@ namespace Monofoxe.Engine.EC
 		/// <summary>
 		/// Adds component to the entity.
 		/// </summary>
-		public void AddComponent(Component component)
+		public T AddComponent<T>(T component) where T : Component
 		{
 			if (component.Owner != null)
 			{
@@ -177,9 +177,10 @@ namespace Monofoxe.Engine.EC
 			component.Owner = this;
 			component.Initialize();
 			component.Initialized = true;
+
+			return component; // Doing a passthrough for nicer syntax.
 		}
-		
-		
+
 
 		/// <summary>
 		/// Returns component of given class.

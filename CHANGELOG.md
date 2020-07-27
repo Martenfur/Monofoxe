@@ -14,6 +14,7 @@
 - `Input.ScrollWheelValue` now returns signed scroll speed value instead of only its sign.
 - Reworked `Alarm` class and merged it with `AutoAlarm` and `Timer`.
 - Changed `IDrawable` interface to `Drawable` class.
+- `Entity.AddComponent` now returns the component class which was passed into it.
 
 ### Removed:
 
