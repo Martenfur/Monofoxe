@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
+using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
+using StbImageSharp;
+using System.IO;
 
 namespace Pipefoxe.SpriteGroup
 {
@@ -10,18 +12,38 @@ namespace Pipefoxe.SpriteGroup
 		public readonly int Width;
 		public readonly int Height;
 
-		public Bmp(Texture2DContent texture)
+		public Bmp(string filePath)
 		{
-			var textureBitmap = texture.Mipmaps[0];
-			var data = textureBitmap.GetPixelData();
-			Width = textureBitmap.Width;
-			Height = textureBitmap.Height;
+			using (var stream = File.OpenRead(filePath))
+			{
+				var image = ImageResult.FromStream(stream, ColorComponents.RedGreenBlueAlpha);
+				var data = image.Data;
+				Width = image.Width;
+				Height = image.Height;
+
+				_pixels = new Color[Width * Height];
+				for (var i = 0; i < data.Length / 4; i += 1)
+				{
+					var alpha = data[i * 4 + 3];
+					if (alpha != 0)
+					{
+						_pixels[i] = new Color(data[i * 4], data[i * 4 + 1], data[i * 4 + 2], alpha);
+					}
+					else
+					{ 
+						_pixels[i] = Color.Transparent; // XNA zeroes pixels with 0 alpha. 
+					}
+				}
+			}
+		}
+
+
+		public Bmp(int width, int height)
+		{
+			Width = width;
+			Height = height;
 
 			_pixels = new Color[Width * Height];
-			for (var i = 0; i < data.Length / 4; i += 1)
-			{
-				_pixels[i] = new Color(data[i * 4], data[i * 4 + 1], data[i * 4 + 2], data[i * 4 + 3]);
-			}
 		}
 
 
@@ -38,43 +60,37 @@ namespace Pipefoxe.SpriteGroup
 				}
 			}
 		}
-		
-		
+
+
 		/// <summary>
 		/// Draws given bitmap on a current one.
 		/// </summary>
-		public void Draw(Bmp bmp, Rectangle rectangle)
+		public void Draw(Bmp bmp, int x, int y, Rectangle srcRectangle)
 		{
-			for (var y = rectangle.Y; y < rectangle.Height; y += 1)
+			for (var yy = srcRectangle.Y; yy < srcRectangle.Height; yy += 1)
 			{
-				for (var x = rectangle.X; x < rectangle.Width; x += 1)
+				for (var xx = srcRectangle.X; xx < srcRectangle.Width; xx += 1)
 				{
-					DrawPixel(bmp.GetPixel(x, y), x, y);
+					DrawPixel(bmp.GetPixel(xx, yy), x + xx, y + yy);
 				}
 			}
 		}
 
 
-		public Texture2DContent ToTexture2DContent()
+		public void Write(ContentWriter writer)
 		{
-			var content = new Texture2DContent();
-			content.Mipmaps = new MipmapChain();
-			var bitmap = new PixelBitmapContent<Color>(Width, Height);
-			for (var y = 0; y < Height; y += 1)
+			writer.Write(Width);
+			writer.Write(Height);
+			for(var i = 0; i < _pixels.Length; i += 1)
 			{
-				for (var x = 0; x < Width; x += 1)
-				{
-					bitmap.SetPixel(x, y, GetPixelUnchecked(x, y));
-				}
+				writer.Write(_pixels[i]);
 			}
-
-			return content;
 		}
 
 
 		private Color GetPixelUnchecked(int x, int y) =>
-			_pixels[Height * y + x];
-
+			_pixels[Width * y + x];
+	
 
 		private Color GetPixel(int x, int y)
 		{
@@ -94,6 +110,7 @@ namespace Pipefoxe.SpriteGroup
 			{
 				y = Height - 1;
 			}
+
 			return GetPixelUnchecked(x, y);
 		}
 
@@ -104,7 +121,7 @@ namespace Pipefoxe.SpriteGroup
 			{
 				return;
 			}
-			_pixels[Height * y + x] = pixel;
+			_pixels[Width * y + x] = pixel;
 		}
 	}
 }
