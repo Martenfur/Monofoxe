@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 using StbImageSharp;
+using System;
 using System.IO;
 
 namespace Pipefoxe.SpriteGroup
@@ -67,11 +68,11 @@ namespace Pipefoxe.SpriteGroup
 		/// </summary>
 		public void Draw(Bmp bmp, int x, int y, Rectangle srcRectangle)
 		{
-			for (var yy = srcRectangle.Y; yy < srcRectangle.Height; yy += 1)
+			for (var yy = 0; yy < srcRectangle.Height; yy += 1)
 			{
-				for (var xx = srcRectangle.X; xx < srcRectangle.Width; xx += 1)
+				for (var xx = 0; xx < srcRectangle.Width; xx += 1)
 				{
-					DrawPixel(bmp.GetPixel(xx, yy), x + xx, y + yy);
+					DrawPixel(bmp.GetPixel(xx + srcRectangle.X, yy + srcRectangle.Y), x + xx, y + yy);
 				}
 			}
 		}
@@ -113,7 +114,6 @@ namespace Pipefoxe.SpriteGroup
 
 			return GetPixelUnchecked(x, y);
 		}
-
 
 		private void DrawPixel(Color pixel, int x, int y)
 		{
