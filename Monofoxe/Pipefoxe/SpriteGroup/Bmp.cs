@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 using StbImageSharp;
 using System;
 using System.IO;
+using TwoMGFX;
 
 namespace Pipefoxe.SpriteGroup
 {
@@ -57,7 +58,7 @@ namespace Pipefoxe.SpriteGroup
 			{
 				for (var xx = 0; xx < bmp.Width; xx += 1)
 				{
-					DrawPixel(bmp.GetPixel(xx, yy), x + xx, y + yy);
+					DrawPixel(bmp.GetPixel(xx, yy, new Rectangle(0, 0, Width, Height)), x + xx, y + yy);
 				}
 			}
 		}
@@ -66,13 +67,21 @@ namespace Pipefoxe.SpriteGroup
 		/// <summary>
 		/// Draws given bitmap on a current one.
 		/// </summary>
-		public void Draw(Bmp bmp, int x, int y, Rectangle srcRectangle)
+		public void Draw(Bmp bmp, int x, int y, Rectangle srcRectangle, int padding = 0)
 		{
-			for (var yy = 0; yy < srcRectangle.Height; yy += 1)
+			for (var yy = -padding; yy < srcRectangle.Height + padding; yy += 1)
 			{
-				for (var xx = 0; xx < srcRectangle.Width; xx += 1)
+				for (var xx = -padding; xx < srcRectangle.Width + padding; xx += 1)
 				{
-					DrawPixel(bmp.GetPixel(xx + srcRectangle.X, yy + srcRectangle.Y), x + xx, y + yy);
+					DrawPixel(
+						bmp.GetPixel(
+							xx + srcRectangle.X, 
+							yy + srcRectangle.Y, 
+							srcRectangle
+						), 
+						x + xx, 
+						y + yy
+					);
 				}
 			}
 		}
@@ -93,8 +102,25 @@ namespace Pipefoxe.SpriteGroup
 			_pixels[Width * y + x];
 	
 
-		private Color GetPixel(int x, int y)
+		private Color GetPixel(int x, int y, Rectangle bounds)
 		{
+			if (x < bounds.X)
+			{
+				x = bounds.X;
+			}
+			if (y < bounds.Y)
+			{
+				y = bounds.Y;
+			}
+			if (x >= bounds.X + bounds.Width)
+			{
+				x = bounds.X + bounds.Width - 1;
+			}
+			if (y >= bounds.Y + bounds.Height)
+			{
+				y = bounds.Y + bounds.Height - 1;
+			}
+			
 			if (x < 0)
 			{
 				x = 0;
