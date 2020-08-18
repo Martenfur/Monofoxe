@@ -81,10 +81,6 @@ namespace Monofoxe.Playground.InputDemo
 
 			GraphicsMgr.CurrentColor = _mainColor;
 			
-			// This position accounts for current camera transform matrix.
-			// Visually it will be at the pointer's position when camera will move.
-			CircleShape.Draw(Input.MousePosition, 4, false);
-
 			// This position only accounts for screen transformation.
 			// When the camera will move, it will offset.
 			CircleShape.Draw(Input.ScreenMousePosition, 8, true);
