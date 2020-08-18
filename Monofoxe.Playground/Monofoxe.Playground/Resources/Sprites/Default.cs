@@ -35,7 +35,9 @@ namespace Resources.Sprites
 			#region Sprite constructors.
 			
 			AddResource("Monofoxe", sprites["monofoxe"]);
+			AddResource("Test", sprites["test"]);
 			AddResource("Fire", sprites["fire"]);
+			AddResource("DebugSquare", sprites["DebugSquare"]);
 			AddResource("Bot", sprites["bot"]);
 			AddResource("Player", sprites["player"]);
 			AddResource("Font", sprites["font"]);

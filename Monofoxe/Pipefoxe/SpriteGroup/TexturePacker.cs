@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 
 namespace Pipefoxe.SpriteGroup
@@ -10,11 +10,11 @@ namespace Pipefoxe.SpriteGroup
 	/// </summary>
 	static class TexturePacker
 	{
-		public static (List<RawSprite> spriteInfo, List<Bitmap> atlases) 
+		public static (List<RawSprite> spriteInfo, List<Bmp> atlases) 
 			PackTextures(List<RawSprite> textures, int textureSize, int padding, string groupName)
 		{
 			List<RawSprite> sprites = Pack(textures, textureSize, padding);
-			List<Bitmap> atlases = AssembleAtlases(sprites, textureSize, padding);
+			List<Bmp> atlases = AssembleAtlases(sprites, textureSize, padding);
 			
 			return (sprites, atlases);
 		}
@@ -151,9 +151,9 @@ namespace Pipefoxe.SpriteGroup
 		/// <summary>
 		/// Generates atlas textures out of sprite info.
 		/// </summary>
-		private static List<Bitmap> AssembleAtlases(List<RawSprite> sprites, int textureSize, int padding)
+		private static List<Bmp> AssembleAtlases(List<RawSprite> sprites, int textureSize, int padding)
 		{
-			var atlases = new List<Bitmap>();
+			var atlases = new List<Bmp>();
 			var atlasIndex = 0;
 
 			// List of unrendered sprites. When all sprite's frames are rendered, it will be removed from list.
@@ -161,10 +161,8 @@ namespace Pipefoxe.SpriteGroup
 
 			while(spritesEnum.Count > 0)
 			{
-				var atlasBmp = new Bitmap(textureSize, textureSize);
-				var graphics = Graphics.FromImage(atlasBmp);
-				graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-			
+				var atlasBmp = new Bmp(textureSize, textureSize);
+
 				var spritesCopy = new List<RawSprite>(spritesEnum);
 
 				foreach(var sprite in spritesCopy)
@@ -182,77 +180,26 @@ namespace Pipefoxe.SpriteGroup
 								spritesEnum.Remove(sprite);
 							}
 
-							int x = (i % sprite.FramesH) * frame.TexturePos.Width;
-							int y = (i / sprite.FramesH) * frame.TexturePos.Height;
+							var frameX = (i % sprite.FramesH) * frame.TexturePos.Width;
+							var frameY = (i / sprite.FramesH) * frame.TexturePos.Height;
 							
-							graphics.DrawImage(
+							atlasBmp.Draw(
 								sprite.RawTexture,
-								frame.TexturePos,
+								frame.TexturePos.X,
+								frame.TexturePos.Y,
 								new Rectangle(
-									x,
-									y,
+									frameX,
+									frameY,
 									frame.TexturePos.Width, 
 									frame.TexturePos.Height
-								),  
-								GraphicsUnit.Pixel
+								),
+								padding
 							);
-
-							#region Padding.
-							/*
-							 * Drawing padding lines around the texture turned out to be harder than I thought.
-							 * Let's just pretend it's all pretty and readable.
-							 */
-							
-							Rectangle[] srcRects =
-							{
-								new Rectangle(x, y, 1, frame.TexturePos.Height),
-								new Rectangle(x + frame.TexturePos.Width - 1, y, 1, frame.TexturePos.Height),
-								new Rectangle(x, y, frame.TexturePos.Width, 1),
-								new Rectangle(x, y + frame.TexturePos.Height - 1, frame.TexturePos.Width, 1),
-							};
-							Rectangle[] destRects =
-							{
-								new Rectangle(frame.TexturePos.X - 1, frame.TexturePos.Y, 1, frame.TexturePos.Height),
-								new Rectangle(frame.TexturePos.X + frame.TexturePos.Width, frame.TexturePos.Y, 1, frame.TexturePos.Height),
-								new Rectangle(frame.TexturePos.X, frame.TexturePos.Y - 1, frame.TexturePos.Width, 1),
-								new Rectangle(frame.TexturePos.X, frame.TexturePos.Y + frame.TexturePos.Height, frame.TexturePos.Width, 1),
-							};
-
-							for(var side = 0; side < 4; side += 1) // 4 sides, 4 lines.
-							{
-								// DrawImage draws 2 pixels of source texture instead of 1 if scaled, for some reason.
-								// So we have to draw a ton of lines without scaling.
-								for(var l = 0; l < padding; l += 1)
-								{
-									var destRect = destRects[side];
-
-									int lAdd = l * ((side % 2) * 2 - 1);
-
-									if (side < 2)
-									{
-										destRect.X += lAdd;
-									}
-									else
-									{
-										destRect.Y += lAdd;
-									}
-
-									graphics.DrawImage(
-										sprite.RawTexture,
-										destRect,
-										srcRects[side],
-										GraphicsUnit.Pixel
-									);
-								}
-							}
-
-							#endregion Padding.
 						}
 					}
 				}
 				
 				atlases.Add(atlasBmp);
-				graphics.Dispose();
 				atlasIndex += 1;
 			}
 			return atlases;
@@ -265,7 +212,7 @@ namespace Pipefoxe.SpriteGroup
 		/// </summary>
 		private static bool CheckOverlap(Frame frame, List<Frame> frames, int padding)
 		{
-			var paddingOffset = new Size(padding, padding);
+			var paddingOffset = new Point(padding, padding);
 			foreach(var secondFrame in frames)
 			{
 				if (

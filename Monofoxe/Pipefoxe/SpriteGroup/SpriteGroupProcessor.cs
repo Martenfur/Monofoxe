@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content.Pipeline;
 
 namespace Pipefoxe.SpriteGroup
 {
 	[ContentProcessor(DisplayName = "Sprite Group Processor - Monofoxe")]
-	public class SpriteGroupProcessor : ContentProcessor<SpriteGroupData, (List<RawSprite>, List<Bitmap>)>
+	public class SpriteGroupProcessor : ContentProcessor<SpriteGroupData, (List<RawSprite>, List<Bmp>)>
 	{
-		public override (List<RawSprite>, List<Bitmap>) Process(SpriteGroupData groupData, ContentProcessorContext context)
+		public override (List<RawSprite>, List<Bmp>) Process(SpriteGroupData groupData, ContentProcessorContext context)
 		{
 			// Packing sprites into texture atlases.
 			var atlasResult = TexturePacker.PackTextures(groupData.Sprites, groupData.AtlasSize, groupData.TexturePadding, groupData.GroupName);
 			List<RawSprite> sprites = atlasResult.spriteInfo;
-			List<Bitmap> atlases = atlasResult.atlases;
+			List<Bmp> atlases = atlasResult.atlases;
 			// Packing sprites into texture atlases.
 			
 			var singleTextureResult = ProcessSingleTextures(atlases.Count, groupData.SingleTextures);
@@ -42,10 +42,10 @@ namespace Pipefoxe.SpriteGroup
 		/// <param name="startingIndex">We already got atlases, so we need to index new textures with that in mind.</param>
 		/// <param name="sprites"></param>
 		/// <returns></returns>
-		private (List<RawSprite> spriteInfo, List<Bitmap> textures) 
+		private (List<RawSprite> spriteInfo, List<Bmp> textures) 
 			ProcessSingleTextures(int startingIndex, List<RawSprite> sprites)
 		{
-			var textures = new List<Bitmap>();
+			var textures = new List<Bmp>();
 			var spriteInfo = new List<RawSprite>();
 
 			var textureIndex = startingIndex;
@@ -66,19 +66,15 @@ namespace Pipefoxe.SpriteGroup
 					int x = (frameId % sprite.FramesH) * frame.TexturePos.Width;
 					int y = (frameId / sprite.FramesH) * frame.TexturePos.Height;
 					
-					var texture = new Bitmap(frameW, frameH);
-					var graphics = Graphics.FromImage(texture);
-					graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+					var texture = new Bmp(frameW, frameH);
 					
 					// These are single texture sprites. This means that each frame has to be separate texture. 
-					graphics.DrawImage(
+					texture.Draw(
 						sprite.RawTexture,
-						frame.TexturePos,
-						new Rectangle(x, y, frameW, frameH),
-						GraphicsUnit.Pixel
+						0, 0,
+						new Rectangle(x, y, frameW, frameH)
 					);
 
-					graphics.Dispose();
 
 					textureIndex += 1;
 					sprite.Frames.Add(frame);

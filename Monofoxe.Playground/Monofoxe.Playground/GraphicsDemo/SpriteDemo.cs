@@ -33,7 +33,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 		public SpriteDemo(Layer layer) : base(layer)
 		{
-			_monofoxeSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "Monofoxe");
+			_monofoxeSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "Test");
 			_fireSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "Fire");
 
 			_batch = new SpriteBatch(GraphicsMgr.Device);

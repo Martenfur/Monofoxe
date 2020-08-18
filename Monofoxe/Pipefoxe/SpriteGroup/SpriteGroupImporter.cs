@@ -1,9 +1,11 @@
 ﻿using System;
-using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content.Pipeline;
+using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
 using Newtonsoft.Json.Linq;
+using StbImageSharp;
 
 /*
  * FUTURE NOTE:
@@ -59,9 +61,6 @@ namespace Pipefoxe.SpriteGroup
 				groupData.ClassTemplatePath = configData["classTemplatePath"].ToString();
 				groupData.ClassOutputDir = configData["classOutputDir"].ToString();
 
-				SpriteGroupWriter.DebugMode = bool.Parse(configData["debugMode"].ToString());
-				SpriteGroupWriter.DebugDir = Environment.CurrentDirectory + "/" + groupData.GroupName + "_dbg";
-
 				var textureWildcards = (JArray)configData["singleTexturesWildcards"];
 
 				textureRegex = new string[textureWildcards.Count];
@@ -101,8 +100,9 @@ namespace Pipefoxe.SpriteGroup
 			{
 				var spr = new RawSprite();
 				spr.Name = dirName + Path.GetFileNameWithoutExtension(file.Name);
-				spr.RawTexture = Image.FromFile(file.FullName);
-
+				
+				spr.RawTexture = new Bmp(file.FullName);
+				
 				var configPath = Path.ChangeExtension(file.FullName, ".json");
 				
 

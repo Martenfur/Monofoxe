@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace Pipefoxe.SpriteGroup
 {
@@ -9,7 +9,7 @@ namespace Pipefoxe.SpriteGroup
 		public int FramesH = 1;
 		public int FramesV = 1;
 		public Point Offset = new Point(0, 0);
-		public Image RawTexture; 
+		public Bmp RawTexture; 
 		public List<Frame> Frames = new List<Frame>();
 
 		/// <summary>
