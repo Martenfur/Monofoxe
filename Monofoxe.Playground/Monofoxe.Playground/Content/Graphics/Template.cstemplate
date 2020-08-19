@@ -1,4 +1,4 @@
-#class_prefix = public static Sprite <sprite_name>;
+﻿#class_prefix = public static Sprite <sprite_name>;
 #class_constructor = AddResource("<sprite_name>", sprites[<hash_sprite_name>]);
 
 // Template tags: 
@@ -32,7 +32,7 @@ namespace Resources.Sprites
 				return;
 			}
 			Loaded = true;	
-			var graphicsPath = AssetMgr.ContentDir + '/' + AssetMgr.GraphicsDir +  "/<group_name>";
+			var graphicsPath = ResourceInfoMgr.ContentDir + '/' + ResourceInfoMgr.GraphicsDir + "/<group_name>";
 			var sprites = _content.Load<Dictionary<string, Sprite>>(graphicsPath);
 			
 			#region Sprite constructors.

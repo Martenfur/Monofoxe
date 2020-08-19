@@ -285,7 +285,7 @@ namespace Monofoxe.Engine.Drawing
 			if (_alphaBlendEffect == null)
 			{
 				_content = new ContentManager(GameMgr.Game.Services);
-				_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.EffectsDir;
+				_content.RootDirectory = ResourceInfoMgr.ContentDir + '/' + ResourceInfoMgr.EffectsDir;
 				_alphaBlendEffect = _content.Load<Effect>(_alphaBlendName);
 			}
 			DefaultEffect = _alphaBlendEffect;

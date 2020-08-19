@@ -15,7 +15,7 @@ namespace Monofoxe.Playground
 	{
 		public Game1()
 		{
-			Content.RootDirectory = AssetMgr.ContentDir;
+			Content.RootDirectory = ResourceInfoMgr.ContentDir;
 			GameMgr.Init(this);
 #if !ANDROID
 			Window.TextInput += Input.TextInput;
@@ -44,6 +44,9 @@ namespace Monofoxe.Playground
 			GraphicsMgr.VertexBatch.DepthStencilState = depth;
 
 			new GameController();
+
+			var paths = ResourceInfoMgr.GetResourcePaths("/");
+
 		}
 
 		/// <summary>

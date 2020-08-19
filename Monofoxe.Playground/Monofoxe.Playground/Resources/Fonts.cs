@@ -17,7 +17,7 @@ namespace Resources
 		public Fonts()
 		{
 			_content = new ContentManager(GameMgr.Game.Services);
-			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.FontsDir;
+			_content.RootDirectory = ResourceInfoMgr.ContentDir + '/' + ResourceInfoMgr.FontsDir;
 		}
 
 		public override void Load()

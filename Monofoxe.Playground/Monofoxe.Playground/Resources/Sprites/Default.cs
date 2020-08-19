@@ -29,7 +29,7 @@ namespace Resources.Sprites
 				return;
 			}
 			Loaded = true;
-			var graphicsPath = AssetMgr.ContentDir + '/' + AssetMgr.GraphicsDir +  "/Default";
+			var graphicsPath = ResourceInfoMgr.ContentDir + '/' + ResourceInfoMgr.GraphicsDir + "/Default";
 			var sprites = _content.Load<Dictionary<string, Sprite>>(graphicsPath);
 			
 			#region Sprite constructors.

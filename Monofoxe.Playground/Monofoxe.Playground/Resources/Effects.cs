@@ -19,7 +19,7 @@ namespace Resources
 			}
 			Loaded = true;
 			_content = new ContentManager(GameMgr.Game.Services);
-			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.EffectsDir;
+			_content.RootDirectory = ResourceInfoMgr.ContentDir + '/' + ResourceInfoMgr.EffectsDir;
 
 			// This is not generated automatically. Sadly, you'll have to add those by hand.
 			AddResource("Grayscale", _content.Load<Effect>("Grayscale"));
