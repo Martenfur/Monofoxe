@@ -10,15 +10,15 @@ namespace Monofoxe.Resources
 	/// NOTE: All content files in the directory should be
 	/// of the same type!!!
 	/// </summary>
-  public class BasicResourceBox<T> : ResourceBox<T>
+  public class DirectoryResourceBox<T> : ResourceBox<T>
 	{
 		private static ContentManager _content;
 
-		private readonly string _resourcePath;
+		private readonly string _resourceDir;
 
-		public BasicResourceBox(string name, string resourcePath) : base(name)
+		public DirectoryResourceBox(string name, string resourceDir) : base(name)
 		{
-			_resourcePath = resourcePath;
+			_resourceDir = resourceDir;
 		}
 
 		public override void Load()
@@ -32,7 +32,7 @@ namespace Monofoxe.Resources
 			_content = new ContentManager(GameMgr.Game.Services);
 			_content.RootDirectory = ResourceInfoMgr.ContentDir;
 
-			var paths = ResourceInfoMgr.GetResourcePaths(_resourcePath);
+			var paths = ResourceInfoMgr.GetResourcePaths(_resourceDir);
 
 			foreach(var path in paths)
 			{

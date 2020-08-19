@@ -57,8 +57,8 @@ namespace Monofoxe.Playground
 			GraphicsMgr.Init(GraphicsDevice);
 			
 			new SpriteGroupResourceBox("DefaultSprites", "Graphics/Default");
-			new BasicResourceBox<Effect>("Effects", "Effects");
-			new BasicResourceBox<TiledMap>("Maps", "Maps");
+			new DirectoryResourceBox<Effect>("Effects", "Effects");
+			new DirectoryResourceBox<TiledMap>("Maps", "Maps");
 			new Fonts();
 
 		}
