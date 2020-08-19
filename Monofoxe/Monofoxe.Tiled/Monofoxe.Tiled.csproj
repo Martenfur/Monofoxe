@@ -1,34 +1,41 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <Version>2.0.0-dev</Version>
-    <Authors>Martenfur</Authors>
-    <Company>Chai Foxes</Company>
-    <Product>Monofoxe Tiled</Product>
-    <Description>Tiled Map Editor integration for Monofoxe.</Description>
-    <PackageProjectUrl>https://github.com/Martenfur/Monofoxe/</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Martenfur/Monofoxe/</RepositoryUrl>
-    <Copyright></Copyright>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<Version>2.0.0-dev</Version>
+		<Authors>Martenfur</Authors>
+		<Company>Chai Foxes</Company>
+		<Product>Monofoxe Tiled</Product>
+		<Description>Tiled Map Editor integration for Monofoxe.</Description>
+		<PackageProjectUrl>https://github.com/Martenfur/Monofoxe/</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Martenfur/Monofoxe/</RepositoryUrl>
+		<Copyright></Copyright>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>..\bin\Debug\Monofoxe.Tiled.xml</DocumentationFile>
-    <NoWarn>1701;1702;1591</NoWarn>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<OutputPath>..\bin\Debug\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<DocumentationFile>..\bin\Debug\Monofoxe.Tiled.xml</DocumentationFile>
+		<NoWarn>1701;1702;1591</NoWarn>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\bin\Release\</OutputPath>
-    <DocumentationFile>..\bin\Release\Monofoxe.Tiled.xml</DocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<OutputPath>..\bin\Release\</OutputPath>
+		<DocumentationFile>..\bin\Release\Monofoxe.Tiled.xml</DocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Monofoxe.Engine\Monofoxe.Engine.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Monofoxe.Engine\Monofoxe.Engine.csproj" />
+	</ItemGroup>
 
-  <Import Project="..\Monofoxe.Tiled.MapStructure\Monofoxe.Tiled.MapStructure.projitems" Label="Shared" />
+	<ItemGroup>
+		<PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.*">
+			<PrivateAssets>All</PrivateAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<Import Project="..\Monofoxe.Tiled.MapStructure\Monofoxe.Tiled.MapStructure.projitems" Label="Shared" />
 
 </Project>

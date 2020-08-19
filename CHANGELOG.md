@@ -15,6 +15,11 @@
 - Reworked `Alarm` class and merged it with `AutoAlarm` and `Timer`.
 - Changed `IDrawable` interface to `Drawable` class.
 - `Entity.AddComponent` now returns the component class which was passed into it.
+- **BREAKING CHANGE:** `AssetInfo` has been renamed to `ResourceInfo`
+- **BREAKING CHANGE:** `ResourceInfoImporter` now imports `.npl` Content file instead of `.mgcb`.
+- **BREAKING CHANGE:** Monogame version has been updated to 3.8.
+- Pipefoxe now supports netstandard2.0 and is fully crossplatform.
+- Removed dependency on Windows-only `System.Drawing` for Pipefoxe. 
 
 ### Removed:
 

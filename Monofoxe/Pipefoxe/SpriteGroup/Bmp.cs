@@ -1,9 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 using StbImageSharp;
-using System;
 using System.IO;
-using TwoMGFX;
 
 namespace Pipefoxe.SpriteGroup
 {

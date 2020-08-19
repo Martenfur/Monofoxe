@@ -325,7 +325,7 @@ namespace Monofoxe.Engine.SceneSystem
 			if (hasPostprocessing)
 			{
 				Surface.SetTarget(GraphicsMgr.CurrentCamera._postprocessorLayerBuffer, GraphicsMgr.VertexBatch.View);
-				GraphicsMgr.Device.Clear(Color.TransparentBlack);
+				GraphicsMgr.Device.Clear(Color.Transparent);
 			}
 
 			
@@ -433,13 +433,13 @@ namespace Monofoxe.Engine.SceneSystem
 				if (sufraceChooser)
 				{
 					Surface.SetTarget(camera._postprocessorLayerBuffer);
-					GraphicsMgr.Device.Clear(Color.TransparentBlack);
+					GraphicsMgr.Device.Clear(Color.Transparent);
 					camera._postprocessorBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Right, Color.White);
 				}
 				else
 				{
 					Surface.SetTarget(camera._postprocessorBuffer);
-					GraphicsMgr.Device.Clear(Color.TransparentBlack);
+					GraphicsMgr.Device.Clear(Color.Transparent);
 					camera._postprocessorLayerBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Right, Color.White);
 				}
 

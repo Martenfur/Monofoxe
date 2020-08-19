@@ -44,9 +44,6 @@ namespace Monofoxe.Playground
 			GraphicsMgr.VertexBatch.DepthStencilState = depth;
 
 			new GameController();
-
-			var paths = ResourceInfoMgr.GetResourcePaths("/");
-
 		}
 
 		/// <summary>

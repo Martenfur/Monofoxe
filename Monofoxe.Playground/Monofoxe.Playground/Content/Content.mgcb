@@ -3,9 +3,10 @@
 
 /outputDir:bin/$(Platform)
 /intermediateDir:obj/$(Platform)
+/platform:Windows
 /config:
 /profile:Reach
-/compress:False
+/compress:True
 
 #-------------------------------- References --------------------------------#
 
@@ -13,25 +14,10 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Content.mgcb
-/importer:AssetInfoImporter
-/processor:PassThroughProcessor
-/build:Content.mgcb
-
 #begin Effects/AlphaBlend.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /build:Effects/AlphaBlend.fx
-
-#begin Fonts/Arial.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/build:Fonts/Arial.spritefont
-
-#begin Graphics/Default.spritegroup
-/importer:SpriteGroupImporter
-/processor:SpriteGroupProcessor
-/build:Graphics/Default.spritegroup
 
 #begin Effects/Grayscale.fx
 /importer:EffectImporter
@@ -43,12 +29,22 @@
 /processor:EffectProcessor
 /build:Effects/Seizure.fx
 
-#begin Maps/test.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:Maps/test.tmx
+#begin Fonts/Arial.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/build:Fonts/Arial.spritefont
 
 #begin Graphics/default.spritegroup
 /importer:SpriteGroupImporter
 /processor:SpriteGroupProcessor
 /build:Graphics/default.spritegroup
+
+#begin Maps/test.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:Maps/test.tmx
+
+#begin Content.npl
+/importer:ResourceInfoImporter
+/processor:PassThroughProcessor
+/build:Content.npl
