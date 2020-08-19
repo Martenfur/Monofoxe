@@ -45,10 +45,7 @@
     <None Include="$(MSBuildThisFileDirectory)Content\Effects\Seizure.fx" />
     <None Include="$(MSBuildThisFileDirectory)Content\Effects\Grayscale.fx" />
     <None Include="$(MSBuildThisFileDirectory)Content\Graphics\Template.cstemplate" />
-    <Compile Include="$(MSBuildThisFileDirectory)Resources\Effects.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Fonts.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Resources\Maps.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Resources\Sprites\Default.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameController.cs" />
   </ItemGroup>

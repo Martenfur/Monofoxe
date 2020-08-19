@@ -5,6 +5,8 @@ using Monofoxe.Engine.Drawing;
 using Resources;
 using Monofoxe.Engine.Resources;
 using Microsoft.Xna.Framework.Graphics;
+using Monofoxe.Tiled.MapStructure;
+using Monofoxe.Resources;
 
 namespace Monofoxe.Playground
 {
@@ -54,10 +56,11 @@ namespace Monofoxe.Playground
 		{
 			GraphicsMgr.Init(GraphicsDevice);
 			
-			new Resources.Sprites.Default();
+			new SpriteGroupResourceBox("DefaultSprites", "Graphics/Default");
+			new BasicResourceBox<Effect>("Effects", "Effects");
+			new BasicResourceBox<TiledMap>("Maps", "Maps");
 			new Fonts();
-			new Maps();
-			new Effects();
+
 		}
 
 		/// <summary>

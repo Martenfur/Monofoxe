@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Monofoxe.Engine.EC;
-using Monofoxe.Engine.Drawing;
-using Monofoxe.Engine.Utils;
-using Monofoxe.Engine;
-using Monofoxe.Engine.SceneSystem;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Resources.Sprites;
-using System.Text.RegularExpressions;
-using Monofoxe.Playground.ECDemo;
+using Monofoxe.Engine;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.Resources;
+using Monofoxe.Engine.SceneSystem;
+using Monofoxe.Playground.ECDemo;
 
 namespace Monofoxe.Playground.SceneSystemDemo
 {

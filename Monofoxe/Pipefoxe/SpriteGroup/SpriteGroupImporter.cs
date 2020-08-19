@@ -58,9 +58,7 @@ namespace Pipefoxe.SpriteGroup
 				groupData.TexturePadding = int.Parse(configData["texturePadding"].ToString());
 				groupData.RootDir = Path.GetDirectoryName(filename) + '/' + configData["rootDir"].ToString();
 				groupData.GroupName = Path.GetFileNameWithoutExtension(filename);
-				groupData.ClassTemplatePath = configData["classTemplatePath"].ToString();
-				groupData.ClassOutputDir = configData["classOutputDir"].ToString();
-
+				
 				var textureWildcards = (JArray)configData["singleTexturesWildcards"];
 
 				textureRegex = new string[textureWildcards.Count];

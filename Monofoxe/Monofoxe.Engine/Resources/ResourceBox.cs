@@ -14,11 +14,12 @@ namespace Monofoxe.Engine.Resources
 		/// </summary>
 		public bool Loaded {get; protected set;}
 
-		public abstract string Name {get;}
+		public readonly string Name;
 
-		public ResourceBox()
+		public ResourceBox(string name)
 		{
-			ResourceHub.AddResourceBox(Name, this);
+			Name = name;
+			ResourceHub.AddResourceBox(name, this);
 		}
 
 		/// <summary>

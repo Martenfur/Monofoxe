@@ -23,13 +23,6 @@ namespace Pipefoxe.SpriteGroup
 		/// Name of sprite group. Equals to file name.
 		/// </summary>
 		public string GroupName;
-		
-		public string ClassTemplatePath;
-
-		/// <summary>
-		/// Class files will be stored in this directory.
-		/// </summary>
-		public string ClassOutputDir;
 
 		public List<RawSprite> Sprites = new List<RawSprite>();
 		public List<RawSprite> SingleTextures = new List<RawSprite>();

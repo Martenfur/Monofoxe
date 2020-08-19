@@ -38,12 +38,6 @@ namespace Monofoxe.Engine
 		public static string FontsDir = "Fonts";
 
 		/// <summary>
-		/// Root directory for entity templates.
-		/// NOTE: This directory is located inside ContentDir.
-		/// </summary>
-		public static string EntityTemplatesDir = "Entities";
-		
-		/// <summary>
 		/// Root directory for maps.
 		/// NOTE: This directory is located inside ContentDir.
 		/// </summary>
@@ -88,7 +82,7 @@ namespace Monofoxe.Engine
 				{
 					path += '/';
 				}
-				foreach(string info in _assetPaths)
+				foreach(var info in _assetPaths)
 				{
 					if (info.StartsWith(path))
 					{

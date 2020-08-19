@@ -21,13 +21,6 @@ namespace Pipefoxe.SpriteGroup
 			// Now atlas sprites and singles got same format and we can merge them into one texture\sprite list.
 			sprites = sprites.Concat(singleTextureResult.spriteInfo).ToList();
 			atlases = atlases.Concat(singleTextureResult.textures).ToList();
-			
-			ClassGenerator.Generate(
-				groupData.RootDir + '/' + groupData.ClassTemplatePath, 
-				Environment.CurrentDirectory + groupData.ClassOutputDir, 
-				sprites,
-				groupData.GroupName
-			);
 
 			return (sprites, atlases);
 		}

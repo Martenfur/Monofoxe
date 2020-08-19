@@ -9,6 +9,8 @@ namespace Monofoxe.Engine.Drawing
 {
 	public class TextureFont : IFont
 	{
+		public const string Ascii = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
+
 		/// <summary>
 		/// Unused, because TextureFont can have multiple textures.
 		/// </summary>
