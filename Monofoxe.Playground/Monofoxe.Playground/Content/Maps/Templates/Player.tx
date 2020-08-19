@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<template>
- <tileset firstgid="1" source="TemplatesTileset/Templates.tsx"/>
- <object name="Player" type="Player" gid="2" width="32" height="32"/>
-</template>
