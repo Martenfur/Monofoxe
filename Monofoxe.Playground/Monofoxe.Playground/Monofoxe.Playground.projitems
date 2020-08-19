@@ -44,7 +44,6 @@
     <None Include="$(MSBuildThisFileDirectory)Content\Effects\Common.fxh" />
     <None Include="$(MSBuildThisFileDirectory)Content\Effects\Seizure.fx" />
     <None Include="$(MSBuildThisFileDirectory)Content\Effects\Grayscale.fx" />
-    <None Include="$(MSBuildThisFileDirectory)Content\Graphics\Template.cstemplate" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Fonts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameController.cs" />
@@ -57,10 +56,6 @@
     <None Include="$(MSBuildThisFileDirectory)Content\Content.npl" />
     <None Include="$(MSBuildThisFileDirectory)Content\Fonts\Arial.spritefont" />
     <None Include="$(MSBuildThisFileDirectory)Content\Graphics\default.spritegroup" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Content\Graphics\Default\monofoxe.json" />
-    <Content Include="$(MSBuildThisFileDirectory)Content\Graphics\Default\monofoxe.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\Maps\" />
