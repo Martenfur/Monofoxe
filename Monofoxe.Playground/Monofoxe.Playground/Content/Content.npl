@@ -1,0 +1,76 @@
+﻿{
+	"references":
+	[
+		"../../../Monofoxe/bin/Pipeline/Debug/Pipefoxe.dll"
+	],
+	"content": 
+	{
+		"contentList": 
+		{
+			"path": "Content.npl",
+			"recursive": "False",
+			"action": "build",
+			"importer": "ResourceInfoImporter",
+			"processor": "PassThroughProcessor",
+		},
+		"music": 
+		{
+			"path": "Audio/Music/*.ogg",
+			"recursive": "True",
+			"action": "copy",
+		},
+		"sounds": 
+		{
+			"path": "Audio/Sounds/*.wav",
+			"recursive": "True",
+			"action": "copy",
+		},
+		"defaultSpriteGroup": 
+		{
+			"path": "Graphics/*.spritegroup",
+			"recursive": "True",
+			"action": "build",
+			"importer": "SpriteGroupImporter",
+			"processor": "SpriteGroupProcessor",
+			"watch": 
+			[
+				"Default/*.png",
+				"Default/*.json",
+				"*.cstemplate",
+			],
+		},
+		"effects": 
+		{
+			"path": "Effects/*.fx",
+			"recursive": "True",
+			"action": "build",
+			"importer": "EffectImporter",
+			"processor": "EffectProcessor",
+		},
+		"tiledMaps":
+		{
+			"path": "Maps/*.tmx",
+			"recursive": "True",
+			"action": "build",
+			"importer": "TiledMapImporter",
+			"processor": "TiledMapProcessor",
+			"watch":
+			[
+				"Tilesets/*.tsx",
+				"Tilesets/*.png",
+				"Templates/*.tsx",
+				"Templates/*.tx",
+				"Templates/*.png"
+			]
+		},
+		"fonts": 
+		{
+			"path": "Fonts/*.spritefont",
+			"recursive": "True",
+			"action": "build",
+			"importer": "FontDescriptionImporter",
+			"processor": "FontDescriptionProcessor",
+		},
+
+	}
+}
