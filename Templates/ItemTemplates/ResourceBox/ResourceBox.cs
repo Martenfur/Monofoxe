@@ -11,7 +11,7 @@ namespace $rootnamespace$
 	{
 		private static ContentManager _content;
 
-		public override string Name => "Effects";
+		public override string Name => "$safeitemname$";
 
 		public override void Load()
 		{
@@ -21,7 +21,7 @@ namespace $rootnamespace$
 			}
 			Loaded = true;
 			_content = new ContentManager(GameMgr.Game.Services);
-			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.EffectsDir;
+			_content.RootDirectory = ResourceInfoMgr.ContentDir + "/$safeitemname$";
 
 			// Add your resources here. 
 			// Example:

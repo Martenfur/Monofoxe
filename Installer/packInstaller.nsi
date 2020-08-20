@@ -85,15 +85,7 @@ Section "Monofoxe" Monofoxe
 	WriteRegStr HKLM "${REGISTRY_DIRECTORY}" "DisplayIcon" "$\"$INSTDIR\uninstall.exe$\""
 	WriteRegStr HKLM "${REGISTRY_DIRECTORY}" "DisplayVersion" "${APPVERSION}"
 	
-	
 	# Registering the installation.
-SectionEnd
-
-Section "MonoGame" Monogame
-	SetOutPath '$INSTDIR'
-	File "Externals\MonoGameSetup.exe"
-	ExecWait "$INSTDIR\MonoGameSetup.exe"
-	Delete "$INSTDIR\MonoGameSetup.exe"
 SectionEnd
 
 Section "Visual Studio 2015 Templates/" VS2015
@@ -131,7 +123,6 @@ SectionEnd
 
 ; Component menu.
 LangString MonofoxeDesc ${LANG_ENGLISH} "Install ${APPNAME}!"
-LangString MonogameDesc ${LANG_ENGLISH} "Install MonoGame 3.7.1."
 LangString VS2015Desc ${LANG_ENGLISH} "Install project templates for Visual Studio 2015. Templates are required to create new projects."
 LangString VS2017Desc ${LANG_ENGLISH} "Install project templates for Visual Studio 2017. Templates are required to create new projects."
 LangString VS2019Desc ${LANG_ENGLISH} "Install project templates for Visual Studio 2019. Templates are required to create new projects."
@@ -140,19 +131,11 @@ LangString RemoveOldVersionsDesc ${LANG_ENGLISH} "Remove all previous Monofoxe v
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
 	!insertmacro MUI_DESCRIPTION_TEXT ${Monofoxe} $(MonofoxeDesc)
-	!insertmacro MUI_DESCRIPTION_TEXT ${Monogame} $(MonogameDesc)
 	!insertmacro MUI_DESCRIPTION_TEXT ${VS2015} $(VS2015Desc)
 	!insertmacro MUI_DESCRIPTION_TEXT ${VS2017} $(VS2017Desc)
 	!insertmacro MUI_DESCRIPTION_TEXT ${VS2019} $(VS2019Desc)
 	!insertmacro MUI_DESCRIPTION_TEXT ${RemoveOldVersions} $(RemoveOldVersionsDesc)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
-
-Function checkMonogame
-IfFileExists `$PROGRAMFILES\MonoGame\v3.0\*.*` disable end
-	disable:
-		SectionSetFlags ${Monogame} $1
-	end:
-FunctionEnd
 
 Function checkVS2015
 IfFileExists `$DOCUMENTS\Visual Studio 2015\Templates\ProjectTemplates\*.*` end disable
@@ -178,7 +161,6 @@ FunctionEnd
 
 Function .onInit
 	IntOp $0 $0 | ${SF_RO}
-	Call checkMonogame
 	Call checkVS2015
 	Call checkVS2017
 	Call checkVS2019

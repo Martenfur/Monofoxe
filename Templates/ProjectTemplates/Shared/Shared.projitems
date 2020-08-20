@@ -10,11 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
   	<None Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />
-    <None Include="$(MSBuildThisFileDirectory)Content\Graphics\Template.cstemplate" />
-    <Compile Include="$(MSBuildThisFileDirectory)Resources\Effects.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Resources\Fonts.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Resources\Maps.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Resources\Sprites\Default.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameController.cs" />
   </ItemGroup>
@@ -27,11 +23,11 @@
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Content\Content.npl" />
     <None Include="$(MSBuildThisFileDirectory)Content\Fonts\Arial.spritefont" />
-    <None Include="$(MSBuildThisFileDirectory)Content\Graphics\default.spritegroup" />
+    <None Include="$(MSBuildThisFileDirectory)Content\Graphics\Default.spritegroup" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Content\Graphics\Default\monofoxe.json" />
-    <Content Include="$(MSBuildThisFileDirectory)Content\Graphics\Default\monofoxe.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Graphics\Default\Monofoxe.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Graphics\Default\Monofoxe.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\Audio\Music\" />

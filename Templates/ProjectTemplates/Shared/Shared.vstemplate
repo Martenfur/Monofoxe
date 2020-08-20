@@ -31,23 +31,17 @@
 			<ProjectItem ReplaceParameters="true" TargetFileName="GameController.cs">GameController.cs</ProjectItem>
 			
 			<Folder Name="Resources" TargetFolderName="Resources">
-				<Folder Name="Sprites" TargetFolderName="Sprites">
-					<ProjectItem ReplaceParameters="false" TargetFileName="Default.cs">Default.cs</ProjectItem>
-				</Folder>
-				<ProjectItem ReplaceParameters="false" TargetFileName="Effects.cs">Effects.cs</ProjectItem>
 				<ProjectItem ReplaceParameters="false" TargetFileName="Fonts.cs">Fonts.cs</ProjectItem>
-				<ProjectItem ReplaceParameters="false" TargetFileName="Maps.cs">Maps.cs</ProjectItem>
 			</Folder>
 			
 			<Folder Name="Content" TargetFolderName="Content">
 				<ProjectItem ReplaceParameters="true" TargetFileName="Content.mgcb">Content.mgcb</ProjectItem>
 				<ProjectItem ReplaceParameters="true" TargetFileName="Content.npl">Content.npl</ProjectItem>
 				<Folder Name="Graphics" TargetFolderName="Graphics">
-					<ProjectItem ReplaceParameters="false" TargetFileName="Template.cstemplate">Template.cstemplate</ProjectItem>
-					<ProjectItem ReplaceParameters="false" TargetFileName="default.spritegroup">default.spritegroup</ProjectItem>
+					<ProjectItem ReplaceParameters="false" TargetFileName="Default.spritegroup">Default.spritegroup</ProjectItem>
 						<Folder Name="Default" TargetFolderName="Default">
-							<ProjectItem ReplaceParameters="false" TargetFileName="monofoxe.json">monofoxe.json</ProjectItem>
-							<ProjectItem ReplaceParameters="false" TargetFileName="monofoxe.png">monofoxe.png</ProjectItem>
+							<ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.json">Monofoxe.json</ProjectItem>
+							<ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.png">Monofoxe.png</ProjectItem>
 						</Folder>
 					</Folder>
 				

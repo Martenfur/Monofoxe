@@ -4,6 +4,9 @@ using Monofoxe.Tiled;
 using Monofoxe.Engine.Drawing;
 using Resources;
 using Monofoxe.Engine.Resources;
+using Microsoft.Xna.Framework.Graphics;
+using Monofoxe.Tiled.MapStructure;
+using Monofoxe.Resources;
 
 namespace $safeprojectname$
 {
@@ -47,10 +50,10 @@ namespace $safeprojectname$
 		{
 			GraphicsMgr.Init(GraphicsDevice);
 			
-			new Resources.Sprites.Default();
+			new SpriteGroupResourceBox("DefaultSprites", "Graphics/Default");
+			new DirectoryResourceBox<Effect>("Effects", "Effects");
+			new DirectoryResourceBox<TiledMap>("Maps", "Maps");
 			new Fonts();
-			new Maps();
-			new Effects();
 		}
 
 		/// <summary>

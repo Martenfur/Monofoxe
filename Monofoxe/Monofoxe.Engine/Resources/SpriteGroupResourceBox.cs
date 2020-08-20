@@ -12,7 +12,6 @@ namespace Monofoxe.Resources
 		
 		private ContentManager _content = new ContentManager(GameMgr.Game.Services);
 
-		
 		private readonly string _resourcePath;
 
 		public SpriteGroupResourceBox(string name, string spriteGroupPath) : base(name)

@@ -7,10 +7,10 @@
 	{
 		"contentList": 
 		{
-			"path": "Content.mgcb",
+			"path": "Content.npl",
 			"recursive": "False",
 			"action": "build",
-			"importer": "AssetInfoImporter",
+			"importer": "ResourceInfoImporter",
 			"processor": "PassThroughProcessor",
 		},
 		"music": 

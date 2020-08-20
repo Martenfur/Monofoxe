@@ -13,7 +13,7 @@ namespace Resources
 		public Fonts() : base("Fonts")
 		{
 			_content = new ContentManager(GameMgr.Game.Services);
-			_content.RootDirectory = ResourceInfoMgr.ContentDir + '/' + ResourceInfoMgr.FontsDir;
+			_content.RootDirectory = ResourceInfoMgr.ContentDir + "/Fonts";
 		}
 
 		public override void Load()

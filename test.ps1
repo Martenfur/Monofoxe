@@ -1,0 +1,1 @@
+dotnet build "D:\_Projects\Monofoxe\Monofoxe\Monofoxe.sln"

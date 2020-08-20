@@ -60,7 +60,6 @@ namespace Monofoxe.Playground
 			new DirectoryResourceBox<Effect>("Effects", "Effects");
 			new DirectoryResourceBox<TiledMap>("Maps", "Maps");
 			new Fonts();
-
 		}
 
 		/// <summary>

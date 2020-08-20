@@ -13,15 +13,15 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Content.mgcb
-/importer:AssetInfoImporter
+#begin Content.npl
+/importer:ResourceInfoImporter
 /processor:PassThroughProcessor
-/build:Content.mgcb
+/build:Content.npl
 
-#begin Graphics/default.spritegroup
+#begin Graphics/Default.spritegroup
 /importer:SpriteGroupImporter
 /processor:SpriteGroupProcessor
-/build:Graphics/default.spritegroup
+/build:Graphics/Default.spritegroup
 
 #begin Fonts/Arial.spritefont
 /importer:FontDescriptionImporter
