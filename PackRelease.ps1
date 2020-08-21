@@ -3,6 +3,9 @@
 # and nsis.exe added to PATH.
 # Maybe rewrite someday using this https://cakebuild.net.
 
+[xml]$XmlDocument = Get-Content -Path "$PWD\Packages.props"
+$monofoxeVersion = $XmlDocument.Project.PropertyGroup.MonofoxeVersion
+
 $projectTemplatesPath = "$PWD\Templates\ProjectTemplates\";
 $itemTemplatesPath = "$PWD\Templates\ItemTemplates\";
 
@@ -17,20 +20,22 @@ Function Assemble-Template([string] $platform)
 {
 	"Assembling templates for $platform..."
 	Copy-Item -path "$projectTemplatesPath$platform\" -Destination "$destProjectTemplatesDir" -Recurse -Container
-	Copy-Item -path "$PWD/Common/*" -Destination "$destProjectTemplatesDir$platform" -Recurse -Container
+
+	$csprojPath = "$destProjectTemplatesDir$platform\$platform.csproj"
+
+	if (Test-Path -Path $csprojPath)
+	{
+		(Get-Content -Path $csprojPath) -replace '\$\(MonofoxeVersion\)', $monofoxeVersion | Set-Content -Path $csprojPath
+	}
 
 	Copy-Item -path "$destProjectTemplatesDir$platform\" -Destination "$destProjectTemplatesDir$crossplatform\" -Recurse -Container
+
 
 	[IO.Compression.ZipFile]::CreateFromDirectory("$destProjectTemplatesDir$platform", "$destProjectTemplatesDir$platform.zip")
 }
 
 Add-Type -A System.IO.Compression.FileSystem
 
-$debug = $FALSE
-
-$srcLibDir = "$PWD\Monofoxe\bin\Release"
-
-$destCommonDir = "$PWD\Templates\CommonFiles"
 $destReleaseDir = "$PWD\Release\"
 $destProjectTemplatesDir = "$destReleaseDir\ProjectTemplates\"
 $destItemTemplatesDir = "$destReleaseDir\ItemTemplates\"
@@ -53,7 +58,6 @@ New-Item -ItemType Directory -Force -Path "$destProjectTemplatesDir" > $null
 New-Item -ItemType Directory -Force -Path "$destItemTemplatesDir" > $null
 
 
-
 Copy-Item -path "$projectTemplatesPath$crossplatform\" -Destination "$destProjectTemplatesDir" -Recurse -Container
 
 Pack-Item-Template "Entity"
@@ -66,13 +70,15 @@ Assemble-Template "GL"
 Assemble-Template "DX"
 Assemble-Template "MonofoxeDotnetStandardLibrary"
 Assemble-Template "Shared"
-
+Assemble-Template "Pipeline"
 
 [IO.Compression.ZipFile]::CreateFromDirectory("$destProjectTemplatesDir$crossplatform", "$destProjectTemplatesDir$crossplatform.zip")
 
 
 "Making installer..."
 &makensis Installer/packInstaller.nsi
+
+$debug = $TRUE
 
 "Cleaning..."
 if (!$debug)

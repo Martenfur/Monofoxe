@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<Version>2.0.0-dev</Version>
+		<Version>$(MonofoxeVersion)</Version>
 		<Authors>Martenfur</Authors>
 		<Company>Chai Foxes</Company>
 		<Product>Monofoxe Engine</Product>
@@ -12,18 +12,10 @@
 		<RepositoryUrl>https://github.com/Martenfur/Monofoxe/</RepositoryUrl>
 		<Copyright></Copyright>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<OutputPath>..\bin\Debug\</OutputPath>
-		<DocumentationFile>..\bin\Debug\Monofoxe.Engine.xml</DocumentationFile>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<OutputPath>..\bin\$(Configuration)\</OutputPath>
+		<DocumentationFile>..\bin\$(Configuration)\$(AssemblyName).xml</DocumentationFile>
 		<NoWarn>1701;1702;1591</NoWarn>
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<OutputPath>..\bin\Release\</OutputPath>
-		<DocumentationFile>..\bin\Release\Monofoxe.Engine.xml</DocumentationFile>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 

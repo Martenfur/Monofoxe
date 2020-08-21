@@ -1,6 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="Monofoxe.props"/>
-  
+
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
@@ -9,15 +8,8 @@
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.*">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Monofoxe.Engine" Version="$(MonofoxeVersion)" />
+    <PackageReference Include="Monofoxe.Tiled" Version="$(MonofoxeVersion)" />
  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Monofoxe.Engine">
-      <HintPath>$(MonofoxeInstallDirectory)\$(MonofoxeVersion)\lib\Monofoxe.Engine.dll</HintPath>
-    </Reference>
-    <Reference Include="Monofoxe.Tiled">
-      <HintPath>$(MonofoxeInstallDirectory)\$(MonofoxeVersion)\lib\Monofoxe.Tiled.dll</HintPath>
-    </Reference>
-  </ItemGroup>
 
 </Project>

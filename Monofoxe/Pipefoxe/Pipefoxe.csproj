@@ -2,23 +2,17 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<OutputPath>..\bin\Pipeline\Debug\</OutputPath>
-		<NoWarn>1701;1702;1591</NoWarn>
-		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Version>$(MonofoxeVersion)</Version>
+		<OutputPath>..\bin\$(Configuration)\</OutputPath>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<OutputPath>..\bin\Pipeline\Release\</OutputPath>
-	</PropertyGroup>
 	<Import Project="..\Monofoxe.Tiled.MapStructure\Monofoxe.Tiled.MapStructure.projitems" Label="Shared" />
 	<ItemGroup>
-		<PackageReference Include="MonoGame.Framework.Content.Pipeline" Version="3.8.0.1641">
+		<PackageReference Include="MonoGame.Framework.Content.Pipeline" Version="3.8.0.*">
 			<PrivateAssets>All</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641">
+		<PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.*">
 			<PrivateAssets>All</PrivateAssets>
 		</PackageReference>
 		<PackageReference Include="Newtonsoft.Json" Version="11.0.2" />

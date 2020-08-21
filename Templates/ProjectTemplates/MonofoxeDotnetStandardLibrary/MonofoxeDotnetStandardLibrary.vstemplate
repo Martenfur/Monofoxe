@@ -24,8 +24,6 @@
 		<ProjectTypeTag>MonoGame</ProjectTypeTag>
 	</TemplateData>
 	<TemplateContent>
-		<Project TargetFileName="MonofoxeDotnetStandardLibrary.csproj" File="MonofoxeDotnetStandardLibrary.csproj" ReplaceParameters="true">
-			<ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.props">Monofoxe.props</ProjectItem>
-		</Project>
+		<Project TargetFileName="MonofoxeDotnetStandardLibrary.csproj" File="MonofoxeDotnetStandardLibrary.csproj" ReplaceParameters="true" />
 	</TemplateContent>
 </VSTemplate>

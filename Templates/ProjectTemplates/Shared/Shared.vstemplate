@@ -25,7 +25,6 @@
 
 		<Project TargetFileName="$projectname$.shproj" File="Shared.shproj" ReplaceParameters="true">
 			<ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.projitems">Shared.projitems</ProjectItem>
-			<ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.props">Monofoxe.props</ProjectItem>
 			
 			<ProjectItem ReplaceParameters="true" TargetFileName="Game1.cs">Game1.cs</ProjectItem>
 			<ProjectItem ReplaceParameters="true" TargetFileName="GameController.cs">GameController.cs</ProjectItem>

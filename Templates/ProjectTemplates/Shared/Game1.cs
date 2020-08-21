@@ -17,7 +17,7 @@ namespace $safeprojectname$
 	{
 		public Game1()
 		{
-			Content.RootDirectory = AssetMgr.ContentDir;
+			Content.RootDirectory = ResourceInfoMgr.ContentDir;
 			GameMgr.Init(this);
 			
 #if !ANDROID

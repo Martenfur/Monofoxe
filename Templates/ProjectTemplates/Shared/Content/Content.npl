@@ -1,7 +1,8 @@
 {
 	"references":
 	[
-		"%PROGRAMFILES%/Monofoxe Engine/v2-dev/lib/Pipeline/Pipefoxe.dll",
+		"../../$safeprojectname$.Pipeline/bin/Debug/Pipefoxe.dll",
+		"../../$safeprojectname$.Pipeline/bin/Debug/$safeprojectname$.Pipeline.dll"
 	],
 	"content": 
 	{

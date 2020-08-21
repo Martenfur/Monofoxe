@@ -58,12 +58,6 @@ RequestExecutionLevel admin
 Section "Monofoxe" Monofoxe
 	SectionIn RO
 	RMDir /r '$INSTDIR'
-	SetOutPath '$INSTDIR\lib'
-	File /r '..\Monofoxe\bin\Release\*.dll'
-	File /r '..\Monofoxe\bin\Release\*.xml'
-
-	SetOutPath '$INSTDIR\lib\Pipeline'
-	File /r '..\Monofoxe\bin\Pipeline\Release\*.dll'
 
 	SetOutPath '$INSTDIR'
 	WriteUninstaller "uninstall.exe"
@@ -72,7 +66,6 @@ Section "Monofoxe" Monofoxe
 	SetOutPath '$INSTDIR\NoPipeline'
 	File /r "${NOPIPELINEROOT}\*.exe"
 	File /r "${NOPIPELINEROOT}\*.dll"
-	File /r "..\Common\Monofoxe.props"
 
 	File /r "Externals\Monofoxe.NoPipeline.targets"
 	# NoPipeline.
