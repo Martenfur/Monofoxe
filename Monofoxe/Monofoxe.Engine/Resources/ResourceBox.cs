@@ -48,10 +48,10 @@ namespace Monofoxe.Engine.Resources
 			_resources.ContainsKey(key);
 		
 		
-		protected void AddResource(string key, T resource) =>
+		public void AddResource(string key, T resource) =>
 			_resources.Add(key, resource);
 			
-		protected void RemoveResource(string key) =>
+		public void RemoveResource(string key) =>
 			_resources.Remove(key);
 		
 			
