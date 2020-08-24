@@ -5,6 +5,7 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Version>$(MonofoxeVersion)</Version>
 		<OutputPath>..\bin\$(Configuration)\</OutputPath>
+		<NoWarn>NU5100</NoWarn>
 	</PropertyGroup>
 
 	<Import Project="..\Monofoxe.Tiled.MapStructure\Monofoxe.Tiled.MapStructure.projitems" Label="Shared" />

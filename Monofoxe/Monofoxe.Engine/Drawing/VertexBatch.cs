@@ -255,13 +255,6 @@ namespace Monofoxe.Engine.Drawing
 		/// Replaces BasicEffect. Applied, when CurrentEffect and DefaulrEffect are null.
 		/// </summary>
 		private static Effect _alphaBlendEffect;
-		private static string _alphaBlendName = "AlphaBlend";
-
-		/// <summary>
-		/// Used to load default shader.
-		/// </summary>
-		private static ContentManager _content;
-
 
 		public VertexBatch(
 			GraphicsDevice graphicsDevice,
@@ -284,12 +277,9 @@ namespace Monofoxe.Engine.Drawing
 
 			if (_alphaBlendEffect == null)
 			{
-				_content = new ContentManager(GameMgr.Game.Services);
-				_content.RootDirectory = ResourceInfoMgr.ContentDir + "/Effects";
-				_alphaBlendEffect = _content.Load<Effect>(_alphaBlendName);
+				_alphaBlendEffect = StuffResolver.GetStuff<IAlphaBlendEffectLoader>().Load();
 			}
 			DefaultEffect = _alphaBlendEffect;
-			//_defaultEffectPass = _defaultEffect.CurrentTechnique.Passes[0];
 		}
 
 

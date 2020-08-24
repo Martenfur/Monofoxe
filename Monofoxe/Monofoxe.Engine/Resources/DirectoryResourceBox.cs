@@ -10,7 +10,7 @@ namespace Monofoxe.Resources
 	/// NOTE: All content files in the directory should be
 	/// of the same type!!!
 	/// </summary>
-  public class DirectoryResourceBox<T> : ResourceBox<T>
+	public class DirectoryResourceBox<T> : ResourceBox<T>
 	{
 		private static ContentManager _content;
 
@@ -34,9 +34,13 @@ namespace Monofoxe.Resources
 
 			var paths = ResourceInfoMgr.GetResourcePaths(_resourceDir);
 
-			foreach(var path in paths)
+			foreach (var path in paths)
 			{
-				AddResource(Path.GetFileNameWithoutExtension(path), _content.Load<T>(path));
+				try
+				{
+					AddResource(Path.GetFileNameWithoutExtension(path), _content.Load<T>(path));
+				}
+				catch { }
 			}
 		}
 

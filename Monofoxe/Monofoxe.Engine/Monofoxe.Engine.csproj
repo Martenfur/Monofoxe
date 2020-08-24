@@ -11,7 +11,6 @@
 		<PackageProjectUrl>https://github.com/Martenfur/Monofoxe/</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/Martenfur/Monofoxe/</RepositoryUrl>
 		<Copyright></Copyright>
-		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<OutputPath>..\bin\$(Configuration)\</OutputPath>
 		<DocumentationFile>..\bin\$(Configuration)\$(AssemblyName).xml</DocumentationFile>
@@ -23,12 +22,6 @@
 		<PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.*">
 			<PrivateAssets>All</PrivateAssets>
 		</PackageReference>
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Update="AlphaBlend.fx">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
 	</ItemGroup>
 
 </Project>

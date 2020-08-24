@@ -7,9 +7,9 @@ using System.IO;
 
 namespace Monofoxe.Resources
 {
-  public class SpriteGroupResourceBox : ResourceBox<Sprite>
+	public class SpriteGroupResourceBox : ResourceBox<Sprite>
 	{
-		
+
 		private ContentManager _content = new ContentManager(GameMgr.Game.Services);
 
 		private readonly string _resourcePath;
@@ -31,7 +31,11 @@ namespace Monofoxe.Resources
 
 			foreach (var spritePair in sprites)
 			{
-				AddResource(Path.GetFileNameWithoutExtension(spritePair.Key), spritePair.Value);
+				try
+				{
+					AddResource(Path.GetFileNameWithoutExtension(spritePair.Key), spritePair.Value);
+				}
+				catch { }
 			}
 
 		}

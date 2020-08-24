@@ -14,8 +14,8 @@ namespace Pipefoxe.ResourceInfo
 	[ContentImporter(".npl", DisplayName = "Resource Info Importer - Monofoxe", DefaultProcessor = "PassThroughProcessor")]
 	public class ResourceInfoImporter : ContentImporter<string[]>
 	{
-		const string _beginTag = "#begin ";
-		const string _copyTag = "/copy:";
+		private const string _buildTag = "/build:";
+		private const string _copyTag = "/copy:";
 
 		public override string[] Import(string filename, ContentImporterContext context)
 		{
@@ -29,20 +29,34 @@ namespace Pipefoxe.ResourceInfo
 
 			for(var i = 0; i < lines.Length; i += 1)
 			{
-				if (lines[i].StartsWith(_beginTag))
+				if (lines[i].StartsWith(_buildTag))
 				{
-					var resourcePath = lines[i].Remove(0, _beginTag.Length);
+					var resourcePath = Dereference(lines[i].Remove(0, _buildTag.Length));
+
+					resourcePath = Path.Combine(Path.GetDirectoryName(resourcePath), Path.GetFileNameWithoutExtension(resourcePath));
+
+					resources.Add(resourcePath.Replace('\\', '/'));
+					continue;
+				}				
+				if (lines[i].StartsWith(_copyTag))
+				{
+					var resourcePath = Dereference(lines[i].Remove(0, _copyTag.Length));
 
 					// If resource is being copied, we'll need to leave its extension.
-					if (i + 1 < lines.Length && !lines[i + 1].StartsWith(_copyTag))
-					{
-						resourcePath = Path.Combine(Path.GetDirectoryName(resourcePath), Path.GetFileNameWithoutExtension(resourcePath));
-					}
 					resources.Add(resourcePath.Replace('\\', '/'));
 				}
 			}
 
 			return resources.ToArray();
-		}		
+		}
+
+		private string Dereference(string path)
+		{ 
+			if (path.Contains(";"))
+			{ 
+				return path.Split(';')[1];
+			}
+			return path;
+		}
 	}
 }
