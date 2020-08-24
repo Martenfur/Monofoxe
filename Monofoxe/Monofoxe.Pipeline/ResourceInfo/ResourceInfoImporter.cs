@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Content.Pipeline;
 // https://github.com/Ragath/MonoGame.AssetInfo
 
 
-namespace Pipefoxe.ResourceInfo
+namespace Monofoxe.Pipeline.ResourceInfo
 {
 	/// <summary>
 	/// Asset info importer. Reads .mcgb file and extracts all asset paths.

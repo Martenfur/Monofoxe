@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 using StbImageSharp;
 using System.IO;
 
-namespace Pipefoxe.SpriteGroup
+namespace Monofoxe.Pipeline.SpriteGroup
 {
 	public class Bmp
 	{
