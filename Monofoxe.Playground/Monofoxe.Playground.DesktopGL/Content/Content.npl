@@ -1,51 +1,55 @@
 ﻿{
+	"root": "../../Monofoxe.Playground.Content/Content/",
 	"references":
 	[
-		"../../../Monofoxe/bin/Pipeline/Debug/Pipefoxe.dll"
+		"../../Monofoxe.Playground.Content/bin/Debug/Monofoxe.Pipeline.dll"
 	],
-	"content": 
+	"content":
 	{
-		"contentList": 
+		"contentList":
 		{
-			"path": "Content.npl",
+			"path": "$Content.npl",
 			"recursive": "False",
 			"action": "build",
 			"importer": "ResourceInfoImporter",
 			"processor": "PassThroughProcessor",
+			"watch":
+			[
+				"../../Monofoxe.Playground.Content/Content/*"
+			]
 		},
-		"music": 
+		"music":
 		{
 			"path": "Audio/Music/*.ogg",
 			"recursive": "True",
-			"action": "copy",
+			"action": "copy"
 		},
-		"sounds": 
+		"sounds":
 		{
 			"path": "Audio/Sounds/*.wav",
 			"recursive": "True",
-			"action": "copy",
+			"action": "copy"
 		},
-		"defaultSpriteGroup": 
+		"defaultSpriteGroup":
 		{
 			"path": "Graphics/*.spritegroup",
 			"recursive": "True",
 			"action": "build",
 			"importer": "SpriteGroupImporter",
 			"processor": "SpriteGroupProcessor",
-			"watch": 
+			"watch":
 			[
 				"Default/*.png",
-				"Default/*.json",
-				"*.cstemplate",
-			],
+				"Default/*.json"
+			]
 		},
-		"effects": 
+		"effects":
 		{
 			"path": "Effects/*.fx",
 			"recursive": "True",
 			"action": "build",
 			"importer": "EffectImporter",
-			"processor": "EffectProcessor",
+			"processor": "EffectProcessor"
 		},
 		"tiledMaps":
 		{
@@ -63,14 +67,22 @@
 				"Templates/*.png"
 			]
 		},
-		"fonts": 
+		"tiledMapTextures":
+		{
+			"path": "Maps/*.png",
+			"recursive": "True",
+			"action": "build",
+			"importer": "TextureImporter",
+			"processor": "TextureProcessor"
+		},
+		"fonts":
 		{
 			"path": "Fonts/*.spritefont",
 			"recursive": "True",
 			"action": "build",
 			"importer": "FontDescriptionImporter",
-			"processor": "FontDescriptionProcessor",
-		},
+			"processor": "FontDescriptionProcessor"
+		}
 
 	}
 }

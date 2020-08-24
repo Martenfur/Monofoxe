@@ -1,4 +1,5 @@
 ﻿using System;
+using Monofoxe.Engine.WindowsDX;
 
 namespace Monofoxe.Playground.Windows
 {
@@ -7,8 +8,12 @@ namespace Monofoxe.Playground.Windows
 		[STAThread]
 		static void Main()
 		{
+			MonofoxePlatform.Init();
+
 			using (var game = new Game1())
+			{
 				game.Run();
+			}
 		}
 	}
 }

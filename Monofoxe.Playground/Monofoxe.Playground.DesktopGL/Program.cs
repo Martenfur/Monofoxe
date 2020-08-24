@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Monofoxe.Engine.DesktopGl;
+using System;
+
 
 namespace Monofoxe.Playground.DesktopGL
 {
@@ -7,8 +9,11 @@ namespace Monofoxe.Playground.DesktopGL
 		[STAThread]
 		static void Main()
 		{
+			MonofoxePlatform.Init();
 			using (var game = new Game1())
+			{
 				game.Run();
+			}
 		}
 	}
 }

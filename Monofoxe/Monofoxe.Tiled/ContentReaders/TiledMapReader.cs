@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -68,7 +69,8 @@ namespace Monofoxe.Tiled.ContentReaders
 					tilesets[i].Textures = new Texture2D[texturesCount];
 					for(var k = 0; k < texturesCount; k += 1)
 					{
-						tilesets[i].Textures[k] = input.ReadExternalReference<Texture2D>();
+						var path = Path.Combine(Path.GetDirectoryName(input.AssetName), input.ReadString());
+						tilesets[i].Textures[k] = input.ContentManager.Load<Texture2D>(path);
 					}
 				}
 
@@ -337,7 +339,7 @@ namespace Monofoxe.Tiled.ContentReaders
 				ReadLayer(input, layer);
 
 				layer.TexturePath = input.ReadString();
-				layer.Texture = input.ReadExternalReference<Texture2D>();	
+				layer.Texture = input.ContentManager.Load<Texture2D>(input.ReadString());
 				layer.TransparentColor = input.ReadColor();
 
 				layers[i] = layer;

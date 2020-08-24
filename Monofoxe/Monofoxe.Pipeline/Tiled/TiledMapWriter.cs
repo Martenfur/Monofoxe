@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 using Monofoxe.Tiled.MapStructure;
 using Monofoxe.Tiled.MapStructure.Objects;
+using System.IO;
 
 namespace Monofoxe.Pipeline.Tiled
 {
@@ -62,9 +63,9 @@ namespace Monofoxe.Pipeline.Tiled
 					output.Write(tileset.TexturePaths.Length);
 					for(var i = 0; i < tileset.TexturePaths.Length; i += 1)
 					{
-						//var externalReference = TiledMapProcessor.TextureReferences[tileset.TexturePaths[i]];
-						//output.WriteExternalReference(externalReference);
-						output.Write(tileset.TexturePaths[i]);
+						var texturePath = tileset.TexturePaths[i];
+						var contentPath = Path.Combine(Path.GetDirectoryName(texturePath), Path.GetFileNameWithoutExtension(texturePath));
+ 						output.Write(contentPath);
 					}
 				}
 
@@ -288,8 +289,9 @@ namespace Monofoxe.Pipeline.Tiled
 				WriteLayer(output, layer);
 
 				output.Write(layer.TexturePath);
-				var externalReference = TiledMapProcessor.TextureReferences[layer.TexturePath];
-				output.WriteExternalReference(externalReference);
+
+				var contentPath = Path.Combine(Path.GetDirectoryName(layer.TexturePath), Path.GetFileNameWithoutExtension(layer.TexturePath));
+				output.Write(contentPath);
 				output.Write(layer.TransparentColor);
 			}
 		}

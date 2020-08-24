@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Monofoxe.Engine;
 using Monofoxe.Engine.Resources;
+using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace Monofoxe.Resources
@@ -32,6 +34,7 @@ namespace Monofoxe.Resources
 			_content = new ContentManager(GameMgr.Game.Services);
 			_content.RootDirectory = ResourceInfoMgr.ContentDir;
 
+			// TODO: Add Recursive flag to GetResourcePaths.
 			var paths = ResourceInfoMgr.GetResourcePaths(_resourceDir);
 
 			foreach (var path in paths)
@@ -40,7 +43,10 @@ namespace Monofoxe.Resources
 				{
 					AddResource(Path.GetFileNameWithoutExtension(path), _content.Load<T>(path));
 				}
-				catch { }
+				catch (InvalidCastException)
+				{ 
+					Debug.WriteLine("Failed to load " + path + ". It has different type.");
+				}
 			}
 		}
 

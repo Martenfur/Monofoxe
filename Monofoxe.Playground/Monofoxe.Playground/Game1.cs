@@ -59,9 +59,11 @@ namespace Monofoxe.Playground
 			new SpriteGroupResourceBox("DefaultSprites", "Graphics/Default");
 			new DirectoryResourceBox<Effect>("Effects", "Effects");
 			new DirectoryResourceBox<TiledMap>("Maps", "Maps");
+
 			new Fonts();
 		}
 
+		
 		/// <summary>
 		/// UnloadContent will be called once per game and is the place to unload
 		/// game-specific content.
@@ -79,7 +81,7 @@ namespace Monofoxe.Playground
 		protected override void Update(GameTime gameTime)
 		{
 			GameMgr.Update(gameTime);
-
+			
 			base.Update(gameTime);
 		}
 
