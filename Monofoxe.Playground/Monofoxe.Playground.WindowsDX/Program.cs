@@ -1,7 +1,7 @@
 ﻿using System;
 using Monofoxe.Engine.WindowsDX;
 
-namespace Monofoxe.Playground.Windows
+namespace Monofoxe.Playground.WindowsDX
 {
 	public static class Program
 	{

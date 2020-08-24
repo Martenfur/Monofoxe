@@ -338,7 +338,7 @@ namespace Monofoxe.Tiled.ContentReaders
 				var layer = new TiledMapImageLayer();
 				ReadLayer(input, layer);
 
-				layer.TexturePath = input.ReadString();
+				layer.TexturePath = Path.Combine(Path.GetDirectoryName(input.AssetName), input.ReadString());
 				layer.Texture = input.ContentManager.Load<Texture2D>(input.ReadString());
 				layer.TransparentColor = input.ReadColor();
 

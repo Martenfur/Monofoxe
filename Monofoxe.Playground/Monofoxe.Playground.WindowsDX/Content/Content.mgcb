@@ -36,7 +36,7 @@
 
 #begin ../../Monofoxe.Playground.Content/Content/Maps/Test.tmx
 /importer:TiledMapImporter
-/processor:TiledMapProcessor
+/processor:PassThroughProcessor
 /build:../../Monofoxe.Playground.Content/Content/Maps/Test.tmx;Maps/Test.tmx
 
 #begin Content.npl

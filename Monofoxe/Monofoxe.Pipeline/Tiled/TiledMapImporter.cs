@@ -5,7 +5,7 @@ using Monofoxe.Tiled.MapStructure;
 
 namespace Monofoxe.Pipeline.Tiled
 {
-	[ContentImporter(".tmx", DefaultProcessor = "TiledMapProcessor",
+	[ContentImporter(".tmx", DefaultProcessor = "PassThroughProcessor",
 	DisplayName = "Tiled Map Importer - Monofoxe")]
 	public class TiledMapImporter : ContentImporter<TiledMap>
 	{

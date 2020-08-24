@@ -57,7 +57,7 @@
 			"recursive": "True",
 			"action": "build",
 			"importer": "TiledMapImporter",
-			"processor": "TiledMapProcessor",
+			"processor": "PassThroughProcessor",
 			"watch":
 			[
 				"Tilesets/*.tsx",

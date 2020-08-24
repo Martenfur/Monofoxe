@@ -22,7 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\.editorconfig = ..\.editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monofoxe.Playground.Windows", "Monofoxe.Playground.Windows\Monofoxe.Playground.Windows.csproj", "{F0224987-E449-4253-BD1D-DC4DE0068AA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monofoxe.Playground.WindowsDX", "Monofoxe.Playground.WindowsDX\Monofoxe.Playground.WindowsDX.csproj", "{F0224987-E449-4253-BD1D-DC4DE0068AA2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monofoxe.Playground.DesktopGL", "Monofoxe.Playground.DesktopGL\Monofoxe.Playground.DesktopGL.csproj", "{80B93F45-097B-40D4-B44B-4EF981682372}"
 EndProject
