@@ -42,6 +42,11 @@ $destItemTemplatesDir = "$destReleaseDir\ItemTemplates\"
 
 $crossplatform = "Crossplatform"
 
+"Compiling shaders..."
+dotnet tool install -g dotnet-mgfxc
+mgfxc Monofoxe/Resources/AlphaBlend.fx Monofoxe/Resources/AlphaBlend_dx.mgfxo /Profile:DirectX_11
+mgfxc Monofoxe/Resources/AlphaBlend.fx Monofoxe/Resources/AlphaBlend_gl.mgfxo /Profile:OpenGL
+
 
 "Building solution..."
 dotnet build ("$PWD\Monofoxe\Monofoxe.sln" ,'/verbosity:q','/p:configuration=Release','/t:Clean,Build', '/p:NoWarn=1591')
@@ -86,6 +91,3 @@ if (!$debug)
 }
 
 Read-Host -Prompt "Done! Press Enter to exit"
-
-
-
