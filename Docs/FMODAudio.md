@@ -8,7 +8,7 @@ But I have an alternative - FMOD.
 
 I wrote a C# FMOD wrapper, which works on Windows, Linux and Android - you can check it out here:
 
-## [ChaiFoxes.FMODAudio](https://github.com/gnFur/ChaiFoxes.FMODAudio/)
+## [ChaiFoxes.FMODAudio](https://github.com/Martenfur/ChaiFoxes.FMODAudio/)
 
 
 

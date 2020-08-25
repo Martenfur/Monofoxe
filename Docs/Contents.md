@@ -8,7 +8,7 @@
 
   
 
-- [Introduction](Introduction.md) i
+- [Introduction](Introduction.md)
 
 - [Setting things up](SettingThingsUp.md)
 
@@ -22,7 +22,6 @@
   - [Entities](Entities/Entities.md)
   - [Introduction to EC](Entities/IntroductionToEC.md)
   - [Components](Entities/Components.md)
-  - [Entity templates](Entities/EntityTemplates.md)
   
 - Scene system
   - [Layers](SceneSystem/Layers.md)
@@ -40,7 +39,7 @@
   - [Sprite groups](Graphics/SpriteGroups.md) x
   
 - Resources
-  - [NoPipeline](Resources/NoPipeline.md)
+  - [Nopipeline](Resources/Nopipeline.md)
   - [Adding resources](Resources/AddingResources)
   - [Resource Hub](Resources/ResourceHub.md)
   - [Resource Box](Resources/ResourceBox.md)

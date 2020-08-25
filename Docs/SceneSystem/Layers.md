@@ -37,7 +37,7 @@ Additionally, there is a bunch of selection methods which search for certain ent
 
 You also can move entities to different layers. To do that, assign their `Layer` field to a different layer.
 
-## [<< Systems](../Entities/Systems.md) | [Scenes >>](Scenes.md)   
+## [<< Components](../Entities/Components.md) | [Scenes >>](Scenes.md)   
 
 [<<< Contents](../Contents.md)
 
