@@ -13,6 +13,7 @@
 - Added `HsvColor` class.
 - Added automatic content loaders.
 - Added sprite json mathematical expressions.
+- Added `CurrentPlatform` and `CurrentGraphicsBackend` to `GameMgr`.
 
 ### Changed:
 

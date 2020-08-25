@@ -1,16 +1,23 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Monofoxe.Engine.Drawing;
+using Monofoxe.Engine.SceneSystem;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Microsoft.Xna.Framework;
-using Monofoxe.Engine.EC;
-using Monofoxe.Engine.SceneSystem;
-using Monofoxe.Engine.Drawing;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("Monofoxe.Engine.WindowsDX")]
+[assembly: InternalsVisibleTo("Monofoxe.Engine.DesktopGL")]
 
 namespace Monofoxe.Engine
 {
+
 	public static class GameMgr
 	{
-		
+		public static Platform CurrentPlatform { get; internal set; } = Platform.Other;
+		public static GraphicsBackend CurrentGraphicsBackend { get; internal set; } = GraphicsBackend.Other;
+
+
 		/// <summary>
 		/// Main Game class.
 		/// </summary>
