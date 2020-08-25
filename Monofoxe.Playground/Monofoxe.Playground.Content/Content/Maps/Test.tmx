@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="256" height="256" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="16">
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="256" height="256" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="16">
  <tileset firstgid="1" source="Tilesets/grass.tsx"/>
  <tileset firstgid="13" source="Templates/TemplatesTileset/Templates.tsx"/>
  <layer id="1" name="Background" width="256" height="256">
@@ -524,7 +524,15 @@
  </layer>
  <objectgroup id="2" name="Objects">
   <object id="1" template="Templates/Player.tx" x="352" y="320"/>
-  <object id="2" template="Templates/Bot.tx" x="270" y="298"/>
+  <object id="2" template="Templates/Bot.tx" x="270" y="298">
+   <properties>
+    <property name="InteractionText">* This is a sign.
+* That's about it.</property>
+    <property name="This is a test lole.">Looole :D
+Test toast kek kok maslena.
+Yiss.</property>
+   </properties>
+  </object>
   <object id="3" template="Templates/Bot.tx" x="332" y="445">
    <properties>
     <property name="Speed" type="float" value="240"/>

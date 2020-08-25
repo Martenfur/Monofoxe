@@ -14,23 +14,30 @@ namespace Monofoxe.Pipeline.Tiled
 		public static Dictionary<string, string> GetProperties(XmlNode node)
 		{
 			var dictionary = new Dictionary<string, string>();
-			
+
 			if (node["properties"] != null)
 			{
 				try
 				{
 					var nodeList = node["properties"].SelectNodes("property");
-					foreach(XmlNode propertyXml in nodeList)
+					foreach (XmlNode propertyXml in nodeList)
 					{
-						dictionary.Add(propertyXml.Attributes["name"].Value, propertyXml.Attributes["value"].Value);
+						if (propertyXml.Attributes["value"] != null)
+						{
+							dictionary.Add(propertyXml.Attributes["name"].Value, propertyXml.Attributes["value"].Value);
+						}
+						else
+						{
+							dictionary.Add(propertyXml.Attributes["name"].Value, propertyXml.InnerText);
+						}
 					}
 				}
-				catch(Exception e)
+				catch (Exception e)
 				{
 					throw new Exception("Error while parsing properties!" + e.StackTrace);
 				}
 			}
-			
+
 			return dictionary;
 		}
 
@@ -65,7 +72,7 @@ namespace Monofoxe.Pipeline.Tiled
 		{
 			if (node.Attributes[attribute] != null)
 			{
-				return node.Attributes[attribute].Value == "1" 
+				return node.Attributes[attribute].Value == "1"
 					|| string.Equals(node.Attributes[attribute].Value, "true", StringComparison.OrdinalIgnoreCase);
 			}
 			return defaultValue;
@@ -91,7 +98,7 @@ namespace Monofoxe.Pipeline.Tiled
 
 			var channels = new byte[colorStr.Length / 2];
 
-			for(var i = 0; i < channels.Length; i += 1)
+			for (var i = 0; i < channels.Length; i += 1)
 			{
 				channels[i] = Convert.ToByte(colorStr.Substring(i * 2, 2), 16);
 			}
