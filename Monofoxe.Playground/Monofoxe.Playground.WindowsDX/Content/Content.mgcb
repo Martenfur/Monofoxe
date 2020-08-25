@@ -10,7 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:../../Monofoxe.Playground.Content/bin/Debug/Monofoxe.Pipeline.dll
+/reference:../../Monofoxe.Playground.Content/bin/Monofoxe.Pipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 

@@ -37,11 +37,6 @@ namespace Monofoxe.Playground
 
 			GraphicsMgr.VertexBatch.SamplerState = SamplerState.PointWrap; // Will make textures repeat without interpolation.
 
-#if LINUX
-			// -0.5 pixel offset because OpenGL is a snowflake.
-			GraphicsMgr.VertexBatch.UsesHalfPixelOffset = true;
-#endif
-
 			DefaultRasterizer = new RasterizerState();
 			DefaultRasterizer.CullMode = CullMode.CullCounterClockwiseFace;
 			DefaultRasterizer.FillMode = FillMode.Solid;

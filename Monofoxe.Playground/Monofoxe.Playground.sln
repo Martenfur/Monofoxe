@@ -23,8 +23,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monofoxe.Playground.WindowsDX", "Monofoxe.Playground.WindowsDX\Monofoxe.Playground.WindowsDX.csproj", "{F0224987-E449-4253-BD1D-DC4DE0068AA2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{ED8FE838-FAB5-4B39-A468-CF58B8126051} = {ED8FE838-FAB5-4B39-A468-CF58B8126051}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monofoxe.Playground.DesktopGL", "Monofoxe.Playground.DesktopGL\Monofoxe.Playground.DesktopGL.csproj", "{80B93F45-097B-40D4-B44B-4EF981682372}"
+	ProjectSection(ProjectDependencies) = postProject
+		{ED8FE838-FAB5-4B39-A468-CF58B8126051} = {ED8FE838-FAB5-4B39-A468-CF58B8126051}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monofoxe.Playground", "Monofoxe.Playground\Monofoxe.Playground.csproj", "{7A68CF7A-0D82-4B37-AC83-F543243F9287}"
 EndProject

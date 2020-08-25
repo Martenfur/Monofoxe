@@ -209,7 +209,7 @@ namespace Monofoxe.Engine.Drawing
 		/// If true, offsets x and y by -0.5.
 		/// Should be true for OpenGL and false for DirectX. 
 		/// </summary>
-		public bool UsesHalfPixelOffset = false;
+		public static bool UsesHalfPixelOffset = false;
 
 		PrimitiveType _primitiveType = PrimitiveType.TriangleList;
 

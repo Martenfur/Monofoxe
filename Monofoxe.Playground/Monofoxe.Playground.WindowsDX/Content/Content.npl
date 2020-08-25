@@ -2,7 +2,7 @@
 	"root": "../../Monofoxe.Playground.Content/Content/",
 	"references":
 	[
-		"../../Monofoxe.Playground.Content/bin/Debug/Monofoxe.Pipeline.dll"
+		"../../Monofoxe.Playground.Content/bin/Monofoxe.Pipeline.dll"
 	],
 	"content":
 	{
