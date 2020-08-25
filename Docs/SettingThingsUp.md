@@ -13,7 +13,7 @@ And that's pretty much it! Now you can open Visual Studio and there you'll see M
 
 
 
-## [<< Introduction](Introduction.md)	|	[Creating new project >>](CreatingNewProject.md)
+## [<< Introduction](Introduction.md)	|	[Monofoxe Basics >>](MonofoxeBasics.md)
 
 [<<< Contents](Contents.md)
 

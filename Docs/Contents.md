@@ -12,8 +12,6 @@
 
 - [Setting things up](SettingThingsUp.md)
 
-- [Creating new project](CreatingNewProject.md)
-
 - [Monofoxe basics](MonofoxeBasics.md)
 
 - [Input](Input.md)
