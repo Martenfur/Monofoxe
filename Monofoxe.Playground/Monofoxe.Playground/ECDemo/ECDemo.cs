@@ -22,7 +22,7 @@ namespace Monofoxe.Playground.ECDemo
 			if (Input.CheckButtonPress(ToggleVisibilityButton))
 			{
 				// This will turn off Draw events for bot's entity and all of its components.
-				foreach (Entity bot in Layer.GetEntityListByComponent<BotComponent>())
+				foreach (var bot in Layer.GetEntityList<Bot>())
 				{
 					bot.Visible = !bot.Visible;
 				}
@@ -31,7 +31,7 @@ namespace Monofoxe.Playground.ECDemo
 			if (Input.CheckButtonPress(ToggleEnabledButton))
 			{
 				// This will turn off Update events for bot's entity and all of its components.
-				foreach(Entity bot in Layer.GetEntityListByComponent<BotComponent>())
+				foreach(var bot in Layer.GetEntityList<Bot>())
 				{
 					bot.Enabled = !bot.Enabled;
 				}

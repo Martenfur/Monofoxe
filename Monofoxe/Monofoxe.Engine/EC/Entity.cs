@@ -270,19 +270,6 @@ namespace Monofoxe.Engine.EC
 
 
 		/// <summary>
-		/// Creates new entity from existing template.
-		/// </summary>
-		public static Entity CreateFromTemplate(Layer layer, string tag)
-		{
-			if (EntityTemplatePool.TemplatePool.TryGetValue(tag, out IEntityTemplate factory))
-			{
-				return factory.Make(layer);
-			}
-			return null;
-		}
-
-
-		/// <summary>
 		/// Destroys entity and all of its components.
 		/// </summary>
 		public void DestroyEntity()

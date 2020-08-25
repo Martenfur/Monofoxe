@@ -15,7 +15,7 @@ namespace Monofoxe.Playground.TiledDemo.Factories
 		{
 			var tile = (TiledTileObject)obj;
 			
-			var entity = Entity.CreateFromTemplate(layer, "Bot");
+			var entity = new Bot(layer);
 			var position = entity.GetComponent<PositionComponent>();
 			position.StartingPosition = tile.Position;
 			position.Position = tile.Position;
