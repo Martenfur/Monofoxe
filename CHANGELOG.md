@@ -12,6 +12,7 @@
 - Added `StuffResolver` class.
 - Added `HsvColor` class.
 - Added automatic content loaders.
+- Added sprite json mathematical expressions.
 
 ### Changed:
 
@@ -27,6 +28,7 @@
 - Renamed Pipefoxe to Monofoxe.Pipeline.
 - Changed the crossplatform project structure.
 - **BREAKING CHANGE:** `AlphaBlend.fx` is now baked into the library and doesn't have to be manually put into the Content directory.
+- Replaced offset_x/y with originX/Y in sprite jsons.
 
 ### Removed:
 
