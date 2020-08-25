@@ -14,7 +14,7 @@ Monofoxe took a lot of inspiration from Game Maker, so it should be a bit famili
 
 [**View Docs**](Docs/README.md)
 
-[**Join Monofoxe Discord**](https://discord.gg/SZ9Z5WR)
+[**Join Monofoxe Discord**](https://discord.gg/F9tPYaD)
 
 # What can it do?
 
