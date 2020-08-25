@@ -65,9 +65,7 @@ Copy-Item -path "$projectTemplatesPath$crossplatform\" -Destination "$destProjec
 
 Pack-Item-Template "Entity"
 Pack-Item-Template "Component"
-Pack-Item-Template "EntityTemplate"
 Pack-Item-Template "TiledEntityFactory"
-Pack-Item-Template "ResourceBox"
 
 Assemble-Template "GL"
 Assemble-Template "DX"
