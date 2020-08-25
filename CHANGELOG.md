@@ -46,6 +46,7 @@
 - Fixed `Component.Initialized` never being set.
 - Fixed gamepad press/release not working correctly.
 - Fixed gamepad index not being used in input methods.
+- Fixed parsing multiplne text properties from Tiled maps.
 
 ## [v2.0.0.0-dev+007] - *07.02.2020*
 
