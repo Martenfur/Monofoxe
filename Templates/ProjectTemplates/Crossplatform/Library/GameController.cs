@@ -19,7 +19,7 @@ namespace $safeprojectname$
 			GameMgr.MaxGameSpeed = 60;
 			GameMgr.MinGameSpeed = 60; // Fixing framerate on 60.
 
-			Camera.BackgroundColor = new Color(30, 24, 24);
+			Camera.BackgroundColor = Color.White;
 
 			GameMgr.WindowManager.CanvasSize = Camera.Size;
 			GameMgr.WindowManager.Window.AllowUserResizing = false;
