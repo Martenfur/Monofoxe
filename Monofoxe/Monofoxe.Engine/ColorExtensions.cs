@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 
-
 namespace Monofoxe.Engine
 {
 	/// <summary>
@@ -19,23 +18,23 @@ namespace Monofoxe.Engine
 		{
 			float hue = 0;
 			float saturation = 0;
-			float value = 0 ;
+			float value = 0;
 			float r, g, b;
 
 			r = color.R / 255f;
 			g = color.G / 255f;
 			b = color.B / 255f;
 
-			float Max = Math.Max(Math.Max(r, g), b);
-			float Min = Math.Min(Math.Min(r, g), b);
+			float max = Math.Max(Math.Max(r, g), b);
+			float min = Math.Min(Math.Min(r, g), b);
 
-			float delta = Max - Min;
+			float delta = max - min;
 
 
-			// This is why nobody likes switch, when we will be able to do something like this in an idiomatic way
-			if (delta > 0)
+			// This is why nobody likes switch, when we will be able to do something like this in an idiomatic way.
+			if (delta != 0)
 			{
-				if (Max == r)
+				if (max == r)
 				{
 					if (g >= b)
 					{
@@ -46,23 +45,19 @@ namespace Monofoxe.Engine
 						hue = (60 * ((g - b) / delta)) + 360;
 					}
 				}
-				else if (Max == g)
+				else if (max == g)
 				{
 					hue = 60 * ((b - r) / delta) + 120;
 				}
-				else if (Max == b)
+				else if (max == b)
 				{
 					hue = 60 * ((r - g) / delta) + 240;
 				}
-				else
-				{
-					throw new Exception("Somehow foxes told us something that was not defined converting to HSV");
-				}
-
-				saturation = Max == 0 ? 0 : delta/Max;
-				value = Max / 255f;
 			}
 
+			saturation = max == 0 ? 0 : delta / max;
+
+			value = max;
 
 			return new HsvColor(hue, saturation, value, color.A);
 		}

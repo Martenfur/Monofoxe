@@ -10,6 +10,8 @@
 - Added `ZDepth` to all shape classes.
 - Added platform-specific projects for WindowsDX and DesktopGL.
 - Added `StuffResolver` class.
+- Added `HsvColor` class.
+- Added automatic content loaders.
 
 ### Changed:
 

@@ -1,7 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
+using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.EC;
 using Monofoxe.Engine.SceneSystem;
+using Monofoxe.Engine.Utils;
+using System.Diagnostics;
 
 namespace Monofoxe.Playground.GraphicsDemo
 {
@@ -9,8 +12,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 	{
 		
 		Color _mainColor = Color.White;
-		Color _secondaryColor = Color.Violet;
-
+		HsvColor _secondaryColor = new HsvColor(new Color(34, 65, 250));
 		TriangleShape _triangle; 
 
 		public ShapeDemo(Layer layer) : base(layer)
@@ -27,6 +29,13 @@ namespace Monofoxe.Playground.GraphicsDemo
 		{
 			base.Draw();
 
+			_secondaryColor.H += TimeKeeper.Global.Time(360 / 4f);
+			if (_secondaryColor.H >= 360f)
+			{ 
+				_secondaryColor.H -= 360;
+			}
+			Debug.WriteLine(_secondaryColor.H);
+
 			// This code shows how to draw shapes using static methods and instanced objects.
 			
 			var startingPosition = new Vector2(100, 100);
@@ -37,7 +46,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 			GraphicsMgr.CurrentColor = _mainColor; // Setting current color. It's active for all shapes and sprites.
 			CircleShape.Draw(position, 24, false); // Filled circle.
 
-			GraphicsMgr.CurrentColor = _secondaryColor;
+			GraphicsMgr.CurrentColor = _secondaryColor.ToColor();
 			CircleShape.Draw(position, 32, true); // Outline.
 
 
@@ -49,7 +58,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 			GraphicsMgr.CurrentColor = _mainColor; 
 			CircleShape.Draw(position, 24, false); 
 
-			GraphicsMgr.CurrentColor = _secondaryColor;
+			GraphicsMgr.CurrentColor = _secondaryColor.ToColor();
 			CircleShape.Draw(position, 32, true);
 
 			CircleShape.CircleVerticesCount = 32;
@@ -78,7 +87,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 				_mainColor, 
 				_mainColor, 
 				_mainColor, 
-				_secondaryColor
+				_secondaryColor.ToColor()
 			);
 
 			RectangleShape.DrawBySize(
@@ -86,7 +95,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 				Vector2.One * 64, 
 				true,
 				_mainColor,
-				_secondaryColor,
+				_secondaryColor.ToColor(),
 				_mainColor,
 				_mainColor
 			);
