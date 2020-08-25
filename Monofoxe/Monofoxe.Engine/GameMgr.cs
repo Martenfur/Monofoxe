@@ -95,12 +95,10 @@ namespace Monofoxe.Engine
 
 			LoadAssembliesAndTypes(game.GetType().Assembly);
 			
-			AssetMgr.Init();
+			ResourceInfoMgr.Init();
 
 			var defScene = SceneMgr.CreateScene("default");
 			defScene.CreateLayer("default");
-
-			EntityTemplatePool.InitTemplatePool();
 		}
 
 		

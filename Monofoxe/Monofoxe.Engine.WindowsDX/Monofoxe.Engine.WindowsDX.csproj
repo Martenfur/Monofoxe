@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<Version>$(MonofoxeVersion)</Version>
+		<Authors>Martenfur</Authors>
+		<Company>Chai Foxes</Company>
+		<Product>Monofoxe Engine</Product>
+		<Description>A Monogame-based game engine with extremely high fox concenration.</Description>
+		<PackageProjectUrl>https://github.com/Martenfur/Monofoxe/</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Martenfur/Monofoxe/</RepositoryUrl>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<OutputPath>..\bin\$(Configuration)\</OutputPath>
+		<DocumentationFile>..\bin\$(Configuration)\$(AssemblyName).xml</DocumentationFile>
+		<NoWarn>1701;1702;1591</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="..\Resources\AlphaBlend_dx.mgfxo" Link="AlphaBlend_dx.mgfxo" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.0.1641" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<ProjectReference Include="..\Monofoxe.Engine\Monofoxe.Engine.csproj" />
+	</ItemGroup>
+
+</Project>

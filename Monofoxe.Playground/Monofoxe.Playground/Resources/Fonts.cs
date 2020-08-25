@@ -10,14 +10,10 @@ namespace Resources
 	{
 		private ContentManager _content;
 
-		static readonly string Ascii = " !" + '"' + @"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
-		
-		public override string Name => "Fonts";
-
-		public Fonts()
+		public Fonts() : base("Fonts")
 		{
 			_content = new ContentManager(GameMgr.Game.Services);
-			_content.RootDirectory = AssetMgr.ContentDir + '/' + AssetMgr.FontsDir;
+			_content.RootDirectory = ResourceInfoMgr.ContentDir + "/Fonts";
 		}
 
 		public override void Load()
@@ -32,7 +28,7 @@ namespace Resources
 
 			var fontSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "Font");
 
-			AddResource("FancyFont", new TextureFont(fontSprite, 1, 1, Ascii, false));
+			AddResource("FancyFont", new TextureFont(fontSprite, 1, 1, TextureFont.Ascii, false));
 		}
 
 		public override void Unload()

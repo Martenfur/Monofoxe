@@ -5,6 +5,8 @@ using Monofoxe.Engine.Drawing;
 using Resources;
 using Monofoxe.Engine.Resources;
 using Microsoft.Xna.Framework.Graphics;
+using Monofoxe.Tiled.MapStructure;
+using Monofoxe.Resources;
 
 namespace Monofoxe.Playground
 {
@@ -15,7 +17,7 @@ namespace Monofoxe.Playground
 	{
 		public Game1()
 		{
-			Content.RootDirectory = AssetMgr.ContentDir;
+			Content.RootDirectory = ResourceInfoMgr.ContentDir;
 			GameMgr.Init(this);
 #if !ANDROID
 			Window.TextInput += Input.TextInput;
@@ -54,12 +56,14 @@ namespace Monofoxe.Playground
 		{
 			GraphicsMgr.Init(GraphicsDevice);
 			
-			new Resources.Sprites.Default();
+			new SpriteGroupResourceBox("DefaultSprites", "Graphics/Default");
+			new DirectoryResourceBox<Effect>("Effects", "Effects");
+			new DirectoryResourceBox<TiledMap>("Maps", "Maps");
+
 			new Fonts();
-			new Maps();
-			new Effects();
 		}
 
+		
 		/// <summary>
 		/// UnloadContent will be called once per game and is the place to unload
 		/// game-specific content.
@@ -77,7 +81,7 @@ namespace Monofoxe.Playground
 		protected override void Update(GameTime gameTime)
 		{
 			GameMgr.Update(gameTime);
-
+			
 			base.Update(gameTime);
 		}
 

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine.Utils;
 using Moq;
 using NUnit.Framework;
@@ -159,7 +159,7 @@ namespace Tests
 			var degrees2 = It.IsAny<double>();
 			var a1 = new Angle(degrees1);
 			var a2 = new Angle(degrees2);
-			var value = It.IsInRange<double>(0, 1, Range.Inclusive);
+			var value = It.IsInRange<double>(0, 1, Moq.Range.Inclusive);
 
 			var result = Angle.Lerp(a1, a2, value);
 

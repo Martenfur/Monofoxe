@@ -22,17 +22,21 @@
 		<PlatformTag>OpenGL</PlatformTag>
 		<ProjectTypeTag>Monofoxe</ProjectTypeTag>
 		<ProjectTypeTag>MonoGame</ProjectTypeTag>
+
 	</TemplateData>
 	<TemplateContent>
 		<ProjectCollection>
 			<ProjectTemplateLink ProjectName="$safeprojectname$" CopyParameters="true">
-				Shared\Shared.vstemplate
+				Library\Library.vstemplate
 			</ProjectTemplateLink>
 			<ProjectTemplateLink ProjectName="$safeprojectname$.GL" CopyParameters="true">
 				GL\GL.vstemplate
 			</ProjectTemplateLink>
 			<ProjectTemplateLink ProjectName="$safeprojectname$.DX" CopyParameters="true">
 				DX\DX.vstemplate
+			</ProjectTemplateLink>
+			<ProjectTemplateLink ProjectName="$safeprojectname$.Content" CopyParameters="true">
+				Content\Content.vstemplate
 			</ProjectTemplateLink>
 		</ProjectCollection>
 	</TemplateContent>

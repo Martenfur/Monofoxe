@@ -177,7 +177,7 @@ namespace Monofoxe.Engine.Drawing
 			var oldEffect = VertexBatch.Effect;
 			VertexBatch.Effect = null;
 
-			Device.Clear(Color.TransparentBlack);
+			Device.Clear(Color.Transparent);
 			
 			// We don't need in-game rasterizer to apply to camera surfaces.
 			var oldRasterizerState = VertexBatch.RasterizerState;

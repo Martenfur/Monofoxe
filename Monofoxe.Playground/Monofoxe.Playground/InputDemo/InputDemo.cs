@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Monofoxe.Engine.EC;
-using Monofoxe.Engine.Drawing;
-using Monofoxe.Engine.Utils;
+﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine;
-using Monofoxe.Engine.SceneSystem;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Resources.Sprites;
-using System.Text.RegularExpressions;
+using Monofoxe.Engine.Drawing;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.Resources;
+using Monofoxe.Engine.SceneSystem;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Monofoxe.Playground.InputDemo
 {
-	public class InputDemo : Entity
+  public class InputDemo : Entity
 	{
 		
 		Color _mainColor = Color.White;
@@ -81,10 +76,6 @@ namespace Monofoxe.Playground.InputDemo
 
 			GraphicsMgr.CurrentColor = _mainColor;
 			
-			// This position accounts for current camera transform matrix.
-			// Visually it will be at the pointer's position when camera will move.
-			CircleShape.Draw(Input.MousePosition, 4, false);
-
 			// This position only accounts for screen transformation.
 			// When the camera will move, it will offset.
 			CircleShape.Draw(Input.ScreenMousePosition, 8, true);

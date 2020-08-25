@@ -1,0 +1,11 @@
+{
+	"atlasSize": 512,
+	"texturePadding": 1,
+	"rootDir": "/Default",
+	"singleTexturesWildcards": 
+	[
+		"/Textures/*"
+	],
+	
+	"debugMode": "false"
+}
