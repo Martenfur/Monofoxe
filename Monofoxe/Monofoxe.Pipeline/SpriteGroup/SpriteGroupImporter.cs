@@ -25,26 +25,15 @@ namespace Monofoxe.Pipeline.SpriteGroup
 	/// Sprite group importer. Parses json config, and loads textures,
 	/// which will be passed to AtlasProcessor.
 	/// </summary>
-	[ContentImporter(".spritegroup", DefaultProcessor = "SpriteGroupProcessor", 
+	[ContentImporter(".spritegroup", DefaultProcessor = "SpriteGroupProcessor",
 	DisplayName = "Sprite Group Importer - Monofoxe")]
 	public class SpriteGroupImporter : ContentImporter<SpriteGroupData>
 	{
-		/*
-		 * Offset keywords are used to quickly set 
-		 * sprite offsets to center or any side, without
-		 * knowing actual sprite size.
-		 */
-		const string keywordCenter = "center";
-		const string keywordTop = "top";
-		const string keywordBottom = "bottom";
-		const string keywordLeft = "left";
-		const string keywordRight = "right";
-
 
 		public override SpriteGroupData Import(string filename, ContentImporterContext context)
 		{
 			var groupData = new SpriteGroupData();
-			
+
 			string[] textureRegex;
 
 			#region Parsing config.	
@@ -58,27 +47,27 @@ namespace Monofoxe.Pipeline.SpriteGroup
 				groupData.TexturePadding = int.Parse(configData["texturePadding"].ToString());
 				groupData.RootDir = Path.GetDirectoryName(filename) + '/' + configData["rootDir"].ToString();
 				groupData.GroupName = Path.GetFileNameWithoutExtension(filename);
-				
+
 				var textureWildcards = (JArray)configData["singleTexturesWildcards"];
 
 				textureRegex = new string[textureWildcards.Count];
-				for(var i = 0; i < textureWildcards.Count; i += 1)
+				for (var i = 0; i < textureWildcards.Count; i += 1)
 				{
 					textureRegex[i] = WildCardToRegular(textureWildcards[i].ToString());
 				}
 			}
-			catch(Exception)
+			catch (Exception)
 			{
 				throw new InvalidContentException("Incorrect JSON format!");
 			}
 
 			#endregion Parsing config.
-			
-			
+
+
 			ImportTextures(groupData.RootDir, "", groupData, textureRegex);
 
 			return groupData;
-			
+
 		}
 
 
@@ -94,15 +83,15 @@ namespace Monofoxe.Pipeline.SpriteGroup
 		{
 			var dirInfo = new DirectoryInfo(dirPath);
 
-			foreach(var file in dirInfo.GetFiles("*.png"))
+			foreach (var file in dirInfo.GetFiles("*.png"))
 			{
 				var spr = new RawSprite();
 				spr.Name = dirName + Path.GetFileNameWithoutExtension(file.Name);
-				
+
 				spr.RawTexture = new Bmp(file.FullName);
-				
+
 				var configPath = Path.ChangeExtension(file.FullName, ".json");
-				
+
 
 				#region Reading config.
 				/*
@@ -114,67 +103,52 @@ namespace Monofoxe.Pipeline.SpriteGroup
 					try
 					{
 						var conf = File.ReadAllText(configPath);
-						JToken confData = JObject.Parse(conf); 			
+						JToken confData = JObject.Parse(conf);
 
 						spr.FramesH = int.Parse(confData["h"].ToString());
 						spr.FramesV = int.Parse(confData["v"].ToString());
-						
+
 						if (spr.FramesH < 1 || spr.FramesV < 1) // Frame amount cannot be lesser than 1.
 						{
 							throw new Exception();
 						}
 
-						var xOffsetRaw = confData["offset_x"].ToString().ToLower();
-						var yOffsetRaw = confData["offset_y"].ToString().ToLower();
+						
+						var originXKeyword = "originX";
+						var originYKeyword = "originY";
 
-						int xOffset, yOffset;
-
-						// Hey, look, switch is being useful for once! :000
-
-						// Parsing offset keywords.
-						switch(xOffsetRaw)
-						{
-							case keywordCenter:
-								xOffset = spr.RawTexture.Width / spr.FramesH / 2;
-							break;
-							case keywordLeft:
-								xOffset = 0;
-							break;
-							case keywordRight:
-								xOffset = spr.RawTexture.Width / spr.FramesH;
-							break;
-							default:
-								xOffset = int.Parse(xOffsetRaw);
-							break;
+						if (confData[originXKeyword] == null)
+						{ 
+							originXKeyword = "offset_x";
+						}
+						if (confData[originYKeyword] == null)
+						{ 
+							originYKeyword = "offset_y";
 						}
 
-						switch(yOffsetRaw)
-						{
-							case keywordCenter:
-								yOffset = spr.RawTexture.Height / spr.FramesV / 2;
-							break;
-							case keywordTop:
-								yOffset = 0;
-							break;
-							case keywordBottom:
-								yOffset = spr.RawTexture.Height / spr.FramesV;
-							break;
-							default:
-								yOffset = int.Parse(yOffsetRaw);
-							break;
-						}
-						// Parsing offset keywords.
+						var xOffsetRaw = confData[originXKeyword].ToString().ToLower();
+						var yOffsetRaw = confData[originYKeyword].ToString().ToLower();
 
-						spr.Offset = new Point(xOffset, yOffset);
+						var center = new Point(spr.RawTexture.Width / spr.FramesH / 2, spr.RawTexture.Height / spr.FramesV / 2);
+
+						spr.Offset = SpriteGroupMathParser.Parse(
+							xOffsetRaw,
+							yOffsetRaw,
+							0,
+							spr.RawTexture.Width / spr.FramesH,
+							0,
+							spr.RawTexture.Height / spr.FramesV,
+							center
+						);
 
 					}
-					catch(Exception)
+					catch (Exception e)
 					{
-						throw new Exception("Error while pasring sprite JSON for file: " + file.Name);
+						throw new Exception("Error while pasring sprite JSON for file: " + file.Name + " | " + e.Message + " | " + e.StackTrace);
 					}
 				}
 				#endregion Reading config.
-				
+
 
 				if (PathMatchesRegex('/' + dirName + '/' + file.Name, textureRegex)) // Separating atlas sprites from single textures.
 				{
@@ -188,21 +162,21 @@ namespace Monofoxe.Pipeline.SpriteGroup
 
 
 			// Recursively repeating for all subdirectories.
-			foreach(var dir in dirInfo.GetDirectories())
+			foreach (var dir in dirInfo.GetDirectories())
 			{
 				ImportTextures(dir.FullName, dirName + dir.Name + '/', groupData, textureRegex);
 			}
 			// Recursively repeating for all subdirectories.
 
 		}
-		
+
 
 
 		private string WildCardToRegular(string value) =>
-			"^" + Regex.Escape(value).Replace("\\*", ".*") + "$"; 
-		
-		
-		
+			"^" + Regex.Escape(value).Replace("\\*", ".*") + "$";
+
+
+
 		/// <summary>
 		/// Checks if path matches regex filter.
 		/// </summary>
@@ -210,7 +184,7 @@ namespace Monofoxe.Pipeline.SpriteGroup
 		{
 			var safePath = path.Replace('\\', '/'); // Just to not mess with regex and wildcards.
 
-			foreach(var regex in regexArray)
+			foreach (var regex in regexArray)
 			{
 				if (Regex.IsMatch(safePath, regex, RegexOptions.IgnoreCase))
 				{
@@ -219,6 +193,6 @@ namespace Monofoxe.Pipeline.SpriteGroup
 			}
 			return false;
 		}
-		
+
 	}
 }
