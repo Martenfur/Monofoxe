@@ -5,35 +5,30 @@
 
 [xml]$XmlDocument = Get-Content -Path "$PWD\Packages.props"
 $monofoxeVersion = $XmlDocument.Project.PropertyGroup.MonofoxeVersion
+$nopipelineVersion = $XmlDocument.Project.PropertyGroup.NopipelineVersion
 
 $projectTemplatesPath = "$PWD\Templates\ProjectTemplates\";
 $itemTemplatesPath = "$PWD\Templates\ItemTemplates\";
 
 
-Function Pack-Item-Template([string] $item)
+Function PackItemTemplate([string] $item)
 {
 	"Packing $item..."
 	[IO.Compression.ZipFile]::CreateFromDirectory("$itemTemplatesPath$item", "$destItemTemplatesDir$item.zip")
 }
 
-Function Assemble-Template([string] $platform)
+Function ReplaceParameters([string] $platform)
 {
-	"Assembling templates for $platform..."
-	Copy-Item -path "$projectTemplatesPath$platform\" -Destination "$destProjectTemplatesDir" -Recurse -Container
+	"Assembling parameters for $platform..."
 
-	$csprojPath = "$destProjectTemplatesDir$platform\$platform.csproj"
+	$csprojPath = "$destProjectTemplatesDir\Crossplatform\$platform\$platform.csproj"
 
 	if (Test-Path -Path $csprojPath)
 	{
 		(Get-Content -Path $csprojPath) -replace '\$\(MonofoxeVersion\)', $monofoxeVersion | Set-Content -Path $csprojPath
+		(Get-Content -Path $csprojPath) -replace '\$\(NopipelineVersion\)', $nopipelineVersion | Set-Content -Path $csprojPath
 	}
-
-	Copy-Item -path "$destProjectTemplatesDir$platform\" -Destination "$destProjectTemplatesDir$crossplatform\" -Recurse -Container
-
-
-	[IO.Compression.ZipFile]::CreateFromDirectory("$destProjectTemplatesDir$platform", "$destProjectTemplatesDir$platform.zip")
 }
-
 Add-Type -A System.IO.Compression.FileSystem
 
 $destReleaseDir = "$PWD\Release\"
@@ -63,15 +58,14 @@ New-Item -ItemType Directory -Force -Path "$destItemTemplatesDir" > $null
 
 Copy-Item -path "$projectTemplatesPath$crossplatform\" -Destination "$destProjectTemplatesDir" -Recurse -Container
 
-Pack-Item-Template "Entity"
-Pack-Item-Template "Component"
-Pack-Item-Template "TiledEntityFactory"
+PackItemTemplate "Entity"
+PackItemTemplate "Component"
+PackItemTemplate "TiledEntityFactory"
 
-Assemble-Template "GL"
-Assemble-Template "DX"
-Assemble-Template "MonofoxeDotnetStandardLibrary"
-Assemble-Template "Shared"
-Assemble-Template "Pipeline"
+ReplaceParameters "DX"
+ReplaceParameters "GL"
+ReplaceParameters "Library"
+ReplaceParameters "Content"
 
 [IO.Compression.ZipFile]::CreateFromDirectory("$destProjectTemplatesDir$crossplatform", "$destProjectTemplatesDir$crossplatform.zip")
 

@@ -3,10 +3,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <OutputPath>bin/</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Pipefoxe" Version="$(MonofoxeVersion)" />
+    <PackageReference Include="Monofoxe.Pipeline" Version="$(MonofoxeVersion)" />
     <PackageReference Include="MonoGame.Framework.Content.Pipeline" Version="3.8.0.*">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>

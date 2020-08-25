@@ -1,6 +1,5 @@
-﻿using System;
-// using YourSharedProjectNamespace;
-// Don't forget to reference it first!
+﻿using Monofoxe.Engine.WindowsDX;
+using System;
 
 namespace $safeprojectname$
 {
@@ -9,6 +8,8 @@ namespace $safeprojectname$
 		[STAThread]
 		static void Main()
 		{
+			MonofoxePlatform.Init();
+			
 			using (var game = new Game1())
 			{
 				game.Run();

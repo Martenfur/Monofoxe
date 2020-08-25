@@ -27,6 +27,10 @@
 			<ProjectItem ReplaceParameters="false" TargetFileName="Icon.ico">Icon.ico</ProjectItem>
 			<ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
 			<ProjectItem ReplaceParameters="true" TargetFileName="app.manifest">app.manifest</ProjectItem>
+			<Folder Name="Content" TargetFolderName="Content">
+				<ProjectItem ReplaceParameters="true" TargetFileName="Content.mgcb">Content.mgcb</ProjectItem>
+				<ProjectItem ReplaceParameters="true" TargetFileName="Content.npl">Content.npl</ProjectItem>
+			</Folder>
 		</Project>
 	</TemplateContent>
 </VSTemplate>

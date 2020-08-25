@@ -1,41 +1,31 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
 	<TemplateData>
-		<Name>Monofoxe Shared Project</Name>
-		<Description>A Monofoxe Shared Project. Used to share common code between platform-specific projects. Use it if you want to make a cross-platform game.</Description>
+		<Name>Monofoxe Pipeline Extension Library (.NET Standard)</Name>
+		<Description>.NET Standard library for Monofoxe games.</Description>
 		<ProjectType>CSharp</ProjectType>
-		<SortOrder>1000</SortOrder>
+		<NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
 		<ProjectSubType>
 		</ProjectSubType>
-		<CreateInPlace>true</CreateInPlace>
-		<CreateNewFolder>false</CreateNewFolder>
-		<DefaultName>Foxe.Shared</DefaultName>
+		<SortOrder>43300</SortOrder>
+		<CreateNewFolder>true</CreateNewFolder>
+		<DefaultName>FoxeLib</DefaultName>
 		<ProvideDefaultName>true</ProvideDefaultName>
 		<LocationField>Enabled</LocationField>
+		<EnableLocationBrowseButton>true</EnableLocationBrowseButton>
 		<Icon>__TemplateIcon.png</Icon>
 		<PreviewImage>__PreviewImage.png</PreviewImage>
+		<CreateInPlace>true</CreateInPlace>
 		<LanguageTag>C#</LanguageTag>
-		<PlatformTag>Windows</PlatformTag>
-		<PlatformTag>Linux</PlatformTag>
-		<PlatformTag>Android</PlatformTag>
-		<ProjectTypeTag>Shared</ProjectTypeTag>
+    <PlatformTag>Windows</PlatformTag>
+    <PlatformTag>Linux</PlatformTag>
+    <PlatformTag>Android</PlatformTag>
+    <ProjectTypeTag>Library</ProjectTypeTag>
 		<ProjectTypeTag>Monofoxe</ProjectTypeTag>
 		<ProjectTypeTag>MonoGame</ProjectTypeTag>
 	</TemplateData>
 	<TemplateContent>
-
-		<Project TargetFileName="$projectname$.shproj" File="Shared.shproj" ReplaceParameters="true">
-			<ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.projitems">Shared.projitems</ProjectItem>
-			
-			<ProjectItem ReplaceParameters="true" TargetFileName="Game1.cs">Game1.cs</ProjectItem>
-			<ProjectItem ReplaceParameters="true" TargetFileName="GameController.cs">GameController.cs</ProjectItem>
-			
-			<Folder Name="Resources" TargetFolderName="Resources">
-				<ProjectItem ReplaceParameters="false" TargetFileName="Fonts.cs">Fonts.cs</ProjectItem>
-			</Folder>
-			
+		<Project TargetFileName="Content.csproj" File="Content.csproj" ReplaceParameters="true">
 			<Folder Name="Content" TargetFolderName="Content">
-				<ProjectItem ReplaceParameters="true" TargetFileName="Content.mgcb">Content.mgcb</ProjectItem>
-				<ProjectItem ReplaceParameters="true" TargetFileName="Content.npl">Content.npl</ProjectItem>
 				<Folder Name="Graphics" TargetFolderName="Graphics">
 					<ProjectItem ReplaceParameters="false" TargetFileName="Default.spritegroup">Default.spritegroup</ProjectItem>
 						<Folder Name="Default" TargetFolderName="Default">
@@ -43,10 +33,6 @@
 							<ProjectItem ReplaceParameters="false" TargetFileName="Monofoxe.png">Monofoxe.png</ProjectItem>
 						</Folder>
 					</Folder>
-				
-				<Folder Name="Effects" TargetFolderName="Effects">
-					<ProjectItem ReplaceParameters="false" TargetFileName="AlphaBlend.fx">AlphaBlend.fx</ProjectItem>
-				</Folder>
 				
 				<Folder Name="Audio" TargetFolderName="Audio">
 					<Folder Name="Music" TargetFolderName="Music">
@@ -58,14 +44,14 @@
 				<Folder Name="Maps" TargetFolderName="Maps">
 				</Folder>
 
+				<Folder Name="Effects" TargetFolderName="Effects">
+				</Folder>
+
 				<Folder Name="Fonts" TargetFolderName="Fonts">
 					<ProjectItem ReplaceParameters="false" TargetFileName="Arial.spritefont">Arial.spritefont</ProjectItem>
 				</Folder>
 
 			</Folder>
-
-
 		</Project>
-
 	</TemplateContent>
 </VSTemplate>
