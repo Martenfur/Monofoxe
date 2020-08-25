@@ -257,6 +257,7 @@ namespace Monofoxe.Engine.EC
 		{
 			if (_componentDictionary.TryGetValue(type, out Component component))
 			{
+				component.Destroy();
 				_componentDictionary.Remove(type);
 				_componentList.Remove(component);
 				component.Owner = null;
