@@ -30,6 +30,7 @@
 - Changed the crossplatform project structure.
 - **BREAKING CHANGE:** `AlphaBlend.fx` is now baked into the library and doesn't have to be manually put into the Content directory.
 - Replaced offset_x/y with originX/Y in sprite jsons.
+- `Component.Destroy()` is now called when the component is removed from the entity.
 
 ### Removed:
 
