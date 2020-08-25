@@ -4,7 +4,7 @@ using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.Resources;
 
-namespace Resources
+namespace $safeprojectname$.Resources
 {
 	public class Fonts : ResourceBox<IFont>
 	{

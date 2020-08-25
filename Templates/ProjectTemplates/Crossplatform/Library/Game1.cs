@@ -2,11 +2,11 @@
 using Monofoxe.Engine;
 using Monofoxe.Tiled;
 using Monofoxe.Engine.Drawing;
-using Resources;
 using Monofoxe.Engine.Resources;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Tiled.MapStructure;
 using Monofoxe.Resources;
+using $safeprojectname$.Resources;
 
 namespace $safeprojectname$
 {

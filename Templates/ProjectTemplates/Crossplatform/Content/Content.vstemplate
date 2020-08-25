@@ -12,8 +12,6 @@
 		<ProvideDefaultName>true</ProvideDefaultName>
 		<LocationField>Enabled</LocationField>
 		<EnableLocationBrowseButton>true</EnableLocationBrowseButton>
-		<Icon>__TemplateIcon.png</Icon>
-		<PreviewImage>__PreviewImage.png</PreviewImage>
 		<CreateInPlace>true</CreateInPlace>
 		<LanguageTag>C#</LanguageTag>
     <PlatformTag>Windows</PlatformTag>

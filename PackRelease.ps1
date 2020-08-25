@@ -73,7 +73,7 @@ ReplaceParameters "Content"
 "Making installer..."
 &makensis Installer/packInstaller.nsi
 
-$debug = $TRUE
+$debug = $FALSE
 
 "Cleaning..."
 if (!$debug)
