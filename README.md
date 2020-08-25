@@ -6,11 +6,9 @@ Its main goal is to greatly simplify working with Monogame and to provide basic 
 enabling you to just *create a new project and make a damn game* without removing low-level access to the framework.
 Monofoxe took a lot of inspiration from Game Maker, so it should be a bit familiar to some folks.
 
-**Current version: 2.0.0.0-dev** [View changelog](/CHANGELOG.md)
+**Current version: 2.0.0.0** [View changelog](/CHANGELOG.md)
 
-[Download in-dev build (recommended)](https://github.com/Martenfur/Monofoxe/releases/)
-
-[Download last stable release](https://github.com/gnFur/Monofoxe/releases/latest)
+[Download last stable release](https://github.com/Martenfur/Monofoxe/releases/latest)
 
 [**View Docs**](Docs/README.md)
 
@@ -27,11 +25,11 @@ Everything Monogame does, plus:
 * Input management.
 * Useful math for collisions and other game stuff.
 * Timers, alarms, cameras, state machines, tilemaps, foxes!
-* FMOD audio support (As a standalone [library](https://github.com/gnFur/ChaiFoxes.FMODAudio/)).
+* FMOD audio support (As a standalone [library](https://github.com/Martenfur/ChaiFoxes.FMODAudio/)).
 * Hybrid EC.
 * Scene system (with layers!).
 * Tiled maps support.
-* Enhanced resource management via [NoPipeline](https://github.com/Martenfur/NoPipeline).
+* Enhanced content management via [Nopipeline](https://github.com/Martenfur/Nopipeline).
 
 
 Coming in the future:
@@ -51,18 +49,17 @@ Well, up to you. Currently I am developing Monofoxe alone, and can't really prov
 
 # How do I use it?
 
-Download the Monofoxe installer from the [latest release](https://github.com/Martenfur/Monofoxe/releases/latest) or [in-dev build (recommended)](https://github.com/Martenfur/Monofoxe/releases/).
-Installer bundles Visual Studio 2015, 2017 and 2019 templates, [NoPipeline](https://github.com/Martenfur/NoPipeline) and Monogame 3.7.1 installation. If you don't want 3.7.1, Monofoxe is confirmed to work on 3.6 and 3.7. It most likely will work on Monogame dev build, but it constantly changes, so you never know.
+Download the Monofoxe installer from the [latest release](https://github.com/Martenfur/Monofoxe/releases/latest). Installer bundles Visual Studio 2017 and 2019 templates. Monofoxe is distributed via nugets, so templates aren't mandatory. It's also a good idea to install project templates for [Monogame](https://github.com/MonoGame/MonoGame/releases/latest).
 
 Just install Monofoxe, create Monofoxe project and you're good to go. 
 
 **NOTE:** Due to VS2019 project search being completely broken, templates may not appear in the search right away. Instead of searching select "Monofoxe" in `Project Types`.
 
-You can also check out the [basic feature demos](Monofoxe.Playground/), [Demo game](https://bitbucket.org/gnFur/monofoxe.demo/) or the [Docs](Docs/README.md) (Currently not finished) to learn how to use Monofoxe.
+You can also check out the [basic feature demos](Monofoxe.Playground/) or the [Docs](Docs/README.md) to learn how to use Monofoxe.
 
-# I've suddenly started loving foxes and want to contribute!
+# I've suddenly started loving foxes and want to contribute
 
-That's the spirit. Check out if I need any help on my [Quire board](https://quire.io/w/Monofoxe/?board=Monofoxe). Stuff under `Open for taking` category is, well, open for taking. You can also contact me via email (`chaifoxes@gmail.com`), on [Twitter](https://twitter.com/ChaiFoxes) or on [Discord](https://discord.gg/SZ9Z5WR).
+That's the spirit. Check out if I need any help on my [Quire board](https://quire.io/w/Monofoxe/?board=Monofoxe). Stuff under `Open for taking` category is, well, open for taking. You can also contact me via email (`chaifoxes@gmail.com`), on [Twitter](https://twitter.com/ChaiFoxes) or on [Discord](https://discord.gg/F9tPYaD).
 
 **Don't forget to check out Codestyle.cs before contributing!!!**
 
