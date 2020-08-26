@@ -297,13 +297,13 @@ namespace Monofoxe.Engine.Cameras
 					if (sufraceChooser)
 					{
 						Surface.SetTarget(Surface);
-						GraphicsMgr.Device.Clear(Color.TransparentBlack);
+						GraphicsMgr.Device.Clear(Color.Transparent);
 						_postprocessorBuffer.Draw(Vector2.Zero);
 					}
 					else
 					{
 						Surface.SetTarget(_postprocessorBuffer);
-						GraphicsMgr.Device.Clear(Color.TransparentBlack);
+						GraphicsMgr.Device.Clear(Color.Transparent);
 						Surface.Draw(Vector2.Zero);
 					}
 					

@@ -1,19 +1,19 @@
-# NoPipeline
+# Nopipeline
 
 By default, Monogame uses Pipeline Tool to manage and build resources. Usually you don't add resources directly -- you build them first at compilation, and then load built resources at runtime. It's an ok concept, but Pipeline Tool is a huge hassle to work with. It cannot track resources by itself, you have to open it and add resources by hand every time. Before proceeding, I recommend reading this [article](http://www.monogame.net/documentation/?page=Using_The_Pipeline_Tool) to learn how Pipeline Tool works...
 
-...and why we need NoPipeline! 
+...and why we need Nopipeline! 
 
 ![NoPipeline](NoPipeline.png)
 
-NoPipeline is an addon for Pipeline Tool, which generates and updates `.mgcb` config for you. You can safely add, delete and move around resource files right in the Explorer - NoPipeline will do the rest for you.
+NoPipeline is an addon for Pipeline Tool, which generates and updates `.mgcb` config for you. You can safely add, delete and move around resource files right in the Explorer - Nopipeline will do the rest for you.
 
 Additionally, you can make resource files watch other files! Let's say, you got Tiled map project. It has one main `.tmx` file and a bunch of textures and tileset files. But Pipeline Tool has referenced only `.tmx` file, so if you
 update only texture or only tileset, you have to either update the `.tmx` or do a manual rebuild, because Pipeline Tool doesn't know about files other than `.tmx`. 
 
 With NoPipeline you don't have to do any of that - just set `.tmx` file to watch textures and tilesets - and Pipeline Tool will detect and update everything by itself.
 
-## But how does NoPipeline know what resources go where?
+## But how does Nopipeline know what resources go where?
 
 NoPipeline uses NPL config. It's used to generate MGCB config. Inside it looks like this:
 
@@ -108,9 +108,7 @@ will look like this: `Graphics/Default/*.png`.
 
 Monofoxe projects have NPL config set up out of the box. It already has all the basic resource types, but you can add your own in there, if you'd like.
 
-For additional information, check out [NoPipeline repository](https://github.com/gnFur/NoPipeline).
-
-**NOTE:** NoPipeline is required for Monofoxe to work.
+For additional information, check out [Nopipeline repository](https://github.com/Martenfur/Nopipeline).
 
 ## | [Adding resources >>](AddingResources.md) 
 

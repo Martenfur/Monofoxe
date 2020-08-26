@@ -7,12 +7,8 @@ namespace Monofoxe.Engine.Drawing
 	/// <summary>
 	/// Drawable circle shape. Can be drawn by using static methods or be instantiated.
 	/// </summary>
-	public class CircleShape : IDrawable
+	public class CircleShape : Drawable
 	{
-		/// <summary>
-		/// Center point of a circle.
-		/// </summary>
-		public Vector2 Position {get; set;}
 
 		public float Radius = 1;
 
@@ -23,13 +19,15 @@ namespace Monofoxe.Engine.Drawing
 
 		public Color Color = Color.White;
 
+		public float ZDepth = 0;
+
 		static CircleShape()
 		{
 			CircleVerticesCount = 16;
 		}
 
-		public void Draw() =>
-			Draw(Position, Radius, IsOutline, Color);
+		public override void Draw() =>
+			Draw(Position, Radius, IsOutline, Color, ZDepth);
 		
 		
 
@@ -78,7 +76,7 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Draws a circle.
 		/// </summary>
-		public static void Draw(Vector2 p, float r, bool isOutline, Color color)
+		public static void Draw(Vector2 p, float r, bool isOutline, Color color, float zDepth = 0)
 		{
 			
 			for(var i = 0; i < _circleVerticesCount; i += 1)
@@ -86,7 +84,7 @@ namespace Monofoxe.Engine.Drawing
 				_circleVertices[i].Position = new Vector3(
 					p.X + r * _circleVectors[i].X, 
 					p.Y + r * _circleVectors[i].Y, 
-					0
+					zDepth
 				);
 				_circleVertices[i].Color = color;
 			}

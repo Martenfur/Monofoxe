@@ -56,7 +56,7 @@ component.Owner.GetComponent<CTest>();
 
  
 
-## [<< Introduction to EC](IntroductionToEC.md)	|	[Entity templates >>](EntityTemplates.md)
+## [<< Introduction to EC](IntroductionToEC.md)	|	[Layers >>](Layers.md)
 
 [<<< Contents](../Contents.md)
 

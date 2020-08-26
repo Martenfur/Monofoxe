@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Monofoxe.Engine.EC;
-using Monofoxe.Engine.Drawing;
-using Monofoxe.Engine.Utils;
-using Monofoxe.Engine;
-using Monofoxe.Engine.SceneSystem;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Resources.Sprites;
+using Monofoxe.Engine;
+using Monofoxe.Engine.Drawing;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.Resources;
+using Monofoxe.Engine.SceneSystem;
+using Monofoxe.Engine.Utils;
+using System;
 
 namespace Monofoxe.Playground.GraphicsDemo
 {
-	public class SpriteDemo : Entity
+  public class SpriteDemo : Entity
 	{
 		
 		Color _mainColor = Color.White;
@@ -33,7 +30,7 @@ namespace Monofoxe.Playground.GraphicsDemo
 
 		public SpriteDemo(Layer layer) : base(layer)
 		{
-			_monofoxeSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "Monofoxe");
+			_monofoxeSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "Test");
 			_fireSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "Fire");
 
 			_batch = new SpriteBatch(GraphicsMgr.Device);

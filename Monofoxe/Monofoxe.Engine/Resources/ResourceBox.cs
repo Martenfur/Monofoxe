@@ -14,11 +14,12 @@ namespace Monofoxe.Engine.Resources
 		/// </summary>
 		public bool Loaded {get; protected set;}
 
-		public abstract string Name {get;}
+		public readonly string Name;
 
-		public ResourceBox()
+		public ResourceBox(string name)
 		{
-			ResourceHub.AddResourceBox(Name, this);
+			Name = name;
+			ResourceHub.AddResourceBox(name, this);
 		}
 
 		/// <summary>
@@ -47,10 +48,10 @@ namespace Monofoxe.Engine.Resources
 			_resources.ContainsKey(key);
 		
 		
-		protected void AddResource(string key, T resource) =>
+		public void AddResource(string key, T resource) =>
 			_resources.Add(key, resource);
 			
-		protected void RemoveResource(string key) =>
+		public void RemoveResource(string key) =>
 			_resources.Remove(key);
 		
 			

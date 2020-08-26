@@ -1,68 +1,110 @@
-﻿using System;
-
+﻿
 namespace Monofoxe.Engine.Utils
 {
 	public delegate void AlarmDelegate(Alarm caller);
 
+	public enum OnTriggerAction
+	{
+		/// <summary>
+		/// On reaching trigger time, 
+		/// alarm resets itself to 0, triggers OnTrigger event and stops.
+		/// </summary>
+		Stop,
+
+		/// <summary>
+		/// On reaching trigger time,
+		/// alarm resets itself to 0, triggers OnTrigger event and continues counting.
+		/// In this mode, alarm takes into account leftover counter delta to make 
+		/// repeated counting precise.
+		/// </summary>
+		Loop,
+
+		/// <summary>
+		/// Alarm never triggers.
+		/// </summary>
+		None,
+	}
+
 	/// <summary>
 	/// Counts down seconds. Needs to be updated manually.
 	/// </summary>
-	public class Alarm : Timer
+	public class Alarm
 	{
 		/// <summary>
-		/// Tells how much time is left in seconds.
+		/// Tells how much time has passed in seconds.
 		/// </summary>
-		public new double Counter;
+		public double Counter { get; private set; } = 0;
+
+		/// <summary>
+		/// If alarm's counter reaches this value and it's not in
+		/// OnTriggerAction.None mode, alarm will call OnTrigger event.
+		/// </summary>
+		public double TriggerTime;
 		
 		/// <summary>
-		/// Gets called in an update, if alarm is triggered. 
+		/// Alarm won't update if it's paused.
+		/// </summary>
+		public bool Paused = false;
+
+		public TimeKeeper TimeKeeper = TimeKeeper.Global;
+		
+		/// <summary>
+		/// Gets called if the alarm is triggered. 
 		/// </summary>
 		public event AlarmDelegate TriggerEvent;
 
 		/// <summary>
-		/// Tells, if alarm is running right now.
+		/// Tells, if alarm is running.
 		/// </summary>
-		public bool Running => Counter > 0;
-
-		public Alarm() : base() {}
-
-		public Alarm(TimeKeeper timeKeeper) : base(timeKeeper) {}
-			
+		public bool Running {get; private set;}
 		
-		/// <summary>
-		/// Sets alarm to given time.
-		/// </summary>
-		/// <param name="time">Time in seconds.</param>
-		public void Set(double time)
+		public OnTriggerAction OnTriggerAction;
+
+
+		public Alarm(double time, OnTriggerAction onTriggerAction = OnTriggerAction.Stop) 
 		{
-			Enabled = true;
-			Counter = time;
+			TriggerTime = time;
+			OnTriggerAction = onTriggerAction;
 		}
-
-
-
-		/// <summary>
-		/// Resets alarm.
-		/// </summary>
-		public override void Reset()
+		
+		
+		public void Start()
 		{
-			Enabled = false;
+			Running = true;
+			Counter = 0;
+		}
+		
+		
+		public void Stop()
+		{
+			Running = false;
 			Counter = 0;
 		}
 
 
-
 		/// <summary>
-		/// Updates alarm. Returns true, if alarm is being triggered.
+		/// Updates alarm. Returns true, if alarm was triggered.
 		/// </summary>
-		public new virtual bool Update()
+		public bool Update()
 		{
-			if (Enabled && Counter > 0)
+			if (!Paused && Running)
 			{
-				Counter -= TimeKeeper.Time();		
+				Counter += TimeKeeper.Time();		
 				
-				if (Counter <= 0)
+				if (
+					OnTriggerAction != OnTriggerAction.None 
+					&& Counter >= TriggerTime 
+				)
 				{
+					if (OnTriggerAction == OnTriggerAction.Stop)
+					{
+						Running = false;
+						Counter = 0;
+					}
+					if (OnTriggerAction == OnTriggerAction.Loop)
+					{
+						Counter -= TriggerTime; // Necessary for correct timing. 
+					}
 					TriggerEvent?.Invoke(this);
 					return true;
 				}

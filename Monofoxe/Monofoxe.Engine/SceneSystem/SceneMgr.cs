@@ -9,6 +9,8 @@ using Monofoxe.Engine.Utils.CustomCollections;
 
 namespace Monofoxe.Engine.SceneSystem
 {
+	public delegate void SceneMgrEventDelegate();
+
 	/// <summary>
 	/// Manager of all scenes. Updates entities and components.
 	/// </summary>
@@ -73,11 +75,11 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public static Scene GetScene(string name)
 		{
-			foreach(var scene in _scenes)
+			for (var i = 0; i < _scenes.Count; i += 1)
 			{
-				if (string.Equals(scene.Name, name, StringComparison.OrdinalIgnoreCase))
+				if (string.Equals(_scenes[i].Name, name, StringComparison.OrdinalIgnoreCase))
 				{
-					return scene;
+					return _scenes[i];
 				}
 			}
 			return null;
@@ -88,11 +90,11 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public static bool TryGetScene(string name, out Scene scene)
 		{
-			foreach(var s in _scenes)
+			for (var i = 0; i < _scenes.Count; i += 1)
 			{
-				if (string.Equals(s.Name, name, StringComparison.OrdinalIgnoreCase))
+				if (string.Equals(_scenes[i].Name, name, StringComparison.OrdinalIgnoreCase))
 				{
-					scene = s;
+					scene = _scenes[i];
 					return true;
 				}
 			}
@@ -105,9 +107,9 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public static bool HasScene(string name)
 		{
-			foreach(var scene in _scenes)
+			for(var i = 0; i < _scenes.Count; i += 1)
 			{
-				if (string.Equals(scene.Name, name, StringComparison.OrdinalIgnoreCase))
+				if (string.Equals(_scenes[i].Name, name, StringComparison.OrdinalIgnoreCase))
 				{
 					return true;
 				}
@@ -154,6 +156,40 @@ namespace Monofoxe.Engine.SceneSystem
 		#region Events.
 
 		/// <summary>
+		/// Triggers every frame before all scenes perform Update.
+		/// </summary>
+		public static event SceneMgrEventDelegate OnPreUpdate;
+		/// <summary>
+		/// Triggers every frame after all scenes perform Update.
+		/// </summary>
+		public static event SceneMgrEventDelegate OnPostUpdate;
+		/// <summary>
+		/// Triggers every frame before all scenes perform FixedUpdate.
+		/// </summary>
+		public static event SceneMgrEventDelegate OnPreFixedUpdate;
+		/// <summary>
+		/// Triggers every frame after all scenes perform FixedUpdate.
+		/// </summary>
+		public static event SceneMgrEventDelegate OnPostFixedUpdate;
+		/// <summary>
+		/// Triggers every frame before all non-GUI layers perform Draw.
+		/// </summary>
+		public static event SceneMgrEventDelegate OnPreDraw;
+		/// <summary>
+		/// Triggers every frame after all non-GUI layers perform Draw.
+		/// </summary>
+		public static event SceneMgrEventDelegate OnPostDraw;
+		/// <summary>
+		/// Triggers every frame before all GUI layers perform Draw.
+		/// </summary>
+		public static event SceneMgrEventDelegate OnPreDrawGUI;
+		/// <summary>
+		/// Triggers every frame after all GUI layers perform Draw.
+		/// </summary>
+		public static event SceneMgrEventDelegate OnPostDrawGUI;
+
+
+		/// <summary>
 		/// Executes Fixed Update events.
 		/// </summary>
 		internal static void CallFixedUpdateEvents(GameTime gameTime)
@@ -167,6 +203,7 @@ namespace Monofoxe.Engine.SceneSystem
 
 				TimeKeeper._elapsedTime = GameMgr.FixedUpdateRate;
 
+				OnPreFixedUpdate?.Invoke();
 				foreach(var scene in Scenes)
 				{		
 					if (scene.Enabled)
@@ -176,9 +213,9 @@ namespace Monofoxe.Engine.SceneSystem
 						scene.FixedUpdate();
 					}
 				}
+				OnPostFixedUpdate?.Invoke();
 			}
 		}
-
 
 
 		/// <summary>
@@ -187,8 +224,9 @@ namespace Monofoxe.Engine.SceneSystem
 		internal static void CallUpdateEvents(GameTime gameTime)
 		{
 			TimeKeeper._elapsedTime = GameMgr.ElapsedTime;
-			
-			foreach(var scene in Scenes)
+
+			OnPreUpdate?.Invoke();
+			foreach (var scene in Scenes)
 			{		
 				if (scene.Enabled)
 				{
@@ -197,7 +235,7 @@ namespace Monofoxe.Engine.SceneSystem
 					scene.Update();
 				}
 			}
-			
+			OnPostUpdate?.Invoke();
 		}
 		
 		
@@ -206,7 +244,8 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		internal static void CallDrawEvents()
 		{
-			foreach(var scene in Scenes)
+			OnPreDraw?.Invoke();
+			foreach (var scene in Scenes)
 			{
 				if (scene.Visible)
 				{
@@ -215,16 +254,17 @@ namespace Monofoxe.Engine.SceneSystem
 					scene.Draw();
 				}
 			}
+			OnPostDraw?.Invoke();
 		}
 		
-
 
 		/// <summary>
 		/// Executes Draw GUI events.
 		/// </summary>
 		internal static void CallDrawGUIEvents()
 		{
-			foreach(var scene in Scenes)
+			OnPreDrawGUI?.Invoke();
+			foreach (var scene in Scenes)
 			{
 				if (scene.Visible)
 				{
@@ -233,6 +273,7 @@ namespace Monofoxe.Engine.SceneSystem
 					scene.DrawGUI();
 				}
 			}
+			OnPostDrawGUI?.Invoke();
 		}
 
 		#endregion Events.

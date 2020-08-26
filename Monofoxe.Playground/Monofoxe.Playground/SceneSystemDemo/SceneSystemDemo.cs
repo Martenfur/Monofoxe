@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Monofoxe.Engine.EC;
-using Monofoxe.Engine.Drawing;
-using Monofoxe.Engine.Utils;
-using Monofoxe.Engine;
-using Monofoxe.Engine.SceneSystem;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Resources.Sprites;
-using System.Text.RegularExpressions;
-using Monofoxe.Playground.ECDemo;
+using Monofoxe.Engine;
+using Monofoxe.Engine.EC;
 using Monofoxe.Engine.Resources;
+using Monofoxe.Engine.SceneSystem;
+using Monofoxe.Playground.ECDemo;
 
 namespace Monofoxe.Playground.SceneSystemDemo
 {
@@ -29,15 +22,15 @@ namespace Monofoxe.Playground.SceneSystemDemo
 			// Creating new scene.
 			_testScene = SceneMgr.CreateScene("SceneDemoDummy");
 			var mainLayer = _testScene.CreateLayer("main");
-			var backgroungLayer = _testScene.CreateLayer("background");
+			var backgroundLayer = _testScene.CreateLayer("background");
 
 			// Update and Draw events will be executed for this layer first.
 			// This can be counter-intuitive, but this will put the layer on the back.
 			// Because it is being drawn first, everything else will be drawn on top of it.
-			backgroungLayer.Priority = 999;
+			backgroundLayer.Priority = 999;
 			
 			// Applying a shader to the thingy.
-			backgroungLayer.PostprocessorEffects.Add(ResourceHub.GetResource<Effect>("Effects", "Seizure"));
+			backgroundLayer.PostprocessorEffects.Add(ResourceHub.GetResource<Effect>("Effects", "Seizure"));
 
 			
 			// See ECDemo to learn how those work.
@@ -46,7 +39,7 @@ namespace Monofoxe.Playground.SceneSystemDemo
 			// Player will not draw lines to these bots, because they are on a different layer.
 			for (var i = 0; i < 10; i += 1)
 			{
-				var bot = CreateFromTemplate(backgroungLayer, "Bot");
+				var bot = new Bot(backgroundLayer);
 				var position = bot.GetComponent<PositionComponent>();
 				position.Position = new Vector2(ECDemoFactory.Random.Next(100, 700), ECDemoFactory.Random.Next(100, 500));
 			}
@@ -54,7 +47,7 @@ namespace Monofoxe.Playground.SceneSystemDemo
 			// Player will draw lines to these bots, because they are on the same layer.
 			for (var i = 0; i < 5; i += 1)
 			{
-				var bot = CreateFromTemplate(mainLayer, "Bot");
+				var bot = new Bot(mainLayer);
 				var position = bot.GetComponent<PositionComponent>();
 				position.Position = new Vector2(ECDemoFactory.Random.Next(100, 700), ECDemoFactory.Random.Next(100, 500));
 			}
@@ -68,7 +61,7 @@ namespace Monofoxe.Playground.SceneSystemDemo
 			if (Input.CheckButtonPress(ToggleVisibilityButton))
 			{
 				// This will turn off Draw events for bot's entity and all of its components.
-				foreach (Entity bot in _testScene["background"].GetEntityListByComponent<BotComponent>())
+				foreach (var bot in _testScene["background"].GetEntityList<Bot>())
 				{
 					bot.Visible = !bot.Visible;
 				}
@@ -77,7 +70,7 @@ namespace Monofoxe.Playground.SceneSystemDemo
 			if (Input.CheckButtonPress(ToggleEnabledButton))
 			{
 				// This will turn off Update events for bot's entity and all of its components.
-				foreach (Entity bot in _testScene["background"].GetEntityListByComponent<BotComponent>())
+				foreach (var bot in _testScene["background"].GetEntityList<Bot>())
 				{
 					bot.Enabled = !bot.Enabled;
 				}

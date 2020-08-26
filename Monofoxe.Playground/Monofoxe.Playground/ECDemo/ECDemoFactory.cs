@@ -24,7 +24,7 @@ namespace Monofoxe.Playground.ECDemo
 			
 			for(var i = 0; i < 20; i += 1)
 			{
-				var bot = Entity.CreateFromTemplate(layer, "Bot");
+				var bot = new Bot(layer);
 				var position = bot.GetComponent<PositionComponent>();
 				position.Position = new Vector2(Random.Next(100, 700), Random.Next(100, 500));
 			}

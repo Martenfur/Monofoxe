@@ -1,13 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine;
+using Monofoxe.Engine.Cameras;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.EC;
 using Monofoxe.Engine.SceneSystem;
-using Monofoxe.Engine.Cameras;
-using Resources.Sprites;
 using Monofoxe.Playground.Interface;
-using Monofoxe.Engine.Resources;
+using System.Diagnostics;
 
 namespace Monofoxe.Playground
 {
@@ -20,6 +19,8 @@ namespace Monofoxe.Playground
 		public static RasterizerState DefaultRasterizer;
 		public static RasterizerState WireframeRasterizer;
 
+		private Stopwatch _stopwatch = new Stopwatch();
+		
 		public GameController() : base(SceneMgr.GetScene("default")["default"])
 		{
 			GameMgr.MaxGameSpeed = 60;
@@ -35,7 +36,7 @@ namespace Monofoxe.Playground
 
 
 			GraphicsMgr.VertexBatch.SamplerState = SamplerState.PointWrap; // Will make textures repeat without interpolation.
-			
+
 			DefaultRasterizer = new RasterizerState();
 			DefaultRasterizer.CullMode = CullMode.CullCounterClockwiseFace;
 			DefaultRasterizer.FillMode = FillMode.Solid;
@@ -47,10 +48,10 @@ namespace Monofoxe.Playground
 			WireframeRasterizer.MultiSampleAntiAlias = false;
 
 			GraphicsMgr.VertexBatch.RasterizerState = DefaultRasterizer;
-			
+
 			_guiLayer = Scene.CreateLayer("gui");
 			_guiLayer.IsGUI = true;
-			
+
 
 			var cameraController = new CameraController(_guiLayer, MainCamera);
 
@@ -60,18 +61,29 @@ namespace Monofoxe.Playground
 			// Enabling applying postprocessing effects to separate layers.
 			// Note that this will create an additional surface.
 			MainCamera.PostprocessingMode = PostprocessingMode.CameraAndLayers;
+
+			SceneMgr.OnPreDraw += OnPreDraw; // You can do the same for individual layers or scenes.
+			SceneMgr.OnPostDraw += OnPostDraw;
 		}
 
-		public override void Update()
+
+		private void OnPreDraw() =>
+			_stopwatch.Start();
+
+		private void OnPostDraw()
 		{
-			base.Update();
+			_stopwatch.Stop();
+			GameMgr.WindowManager.WindowTitle = "Rendering time: " + _stopwatch.Elapsed;
+			_stopwatch.Reset();
 		}
 
 
-		public override void Draw()
+		public override void Destroy()
 		{
-			base.Draw();
-		}
+			base.Destroy();
 
+			SceneMgr.OnPreDraw -= OnPreDraw;
+			SceneMgr.OnPostDraw -= OnPostDraw;
+		}
 	}
 }

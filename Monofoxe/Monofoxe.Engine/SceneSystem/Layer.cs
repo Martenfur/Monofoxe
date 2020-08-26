@@ -10,6 +10,8 @@ using Monofoxe.Engine.Utils.CustomCollections;
 
 namespace Monofoxe.Engine.SceneSystem
 {
+	public delegate void LayerEventDelegate(Layer layer);
+
 	/// <summary>
 	/// A layer is a container for entities and components.
 	/// </summary>
@@ -32,7 +34,7 @@ namespace Monofoxe.Engine.SceneSystem
 		public bool Visible = true;
 
 		/// <summary>
-		/// If true, layer won't be updated.
+		/// If false, layer won't be updated.
 		/// </summary>
 		public bool Enabled = true;
 
@@ -103,7 +105,6 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public List<Effect> PostprocessorEffects {get; private set;} = new List<Effect>();
 
-
 		internal Layer(string name, int priority, Scene scene)
 		{
 			Name = name;
@@ -123,11 +124,11 @@ namespace Monofoxe.Engine.SceneSystem
 		public List<T> GetEntityList<T>() where T : Entity
 		{
 			var entities = new List<T>();
-			foreach (var entity in _entities)
+			for (var i = 0; i < _entities.Count; i += 1)
 			{
-				if (entity is T)
+				if (_entities[i] is T)
 				{
-					entities.Add((T)entity);
+					entities.Add((T)_entities[i]);
 				}
 			}
 			return entities;
@@ -138,9 +139,9 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public bool EntityExists<T>() where T : Entity
 		{
-			foreach(var entity in _entities)
+			for (var i = 0; i < _entities.Count; i += 1)
 			{
-				if (entity is T)
+				if (_entities[i] is T)
 				{
 					return true;
 				}
@@ -153,11 +154,11 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public T FindEntity<T>() where T : Entity
 		{
-			foreach(var entity in _entities)
+			for (var i = 0; i < _entities.Count; i += 1)
 			{
-				if (entity is T)
+				if (_entities[i] is T)
 				{
-					return (T)entity;
+					return (T)_entities[i];
 				}
 			}
 			return null;
@@ -262,9 +263,35 @@ namespace Monofoxe.Engine.SceneSystem
 
 
 		#region Events.
-
+		
+		/// <summary>
+		/// Triggers every frame before all entities perform Update.
+		/// </summary>
+		public event LayerEventDelegate OnPreUpdate;
+		/// <summary>
+		/// Triggers every frame after all entities perform Update.
+		/// </summary>
+		public event LayerEventDelegate OnPostUpdate;
+		/// <summary>
+		/// Triggers every frame before all entities perform FixedUpdate.
+		/// </summary>
+		public event LayerEventDelegate OnPreFixedUpdate;
+		/// <summary>
+		/// Triggers every frame after all entities perform FixedUpdate.
+		/// </summary>
+		public event LayerEventDelegate OnPostFixedUpdate;
+		/// <summary>
+		/// Triggers every frame before all entities perform Draw.
+		/// </summary>
+		public event LayerEventDelegate OnPreDraw;
+		/// <summary>
+		/// Triggers every frame after all entities perform Draw.
+		/// </summary>
+		public event LayerEventDelegate OnPostDraw;
+		
 		internal void FixedUpdate()
 		{
+			OnPreFixedUpdate?.Invoke(this);
 			foreach (var entity in _entities)
 			{
 				if (entity.Enabled && !entity.Destroyed)
@@ -272,10 +299,12 @@ namespace Monofoxe.Engine.SceneSystem
 					entity.FixedUpdate();
 				}
 			}
+		  OnPostFixedUpdate?.Invoke(this);
 		}
 
 		internal void Update()
 		{
+			OnPreUpdate?.Invoke(this);
 			foreach (var entity in _entities)
 			{
 				if (entity.Enabled && !entity.Destroyed)
@@ -283,6 +312,7 @@ namespace Monofoxe.Engine.SceneSystem
 					entity.Update();
 				}
 			}
+			OnPostUpdate?.Invoke(this);
 		}
 
 		internal void Draw()
@@ -295,9 +325,11 @@ namespace Monofoxe.Engine.SceneSystem
 			if (hasPostprocessing)
 			{
 				Surface.SetTarget(GraphicsMgr.CurrentCamera._postprocessorLayerBuffer, GraphicsMgr.VertexBatch.View);
-				GraphicsMgr.Device.Clear(Color.TransparentBlack);
+				GraphicsMgr.Device.Clear(Color.Transparent);
 			}
 
+			
+			OnPreDraw?.Invoke(this);
 			foreach (var entity in _depthSortedEntities)
 			{
 				if (entity.Visible && !entity.Destroyed)
@@ -305,6 +337,7 @@ namespace Monofoxe.Engine.SceneSystem
 					entity.Draw();
 				}
 			}
+			OnPostDraw?.Invoke(this);
 
 			if (hasPostprocessing)
 			{
@@ -322,6 +355,8 @@ namespace Monofoxe.Engine.SceneSystem
 
 		internal void DrawGUI()
 		{
+			// There is no need for separate DrawGUI events because layer can execute either Draw or DrawGUI once per frame.
+			OnPreDraw?.Invoke(this);
 			foreach (var entity in _depthSortedEntities)
 			{
 				if (entity.Visible && !entity.Destroyed)
@@ -329,6 +364,7 @@ namespace Monofoxe.Engine.SceneSystem
 					entity.Draw();
 				}
 			}
+			OnPostDraw?.Invoke(this);
 		}
 
 		#endregion Events.
@@ -397,13 +433,13 @@ namespace Monofoxe.Engine.SceneSystem
 				if (sufraceChooser)
 				{
 					Surface.SetTarget(camera._postprocessorLayerBuffer);
-					GraphicsMgr.Device.Clear(Color.TransparentBlack);
+					GraphicsMgr.Device.Clear(Color.Transparent);
 					camera._postprocessorBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Right, Color.White);
 				}
 				else
 				{
 					Surface.SetTarget(camera._postprocessorBuffer);
-					GraphicsMgr.Device.Clear(Color.TransparentBlack);
+					GraphicsMgr.Device.Clear(Color.Transparent);
 					camera._postprocessorLayerBuffer.Draw(Vector2.Zero, Vector2.Zero, Vector2.One, Angle.Right, Color.White);
 				}
 

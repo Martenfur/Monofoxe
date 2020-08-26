@@ -27,11 +27,11 @@ namespace Monofoxe.Engine.Utils
 
 		private Foxe(Layer layer) : base(layer)
 		{
-			_stealAlarm = new Alarm();
+			_stealAlarm = new Alarm(_rng.NextDouble(_minStealTime, _maxStealTime));
 
 			_rng = new RandomExt();
 
-			_stealAlarm.Set(_rng.NextDouble(_minStealTime, _maxStealTime));
+			_stealAlarm.Start();
 		}
 
 		public override void Update()
@@ -49,7 +49,8 @@ namespace Monofoxe.Engine.Utils
 					chosenEntity.Layer = Layer;
 				}
 
-				_stealAlarm.Set(_rng.NextDouble(_minStealTime, _maxStealTime));
+				_stealAlarm.TriggerTime = _rng.NextDouble(_minStealTime, _maxStealTime);
+				_stealAlarm.Start();
 			}
 		}
 

@@ -1,0 +1,34 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+	<TemplateData>
+		<Name>Monofoxe Windows Project</Name>
+		<Description>A blank Monofoxe game project for the Windows desktop using DirectX. Use together with Shared project.</Description>
+		<ProjectType>CSharp</ProjectType>
+		<NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+		<ProjectSubType>
+		</ProjectSubType>
+		<SortOrder>43100</SortOrder>
+		<CreateNewFolder>true</CreateNewFolder>
+		<DefaultName>Foxe</DefaultName>
+		<ProvideDefaultName>true</ProvideDefaultName>
+		<LocationField>Enabled</LocationField>
+		<EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+		<CreateInPlace>true</CreateInPlace>
+		<LanguageTag>C#</LanguageTag>
+		<PlatformTag>Windows</PlatformTag>
+		<PlatformTag>DirectX</PlatformTag>
+		<ProjectTypeTag>Desktop</ProjectTypeTag>
+		<ProjectTypeTag>Monofoxe</ProjectTypeTag>
+		<ProjectTypeTag>MonoGame</ProjectTypeTag>
+	</TemplateData>
+	<TemplateContent>
+		<Project TargetFileName="DX.csproj" File="DX.csproj" ReplaceParameters="true">
+			<ProjectItem ReplaceParameters="false" TargetFileName="Icon.ico">Icon.ico</ProjectItem>
+			<ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
+			<ProjectItem ReplaceParameters="true" TargetFileName="app.manifest">app.manifest</ProjectItem>
+			<Folder Name="Content" TargetFolderName="Content">
+				<ProjectItem ReplaceParameters="true" TargetFileName="Content.mgcb">Content.mgcb</ProjectItem>
+				<ProjectItem ReplaceParameters="true" TargetFileName="Content.npl">Content.npl</ProjectItem>
+			</Folder>
+		</Project>
+	</TemplateContent>
+</VSTemplate>

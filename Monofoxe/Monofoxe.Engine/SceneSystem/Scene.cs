@@ -9,6 +9,8 @@ using System.Collections.Generic;
 
 namespace Monofoxe.Engine.SceneSystem
 {
+	public delegate void SceneEventDelegate(Scene scene);
+
 	/// <summary>
 	/// Container for layers.
 	/// </summary>
@@ -28,7 +30,7 @@ namespace Monofoxe.Engine.SceneSystem
 		public bool Visible = true;
 
 		/// <summary>
-		/// If true, scene won't be updated.
+		/// If false, scene won't be updated.
 		/// </summary>
 		public bool Enabled = true;
 
@@ -61,9 +63,9 @@ namespace Monofoxe.Engine.SceneSystem
 
 		internal void Destroy()
 		{
-			foreach (var layer in _layers)
+			for (var i = 0; i < _layers.Count; i += 1)
 			{
-				DestroyLayer(layer);
+				DestroyLayer(_layers[i]);
 			}
 			_layers.Clear(); // Also removes newly added layers from the list.
 		}
@@ -125,11 +127,11 @@ namespace Monofoxe.Engine.SceneSystem
 		{
 			get
 			{
-				foreach (var layer in _layers)
+				for (var i = 0; i < _layers.Count; i += 1)
 				{
-					if (string.Equals(layer.Name, name, StringComparison.OrdinalIgnoreCase))
+					if (string.Equals(_layers[i].Name, name, StringComparison.OrdinalIgnoreCase))
 					{
-						return layer;
+						return _layers[i];
 					}
 				}
 				return null;
@@ -141,11 +143,11 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public bool TryGetLayer(string name, out Layer layer)
 		{
-			foreach (var l in _layers)
+			for (var i = 0; i < _layers.Count; i += 1)
 			{
-				if (string.Equals(l.Name, name, StringComparison.OrdinalIgnoreCase))
+				if (string.Equals(_layers[i].Name, name, StringComparison.OrdinalIgnoreCase))
 				{
-					layer = l;
+					layer = _layers[i];
 					return true;
 				}
 			}
@@ -160,9 +162,9 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public bool HasLayer(string name)
 		{
-			foreach (var layer in _layers)
+			for (var i = 0; i < _layers.Count; i += 1)
 			{
-				if (string.Equals(layer.Name, name, StringComparison.OrdinalIgnoreCase))
+				if (string.Equals(_layers[i].Name, name, StringComparison.OrdinalIgnoreCase))
 				{
 					return true;
 				}
@@ -183,9 +185,9 @@ namespace Monofoxe.Engine.SceneSystem
 		{
 			var entities = new List<T>();
 
-			foreach (var layer in _layers)
+			for (var i = 0; i < _layers.Count; i += 1)
 			{
-				entities.AddRange(layer.GetEntityList<T>());
+				entities.AddRange(_layers[i].GetEntityList<T>());
 			}
 			return entities;
 		}
@@ -196,9 +198,9 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public bool EntityExists<T>() where T : Entity
 		{
-			foreach (var layer in _layers)
+			for (var i = 0; i < _layers.Count; i += 1)
 			{
-				if (layer.EntityExists<T>())
+				if (_layers[i].EntityExists<T>())
 				{
 					return true;
 				}
@@ -212,9 +214,9 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public T FindEntity<T>() where T : Entity
 		{
-			foreach (var layer in _layers)
+			for (var i = 0; i < _layers.Count; i += 1)
 			{
-				var entity = layer.FindEntity<T>();
+				var entity = _layers[i].FindEntity<T>();
 				if (entity != null)
 				{
 					return entity;
@@ -230,9 +232,9 @@ namespace Monofoxe.Engine.SceneSystem
 		public List<Entity> GetEntityListByComponent<T>() where T : Component
 		{
 			var list = new List<Entity>();
-			foreach (var layer in _layers)
+			for (var i = 0; i < _layers.Count; i += 1)
 			{
-				list.AddRange(layer.GetEntityListByComponent<T>());
+				list.AddRange(_layers[i].GetEntityListByComponent<T>());
 			}
 			return list;
 		}
@@ -243,9 +245,9 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public Entity FindEntityByComponent<T>() where T : Component
 		{
-			foreach (var layer in _layers)
+			for (var i = 0; i < _layers.Count; i += 1)
 			{
-				var entity = layer.FindEntityByComponent<T>();
+				var entity = _layers[i].FindEntityByComponent<T>();
 				if (entity != null)
 				{
 					return entity;
@@ -262,9 +264,9 @@ namespace Monofoxe.Engine.SceneSystem
 		public List<Component> GetComponentList<T>() where T : Component
 		{
 			var list = new List<Component>();
-			foreach (var layer in _layers)
+			for (var i = 0; i < _layers.Count; i += 1)
 			{
-				list.AddRange(layer.GetComponentList<T>());
+				list.AddRange(_layers[i].GetComponentList<T>());
 			}
 			return list;
 		}
@@ -274,9 +276,44 @@ namespace Monofoxe.Engine.SceneSystem
 
 
 		#region Events.
+		
+		/// <summary>
+		/// Triggers every frame before all layers perform Update.
+		/// </summary>
+		public event SceneEventDelegate OnPreUpdate;
+		/// <summary>
+		/// Triggers every frame after all layers perform Update.
+		/// </summary>
+		public event SceneEventDelegate OnPostUpdate;
+		/// <summary>
+		/// Triggers every frame before all layers perform FixedUpdate.
+		/// </summary>
+		public event SceneEventDelegate OnPreFixedUpdate;
+		/// <summary>
+		/// Triggers every frame after all layers perform FixedUpdate.
+		/// </summary>
+		public event SceneEventDelegate OnPostFixedUpdate;
+		/// <summary>
+		/// Triggers every frame before all non-GUI layers perform Draw.
+		/// </summary>
+		public event SceneEventDelegate OnPreDraw;
+		/// <summary>
+		/// Triggers every frame after all non-GUI layers perform Draw.
+		/// </summary>
+		public event SceneEventDelegate OnPostDraw;
+		/// <summary>
+		/// Triggers every frame before all GUI layers perform Draw.
+		/// </summary>
+		public event SceneEventDelegate OnPreDrawGUI;
+		/// <summary>
+		/// Triggers every frame after all GUI layers perform Draw.
+		/// </summary>
+		public event SceneEventDelegate OnPostDrawGUI;
+
 
 		internal void FixedUpdate()
 		{
+			OnPreFixedUpdate?.Invoke(this);
 			foreach (var layer in _layers)
 			{
 				if (layer.Enabled)
@@ -286,10 +323,12 @@ namespace Monofoxe.Engine.SceneSystem
 					layer.FixedUpdate();
 				}
 			}
+			OnPostFixedUpdate?.Invoke(this);
 		}
 
 		internal void Update()
 		{
+			OnPreUpdate?.Invoke(this);
 			foreach (var layer in _layers)
 			{
 				if (layer.Enabled)
@@ -299,11 +338,13 @@ namespace Monofoxe.Engine.SceneSystem
 					layer.Update();
 				}
 			}
+			OnPostUpdate?.Invoke(this);
 		}
 
 
 		internal void Draw()
 		{
+			OnPreDraw?.Invoke(this);
 			foreach (var layer in _layers)
 			{
 				if (
@@ -317,10 +358,12 @@ namespace Monofoxe.Engine.SceneSystem
 					layer.Draw();
 				}
 			}
+			OnPostDraw?.Invoke(this);
 		}
 
 		internal void DrawGUI()
 		{
+			OnPreDrawGUI?.Invoke(this);
 			foreach (var layer in _layers)
 			{
 				if (layer.Visible && layer.IsGUI)
@@ -330,6 +373,7 @@ namespace Monofoxe.Engine.SceneSystem
 					layer.DrawGUI();
 				}
 			}
+			OnPostDrawGUI?.Invoke(this);
 		}
 
 		#endregion Events.

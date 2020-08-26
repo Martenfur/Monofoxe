@@ -166,7 +166,7 @@ namespace Monofoxe.Engine.EC
 		/// <summary>
 		/// Adds component to the entity.
 		/// </summary>
-		public void AddComponent(Component component)
+		public T AddComponent<T>(T component) where T : Component
 		{
 			if (component.Owner != null)
 			{
@@ -176,9 +176,11 @@ namespace Monofoxe.Engine.EC
 			_componentList.Add(component);
 			component.Owner = this;
 			component.Initialize();
+			component.Initialized = true;
+
+			return component; // Doing a passthrough for nicer syntax.
 		}
-		
-		
+
 
 		/// <summary>
 		/// Returns component of given class.
@@ -255,6 +257,7 @@ namespace Monofoxe.Engine.EC
 		{
 			if (_componentDictionary.TryGetValue(type, out Component component))
 			{
+				component.Destroy();
 				_componentDictionary.Remove(type);
 				_componentList.Remove(component);
 				component.Owner = null;
@@ -265,19 +268,6 @@ namespace Monofoxe.Engine.EC
 		
 		#endregion Components.
 
-
-
-		/// <summary>
-		/// Creates new entity from existing template.
-		/// </summary>
-		public static Entity CreateFromTemplate(Layer layer, string tag)
-		{
-			if (EntityTemplatePool.TemplatePool.TryGetValue(tag, out IEntityTemplate factory))
-			{
-				return factory.Make(layer);
-			}
-			return null;
-		}
 
 
 		/// <summary>

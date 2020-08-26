@@ -14,21 +14,24 @@ namespace Monofoxe.Playground.ECDemo
 		public const Buttons LeftButton = Buttons.A;
 		public const Buttons RightButton = Buttons.D;
 
-		Sprite _playerSprite;
+		private Sprite _playerSprite;
 
 		// The player uses hybrid EC - it's a derived entity with components inside.
 		// You also can ditch components entirely and only use entities. 
 		
-		// I recommend useng hybrid entities in places, where EC is not entirely needed.
-		// For example, if you know that this entity's code will not be reused anywhere else.
+		// I recommend using hybrid entities in places,
+		// where you know that this entity's code will not be reused anywhere else.
+
+		private ActorComponent _actor;
+		private PositionComponent _position;
 
 		public Player(Layer layer, Vector2 position) : base(layer)
 		{
 			_playerSprite = ResourceHub.GetResource<Sprite>("DefaultSprites", "Player");
 			
 			// You can add components right in the constructor.
-			AddComponent(new PositionComponent(position));
-			AddComponent(new ActorComponent(_playerSprite));
+			_position = AddComponent(new PositionComponent(position));
+			_actor = AddComponent(new ActorComponent(_playerSprite));
 		}
 
 		public override void FixedUpdate()
@@ -46,24 +49,22 @@ namespace Monofoxe.Playground.ECDemo
 				Input.CheckButton(DownButton).ToInt() - Input.CheckButton(UpButton).ToInt()
 			);
 
-			// Telling our actor component to move in a specific direction.
-			var actor = GetComponent<ActorComponent>();	
-			actor.Move = movement != Vector2.Zero;
-			actor.Direction = movement.ToAngle();
+			// Telling our actor component to move in a specific direction.	
+			_actor.Move = movement != Vector2.Zero;
+			_actor.Direction = movement.ToAngle();
 		}
 
 		public override void Draw()
 		{
 			base.Draw();
 
-			var position = GetComponent<PositionComponent>();
 
 			// Layers and scenes have methods for searching entities/components.
-			foreach(BotComponent bot in Layer.GetComponentList<BotComponent>())
+			foreach(var bot in Layer.GetEntityList<Bot>())
 			{
-				var botPosition = bot.Owner.GetComponent<PositionComponent>();
+				var botPosition = bot.GetComponent<PositionComponent>();
 
-				LineShape.Draw(position.Position, botPosition.Position, Color.Transparent, Color.White * 0.2f);
+				LineShape.Draw(_position.Position, botPosition.Position, Color.Transparent, Color.White * 0.2f);
 			}
 			
 		}

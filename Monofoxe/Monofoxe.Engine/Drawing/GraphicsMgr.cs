@@ -143,8 +143,6 @@ namespace Monofoxe.Engine.Drawing
 						camera.ConstructProjectionMatrix()
 					);
 					
-					Input.MousePosition = camera.GetRelativeMousePosition();
-					
 					if (camera.ClearBackground)
 					{
 						Device.Clear(camera.BackgroundColor);
@@ -172,7 +170,6 @@ namespace Monofoxe.Engine.Drawing
 				)
 			);
 			VertexBatch.PushViewMatrix(CanvasMatrix);
-			Input.MousePosition = Input.ScreenMousePosition;
 			// Resetting camera, transform matrix and mouse position
 
 
@@ -180,7 +177,7 @@ namespace Monofoxe.Engine.Drawing
 			var oldEffect = VertexBatch.Effect;
 			VertexBatch.Effect = null;
 
-			Device.Clear(Color.TransparentBlack);
+			Device.Clear(Color.Transparent);
 			
 			// We don't need in-game rasterizer to apply to camera surfaces.
 			var oldRasterizerState = VertexBatch.RasterizerState;

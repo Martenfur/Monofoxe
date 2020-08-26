@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,6 +14,7 @@ namespace Monofoxe.Engine.ContentReaders
 	/// </summary>
 	internal class SpriteGroupReader : ContentTypeReader<Dictionary<string, Sprite>>
 	{
+
 		protected override Dictionary<string, Sprite> Read(ContentReader input, Dictionary<string, Sprite> existingInstance)
 		{
 			var texturesCount = input.ReadInt32();
@@ -21,7 +24,19 @@ namespace Monofoxe.Engine.ContentReaders
 			// Reading textures.
 			for(var i = 0; i < texturesCount; i += 1)
 			{
-				textures[i] = input.ReadObject<Texture2D>();
+				var w = input.ReadInt32();
+				var h = input.ReadInt32();
+				var texture = new Texture2D(GameMgr.Game.GraphicsDevice, w, h, false, SurfaceFormat.Color);
+			
+				var pixels = new Color[w * h];
+
+				for(var k = 0; k < pixels.Length; k += 1)
+				{ 
+					pixels[k] = input.ReadColor();
+				}
+				texture.SetData(pixels);
+
+				textures[i] = texture;
 			}
 			
 			Debug.WriteLine(input.AssetName + ": " + textures.Length + " textures loaded!");

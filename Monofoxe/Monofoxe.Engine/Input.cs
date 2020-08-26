@@ -11,26 +11,20 @@ namespace Monofoxe.Engine
 	public static class Input
 	{
 		#region Mouse.
-	
+
 		/// <summary>
 		/// Cursor position on screen.
 		/// </summary>
-		public static Vector2 ScreenMousePosition {get; private set;} = Vector2.Zero;
-		
-		/// <summary>
-		/// Cursor position in the world. Depends on current camera.
-		/// </summary>
-		public static Vector2 MousePosition {get; internal set;} = Vector2.Zero;
+		public static Vector2 ScreenMousePosition { get; private set; } = Vector2.Zero;
 
+		private static List<Buttons> _mouseButtons = new List<Buttons>();
+		private static List<Buttons> _oldMouseButtons = new List<Buttons>();
 
-		private static List<Buttons> _mouseButtons = new List<Buttons>(),
-			_previousMouseButtons = new List<Buttons>();
-		
 
 		/// <summary>
 		/// Scrollwheel value. Can be -1, 0 or 1.
 		/// </summary>
-		public static int MouseWheelValue {get; private set;}
+		public static int MouseWheelValue { get; private set; }
 		private static int _mouseWheelAdditionPrev;
 
 		#endregion Mouse.
@@ -41,30 +35,30 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Stores all chars typed in previous step.  
 		/// </summary>
-		public static string KeyboardString {get; private set;}
-		
+		public static string KeyboardString { get; private set; }
+
 		/// <summary>
 		/// Stores last pressed key in current step. If no keys were pressed, resets to Keys.None.
 		/// </summary>
-		public static Keys KeyboardKey {get; private set;} = Keys.None;
+		public static Keys KeyboardKey { get; private set; } = Keys.None;
 
 		/// <summary>
 		/// Stores last pressed key. Doesn't reset.
 		/// </summary>
-		public static Keys KeyboardLastKey {get; private set;} = Keys.None;
+		public static Keys KeyboardLastKey { get; private set; } = Keys.None;
 
 		/// <summary>
 		/// Stores last typed char. Doesn't reset.
 		/// </summary>
-		public static char KeyboardLastChar {get; private set;} = ' ';
+		public static char KeyboardLastChar { get; private set; } = ' ';
 
 		private static StringBuilder _keyboardBuffer = new StringBuilder();
-		private static Keys _keyboardLastKeyBuffer = Keys.None;		
+		private static Keys _keyboardLastKeyBuffer = Keys.None;
 		private static List<Keys> _currentKeys = new List<Keys>();
-		private static List<Keys> _previousKeys = new List<Keys>();
+		private static List<Keys> _oldKeys = new List<Keys>();
 
 		#endregion Keyboard.
-		
+
 
 		#region Gamepad.
 
@@ -72,7 +66,7 @@ namespace Monofoxe.Engine
 		/// If pressure value is below deadzone, GamepadCheck() won't detect trigger press.
 		/// </summary>
 		public static double GamepadTriggersDeadzone = 0.5;
-		
+
 		/// <summary>
 		/// Type of stick deadzone.
 		/// </summary>
@@ -94,14 +88,14 @@ namespace Monofoxe.Engine
 			}
 		}
 
-		private static List<Buttons>[] _gamepadButtons = new List<Buttons>[_maxGamepadCount], 
-			_previousGamepadButtons = new List<Buttons>[_maxGamepadCount];
+		private static List<Buttons>[] _gamepadButtons = new List<Buttons>[_maxGamepadCount];
+		private static List<Buttons>[] _oldGamepadButtons = new List<Buttons>[_maxGamepadCount];
 
-		private static GamePadState[] _gamepadState = new GamePadState[_maxGamepadCount],
-			_previousGamepadState = new GamePadState[_maxGamepadCount];
+		private static GamePadState[] _gamepadState = new GamePadState[_maxGamepadCount];
+		private static GamePadState[] _oldGamepadState = new GamePadState[_maxGamepadCount];
 
 		#endregion Gamepad.
-		
+
 
 		private const int _keyboardMaxCode = 1000;
 		private const int _mouseMaxCode = 2000;
@@ -120,14 +114,14 @@ namespace Monofoxe.Engine
 			#region Mouse.
 
 			MouseState mouseState = Mouse.GetState();
-			
+
 			var m = Matrix.Invert(GraphicsMgr.CanvasMatrix);
 			var buffer = Vector3.Transform(new Vector3(mouseState.X, mouseState.Y, 0), m);
 			ScreenMousePosition = new Vector2(buffer.X, buffer.Y);
-			
-			_previousMouseButtons = _mouseButtons;
+
+			_oldMouseButtons = _mouseButtons;
 			_mouseButtons = new List<Buttons>();
-			
+
 			if (mouseState.LeftButton == ButtonState.Pressed)
 			{
 				_mouseButtons.Add(Buttons.MouseLeft);
@@ -148,7 +142,7 @@ namespace Monofoxe.Engine
 			sign of scroll value delta (raw delta has some big weird value and depends on fps).
 			Thank you, XNA devs. You've made me write even more code! ^0^
 			*/
-			MouseWheelValue = Math.Sign(_mouseWheelAdditionPrev - mouseState.ScrollWheelValue);
+			MouseWheelValue = _mouseWheelAdditionPrev - mouseState.ScrollWheelValue;
 			_mouseWheelAdditionPrev = mouseState.ScrollWheelValue;
 
 			#endregion Mouse.
@@ -167,11 +161,11 @@ namespace Monofoxe.Engine
 
 			KeyboardLastKey = _keyboardLastKeyBuffer;
 
-			_previousKeys.Clear();
-			_previousKeys.AddRange(_currentKeys);
+			_oldKeys.Clear();
+			_oldKeys.AddRange(_currentKeys);
 			_currentKeys.Clear();
 			_currentKeys.AddRange(Keyboard.GetState().GetPressedKeys());
-			
+
 			if (_currentKeys.Count > 0)
 			{
 				KeyboardKey = _currentKeys[_currentKeys.Count - 1];
@@ -184,18 +178,18 @@ namespace Monofoxe.Engine
 			#endregion Keyboard.
 
 
-			
+
 			#region Gamepad.
 
-			for(var i = 0; i < MaxGamepadCount; i += 1)
+			for (var i = 0; i < MaxGamepadCount; i += 1)
 			{
-				_previousGamepadState[i] = _gamepadState[i];
-				 
-				_gamepadState[i] = GamePad.GetState(i,GamepadDeadzoneType);
+				_oldGamepadState[i] = _gamepadState[i];
 
-				_previousGamepadButtons[i] = _gamepadButtons[i];
+				_gamepadState[i] = GamePad.GetState(i, GamepadDeadzoneType);
+
+				_oldGamepadButtons[i] = _gamepadButtons[i];
 				_gamepadButtons[i] = new List<Buttons>();
-			
+
 				// AW YISS
 
 				if (_gamepadState[i].DPad.Left == ButtonState.Pressed)
@@ -214,7 +208,7 @@ namespace Monofoxe.Engine
 				{
 					_gamepadButtons[i].Add(Buttons.GamepadDown);
 				}
-	
+
 				if (_gamepadState[i].Buttons.A == ButtonState.Pressed)
 				{
 					_gamepadButtons[i].Add(Buttons.GamepadA);
@@ -231,7 +225,7 @@ namespace Monofoxe.Engine
 				{
 					_gamepadButtons[i].Add(Buttons.GamepadY);
 				}
-	
+
 				if (_gamepadState[i].Buttons.LeftShoulder == ButtonState.Pressed)
 				{
 					_gamepadButtons[i].Add(Buttons.GamepadLB);
@@ -240,7 +234,7 @@ namespace Monofoxe.Engine
 				{
 					_gamepadButtons[i].Add(Buttons.GamepadRB);
 				}
-				
+
 				if (_gamepadState[i].Triggers.Left > GamepadTriggersDeadzone)
 				{
 					_gamepadButtons[i].Add(Buttons.GamepadLT);
@@ -270,7 +264,7 @@ namespace Monofoxe.Engine
 			}
 
 			#endregion Gamepad.
-			
+
 		}
 
 
@@ -285,12 +279,9 @@ namespace Monofoxe.Engine
 		{
 			var buttonCode = (int)button;
 
-			var result = 
-				index < _gamepadButtons.Length   && !_gamepadCleared  && _gamepadButtons[0].Contains(button)
+			return index < _gamepadButtons.Length && !_gamepadCleared && _gamepadButtons[index].Contains(button)
 				|| buttonCode < _keyboardMaxCode && !_keyboardCleared && _currentKeys.Contains((Keys)button)
-				|| buttonCode < _mouseMaxCode    && !_mouseCleared    && _mouseButtons.Contains(button);
-			
-			return result;
+				|| buttonCode < _mouseMaxCode && !_mouseCleared && _mouseButtons.Contains(button);
 		}
 
 
@@ -303,12 +294,9 @@ namespace Monofoxe.Engine
 		{
 			var buttonCode = (int)button;
 
-			var result = 
-				index < _gamepadButtons.Length   && !_gamepadCleared  && _gamepadButtons[0].Contains(button) && _previousGamepadButtons[0].Contains(button)
-				|| buttonCode < _keyboardMaxCode && !_keyboardCleared && _currentKeys.Contains((Keys)button) && !_previousKeys.Contains((Keys)button)
-				|| buttonCode < _mouseMaxCode    && !_mouseCleared    && _mouseButtons.Contains(button)      && !_previousMouseButtons.Contains(button);
-			
-			return result;
+			return index < _gamepadButtons.Length && !_gamepadCleared && _gamepadButtons[index].Contains(button) && !_oldGamepadButtons[index].Contains(button)
+				|| buttonCode < _keyboardMaxCode && !_keyboardCleared && _currentKeys.Contains((Keys)button) && !_oldKeys.Contains((Keys)button)
+				|| buttonCode < _mouseMaxCode && !_mouseCleared && _mouseButtons.Contains(button) && !_oldMouseButtons.Contains(button);
 		}
 
 
@@ -321,16 +309,13 @@ namespace Monofoxe.Engine
 		{
 			var buttonCode = (int)button;
 
-			var result = 
-				index < _gamepadButtons.Length   && !_gamepadCleared  && !_gamepadButtons[0].Contains(button) && _previousGamepadButtons[0].Contains(button)
-				|| buttonCode < _keyboardMaxCode && !_keyboardCleared && !_currentKeys.Contains((Keys)button) && _previousKeys.Contains((Keys)button)
-				|| buttonCode < _mouseMaxCode    && !_mouseCleared    && !_mouseButtons.Contains(button)      && _previousMouseButtons.Contains(button);
-			
-			return result;
+			return index < _gamepadButtons.Length && !_gamepadCleared && !_gamepadButtons[index].Contains(button) && _oldGamepadButtons[index].Contains(button)
+				|| buttonCode < _keyboardMaxCode && !_keyboardCleared && !_currentKeys.Contains((Keys)button) && _oldKeys.Contains((Keys)button)
+				|| buttonCode < _mouseMaxCode && !_mouseCleared && !_mouseButtons.Contains(button) && _oldMouseButtons.Contains(button);
 		}
 
 		#endregion Button checks.
-		
+
 
 
 		#region Mouse.
@@ -340,7 +325,7 @@ namespace Monofoxe.Engine
 		/// </summary>
 		public static void ClearMouseInput() =>
 			_mouseCleared = true;
-		
+
 		#endregion Mouse.
 
 
@@ -350,22 +335,22 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Checks if any keyboard key in down in current step.
 		/// </summary>
-		public static bool KeyboardCheckAnyKey() => 
+		public static bool KeyboardCheckAnyKey() =>
 			!_keyboardCleared && _currentKeys.Count > 0;
-		
+
 
 		/// <summary>
 		/// Checks if any keyboard key in pressed.
 		/// </summary>
-		public static bool KeyboardCheckAnyKeyPress() => 
-			!_keyboardCleared && _currentKeys.Count > 0 && _previousKeys.Count == 0;
+		public static bool KeyboardCheckAnyKeyPress() =>
+			!_keyboardCleared && _currentKeys.Count > 0 && _oldKeys.Count == 0;
 
 
 		/// <summary>
 		/// Checks if any keyboard key in released.
 		/// </summary>
-		public static bool KeyboardCheckAnyKeyRelease() => 
-			!_keyboardCleared && _currentKeys.Count == 0 && _previousKeys.Count > 0;
+		public static bool KeyboardCheckAnyKeyRelease() =>
+			!_keyboardCleared && _currentKeys.Count == 0 && _oldKeys.Count > 0;
 
 
 		/// <summary>
@@ -396,18 +381,22 @@ namespace Monofoxe.Engine
 		{
 			// Creating a bunch of dummy objects just to get rid of null ref exception.
 			_gamepadButtons = new List<Buttons>[_maxGamepadCount];
-			for(var i = 0; i < _gamepadButtons.Length; i += 1)
+			for (var i = 0; i < _gamepadButtons.Length; i += 1)
 			{
 				_gamepadButtons[i] = new List<Buttons>();
 			}
-			_previousGamepadButtons = _gamepadButtons;
+			_oldGamepadButtons = new List<Buttons>[_maxGamepadCount];
+			for (var i = 0; i < _oldGamepadButtons.Length; i += 1)
+			{
+				_oldGamepadButtons[i] = new List<Buttons>();
+			}
 
 			_gamepadState = new GamePadState[_maxGamepadCount];
-			for(var i = 0; i < _gamepadState.Length; i += 1)
+			for (var i = 0; i < _gamepadState.Length; i += 1)
 			{
 				_gamepadState[i] = new GamePadState();
 			}
-			_previousGamepadState = _gamepadState;			
+			_oldGamepadState = _gamepadState;
 		}
 
 
@@ -436,7 +425,7 @@ namespace Monofoxe.Engine
 			return Vector2.Zero;
 		}
 
-		
+
 		/// <summary>
 		/// Returns vector of right thumb stick.
 		/// </summary>
@@ -449,7 +438,7 @@ namespace Monofoxe.Engine
 			return Vector2.Zero;
 		}
 
-		
+
 		/// <summary>
 		/// Returns value of pressure on left trigger.
 		/// NOTE: If you don't need exact pressure value, use GamepadCheck* functions.
@@ -480,18 +469,18 @@ namespace Monofoxe.Engine
 		/// <summary>
 		/// Sets vibration to the given gamepad.
 		/// </summary>
-		public static void GamepadSetVibration(int index, float leftMotor, float rightMotor) => 
+		public static void GamepadSetVibration(int index, float leftMotor, float rightMotor) =>
 			GamePad.SetVibration(index, leftMotor, rightMotor);
-		
+
 		/// <summary>
 		/// Clears gamepad input, including triggers and thumb sticks.
 		/// </summary>
 		public static void ClearGamepadInput() =>
 			_gamepadCleared = true;
-		
+
 		#endregion Gamepad.
 
-		
+
 
 		/// <summary>
 		/// Clears mouse, keyboard and gamepad input.
