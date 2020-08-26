@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Monofoxe.Engine.DesktopGl
+namespace Monofoxe.Engine.DesktopGL
 {
 	public static class MonofoxePlatform
 	{
@@ -26,6 +26,7 @@ namespace Monofoxe.Engine.DesktopGl
 			GameMgr.CurrentGraphicsBackend = GraphicsBackend.OpenGL;
 
 			StuffResolver.AddStuffAs<IAlphaBlendEffectLoader>(new AlphaBlendEffectLoaderDesktopGl());
+			StuffResolver.AddStuffAs<ITextInputBinder>(new TextInputBinderDesktopGL());
 		}
 	}
 }

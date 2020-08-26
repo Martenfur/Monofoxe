@@ -8,6 +8,7 @@
 			GameMgr.CurrentGraphicsBackend = GraphicsBackend.DirectX;
 
 			StuffResolver.AddStuffAs<IAlphaBlendEffectLoader>(new AlphaBlendEffectLoaderWindowsDX());
+			StuffResolver.AddStuffAs<ITextInputBinder>(new TextInputBinderWindowsDX());
 		}
 	}
 }

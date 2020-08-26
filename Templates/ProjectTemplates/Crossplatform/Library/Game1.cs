@@ -20,11 +20,10 @@ namespace $safeprojectname$
 			Content.RootDirectory = ResourceInfoMgr.ContentDir;
 			GameMgr.Init(this);
 			
-#if !ANDROID
-			Window.TextInput += Input.TextInput;
-#else
-			GameMgr.WindowManager.SetFullScreen(true); // Has to be exactly here, apparently.
-#endif
+			if (GameMgr.CurrentPlatform == Platform.Android)
+			{
+				GameMgr.WindowManager.SetFullScreen(true); // Has to be exactly here, apparently.
+			}
 
 		}
 

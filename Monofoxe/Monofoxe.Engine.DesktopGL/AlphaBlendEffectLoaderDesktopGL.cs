@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Monofoxe.Engine.DesktopGl
+namespace Monofoxe.Engine.DesktopGL
 {
 	public class AlphaBlendEffectLoaderDesktopGl: AlphaBlendEffectLoader
 	{
