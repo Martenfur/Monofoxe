@@ -20,15 +20,4 @@
 		</PackageReference>
 	</ItemGroup>
 
-	<ItemGroup>
-		<None Include="..\..\LICENSE.md">
-			<Pack>True</Pack>
-			<PackagePath></PackagePath>
-		</None>
-		<None Include="..\..\logo\logo_nolabel_transparent.png">
-			<Pack>True</Pack>
-			<PackagePath></PackagePath>
-		</None>
-	</ItemGroup>
-
 </Project>
