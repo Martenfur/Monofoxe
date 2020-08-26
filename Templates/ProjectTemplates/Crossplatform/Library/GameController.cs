@@ -12,7 +12,7 @@ namespace $safeprojectname$
 	public class GameController : Entity
 	{
 		public Camera2D Camera = new Camera2D(800, 600);
-		Sprite _monofoxe;
+		private Sprite _monofoxe;
 
 		public GameController() : base(SceneMgr.GetScene("default")["default"])
 		{
