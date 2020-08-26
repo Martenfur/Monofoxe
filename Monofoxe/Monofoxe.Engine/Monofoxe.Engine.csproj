@@ -3,14 +3,6 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<Version>$(MonofoxeVersion)</Version>
-		<Authors>Martenfur</Authors>
-		<Company>Chai Foxes</Company>
-		<Product>Monofoxe Engine</Product>
-		<Description>A Monogame-based game engine with extremely high fox concenration.</Description>
-		<PackageProjectUrl>https://github.com/Martenfur/Monofoxe/</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/Martenfur/Monofoxe/</RepositoryUrl>
-		<Copyright></Copyright>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<OutputPath>..\bin\$(Configuration)\</OutputPath>
 		<DocumentationFile>..\bin\$(Configuration)\$(AssemblyName).xml</DocumentationFile>
@@ -21,6 +13,10 @@
 	<ItemGroup>
 		<PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.*">
 			<PrivateAssets>All</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
 	</ItemGroup>
 

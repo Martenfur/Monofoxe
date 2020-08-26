@@ -1,0 +1,11 @@
+<Project>
+	<PropertyGroup>
+		<Version>$(MonofoxeVersion)</Version>
+		<Authors>Martenfur</Authors>
+		<Company>Chai Foxes</Company>
+		<Product>Monofoxe Engine</Product>
+		<Description>A Monogame-based game engine with extremely high fox concenration.</Description>
+		<PackageProjectUrl>https://github.com/Martenfur/Monofoxe/</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Martenfur/Monofoxe/</RepositoryUrl>
+	</PropertyGroup>
+</Project>

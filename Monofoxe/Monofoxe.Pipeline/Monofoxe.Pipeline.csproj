@@ -3,7 +3,6 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>$(MonofoxeVersion)</Version>
 		<OutputPath>..\bin\$(Configuration)\</OutputPath>
 		<NoWarn>NU5100</NoWarn>
 	</PropertyGroup>

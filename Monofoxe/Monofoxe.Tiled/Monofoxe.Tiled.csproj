@@ -3,14 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<Version>$(MonofoxeVersion)</Version>
-		<Authors>Martenfur</Authors>
-		<Company>Chai Foxes</Company>
-		<Product>Monofoxe Tiled</Product>
 		<Description>Tiled Map Editor integration for Monofoxe.</Description>
-		<PackageProjectUrl>https://github.com/Martenfur/Monofoxe/</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/Martenfur/Monofoxe/</RepositoryUrl>
-		<Copyright></Copyright>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<OutputPath>..\bin\$(Configuration)\</OutputPath>

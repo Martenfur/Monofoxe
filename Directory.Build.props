@@ -1,3 +1,4 @@
 <Project>
 	<Import Project="Packages.props" />
+	<Import Project="Nuget.props" />
 </Project>
