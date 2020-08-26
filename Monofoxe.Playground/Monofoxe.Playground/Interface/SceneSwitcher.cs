@@ -20,7 +20,6 @@ namespace Monofoxe.Playground.Interface
 	{
 		public List<SceneFactory> Factories = new List<SceneFactory>
 		{
-			new VertexBatchTestFactory(),
 			new ShapeDemoFactory(),
 			new PrimitiveDemoFactory(),
 			new SpriteDemoFactory(),
@@ -29,6 +28,7 @@ namespace Monofoxe.Playground.Interface
 			new SceneSystemDemoFactory(),
 			new UtilsDemoFactory(),
 			new TiledDemoFactory(),
+			new VertexBatchTestFactory(),
 		};
 
 		public int CurrentSceneID {get; private set;} = 0;

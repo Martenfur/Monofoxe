@@ -1,6 +1,5 @@
-﻿using Monofoxe.Engine.DesktopGl;
+﻿using Monofoxe.Engine.DesktopGL;
 using System;
-
 
 namespace Monofoxe.Playground.DesktopGL
 {
