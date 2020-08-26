@@ -7,5 +7,11 @@
 		<Description>A Monogame-based game engine with extremely high fox concenration.</Description>
 		<PackageProjectUrl>https://github.com/Martenfur/Monofoxe/</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/Martenfur/Monofoxe/</RepositoryUrl>
+		<PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
+		<PackageIcon>logo_nolabel_transparent.png</PackageIcon>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="$(MSBuildThisFileDirectory)\logo\logo_nolabel_transparent.png" Pack="true" PackagePath="\" />
+	</ItemGroup>
 </Project>
