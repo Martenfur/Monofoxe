@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [v2.0.0] - *27.08.2020*
+
 ### Added:
 
 - Added `Rotate` method for `Vector2`.
@@ -17,16 +19,16 @@
 
 ### Changed:
 
+- **BREAKING CHANGE:** Monogame version has been updated to 3.8.
+- Pipefoxe now supports netstandard2.0 and is fully crossplatform.
+- Renamed Pipefoxe to Monofoxe.Pipeline.
 - **BREAKING CHANGE:** `Input.ScrollWheelValue` now returns signed scroll speed value instead of only its sign.
 - **BREAKING CHANGE:** Reworked `Alarm` class and merged it with `AutoAlarm` and `Timer`.
 - Changed `IDrawable` interface to `Drawable` class.
 - `Entity.AddComponent` now returns the component class which was passed into it.
 - **BREAKING CHANGE:** `AssetInfo` has been renamed to `ResourceInfo`
 - **BREAKING CHANGE:** `ResourceInfoImporter` now imports `.npl` Content file instead of `.mgcb`.
-- **BREAKING CHANGE:** Monogame version has been updated to 3.8.
-- Pipefoxe now supports netstandard2.0 and is fully crossplatform.
 - Removed dependency on Windows-only `System.Drawing` for Monofoxe.Pipeline. 
-- Renamed Pipefoxe to Monofoxe.Pipeline.
 - Changed the crossplatform project structure.
 - **BREAKING CHANGE:** `AlphaBlend.fx` is now baked into the library and doesn't have to be manually put into the Content directory.
 - Replaced offset_x/y with originX/Y in sprite jsons.
