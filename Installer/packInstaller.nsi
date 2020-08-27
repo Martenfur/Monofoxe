@@ -3,8 +3,8 @@
 
 
 !define APPNAME "Monofoxe"
-!define APPVERSION "v2-dev"
-!define INSTALLERVERSION "2.0.0.0-dev"
+!define APPVERSION "v2"
+!define INSTALLERVERSION "2.0.0.0"
 
 !define MUI_ICON "pics\icon.ico"
 !define MUI_UNICON "pics\icon.ico"
@@ -68,11 +68,18 @@ Section "Visual Studio 2019 Templates/" VS2019
 SectionEnd
 
 !define OldMonofoxeInstallationDir '$PROGRAMFILES\Monofoxe\'
+!define OldMonofoxeInstallationDirV2 '$PROGRAMFILES\Monofoxe Engine\'
 Section "Remove old versions." RemoveOldVersions
+  RMDir /r "$DOCUMENTS\Visual Studio 2015\Templates\ProjectTemplates\Visual C#\Monofoxe"
   RMDir /r "$DOCUMENTS\Visual Studio 2017\Templates\ProjectTemplates\Visual C#\Monofoxe"
   RMDir /r "$DOCUMENTS\Visual Studio 2019\Templates\ProjectTemplates\Visual C#\Monofoxe"
+	RMDir /r "$DOCUMENTS\Visual Studio 2015\Templates\ProjectTemplates\Visual C#\Monofoxe v2-dev"
+	RMDir /r "$DOCUMENTS\Visual Studio 2017\Templates\ProjectTemplates\Visual C#\Monofoxe v2-dev"
+  RMDir /r "$DOCUMENTS\Visual Studio 2019\Templates\ProjectTemplates\Visual C#\Monofoxe v2-dev"
+	
   Delete "${OldMonofoxeInstallationDir}\Uninstall.exe"
   RMDir /r "${OldMonofoxeInstallationDir}"
+	RMDir /r "${OldMonofoxeInstallationDirV2}"
 SectionEnd
 
 ; Stuff to install.

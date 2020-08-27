@@ -81,5 +81,3 @@ if (!$debug)
 	Remove-Item "$destProjectTemplatesDir" -Force -Recurse
 	Remove-Item "$destItemTemplatesDir" -Force -Recurse
 }
-
-Read-Host -Prompt "Done! Press Enter to exit"
