@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Xml;
-
 using Microsoft.Xna.Framework;
-
 using Monofoxe.Tiled.MapStructure;
 
 namespace Monofoxe.Pipeline.Tiled
@@ -30,7 +28,7 @@ namespace Monofoxe.Pipeline.Tiled
 
 			if (mapAttributes["backgroundcolor"] != null)
 			{
-				map.BackgroundColor = HtmlHexToColor(mapAttributes["backgroundcolor"].Value);
+				map.BackgroundColor = XmlHelper.StringToColor(mapAttributes["backgroundcolor"].Value);
 			}
 			
 			Enum.TryParse(mapAttributes["renderorder"].Value.Replace("-", ""), true, out map.RenderOrder);
@@ -55,22 +53,6 @@ namespace Monofoxe.Pipeline.Tiled
 			// Tilesets and layers.
 
 			return map;
-		}
-
-		private static Color HtmlHexToColor(string hex)
-		{
-			bool withAlpha = hex.Length > 7;
-			int length = withAlpha ? 4 : 3;
-			int[] channelvalues = new int[length];
-
-			char[] split = hex.TrimStart('#').ToCharArray();
-
-			for (int i = 0; i < channelvalues.Length; i++)
-			{
-				channelvalues[i] = int.Parse($"{split[i*2]}{split[(i*2)+1]}", System.Globalization.NumberStyles.HexNumber);
-			}
-
-			return Color.FromNonPremultiplied(channelvalues[0], channelvalues[1], channelvalues[2], (withAlpha ? channelvalues[3] : 255));
 		}
 	}
 }
