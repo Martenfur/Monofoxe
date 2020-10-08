@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+### Added
+- Added support for the `backgroundcolor` property for Tiled maps.
+
 ## [v2.0.0] - *27.08.2020*
 
 ### Added:
