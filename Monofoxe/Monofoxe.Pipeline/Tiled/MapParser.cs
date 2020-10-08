@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Xml;
+
+using Microsoft.Xna.Framework;
+
 using Monofoxe.Tiled.MapStructure;
 
 namespace Monofoxe.Pipeline.Tiled
@@ -24,6 +27,11 @@ namespace Monofoxe.Pipeline.Tiled
 			map.Height = int.Parse(mapAttributes["height"].Value);
 			map.TileWidth = int.Parse(mapAttributes["tilewidth"].Value);
 			map.TileHeight = int.Parse(mapAttributes["tileheight"].Value);
+
+			if (mapAttributes["backgroundcolor"] != null)
+			{
+				map.BackgroundColor = HtmlHexToColor(mapAttributes["backgroundcolor"].Value);
+			}
 			
 			Enum.TryParse(mapAttributes["renderorder"].Value.Replace("-", ""), true, out map.RenderOrder);
 			Enum.TryParse(mapAttributes["orientation"].Value, true, out map.Orientation);
@@ -36,7 +44,7 @@ namespace Monofoxe.Pipeline.Tiled
 			{
 				Enum.TryParse(mapAttributes["staggerindex"].Value, true, out map.StaggerIndex);
 			}
-
+			
 			map.HexSideLength = XmlHelper.GetXmlIntSafe(mapXml, "hexsidelength");
 			// Properties.
 			
@@ -47,6 +55,22 @@ namespace Monofoxe.Pipeline.Tiled
 			// Tilesets and layers.
 
 			return map;
+		}
+
+		private static Color HtmlHexToColor(string hex)
+		{
+			bool withAlpha = hex.Length > 7;
+			int length = withAlpha ? 4 : 3;
+			int[] channelvalues = new int[length];
+
+			char[] split = hex.TrimStart('#').ToCharArray();
+
+			for (int i = 0; i < channelvalues.Length; i++)
+			{
+				channelvalues[i] = int.Parse($"{split[i*2]}{split[(i*2)+1]}", System.Globalization.NumberStyles.HexNumber);
+			}
+
+			return Color.FromNonPremultiplied(channelvalues[0], channelvalues[1], channelvalues[2], (withAlpha ? channelvalues[3] : 255));
 		}
 	}
 }
