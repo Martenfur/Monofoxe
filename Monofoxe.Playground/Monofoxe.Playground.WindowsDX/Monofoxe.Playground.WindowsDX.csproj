@@ -16,7 +16,7 @@
 	<ItemGroup>
 		<PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.0.1641" />
 		<PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
-		<PackageReference Include="Nopipeline.Task" Version="2.0.1" />
+		<PackageReference Include="Nopipeline.Task" Version="2.1.2" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Monofoxe\Monofoxe.Engine.WindowsDX\Monofoxe.Engine.WindowsDX.csproj" />
