@@ -56,7 +56,7 @@ component.Owner.GetComponent<CTest>();
 
  
 
-## [<< Introduction to EC](IntroductionToEC.md)	|	[Layers >>](Layers.md)
+## [<< Introduction to EC](IntroductionToEC.md)	|	[Layers >>](../SceneSystem/Layers.md)
 
 [<<< Contents](../Contents.md)
 
