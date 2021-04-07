@@ -3,7 +3,12 @@
 ## [Unreleased]
 
 ### Added
+
 - Added support for the `backgroundcolor` property for Tiled maps.
+
+### Fixed:
+
+- Fixed `Scene` not being able to delete its layers properly.
 
 ## [v2.0.0] - *27.08.2020*
 

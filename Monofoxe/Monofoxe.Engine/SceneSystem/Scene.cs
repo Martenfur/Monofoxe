@@ -106,7 +106,7 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public void DestroyLayer(string name)
 		{
-			for (var i = _layers.Count - 1; i >= 0; i += 1)
+			for (var i = _layers.Count - 1; i >= 0; i -= 1)
 			{
 				if (string.Equals(_layers[i].Name, name, StringComparison.OrdinalIgnoreCase))
 				{
