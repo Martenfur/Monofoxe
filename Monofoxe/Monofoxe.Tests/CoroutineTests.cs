@@ -26,6 +26,17 @@ namespace Tests
 			CoroutineMgr.UpdateCoroutines();
 			CoroutineMgr.PostUpdateRoutine();
 		}
+		
+		private static IEnumerator TestEnumerator()
+		{
+			var ok = false;
+			
+			while (!ok)
+			{
+				yield return null;
+				ok = true;
+			}
+		}
 
 		[Test]
 		public void StartsUp_CanMoveNext()
@@ -80,26 +91,17 @@ namespace Tests
 			DoFullUpdate();
 			
 			Assert.AreEqual(1, coroutine.RoutinesStack.Count);
+			Assert.True(CoroutineMgr.activeCoroutines.Contains(coroutine));
 			
 			DoFullUpdate();
 			
 			Assert.AreEqual(0, coroutine.RoutinesStack.Count);
-		}
-
-		public IEnumerator TestEnumerator()
-		{
-			var ok = false;
-			
-			while (!ok)
-			{
-				yield return null;
-				ok = true;
-			}
+			Assert.False(CoroutineMgr.activeCoroutines.Contains(coroutine));
 		}
 		
-		public IEnumerator<int> TestEnumeratorBreaksOnNegatives(int[] sequence)
+		private static IEnumerator<int> TestEnumeratorBreaksOnNegatives(int[] sequence)
 		{
-			foreach (int i in sequence)
+			foreach (var i in sequence)
 			{
 				if (i < 0) yield break;
 				yield return i;

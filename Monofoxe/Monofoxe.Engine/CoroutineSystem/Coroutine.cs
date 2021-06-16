@@ -7,8 +7,6 @@ namespace Monofoxe.Engine.CoroutineSystem
 	public class Coroutine : IDisposable
 	{
 		public bool Paused { get; set; }
-		
-		public bool Removed { get; internal set; }
 
 		internal virtual void Reset(IEnumerator routine)
 		{
