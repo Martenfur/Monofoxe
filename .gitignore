@@ -352,3 +352,5 @@ MigrationBackup/
 
 Monofoxe/packages/
 Release/
+
+.idea/
