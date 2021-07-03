@@ -45,7 +45,7 @@ namespace Monofoxe.Pipeline.Tiled
 			
 			map.HexSideLength = XmlHelper.GetXmlIntSafe(mapXml, "hexsidelength");
 			// Properties.
-			
+			map.Properties = XmlHelper.GetProperties(mapXml);
 
 			// Tilesets and layers.
 			map.Tilesets = TilesetParser.Parse(mapXml.SelectNodes("tileset"));
