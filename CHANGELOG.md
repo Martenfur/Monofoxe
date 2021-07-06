@@ -9,6 +9,7 @@
 ### Fixed:
 
 - Fixed `Scene` not being able to delete its layers properly.
+- Made SafeList thread safe.
 
 ## [v2.0.0] - *27.08.2020*
 

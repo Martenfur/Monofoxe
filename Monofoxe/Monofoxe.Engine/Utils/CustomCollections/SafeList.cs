@@ -3,7 +3,7 @@
 namespace Monofoxe.Engine.Utils.CustomCollections
 {
 	/// <summary> 
-	/// Safe list. Makes possible to safely remove from and add items to the list during enumeration.
+	/// Safe list. Makes it possible to safely remove and add items to and from the list during enumeration.
 	/// </summary>
 	public class SafeList<T>
 	{
@@ -33,35 +33,59 @@ namespace Monofoxe.Engine.Utils.CustomCollections
 
 		public void Add(T item)
 		{
-			_isOutdated = true;
-			_items.Add(item);
+			lock (_lock)
+			{
+				_isOutdated = true;
+				_items.Add(item);
+			}
 		}
 
 		public void Remove(T item)
 		{
-			_isOutdated = true;
-			_items.Remove(item);
+			lock (_lock)
+			{
+				_isOutdated = true;
+				_items.Remove(item);
+			}
 		}
-		
-		public bool Contains(T item) =>
-			_items.Contains(item);
-		
-		public void Insert(int index, T item) =>
-			_items.Insert(index, item);
-		
-		public void AddRange(SafeList<T> items) =>
-			_items.AddRange(items._items);
+
+		public bool Contains(T item)
+		{
+			lock (_lock)
+			{
+				return _items.Contains(item);
+			}
+		}
+
+		public void Insert(int index, T item)
+		{
+			lock (_lock)
+			{
+				_items.Insert(index, item);
+			}
+		}
+
+		public void AddRange(SafeList<T> items)
+		{
+			lock (_lock)
+			{
+				_items.AddRange(items._items);
+			}
+		}
 
 		public int Count =>
 			_items.Count;
-		
+
 		/// <summary>
 		/// Clears out all items from the list.
 		/// </summary>
 		public void Clear()
 		{
-			_isOutdated = true;
-			_items.Clear();
+			lock (_lock)
+			{
+				_isOutdated = true;
+				_items.Clear();
+			}
 		}
 
 		public T this[int index]
@@ -69,44 +93,66 @@ namespace Monofoxe.Engine.Utils.CustomCollections
 			get => _items[index];
 			set
 			{
-				_isOutdated = true;
-				_items[index] = value;
+				lock (_lock)
+				{
+					_isOutdated = true;
+					_items[index] = value;
+				}
 			}
 		}
-		
-		public List<T> ToList() =>
-			new List<T>(_items);
-		
-		public T[] ToArray() =>
-			_items.ToArray();
+
+		public List<T> ToList()
+		{
+			lock (_lock)
+			{
+				return new List<T>(_items);
+			}
+		}
+
+		public T[] ToArray()
+		{
+			lock (_lock)
+			{
+				return _items.ToArray();
+			}
+		}
 
 		public void Sort(IComparer<T> comparer)
 		{
-			_isOutdated = true;
-			_items.Sort(comparer);
+			lock (_lock)
+			{
+				_isOutdated = true;
+				_items.Sort(comparer);
+			}
 		}
-		
+		private static object _lock = new object();
 
 		/// <summary>
 		/// Removes old elements from the list and adds new ones.
 		/// </summary>
 		private void Update()
 		{
-			if (_isOutdated)
+			lock (_lock)
 			{
-				_outdatedItems.Clear();
-				_outdatedItems.AddRange(_items);
-				
-				_isOutdated = false;
+				if (_isOutdated)
+				{
+					_outdatedItems.Clear();
+					_outdatedItems.AddRange(_items);
+
+					_isOutdated = false;
+				}
 			}
 		}
 
 		public List<T>.Enumerator GetEnumerator()
 		{
-			Update();
-			return _outdatedItems.GetEnumerator();
+			lock (_lock)
+			{
+				Update();
+				return _outdatedItems.GetEnumerator();
+			}
 		}
-		
+
 	}
 
 }
