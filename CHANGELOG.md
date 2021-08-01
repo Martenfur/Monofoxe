@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Removed VS2017 template support and added VS2022 templates.
+
 ### Added
 
 - Added support for the `backgroundcolor` property for Tiled maps.
