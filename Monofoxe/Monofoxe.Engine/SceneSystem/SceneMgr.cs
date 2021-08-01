@@ -33,6 +33,17 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		private static double _fixedUpdateTimer;
 
+		/// <summary>
+		/// If true, all crashes within the scenes will be caught and OnCrash event will be called.
+		/// </summary>
+		public static bool CrashHandlingEnabled = false;
+		
+		/// <summary>
+		/// Gets called whenever the code within a scene crashes.
+		/// IMPORTANT: CrashHandlingEnabled has to be set to true!!!
+		/// </summary>
+		public static event Action<Scene, Exception> OnCrash;
+
 
 		/// <summary>
 		/// Creates new scene with given name.
@@ -210,7 +221,21 @@ namespace Monofoxe.Engine.SceneSystem
 					{
 						CurrentScene = scene;
 
-						scene.FixedUpdate();
+						if (CrashHandlingEnabled)
+						{
+							try
+							{
+								scene.FixedUpdate();
+							}
+							catch (Exception e)
+							{
+								OnCrash?.Invoke(scene, e);
+							}
+						}
+						else
+						{
+							scene.FixedUpdate();
+						}
 					}
 				}
 				OnPostFixedUpdate?.Invoke();
@@ -232,7 +257,21 @@ namespace Monofoxe.Engine.SceneSystem
 				{
 					CurrentScene = scene;
 
-					scene.Update();
+					if (CrashHandlingEnabled)
+					{
+						try
+						{
+							scene.Update();
+						}
+						catch(Exception e)
+						{
+							OnCrash?.Invoke(scene, e);
+						}
+					}
+					else
+					{
+						scene.Update();
+					}
 				}
 			}
 			OnPostUpdate?.Invoke();
@@ -251,7 +290,21 @@ namespace Monofoxe.Engine.SceneSystem
 				{
 					CurrentScene = scene;
 
-					scene.Draw();
+					if (CrashHandlingEnabled)
+					{
+						try
+						{
+							scene.Draw();
+						}
+						catch (Exception e)
+						{
+							OnCrash?.Invoke(scene, e);
+						}
+					}
+					else
+					{
+						scene.Draw();
+					}
 				}
 			}
 			OnPostDraw?.Invoke();
@@ -270,7 +323,21 @@ namespace Monofoxe.Engine.SceneSystem
 				{
 					CurrentScene = scene;
 
-					scene.DrawGUI();
+					if (CrashHandlingEnabled)
+					{
+						try
+						{
+							scene.DrawGUI();
+						}
+						catch (Exception e)
+						{
+							OnCrash?.Invoke(scene, e);
+						}
+					}
+					else
+					{
+						scene.DrawGUI();
+					}
 				}
 			}
 			OnPostDrawGUI?.Invoke();
