@@ -1,35 +1,32 @@
-﻿using System;
+﻿using Microsoft.Extensions.ObjectPool;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using Microsoft.Extensions.ObjectPool;
 
 namespace Monofoxe.Engine.CoroutineSystem
 {
-	public static class CoroutineMgr
+  public static class CoroutineMgr
 	{
-		internal static List<Coroutine> activeCoroutines = new List<Coroutine>();
-		internal static List<Coroutine> incomingCoroutines = new List<Coroutine>();
-		internal static ObjectPool<Coroutine> coroutinePool = ObjectPool.Create<Coroutine>();
-		internal static Dictionary<Type, ObjectPool<Coroutine>> dict = new Dictionary<Type, ObjectPool<Coroutine>>();
+		internal static List<Coroutine> ActiveCoroutines = new List<Coroutine>();
+		internal static List<Coroutine> IncomingCoroutines = new List<Coroutine>();
+		internal static ObjectPool<Coroutine> CoroutinePool = ObjectPool.Create<Coroutine>();
+		internal static Dictionary<Type, ObjectPool<Coroutine>> Dict = new Dictionary<Type, ObjectPool<Coroutine>>();
 
 		public static Coroutine StartCoroutine(IEnumerator routine)
 		{
-			var coroutine = coroutinePool.Get();
+			var coroutine = CoroutinePool.Get();
 			coroutine.Reset(routine);
-			incomingCoroutines.Add(coroutine);
+			IncomingCoroutines.Add(coroutine);
 			return coroutine;
 		}
 
 		private static ObjectPool<Coroutine<T>> GetPool<T>()
 		{
 			ObjectPool<Coroutine<T>> pool;
-			if (!dict.TryGetValue(typeof(T), out var poolBasic))
+			if (!Dict.TryGetValue(typeof(T), out var poolBasic))
 			{
 				pool = ObjectPool.Create(new DefaultPooledObjectPolicy<Coroutine<T>>());
-				dict.Add(typeof(T), pool as ObjectPool<Coroutine>);
+				Dict.Add(typeof(T), pool as ObjectPool<Coroutine>);
 			}
 			else
 			{
@@ -39,62 +36,58 @@ namespace Monofoxe.Engine.CoroutineSystem
 			return pool;
 		}
 		
-		[SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
-		[SuppressMessage("ReSharper", "SuspiciousTypeConversion.Global")]
 		public static Coroutine<T> StartCoroutine<T>(IEnumerator routine)
 		{
 			var coroutine = GetPool<T>().Get();
 			coroutine.Reset(routine);
-			incomingCoroutines.Add(coroutine);
+			IncomingCoroutines.Add(coroutine);
 			return coroutine;
 		}
 
-		public static bool WasRemoved(Coroutine coroutine)
-			=> !activeCoroutines.Contains(coroutine) && !incomingCoroutines.Contains(coroutine);
+		public static bool WasRemoved(Coroutine coroutine) => 
+			!ActiveCoroutines.Contains(coroutine) && !IncomingCoroutines.Contains(coroutine);
 
 		public static void StopCoroutine(Coroutine coroutine)
 		{
-			int index = activeCoroutines.FindIndex((c) => c == coroutine);
+			int index = ActiveCoroutines.FindIndex((c) => c == coroutine);
 
 			if (index != -1)
 			{
-				coroutinePool.Return(activeCoroutines[index]);
-				activeCoroutines.RemoveAt(index);
+				CoroutinePool.Return(ActiveCoroutines[index]);
+				ActiveCoroutines.RemoveAt(index);
 			}
 		}
 		
 		public static void StopCoroutine<T>(Coroutine<T> coroutine)
 		{
-			int index = activeCoroutines.FindIndex((c) => c == coroutine);
+			int index = ActiveCoroutines.FindIndex((c) => c == coroutine);
 
 			if (index != -1)
 			{
-				GetPool<T>().Return(activeCoroutines[index] as Coroutine<T>);
-				activeCoroutines.RemoveAt(index);
+				GetPool<T>().Return(ActiveCoroutines[index] as Coroutine<T>);
+				ActiveCoroutines.RemoveAt(index);
 			}
 		}
 
 		internal static void PreUpdateRoutine()
 		{
-			activeCoroutines.AddRange(incomingCoroutines);
-			incomingCoroutines.Clear();
+			ActiveCoroutines.AddRange(IncomingCoroutines);
+			IncomingCoroutines.Clear();
 		}
 
 		internal static void UpdateCoroutines()
 		{
-			for (var i = 0; i < activeCoroutines.Count; i++)
+			for (var i = 0; i < ActiveCoroutines.Count; i++)
 			{
-				if (activeCoroutines[i].Update() == false)
+				if (ActiveCoroutines[i].Update() == false)
 				{
-					coroutinePool.Return(activeCoroutines[i]);
-					activeCoroutines[i] = null;
+					CoroutinePool.Return(ActiveCoroutines[i]);
+					ActiveCoroutines[i] = null;
 				}
 			}
 		}
 
-		internal static void PostUpdateRoutine()
-		{
-			activeCoroutines.RemoveAll(x => x == null);
-		}
+		internal static void PostUpdateRoutine() =>
+			ActiveCoroutines.RemoveAll(x => x == null);
 	}
 }

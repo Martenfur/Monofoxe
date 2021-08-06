@@ -6,7 +6,7 @@ namespace Monofoxe.Engine.CoroutineSystem
 {
 	public class Coroutine : IDisposable
 	{
-		public bool Paused { get; set; }
+		public bool Paused;
 
 		internal virtual void Reset(IEnumerator routine)
 		{
@@ -17,7 +17,10 @@ namespace Monofoxe.Engine.CoroutineSystem
 
 		internal virtual bool Update()
 		{
-			if (Paused) return true;
+			if (Paused)
+			{ 
+				return true;
+			}
 
 			if (RoutinesStack.Peek().MoveNext())
 			{

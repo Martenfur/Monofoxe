@@ -14,7 +14,10 @@ namespace Monofoxe.Engine.CoroutineSystem
 
 		internal override bool Update()
 		{
-			if (Paused) return true;
+			if (Paused)
+			{
+				return true;
+			}
 
 			if (RoutinesStack.Peek().MoveNext())
 			{
@@ -22,9 +25,12 @@ namespace Monofoxe.Engine.CoroutineSystem
 				{
 					RoutinesStack.Push(enumerator);
 				}
-				else if (RoutinesStack.Peek().Current is T valueT)
+				else
 				{
-					OnYieldValue?.Invoke(this, valueT);
+					if (RoutinesStack.Peek().Current is T valueT)
+					{
+						OnYieldValue?.Invoke(this, valueT);
+					}
 				}
 			}
 			else

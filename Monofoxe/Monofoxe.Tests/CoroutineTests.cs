@@ -1,23 +1,19 @@
-﻿using Microsoft.Xna.Framework;
-using Monofoxe.Engine.Utils;
-using Moq;
+﻿using Monofoxe.Engine.CoroutineSystem;
 using NUnit.Framework;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Monofoxe.Engine.CoroutineSystem;
 
 namespace Tests
 {
-	[ExcludeFromCodeCoverage]
+  [ExcludeFromCodeCoverage]
 	public class CoroutineTests
 	{
 		[SetUp]
 		public void Setup()
 		{
-			CoroutineMgr.activeCoroutines = new List<Coroutine>();
-			CoroutineMgr.incomingCoroutines = new List<Coroutine>();
+			CoroutineMgr.ActiveCoroutines = new List<Coroutine>();
+			CoroutineMgr.IncomingCoroutines = new List<Coroutine>();
 		}
 
 		private static void DoFullUpdate()
@@ -66,7 +62,7 @@ namespace Tests
 			
 			DoFullUpdate();
 			
-			Assert.True(CoroutineMgr.activeCoroutines.Contains(coroutine));
+			Assert.True(CoroutineMgr.ActiveCoroutines.Contains(coroutine));
 		}
 
 		[Test]
@@ -91,12 +87,12 @@ namespace Tests
 			DoFullUpdate();
 			
 			Assert.AreEqual(1, coroutine.RoutinesStack.Count);
-			Assert.True(CoroutineMgr.activeCoroutines.Contains(coroutine));
+			Assert.True(CoroutineMgr.ActiveCoroutines.Contains(coroutine));
 			
 			DoFullUpdate();
 			
 			Assert.AreEqual(0, coroutine.RoutinesStack.Count);
-			Assert.False(CoroutineMgr.activeCoroutines.Contains(coroutine));
+			Assert.False(CoroutineMgr.ActiveCoroutines.Contains(coroutine));
 		}
 		
 		private static IEnumerator<int> TestEnumeratorBreaksOnNegatives(int[] sequence)
