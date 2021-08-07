@@ -30,7 +30,7 @@ namespace Monofoxe.Playground.CoroutinesDemo
 		private IEnumerator DestructionCountdown()
 		{
 			// After waiting for 6 seconds, the entity will be destroyed.
-			yield return new WaitForSeconds(6);
+			yield return Wait.ForSeconds(6);
 			DestroyEntity();
 		}
 

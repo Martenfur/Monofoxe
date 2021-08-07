@@ -30,10 +30,6 @@ namespace Monofoxe.Engine.Utils.Coroutines
 				{
 					RoutinesStack.Push(enumerator);
 				}
-				if (RoutinesStack.Peek().Current is YieldInstruction instruction)
-				{
-					RoutinesStack.Push(instruction.Run());
-				}
 			}
 			else
 			{

@@ -62,7 +62,7 @@ namespace Monofoxe.Playground.CoroutinesDemo
 			
 			a += 1;
 
-			yield return new WaitForSeconds(1); // Method will be paused for one second and executed when the times runs out.
+			yield return Wait.ForSeconds(1); // Method will be paused for one second and executed when the times runs out.
 
 			// You can also put coroutines within other coroutines. Parent coroutine will be paused until the new one finishes.
 			yield return BasicUpdateClockCoroutine(); 
@@ -83,7 +83,7 @@ namespace Monofoxe.Playground.CoroutinesDemo
 			while (true)
 			{
 				// This function will pause until the next fixed update.
-				yield return new WaitForFixedUpdate();
+				yield return Wait.ForFixedUpdate();
 				_fixedUpdateClock += 1;
 			}
 		}
@@ -95,11 +95,11 @@ namespace Monofoxe.Playground.CoroutinesDemo
 				for (var i = 0; i < 5; i += 1)
 				{
 					// 5 balls will be spawned with the interval of 0.1 seconds.
-					yield return new WaitForSeconds(0.1);
+					yield return Wait.ForSeconds(0.1);
 					new Ball(Layer, _ballSpawnerPosition);
 				}
 				// After 5 balls will have spawned, there will be a 1 second pause.
-				yield return new WaitForSeconds(1);
+				yield return Wait.ForSeconds(1);
 			}
 		}
 
@@ -114,11 +114,11 @@ namespace Monofoxe.Playground.CoroutinesDemo
 			_sequenceColor = Color.White;
 
 			_sequenceStage += 1;
-			yield return new WaitForSeconds(0.5);
+			yield return Wait.ForSeconds(0.5);
 			_sequenceStage += 1;
-			yield return new WaitForSeconds(0.5);
+			yield return Wait.ForSeconds(0.5);
 			_sequenceStage += 1;
-			yield return new WaitForSeconds(3);
+			yield return Wait.ForSeconds(3);
 			_sequenceStage += 1;
 
 			yield return SubsequenceCoroutine(); // Current coroutine will be paused until this one finishes.
@@ -127,11 +127,11 @@ namespace Monofoxe.Playground.CoroutinesDemo
 
 			yield break; // Yield break abandons the coroutine. The code below will not be executed.
 
-			yield return new WaitForSeconds(0.5);
+			yield return Wait.ForSeconds(0.5);
 			_sequenceStage += 1;
-			yield return new WaitForSeconds(0.5);
+			yield return Wait.ForSeconds(0.5);
 			_sequenceStage += 1;
-			yield return new WaitForSeconds(0.5);
+			yield return Wait.ForSeconds(0.5);
 			_sequenceStage += 1;
 		}
 
@@ -142,13 +142,13 @@ namespace Monofoxe.Playground.CoroutinesDemo
 				_sequenceColor.G -= 20;
 				_sequenceColor.B -= 20;
 				_sequenceStage = 0;
-				yield return new WaitForSeconds(0.1);
+				yield return Wait.ForSeconds(0.1);
 				_sequenceStage += 1;
-				yield return new WaitForSeconds(0.1);
+				yield return Wait.ForSeconds(0.1);
 				_sequenceStage += 1;
-				yield return new WaitForSeconds(0.1);
+				yield return Wait.ForSeconds(0.1);
 				_sequenceStage += 1;
-				yield return new WaitForSeconds(0.1);
+				yield return Wait.ForSeconds(0.1);
 			}
 		}
 
@@ -156,7 +156,7 @@ namespace Monofoxe.Playground.CoroutinesDemo
 		{
 			while (true)
 			{
-				yield return new WaitUntil(() => Input.CheckButton(Buttons.B));
+				yield return Wait.Until(() => Input.CheckButton(Buttons.B));
 				new Ball(Layer, _waitUntilSpawnerPosition);
 			}
 		}
@@ -165,7 +165,7 @@ namespace Monofoxe.Playground.CoroutinesDemo
 		{
 			while (true)
 			{
-				yield return new WaitWhile(() => Input.CheckButton(Buttons.B));
+				yield return Wait.While(() => Input.CheckButton(Buttons.B));
 				new Ball(Layer, _waitWhileSpawnerPosition);
 			}
 		}
