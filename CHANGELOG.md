@@ -11,6 +11,7 @@
 - Added support for the `backgroundcolor` property for Tiled maps.
 - Added `OnCrash` event to `SceneMgr` which allows to catch and recover from the exceptions within a scene.
 - Added `IsFixedUpdateFrame` to `SceneMgr`.
+- Added coroutines.
 
 ### Fixed:
 
