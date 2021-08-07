@@ -1,0 +1,59 @@
+
+#----------------------------- Global Properties ----------------------------#
+
+/outputDir:bin/$(Platform)
+/intermediateDir:obj/$(Platform)
+/platform:Windows
+/config:
+/profile:Reach
+/compress:True
+
+#-------------------------------- References --------------------------------#
+
+
+#---------------------------------- Content ---------------------------------#
+
+#begin Content.npl
+/importer:ResourceInfoImporter
+/processor:PassThroughProcessor
+/build:Content.npl
+
+#begin ../../Monofoxe.Samples.Content/Content/Graphics/Default.spritegroup
+/importer:SpriteGroupImporter
+/processor:SpriteGroupProcessor
+/build:../../Monofoxe.Samples.Content/Content/Graphics/Default.spritegroup;Graphics/Default.spritegroup
+
+#begin ../../Monofoxe.Samples.Content/Content/Effects/Grayscale.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/build:../../Monofoxe.Samples.Content/Content/Effects/Grayscale.fx;Effects/Grayscale.fx
+
+#begin ../../Monofoxe.Samples.Content/Content/Effects/Seizure.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/build:../../Monofoxe.Samples.Content/Content/Effects/Seizure.fx;Effects/Seizure.fx
+
+#begin ../../Monofoxe.Samples.Content/Content/Maps/Test.tmx
+/importer:TiledMapImporter
+/processor:PassThroughProcessor
+/build:../../Monofoxe.Samples.Content/Content/Maps/Test.tmx;Maps/Test.tmx
+
+#begin ../../Monofoxe.Samples.Content/Content/Maps/Tilesets/grass.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/build:../../Monofoxe.Samples.Content/Content/Maps/Tilesets/grass.png;Maps/Tilesets/grass.png
+
+#begin ../../Monofoxe.Samples.Content/Content/Maps/Templates/TemplatesTileset/bot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/build:../../Monofoxe.Samples.Content/Content/Maps/Templates/TemplatesTileset/bot.png;Maps/Templates/TemplatesTileset/bot.png
+
+#begin ../../Monofoxe.Samples.Content/Content/Maps/Templates/TemplatesTileset/player.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/build:../../Monofoxe.Samples.Content/Content/Maps/Templates/TemplatesTileset/player.png;Maps/Templates/TemplatesTileset/player.png
+
+#begin ../../Monofoxe.Samples.Content/Content/Fonts/Arial.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/build:../../Monofoxe.Samples.Content/Content/Fonts/Arial.spritefont;Fonts/Arial.spritefont
