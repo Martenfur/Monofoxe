@@ -30,39 +30,6 @@ namespace Monofoxe.Playground.InputDemo
 
 		public InputDemo(Layer layer) : base(layer)
 		{
-			for(var i = 0; i < 100000; i += 1)
-			StartCoroutine(Testo());
-		}
-
-		IEnumerator Testo()
-		{
-			for (var i = 0; i < 50; i += 1)
-			{
-				_mainColor = Color.Black;
-				yield return null;
-				_mainColor = Color.Green;
-				yield return null;
-				_mainColor = Color.Yellow;
-				yield return null;
-				_mainColor = Color.AliceBlue;
-			}
-
-			yield return new WaitUntil(() => Input.CheckButtonPress(Buttons.S));
-			_mainColor = Color.Violet;
-			yield return new WaitWhile(() => Input.CheckButton(Buttons.S));
-			
-			yield return DeepTesto();
-
-			yield return new WaitForSeconds(3);
-			_mainColor = Color.Red;
-			yield return new WaitForSeconds(3);
-			_mainColor = Color.Blue;
-		}
-
-		IEnumerator DeepTesto()
-		{
-			_mainColor = Color.Transparent;
-			yield return new WaitForSeconds(3);
 		}
 
 		public override void Update()
