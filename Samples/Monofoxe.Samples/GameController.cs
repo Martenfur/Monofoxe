@@ -5,7 +5,7 @@ using Monofoxe.Engine.Cameras;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.EC;
 using Monofoxe.Engine.SceneSystem;
-using Monofoxe.Samples.Interface;
+using Monofoxe.Engine.Utils;
 using System.Diagnostics;
 
 namespace Monofoxe.Samples
@@ -20,7 +20,9 @@ namespace Monofoxe.Samples
 		public static RasterizerState WireframeRasterizer;
 
 		private Stopwatch _stopwatch = new Stopwatch();
-		
+
+		public static RandomExt Random = new RandomExt();
+
 		public GameController() : base(SceneMgr.GetScene("default")["default"])
 		{
 			GameMgr.MaxGameSpeed = 60;

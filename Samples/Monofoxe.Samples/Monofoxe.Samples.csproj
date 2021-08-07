@@ -14,6 +14,6 @@
 	</ItemGroup>
 
 	<Target Name="BuildContentProject">
-		<Exec Command="dotnet build &quot;../Monofoxe.Samples.Content/Monofoxe.Samples.Content.csproj&quot;"/>
+		<Exec Command="dotnet build &quot;../Monofoxe.Samples.Content/Monofoxe.Samples.Content.csproj&quot;" />
 	</Target>
 </Project>
