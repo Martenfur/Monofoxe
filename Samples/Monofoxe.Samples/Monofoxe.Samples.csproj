@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project InitialTargets="BuildContentProject" Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
@@ -12,4 +12,8 @@
 		<ProjectReference Include="..\..\Monofoxe\Monofoxe.Engine\Monofoxe.Engine.csproj" />
 		<ProjectReference Include="..\..\Monofoxe\Monofoxe.Tiled\Monofoxe.Tiled.csproj" />
 	</ItemGroup>
+
+	<Target Name="BuildContentProject">
+		<Exec Command="dotnet build &quot;../Monofoxe.Samples.Content/Monofoxe.Samples.Content.csproj&quot;"/>
+	</Target>
 </Project>
