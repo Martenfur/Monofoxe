@@ -1,23 +1,25 @@
 ﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine;
+using Monofoxe.Engine.CoroutineSystem;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.EC;
 using Monofoxe.Engine.Resources;
 using Monofoxe.Engine.SceneSystem;
+using System.Collections;
 using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Monofoxe.Playground.InputDemo
 {
-  public class InputDemo : Entity
+	public class InputDemo : Entity
 	{
-		
+
 		Color _mainColor = Color.White;
 		Color _secondaryColor = Color.Violet;
 
 		double _animation = 0;
 		double _animationSpeed = 0.25;
-		
+
 		StringBuilder _keyboardInput = new StringBuilder();
 		int _keyboardInputMaxLength = 32;
 
@@ -28,6 +30,36 @@ namespace Monofoxe.Playground.InputDemo
 
 		public InputDemo(Layer layer) : base(layer)
 		{
+			StartCoroutine(Testo());
+		}
+
+		IEnumerator Testo()
+		{
+			for (var i = 0; i < 50; i += 1)
+			{
+				_mainColor = Color.Black;
+				yield return null;
+				_mainColor = Color.Green;
+				yield return null;
+				_mainColor = Color.Yellow;
+				yield return null;
+				_mainColor = Color.AliceBlue;
+			}
+
+			yield return new ConditionTest();
+			
+			yield return DeepTesto();
+
+			yield return new WaitForSeconds(3);
+			_mainColor = Color.Red;
+			yield return new WaitForSeconds(3);
+			_mainColor = Color.Blue;
+		}
+
+		IEnumerator DeepTesto()
+		{
+			_mainColor = Color.Transparent;
+			yield return new WaitForSeconds(3);
 		}
 
 		public override void Update()
@@ -59,8 +91,8 @@ namespace Monofoxe.Playground.InputDemo
 
 			// Time to get your Rumble Pak (tm), kidz!
 			Input.GamepadSetVibration(
-				0, 
-				Input.GamepadGetLeftTrigger(0), 
+				0,
+				Input.GamepadGetLeftTrigger(0),
 				Input.GamepadGetRightTrigger(0)
 			);
 
@@ -75,7 +107,7 @@ namespace Monofoxe.Playground.InputDemo
 			var spacing = 100;
 
 			GraphicsMgr.CurrentColor = _mainColor;
-			
+
 			// This position only accounts for screen transformation.
 			// When the camera will move, it will offset.
 			CircleShape.Draw(Input.ScreenMousePosition, 8, true);
@@ -100,7 +132,7 @@ namespace Monofoxe.Playground.InputDemo
 
 
 			position = new Vector2(200, 200);
-			
+
 			if (Input.GamepadConnected(0))
 			{
 				Text.Draw("Gamepad is connected!", position);

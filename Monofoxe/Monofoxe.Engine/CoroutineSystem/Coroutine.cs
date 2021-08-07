@@ -28,6 +28,10 @@ namespace Monofoxe.Engine.CoroutineSystem
 				{
 					RoutinesStack.Push(enumerator);
 				}
+				if (RoutinesStack.Peek().Current is YieldInstruction instruction)
+				{
+					RoutinesStack.Push(instruction.Yield());
+				}
 			}
 			else
 			{

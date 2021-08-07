@@ -134,13 +134,10 @@ namespace Monofoxe.Engine
 
 			Input.Update();
 
-			CoroutineMgr.PreUpdateRoutine();
 			SceneMgr.PreUpdateRoutine();
 			SceneMgr.CallFixedUpdateEvents(gameTime);
 			SceneMgr.CallUpdateEvents(gameTime);
-			CoroutineMgr.UpdateCoroutines();
 			SceneMgr.PostUpdateRoutine();
-			CoroutineMgr.PostUpdateRoutine();
 		}
 
 
