@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Monofoxe.Engine.Utils.Coroutines;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Utils.CustomCollections;
 
@@ -286,5 +288,29 @@ namespace Monofoxe.Engine.EC
 			}
 		}
 
+
+		/// <summary>
+		/// Starts a new coroutine
+		/// </summary>
+		public Coroutine StartCoroutine(IEnumerator routine)
+		{
+			if (!HasComponent<CCoroutineRunner>())
+			{ 
+				AddComponent(new CCoroutineRunner());
+			}
+			var c = GetComponent<CCoroutineRunner>();
+			return c.StartCoroutine(routine);
+		}
+
+
+		public void StopCoroutine(Coroutine coroutine)
+		{
+			if (!HasComponent<CCoroutineRunner>())
+			{ 
+				return;
+			}
+			var c = GetComponent<CCoroutineRunner>();
+			c.StopCoroutine(coroutine);
+		}
 	}
 }

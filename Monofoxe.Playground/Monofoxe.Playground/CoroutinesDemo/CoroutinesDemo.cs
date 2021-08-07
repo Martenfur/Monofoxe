@@ -1,0 +1,231 @@
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Monofoxe.Engine;
+using Monofoxe.Engine.Cameras;
+using Monofoxe.Engine.Drawing;
+using Monofoxe.Engine.EC;
+using Monofoxe.Engine.Resources;
+using Monofoxe.Engine.SceneSystem;
+using Monofoxe.Engine.Utils;
+using Monofoxe.Engine.Utils.Coroutines;
+using System.Collections;
+
+namespace Monofoxe.Playground.CoroutinesDemo
+{
+	public class CoroutinesDemo : Entity
+	{
+		private Vector2 _ballSpawnerPosition = new Vector2(200, 400);
+		private Vector2 _waitUntilSpawnerPosition = new Vector2(200, 200);
+		private Vector2 _waitWhileSpawnerPosition = new Vector2(400, 200);
+		private Vector2 _basicUpdateClockPosition = new Vector2(400, 400);
+		private Vector2 _fixedUpdateClockPosition = new Vector2(600, 400);
+		private Vector2 _sequencePosition = new Vector2(600, 200);
+
+		private Angle _basicUpdateClock = Angle.Up;
+		private Angle _fixedUpdateClock = Angle.Up;
+
+		public CoroutinesDemo(Layer layer) : base(layer)
+		{
+			StartCoroutine(BasicUpdateClockCoroutine());
+			StartCoroutine(FixedUpdateClockCoroutine());
+			StartCoroutine(BallSpawnerCoroutine());
+
+
+			StartCoroutine(WaitUntilCoroutine());
+			StartCoroutine(WaitWhileCoroutine());
+		}
+
+		public override void Update()
+		{
+			base.Update();
+			if (Input.CheckButtonPress(Buttons.N))
+			{
+				if (_sequence != null)
+				{
+					// Stopping an already running sequence.
+					StopCoroutine(_sequence);
+				}
+				// Starting a new scripted sequence.
+				_sequence = StartCoroutine(SequenceCoroutine());
+			}
+		}
+
+		private IEnumerator ExampleCoroutine()
+		{
+			// Coroutines are basically delayed methods that can be paused or delayed.
+			// COROUTINES ARE NOT ASYNC. They execute un the same Update in a component,
+			// so it's thread-safe.
+
+			var a = 0;
+			
+			yield return null; // yield return null means that the methods will be paused for a single frame and resumed on the next one.
+			
+			a += 1;
+
+			yield return Wait.ForSeconds(1); // Method will be paused for one second and executed when the times runs out.
+
+			// You can also put coroutines within other coroutines. Parent coroutine will be paused until the new one finishes.
+			yield return BasicUpdateClockCoroutine(); 
+		}
+
+		private IEnumerator BasicUpdateClockCoroutine()
+		{
+			while (true)
+			{
+				// Return null means that the function will be resumed next frame.
+				yield return null;
+				_basicUpdateClock += 1;
+			}
+		}
+
+		private IEnumerator FixedUpdateClockCoroutine()
+		{
+			while (true)
+			{
+				// This function will pause until the next fixed update.
+				yield return Wait.ForFixedUpdate();
+				_fixedUpdateClock += 1;
+			}
+		}
+
+		private IEnumerator BallSpawnerCoroutine()
+		{
+			while (true)
+			{
+				for (var i = 0; i < 5; i += 1)
+				{
+					// 5 balls will be spawned with the interval of 0.1 seconds.
+					yield return Wait.ForSeconds(0.1);
+					new Ball(Layer, _ballSpawnerPosition);
+				}
+				// After 5 balls will have spawned, there will be a 1 second pause.
+				yield return Wait.ForSeconds(1);
+			}
+		}
+
+		private Coroutine _sequence;
+		private int _sequenceStage = 0;
+		private Color _sequenceColor = Color.White;
+		private IEnumerator SequenceCoroutine()
+		{
+			// Coroutines can be used for complex sequrences which would
+			// require a lot of alarms and complex logic otherwise.
+			_sequenceStage = 0;
+			_sequenceColor = Color.White;
+
+			_sequenceStage += 1;
+			yield return Wait.ForSeconds(0.5);
+			_sequenceStage += 1;
+			yield return Wait.ForSeconds(0.5);
+			_sequenceStage += 1;
+			yield return Wait.ForSeconds(3);
+			_sequenceStage += 1;
+
+			yield return SubsequenceCoroutine(); // Current coroutine will be paused until this one finishes.
+
+			_sequenceStage = 0;
+
+			yield break; // Yield break abandons the coroutine. The code below will not be executed.
+
+			yield return Wait.ForSeconds(0.5);
+			_sequenceStage += 1;
+			yield return Wait.ForSeconds(0.5);
+			_sequenceStage += 1;
+			yield return Wait.ForSeconds(0.5);
+			_sequenceStage += 1;
+		}
+
+		private IEnumerator SubsequenceCoroutine()
+		{
+			for (var i = 0; i < 10; i += 1)
+			{
+				_sequenceColor.G -= 20;
+				_sequenceColor.B -= 20;
+				_sequenceStage = 0;
+				yield return Wait.ForSeconds(0.1);
+				_sequenceStage += 1;
+				yield return Wait.ForSeconds(0.1);
+				_sequenceStage += 1;
+				yield return Wait.ForSeconds(0.1);
+				_sequenceStage += 1;
+				yield return Wait.ForSeconds(0.1);
+			}
+		}
+
+		private IEnumerator WaitUntilCoroutine()
+		{
+			while (true)
+			{
+				yield return Wait.Until(() => Input.CheckButton(Buttons.B));
+				new Ball(Layer, _waitUntilSpawnerPosition);
+			}
+		}
+
+		private IEnumerator WaitWhileCoroutine()
+		{
+			while (true)
+			{
+				yield return Wait.While(() => Input.CheckButton(Buttons.B));
+				new Ball(Layer, _waitWhileSpawnerPosition);
+			}
+		}
+
+		public override void Draw()
+		{
+			base.Draw();
+
+			DrawClocks();
+			DrawSequence();
+
+			GraphicsMgr.CurrentColor = Color.White;
+			Text.HorAlign = TextAlign.Center;
+			Text.Draw("ball spawner", _ballSpawnerPosition + new Vector2(0.5f, -64));
+			Text.Draw("basic update", _basicUpdateClockPosition + new Vector2(0.0f, -64));
+			Text.Draw("fixed update", _fixedUpdateClockPosition + new Vector2(0.5f, -64));
+
+			Text.Draw("press B to spawn", _waitUntilSpawnerPosition + new Vector2(0.0f, -64));
+			Text.Draw("press B to stop", _waitWhileSpawnerPosition + new Vector2(0.5f, -64));
+			Text.Draw("press N to start sequence", _sequencePosition + new Vector2(0.5f, -64));
+		}
+
+		private void DrawClocks()
+		{
+			var clockSize = 32;
+
+			CircleShape.Draw(_basicUpdateClockPosition, 32, true);
+			LineShape.Draw(
+				_basicUpdateClockPosition,
+				_basicUpdateClockPosition + _basicUpdateClock.ToVector2() * clockSize
+			);
+			CircleShape.Draw(_fixedUpdateClockPosition, 32, true);
+			LineShape.Draw(
+				_fixedUpdateClockPosition,
+				_fixedUpdateClockPosition + _fixedUpdateClock.ToVector2() * clockSize
+			);
+		}
+
+
+		private void DrawSequence()
+		{
+			GraphicsMgr.CurrentColor = _sequenceColor;
+			if (_sequenceStage == 1)
+			{
+				CircleShape.Draw(_sequencePosition, 32, false);
+			}
+			if (_sequenceStage == 2)
+			{
+				RectangleShape.DrawBySize(_sequencePosition, Vector2.One * 32, false);
+			}
+			if (_sequenceStage == 3)
+			{
+				TriangleShape.Draw(
+					_sequencePosition - Vector2.UnitY * 32,
+					_sequencePosition + Vector2.UnitX * 32,
+					_sequencePosition - Vector2.UnitX * 32,
+					false
+				);
+			}
+		}
+
+	}
+}

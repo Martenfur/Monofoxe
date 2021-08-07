@@ -1,23 +1,25 @@
 ﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine;
+using Monofoxe.Engine.Utils.Coroutines;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.EC;
 using Monofoxe.Engine.Resources;
 using Monofoxe.Engine.SceneSystem;
+using System.Collections;
 using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Monofoxe.Playground.InputDemo
 {
-  public class InputDemo : Entity
+	public class InputDemo : Entity
 	{
-		
+
 		Color _mainColor = Color.White;
 		Color _secondaryColor = Color.Violet;
 
 		double _animation = 0;
 		double _animationSpeed = 0.25;
-		
+
 		StringBuilder _keyboardInput = new StringBuilder();
 		int _keyboardInputMaxLength = 32;
 
@@ -59,8 +61,8 @@ namespace Monofoxe.Playground.InputDemo
 
 			// Time to get your Rumble Pak (tm), kidz!
 			Input.GamepadSetVibration(
-				0, 
-				Input.GamepadGetLeftTrigger(0), 
+				0,
+				Input.GamepadGetLeftTrigger(0),
 				Input.GamepadGetRightTrigger(0)
 			);
 
@@ -75,7 +77,7 @@ namespace Monofoxe.Playground.InputDemo
 			var spacing = 100;
 
 			GraphicsMgr.CurrentColor = _mainColor;
-			
+
 			// This position only accounts for screen transformation.
 			// When the camera will move, it will offset.
 			CircleShape.Draw(Input.ScreenMousePosition, 8, true);
@@ -100,7 +102,7 @@ namespace Monofoxe.Playground.InputDemo
 
 
 			position = new Vector2(200, 200);
-			
+
 			if (Input.GamepadConnected(0))
 			{
 				Text.Draw("Gamepad is connected!", position);
