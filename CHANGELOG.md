@@ -6,6 +6,7 @@
 
 - Removed VS2017 template support and added VS2022 templates.
 - Solution created from template no longer requires to manually build Content project.
+- Changed `Component` methods from abstract to virtual.
 
 ### Added
 

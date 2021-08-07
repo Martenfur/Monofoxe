@@ -25,20 +25,9 @@ namespace Monofoxe.Samples.ECDemo
 			Sprite = sprite;
 		}
 
-		public override void Initialize()
-		{
-		}
-
-		public override void Destroy()
-		{
-		}
-
-		public override void FixedUpdate()
-		{
-		}
-
 		public override void Update()
 		{
+			base.Update();
 			if (Move)
 			{
 				// Retrieving the position component from entity.
@@ -51,6 +40,7 @@ namespace Monofoxe.Samples.ECDemo
 
 		public override void Draw()
 		{
+			base.Draw();
 			var position = Owner.GetComponent<PositionComponent>();
 
 			GraphicsMgr.CurrentColor = Color.White;

@@ -11,20 +11,13 @@ namespace Monofoxe.Samples.TiledDemo
 	/// </summary>
 	public class TileCollisionComponent : Component
 	{
-		public override void Initialize()
-		{
-		}
-
-		public override void FixedUpdate()
-		{
-		}
-
 		public override void Update()
 		{
 			// The most basic and crappy collision system imaginable.
 			// The point of it is to just show how to get tile data,
 			// and not how to actually implement collisions.
 
+			base.Update();
 
 			if (Owner.Scene.TryGetLayer("Walls", out Layer layer))
 			{
@@ -58,15 +51,6 @@ namespace Monofoxe.Samples.TiledDemo
 			}
 
 
-		}
-
-
-		public override void Draw()
-		{
-		}
-
-		public override void Destroy()
-		{
 		}
 
 	}

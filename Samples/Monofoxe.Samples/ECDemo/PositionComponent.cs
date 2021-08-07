@@ -28,26 +28,5 @@ namespace Monofoxe.Samples.ECDemo
 			PreviousPosition = position;
 			StartingPosition = position;
 		}
-
-		public override void Initialize()
-		{
-		}
-
-		public override void Destroy()
-		{
-		}
-
-		public override void Draw()
-		{
-		}
-
-		public override void FixedUpdate()
-		{
-		}
-
-		
-		public override void Update()
-		{
-		}
 	}
 }

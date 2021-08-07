@@ -35,6 +35,7 @@ namespace Monofoxe.Engine.Utils.Coroutines
 
 		public override void Update()
 		{
+			base.Update();
 			_activeCoroutines.AddRange(_incomingCoroutines);
 			_incomingCoroutines.Clear();
 
@@ -48,13 +49,5 @@ namespace Monofoxe.Engine.Utils.Coroutines
 
 			_activeCoroutines.RemoveAll(x => x == null);
 		}
-
-		public override void Initialize() {}
-
-		public override void FixedUpdate() {}
-
-		public override void Draw() {}
-
-		public override void Destroy() {}
 	}
 }
