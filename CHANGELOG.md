@@ -5,6 +5,7 @@
 ### Changed
 
 - Removed VS2017 template support and added VS2022 templates.
+- Solution created from template no longer requires to manually build Content project.
 
 ### Added
 
@@ -16,7 +17,8 @@
 ### Fixed:
 
 - Fixed `Scene` not being able to delete its layers properly.
-- Made SafeList thread safe.
+- Made `SafeList` thread safe.
+- Newly created solutions set their default project to GL instead of library, which cannot be run.
 
 ## [v2.0.0] - *27.08.2020*
 
