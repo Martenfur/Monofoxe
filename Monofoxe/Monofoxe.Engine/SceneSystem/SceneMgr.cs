@@ -27,7 +27,11 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public static Scene CurrentScene {get; private set;}
 
-		
+		/// <summary>
+		/// True, when the current frame is the frame on which FixedUpdate will be executed.
+		/// </summary>
+		public static bool IsFixedUpdateFrame => _fixedUpdateTimer >= GameMgr.FixedUpdateRate;
+
 		/// <summary>
 		/// Counts time until next fixed update.
 		/// </summary>
@@ -199,7 +203,6 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public static event SceneMgrEventDelegate OnPostDrawGUI;
 
-
 		/// <summary>
 		/// Executes Fixed Update events.
 		/// </summary>
@@ -207,7 +210,7 @@ namespace Monofoxe.Engine.SceneSystem
 		{
 			_fixedUpdateTimer += gameTime.ElapsedGameTime.TotalSeconds;
 
-			if (_fixedUpdateTimer >= GameMgr.FixedUpdateRate)
+			if (IsFixedUpdateFrame)
 			{
 				var overflow = (int)(_fixedUpdateTimer / GameMgr.FixedUpdateRate); // In case of lags.
 				_fixedUpdateTimer -= GameMgr.FixedUpdateRate * overflow;

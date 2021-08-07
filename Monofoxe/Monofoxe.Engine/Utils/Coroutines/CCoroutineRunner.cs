@@ -9,11 +9,10 @@ namespace Monofoxe.Engine.Utils.Coroutines
 	{
 		private List<Coroutine> _activeCoroutines = new List<Coroutine>();
 		private List<Coroutine> _incomingCoroutines = new List<Coroutine>();
-		private ObjectPool<Coroutine> _coroutinePool = ObjectPool.Create<Coroutine>();
 		
 		public Coroutine StartCoroutine(IEnumerator routine)
 		{
-			var coroutine = _coroutinePool.Get();
+			var coroutine = new Coroutine();
 			coroutine.Reset(routine);
 			_incomingCoroutines.Add(coroutine);
 			return coroutine;
@@ -30,7 +29,6 @@ namespace Monofoxe.Engine.Utils.Coroutines
 
 			if (index != -1)
 			{
-				_coroutinePool.Return(_activeCoroutines[index]);
 				_activeCoroutines.RemoveAt(index);
 			}
 		}
@@ -45,7 +43,6 @@ namespace Monofoxe.Engine.Utils.Coroutines
 			{
 				if (!_activeCoroutines[i].Update())
 				{
-					_coroutinePool.Return(_activeCoroutines[i]);
 					_activeCoroutines[i] = null;
 				}
 			}
