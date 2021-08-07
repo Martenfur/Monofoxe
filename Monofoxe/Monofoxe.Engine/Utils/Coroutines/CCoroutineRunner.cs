@@ -1,12 +1,11 @@
 ﻿using Microsoft.Extensions.ObjectPool;
 using Monofoxe.Engine.EC;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Monofoxe.Engine.CoroutineSystem
+namespace Monofoxe.Engine.Utils.Coroutines
 {
-	internal class CCoroutine : Component
+	internal class CCoroutineRunner : Component
 	{
 		private List<Coroutine> _activeCoroutines = new List<Coroutine>();
 		private List<Coroutine> _incomingCoroutines = new List<Coroutine>();
@@ -20,8 +19,10 @@ namespace Monofoxe.Engine.CoroutineSystem
 			return coroutine;
 		}
 
+
 		public bool WasRemoved(Coroutine coroutine) =>
 			!_activeCoroutines.Contains(coroutine) && !_incomingCoroutines.Contains(coroutine);
+
 
 		public void StopCoroutine(Coroutine coroutine)
 		{
@@ -33,6 +34,7 @@ namespace Monofoxe.Engine.CoroutineSystem
 				_activeCoroutines.RemoveAt(index);
 			}
 		}
+
 
 		public override void Update()
 		{

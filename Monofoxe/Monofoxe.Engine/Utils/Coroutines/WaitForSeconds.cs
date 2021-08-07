@@ -1,8 +1,11 @@
 ﻿using Monofoxe.Engine.Utils;
 using System.Collections;
 
-namespace Monofoxe.Engine.CoroutineSystem
+namespace Monofoxe.Engine.Utils.Coroutines
 {
+	/// <summary>
+	/// 
+	/// </summary>
 	public class WaitForSeconds : YieldInstruction
 	{
 		private double _waitTime;
@@ -20,7 +23,7 @@ namespace Monofoxe.Engine.CoroutineSystem
 			_keeper = keeper;
 		}
 
-		public override IEnumerator Yield()
+		public override IEnumerator Run()
 		{
 			var counter = 0.0;
 

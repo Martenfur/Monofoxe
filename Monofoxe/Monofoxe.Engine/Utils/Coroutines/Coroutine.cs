@@ -2,11 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Monofoxe.Engine.CoroutineSystem
+namespace Monofoxe.Engine.Utils.Coroutines
 {
 	public class Coroutine : IDisposable
 	{
 		public bool Paused;
+
 
 		internal virtual void Reset(IEnumerator routine)
 		{
@@ -14,6 +15,7 @@ namespace Monofoxe.Engine.CoroutineSystem
 			RoutinesStack.Push(routine);
 			Paused = false;
 		}
+
 
 		internal virtual bool Update()
 		{
@@ -30,7 +32,7 @@ namespace Monofoxe.Engine.CoroutineSystem
 				}
 				if (RoutinesStack.Peek().Current is YieldInstruction instruction)
 				{
-					RoutinesStack.Push(instruction.Yield());
+					RoutinesStack.Push(instruction.Run());
 				}
 			}
 			else
@@ -45,7 +47,9 @@ namespace Monofoxe.Engine.CoroutineSystem
 			return true;
 		}
 
+
 		internal readonly Stack<IEnumerator> RoutinesStack = new Stack<IEnumerator>(1);
+
 
 		public virtual void Dispose()
 		{

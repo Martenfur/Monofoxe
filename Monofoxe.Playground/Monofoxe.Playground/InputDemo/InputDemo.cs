@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine;
-using Monofoxe.Engine.CoroutineSystem;
+using Monofoxe.Engine.Utils.Coroutines;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.EC;
 using Monofoxe.Engine.Resources;
@@ -46,7 +46,7 @@ namespace Monofoxe.Playground.InputDemo
 				_mainColor = Color.AliceBlue;
 			}
 
-			yield return new ConditionTest();
+			yield return new WaitForButton(Buttons.S);
 			
 			yield return DeepTesto();
 

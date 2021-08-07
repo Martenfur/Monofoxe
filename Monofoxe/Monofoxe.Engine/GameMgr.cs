@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Monofoxe.Engine.CoroutineSystem;
 
 [assembly: InternalsVisibleTo("Monofoxe.Engine.WindowsDX")]
 [assembly: InternalsVisibleTo("Monofoxe.Engine.DesktopGL")]
