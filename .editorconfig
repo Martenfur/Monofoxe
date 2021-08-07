@@ -1,9 +1,7 @@
 ﻿[*]
 indent_style = tab
-indent_size=4
 
 # Code files
 [*.*]
-indent_size = 2
 insert_final_newline = true
 charset = utf-8-bom
