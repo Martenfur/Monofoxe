@@ -44,7 +44,18 @@ mgfxc Monofoxe/Resources/AlphaBlend.fx Monofoxe/Resources/AlphaBlend_gl.mgfxo /P
 
 
 "Building solution..."
-dotnet build ("$PWD\Monofoxe\Monofoxe.sln" ,'/verbosity:q','/p:configuration=Release','/t:Clean,Build', '/p:NoWarn=1591')
+
+Function Build([string] $proj)
+{
+	dotnet build ("$PWD\Monofoxe\$proj\$proj.csproj" ,'/verbosity:q','/p:configuration=Release','/t:Clean,Build', '/p:NoWarn=1591')
+}
+
+Build "Monofoxe.Engine"
+Build "Monofoxe.Engine.DesktopGL"
+Build "Monofoxe.Engine.WindowsDX"
+Build "Monofoxe.Tiled"
+Build "Monofoxe.Pipeline"
+
 
 "Cleaning output directory at $destReleaseDir..."
 if (Test-Path "$destReleaseDir" -PathType Container)
