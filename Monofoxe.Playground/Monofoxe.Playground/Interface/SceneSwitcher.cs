@@ -4,6 +4,7 @@ using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.EC;
 using Monofoxe.Engine.Resources;
 using Monofoxe.Engine.SceneSystem;
+using Monofoxe.Playground.CoroutinesDemo;
 using Monofoxe.Playground.ECDemo;
 using Monofoxe.Playground.GraphicsDemo;
 using Monofoxe.Playground.InputDemo;
@@ -29,6 +30,7 @@ namespace Monofoxe.Playground.Interface
 			new UtilsDemoFactory(),
 			new TiledDemoFactory(),
 			new VertexBatchTestFactory(),
+			new CoroutinesDemoFactory(),
 		};
 
 		public int CurrentSceneID {get; private set;} = 0;
