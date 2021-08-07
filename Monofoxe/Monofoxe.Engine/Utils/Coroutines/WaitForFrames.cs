@@ -2,6 +2,9 @@
 
 namespace Monofoxe.Engine.Utils.Coroutines
 {
+	/// <summary>
+	/// Suspends the coroutine execution until a certain amount of frames passes.
+	/// </summary>
 	public class WaitForFrames : YieldInstruction
 	{
 		private double _waitCount;

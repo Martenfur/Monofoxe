@@ -1,10 +1,9 @@
-﻿using Monofoxe.Engine.Utils;
-using System.Collections;
+﻿using System.Collections;
 
 namespace Monofoxe.Engine.Utils.Coroutines
 {
 	/// <summary>
-	/// 
+	/// Suspends the coroutine execution until a certain amount of seconds passes.
 	/// </summary>
 	public class WaitForSeconds : YieldInstruction
 	{
