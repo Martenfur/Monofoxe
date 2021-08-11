@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [v2.1.0] - *12.08.2021*
+
 ### Changed
 
 - Removed VS2017 template support and added VS2022 templates.
