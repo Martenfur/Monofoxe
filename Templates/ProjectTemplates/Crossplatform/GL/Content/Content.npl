@@ -1,8 +1,8 @@
 {
-	"root": "../../$ext_specifiedsolutionname$.Content/Content/",
+	"root": "../../$ext_safeprojectname$.Content/Content/",
 	"references":
 	[
-		"../../$ext_specifiedsolutionname$.Content/bin/*.dll"
+		"../../$ext_safeprojectname$.Content/bin/*.dll"
 	],
 	"content":
 	{
@@ -15,7 +15,7 @@
 			"processor": "PassThroughProcessor",
 			"watch":
 			[
-				"../../Monofoxe.Playground.Content/Content/*"
+				"../../$ext_safeprojectname$.Content/Content/*"
 			]
 		},
 		"music":

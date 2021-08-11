@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net5.0</TargetFramework>
+		<PublishReadyToRun>false</PublishReadyToRun>
+		<TieredCompilation>false</TieredCompilation>
+	</PropertyGroup>
+	<PropertyGroup>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<ApplicationIcon>Icon.ico</ApplicationIcon>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Remove="Icon.ico" />
+		<None Remove="Icon.bmp" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Icon.ico" />
+		<EmbeddedResource Include="Icon.bmp" />
+	</ItemGroup>
+	<ItemGroup>
+		<TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641" />
+		<PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
+		<PackageReference Include="Nopipeline.Task" Version="2.1.5" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Monofoxe\Monofoxe.Engine.DesktopGL\Monofoxe.Engine.DesktopGL.csproj" />
+		<ProjectReference Include="..\..\Monofoxe\Monofoxe.Engine\Monofoxe.Engine.csproj" />
+		<ProjectReference Include="..\..\Monofoxe\Monofoxe.Tiled\Monofoxe.Tiled.csproj" />
+		<ProjectReference Include="..\Monofoxe.Samples\Monofoxe.Samples.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<MonoGameContentReference Include="Content\Content.mgcb" />
+	</ItemGroup>
+</Project>

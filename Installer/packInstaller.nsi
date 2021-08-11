@@ -3,8 +3,8 @@
 
 
 !define APPNAME "Monofoxe"
-!define APPVERSION "v2-dev"
-!define INSTALLERVERSION "2.0.0.0-dev"
+!define APPVERSION "v2"
+!define INSTALLERVERSION "2.1.0.0"
 
 !define MUI_ICON "pics\icon.ico"
 !define MUI_UNICON "pics\icon.ico"
@@ -53,13 +53,6 @@ RequestExecutionLevel admin
 
 ; Stuff to install.
 
-Section "Visual Studio 2017 Templates/" VS2017
-	SetOutPath "$DOCUMENTS\Visual Studio 2017\${PROJECT_TEMPLATES_DIRECTORY}"
-	File /r '..\Release\ProjectTemplates\*.zip'
-	SetOutPath "$DOCUMENTS\Visual Studio 2017\${ITEM_TEMPLATES_DIRECTORY}"
-	File /r '..\Release\ItemTemplates\*.zip'
-SectionEnd
-
 Section "Visual Studio 2019 Templates/" VS2019
 	SetOutPath "$DOCUMENTS\Visual Studio 2019\${PROJECT_TEMPLATES_DIRECTORY}"
 	File /r '..\Release\ProjectTemplates\*.zip'
@@ -67,35 +60,42 @@ Section "Visual Studio 2019 Templates/" VS2019
 	File /r '..\Release\ItemTemplates\*.zip'
 SectionEnd
 
+Section "Visual Studio 2022 Templates/" VS2022
+	SetOutPath "$DOCUMENTS\Visual Studio 2022\${PROJECT_TEMPLATES_DIRECTORY}"
+	File /r '..\Release\ProjectTemplates\*.zip'
+	SetOutPath "$DOCUMENTS\Visual Studio 2022\${ITEM_TEMPLATES_DIRECTORY}"
+	File /r '..\Release\ItemTemplates\*.zip'
+SectionEnd
+
 !define OldMonofoxeInstallationDir '$PROGRAMFILES\Monofoxe\'
+!define OldMonofoxeInstallationDirV2 '$PROGRAMFILES\Monofoxe Engine\'
 Section "Remove old versions." RemoveOldVersions
-  RMDir /r "$DOCUMENTS\Visual Studio 2017\Templates\ProjectTemplates\Visual C#\Monofoxe"
+  RMDir /r "$DOCUMENTS\Visual Studio 2015\Templates\ProjectTemplates\Visual C#\Monofoxe"
   RMDir /r "$DOCUMENTS\Visual Studio 2019\Templates\ProjectTemplates\Visual C#\Monofoxe"
+  RMDir /r "$DOCUMENTS\Visual Studio 2022\Templates\ProjectTemplates\Visual C#\Monofoxe"
+	RMDir /r "$DOCUMENTS\Visual Studio 2015\Templates\ProjectTemplates\Visual C#\Monofoxe v2-dev"
+	RMDir /r "$DOCUMENTS\Visual Studio 2019\Templates\ProjectTemplates\Visual C#\Monofoxe v2-dev"
+  RMDir /r "$DOCUMENTS\Visual Studio 2022\Templates\ProjectTemplates\Visual C#\Monofoxe v2-dev"
+	
   Delete "${OldMonofoxeInstallationDir}\Uninstall.exe"
   RMDir /r "${OldMonofoxeInstallationDir}"
+	RMDir /r "${OldMonofoxeInstallationDirV2}"
 SectionEnd
 
 ; Stuff to install.
 
 
 ; Component menu.
-LangString VS2017Desc ${LANG_ENGLISH} "Install project templates for Visual Studio 2017. Templates are required to create new projects."
 LangString VS2019Desc ${LANG_ENGLISH} "Install project templates for Visual Studio 2019. Templates are required to create new projects."
+LangString VS2022Desc ${LANG_ENGLISH} "Install project templates for Visual Studio 2022. Templates are required to create new projects."
 LangString RemoveOldVersionsDesc ${LANG_ENGLISH} "Remove all previous Monofoxe versions."
 
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-	!insertmacro MUI_DESCRIPTION_TEXT ${VS2017} $(VS2017Desc)
 	!insertmacro MUI_DESCRIPTION_TEXT ${VS2019} $(VS2019Desc)
+	!insertmacro MUI_DESCRIPTION_TEXT ${VS2022} $(VS2022Desc)
 	!insertmacro MUI_DESCRIPTION_TEXT ${RemoveOldVersions} $(RemoveOldVersionsDesc)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
-
-Function checkVS2017
-IfFileExists `$DOCUMENTS\Visual Studio 2017\Templates\ProjectTemplates\*.*` end disable
-	disable:
-		SectionSetFlags ${VS2017} $1
-	end:
-FunctionEnd
 
 Function checkVS2019
 IfFileExists `$DOCUMENTS\Visual Studio 2019\Templates\ProjectTemplates\*.*` end disable
@@ -103,12 +103,19 @@ IfFileExists `$DOCUMENTS\Visual Studio 2019\Templates\ProjectTemplates\*.*` end 
 		SectionSetFlags ${VS2019} $1
 	end:
 FunctionEnd
+
+Function checkVS2022
+IfFileExists `$DOCUMENTS\Visual Studio 2022\Templates\ProjectTemplates\*.*` end disable
+	disable:
+		SectionSetFlags ${VS2022} $1
+	end:
+FunctionEnd
 ; Component menu.
 
 Function .onInit
 	IntOp $0 $0 | ${SF_RO}
-	Call checkVS2017
 	Call checkVS2019
+	Call checkVS2022
 	IntOp $0 ${SF_SELECTED} | ${SF_RO}
 FunctionEnd
 

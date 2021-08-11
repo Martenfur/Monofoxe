@@ -12,6 +12,6 @@ Docs will not describe each and every feature of Monofoxe. For that you'll need 
 
 A good place to start is the [Table of Contents](Contents.md). 
 
-And while you're at it, you might as well learn basics of Monogame [here](http://rbwhitaker.wikidot.com/monogame-getting-started-tutorials). You can also check out [Monogame forum](http://community.monogame.net/) and [Monogame Discord](https://discord.gg/ct7GQgW).
+And while you're at it, you might as well learn basics of Monogame [here](http://rbwhitaker.wikidot.com/monogame-getting-started-tutorials). You can also check out [Monogame forum](http://community.monogame.net/) and [Monogame Discord](https://discord.gg/wgBb7cqGhC).
 
 If you want to read the docs offline, just clone this repository and download MD viewer, such as [Typora](https://typora.io/).

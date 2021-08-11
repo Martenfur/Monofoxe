@@ -27,11 +27,26 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public static Scene CurrentScene {get; private set;}
 
-		
+		/// <summary>
+		/// True, when the current frame is the frame on which FixedUpdate will be executed.
+		/// </summary>
+		public static bool IsFixedUpdateFrame {get; private set;}
+
 		/// <summary>
 		/// Counts time until next fixed update.
 		/// </summary>
 		private static double _fixedUpdateTimer;
+
+		/// <summary>
+		/// If true, all crashes within the scenes will be caught and OnCrash event will be called.
+		/// </summary>
+		public static bool CrashHandlingEnabled = false;
+		
+		/// <summary>
+		/// Gets called whenever the code within a scene crashes.
+		/// IMPORTANT: CrashHandlingEnabled has to be set to true!!!
+		/// </summary>
+		public static event Action<Scene, Exception> OnCrash;
 
 
 		/// <summary>
@@ -188,7 +203,6 @@ namespace Monofoxe.Engine.SceneSystem
 		/// </summary>
 		public static event SceneMgrEventDelegate OnPostDrawGUI;
 
-
 		/// <summary>
 		/// Executes Fixed Update events.
 		/// </summary>
@@ -196,8 +210,10 @@ namespace Monofoxe.Engine.SceneSystem
 		{
 			_fixedUpdateTimer += gameTime.ElapsedGameTime.TotalSeconds;
 
+			IsFixedUpdateFrame = false;
 			if (_fixedUpdateTimer >= GameMgr.FixedUpdateRate)
 			{
+				IsFixedUpdateFrame = true;
 				var overflow = (int)(_fixedUpdateTimer / GameMgr.FixedUpdateRate); // In case of lags.
 				_fixedUpdateTimer -= GameMgr.FixedUpdateRate * overflow;
 
@@ -210,7 +226,21 @@ namespace Monofoxe.Engine.SceneSystem
 					{
 						CurrentScene = scene;
 
-						scene.FixedUpdate();
+						if (CrashHandlingEnabled)
+						{
+							try
+							{
+								scene.FixedUpdate();
+							}
+							catch (Exception e)
+							{
+								OnCrash?.Invoke(scene, e);
+							}
+						}
+						else
+						{
+							scene.FixedUpdate();
+						}
 					}
 				}
 				OnPostFixedUpdate?.Invoke();
@@ -232,7 +262,21 @@ namespace Monofoxe.Engine.SceneSystem
 				{
 					CurrentScene = scene;
 
-					scene.Update();
+					if (CrashHandlingEnabled)
+					{
+						try
+						{
+							scene.Update();
+						}
+						catch(Exception e)
+						{
+							OnCrash?.Invoke(scene, e);
+						}
+					}
+					else
+					{
+						scene.Update();
+					}
 				}
 			}
 			OnPostUpdate?.Invoke();
@@ -251,7 +295,21 @@ namespace Monofoxe.Engine.SceneSystem
 				{
 					CurrentScene = scene;
 
-					scene.Draw();
+					if (CrashHandlingEnabled)
+					{
+						try
+						{
+							scene.Draw();
+						}
+						catch (Exception e)
+						{
+							OnCrash?.Invoke(scene, e);
+						}
+					}
+					else
+					{
+						scene.Draw();
+					}
 				}
 			}
 			OnPostDraw?.Invoke();
@@ -270,7 +328,21 @@ namespace Monofoxe.Engine.SceneSystem
 				{
 					CurrentScene = scene;
 
-					scene.DrawGUI();
+					if (CrashHandlingEnabled)
+					{
+						try
+						{
+							scene.DrawGUI();
+						}
+						catch (Exception e)
+						{
+							OnCrash?.Invoke(scene, e);
+						}
+					}
+					else
+					{
+						scene.DrawGUI();
+					}
 				}
 			}
 			OnPostDrawGUI?.Invoke();

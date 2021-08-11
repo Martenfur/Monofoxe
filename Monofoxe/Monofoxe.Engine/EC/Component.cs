@@ -43,21 +43,21 @@
 		/// Gets called when component is added to the entity. 
 		/// If removed and added several times, the event will still be called.
 		/// </summary>
-		public abstract void Initialize();
+		public virtual void Initialize() { }
 
 		
 
 		/// <summary>
 		/// Updates at a fixed rate, if entity is enabled.
 		/// </summary>
-		public abstract void FixedUpdate();
+		public virtual void FixedUpdate() { }
 
 
 
 		/// <summary>
 		/// Updates every frame, if entity is enabled.
 		/// </summary>
-		public abstract void Update();
+		public virtual void Update() { }
 
 
 
@@ -67,14 +67,14 @@
 		/// NOTE: DO NOT put any significant logic into Draw.
 		/// It may skip frames.
 		/// </summary>
-		public abstract void Draw();
+		public virtual void Draw() { }
 
 
 
 		/// <summary>
 		///	Triggers right before destruction, if entity is enabled. 
 		/// </summary>
-		public abstract void Destroy();
+		public virtual void Destroy() { }
 
 		#endregion Events.
 

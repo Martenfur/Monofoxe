@@ -2,6 +2,28 @@
 
 ## [Unreleased]
 
+## [v2.1.0] - *12.08.2021*
+
+### Changed
+
+- Removed VS2017 template support and added VS2022 templates.
+- Solution created from template no longer requires to manually build Content project.
+- Changed `Component` methods from abstract to virtual.
+- Templates now support .NET5 instead of netcore 3.
+
+### Added
+
+- Added support for the `backgroundcolor` property for Tiled maps.
+- Added `OnCrash` event to `SceneMgr` which allows to catch and recover from the exceptions within a scene.
+- Added `IsFixedUpdateFrame` to `SceneMgr`.
+- Added coroutines.
+
+### Fixed:
+
+- Fixed `Scene` not being able to delete its layers properly.
+- Made `SafeList` thread safe.
+- Newly created solutions set their default project to GL instead of library, which cannot be run.
+
 ## [v2.0.0] - *27.08.2020*
 
 ### Added:

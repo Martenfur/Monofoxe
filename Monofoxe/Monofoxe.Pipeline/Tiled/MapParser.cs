@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml;
+using Microsoft.Xna.Framework;
 using Monofoxe.Tiled.MapStructure;
 
 namespace Monofoxe.Pipeline.Tiled
@@ -24,6 +25,11 @@ namespace Monofoxe.Pipeline.Tiled
 			map.Height = int.Parse(mapAttributes["height"].Value);
 			map.TileWidth = int.Parse(mapAttributes["tilewidth"].Value);
 			map.TileHeight = int.Parse(mapAttributes["tileheight"].Value);
+
+			if (mapAttributes["backgroundcolor"] != null)
+			{
+				map.BackgroundColor = XmlHelper.StringToColor(mapAttributes["backgroundcolor"].Value);
+			}
 			
 			Enum.TryParse(mapAttributes["renderorder"].Value.Replace("-", ""), true, out map.RenderOrder);
 			Enum.TryParse(mapAttributes["orientation"].Value, true, out map.Orientation);
@@ -36,10 +42,10 @@ namespace Monofoxe.Pipeline.Tiled
 			{
 				Enum.TryParse(mapAttributes["staggerindex"].Value, true, out map.StaggerIndex);
 			}
-
+			
 			map.HexSideLength = XmlHelper.GetXmlIntSafe(mapXml, "hexsidelength");
 			// Properties.
-			
+			map.Properties = XmlHelper.GetProperties(mapXml);
 
 			// Tilesets and layers.
 			map.Tilesets = TilesetParser.Parse(mapXml.SelectNodes("tileset"));

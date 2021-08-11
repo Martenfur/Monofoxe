@@ -15,7 +15,7 @@
 			"processor": "PassThroughProcessor",
 			"watch":
 			[
-				"../../Monofoxe.Playground.Content/Content/*"
+				"../../$ext_safeprojectname$.Content/Content/*"
 			]
 		},
 		"music":
