@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 
+### Added
+
+- Added `Name` field to `Sprite`.
+- Added `Range<>` class.
+- Added HEX conversion for `Color`.
+- Added `HsvColor` Lerp and basic operators.
+
+### Fixed
+
+- Fixed `Sprite.Clone()` not copying frames properly.
+
+
 ## [v2.1.0] - *12.08.2021*
 
 ### Changed
