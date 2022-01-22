@@ -89,7 +89,7 @@ namespace Monofoxe.Engine.Drawing
 			Array.Copy(frames, _frames, frames.Length);
 			Origin = new Vector2(originX, originY);
 			
-			SingleFrameSize = CheckIdenticalFrameSizes(frames);
+			SingleFrameSize = CheckIdenticalFrameSizes();
 		}
 
 		public Sprite(Frame[] frames, Vector2 origin)
@@ -101,7 +101,7 @@ namespace Monofoxe.Engine.Drawing
 			}
 			Array.Copy(frames, _frames, frames.Length);
 			Origin = origin;
-			SingleFrameSize = CheckIdenticalFrameSizes(frames);
+			SingleFrameSize = CheckIdenticalFrameSizes();
 		}
 
 		public Sprite(Frame frame, int originX, int originY)
@@ -117,8 +117,7 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Checks if all frames got identical sizes.
 		/// </summary>
-		/// <param name="frames">Array of frames to check.</param>
-		private bool CheckIdenticalFrameSizes(Frame[] frames)
+		private bool CheckIdenticalFrameSizes()
 		{
 			for(var i = 1; i < _frames.Length; i += 1)
 			{
@@ -205,7 +204,7 @@ namespace Monofoxe.Engine.Drawing
 
 			foreach(var frame in _frames)
 			{
-				frames.Add((Frame)_frames.Clone());
+				frames.Add((Frame)frame.Clone());
 			}
 
 			var sprite = new Sprite(frames.ToArray(), Origin);
