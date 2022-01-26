@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Monofoxe.Engine.Resources
@@ -12,13 +13,16 @@ namespace Monofoxe.Engine.Resources
 		/// <summary>
 		/// Tells if the resources been loaded already.
 		/// </summary>
-		public bool Loaded {get; protected set;}
+		public bool Loaded { get; protected set; }
+
+		public Type Type { get; private set; }
 
 		public readonly string Name;
 
 		public ResourceBox(string name)
 		{
 			Name = name;
+			Type = typeof(T);
 			ResourceHub.AddResourceBox(name, this);
 		}
 
@@ -40,7 +44,15 @@ namespace Monofoxe.Engine.Resources
 		/// </summary>
 		public T GetResource(string key) =>
 			_resources[key];
-		
+
+
+		/// <summary>
+		/// Returns the resource with a specific key.
+		/// </summary>
+		public bool TryGetResource(string key, out T value) =>
+			_resources.TryGetValue(key, out value);
+
+
 		/// <summary>
 		/// Returns true, if the box contains resource with provided key.
 		/// </summary>

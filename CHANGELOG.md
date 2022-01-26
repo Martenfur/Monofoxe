@@ -8,6 +8,7 @@
 - Added `Range<>` class.
 - Added HEX conversion for `Color`.
 - Added `HsvColor` Lerp and basic operators.
+- Added simplified `GetResource<>()` methods.
 
 ### Fixed
 
