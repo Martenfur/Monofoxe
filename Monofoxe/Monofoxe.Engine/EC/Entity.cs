@@ -149,7 +149,7 @@ namespace Monofoxe.Engine.EC
 
 
 		/// <summary>
-		///	Triggers right before destruction, if entity is enabled. 
+		///	Triggers right before destruction.
 		/// </summary>
 		public virtual void Destroy() 
 		{
@@ -280,11 +280,7 @@ namespace Monofoxe.Engine.EC
 			if (!Destroyed)
 			{
 				Destroyed = true;
-				if (Enabled)
-				{
-					// Performs Destroy event only if entity is enabled.
-					Destroy();
-				}
+				Destroy();
 			}
 		}
 

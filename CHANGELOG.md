@@ -10,6 +10,9 @@
 - Added `HsvColor` Lerp and basic operators.
 - Added simplified `GetResource<>()` methods.
 
+### Changed
+- `Destroy()` event triggers even if an entity is disabled.
+
 ### Fixed
 
 - Fixed `Sprite.Clone()` not copying frames properly.
