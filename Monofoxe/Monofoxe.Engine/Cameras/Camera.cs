@@ -189,11 +189,16 @@ namespace Monofoxe.Engine.Cameras
 			Priority = priority; // Also adds camera to camera list.
 		}
 
+		public event Action<int, int> OnResize;
+
 		/// <summary>
 		/// Resizes the view.
 		/// </summary>
-		public void Resize(int w, int h) =>
+		public void Resize(int w, int h)
+		{
 			Surface.Resize(w, h);
+			OnResize?.Invoke(w, h);
+		}
 
 		/// <summary>
 		/// Removes camera from draw controller list and disposes the surface.

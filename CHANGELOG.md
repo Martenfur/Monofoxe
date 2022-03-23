@@ -9,6 +9,7 @@
 - Added HEX conversion for `Color`.
 - Added `HsvColor` Lerp and basic operators.
 - Added simplified `GetResource<>()` methods.
+- Added `OnResize` event to `Camera`.
 
 ### Changed
 - `Destroy()` event triggers even if an entity is disabled.
