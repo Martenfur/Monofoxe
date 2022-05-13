@@ -10,6 +10,8 @@
 - Added `HsvColor` Lerp and basic operators.
 - Added simplified `GetResource<>()` methods.
 - Added `OnResize` event to `Camera`.
+- Added `Global` instance to `RandomExt`.
+- Added unit circle methods to `RandomExt`.
 
 ### Changed
 - `Destroy()` event triggers even if an entity is disabled.
