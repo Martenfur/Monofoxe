@@ -197,6 +197,8 @@ namespace Monofoxe.Engine.Cameras
 		public void Resize(int w, int h)
 		{
 			Surface.Resize(w, h);
+			_postprocessorBuffer?.Resize(w, h);
+			_postprocessorLayerBuffer?.Resize(w, h);
 			OnResize?.Invoke(w, h);
 		}
 
