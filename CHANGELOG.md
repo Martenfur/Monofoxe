@@ -1,4 +1,4 @@
-# [Changelog](http://keepachangelog.com/en/1.0.0/):
+﻿# [Changelog](http://keepachangelog.com/en/1.0.0/):
 
 ## [Unreleased]
 
@@ -12,6 +12,7 @@
 - Added `OnResize` event to `Camera`.
 - Added `Global` instance to `RandomExt`.
 - Added unit circle methods to `RandomExt`.
+- Added dampers based on second order motion.
 
 ### Changed
 - `Destroy()` event triggers even if an entity is disabled.
