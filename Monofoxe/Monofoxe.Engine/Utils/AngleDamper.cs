@@ -70,6 +70,9 @@ namespace Monofoxe.Engine.Utils
 		}
 		private float _initialResponse;
 
+		public Angle Value => _value;
+		private Angle _value;
+
 
 		public TimeKeeper Time = TimeKeeper.Global;
 
@@ -102,6 +105,7 @@ namespace Monofoxe.Engine.Utils
 			// Init variables.
 			_oldValue = initialValue.Degrees;
 			_y = initialValue.Degrees;
+			_value = new Angle(initialValue.Degrees);
 			_yd = 0;
 		}
 
@@ -176,7 +180,8 @@ namespace Monofoxe.Engine.Utils
 			_y = _y + dt * _yd; // Integrating position by velocity.
 			_yd = _yd + dt * (value + _k3 * speed - _y - _k1 * _yd) / k2Stable; // Integrating velocity by acceleration.
 
-			return new Angle(_y);
+			_value = new Angle(_y); // Cached value.
+			return _value;
 		}
 
 

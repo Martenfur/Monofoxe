@@ -71,6 +71,9 @@ namespace Monofoxe.Engine.Utils
 		private float _initialResponse;
 
 
+		public Vector3 Value => _y;
+
+
 		public TimeKeeper Time = TimeKeeper.Global;
 
 

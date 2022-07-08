@@ -16,6 +16,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A430DAE4-9E80-4735-894E-886C8F800156}"
 	ProjectSection(SolutionItems) = preProject
 		..\.editorconfig = ..\.editorconfig
+		..\CHANGELOG.md = ..\CHANGELOG.md
+		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monofoxe.Engine.WindowsDX", "Monofoxe.Engine.WindowsDX\Monofoxe.Engine.WindowsDX.csproj", "{A1593C65-09C3-4294-A153-A43509D989AA}"
