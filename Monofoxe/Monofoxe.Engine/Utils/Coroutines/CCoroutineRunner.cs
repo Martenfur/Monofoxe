@@ -17,6 +17,13 @@ namespace Monofoxe.Engine.Utils.Coroutines
 			return coroutine;
 		}
 
+		public Job StartJob(IEnumerator routine, float millisecondBudget = 0.1f)
+		{
+			var coroutine = new Job(millisecondBudget);
+			coroutine.Reset(routine);
+			_incomingCoroutines.Add(coroutine);
+			return coroutine;
+		}
 
 		public bool WasRemoved(Coroutine coroutine) =>
 			!_activeCoroutines.Contains(coroutine) && !_incomingCoroutines.Contains(coroutine);

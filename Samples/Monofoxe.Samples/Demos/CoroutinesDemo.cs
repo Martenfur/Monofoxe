@@ -8,6 +8,7 @@ using Monofoxe.Engine.Utils.Coroutines;
 using Monofoxe.Samples.Misc;
 using System.Collections;
 
+
 namespace Monofoxe.Samples.Demos
 {
 	public class CoroutinesDemo : Entity
@@ -27,10 +28,13 @@ namespace Monofoxe.Samples.Demos
 			StartCoroutine(BasicUpdateClockCoroutine());
 			StartCoroutine(FixedUpdateClockCoroutine());
 			StartCoroutine(BallSpawnerCoroutine());
-
+			
 
 			StartCoroutine(WaitUntilCoroutine());
 			StartCoroutine(WaitWhileCoroutine());
+
+
+			StartJob(LargeJob(), 0.1f);
 		}
 
 		public override void Update()
@@ -51,8 +55,8 @@ namespace Monofoxe.Samples.Demos
 
 		private IEnumerator ExampleCoroutine()
 		{
-			// Coroutines are basically delayed methods that can be paused or delayed.
-			// COROUTINES ARE NOT ASYNC. They execute un the same Update in a component,
+			// Coroutines are special methods that can be paused or delayed.
+			// COROUTINES ARE NOT ASYNC. They execute on the same Update in a component,
 			// so it's thread-safe.
 
 			var a = 0;
@@ -169,6 +173,31 @@ namespace Monofoxe.Samples.Demos
 			}
 		}
 
+
+		private int _jobCounter = 0;
+		private IEnumerator LargeJob()
+		{
+			// Jobs are similar to coroutines, but instead of scheduling execution
+			// to the next frame every time, they have a time budget. 
+			// If there is enough time left, yield return null will immediately return
+			// back the the job in the same frame.
+			// Jobs are well-suited for large tasks that should happen in the background, like pathfinding, map loading, etc.
+			// NOTE: DO NOT use Wait methods, they are incompatible with jobs!!!
+			yield return SubLargeJob();
+			yield return SubLargeJob();
+			yield return SubLargeJob();
+		}
+
+		private IEnumerator SubLargeJob()
+		{
+			for (var k = 0; k < 10000000; k += 1)
+			{
+				_jobCounter += 1; 
+				yield return null;
+			}
+		}
+
+
 		public override void Draw()
 		{
 			base.Draw();
@@ -190,6 +219,9 @@ namespace Monofoxe.Samples.Demos
 			Text.Draw("press B to spawn", _waitUntilSpawnerPosition + new Vector2(0.0f, -64));
 			Text.Draw("press B to stop", _waitWhileSpawnerPosition + new Vector2(0.5f, -64));
 			Text.Draw("press N to start sequence", _sequencePosition + new Vector2(0.5f, -64));
+
+			Text.HorAlign = TextAlign.Left;
+			Text.Draw("Job progress: " + _jobCounter, new Vector2(32, 32));
 		}
 
 		private void DrawClocks()

@@ -267,9 +267,57 @@ namespace Monofoxe.Engine.EC
 			}
 			return null;
 		}
-		
+
 		#endregion Components.
 
+
+		/// <summary>
+		/// Starts a new coroutine.
+		/// </summary>
+		public Coroutine StartCoroutine(IEnumerator routine)
+		{
+			if (!HasComponent<CCoroutineRunner>())
+			{
+				AddComponent(new CCoroutineRunner());
+			}
+			var c = GetComponent<CCoroutineRunner>();
+			return c.StartCoroutine(routine);
+		}
+
+
+		public void StopCoroutine(Coroutine coroutine)
+		{
+			if (!HasComponent<CCoroutineRunner>())
+			{
+				return;
+			}
+			var c = GetComponent<CCoroutineRunner>();
+			c.StopCoroutine(coroutine);
+		}
+
+
+		/// <summary>
+		/// Starts a new job with a certain time budget.
+		/// Jobs are similar to coroutines, but instead of scheduling execution
+		/// to the next frame every time, they have a time budget. 
+		/// If there is enough time left, yield return null will immediately return
+		/// back the the job in the same frame.
+		/// Jobs are well-suited for large tasks that should happen in the background, like pathfinding, map loading, etc.
+		/// NOTE: DO NOT use Wait methods, they are incompatible with jobs!!!
+		/// </summary>
+		public Job StartJob(IEnumerator routine, float millisecondBudget = 0.1f)
+		{
+			if (!HasComponent<CCoroutineRunner>())
+			{
+				AddComponent(new CCoroutineRunner());
+			}
+			var c = GetComponent<CCoroutineRunner>();
+			return c.StartJob(routine, millisecondBudget);
+		}
+
+
+		public void StopJob(Job job) =>
+			StopCoroutine(job);
 
 
 		/// <summary>
@@ -282,31 +330,6 @@ namespace Monofoxe.Engine.EC
 				Destroyed = true;
 				Destroy();
 			}
-		}
-
-
-		/// <summary>
-		/// Starts a new coroutine
-		/// </summary>
-		public Coroutine StartCoroutine(IEnumerator routine)
-		{
-			if (!HasComponent<CCoroutineRunner>())
-			{ 
-				AddComponent(new CCoroutineRunner());
-			}
-			var c = GetComponent<CCoroutineRunner>();
-			return c.StartCoroutine(routine);
-		}
-
-
-		public void StopCoroutine(Coroutine coroutine)
-		{
-			if (!HasComponent<CCoroutineRunner>())
-			{ 
-				return;
-			}
-			var c = GetComponent<CCoroutineRunner>();
-			c.StopCoroutine(coroutine);
 		}
 	}
 }

@@ -13,6 +13,7 @@
 - Added `Global` instance to `RandomExt`.
 - Added unit circle methods to `RandomExt`.
 - Added dampers based on second order motion.
+- Added job system.
 
 ### Changed
 - `Destroy()` event triggers even if an entity is disabled.
