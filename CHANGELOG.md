@@ -14,6 +14,11 @@
 - Added unit circle methods to `RandomExt`.
 - Added dampers based on second order motion.
 - Added job system.
+- Added `started` argument to `Alarm` constructor. 
+- Added `Start(time)` and `Pause(), Resume()` metods to `Alarm`.
+- Added `Counter`.
+- Added ` GetOrCreateLayer` to `Scene`.
+- Added `OnFinish` event to coroutines.
 
 ### Changed
 - `Destroy()` event triggers even if an entity is disabled.

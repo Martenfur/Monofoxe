@@ -3,28 +3,6 @@ namespace Monofoxe.Engine.Utils
 {
 	public delegate void AlarmDelegate(Alarm caller);
 
-	public enum OnTriggerAction
-	{
-		/// <summary>
-		/// On reaching trigger time, 
-		/// alarm resets itself to 0, triggers OnTrigger event and stops.
-		/// </summary>
-		Stop,
-
-		/// <summary>
-		/// On reaching trigger time,
-		/// alarm resets itself to 0, triggers OnTrigger event and continues counting.
-		/// In this mode, alarm takes into account leftover counter delta to make 
-		/// repeated counting precise.
-		/// </summary>
-		Loop,
-
-		/// <summary>
-		/// Alarm never triggers.
-		/// </summary>
-		None,
-	}
-
 	/// <summary>
 	/// Counts down seconds. Needs to be updated manually.
 	/// </summary>
@@ -61,13 +39,24 @@ namespace Monofoxe.Engine.Utils
 		public OnTriggerAction OnTriggerAction;
 
 
-		public Alarm(double time, OnTriggerAction onTriggerAction = OnTriggerAction.Stop) 
+		public Alarm(double time, OnTriggerAction onTriggerAction = OnTriggerAction.Stop, bool started = false) 
 		{
 			TriggerTime = time;
 			OnTriggerAction = onTriggerAction;
+			if (started)
+			{
+				Start();
+			}
 		}
-		
-		
+
+
+		public void Start(double time)
+		{
+			TriggerTime = time;
+			Start();
+		}
+
+
 		public void Start()
 		{
 			Running = true;
@@ -80,6 +69,14 @@ namespace Monofoxe.Engine.Utils
 			Running = false;
 			Counter = 0;
 		}
+
+
+		public void Pause() =>
+			Paused = true;
+
+
+		public void Resume() =>
+			Paused = false;
 
 
 		/// <summary>

@@ -8,6 +8,7 @@ namespace Monofoxe.Engine.Utils.Coroutines
 	{
 		public bool Paused;
 
+		public event Action OnFinish;
 
 		internal virtual void Reset(IEnumerator routine)
 		{
@@ -36,6 +37,7 @@ namespace Monofoxe.Engine.Utils.Coroutines
 				RoutinesStack.Pop();
 				if (RoutinesStack.Count == 0)
 				{
+					OnFinish?.Invoke();
 					return false;
 				}
 			}

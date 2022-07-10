@@ -87,6 +87,19 @@ namespace Monofoxe.Engine.SceneSystem
 		}
 
 		/// <summary>
+		/// Returns a layer with given name or creates it if it does not exist.
+		/// </summary>
+		public Layer GetOrCreateLayer(string name, int priority = 0)
+		{
+			if (TryGetLayer(name, out var layer))
+			{
+				return layer;
+			}
+
+			return new Layer(name, priority, this);
+		}
+
+		/// <summary>
 		/// Destroys given layer.
 		/// </summary>
 		public void DestroyLayer(Layer layer)
