@@ -19,6 +19,8 @@ namespace Monofoxe.Engine.Resources
 
 		public readonly string Name;
 
+		public int Count => _resources.Count;
+
 		public ResourceBox(string name)
 		{
 			Name = name;
