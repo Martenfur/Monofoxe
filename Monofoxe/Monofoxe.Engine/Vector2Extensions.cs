@@ -95,5 +95,8 @@ namespace Monofoxe.Engine
 			);
 		}
 
+
+		public static Vector2 Projection(this Vector2 v, Vector2 other) =>
+			Vector2.Dot(v, other) / Vector2.Dot(v, v) * v;
 	}
 }

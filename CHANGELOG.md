@@ -19,6 +19,7 @@
 - Added `Counter`.
 - Added ` GetOrCreateLayer` to `Scene`.
 - Added `OnFinish` event to coroutines.
+- Added `Projection` method to `Vector2` and `Vector3`.
 
 ### Changed
 - `Destroy()` event triggers even if an entity is disabled.
