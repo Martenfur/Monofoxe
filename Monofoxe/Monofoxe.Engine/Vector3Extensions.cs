@@ -51,7 +51,13 @@ namespace Monofoxe.Engine
 		}
 
 
-		public static Vector3 Projection(this Vector3 v, Vector3 other) =>
-			Vector3.Dot(v, other) / Vector3.Dot(v, v) * v;
+		public static Vector3 Projection(this Vector3 v, Vector3 other)
+		{
+			if (v == Vector3.Zero)
+			{
+				return Vector3.Zero;
+			}
+			return Vector3.Dot(v, other) / Vector3.Dot(v, v) * v;
+		}
 	}
 }
