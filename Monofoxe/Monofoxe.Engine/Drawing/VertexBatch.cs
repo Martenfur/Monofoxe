@@ -634,7 +634,38 @@ namespace Monofoxe.Engine.Drawing
 
 		}
 
+		public void AddQuad(
+			Vector2 p1, 
+			Vector2 p2, 
+			Vector2 p3, 
+			Vector2 p4, 
+			RectangleF srcRectangle, 
+			Color color1,
+			Color color2,
+			Color color3,
+			Color color4,
+			Vector4 zDepth
+		)
+		{
+			Vector2 texCoordTL;
+			Vector2 texCoordBR;
 
+			texCoordTL.X = srcRectangle.X / (float)_texture.Width;
+			texCoordTL.Y = srcRectangle.Y / (float)_texture.Height;
+			texCoordBR.X = (srcRectangle.X + srcRectangle.Width) / (float)_texture.Width;
+			texCoordBR.Y = (srcRectangle.Y + srcRectangle.Height) / (float)_texture.Height;
+
+			SetQuad(
+				p1, p2, p3, p4,
+				color1, color2, color3, color4,
+				texCoordTL,
+				texCoordBR,
+				zDepth.X,
+				zDepth.Y,
+				zDepth.Z,
+				zDepth.W
+			);
+		}
 
 
 		private unsafe void SetQuadIndices()
@@ -751,6 +782,39 @@ namespace Monofoxe.Engine.Drawing
 				SetVertex(vertexPtr, x + w, y + h, depthBR, color, texCoordBR.X, texCoordBR.Y);
 			}
 		}
+
+		private unsafe void SetQuad(
+			Vector2 p1,
+			Vector2 p2,
+			Vector2 p3,
+			Vector2 p4,
+			Color color1,
+			Color color2,
+			Color color3,
+			Color color4,
+			Vector2 texCoordTL,
+			Vector2 texCoordBR,
+			float depth1,
+			float depth2,
+			float depth3,
+			float depth4
+		)
+		{
+			FlushIfOverflow(4, 6);
+			SetPrimitiveType(PrimitiveType.TriangleList);
+
+			SetQuadIndices();
+
+			fixed (VertexPositionColorTexture* vertexPtr = _vertexPool)
+			{
+				SetVertex(vertexPtr, p1.X, p1.Y, depth1, color1, texCoordTL.X, texCoordTL.Y);
+				SetVertex(vertexPtr, p2.X, p2.Y, depth2, color2, texCoordBR.X, texCoordTL.Y);
+				SetVertex(vertexPtr, p4.X, p4.Y, depth4, color4, texCoordTL.X, texCoordBR.Y);
+				SetVertex(vertexPtr, p3.X, p3.Y, depth3, color3, texCoordBR.X, texCoordBR.Y);
+			}
+		}
+
+
 
 		private unsafe void SetVertex(
 			VertexPositionColorTexture* poolPtr,
