@@ -15,7 +15,6 @@
 		<PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303">
 			<PrivateAssets>All</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
 		<PackageReference Include="StbImageSharp" Version="2.27.11" />
 	</ItemGroup>
 </Project>
