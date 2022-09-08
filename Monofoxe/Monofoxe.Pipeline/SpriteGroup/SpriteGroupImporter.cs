@@ -3,7 +3,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content.Pipeline;
-using Newtonsoft.Json.Linq;
+using System.Linq;
 using System.Text.Json.Nodes;
 using StbImageSharp;
 
@@ -103,7 +103,7 @@ namespace Monofoxe.Pipeline.SpriteGroup
 					try
 					{
 						var conf = File.ReadAllText(configPath);
-						JToken confData = JObject.Parse(conf);
+						JsonNode confData = JsonNode.Parse(conf);
 
 						spr.FramesH = int.Parse(confData["h"].ToString());
 						spr.FramesV = int.Parse(confData["v"].ToString());
