@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFramework>net6.0</TargetFramework>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<OutputPath>..\bin\$(Configuration)\</OutputPath>
@@ -11,10 +11,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.*">
+		<PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303">
 			<PrivateAssets>All</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0">
+		<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
