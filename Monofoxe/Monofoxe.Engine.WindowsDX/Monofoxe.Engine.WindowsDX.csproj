@@ -8,7 +8,7 @@
 		<DocumentationFile>..\bin\$(Configuration)\$(AssemblyName).xml</DocumentationFile>
 		<NoWarn>1701;1702;1591</NoWarn>
 		<UseWindowsForms>true</UseWindowsForms>
-		<Version>2.2.0</Version>
+		<Version>$(MonofoxeVersion)</Version>
 	</PropertyGroup>
 
 	<ItemGroup>

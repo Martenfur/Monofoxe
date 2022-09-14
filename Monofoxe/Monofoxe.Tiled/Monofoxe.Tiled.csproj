@@ -9,7 +9,7 @@
 		<OutputPath>..\bin\$(Configuration)\</OutputPath>
 		<DocumentationFile>..\bin\$(Configuration)\$(AssemblyName).xml</DocumentationFile>
 		<NoWarn>1701;1702;1591</NoWarn>
-		<Version>2.2.0</Version>
+		<Version>$(MonofoxeVersion)</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
