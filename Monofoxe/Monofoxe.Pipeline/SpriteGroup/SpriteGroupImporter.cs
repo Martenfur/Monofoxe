@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Content.Pipeline;
 using System.Linq;
 using System.Text.Json.Nodes;
 using StbImageSharp;
+using System.Text.Json;
 
 /*
  * FUTURE NOTE:
@@ -41,7 +42,12 @@ namespace Monofoxe.Pipeline.SpriteGroup
 			try
 			{
 				var json = File.ReadAllText(filename);
-				JsonNode configData = JsonNode.Parse(json);
+				var options = new JsonDocumentOptions()
+				{
+					AllowTrailingCommas = true,
+					CommentHandling = JsonCommentHandling.Skip,
+				};
+				JsonNode configData = JsonNode.Parse(json, documentOptions: options);
 
 				groupData.AtlasSize = int.Parse(configData["atlasSize"].ToString());
 				groupData.TexturePadding = int.Parse(configData["texturePadding"].ToString());
@@ -56,9 +62,9 @@ namespace Monofoxe.Pipeline.SpriteGroup
 					textureRegex[i] = WildCardToRegular(textureWildcards[i].ToString());
 				}
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
-				throw new InvalidContentException("Incorrect JSON format!");
+				throw new InvalidContentException("Importing spritegroup failed! " + e.Message);
 			}
 
 			#endregion Parsing config.
@@ -103,7 +109,12 @@ namespace Monofoxe.Pipeline.SpriteGroup
 					try
 					{
 						var conf = File.ReadAllText(configPath);
-						JsonNode confData = JsonNode.Parse(conf);
+						var options = new JsonDocumentOptions()
+						{
+							AllowTrailingCommas = true,
+							CommentHandling = JsonCommentHandling.Skip,
+						};
+						JsonNode confData = JsonNode.Parse(conf, documentOptions: options);
 
 						spr.FramesH = int.Parse(confData["h"].ToString());
 						spr.FramesV = int.Parse(confData["v"].ToString());
