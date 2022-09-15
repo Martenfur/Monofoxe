@@ -7,7 +7,7 @@
 		<OutputPath>..\bin\$(Configuration)\</OutputPath>
 		<DocumentationFile>..\bin\$(Configuration)\$(AssemblyName).xml</DocumentationFile>
 		<NoWarn>1701;1702;1591</NoWarn>
-		<Version>$(MonofoxeVersion)</Version>
+		<Version>2.1.1-net6</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -15,7 +15,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.*" />
+		<PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,6 +1,13 @@
 ﻿# [Changelog](http://keepachangelog.com/en/1.0.0/):
 
-## [Unreleased]
+## [v2.2.0] - 14.09.2022
+
+### Breaking
+
+- Monofoxe now runs on .NET Framework 6 exclusively.
+- Upgraded MonoGame Framework version to `3.8.1.303`.
+- Upgraded NoPipeline version to `2.2.0`.
+- Removed `Newtonsoft.Json` package (replaced with `System.Text.Json` from .NET 6)
 
 ### Added
 
@@ -27,6 +34,8 @@
 ### Fixed
 
 - Fixed `Sprite.Clone()` not copying frames properly.
+
+
 
 
 ## [v2.1.0] - *12.08.2021*
