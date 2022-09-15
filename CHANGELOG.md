@@ -25,9 +25,10 @@
 
 - `Destroy()` event triggers even if an entity is disabled.
 - Migrated to NET6.
-- Updated MonoGame to `3.8.1.303`.
+- Updated MonoGame to `3.8.1`.
 - Updated Nopipeline to `2.2.0`.
 - Replaced `Newtonsoft.Json` dependency with `System.Text.Json`.
+- Removed VS2019 support.
 
 ### Fixed
 

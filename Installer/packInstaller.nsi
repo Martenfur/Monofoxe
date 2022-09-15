@@ -4,7 +4,7 @@
 
 !define APPNAME "Monofoxe"
 !define APPVERSION "v2"
-!define INSTALLERVERSION "2.1.0.0"
+!define INSTALLERVERSION "2.2.0.0"
 
 !define MUI_ICON "pics\icon.ico"
 !define MUI_UNICON "pics\icon.ico"
@@ -53,13 +53,6 @@ RequestExecutionLevel admin
 
 ; Stuff to install.
 
-Section "Visual Studio 2019 Templates/" VS2019
-	SetOutPath "$DOCUMENTS\Visual Studio 2019\${PROJECT_TEMPLATES_DIRECTORY}"
-	File /r '..\Release\ProjectTemplates\*.zip'
-	SetOutPath "$DOCUMENTS\Visual Studio 2019\${ITEM_TEMPLATES_DIRECTORY}"
-	File /r '..\Release\ItemTemplates\*.zip'
-SectionEnd
-
 Section "Visual Studio 2022 Templates/" VS2022
 	SetOutPath "$DOCUMENTS\Visual Studio 2022\${PROJECT_TEMPLATES_DIRECTORY}"
 	File /r '..\Release\ProjectTemplates\*.zip'
@@ -86,7 +79,6 @@ SectionEnd
 
 
 ; Component menu.
-LangString VS2019Desc ${LANG_ENGLISH} "Install project templates for Visual Studio 2019. Templates are required to create new projects."
 LangString VS2022Desc ${LANG_ENGLISH} "Install project templates for Visual Studio 2022. Templates are required to create new projects."
 LangString RemoveOldVersionsDesc ${LANG_ENGLISH} "Remove all previous Monofoxe versions."
 
@@ -96,13 +88,6 @@ LangString RemoveOldVersionsDesc ${LANG_ENGLISH} "Remove all previous Monofoxe v
 	!insertmacro MUI_DESCRIPTION_TEXT ${VS2022} $(VS2022Desc)
 	!insertmacro MUI_DESCRIPTION_TEXT ${RemoveOldVersions} $(RemoveOldVersionsDesc)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
-
-Function checkVS2019
-IfFileExists `$DOCUMENTS\Visual Studio 2019\Templates\ProjectTemplates\*.*` end disable
-	disable:
-		SectionSetFlags ${VS2019} $1
-	end:
-FunctionEnd
 
 Function checkVS2022
 IfFileExists `$DOCUMENTS\Visual Studio 2022\Templates\ProjectTemplates\*.*` end disable
