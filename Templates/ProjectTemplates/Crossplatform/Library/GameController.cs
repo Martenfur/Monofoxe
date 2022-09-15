@@ -29,9 +29,9 @@ namespace $safeprojectname$
 			
 			GraphicsMgr.VertexBatch.SamplerState = SamplerState.PointClamp;
 
-			_monofoxe = ResourceHub.GetResource<Sprite>("DefaultSprites", "Monofoxe");
+			_monofoxe = ResourceHub.GetResource<Sprite>("Monofoxe");
 			
-			Text.CurrentFont = ResourceHub.GetResource<IFont>("Fonts", "Arial");
+			Text.CurrentFont = ResourceHub.GetResource<IFont>("Arial");
 		}
 		
 		public override void Update()

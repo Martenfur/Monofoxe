@@ -3,8 +3,8 @@ using System.IO;
 using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content.Pipeline;
-using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
-using Newtonsoft.Json.Linq;
+using System.Linq;
+using System.Text.Json.Nodes;
 using StbImageSharp;
 
 /*
@@ -41,14 +41,14 @@ namespace Monofoxe.Pipeline.SpriteGroup
 			try
 			{
 				var json = File.ReadAllText(filename);
-				JToken configData = JObject.Parse(json);
+				JsonNode configData = JsonNode.Parse(json);
 
 				groupData.AtlasSize = int.Parse(configData["atlasSize"].ToString());
 				groupData.TexturePadding = int.Parse(configData["texturePadding"].ToString());
 				groupData.RootDir = Path.GetDirectoryName(filename) + '/' + configData["rootDir"].ToString();
 				groupData.GroupName = Path.GetFileNameWithoutExtension(filename);
 
-				var textureWildcards = (JArray)configData["singleTexturesWildcards"];
+				var textureWildcards = (JsonArray)configData["singleTexturesWildcards"];
 
 				textureRegex = new string[textureWildcards.Count];
 				for (var i = 0; i < textureWildcards.Count; i += 1)
@@ -103,7 +103,7 @@ namespace Monofoxe.Pipeline.SpriteGroup
 					try
 					{
 						var conf = File.ReadAllText(configPath);
-						JToken confData = JObject.Parse(conf);
+						JsonNode confData = JsonNode.Parse(conf);
 
 						spr.FramesH = int.Parse(confData["h"].ToString());
 						spr.FramesV = int.Parse(confData["v"].ToString());
