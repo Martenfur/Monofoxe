@@ -7,7 +7,6 @@
 		<OutputPath>..\bin\$(Configuration)\</OutputPath>
 		<DocumentationFile>..\bin\$(Configuration)\$(AssemblyName).xml</DocumentationFile>
 		<NoWarn>1701;1702;1591</NoWarn>
-		<Version>$(MonofoxeVersion)</Version>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -1,13 +1,6 @@
 ﻿# [Changelog](http://keepachangelog.com/en/1.0.0/):
 
-## [v2.2.0] - 14.09.2022
-
-### Breaking
-
-- Monofoxe now runs on .NET Framework 6 exclusively.
-- Upgraded MonoGame Framework version to `3.8.1.303`.
-- Upgraded NoPipeline version to `2.2.0`.
-- Removed `Newtonsoft.Json` package (replaced with `System.Text.Json` from .NET 6)
+## [Unreleased]
 
 ### Added
 
@@ -29,12 +22,16 @@
 - Added `Projection` method to `Vector2` and `Vector3`.
 
 ### Changed
+
 - `Destroy()` event triggers even if an entity is disabled.
+- Migrated to NET6.
+- Updated MonoGame to `3.8.1.303`.
+- Updated Nopipeline to `2.2.0`.
+- Replaced `Newtonsoft.Json` dependency with `System.Text.Json`.
 
 ### Fixed
 
 - Fixed `Sprite.Clone()` not copying frames properly.
-
 
 
 
