@@ -84,7 +84,6 @@ LangString RemoveOldVersionsDesc ${LANG_ENGLISH} "Remove all previous Monofoxe v
 
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-	!insertmacro MUI_DESCRIPTION_TEXT ${VS2019} $(VS2019Desc)
 	!insertmacro MUI_DESCRIPTION_TEXT ${VS2022} $(VS2022Desc)
 	!insertmacro MUI_DESCRIPTION_TEXT ${RemoveOldVersions} $(RemoveOldVersionsDesc)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
@@ -99,7 +98,6 @@ FunctionEnd
 
 Function .onInit
 	IntOp $0 $0 | ${SF_RO}
-	Call checkVS2019
 	Call checkVS2022
 	IntOp $0 ${SF_SELECTED} | ${SF_RO}
 FunctionEnd

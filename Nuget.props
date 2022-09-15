@@ -4,7 +4,7 @@
 		<Authors>Martenfur</Authors>
 		<Company>Chai Foxes</Company>
 		<Product>Monofoxe Engine</Product>
-		<Description>A Monogame-based game engine with extremely high fox concenration.</Description>
+		<Description>Monogame-based game engine with an extremely high fox concenration.</Description>
 		<PackageProjectUrl>https://github.com/Martenfur/Monofoxe/</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/Martenfur/Monofoxe/</RepositoryUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
