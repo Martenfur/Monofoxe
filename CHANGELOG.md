@@ -20,6 +20,9 @@
 - Added ` GetOrCreateLayer` to `Scene`.
 - Added `OnFinish` event to coroutines.
 - Added `Projection` method to `Vector2` and `Vector3`.
+- Added `PerlinNoise`.
+- Added `SlowRotator`.
+- Added simple logger.
 
 ### Changed
 
