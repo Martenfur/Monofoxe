@@ -3,9 +3,10 @@ using System.IO;
 using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content.Pipeline;
-using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
-using Newtonsoft.Json.Linq;
+using System.Linq;
+using System.Text.Json.Nodes;
 using StbImageSharp;
+using System.Text.Json;
 
 /*
  * FUTURE NOTE:
@@ -41,14 +42,19 @@ namespace Monofoxe.Pipeline.SpriteGroup
 			try
 			{
 				var json = File.ReadAllText(filename);
-				JToken configData = JObject.Parse(json);
+				var options = new JsonDocumentOptions()
+				{
+					AllowTrailingCommas = true,
+					CommentHandling = JsonCommentHandling.Skip,
+				};
+				JsonNode configData = JsonNode.Parse(json, documentOptions: options);
 
 				groupData.AtlasSize = int.Parse(configData["atlasSize"].ToString());
 				groupData.TexturePadding = int.Parse(configData["texturePadding"].ToString());
 				groupData.RootDir = Path.GetDirectoryName(filename) + '/' + configData["rootDir"].ToString();
 				groupData.GroupName = Path.GetFileNameWithoutExtension(filename);
 
-				var textureWildcards = (JArray)configData["singleTexturesWildcards"];
+				var textureWildcards = (JsonArray)configData["singleTexturesWildcards"];
 
 				textureRegex = new string[textureWildcards.Count];
 				for (var i = 0; i < textureWildcards.Count; i += 1)
@@ -56,9 +62,9 @@ namespace Monofoxe.Pipeline.SpriteGroup
 					textureRegex[i] = WildCardToRegular(textureWildcards[i].ToString());
 				}
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
-				throw new InvalidContentException("Incorrect JSON format!");
+				throw new InvalidContentException("Importing spritegroup failed! " + e.Message);
 			}
 
 			#endregion Parsing config.
@@ -103,7 +109,12 @@ namespace Monofoxe.Pipeline.SpriteGroup
 					try
 					{
 						var conf = File.ReadAllText(configPath);
-						JToken confData = JObject.Parse(conf);
+						var options = new JsonDocumentOptions()
+						{
+							AllowTrailingCommas = true,
+							CommentHandling = JsonCommentHandling.Skip,
+						};
+						JsonNode confData = JsonNode.Parse(conf, documentOptions: options);
 
 						spr.FramesH = int.Parse(confData["h"].ToString());
 						spr.FramesV = int.Parse(confData["v"].ToString());

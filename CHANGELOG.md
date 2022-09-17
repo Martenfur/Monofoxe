@@ -1,6 +1,43 @@
-# [Changelog](http://keepachangelog.com/en/1.0.0/):
+﻿# [Changelog](http://keepachangelog.com/en/1.0.0/):
 
 ## [Unreleased]
+
+### Added
+
+- Added `Name` field to `Sprite`.
+- Added `Range<>` class.
+- Added HEX conversion for `Color`.
+- Added `HsvColor` Lerp and basic operators.
+- Added simplified `GetResource<>()` methods.
+- Added `OnResize` event to `Camera`.
+- Added `Global` instance to `RandomExt`.
+- Added unit circle methods to `RandomExt`.
+- Added dampers based on second order motion.
+- Added job system.
+- Added `started` argument to `Alarm` constructor. 
+- Added `Start(time)` and `Pause(), Resume()` metods to `Alarm`.
+- Added `Counter`.
+- Added ` GetOrCreateLayer` to `Scene`.
+- Added `OnFinish` event to coroutines.
+- Added `Projection` method to `Vector2` and `Vector3`.
+- Added `PerlinNoise`.
+- Added `SlowRotator`.
+- Added simple logger.
+
+### Changed
+
+- `Destroy()` event triggers even if an entity is disabled.
+- Migrated to NET6.
+- Updated MonoGame to `3.8.1`.
+- Updated Nopipeline to `2.2.0`.
+- Replaced `Newtonsoft.Json` dependency with `System.Text.Json`.
+- Removed VS2019 support.
+
+### Fixed
+
+- Fixed `Sprite.Clone()` not copying frames properly.
+
+
 
 ## [v2.1.0] - *12.08.2021*
 

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 
 namespace Monofoxe.Engine.Resources
 {
@@ -9,7 +9,8 @@ namespace Monofoxe.Engine.Resources
 	/// </summary>
 	public interface IResourceBox
 	{
-		bool Loaded {get;}
+		bool Loaded { get; }
+		Type Type { get; }
 
 		void Load();
 		void Unload();

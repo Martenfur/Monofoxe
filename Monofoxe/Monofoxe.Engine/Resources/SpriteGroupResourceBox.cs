@@ -33,6 +33,7 @@ namespace Monofoxe.Resources
 			{
 				try
 				{
+					spritePair.Value.Name = Name + "/" + spritePair.Value.Name;
 					AddResource(Path.GetFileNameWithoutExtension(spritePair.Key), spritePair.Value);
 				}
 				catch { }

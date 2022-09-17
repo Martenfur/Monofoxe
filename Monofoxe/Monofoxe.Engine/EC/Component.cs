@@ -72,7 +72,7 @@
 
 
 		/// <summary>
-		///	Triggers right before destruction, if entity is enabled. 
+		///	Triggers right before destruction.
 		/// </summary>
 		public virtual void Destroy() { }
 

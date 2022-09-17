@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace Monofoxe.Engine.Utils
@@ -8,6 +9,8 @@ namespace Monofoxe.Engine.Utils
 	/// </summary>
 	public class RandomExt
 	{
+		public static readonly RandomExt Global = new RandomExt();
+
 		private Random Random;
 		public readonly int Seed;
 
@@ -85,7 +88,21 @@ namespace Monofoxe.Engine.Utils
 		/// </summary>
 		public void NextBytes(byte[] buffer) => 
 			Random.NextBytes(buffer);
+
+
+
+		/// <summary>
+		/// Returns a random point inside or on a circle with radius 1.0.
+		/// </summary>
+		public Vector2 NextInsideUnitCircle() =>
+			NextOnUnitCircle() * (float)Random.NextDouble();
 		
+		/// <summary>
+		/// Returns a random point on a circle with radius 1.0.
+		/// </summary>
+		public Vector2 NextOnUnitCircle() =>
+			new Angle(Random.NextDouble() * 360).ToVector2();
+
 
 
 		/// <summary>

@@ -1,5 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace Monofoxe.Engine
 {
@@ -63,5 +66,65 @@ namespace Monofoxe.Engine
 		}
 
 
+		/// <summary>
+		/// Converts Color to its hex value.
+		/// </summary>
+		public static string ToHex(this Color color)
+		{
+			var r = $"{color.R:x2}";
+			var g = $"{color.G:x2}";
+			var b = $"{color.B:x2}";
+			if (color.A == 0)
+			{
+				return $"#{r}{g}{b}";
+			}
+			var a = $"{color.A:x2}";
+			return $"#{r}{g}{b}{a}";
+		}
+
+
+		/// <summary>
+		/// Converts #RRGGBB or #RRGGBBAA hex value to Color.
+		/// </summary>
+		public static Color HexToColor(string colorStr)
+		{
+			colorStr = colorStr.Replace("#", "");
+
+			var channels = new byte[colorStr.Length / 2];
+
+			for (var i = 0; i < channels.Length; i += 1)
+			{
+				channels[i] = Convert.ToByte(colorStr.Substring(i * 2, 2), 16);
+			}
+
+			if (channels.Length == 3)
+			{
+				// #RRGGBB
+				return new Color(channels[0], channels[1], channels[2]);
+			}
+			else
+			{
+				// #RRGGBBAA
+				return new Color(channels[0], channels[1], channels[2], channels[3]);
+			}
+		}
+
+		private static readonly Dictionary<string, Color> _colorsByName = typeof(Color)
+			.GetRuntimeProperties()
+			.Where(p => p.PropertyType == typeof(Color))
+			.ToDictionary(p => p.Name, p => (Color)p.GetValue(null), StringComparer.OrdinalIgnoreCase);
+
+		public static Color NameToColor(string name)
+		{
+			// Ripped straight off Monogame.Extended, credit to them or whatever.
+			Color color;
+
+			if (_colorsByName.TryGetValue(name, out color))
+			{
+				return color;
+			}
+
+			throw new InvalidOperationException($"{name} is not a valid color");
+		}
 	}
 }

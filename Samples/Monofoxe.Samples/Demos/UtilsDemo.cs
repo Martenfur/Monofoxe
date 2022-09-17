@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Monofoxe.Engine;
 using Monofoxe.Engine.Cameras;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.EC;
@@ -54,6 +55,8 @@ namespace Monofoxe.Samples.Demos
 		Effect _grayscale;
 
 		Sprite _fireSprite;
+
+
 
 		public UtilsDemo(Layer layer) : base(layer)
 		{
@@ -234,6 +237,7 @@ namespace Monofoxe.Samples.Demos
 
 			_stateMachine.Update();
 
+			UpdateDampers();
 		}
 
 
@@ -275,7 +279,37 @@ namespace Monofoxe.Samples.Demos
 			}
 
 
+			DrawDampers();
+		}
 
+		private FloatDamper _floatDamper1 = new FloatDamper(0, 1, 1, 0);
+		private FloatDamper _floatDamper2 = new FloatDamper(0, 1, 1f, 5);
+		private FloatDamper _floatDamper3 = new FloatDamper(0, 1, 0.2f, -2);
+		
+		private Vector2Damper _positionDamper = new Vector2Damper(Vector2.Zero, 5, 0.2f, -2);
+		private AngleDamper _angleDamper = new AngleDamper(Angle.Right, 1, 0.2f, -2);
+		private Vector2 _baseAnglePos = new Vector2(200, 350);
+
+		private void UpdateDampers()
+		{
+			var mousePos = CameraMgr.Cameras[0].GetRelativeMousePosition();
+			_floatDamper1.Update(mousePos.X);
+			_floatDamper2.Update(mousePos.X);
+			_floatDamper3.Update(mousePos.X);
+
+			_positionDamper.Update(mousePos);
+			_angleDamper.Update((mousePos - _baseAnglePos).ToAngle());
+		}
+
+		private void DrawDampers()
+		{
+			GraphicsMgr.CurrentColor = Color.White;
+			CircleShape.Draw(new Vector2(_floatDamper1.Value, 200), 8, false);
+			CircleShape.Draw(new Vector2(_floatDamper2.Value, 230), 8, false);
+			CircleShape.Draw(new Vector2(_floatDamper3.Value, 260), 8, false);
+
+			CircleShape.Draw(_positionDamper.Value, 8, false);
+			LineShape.Draw(_baseAnglePos, _baseAnglePos + _angleDamper.Value.ToVector2() * 50);
 		}
 
 		public override void Destroy()

@@ -95,5 +95,14 @@ namespace Monofoxe.Engine
 			);
 		}
 
+
+		public static Vector2 Projection(this Vector2 v, Vector2 other)
+		{
+			if (v == Vector2.Zero)
+			{
+				return Vector2.Zero;
+			}
+			return Vector2.Dot(v, other) / Vector2.Dot(v, v) * v;
+		}
 	}
 }
