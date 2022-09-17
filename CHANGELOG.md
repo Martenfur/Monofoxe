@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+
+## [v2.2.0] - *17.09.2022*
+
 ### Added
 
 - Added `Name` field to `Sprite`.
