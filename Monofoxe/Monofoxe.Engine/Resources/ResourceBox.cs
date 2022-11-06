@@ -67,8 +67,13 @@ namespace Monofoxe.Engine.Resources
 			
 		public void RemoveResource(string key) =>
 			_resources.Remove(key);
-		
-			
+
+		/// <summary>
+		/// Removes all resources from the box.
+		/// </summary>
+		public void Clear() =>
+			_resources.Clear();
+
 		IEnumerator<KeyValuePair<string, T>> IEnumerable<KeyValuePair<string, T>>.GetEnumerator()
 		{
 			return ((IEnumerable<KeyValuePair<string, T>>)_resources).GetEnumerator();

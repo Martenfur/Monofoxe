@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+### Added
+
+- Added `Clear()` method to `ResourceBox`.
 
 ## [v2.2.0] - *17.09.2022*
 
