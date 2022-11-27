@@ -174,7 +174,7 @@ namespace Monofoxe.Engine.EC
 			{
 				throw new Exception("Component " + component + "already has an owner!");
 			}
-			_componentDictionary.Add(component.GetType(), component);
+			_componentDictionary.Add(typeof(T), component);
 			_componentList.Add(component);
 			component.Owner = this;
 			component.Initialize();

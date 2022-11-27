@@ -6,6 +6,11 @@
 
 - Added `Clear()` method to `ResourceBox`.
 
+### Fixed
+
+- Fixed `AddComponent<>()` not taking generic type into account.
+
+
 ## [v2.2.0] - *17.09.2022*
 
 ### Added
