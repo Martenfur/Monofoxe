@@ -4,6 +4,7 @@ using Monofoxe.Engine.Resources;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Monofoxe.Resources
 {
@@ -35,17 +36,21 @@ namespace Monofoxe.Resources
 			_content.RootDirectory = ResourceInfoMgr.ContentDir;
 
 			// TODO: Add Recursive flag to GetResourcePaths.
-			var paths = ResourceInfoMgr.GetResourcePaths(_resourceDir);
+			var paths = ResourceInfoMgr.GetResourcePaths(_resourceDir + "/*");
 
 			foreach (var path in paths)
 			{
 				try
 				{
+					if (Path.HasExtension(path))
+					{
+						continue;
+					}
 					AddResource(Path.GetFileNameWithoutExtension(path), _content.Load<T>(path));
 				}
 				catch (InvalidCastException)
 				{ 
-					Debug.WriteLine("Failed to load " + path + ". It has different type.");
+					Debug.WriteLine("Failed to load " + path + ". It has a different type.");
 				}
 			}
 		}

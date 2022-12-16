@@ -6,10 +6,13 @@
 
 - Added `Clear()` method to `ResourceBox`.
 
+### Changed
+- **BREAKING CHANGE:** `ResourceInfoMgr` now accepts wildcards instead of directory names. For example, `ResourceInfoMgr.GetResourcePaths("Graphics/Trees");` shoulw now be replaced with `ResourceInfoMgr.GetResourcePaths("Graphics/Trees/*");`
+
 ### Fixed
 
 - Fixed `AddComponent<>()` not taking generic type into account.
-
+- `DirectoryResourceBox` now ignores non-xnb files properly.
 
 ## [v2.2.0] - *17.09.2022*
 
