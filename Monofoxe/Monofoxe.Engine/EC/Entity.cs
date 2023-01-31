@@ -168,20 +168,27 @@ namespace Monofoxe.Engine.EC
 		/// <summary>
 		/// Adds component to the entity.
 		/// </summary>
-		public T AddComponent<T>(T component) where T : Component
+		public Component AddComponent(Type type, Component component)
 		{
 			if (component.Owner != null)
 			{
 				throw new Exception("Component " + component + "already has an owner!");
 			}
-			_componentDictionary.Add(typeof(T), component);
+			_componentDictionary.Add(type, component);
 			_componentList.Add(component);
 			component.Owner = this;
 			component.Initialize();
 			component.Initialized = true;
 
-			return component; // Doing a passthrough for nicer syntax.
+			return component; // Doing a passthrough for nicer syntax.	
 		}
+
+
+		/// <summary>
+		/// Adds component to the entity.
+		/// </summary>
+		public T AddComponent<T>(T component) where T : Component =>
+			(T)AddComponent(typeof(T), component);
 
 
 		/// <summary>
