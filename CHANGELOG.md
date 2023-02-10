@@ -5,6 +5,7 @@
 ### Added
 
 - Added `Clear()` method to `ResourceBox`.
+- Added `Offset()` method to linear dampers.
 
 ### Changed
 - **BREAKING CHANGE:** `ResourceInfoMgr` now accepts wildcards instead of directory names. For example, `ResourceInfoMgr.GetResourcePaths("Graphics/Trees");` shoulw now be replaced with `ResourceInfoMgr.GetResourcePaths("Graphics/Trees/*");`

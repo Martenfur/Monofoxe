@@ -161,6 +161,16 @@ namespace Monofoxe.Engine.Utils
 		}
 
 
+		/// <summary>
+		/// Offsets the internal values of the damper while keeping its motion.
+		/// </summary>
+		public void Offset(Vector3 offset)
+		{
+			_y += offset;
+			_oldValue += offset;
+		}
+
+
 		private void ComputeConstants()
 		{
 			_k1 = _dampingCoefficient / (MathHelper.Pi * Frequency);
