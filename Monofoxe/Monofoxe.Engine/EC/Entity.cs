@@ -82,7 +82,7 @@ namespace Monofoxe.Engine.EC
 		
 		/// <summary>
 		/// If camera's RenderMask does not have any bits in common with entity's RenderMask, 
-		/// the entity will not be renderdd for that camera.
+		/// the entity will not be rendered for that camera.
 		/// </summary>
 		public RenderMask RenderMask = RenderMask.Default;
 

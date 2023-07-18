@@ -91,7 +91,7 @@ namespace Monofoxe.Engine.SceneSystem
 
 		/// <summary>
 		/// If camera's RenderMask does not have any bits in common with layer's RenderMask, 
-		/// the layer will not be renderdd for that camera.
+		/// the layer will not be rendered for that camera.
 		/// </summary>
 		public RenderMask RenderMask = RenderMask.Default;
 
