@@ -2,14 +2,12 @@
 
 ## [Unreleased]
 
-### Breaking
-- Removed camera layer filters.
-
 ### Added
 
 - Added `RenderMask` as a replacement to camera filters to `Scene`, `Layer` and `Entity`. 
 - Added `Clear()` method to `ResourceBox`.
 - Added `Offset()` method to linear dampers.
+- Added `OnFrameStart`, `OnFrameFinish` and `OnAfterDraw` events to `GraphicsMgr`.
 
 ### Changed
 - **BREAKING CHANGE:** `ResourceInfoMgr` now accepts wildcards instead of directory names. For example, `ResourceInfoMgr.GetResourcePaths("Graphics/Trees");` shoulw now be replaced with `ResourceInfoMgr.GetResourcePaths("Graphics/Trees/*");`
@@ -17,7 +15,10 @@
 ### Fixed
 
 - Fixed `AddComponent<>()` not taking generic type into account.
-- `DirectoryResourceBox` now ignores non-xnb files properly.
+- DirectoryResourceBox` now ignores non-xnb files properly.
+
+### Removed
+- **BREAKING CHANGE:** Removed camera layer filters.
 
 ## [v2.2.0] - *17.09.2022*
 
