@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Monofoxe.Engine.Utils.Coroutines;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Utils.CustomCollections;
+using Monofoxe.Engine.Cameras;
 
 namespace Monofoxe.Engine.EC
 {
@@ -77,6 +78,13 @@ namespace Monofoxe.Engine.EC
 		// during foreach while keeping GetComponent faste.
 		private Dictionary<Type, Component> _componentDictionary;
 		private SafeList<Component> _componentList;
+
+		
+		/// <summary>
+		/// If camera's RenderMask does not have any bits in common with entity's RenderMask, 
+		/// the entity will not be renderdd for that camera.
+		/// </summary>
+		public RenderMask RenderMask = RenderMask.Default;
 
 
 		public Entity(Layer layer)

@@ -2,8 +2,12 @@
 
 ## [Unreleased]
 
+### Breaking
+- Removed camera layer filters.
+
 ### Added
 
+- Added `RenderMask` as a replacement to camera filters to `Scene`, `Layer` and `Entity`. 
 - Added `Clear()` method to `ResourceBox`.
 - Added `Offset()` method to linear dampers.
 
