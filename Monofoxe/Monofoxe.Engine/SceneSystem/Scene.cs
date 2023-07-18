@@ -50,6 +50,11 @@ namespace Monofoxe.Engine.SceneSystem
 		}
 		private int _priority;
 
+		/// <summary>
+		/// If camera's RenderMask does not have any bits in common with scene's RenderMask, 
+		/// the scene will not be renderdd for that camera.
+		/// </summary>
+		public RenderMask RenderMask = RenderMask.Default;
 
 		/// <summary>
 		/// Current active layer.
@@ -361,9 +366,9 @@ namespace Monofoxe.Engine.SceneSystem
 			foreach (var layer in _layers)
 			{
 				if (
-					layer.Visible &&
-					!layer.IsGUI &&
-					!GraphicsMgr.CurrentCamera.Filter(Name, layer.Name)
+					layer.Visible
+					&& !layer.IsGUI
+					&& ((GraphicsMgr.CurrentCamera.RenderMask & layer.RenderMask) != 0)
 				)
 				{
 					CurrentLayer = layer;

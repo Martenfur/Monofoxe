@@ -122,15 +122,10 @@ namespace Monofoxe.Engine.Cameras
 		public Matrix View;
 		public Matrix Projection;
 		
-
-		private Dictionary<string, HashSet<string>> _filter = 
-			new Dictionary<string, HashSet<string>>(StringComparer.OrdinalIgnoreCase);
-
 		/// <summary>
-		/// Mode for filtering out certain layers.
+		/// For a layer or a scene to be rendered, it has to match at least one bit of RenderMask.
 		/// </summary>
-		public FilterMode FilterMode = FilterMode.None;
-
+		public RenderMask RenderMask = RenderMask.Default;
 
 		/// <summary>
 		/// Shaders applied to the surface.
@@ -223,69 +218,6 @@ namespace Monofoxe.Engine.Cameras
 		/// Returns mouse position relative to the camera.
 		/// </summary>
 		public abstract Vector2 GetRelativeMousePosition();
-		
-
-		public void AddFilterEntry(string sceneName, string layerName)
-		{
-			if (_filter.TryGetValue(sceneName, out HashSet<string> filterSet))
-			{
-				filterSet.Add(layerName);
-			}
-			else
-			{
-				var newSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-				newSet.Add(layerName);
-				_filter.Add(sceneName, newSet);
-			}
-		}
-
-		public void RemoveFilterEntry(string sceneName, string layerName)
-		{
-			if (_filter.TryGetValue(sceneName, out HashSet<string> filterSet))
-			{
-				filterSet.Remove(layerName);
-				if (filterSet.Count == 0)
-				{
-					_filter.Remove(sceneName);
-				}
-			}
-		}
-
-		/// <summary>
-		/// Returns true, if given layer is filtered out.
-		/// </summary>
-		public bool Filter(string sceneName, string layerName)
-		{
-			if (FilterMode == FilterMode.None)
-			{
-				return false;
-			}
-
-			var result = false;
-			
-			// NOTE: Here was a strange TO-DO with just said "fix this".
-			// Haven't found any bugs here, so just removed it. Probably
-			// was an already fixed bug with case-sensitivity. In case of any 
-			// camera filter-related bugs, this place if the first suspect.
-			// Thanks, past me.
-
-			if (_filter.TryGetValue(sceneName, out HashSet<string> filterSet))
-			{
-				result = filterSet.Contains(layerName);
-			}
-
-			if (FilterMode == FilterMode.Inclusive)
-			{
-				return !result;
-			}
-			else
-			{
-				// NOTE: Add additional check here, if any other filter types will be created.
-				return result;
-			}
-
-		}
-
 
 
 		/// <summary>
