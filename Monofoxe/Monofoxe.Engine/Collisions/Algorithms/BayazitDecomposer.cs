@@ -9,6 +9,8 @@ using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Monofoxe.Engine.Utils;
 
+// TODO: Add inlines.
+
 namespace Monofoxe.Engine.Collisions.Algorithms
 {
 	//From phed rev 36: http://code.google.com/p/phed/source/browse/trunk/Polygon.cpp

@@ -2,6 +2,7 @@
 using Monofoxe.Engine.Utils;
 using Monofoxe.Engine.Utils.CustomCollections;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace Monofoxe.Engine.Collisions.Shapes
 {
@@ -10,7 +11,6 @@ namespace Monofoxe.Engine.Collisions.Shapes
 		public ShapeType Type => ShapeType.Polygon;
 
 		public Vector2 Position;
-		public Vector2 Origin;
 		public float Rotation = 0;
 		public float _cachedRotation = 0;
 		private Vector2 _rotationCosSin = new Vector2(1, 0);
@@ -85,22 +85,19 @@ namespace Monofoxe.Engine.Collisions.Shapes
 				}
 				for (var i = 0; i < Count; i += 1)
 				{
-					Vertices[i] = RotateAroundOrigin(RelativeVertices[i]) + Position;
+					Vertices[i] = RotateVertex(RelativeVertices[i]) + Position;
 				}
 			}
 		}
 
 
-		private Vector2 RotateAroundOrigin(Vector2 p)
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		private Vector2 RotateVertex(Vector2 p)
 		{
-			p -= Origin;
-
-			p = new Vector2(
+			return new Vector2(
 				p.X * _rotationCosSin.X - p.Y * _rotationCosSin.Y,
 				p.X * _rotationCosSin.Y + p.Y * _rotationCosSin.X
-			) + Origin;
-
-			return p;
+			);
 		}
 
 		public bool InPool { get; set; }
@@ -114,7 +111,6 @@ namespace Monofoxe.Engine.Collisions.Shapes
 			Count = 0;
 			_cachedAABBStale = true;
 			Position = Vector2.Zero;
-			Origin = Vector2.Zero;
 			Rotation = 0;
 		}
 	}
