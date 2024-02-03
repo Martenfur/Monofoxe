@@ -33,7 +33,7 @@ namespace Monofoxe.Engine.Collisions.Algorithms
 		public static List<List<Vector2>> ConvexPartition(List<Vector2> vertices)
 		{
 			Debug.Assert(vertices.Count > 3);
-			Debug.Assert(GameMath.IsCounterClockWise(vertices));
+			Debug.Assert(GameMath.IsClockWise(vertices));
 
 			return TriangulatePolygon(vertices);
 		}

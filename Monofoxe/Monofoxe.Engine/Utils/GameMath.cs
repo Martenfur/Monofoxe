@@ -156,10 +156,10 @@ namespace Monofoxe.Engine.Utils
 
 
 		/// <summary>
-		/// Indicates if the vertices are in counter clockwise order.
+		/// Indicates if the vertices are in clockwise order.
 		/// Warning: If the area of the polygon is 0, it is unable to determine the winding.
 		/// </summary>
-		public static bool IsCounterClockWise(List<Vector2> vertices)
+		public static bool IsClockWise(List<Vector2> vertices)
 		{
 			//The simplest polygon which can exist in the Euclidean plane has 3 sides.
 			if (vertices.Count < 3)
@@ -171,7 +171,7 @@ namespace Monofoxe.Engine.Utils
 
 		/// <summary>
 		/// Gets the signed area.
-		/// If the area is less than 0, it indicates that the polygon is clockwise winded.
+		/// If the area is less than 0, it indicates that the polygon is couter clockwise winded.
 		/// </summary>
 		/// <returns>The signed area</returns>
 		public static float GetSignedArea(List<Vector2> vertices)
