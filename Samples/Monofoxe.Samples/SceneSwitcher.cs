@@ -15,6 +15,7 @@ namespace Monofoxe.Samples
 	{
 		public List<SceneFactory> Factories = new List<SceneFactory>
 		{
+			new SceneFactory(typeof(CollisionsDemo)),
 			new SceneFactory(typeof(ShapeDemo)),
 			new SceneFactory(typeof(PrimitiveDemo), PrimitiveDemo.Description),
 			new SceneFactory(typeof(SpriteDemo)),
