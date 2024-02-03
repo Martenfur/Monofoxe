@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using Microsoft.Xna.Framework;
 
 namespace Monofoxe.Engine.Utils
@@ -150,5 +152,60 @@ namespace Monofoxe.Engine.Utils
 		}
 
 		#endregion Intersections.
+
+
+
+		/// <summary>
+		/// Indicates if the vertices are in counter clockwise order.
+		/// Warning: If the area of the polygon is 0, it is unable to determine the winding.
+		/// </summary>
+		public static bool IsCounterClockWise(List<Vector2> vertices)
+		{
+			//The simplest polygon which can exist in the Euclidean plane has 3 sides.
+			if (vertices.Count < 3)
+				return false;
+
+			return (GetSignedArea(vertices) > 0.0f);
+		}
+
+
+		/// <summary>
+		/// Gets the signed area.
+		/// If the area is less than 0, it indicates that the polygon is clockwise winded.
+		/// </summary>
+		/// <returns>The signed area</returns>
+		public static float GetSignedArea(List<Vector2> vertices)
+		{
+			//The simplest polygon which can exist in the Euclidean plane has 3 sides.
+			if (vertices.Count < 3)
+				return 0;
+
+			int i;
+			float area = 0;
+
+			for (i = 0; i < vertices.Count; i++)
+			{
+				int j = (i + 1) % vertices.Count;
+
+				Vector2 vi = vertices[i];
+				Vector2 vj = vertices[j];
+
+				area += vi.X * vj.Y;
+				area -= vi.Y * vj.X;
+			}
+			area /= 2.0f;
+			return area;
+		}
+
+
+		/// <summary>
+		/// Gets the area.
+		/// </summary>
+		/// <returns></returns>
+		public static float GetArea(List<Vector2> vertices)
+		{
+			float area = GetSignedArea(vertices);
+			return (area < 0 ? -area : area);
+		}
 	}
 }
