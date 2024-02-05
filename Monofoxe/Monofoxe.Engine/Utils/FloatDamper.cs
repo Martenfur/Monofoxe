@@ -132,12 +132,13 @@ namespace Monofoxe.Engine.Utils
 
 		public float Update(float value)
 		{
-			var dt = (float)Time.Time();
-
-			// Estimating velocity.
-			var speed = (value - _oldValue) / dt;
+			float num = (float)Time.Time();
+			var speed = 0f;
+			if (num != 0)
+			{
+				speed = (value - _oldValue) / num;
+			}
 			_oldValue = value;
-
 			return Update(value, speed);
 		}
 

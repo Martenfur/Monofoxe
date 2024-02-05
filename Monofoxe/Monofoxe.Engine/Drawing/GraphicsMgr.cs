@@ -102,8 +102,8 @@ namespace Monofoxe.Engine.Drawing
 				{
 					CanvasMatrix = Matrix.CreateScale(
 					 new Vector3(
-							windowManager.PreferredBackBufferWidth / (float)windowManager.CanvasWidth,
-							windowManager.PreferredBackBufferHeight / (float)windowManager.CanvasHeight,
+							windowManager.PreferredBackBufferWidth / windowManager.CanvasSize.X,
+							windowManager.PreferredBackBufferHeight / windowManager.CanvasSize.Y,
 							1
 						)
 					);
@@ -113,26 +113,22 @@ namespace Monofoxe.Engine.Drawing
 				// Scales display to match canvas, but keeps aspect ratio.
 				if (windowManager.CanvasMode == CanvasMode.KeepAspectRatio)
 				{
-					var backbufferSize = new Vector2(
-						windowManager.PreferredBackBufferWidth,
-						windowManager.PreferredBackBufferHeight
-					);
 					float ratio,
 						offsetX = 0,
 						offsetY = 0;
 
 					float backbufferRatio = windowManager.PreferredBackBufferWidth / (float)windowManager.PreferredBackBufferHeight;
-					float canvasRatio = windowManager.CanvasWidth / (float)windowManager.CanvasHeight;
+					float canvasRatio = windowManager.CanvasSize.X / windowManager.CanvasSize.Y;
 
 					if (canvasRatio > backbufferRatio)
 					{
-						ratio = windowManager.PreferredBackBufferWidth / (float)windowManager.CanvasWidth;
-						offsetY = (windowManager.PreferredBackBufferHeight - (windowManager.CanvasHeight * ratio)) / 2f;
+						ratio = windowManager.PreferredBackBufferWidth / windowManager.CanvasSize.X;
+						offsetY = (windowManager.PreferredBackBufferHeight - (windowManager.CanvasSize.Y * ratio)) / 2f;
 					}
 					else
 					{
-						ratio = windowManager.PreferredBackBufferHeight / (float)windowManager.CanvasHeight;
-						offsetX = (windowManager.PreferredBackBufferWidth - (windowManager.CanvasWidth * ratio)) / 2f;
+						ratio = windowManager.PreferredBackBufferHeight / windowManager.CanvasSize.Y;
+						offsetX = (windowManager.PreferredBackBufferWidth - (windowManager.CanvasSize.X * ratio)) / 2f;
 					}
 					
 					CanvasMatrix = Matrix.CreateScale(new Vector3(ratio, ratio, 1)) * Matrix.CreateTranslation(new Vector3(offsetX, offsetY, 0));

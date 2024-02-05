@@ -228,12 +228,12 @@ namespace Monofoxe.Samples.Demos
 		{
 			var clockSize = 32;
 
-			CircleShape.Draw(_basicUpdateClockPosition, 32, true);
+			CircleShape.Draw(_basicUpdateClockPosition, 32, ShapeFill.Outline);
 			LineShape.Draw(
 				_basicUpdateClockPosition,
 				_basicUpdateClockPosition + _basicUpdateClock.ToVector2() * clockSize
 			);
-			CircleShape.Draw(_fixedUpdateClockPosition, 32, true);
+			CircleShape.Draw(_fixedUpdateClockPosition, 32, ShapeFill.Outline);
 			LineShape.Draw(
 				_fixedUpdateClockPosition,
 				_fixedUpdateClockPosition + _fixedUpdateClock.ToVector2() * clockSize
@@ -246,11 +246,11 @@ namespace Monofoxe.Samples.Demos
 			GraphicsMgr.CurrentColor = _sequenceColor;
 			if (_sequenceStage == 1)
 			{
-				CircleShape.Draw(_sequencePosition, 32, false);
+				CircleShape.Draw(_sequencePosition, 32, ShapeFill.Solid);
 			}
 			if (_sequenceStage == 2)
 			{
-				RectangleShape.DrawBySize(_sequencePosition, Vector2.One * 32, false);
+				RectangleShape.DrawBySize(_sequencePosition, Vector2.One * 32, ShapeFill.Solid);
 			}
 			if (_sequenceStage == 3)
 			{
@@ -258,7 +258,7 @@ namespace Monofoxe.Samples.Demos
 					_sequencePosition - Vector2.UnitY * 32,
 					_sequencePosition + Vector2.UnitX * 32,
 					_sequencePosition - Vector2.UnitX * 32,
-					false
+					ShapeFill.Solid
 				);
 			}
 		}

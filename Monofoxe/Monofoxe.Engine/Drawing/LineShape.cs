@@ -5,34 +5,13 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Monofoxe.Engine.Drawing
 {
 	/// <summary>
-	/// Drawable line shape. Can be drawn by using static methods or be instantiated.
+	/// Drawable line shape.
 	/// NOTE: The line has no width. 
 	/// </summary>
-	public class LineShape : Drawable
+	public static class LineShape
 	{
-		/// <summary>
-		/// First line point. 
-		/// NOTE: all line points treat position as an origin point;
-		/// </summary>
-		public Vector2 Point1;
-
-		/// <summary>
-		/// Second line point. 
-		/// NOTE: all line points treat position as an origin point;
-		/// </summary>
-		public Vector2 Point2;
-		
-		public Color Color = Color.White;
-
-		public float ZDepth = 0;
-
 		private static VertexPositionColorTexture[] _lineVertices = new VertexPositionColorTexture[2];
 		private static short[] _lineIndices = { 0, 1 };
-
-
-		public override void Draw() =>
-			Draw(Point1 + Position, Point2 + Position, Color, Color, ZDepth);	
-		
 		
 		/// <summary>
 		/// Draws a line.
@@ -53,7 +32,5 @@ namespace Monofoxe.Engine.Drawing
 			GraphicsMgr.VertexBatch.Texture = null;
 			GraphicsMgr.VertexBatch.AddPrimitive(PrimitiveType.LineList, _lineVertices, _lineIndices);
 		}
-		
-		
 	}
 }

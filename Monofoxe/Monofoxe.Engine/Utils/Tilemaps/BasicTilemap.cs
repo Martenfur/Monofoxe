@@ -128,7 +128,7 @@ namespace Monofoxe.Engine.Utils.Tilemaps
 						if (tilesetTile != null)
 						{
 							var flip = SpriteFlipFlags.None;
-							var offset = Vector2.UnitY * (tilesetTile.Frame.Height - TileHeight);
+							var offset = Vector2.UnitY * (tilesetTile.Frame.Size.Y - TileHeight);
 							var rotation = 0;
 
 							// A bunch of Tiled magic.

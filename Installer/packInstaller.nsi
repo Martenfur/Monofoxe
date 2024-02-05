@@ -3,8 +3,8 @@
 
 
 !define APPNAME "Monofoxe"
-!define APPVERSION "v2"
-!define INSTALLERVERSION "2.2.0.0"
+!define APPVERSION "v3-dev"
+!define INSTALLERVERSION "3.0.0.0-dev.1"
 
 !define MUI_ICON "pics\icon.ico"
 !define MUI_UNICON "pics\icon.ico"

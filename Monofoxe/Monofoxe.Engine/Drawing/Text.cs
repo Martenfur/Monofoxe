@@ -4,8 +4,10 @@ using Monofoxe.Engine.Utils;
 
 namespace Monofoxe.Engine.Drawing
 {
-	public class Text : Drawable
+	public class Text
 	{
+		public Vector2 Position;
+
 		public Vector2 Scale;
 
 		public Vector2 Origin;
@@ -35,7 +37,7 @@ namespace Monofoxe.Engine.Drawing
 		// Text.
 
 
-		public override void Draw()
+		public void Draw()
 		{
 			var oldColor = GraphicsMgr.CurrentColor;
 			GraphicsMgr.CurrentColor = Color;

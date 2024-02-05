@@ -1,4 +1,4 @@
-![logo](logo/logo_transparent.png)
+﻿![logo](logo/logo_transparent.png)
 
 # What am I looking at?
 This is Monofoxe - a game engine based on the [Monogame Framework](http://monogame.net). 
@@ -36,13 +36,13 @@ Everything Monogame does, plus:
 * Useful math for collisions and other game stuff.
 * Timers, alarms, cameras, state machines, tilemaps, foxes!
 * Coroutines.
-* FMOD audio support (As a standalone [library](https://github.com/Martenfur/ChaiFoxes.FMODAudio/)).
+* FMOD audio support (As a standalone [library](https://github.com/Martenfur/FmodForFoxes/)).
 * Hybrid EC.
 * Scene system (with layers!).
 * Tiled maps support.
 * Enhanced content management via [Nopipeline](https://github.com/Martenfur/Nopipeline).
 * Hot reload (VS2022 and Rider only)
-
+* Lightweight collision detection.
 
 Coming in the future:
 
