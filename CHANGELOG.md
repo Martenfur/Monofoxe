@@ -19,7 +19,7 @@
 
 - **BREAKING CHANGE:** `ResourceInfoMgr` now accepts wildcards instead of directory names. For example, `ResourceInfoMgr.GetResourcePaths("Graphics/Trees");` should now be replaced with `ResourceInfoMgr.GetResourcePaths("Graphics/Trees/*");`
 - **BREAKING CHANGE:** Renamed `GetSafeNormalize()` to `SafeNormalize()`.
-- **BREAKING CHANGE:** Removed instances of `Width` and `Height` in `Sprite`, `Frame`, `WindowMgr`, and replaced them with `Size`.
+- **BREAKING CHANGE:** Removed instances of `Width` and `Height` in `Sprite`, `Frame`, `WindowMgr`, `Camera`, `Surface`, and replaced them with `Size`.
 - **BREAKING CHANGE:** Changed boolean `isOutline` to `ShapeFill` enum for shapes.
 
 ### Fixed

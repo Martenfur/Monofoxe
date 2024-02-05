@@ -41,7 +41,7 @@ namespace Monofoxe.Engine.Cameras
 		/// <summary>
 		/// View size.
 		/// </summary>
-		public Vector2 Size => new Vector2(Surface.Width, Surface.Height);
+		public Vector2 Size => Surface.Size;
 		
 		/// <summary>
 		/// Camera offset.
@@ -150,7 +150,7 @@ namespace Monofoxe.Engine.Cameras
 
 					if (_postprocessingMode != PostprocessingMode.None)
 					{
-						_postprocessorBuffer = new Surface(Surface.Width, Surface.Height);
+						_postprocessorBuffer = new Surface(Surface.Size);
 					}
 					else
 					{
@@ -160,7 +160,7 @@ namespace Monofoxe.Engine.Cameras
 
 					if (_postprocessingMode == PostprocessingMode.CameraAndLayers)
 					{
-						_postprocessorLayerBuffer = new Surface(Surface.Width, Surface.Height);
+						_postprocessorLayerBuffer = new Surface(Surface.Size);
 					}
 					else
 					{
@@ -177,24 +177,24 @@ namespace Monofoxe.Engine.Cameras
 		internal Surface _postprocessorLayerBuffer;
 
 
-		public Camera(int w, int h, int priority = 0)
+		public Camera(Vector2 size, int priority = 0)
 		{
-			Surface = new Surface(w, h);
+			Surface = new Surface(size);
 			
 			Priority = priority; // Also adds camera to camera list.
 		}
 
-		public event Action<int, int> OnResize;
+		public event Action<Vector2> OnResize;
 
 		/// <summary>
 		/// Resizes the view.
 		/// </summary>
-		public void Resize(int w, int h)
+		public void Resize(Vector2 size)
 		{
-			Surface.Resize(w, h);
-			_postprocessorBuffer?.Resize(w, h);
-			_postprocessorLayerBuffer?.Resize(w, h);
-			OnResize?.Invoke(w, h);
+			Surface.Resize(size);
+			_postprocessorBuffer?.Resize(size);
+			_postprocessorLayerBuffer?.Resize(size);
+			OnResize?.Invoke(size);
 		}
 
 		/// <summary>

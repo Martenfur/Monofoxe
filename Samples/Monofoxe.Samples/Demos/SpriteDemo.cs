@@ -140,7 +140,7 @@ namespace Monofoxe.Samples.Demos
 			GraphicsMgr.CurrentColor = Color.Red;
 			Surface.SetTarget(_surface);
 
-			var po = new Vector2(_surface.Width, _surface.Height) / 2 + new Angle(GameMgr.ElapsedTimeTotal * 10).ToVector2() * 64;
+			var po = _surface.Size / 2 + new Angle(GameMgr.ElapsedTimeTotal * 10).ToVector2() * 64;
 			RectangleShape.DrawBySize(po, Vector2.One * 8, ShapeFill.Solid);
 
 			Surface.ResetTarget();
@@ -163,7 +163,7 @@ namespace Monofoxe.Samples.Demos
 		/// </summary>
 		void InitSurface()
 		{
-			_surface = new Surface(128, 128);
+			_surface = new Surface(new Vector2(128, 128));
 
 			Surface.SetTarget(_surface);
 

@@ -22,8 +22,7 @@ namespace Monofoxe.Engine.Drawing
 
 		public RenderTarget2D RenderTarget {get; private set;}
 
-		public int Width => RenderTarget.Width;
-		public int Height => RenderTarget.Height;
+		public Vector2 Size => new Vector2(RenderTarget.Width, RenderTarget.Height);
 
 
 		internal static bool SurfaceStackEmpty => _surfaceStack.Count == 0;
@@ -35,21 +34,21 @@ namespace Monofoxe.Engine.Drawing
 		private static Surface _currentSurface;
 
 
-		public Surface(int w, int h, Vector2 position, Vector2 scale, Vector2 origin, Angle rotation)
+		public Surface(Vector2 size, Vector2 position, Vector2 scale, Vector2 origin, Angle rotation)
 		{
 			Position = position;
 			Scale = scale;
 			Origin = origin;
 			Rotation = rotation;
 
-			RenderTarget = CreateRenderTarget(w, h);
+			RenderTarget = CreateRenderTarget(size);
 
 			Color = GraphicsMgr.CurrentColor;
 		}
 
-		public Surface(int w, int h)
+		public Surface(Vector2 size)
 		{
-			RenderTarget = CreateRenderTarget(w, h);
+			RenderTarget = CreateRenderTarget(size);
 			Color = GraphicsMgr.CurrentColor;
 		}
 		
@@ -59,18 +58,18 @@ namespace Monofoxe.Engine.Drawing
 			Color = GraphicsMgr.CurrentColor;
 		}
 
-		public void Resize(int w, int h)
+		public void Resize(Vector2 size)
 		{
 			RenderTarget.Dispose();
-			RenderTarget = CreateRenderTarget(w, h);
+			RenderTarget = CreateRenderTarget(size);
 		}
 
 
-		private RenderTarget2D CreateRenderTarget(int w, int h)
+		private RenderTarget2D CreateRenderTarget(Vector2 size)
 		{
 			return new RenderTarget2D(
 				GraphicsMgr.Device, 
-				w, h, 
+				(int)size.X, (int)size.Y, 
 				false,
 				GraphicsMgr.Device.PresentationParameters.BackBufferFormat,
 				GraphicsMgr.Device.PresentationParameters.DepthStencilFormat, 
@@ -127,14 +126,14 @@ namespace Monofoxe.Engine.Drawing
 			{
 				mirroring = mirroring | SpriteFlipFlags.FlipHorizontally;
 				scale.X *= -1;
-				scaleOffset.X = Width;
+				scaleOffset.X = Size.X;
 			}
 
 			if (scale.Y < 0)
 			{
 				mirroring = mirroring | SpriteFlipFlags.FlipVertically;
 				scale.Y *= -1;
-				scaleOffset.Y = Height;
+				scaleOffset.Y = Size.Y;
 			}
 			// Proper negative scaling.
 
@@ -221,7 +220,7 @@ namespace Monofoxe.Engine.Drawing
 		/// Sets surface as a render target.
 		/// </summary>
 		public static void SetTarget(Surface surf, Matrix view) =>
-			SetTarget(surf, view, Matrix.CreateOrthographicOffCenter(0, surf.Width, surf.Height, 0, 0, 1));
+			SetTarget(surf, view, Matrix.CreateOrthographicOffCenter(0, surf.Size.X, surf.Size.Y, 0, 0, 1));
 		
 
 		/// <summary>

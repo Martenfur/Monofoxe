@@ -98,7 +98,7 @@ namespace Monofoxe.Samples.Demos
 
 
 			// Camera.
-			_camera = new Camera2D(400, 600);
+			_camera = new Camera2D(new Vector2(400, 600));
 			_camera.PortPosition = new Vector2(400, 0);
 			_camera.BackgroundColor = Color.Black;
 			_camera.PostprocessorEffects.Add(_grayscale);
