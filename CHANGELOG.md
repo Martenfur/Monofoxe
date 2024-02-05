@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [v3.0.0-dev.1] - *05.02.2024*
+
 ### Added
 
 - Added `RenderMask` as a replacement to camera filters to `Scene`, `Layer` and `Entity`. 
