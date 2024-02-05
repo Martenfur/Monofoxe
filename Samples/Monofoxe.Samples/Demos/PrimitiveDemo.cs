@@ -193,7 +193,7 @@ namespace Monofoxe.Samples.Demos
 				var delta = _linestrip.Vertices[i - 1].Position - vertex.Position;
 				if (delta.Length() > 8)
 				{
-					var e = delta.GetSafeNormalize();
+					var e = delta.SafeNormalize();
 					vertex.Position = _linestrip.Vertices[i - 1].Position - e * 8;
 					_linestrip.Vertices[i] = vertex;
 				}

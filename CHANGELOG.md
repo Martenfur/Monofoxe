@@ -16,6 +16,7 @@
 
 ### Changed
 - **BREAKING CHANGE:** `ResourceInfoMgr` now accepts wildcards instead of directory names. For example, `ResourceInfoMgr.GetResourcePaths("Graphics/Trees");` should now be replaced with `ResourceInfoMgr.GetResourcePaths("Graphics/Trees/*");`
+- **BREAKING CHANGE:** Renamed `GetSafeNormalize()` to `SafeNormalize()`.
 
 ### Fixed
 

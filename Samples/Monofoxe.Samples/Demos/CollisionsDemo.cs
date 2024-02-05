@@ -158,7 +158,7 @@ namespace Monofoxe.Samples.Demos
 				for (var k = 0; k < shape.Count; k += 1)
 				{
 					var angle = new Angle(shape.RelativeVertices[k]).RadiansF;
-					var e = shape.RelativeVertices[k].GetSafeNormalize();
+					var e = shape.RelativeVertices[k].SafeNormalize();
 					shape.RelativeVertices[k] = e * (80 + (MathF.Sin((float)GameMgr.ElapsedTimeTotal * 2) * 12) * MathF.Sin(angle * 8)).ToMeters();
 				}
 			}

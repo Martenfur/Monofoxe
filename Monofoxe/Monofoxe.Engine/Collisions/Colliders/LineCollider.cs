@@ -24,7 +24,7 @@ namespace Monofoxe.Engine.Collisions.Colliders
 
 			set
 			{
-				var e = (_line.RelativeVertices[1] - _line.RelativeVertices[0]).GetSafeNormalize();
+				var e = (_line.RelativeVertices[1] - _line.RelativeVertices[0]).SafeNormalize();
 				_line.RelativeVertices[1] = _line.RelativeVertices[0] + e * value;
 			}
 		}
