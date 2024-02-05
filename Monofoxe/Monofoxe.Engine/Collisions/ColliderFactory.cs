@@ -1,9 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine.Collisions.Algorithms;
-using Monofoxe.Engine.Utils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Monofoxe.Engine.Collisions
 {
@@ -16,7 +14,7 @@ namespace Monofoxe.Engine.Collisions
 
 			var circle = ShapePool.GetCircle();
 			circle.Radius = r;
-			collider.AddShape(Vector2.Zero, circle);
+			collider.AddShape(circle);
 
 			return collider;
 		}
@@ -37,18 +35,23 @@ namespace Monofoxe.Engine.Collisions
 			poly.Add(new Vector2( halfSize.X,  halfSize.Y));
 			poly.Add(new Vector2(-halfSize.X,  halfSize.Y));
 
-			collider.AddShape(Vector2.Zero, poly);
+			collider.AddShape(poly);
 
-			var isit = GameMath.IsClockWise(poly.RelativeVertices.ToList());
-		
 			return collider;
 		}
 
 
 		public static Collider CreateLine(float length)
 		{
-			throw new NotImplementedException();
+			var collider = ColliderPool.GetCollider();
+			var poly = ShapePool.GetPolygon();
 
+			poly.Add(new Vector2(0, 0));
+			poly.Add(new Vector2(length, 0));
+
+			collider.AddShape(poly);
+
+			return collider;
 		}
 
 
@@ -79,7 +82,7 @@ namespace Monofoxe.Engine.Collisions
 					poly.Add(polys[i][k]);
 				}
 
-				collider.AddShape(Vector2.Zero, poly);
+				collider.AddShape(poly);
 			}
 
 			return collider;

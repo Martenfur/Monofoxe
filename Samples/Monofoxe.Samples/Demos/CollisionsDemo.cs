@@ -28,7 +28,7 @@ namespace Monofoxe.Samples.Demos
 
 		public CollisionsDemo(Layer layer) : base(layer)
 		{
-			Settings.WorldScale = 16;
+			CollisionSettings.WorldScale = 16;
 
 			_circle = ShapePool.GetCircle();
 			// All collider measuremenets must be converted to meters, which is basically 1 / WorldScale.
@@ -83,7 +83,7 @@ namespace Monofoxe.Samples.Demos
 
 			_circle.Position = GameController.MainCamera.GetRelativeMousePosition().ToMeters();
 
-			_circleAndSquarePolygonCollided = ShapeCollisionChecker.CheckCollision(_circle, _squarePolygon);
+			_circleAndSquarePolygonCollided = CollisionChecker.CheckCollision(_circle, _squarePolygon);
 
 			_circleCollider1.Position = new Vector2(
 				100 + 100 * MathF.Sin((float)GameMgr.ElapsedTimeTotal * 2),

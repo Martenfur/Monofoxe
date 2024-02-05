@@ -4,35 +4,53 @@ using Monofoxe.Engine.Utils;
 using Monofoxe.Engine.Utils.CustomCollections;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace Monofoxe.Engine.Collisions
 {
+	/// <summary>
+	/// Defines a collection of convex shapes that act as a single shape.
+	/// </summary>
 	public class Collider : IPoolable
 	{
-		public bool InPool { get ; set; }
-
 		private List<IShape> _shapes = new List<IShape>();
-		private List<Vector2> _relativeShapePositions = new List<Vector2>();
 
 
+		/// <summary>
+		/// Absolute position of the collider, measured in meters.
+		/// NOTE: You should always call UpdateTransform() after changing this field.
+		/// </summary>
 		public Vector2 Position;
+
+		/// <summary>
+		/// Origin point for the collider rotation, measured in meters.
+		/// NOTE: You should always call UpdateTransform() after changing this field.
+		/// </summary>
 		public Vector2 Origin;
 		public Vector2 _rotatedOrigin;
+
+		/// <summary>
+		/// Rotation of the collider, measured in degreen.
+		/// NOTE: You should always call UpdateTransform() after changing this field.
+		/// </summary>
 		public float Rotation;
 		public float _cachedRotation = 0;
 		private Vector2 _rotationCosSin = new Vector2(1, 0);
 
+		/// <summary>
+		/// NOTE: It is recommended to use ColliderPool to get new instances of this class.
+		/// </summary>
+		public Collider() { }
 
 		public int ShapesCount => _shapes.Count;
 
 		private const float _radianConversion = MathF.PI / 180f;
 
-		public void AddShape(Vector2 relativePosition, IShape shape)
+		
+		public void AddShape(IShape shape)
 		{
 			_shapes.Add(shape);
-			_relativeShapePositions.Add(relativePosition);
 		}
+
 
 		public void RemoveShape(IShape shape)
 		{
@@ -40,7 +58,6 @@ namespace Monofoxe.Engine.Collisions
 			if (index != -1) 
 			{
 				_shapes.RemoveAt(index);
-				_relativeShapePositions.RemoveAt(index);
 			}
 		}
 
@@ -51,18 +68,10 @@ namespace Monofoxe.Engine.Collisions
 		}
 
 
-		public Vector2 GetShapeRelativePosition(int index = 0)
-		{
-			return _relativeShapePositions[index];
-		}
-
-
-		public void SetShapeRelativePosition(Vector2 relativePosition, int index = 0)
-		{
-			_relativeShapePositions[index] = relativePosition;
-		}
-
-
+		/// <summary>
+		/// Applies Position, Rotation, Origin to the shapes. 
+		/// Must be called after any changes to the collider have been made.
+		/// </summary>
 		public void UpdateTransform()
 		{
 			if (Rotation != _cachedRotation)
@@ -84,19 +93,18 @@ namespace Monofoxe.Engine.Collisions
 				{
 					case ShapeType.Circle:
 						var circle = (Circle)_shapes[i];
-						// TODO: Add rotation.
 						circle.Position = _rotatedOrigin + Position;
 						break;
 					case ShapeType.Polygon:
 						var poly = (Polygon)_shapes[i];
-						poly.Position = _rotatedOrigin + Position + _relativeShapePositions[i];
+						poly.Position = _rotatedOrigin + Position;
 						poly.Rotation = Rotation;
-						//poly.Origin = _relativeShapePositions[i];
 						poly.UpdateTransform();
 						break;
 				}
 			}
 		}
+
 
 		public AABB GetBoundingBox()
 		{
@@ -112,6 +120,11 @@ namespace Monofoxe.Engine.Collisions
 		}
 
 
+		/// <inheritdoc/>
+		public bool InPool { get; set; }
+
+
+		/// <inheritdoc/>
 		public void OnReturnedToPool()
 		{
 			_shapes.Clear();
@@ -119,9 +132,10 @@ namespace Monofoxe.Engine.Collisions
 			{
 				ShapePool.Return(_shapes[i]);
 			}
-			_relativeShapePositions.Clear();
 		}
 
+
+		/// <inheritdoc/>
 		public void OnTakenFromPool() {}
 	}
 }

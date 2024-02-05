@@ -6,30 +6,62 @@ using System.Runtime.CompilerServices;
 
 namespace Monofoxe.Engine.Collisions.Shapes
 {
+	/// <summary>
+	/// Defines a convex polygon with clockwise winding (assuming the up vector is -1;0). Minimum possible number of vertices is 2.
+	/// </summary>
 	public class Polygon : IShape, IPoolable
 	{
 		public ShapeType Type => ShapeType.Polygon;
 
+		/// <summary>
+		/// Absolute position of the shape, measured in meters.
+		/// NOTE: You should always call UpdateTransform() after changing this field.
+		/// </summary>
 		public Vector2 Position;
+
+		/// <summary>
+		/// Polygon rotation around the local 0;0 point, measured in degrees.
+		/// NOTE: You should always call UpdateTransform() after changing this field.
+		/// </summary>
 		public float Rotation = 0;
 		public float _cachedRotation = 0;
 		private Vector2 _rotationCosSin = new Vector2(1, 0);
 
 		/// <summary>
-		/// Polygon verts in relative space, before any transformation gets applied.
+		/// Polygon vertices in relative space, before any transformation is applied, measured in meters. 
+		/// NOTE: This array is initialized with CollisionSettings.MaxPolygonVertices number of vertices and should always stay the same size. 
+		/// NOTE: You should always call UpdateTransform() after changing vertices.
+		/// Use the Count field to keep track of the amount of vertices in a shape.
+		/// RESTRICTIONS:
+		/// - Vertices must form a convex shape.
+		/// - The number of vertices should not be higher than CollisionSettings.MaxPolygonVertices.
+		/// - Vertices must be arranged clockwise (assuming the up vector is 0;-1)
 		/// </summary>
-		public readonly Vector2[] RelativeVertices = new Vector2[Settings.MaxPolygonVertices];
+		public readonly Vector2[] RelativeVertices = new Vector2[CollisionSettings.MaxPolygonVertices];
 
 		/// <summary>
-		/// Polygon verts in absolute space. 
+		/// Polygon vertices in absolute space, measured in meters. 
 		/// NOTE: These vertices should ONLY be generated from RelativeVertices by calling UpdateTransform()
+		/// NOTE: This array is initialized with CollisionSettings.MaxPolygonVertices number of vertices and should always stay the same size. 
+		/// Use the Count field to keep track of the amount of vertices in a shape.
+		/// RESTRICTIONS:
+		/// - Vertices must form a convex shape.
+		/// - The number of vertices should not be higher than CollisionSettings.MaxPolygonVertices.
+		/// - Vertices must be arranged clockwise (assuming the up vector is 0;-1)
 		/// </summary>
-		public readonly Vector2[] Vertices = new Vector2[Settings.MaxPolygonVertices];
+		public readonly Vector2[] Vertices = new Vector2[CollisionSettings.MaxPolygonVertices];
 
+		/// <summary>
+		/// Number of vertices in a shape. You should ALWAYS use this value instead of Vertices.Length, which always stays constant.
+		/// </summary>
 		public int Count = 0;
 
 		private const float _radianConversion = MathF.PI / 180f;
 
+		/// <summary>
+		/// NOTE: It is recommended to use ShapePool to get new instances of this class.
+		/// </summary>
+		public Polygon() { }
 
 		private AABB _cachedAABB;
 		private bool _cachedAABBStale = true;
@@ -53,17 +85,24 @@ namespace Monofoxe.Engine.Collisions.Shapes
 		}
 
 
+		/// <summary>
+		/// Adds a new vertex 
+		/// </summary>
 		public void Add(Vector2 v)
 		{
-			if (Count >= Settings.MaxPolygonVertices)
+			if (Count >= CollisionSettings.MaxPolygonVertices)
 			{
-				throw new InvalidOperationException("Cannot add another vertex! Maximum allowed number of vertices per polygon is " + Settings.MaxPolygonVertices + ". Consider splitting your polygon.");
+				throw new InvalidOperationException("Cannot add another vertex! Maximum allowed number of vertices per polygon is " + CollisionSettings.MaxPolygonVertices + ". Consider splitting your polygon.");
 			}
 			RelativeVertices[Count] = v;
 			Count += 1;
 		}
 
 
+		/// <summary>
+		/// Applies Position, Rotation to RelativeVertices and writes the result to Vertices. 
+		/// Must be called after any changes to the shape have been made.
+		/// </summary>
 		public void UpdateTransform()
 		{
 			_cachedAABBStale = true;
@@ -100,13 +139,16 @@ namespace Monofoxe.Engine.Collisions.Shapes
 			);
 		}
 
+		/// <inheritdoc/>
 		public bool InPool { get; set; }
 
-		public void OnTakenFromPool()
-		{
-		}
 
-		public void OnReturnedToPool()
+		/// <inheritdoc/>
+		public void OnTakenFromPool() {}
+
+
+		/// <inheritdoc/>
+		public void OnReturnedToPool() 
 		{
 			Count = 0;
 			_cachedAABBStale = true;

@@ -15,7 +15,5 @@ namespace Monofoxe.Engine.Collisions
 		{
 			_colliderPool.Return(collider);
 		}
-
-
 	}
 }

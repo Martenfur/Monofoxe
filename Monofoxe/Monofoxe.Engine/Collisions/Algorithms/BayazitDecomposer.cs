@@ -6,10 +6,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
 using Monofoxe.Engine.Utils;
-
-// TODO: Add inlines.
 
 namespace Monofoxe.Engine.Collisions.Algorithms
 {
@@ -26,7 +25,7 @@ namespace Monofoxe.Engine.Collisions.Algorithms
 	/// 
 	/// For more information about this algorithm, see http://mnbayazit.com/406/bayazit
 	/// </summary>
-	internal static class BayazitDecomposer
+	public static class BayazitDecomposer
 	{
 		/// <summary>
 		/// Decompose the polygon into several smaller non-concave polygon.
@@ -144,7 +143,7 @@ namespace Monofoxe.Engine.Collisions.Algorithms
 			}
 
 			// polygon is already convex
-			if (vertices.Count > Settings.MaxPolygonVertices)
+			if (vertices.Count > CollisionSettings.MaxPolygonVertices)
 			{
 				lowerPoly = Copy(0, vertices.Count / 2, vertices);
 				upperPoly = Copy(vertices.Count / 2, 0, vertices);
@@ -157,12 +156,14 @@ namespace Monofoxe.Engine.Collisions.Algorithms
 			return list;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private static Vector2 At(int i, List<Vector2> vertices)
 		{
 			int s = vertices.Count;
 			return vertices[i < 0 ? s - 1 - (-i - 1) % s : i % s];
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private static List<Vector2> Copy(int i, int j, List<Vector2> vertices)
 		{
 			while (j < i)
@@ -177,6 +178,7 @@ namespace Monofoxe.Engine.Collisions.Algorithms
 			return p;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private static bool CanSee(int i, int j, List<Vector2> vertices)
 		{
 			if (Reflex(i, vertices))
@@ -212,36 +214,43 @@ namespace Monofoxe.Engine.Collisions.Algorithms
 			return true;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private static bool Reflex(int i, List<Vector2> vertices)
 		{
 			return Right(i, vertices);
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private static bool Right(int i, List<Vector2> vertices)
 		{
 			return Right(At(i - 1, vertices), At(i, vertices), At(i + 1, vertices));
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private static bool Left(Vector2 a, Vector2 b, Vector2 c)
 		{
 			return Area(ref a, ref b, ref c) > 0;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private static bool LeftOn(Vector2 a, Vector2 b, Vector2 c)
 		{
 			return Area(ref a, ref b, ref c) >= 0;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private static bool Right(Vector2 a, Vector2 b, Vector2 c)
 		{
 			return Area(ref a, ref b, ref c) < 0;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private static bool RightOn(Vector2 a, Vector2 b, Vector2 c)
 		{
 			return Area(ref a, ref b, ref c) <= 0;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private static float SquareDist(Vector2 a, Vector2 b)
 		{
 			float dx = b.X - a.X;
@@ -311,7 +320,7 @@ namespace Monofoxe.Engine.Collisions.Algorithms
 			float denom = a * b - c * d;
 
 			// if denominator is 0, then lines are parallel
-			if (!(denom >= -Settings.Epsilon && denom <= Settings.Epsilon))
+			if (!(denom >= -CollisionSettings.Epsilon && denom <= CollisionSettings.Epsilon))
 			{
 				float e = point1.Y - point3.Y;
 				float f = point1.X - point3.X;
@@ -367,9 +376,10 @@ namespace Monofoxe.Engine.Collisions.Algorithms
 			return LineIntersect(ref point1, ref point2, ref point3, ref point4, true, true, out intersectionPoint);
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool FloatEquals(float value1, float value2)
 		{
-			return Math.Abs(value1 - value2) <= Settings.Epsilon;
+			return Math.Abs(value1 - value2) <= CollisionSettings.Epsilon;
 		}
 
 		/// <summary>
@@ -377,6 +387,7 @@ namespace Monofoxe.Engine.Collisions.Algorithms
 		/// </summary>
 		/// <returns>Positive number if point is left, negative if point is right, 
 		/// and 0 if points are collinear.</returns>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float Area(ref Vector2 a, ref Vector2 b, ref Vector2 c)
 		{
 			return a.X * (b.Y - c.Y) + b.X * (c.Y - a.Y) + c.X * (a.Y - b.Y);
