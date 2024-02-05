@@ -5,14 +5,14 @@ using Monofoxe.Engine.Utils.CustomCollections;
 using System;
 using System.Collections.Generic;
 
-namespace Monofoxe.Engine.Collisions
+namespace Monofoxe.Engine.Collisions.Colliders
 {
 	/// <summary>
 	/// Defines a collection of convex shapes that act as a single shape.
 	/// </summary>
 	public class Collider : IPoolable
 	{
-		private List<IShape> _shapes = new List<IShape>();
+		protected List<IShape> _shapes = new List<IShape>();
 
 
 		/// <summary>
@@ -45,7 +45,7 @@ namespace Monofoxe.Engine.Collisions
 
 		private const float _radianConversion = MathF.PI / 180f;
 
-		
+
 		public void AddShape(IShape shape)
 		{
 			_shapes.Add(shape);
@@ -55,7 +55,7 @@ namespace Monofoxe.Engine.Collisions
 		public void RemoveShape(IShape shape)
 		{
 			var index = _shapes.IndexOf(shape);
-			if (index != -1) 
+			if (index != -1)
 			{
 				_shapes.RemoveAt(index);
 			}
@@ -80,16 +80,16 @@ namespace Monofoxe.Engine.Collisions
 				_rotationCosSin.Y = MathF.Sin(Rotation * _radianConversion);
 				_cachedRotation = Rotation;
 			}
-			
+
 			_rotatedOrigin = new Vector2(
 				-Origin.X * _rotationCosSin.X + Origin.Y * _rotationCosSin.Y,
 				-Origin.X * _rotationCosSin.Y - Origin.Y * _rotationCosSin.X
 			);
-			
+
 
 			for (var i = 0; i < _shapes.Count; i += 1)
 			{
-				switch(_shapes[i].Type)
+				switch (_shapes[i].Type)
 				{
 					case ShapeType.Circle:
 						var circle = (Circle)_shapes[i];
@@ -110,7 +110,7 @@ namespace Monofoxe.Engine.Collisions
 		{
 			// TODO: Add AABB caching?
 			var aabb = _shapes[0].GetBoundingBox();
-			for(var i = 1; i < _shapes.Count; i += 1)
+			for (var i = 1; i < _shapes.Count; i += 1)
 			{
 				var aabb1 = _shapes[i].GetBoundingBox();
 				aabb.Combine(ref aabb1);
@@ -128,7 +128,7 @@ namespace Monofoxe.Engine.Collisions
 		public void OnReturnedToPool()
 		{
 			_shapes.Clear();
-			for(var i = 0; i < _shapes.Count; i += 1)
+			for (var i = 0; i < _shapes.Count; i += 1)
 			{
 				ShapePool.Return(_shapes[i]);
 			}
@@ -136,6 +136,6 @@ namespace Monofoxe.Engine.Collisions
 
 
 		/// <inheritdoc/>
-		public void OnTakenFromPool() {}
+		public void OnTakenFromPool() { }
 	}
 }

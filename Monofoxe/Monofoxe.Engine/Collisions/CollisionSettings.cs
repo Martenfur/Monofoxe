@@ -6,6 +6,7 @@
 
 		/// <summary>
 		/// The maximum number of vertices on a convex polygon. It is recommended to keep this number low for performance reasons.
+		/// NOTE: Settign this value below 4 will result in collider logic breaking.
 		/// </summary>
 		public static int MaxPolygonVertices = 8;
 		

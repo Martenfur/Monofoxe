@@ -1,16 +1,43 @@
 ﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine.Collisions.Algorithms;
-using System;
+using Monofoxe.Engine.Collisions.Colliders;
 using System.Collections.Generic;
 
 namespace Monofoxe.Engine.Collisions
 {
 	public static class ColliderFactory
 	{
-
-		public static Collider CreateCircle(float r)
+		/// <summary>
+		/// Creates a free-form polygon with clockwise winding. The polygon can be convex or concave and has no limit on the amount of vertices.
+		/// </summary>
+		public static Collider CreatePolygon(List<Vector2> vertices)
 		{
 			var collider = ColliderPool.GetCollider();
+
+			var polys = BayazitDecomposer.ConvexPartition(vertices);
+
+			for (var i = 0; i < polys.Count; i += 1)
+			{
+				var poly = ShapePool.GetPolygon();
+
+				for (var k = 0; k < polys[i].Count; k += 1)
+				{
+					poly.Add(polys[i][k]);
+				}
+
+				collider.AddShape(poly);
+			}
+
+			return collider;
+		}
+
+
+		/// <summary>
+		/// Creates a perfect circle.
+		/// </summary>
+		public static CircleCollider CreateCircle(float r)
+		{
+			var collider = ColliderPool.GetCircleCollider();
 
 			var circle = ShapePool.GetCircle();
 			circle.Radius = r;
@@ -20,9 +47,15 @@ namespace Monofoxe.Engine.Collisions
 		}
 
 
-		public static Collider CreateRectangle(Vector2 size)
+		/// <summary>
+		/// Creates a rectangle with its center inthe middle, consisting of four vertices that form the following shape:
+		/// 0---1
+		/// | \ |
+		/// 3---2
+		/// </summary>
+		public static RectangleCollider CreateRectangle(Vector2 size)
 		{
-			var collider = ColliderPool.GetCollider();
+			var collider = ColliderPool.GetRectangleCollider();
 			var poly = ShapePool.GetPolygon();
 
 			var halfSize = size / 2;
@@ -41,49 +74,19 @@ namespace Monofoxe.Engine.Collisions
 		}
 
 
-		public static Collider CreateLine(float length)
+		/// <summary>
+		/// Creates a simple line that consists of two vertices that form the following shape with its center at vertex 0:
+		/// 0---1
+		/// </summary>
+		public static LineCollider CreateLine(float length)
 		{
-			var collider = ColliderPool.GetCollider();
+			var collider = ColliderPool.GetLineCollider();
 			var poly = ShapePool.GetPolygon();
 
 			poly.Add(new Vector2(0, 0));
 			poly.Add(new Vector2(length, 0));
 
 			collider.AddShape(poly);
-
-			return collider;
-		}
-
-
-		public static Collider CreateRing(float arc, float r, float thickness)
-		{
-			throw new NotImplementedException();
-		}
-
-
-		public static Collider CreateSector(float arc, float r)
-		{
-			throw new NotImplementedException();
-		}
-
-
-		public static Collider CreatePolygon(List<Vector2> vertices)
-		{
-			var collider = ColliderPool.GetCollider();
-
-			var polys = BayazitDecomposer.ConvexPartition(vertices);
-
-			for (var i = 0; i < polys.Count; i += 1)
-			{
-				var poly = ShapePool.GetPolygon();
-
-				for (var k = 0; k < polys[i].Count; k += 1)
-				{
-					poly.Add(polys[i][k]);
-				}
-
-				collider.AddShape(poly);
-			}
 
 			return collider;
 		}

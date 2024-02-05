@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine;
 using Monofoxe.Engine.Collisions;
+using Monofoxe.Engine.Collisions.Colliders;
 using Monofoxe.Engine.Collisions.Shapes;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.EC;
@@ -18,12 +19,17 @@ namespace Monofoxe.Samples.Demos
 		private bool _circleAndPolygonCollided;
 
 
-		private Collider _circleCollider1;
-		private Collider _circleCollider2;
+		private CircleCollider _circleCollider1;
+		private CircleCollider _circleCollider2;
 		private Collider _polyCollider;
-		private Collider _rectCollider;
+		private LineCollider _lineCollider;
 
-		private bool _collidersCollided;
+		private Collider _polyCollider2;
+		private RectangleCollider _rectCollider;
+
+		private bool _circleCollidersCollided;
+		private bool _lineAndPolyCollidersCollided;
+		private bool _rectAndPolyCollidersCollided;
 
 		public CollisionsDemo(Layer layer) : base(layer)
 		{
@@ -51,6 +57,7 @@ namespace Monofoxe.Samples.Demos
 			_polygon.Add(new Vector2(-32, -32).ToMeters());
 			_polygon.Add(new Vector2(32, -32).ToMeters());
 			_polygon.Add(new Vector2(32, 32).ToMeters());
+			_polygon.Add(new Vector2(32, 32).ToMeters());
 			_polygon.Add(new Vector2(-32, 32).ToMeters());
 
 			_polygon.Position = new Vector2(200, 100).ToMeters();
@@ -63,67 +70,121 @@ namespace Monofoxe.Samples.Demos
 			// Colliders are essentially collections of shapes that act a single shape.
 			// Because of that, they can be convex and have an unlimited number of vertices by internally splitting themselves into smaller convex parts.
 
-			// Colliders are created using ColliderFactory. It already has a bunch of predefined shapes.
+			// Colliders are created using ColliderFactory. It already has a bunch of predefined shapes. 
+			// Note that all these colliders are taken from ColliderPool and should be returned to it afterwards.
 			_circleCollider1 = ColliderFactory.CreateCircle(32.ToMeters());
-			_circleCollider2 = ColliderFactory.CreateCircle(64.ToMeters());
+			_circleCollider2 = ColliderFactory.CreateCircle(32.ToMeters());
+
+			_polyCollider = ColliderPool.GetCollider(); // Getting an empty collider directly form the pool.
+			for (var i = 1; i <= 360 / 8; i += 1)
+			{
+				var triangle = ShapePool.GetPolygon();
+				triangle.Add(Vector2.Zero);
+				triangle.Add(new Angle(i * 8).ToVector2() * 80.ToMeters());
+				triangle.Add(new Angle((i + 1) * 8).ToVector2() * 80.ToMeters());
+				_polyCollider.AddShape(triangle);
+			}
+			_lineCollider = ColliderFactory.CreateLine(50.ToMeters());
+			//ColliderFactory.CreatePolygon(verts);
+
 
 
 			var verts = new List<Vector2>();
-			for(var i = 0; i < 8; i += 1)
-			{
-				verts.Add(new Angle(360 / 8f * i).ToVector2() * (80 + MathF.Cos(i * 0.4f) * 6).ToMeters());
-			}
 
-			_polyCollider = ColliderFactory.CreatePolygon(verts);
-			_rectCollider = ColliderFactory.CreateRectangle(new Vector2(32, 32).ToMeters());
-			_rectCollider.Origin = new Vector2(-16, -16).ToMeters();
+			// Colliders to not have restrictions to how many vertices they can have.
+			// They also can be concave - they will be partitioned into simple shapes.
+			verts.Add(new Vector2(0, 0).ToMeters());
+			verts.Add(new Vector2(32, 0).ToMeters());
+			verts.Add(new Vector2(32, 32).ToMeters());
+			verts.Add(new Vector2(64, 32).ToMeters());
+			verts.Add(new Vector2(64, 64).ToMeters());
+			verts.Add(new Vector2(0, 64).ToMeters());
+
+
+			_polyCollider2 = ColliderFactory.CreatePolygon(verts);
+
+			_rectCollider = ColliderFactory.CreateRectangle(new Vector2(64, 64).ToMeters());
 			// Setting up colliders. -----------------------------------------
 		}
 
-		
+
 
 		public override void Update()
 		{
 			base.Update();
 
-			// Updating colliders. -----------------------------------------
+			// Updating shapes. -----------------------------------------
 			_polygon.Rotation = (float)GameMgr.ElapsedTimeTotal * 32;
 			_polygon.UpdateTransform(); // For polygon shapes, it is required to apply new transform after every change.
-			
+
 			_circle.Position = new Vector2(
-				100 + 50 * MathF.Sin((float)GameMgr.ElapsedTimeTotal * 2), 
+				100 + 50 * MathF.Sin((float)GameMgr.ElapsedTimeTotal * 2),
 				100
 			).ToMeters();
-			
+
 			_circleAndPolygonCollided = CollisionChecker.CheckCollision(_circle, _polygon);
+			// Updating shapes. -----------------------------------------
+
+
+
+			// Updating circle colliders. -----------------------------------------			
+			_circleCollider1.Position = new Vector2(
+				150 + 100 * MathF.Sin((float)GameMgr.ElapsedTimeTotal * 2),
+				250
+			).ToMeters();
+			_circleCollider1.Rotation = (float)GameMgr.ElapsedTimeTotal * 32;
+			_circleCollider1.Origin = new Vector2(32, 0).ToMeters();
+			_circleCollider1.UpdateTransform();
+
+			_circleCollider2.Position = new Vector2(
+				150 - 100 * MathF.Sin((float)GameMgr.ElapsedTimeTotal * 2),
+				250
+			).ToMeters();
+			_circleCollider2.Radius = (32 + MathF.Sin((float)GameMgr.ElapsedTimeTotal * 4) * 8).ToMeters();
+			_circleCollider2.UpdateTransform();
+
+			_circleCollidersCollided = CollisionChecker.CheckCollision(_circleCollider1, _circleCollider2);
+			// Updating circle colliders. -----------------------------------------
+
+
+
+			// Updating colliders. -----------------------------------------
+			_polyCollider.Position = new Vector2(550, 150).ToMeters();
+
+			// You can morph vertices directly - however, make sure your geometry allows for transformations you want.
+			for (var i = 0; i < _polyCollider.ShapesCount; i += 1)
+			{
+				var shape = (Polygon)_polyCollider.GetShape(i);
+				for (var k = 0; k < shape.Count; k += 1)
+				{
+					var angle = new Angle(shape.RelativeVertices[k]).RadiansF;
+					var e = shape.RelativeVertices[k].GetSafeNormalize();
+					shape.RelativeVertices[k] = e * (80 + (MathF.Sin((float)GameMgr.ElapsedTimeTotal * 2) * 12) * MathF.Sin(angle * 8)).ToMeters();
+				}
+			}
+			_polyCollider.UpdateTransform();
+
+			_lineCollider.Position = new Vector2(370 + 50, 150 - 8).ToMeters();
+			_lineCollider.UpdateTransform();
+			_lineCollider.Length = 48.ToMeters();
+
+			_lineAndPolyCollidersCollided = CollisionChecker.CheckCollision(_polyCollider, _lineCollider);
 			// Updating colliders. -----------------------------------------
 
 
 
-			_rectCollider.Position = new Vector2(500, 400).ToMeters();
-			_rectCollider.Rotation = (float)GameMgr.ElapsedTimeTotal * 32;
+			// Updating colliders. -----------------------------------------
+			_rectCollider.Position = new Vector2(100, 400).ToMeters();
+			_rectCollider.Size = (Vector2.One * 64 + new Vector2(-8, 8) * MathF.Sin((float)GameMgr.ElapsedTimeTotal * 4)).ToMeters();
+			_rectCollider.Origin = _rectCollider.Size * 0;
 			_rectCollider.UpdateTransform();
 
-			_circleCollider1.Origin = new Vector2(32, 0).ToMeters();
-			_circleCollider2.Origin = new Vector2(0, -64).ToMeters();
-			_circleCollider1.Rotation = (float)GameMgr.ElapsedTimeTotal * 32;
-			
-			_circleCollider1.Position = new Vector2(
-				100 + 100 * MathF.Sin((float)GameMgr.ElapsedTimeTotal * 2),
-				250
-			).ToMeters();
-			_circleCollider1.UpdateTransform();
-			_circleCollider2.Position = new Vector2(
-				100 - 100 * MathF.Sin((float)GameMgr.ElapsedTimeTotal * 2),
-				250
-			).ToMeters();
-			_circleCollider2.UpdateTransform();
+			_polyCollider2.Position = new Vector2(200, 400).ToMeters();
+			_polyCollider2.Rotation = (float)GameMgr.ElapsedTimeTotal * 32;
+			_polyCollider2.UpdateTransform();
 
-			_polyCollider.Position = new Vector2(500, 300).ToMeters();
-			_polyCollider.Rotation = (float)GameMgr.ElapsedTimeTotal * 32;
-			_polyCollider.UpdateTransform();
-
-			_collidersCollided = CollisionChecker.CheckCollision(_circleCollider1, _circleCollider2);
+			_rectAndPolyCollidersCollided = CollisionChecker.CheckCollision(_polyCollider2, _rectCollider);
+			// Updating colliders. -----------------------------------------
 		}
 
 
@@ -145,34 +206,57 @@ namespace Monofoxe.Samples.Demos
 
 
 			GraphicsMgr.CurrentColor = Color.DeepPink;
-			if (_collidersCollided)
+			if (_circleCollidersCollided)
 			{
 				GraphicsMgr.CurrentColor = Color.Red;
 			}
 			DrawCollider(_circleCollider1);
 			DrawCollider(_circleCollider2);
+			DrawAABB(_circleCollider1);
+			DrawAABB(_circleCollider2);
 
 
-			//GraphicsMgr.CurrentColor = Color.White;
+			GraphicsMgr.CurrentColor = Color.Cyan;
+			if (_lineAndPolyCollidersCollided)
+			{
+				GraphicsMgr.CurrentColor = Color.Red;
+			}
 			DrawCollider(_polyCollider);
+			DrawCollider(_lineCollider);
+			DrawAABB(_polyCollider);
 
+
+			GraphicsMgr.CurrentColor = Color.ForestGreen;
+			if (_rectAndPolyCollidersCollided)
+			{
+				GraphicsMgr.CurrentColor = Color.Red;
+			}
+			DrawCollider(_polyCollider2);
 			DrawCollider(_rectCollider);
+			DrawAABB(_polyCollider2);
 		}
 
-	
+
 		public override void Destroy()
 		{
 			base.Destroy();
 
-			// Returning used shapes back to the pool.
+			// Returning used shapes and colliders back to the pool.
 			ShapePool.Return(_circle);
 			ShapePool.Return(_polygon);
+
+			ColliderPool.Return(_circleCollider1);
+			ColliderPool.Return(_circleCollider2);
+			ColliderPool.Return(_polyCollider);
+			ColliderPool.Return(_lineCollider);
+			ColliderPool.Return(_polyCollider2);
+			ColliderPool.Return(_rectCollider);
 		}
 
 
 		private void DrawCollider(Collider collider)
 		{
-			for(var i = 0; i < collider.ShapesCount; i += 1)
+			for (var i = 0; i < collider.ShapesCount; i += 1)
 			{
 				var shape = collider.GetShape(i);
 				if (shape.Type == ShapeType.Circle)
@@ -209,5 +293,11 @@ namespace Monofoxe.Samples.Demos
 			RectangleShape.Draw(aabb.BottomRight.ToPixels(), aabb.TopLeft.ToPixels(), true);
 		}
 
+		private void DrawAABB(Collider collider)
+		{
+			GraphicsMgr.CurrentColor = Color.Gray;
+			var aabb = collider.GetBoundingBox();
+			RectangleShape.Draw(aabb.BottomRight.ToPixels(), aabb.TopLeft.ToPixels(), true);
+		}
 	}
 }

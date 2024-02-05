@@ -1,4 +1,5 @@
 ﻿using Monofoxe.Engine.Collisions.Algorithms;
+using Monofoxe.Engine.Collisions.Colliders;
 using Monofoxe.Engine.Collisions.Shapes;
 using Monofoxe.Engine.Utils;
 using System.Runtime.CompilerServices;
