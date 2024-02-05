@@ -90,6 +90,13 @@ namespace Monofoxe.Engine.SceneSystem
 
 
 		/// <summary>
+		/// If camera's RenderMask does not have any bits in common with layer's RenderMask, 
+		/// the layer will not be rendered for that camera.
+		/// </summary>
+		public RenderMask RenderMask = RenderMask.Default;
+
+
+		/// <summary>
 		/// List of all layer's entities.
 		/// </summary>
 		public List<Entity> Entities => _entities.ToList();
@@ -332,7 +339,11 @@ namespace Monofoxe.Engine.SceneSystem
 			OnPreDraw?.Invoke(this);
 			foreach (var entity in _depthSortedEntities)
 			{
-				if (entity.Visible && !entity.Destroyed)
+				if (
+					entity.Visible 
+					&& !entity.Destroyed
+					&& ((GraphicsMgr.CurrentCamera.RenderMask & entity.RenderMask) != 0)
+				)
 				{
 					entity.Draw();
 				}

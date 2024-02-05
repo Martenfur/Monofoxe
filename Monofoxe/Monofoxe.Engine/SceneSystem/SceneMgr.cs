@@ -291,7 +291,10 @@ namespace Monofoxe.Engine.SceneSystem
 			OnPreDraw?.Invoke();
 			foreach (var scene in Scenes)
 			{
-				if (scene.Visible)
+				if (
+					scene.Visible
+					&& ((GraphicsMgr.CurrentCamera.RenderMask & scene.RenderMask) != 0)
+				)
 				{
 					CurrentScene = scene;
 

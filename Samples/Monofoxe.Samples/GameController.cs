@@ -12,7 +12,7 @@ namespace Monofoxe.Samples
 {
 	public class GameController : Entity
 	{
-		public Camera2D MainCamera = new Camera2D(800, 600);
+		public static Camera2D MainCamera = new Camera2D(800, 600);
 
 		Layer _guiLayer;
 

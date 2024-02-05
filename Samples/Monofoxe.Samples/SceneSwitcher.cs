@@ -25,6 +25,7 @@ namespace Monofoxe.Samples
 			new SceneFactory(typeof(TiledDemo)),
 			new SceneFactory(typeof(VertexBatchDemo)),
 			new SceneFactory(typeof(CoroutinesDemo)),
+			new SceneFactory(typeof(CollisionsDemo)),
 		};
 
 		public int CurrentSceneID {get; private set;} = 0;
