@@ -8,8 +8,10 @@ namespace Monofoxe.Engine.Drawing
 	/// <summary>
 	/// Drawable frame.
 	/// </summary>
-	public class Frame : Drawable, ICloneable
+	public class Frame : ICloneable
 	{
+		public Vector2 Position;
+
 		/// <summary>
 		/// Texture atlas where frame is stored.
 		/// </summary>
@@ -21,16 +23,9 @@ namespace Monofoxe.Engine.Drawing
 		public readonly RectangleF TexturePosition;
 
 		/// <summary>
-		/// Width of the frame.
+		/// Size of the frame.
 		/// </summary>
-		public float Width => TexturePosition.Width;
-
-		/// <summary>
-		/// Height of the frame.
-		/// </summary>
-		public float Height => TexturePosition.Height;
-		
-
+		public Vector2 Size => TexturePosition.Size;
 		
 		public Vector2 Scale = Vector2.One;
 		
@@ -67,7 +62,7 @@ namespace Monofoxe.Engine.Drawing
 			Origin = origin;
 		}
 
-		public override void Draw() =>
+		public void Draw() =>
 			Draw(Position, Origin, Scale, Rotation, Color, ZDepth);
 		
 
@@ -111,14 +106,14 @@ namespace Monofoxe.Engine.Drawing
 			{
 				flipFlags = flipFlags | SpriteFlipFlags.FlipHorizontally;
 				scale.X *= -1;
-				origin.X = Width - origin.X;
+				origin.X = Size.X - origin.X;
 			}
 
 			if (scale.Y < 0)
 			{
 				flipFlags = flipFlags | SpriteFlipFlags.FlipVertically;
 				scale.Y *= -1;
-				origin.Y = Height - origin.Y;
+				origin.Y = Size.Y - origin.Y;
 			}
 			// Proper negative scaling.
 

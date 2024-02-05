@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Monofoxe.Engine
 {
@@ -27,48 +29,42 @@ namespace Monofoxe.Engine
 			{
 				_assetPaths = GameMgr.Game.Content.Load<string[]>("Content");
 			}
-			catch(Exception) { }
+			catch (Exception) { }
 		}
-		
-		
-		
+
+
 		/// <summary>
-		/// Returns list of resource paths matching input path.
-		/// Empty string will return all asset paths.
+		/// Returns list of resource paths matching the given wildcard pattern. * and ? are supported.
 		/// </summary>
-		public static string[] GetResourcePaths(string path = "")
+		public static string[] GetResourcePaths(string pattern)
 		{
 			if (_assetPaths == null)
-			{ 
+			{
 				return null;
 			}
-			path = path.Replace('\\', '/');	
 
-			if (path != "")
-			{
-				var list = new List<string>();
-				
-				if (!path.EndsWith("/"))
-				{
-					path += '/';
-				}
-				foreach(var info in _assetPaths)
-				{
-					if (info.StartsWith(path))
-					{
-						list.Add(info);
-					}
-				}
-				
-				return list.ToArray();
-			}
-			else
+			if (pattern == "")
 			{
 				var assetPathsCopy = new string[_assetPaths.Length];
 				_assetPaths.CopyTo(assetPathsCopy, 0);
 				return assetPathsCopy;
 			}
+
+			var pattenRegex = WildCardToRegular(pattern.Replace("\\", "/"));
+
+			var list = new List<string>();
+			foreach (var info in _assetPaths)
+			{
+				if (Regex.IsMatch(info, pattenRegex))
+				{
+					list.Add(info);
+				}
+			}
+
+			return list.ToArray();
 		}
-		
+
+		private static string WildCardToRegular(string value) =>
+			"^" + Regex.Escape(value).Replace("\\?", ".").Replace("\\*", ".*") + "$";
 	}
 }

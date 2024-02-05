@@ -8,8 +8,10 @@ namespace Monofoxe.Engine.Drawing
 	/// <summary>
 	/// Drawable sprite. 
 	/// </summary>
-	public class Sprite : Drawable, ICloneable
+	public class Sprite : ICloneable
 	{
+		public Vector2 Position;
+
 		public string Name { get; internal set; }
 
 		/// <summary>
@@ -20,33 +22,17 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Sprite width. Can be accessed only if all sprite frames have the same size.
 		/// </summary>
-		public float Width 
+		public Vector2 Size
 		{
 			get
 			{
 				if (SingleFrameSize)
 				{
-					return _frames[0].Width;
+					return _frames[0].Size;
 				}	
 				throw new Exception("To use this variable, all frame sizes must be identical!");
 			}
 		}
-		
-		/// <summary>
-		/// Sprite height. Can be accessed only if all sprite frames have the same size.
-		/// </summary>
-		public float Height
-		{
-			get
-			{
-				if (SingleFrameSize)
-				{
-					return _frames[0].Height;
-				}
-				throw new Exception("To use this variable, all frame sizes must be identical!");
-			}
-		}
-
 
 		public Vector2 Scale = Vector2.One;
 
@@ -79,21 +65,6 @@ namespace Monofoxe.Engine.Drawing
 			get => _frames[id];
 		}
 
-
-		public Sprite(Frame[] frames, int originX, int originY, string name = "")
-		{
-			_frames = new Frame[frames.Length];
-			foreach(var frame in frames)
-			{
-				frame.ParentSprite = this;
-			}
-			Array.Copy(frames, _frames, frames.Length);
-			Origin = new Vector2(originX, originY);
-			
-			SingleFrameSize = CheckIdenticalFrameSizes();
-			Name = name;
-		}
-
 		public Sprite(Frame[] frames, Vector2 origin, string name = "")
 		{
 			_frames = new Frame[frames.Length];
@@ -107,11 +78,11 @@ namespace Monofoxe.Engine.Drawing
 			Name = name;
 		}
 
-		public Sprite(Frame frame, int originX, int originY, string name = "")
+		public Sprite(Frame frame, Vector2 origin, string name = "")
 		{
 			_frames = new Frame[]{frame};
 			frame.ParentSprite = this;
-			Origin = new Vector2(originX, originY);
+			Origin = origin;
 			
 			SingleFrameSize = true;
 			Name = name;
@@ -125,7 +96,7 @@ namespace Monofoxe.Engine.Drawing
 		{
 			for(var i = 1; i < _frames.Length; i += 1)
 			{
-				if (_frames[0].Width != _frames[i].Width || _frames[0].Height != _frames[i].Height)
+				if (_frames[0].Size.X != _frames[i].Size.X || _frames[0].Size.Y != _frames[i].Size.Y)
 				{
 					return false;
 				}
@@ -141,7 +112,7 @@ namespace Monofoxe.Engine.Drawing
 			_frames[Math.Max(0, Math.Min(_frames.Length - 1, (int)(animation * _frames.Length)))];
 		
 		
-		public override void Draw() =>
+		public void Draw() =>
 			GetFrame(Animation).Draw(Position, Origin, Scale, Rotation, Color, ZDepth);
 		
 		// Vectors.
@@ -149,9 +120,15 @@ namespace Monofoxe.Engine.Drawing
 		public void Draw(Vector2 position) =>
 			_frames[0].Draw(position, Origin, Scale, Rotation, Color, ZDepth);
 
+		public void Draw(Vector2 position, Vector2 scale, Angle rotation) =>
+			_frames[0].Draw(position, Origin, scale, rotation, Color, ZDepth);
+
 		public void Draw(Vector2 position, double animation) =>
 			GetFrame(animation).Draw(position, Origin, Scale, Rotation, Color, ZDepth);
-		
+
+		public void Draw(Vector2 position, double animation, Vector2 scale, Angle rotation, Color color) =>
+			GetFrame(animation).Draw(position, Origin, scale, rotation, color, ZDepth);
+
 		public void Draw(Vector2 position, double animation, Vector2 origin, Vector2 scale, Angle rotation, Color color) =>
 			GetFrame(animation).Draw(position, origin, scale, rotation, color, ZDepth);
 

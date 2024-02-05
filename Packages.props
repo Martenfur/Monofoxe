@@ -1,6 +1,6 @@
 <Project>
 	<PropertyGroup>
-		<MonofoxeVersion>2.2.0</MonofoxeVersion>
+		<MonofoxeVersion>3.0.0-dev.1</MonofoxeVersion>
 		<NopipelineVersion>2.2.0</NopipelineVersion>
 	</PropertyGroup>
 </Project>

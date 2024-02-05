@@ -1,40 +1,13 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Monofoxe.Engine.Utils;
 
 namespace Monofoxe.Engine.Drawing
 {
 	/// <summary>
 	/// Drawable thick line shape. Can be drawn by using static methods or be instantiated.
 	/// </summary>
-	public class ThickLineShape : Drawable
+	public class ThickLineShape
 	{
-		/// <summary>
-		/// First line point. 
-		/// NOTE: all line points treat position as an origin point;
-		/// </summary>
-		public Vector2 Point1;
-
-		/// <summary>
-		/// Second line point. 
-		/// NOTE: all line points treat position as an origin point;
-		/// </summary>
-		public Vector2 Point2;
-
-		/// <summary>
-		/// Line thickness.
-		/// </summary>
-		public float Thickness = 1;
-		
-		public Color Color = Color.White;
-
-		public float ZDepth = 0;
-
-		public override void Draw() =>
-			Draw(Point1 + Position, Point2 + Position, Thickness, Color, Color, ZDepth);
-
-
 		private static VertexPositionColorTexture[] _thickLineVertices = new VertexPositionColorTexture[4];
 
 		private static readonly short[] _thickLineIndices = new short[]{0, 1, 3, 1, 2, 3};
@@ -52,7 +25,7 @@ namespace Monofoxe.Engine.Drawing
 		{
 			var normal = (pt2 - pt1).Rotate90();
 
-			normal = normal.GetSafeNormalize(); // The result is a unit vector rotated by 90 degrees.
+			normal = normal.SafeNormalize(); // The result is a unit vector rotated by 90 degrees.
 			normal *= thickness / 2;
 			
 			_thickLineVertices[0].Position = new Vector3(pt1 - normal, zDepth);
@@ -70,6 +43,5 @@ namespace Monofoxe.Engine.Drawing
 			GraphicsMgr.VertexBatch.Texture = null;
 			GraphicsMgr.VertexBatch.AddPrimitive(PrimitiveType.TriangleList, _thickLineVertices, _thickLineIndices);
 		}
-		
 	}
 }

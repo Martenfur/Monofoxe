@@ -39,6 +39,7 @@ $crossplatform = "Crossplatform"
 
 "Compiling shaders..."
 dotnet tool install -g dotnet-mgfxc
+dotnet tool update -g dotnet-mgfxc
 mgfxc Monofoxe/Resources/AlphaBlend.fx Monofoxe/Resources/AlphaBlend_dx.mgfxo /Profile:DirectX_11
 mgfxc Monofoxe/Resources/AlphaBlend.fx Monofoxe/Resources/AlphaBlend_gl.mgfxo /Profile:OpenGL
 

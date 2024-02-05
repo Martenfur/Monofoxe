@@ -25,6 +25,7 @@ namespace Monofoxe.Samples
 			new SceneFactory(typeof(TiledDemo)),
 			new SceneFactory(typeof(VertexBatchDemo)),
 			new SceneFactory(typeof(CoroutinesDemo)),
+			new SceneFactory(typeof(CollisionsDemo)),
 		};
 
 		public int CurrentSceneID {get; private set;} = 0;
@@ -99,7 +100,7 @@ namespace Monofoxe.Samples
 				var textSize = Text.CurrentFont.MeasureString(CurrentFactory.Description);
 				var origin = Vector2.UnitX * (canvasSize - (textSize + Vector2.One * padding * 2));
 				GraphicsMgr.CurrentColor = _barColor;
-				RectangleShape.Draw(origin, origin + textSize + Vector2.One * padding * 2, false);
+				RectangleShape.Draw(origin, origin + textSize + Vector2.One * padding * 2, ShapeFill.Solid);
 				GraphicsMgr.CurrentColor = _textColor;
 				Text.Draw(CurrentFactory.Description, Vector2.One * padding + origin);
 			}
@@ -112,7 +113,7 @@ namespace Monofoxe.Samples
 				Matrix.CreateTranslation(new Vector3(0, canvasSize.Y - _barHeight, 0)) * GraphicsMgr.VertexBatch.View;
 
 			GraphicsMgr.CurrentColor = _barColor;
-			RectangleShape.Draw(Vector2.Zero, canvasSize, false);
+			RectangleShape.Draw(Vector2.Zero, canvasSize, ShapeFill.Solid);
 
 			GraphicsMgr.CurrentColor = _textColor;
 			Text.Draw(

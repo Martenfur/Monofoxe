@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Monofoxe.Engine.Utils.Coroutines;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Utils.CustomCollections;
+using Monofoxe.Engine.Cameras;
 
 namespace Monofoxe.Engine.EC
 {
@@ -77,6 +78,13 @@ namespace Monofoxe.Engine.EC
 		// during foreach while keeping GetComponent faste.
 		private Dictionary<Type, Component> _componentDictionary;
 		private SafeList<Component> _componentList;
+
+		
+		/// <summary>
+		/// If camera's RenderMask does not have any bits in common with entity's RenderMask, 
+		/// the entity will not be rendered for that camera.
+		/// </summary>
+		public RenderMask RenderMask = RenderMask.Default;
 
 
 		public Entity(Layer layer)
@@ -168,20 +176,27 @@ namespace Monofoxe.Engine.EC
 		/// <summary>
 		/// Adds component to the entity.
 		/// </summary>
-		public T AddComponent<T>(T component) where T : Component
+		public Component AddComponent(Type type, Component component)
 		{
 			if (component.Owner != null)
 			{
 				throw new Exception("Component " + component + "already has an owner!");
 			}
-			_componentDictionary.Add(component.GetType(), component);
+			_componentDictionary.Add(type, component);
 			_componentList.Add(component);
 			component.Owner = this;
 			component.Initialize();
 			component.Initialized = true;
 
-			return component; // Doing a passthrough for nicer syntax.
+			return component; // Doing a passthrough for nicer syntax.	
 		}
+
+
+		/// <summary>
+		/// Adds component to the entity.
+		/// </summary>
+		public T AddComponent<T>(T component) where T : Component =>
+			(T)AddComponent(typeof(T), component);
 
 
 		/// <summary>

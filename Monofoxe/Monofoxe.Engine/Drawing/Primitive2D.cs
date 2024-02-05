@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Monofoxe.Engine.Utils;
 
 namespace Monofoxe.Engine.Drawing
 {
 	/// <summary>
 	/// Base 2D primitive class. Can be used to create other types of primitives.
 	/// </summary>
-	public abstract class Primitive2D : Drawable
+	public abstract class Primitive2D
 	{
+		public Vector2 Position;
+
 		/// <summary>
 		/// List of all primitive's vertices. 
 		/// NOTE: all vertices treat position as an origin point;
@@ -103,7 +103,7 @@ namespace Monofoxe.Engine.Drawing
 		}
 
 		
-		public override void Draw()
+		public void Draw()
 		{
 			GraphicsMgr.VertexBatch.Texture = _texture;
 			GraphicsMgr.VertexBatch.AddPrimitive(_primitiveType, GetConvertedVertices(), GetIndices());

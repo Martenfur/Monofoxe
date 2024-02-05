@@ -44,6 +44,21 @@ namespace Monofoxe.Engine.Drawing
 		public static Matrix CanvasMatrix = Matrix.CreateTranslation(Vector3.Zero); //We need zero matrix here, or else mouse position will derp out.
 		
 		/// <summary>
+		/// Called at the start of the frame before any Draw events have been called.
+		/// </summary>
+		public static event Action OnFrameStart;
+
+		/// <summary>
+		/// Called at the end of the frame after all Draw events have been called and before all DrawGui events are called.
+		/// </summary>
+		public static event Action OnAfterDraw;
+
+		/// <summary>
+		/// Called at the end of the frame after all Draw/DrawGui events have been called.
+		/// </summary>
+		public static event Action OnFrameFinish;
+
+		/// <summary>
 		/// Initialization function for draw manager. 
 		/// </summary>
 		public static void Init(GraphicsDevice device)
@@ -87,8 +102,8 @@ namespace Monofoxe.Engine.Drawing
 				{
 					CanvasMatrix = Matrix.CreateScale(
 					 new Vector3(
-							windowManager.PreferredBackBufferWidth / (float)windowManager.CanvasWidth,
-							windowManager.PreferredBackBufferHeight / (float)windowManager.CanvasHeight,
+							windowManager.PreferredBackBufferWidth / windowManager.CanvasSize.X,
+							windowManager.PreferredBackBufferHeight / windowManager.CanvasSize.Y,
 							1
 						)
 					);
@@ -98,26 +113,22 @@ namespace Monofoxe.Engine.Drawing
 				// Scales display to match canvas, but keeps aspect ratio.
 				if (windowManager.CanvasMode == CanvasMode.KeepAspectRatio)
 				{
-					var backbufferSize = new Vector2(
-						windowManager.PreferredBackBufferWidth,
-						windowManager.PreferredBackBufferHeight
-					);
 					float ratio,
 						offsetX = 0,
 						offsetY = 0;
 
 					float backbufferRatio = windowManager.PreferredBackBufferWidth / (float)windowManager.PreferredBackBufferHeight;
-					float canvasRatio = windowManager.CanvasWidth / (float)windowManager.CanvasHeight;
+					float canvasRatio = windowManager.CanvasSize.X / windowManager.CanvasSize.Y;
 
 					if (canvasRatio > backbufferRatio)
 					{
-						ratio = windowManager.PreferredBackBufferWidth / (float)windowManager.CanvasWidth;
-						offsetY = (windowManager.PreferredBackBufferHeight - (windowManager.CanvasHeight * ratio)) / 2f;
+						ratio = windowManager.PreferredBackBufferWidth / windowManager.CanvasSize.X;
+						offsetY = (windowManager.PreferredBackBufferHeight - (windowManager.CanvasSize.Y * ratio)) / 2f;
 					}
 					else
 					{
-						ratio = windowManager.PreferredBackBufferHeight / (float)windowManager.CanvasHeight;
-						offsetX = (windowManager.PreferredBackBufferWidth - (windowManager.CanvasWidth * ratio)) / 2f;
+						ratio = windowManager.PreferredBackBufferHeight / windowManager.CanvasSize.Y;
+						offsetX = (windowManager.PreferredBackBufferWidth - (windowManager.CanvasSize.X * ratio)) / 2f;
 					}
 					
 					CanvasMatrix = Matrix.CreateScale(new Vector3(ratio, ratio, 1)) * Matrix.CreateTranslation(new Vector3(offsetX, offsetY, 0));
@@ -131,6 +142,8 @@ namespace Monofoxe.Engine.Drawing
 			
 			#region Main draw events.
 			
+			OnFrameStart?.Invoke();
+
 			foreach(var camera in CameraMgr.Cameras)
 			{
 				if (camera.Enabled)
@@ -154,6 +167,9 @@ namespace Monofoxe.Engine.Drawing
 					Surface.ResetTarget();
 				}
 			}
+
+			OnAfterDraw?.Invoke();
+			
 			#endregion Main draw events.
 
 
@@ -208,25 +224,27 @@ namespace Monofoxe.Engine.Drawing
 			VertexBatch.FlushBatch();
 			// Drawing GUI stuff.
 
+			OnFrameFinish?.Invoke();
+
 			VertexBatch.PopViewMatrix();
 			VertexBatch.PopProjectionMatrix();
 			
 			// Safety checks.
 			if (!Surface.SurfaceStackEmpty)
 			{
-				throw new InvalidOperationException("Unbalanced surface stack! Did you forgot to reset a surface somewhere?");
+				throw new InvalidOperationException("Unbalanced surface stack! Did you forget to reset a surface somewhere?");
 			}
 			if (!VertexBatch.WorldStackEmpty)
 			{
-				throw new InvalidOperationException("Unbalanced World matrix stack! Did you forgot to pop a matrix somewhere?");
+				throw new InvalidOperationException("Unbalanced World matrix stack! Did you forget to pop a matrix somewhere?");
 			}
 			if (!VertexBatch.ViewStackEmpty)
 			{
-				throw new InvalidOperationException("Unbalanced View matrix stack! Did you forgot to pop a matrix somewhere?");
+				throw new InvalidOperationException("Unbalanced View matrix stack! Did you forget to pop a matrix somewhere?");
 			}
 			if (!VertexBatch.ProjectionStackEmpty)
 			{
-				throw new InvalidOperationException("Unbalanced Projection matrix stack! Did you forgot to pop a matrix somewhere?");
+				throw new InvalidOperationException("Unbalanced Projection matrix stack! Did you forget to pop a matrix somewhere?");
 			}
 			// Safety checks.
 		}

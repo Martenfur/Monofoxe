@@ -132,12 +132,13 @@ namespace Monofoxe.Engine.Utils
 
 		public float Update(float value)
 		{
-			var dt = (float)Time.Time();
-
-			// Estimating velocity.
-			var speed = (value - _oldValue) / dt;
+			float num = (float)Time.Time();
+			var speed = 0f;
+			if (num != 0)
+			{
+				speed = (value - _oldValue) / num;
+			}
 			_oldValue = value;
-
 			return Update(value, speed);
 		}
 
@@ -158,6 +159,16 @@ namespace Monofoxe.Engine.Utils
 			_yd = _yd + dt * (value + _k3 * speed - _y - _k1 * _yd) / k2Stable; // Integrating velocity by acceleration.
 
 			return _y;
+		}
+
+
+		/// <summary>
+		/// Offsets the internal values of the damper while keeping its motion.
+		/// </summary>
+		public void Offset(float offset)
+		{
+			_y += offset;
+			_oldValue += offset;
 		}
 
 
