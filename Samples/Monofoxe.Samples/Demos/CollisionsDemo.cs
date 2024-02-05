@@ -1,14 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Monofoxe.Engine.Collisions;
 using Monofoxe.Engine;
-using Monofoxe.Engine.Cameras;
+using Monofoxe.Engine.Collisions;
+using Monofoxe.Engine.Collisions.Shapes;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.EC;
-using Monofoxe.Engine.Resources;
 using Monofoxe.Engine.SceneSystem;
 using Monofoxe.Engine.Utils;
-using Monofoxe.Engine.Collisions.Shapes;
 using System;
 using System.Collections.Generic;
 
@@ -16,33 +13,57 @@ namespace Monofoxe.Samples.Demos
 {
 	public class CollisionsDemo : Entity
 	{
+		private Circle _circle;
+		private Polygon _polygon;
+		private bool _circleAndPolygonCollided;
+
+
 		private Collider _circleCollider1;
 		private Collider _circleCollider2;
-
-		private Circle _circle;
-		private Polygon _squarePolygon;
-		private bool _circleAndSquarePolygonCollided;
-		private bool _collidersCollided;
 		private Collider _polyCollider;
 		private Collider _rectCollider;
 
+		private bool _collidersCollided;
+
 		public CollisionsDemo(Layer layer) : base(layer)
 		{
-			CollisionSettings.WorldScale = 16;
+			CollisionSettings.WorldScale = 64;
 
-			_circle = ShapePool.GetCircle();
-			// All collider measuremenets must be converted to meters, which is basically 1 / WorldScale.
+			// Setting up shapes. -----------------------------------------
+
+			// Shapes are the most basic unit you can use for collision detection.
+			// However, they have more restrictions than colliders, so in most cases, it is recommended to just use those instead.
+			// Currently, there are only two types of shapes - circle and polygon.
+
+			_circle = ShapePool.GetCircle(); // Instead of creating an instance directly, we take it from the shape pool. This prevents GC overhead if you require creating and destroying many shapes.
+
+			// All collision system measuremenets must be converted to meters, which is basically 1 / WorldScale.
 			// This is done for performance reasons. Collision detection works best with smaller shapes.
-			_circle.Radius = 3.ToMeters();
+			_circle.Radius = 32.ToMeters();
 
-			_squarePolygon = ShapePool.GetPolygon();
+			_polygon = ShapePool.GetPolygon();
 			// Note that we don't add vertices directly to the RelativeVertices array. 
 			// It is possible to do that, however, you also must increment Count by 1.
-			_squarePolygon.Add(new Vector2(-32, -32).ToMeters());
-			_squarePolygon.Add(new Vector2(32, -32).ToMeters() * 3);
-			_squarePolygon.Add(new Vector2(32, 32).ToMeters());
-			_squarePolygon.Add(new Vector2(-32, 32).ToMeters());
+			// There are some restrictions to the polygon shape:
+			// - The vrtices should form a convex shape.
+			// - The polygon vertices should have clockwise winding.
+			// - Single polygon cannot have more than CollisionSettings.MaxPolygonVertices (which is 8 by default).
+			_polygon.Add(new Vector2(-32, -32).ToMeters());
+			_polygon.Add(new Vector2(32, -32).ToMeters());
+			_polygon.Add(new Vector2(32, 32).ToMeters());
+			_polygon.Add(new Vector2(-32, 32).ToMeters());
 
+			_polygon.Position = new Vector2(200, 100).ToMeters();
+			// Setting up shapes. -----------------------------------------
+
+
+
+			// Setting up colliders. -----------------------------------------
+
+			// Colliders are essentially collections of shapes that act a single shape.
+			// Because of that, they can be convex and have an unlimited number of vertices by internally splitting themselves into smaller convex parts.
+
+			// Colliders are created using ColliderFactory. It already has a bunch of predefined shapes.
 			_circleCollider1 = ColliderFactory.CreateCircle(32.ToMeters());
 			_circleCollider2 = ColliderFactory.CreateCircle(64.ToMeters());
 
@@ -56,6 +77,7 @@ namespace Monofoxe.Samples.Demos
 			_polyCollider = ColliderFactory.CreatePolygon(verts);
 			_rectCollider = ColliderFactory.CreateRectangle(new Vector2(32, 32).ToMeters());
 			_rectCollider.Origin = new Vector2(-16, -16).ToMeters();
+			// Setting up colliders. -----------------------------------------
 		}
 
 		
@@ -64,27 +86,28 @@ namespace Monofoxe.Samples.Demos
 		{
 			base.Update();
 
+			// Updating colliders. -----------------------------------------
+			_polygon.Rotation = (float)GameMgr.ElapsedTimeTotal * 32;
+			_polygon.UpdateTransform(); // For polygon shapes, it is required to apply new transform after every change.
+			
+			_circle.Position = new Vector2(
+				100 + 50 * MathF.Sin((float)GameMgr.ElapsedTimeTotal * 2), 
+				100
+			).ToMeters();
+			
+			_circleAndPolygonCollided = CollisionChecker.CheckCollision(_circle, _polygon);
+			// Updating colliders. -----------------------------------------
+
+
+
 			_rectCollider.Position = new Vector2(500, 400).ToMeters();
 			_rectCollider.Rotation = (float)GameMgr.ElapsedTimeTotal * 32;
 			_rectCollider.UpdateTransform();
 
-			_squarePolygon.Position = new Vector2(200, 100).ToMeters();
-			_squarePolygon.Rotation = (float)GameMgr.ElapsedTimeTotal * 32;
-			_squarePolygon.UpdateTransform(); // Generating the correctly translated vertices.
-			
 			_circleCollider1.Origin = new Vector2(32, 0).ToMeters();
 			_circleCollider2.Origin = new Vector2(0, -64).ToMeters();
 			_circleCollider1.Rotation = (float)GameMgr.ElapsedTimeTotal * 32;
 			
-			_circle.Position = new Vector2(
-				100 + 100 * MathF.Sin((float)GameMgr.ElapsedTimeTotal * 2), 
-				100
-			).ToMeters();
-
-			_circle.Position = GameController.MainCamera.GetRelativeMousePosition().ToMeters();
-
-			_circleAndSquarePolygonCollided = CollisionChecker.CheckCollision(_circle, _squarePolygon);
-
 			_circleCollider1.Position = new Vector2(
 				100 + 100 * MathF.Sin((float)GameMgr.ElapsedTimeTotal * 2),
 				250
@@ -108,20 +131,20 @@ namespace Monofoxe.Samples.Demos
 		{
 			base.Draw();
 
-			GraphicsMgr.CurrentColor = Color.White;
-			if (_circleAndSquarePolygonCollided)
+			GraphicsMgr.CurrentColor = Color.CornflowerBlue;
+			if (_circleAndPolygonCollided)
 			{
 				GraphicsMgr.CurrentColor = Color.Red;
 			}
 
 			DrawCircle(_circle);
-			DrawPolygon(_squarePolygon);
+			DrawPolygon(_polygon);
 
 			DrawAABB(_circle);
-			DrawAABB(_squarePolygon);
+			DrawAABB(_polygon);
 
 
-			GraphicsMgr.CurrentColor = Color.White;
+			GraphicsMgr.CurrentColor = Color.DeepPink;
 			if (_collidersCollided)
 			{
 				GraphicsMgr.CurrentColor = Color.Red;
@@ -143,7 +166,7 @@ namespace Monofoxe.Samples.Demos
 
 			// Returning used shapes back to the pool.
 			ShapePool.Return(_circle);
-			ShapePool.Return(_squarePolygon);
+			ShapePool.Return(_polygon);
 		}
 
 
@@ -177,11 +200,6 @@ namespace Monofoxe.Samples.Demos
 				LineShape.Draw(poly.Vertices[i].ToPixels(), poly.Vertices[i + 1].ToPixels());
 			}
 			LineShape.Draw(poly.Vertices[0].ToPixels(), poly.Vertices[poly.Count - 1].ToPixels());
-
-			for (var i = 0; i < poly.Count; i += 1)
-			{
-				CircleShape.Draw(poly.Vertices[i].ToPixels(), i * 2, false);
-			}
 		}
 
 		private void DrawAABB(IShape shape)
@@ -189,11 +207,6 @@ namespace Monofoxe.Samples.Demos
 			GraphicsMgr.CurrentColor = Color.Gray;
 			var aabb = shape.GetBoundingBox();
 			RectangleShape.Draw(aabb.BottomRight.ToPixels(), aabb.TopLeft.ToPixels(), true);
-			GraphicsMgr.CurrentColor = Color.Red;
-			CircleShape.Draw(aabb.BottomRight.ToPixels(), 3, true);
-
-			GraphicsMgr.CurrentColor = Color.Green;
-			CircleShape.Draw(aabb.TopLeft.ToPixels(), 3, true);
 		}
 
 	}
