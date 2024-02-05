@@ -25,6 +25,7 @@
 
 ### Removed
 - **BREAKING CHANGE:** Removed camera layer filters.
+- **BREAKING CHANGE:** Removed `Drawable` class and non-static shape fields and methods.
 
 ## [v2.2.0] - *17.09.2022*
 

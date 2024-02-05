@@ -6,8 +6,10 @@ using Monofoxe.Engine.Utils;
 
 namespace Monofoxe.Engine.Drawing
 {
-	public class Surface : Drawable, IDisposable
+	public class Surface : IDisposable
 	{
+		public Vector2 Position;
+
 		public Vector2 Scale = Vector2.One;
 
 		public Vector2 Origin;
@@ -79,7 +81,7 @@ namespace Monofoxe.Engine.Drawing
 		}
 
 
-		public override void Draw() =>
+		public void Draw() =>
 			Draw(Position, Origin, Scale, Rotation, Color, ZDepth);
 		
 		

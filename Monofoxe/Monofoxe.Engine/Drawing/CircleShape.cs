@@ -7,29 +7,12 @@ namespace Monofoxe.Engine.Drawing
 	/// <summary>
 	/// Drawable circle shape. Can be drawn by using static methods or be instantiated.
 	/// </summary>
-	public class CircleShape : Drawable
+	public static class CircleShape
 	{
-
-		public float Radius = 1;
-
-		/// <summary>
-		/// If false, circle will be filled with solid color. If true, only outline will be drawn.
-		/// </summary>
-		public bool IsOutline = false;
-
-		public Color Color = Color.White;
-
-		public float ZDepth = 0;
-
 		static CircleShape()
 		{
 			CircleVerticesCount = 16;
 		}
-
-		public override void Draw() =>
-			Draw(Position, Radius, IsOutline, Color, ZDepth);
-		
-		
 
 		/// <summary>
 		/// Amount of vertices in one circle. 

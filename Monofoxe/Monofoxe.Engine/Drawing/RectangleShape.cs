@@ -3,33 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Monofoxe.Engine.Drawing
 {
-	public class RectangleShape : Drawable
-	{
-		public Vector2 Size = Vector2.One;
-
-		/// <summary>
-		/// If false, circle will be filled with solid color. If true, only outline will be drawn.
-		/// </summary>
-		public bool IsOutline = false;
-
-		public Color Color = Color.White;
-
-		public float ZDepth = 0;
-
-		/// <summary>
-		/// Draws a rectangle using instance properties.
-		/// </summary>
-		public override void Draw()
-		{
-			Draw(
-				Position - Size / 2, Position + Size / 2, 
-				IsOutline, 
-				Color, Color, Color, Color, 
-				ZDepth
-			);
-		}
-		
-		
+	public static class RectangleShape
+	{		
 		private static VertexPositionColorTexture[] _rectangleVertices = new VertexPositionColorTexture[4];
 
 		private static short[] _filledRectangleIndices = { 0, 1, 3, 1, 2, 3 }; 
@@ -88,8 +63,6 @@ namespace Monofoxe.Engine.Drawing
 		/// </summary>
 		public static void DrawBySize(Vector2 p, Vector2 size, bool isOutline, Color c1, Color c2, Color c3, Color c4) =>
 			Draw(p - size / 2f, p + size / 2f, isOutline, c1, c2, c3, c4);
-
-		
 
 	}
 }

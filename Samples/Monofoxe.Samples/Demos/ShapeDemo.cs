@@ -13,16 +13,10 @@ namespace Monofoxe.Samples.Demos
 		
 		Color _mainColor = Color.White;
 		HsvColor _secondaryColor = new HsvColor(new Color(34, 65, 250));
-		TriangleShape _triangle; 
-
+		
 		public ShapeDemo(Layer layer) : base(layer)
 		{
-			// You can instantiate shapes instead of using static methods.
-			_triangle = new TriangleShape();
-			_triangle.Point1 = new Vector2(32, 32);
-			_triangle.Point2 = new Vector2(-32, 32);
-			_triangle.Point3 = new Vector2(-32, -32);
-			_triangle.IsOutline = true;
+
 		}
 
 		public override void Draw()
@@ -107,9 +101,6 @@ namespace Monofoxe.Samples.Demos
 
 
 			// Triangles.
-
-			_triangle.Position = position;
-			_triangle.Draw(); // Drawing an instantiated triangle.
 
 			GraphicsMgr.CurrentColor = _mainColor;
 

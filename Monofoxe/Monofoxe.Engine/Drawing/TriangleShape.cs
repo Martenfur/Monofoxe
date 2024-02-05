@@ -7,40 +7,8 @@ namespace Monofoxe.Engine.Drawing
 	/// <summary>
 	/// Drawable triangle shape. Can be drawn by using static methods or be instantiated.
 	/// </summary>
-	public class TriangleShape : Drawable
+	public static class TriangleShape
 	{
-		/// <summary>
-		/// First triangle point. 
-		/// NOTE: all triangle points treat position as an origin point;
-		/// </summary>
-		public Vector2 Point1;
-
-		/// <summary>
-		/// Second triangle point. 
-		/// NOTE: all triangle points treat position as an origin point;
-		/// </summary>
-		public Vector2 Point2;
-
-		/// <summary>
-		/// Third triangle point. 
-		/// NOTE: all triangle points treat position as an origin point;
-		/// </summary>
-		public Vector2 Point3;
-
-		/// <summary>
-		/// If false, circle will be filled with solid color. If true, only outline will be drawn.
-		/// </summary>
-		public bool IsOutline = false;
-
-		public Color Color = Color.White;
-
-		public float ZDepth = 0;
-
-		public override void Draw() =>
-			Draw(Point1 + Position, Point2 + Position, Point3 + Position, IsOutline, Color, Color, Color, ZDepth);
-		
-
-		
 		private static VertexPositionColorTexture[] _triangleVertices = new VertexPositionColorTexture[4];
 
 		private static short[] _filledTriangleIndices = { 0, 1, 2 };
@@ -74,8 +42,6 @@ namespace Monofoxe.Engine.Drawing
 			{
 				GraphicsMgr.VertexBatch.AddPrimitive(PrimitiveType.TriangleList, _triangleVertices, _filledTriangleIndices);
 			}
-			
 		}
-		
 	}
 }

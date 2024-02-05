@@ -8,8 +8,10 @@ namespace Monofoxe.Engine.Drawing
 	/// <summary>
 	/// Drawable frame.
 	/// </summary>
-	public class Frame : Drawable, ICloneable
+	public class Frame : ICloneable
 	{
+		public Vector2 Position;
+
 		/// <summary>
 		/// Texture atlas where frame is stored.
 		/// </summary>
@@ -67,7 +69,7 @@ namespace Monofoxe.Engine.Drawing
 			Origin = origin;
 		}
 
-		public override void Draw() =>
+		public void Draw() =>
 			Draw(Position, Origin, Scale, Rotation, Color, ZDepth);
 		
 
