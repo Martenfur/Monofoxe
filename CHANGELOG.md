@@ -13,10 +13,14 @@
 - Added `UnorderedList` collection.
 - Added `GetArea()`, `GetSignedArea()`, `IsClockwise()` methods to `GameMath`.
 - Added new collision system.
+- Added new drawing methods.
 
 ### Changed
+
 - **BREAKING CHANGE:** `ResourceInfoMgr` now accepts wildcards instead of directory names. For example, `ResourceInfoMgr.GetResourcePaths("Graphics/Trees");` should now be replaced with `ResourceInfoMgr.GetResourcePaths("Graphics/Trees/*");`
 - **BREAKING CHANGE:** Renamed `GetSafeNormalize()` to `SafeNormalize()`.
+- **BREAKING CHANGE:** Removed instances of `Width` and `Height` in `Sprite`, `Frame`, `WindowMgr`, and replaced them with `Size`.
+- **BREAKING CHANGE:** Changed boolean `isOutline` to `ShapeFill` enum for shapes.
 
 ### Fixed
 
@@ -25,6 +29,7 @@
 - Fixed division by zero in dampers.
 
 ### Removed
+
 - **BREAKING CHANGE:** Removed camera layer filters.
 - **BREAKING CHANGE:** Removed `Drawable` class and non-static shape fields and methods.
 

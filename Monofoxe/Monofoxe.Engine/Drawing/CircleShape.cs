@@ -52,14 +52,14 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Draws a circle.
 		/// </summary>
-		public static void Draw(Vector2 p, float r, bool isOutline) =>
-			Draw(p, r, isOutline, GraphicsMgr.CurrentColor);
+		public static void Draw(Vector2 p, float r, ShapeFill fill) =>
+			Draw(p, r, fill, GraphicsMgr.CurrentColor);
 		
 		
 		/// <summary>
 		/// Draws a circle.
 		/// </summary>
-		public static void Draw(Vector2 p, float r, bool isOutline, Color color, float zDepth = 0)
+		public static void Draw(Vector2 p, float r, ShapeFill fill, Color color, float zDepth = 0)
 		{
 			
 			for(var i = 0; i < _circleVerticesCount; i += 1)
@@ -72,7 +72,7 @@ namespace Monofoxe.Engine.Drawing
 				_circleVertices[i].Color = color;
 			}
 			GraphicsMgr.VertexBatch.Texture = null;
-			if (isOutline)
+			if (fill == ShapeFill.Outline)
 			{
 				GraphicsMgr.VertexBatch.AddPrimitive(PrimitiveType.LineList, _circleVertices, _outlineCircleIndices);
 			}

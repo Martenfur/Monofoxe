@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Monofoxe.Engine.Drawing
@@ -18,13 +17,14 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Draws a triangle.
 		/// </summary>
-		public static void Draw(Vector2 p1, Vector2 p2, Vector2 p3, bool isOutline) =>
-			Draw(p1, p2, p3, isOutline, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor);
-		
+		public static void Draw(Vector2 p1, Vector2 p2, Vector2 p3, ShapeFill fill, float zDepth = 0) =>
+			Draw(p1, p2, p3, fill, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, zDepth);
+
+
 		/// <summary>
 		/// Draws a triangle with specified colors.
 		/// </summary>
-		public static void Draw(Vector2 p1, Vector2 p2, Vector2 p3, bool isOutline, Color c1, Color c2, Color c3, float zDepth = 0)
+		public static void Draw(Vector2 p1, Vector2 p2, Vector2 p3, ShapeFill fill, Color c1, Color c2, Color c3, float zDepth = 0)
 		{
 			_triangleVertices[0].Position = new Vector3(p1.X, p1.Y, zDepth);
 			_triangleVertices[0].Color = c1;
@@ -34,7 +34,7 @@ namespace Monofoxe.Engine.Drawing
 			_triangleVertices[2].Color = c3;
 			
 			GraphicsMgr.VertexBatch.Texture = null;
-			if (isOutline)
+			if (fill == ShapeFill.Outline)
 			{
 				GraphicsMgr.VertexBatch.AddPrimitive(PrimitiveType.LineList, _triangleVertices, _outlineTriangleIndices);
 			}

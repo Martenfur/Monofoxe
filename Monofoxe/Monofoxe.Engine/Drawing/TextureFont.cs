@@ -101,7 +101,7 @@ namespace Monofoxe.Engine.Drawing
 							{
 								if (data[frame.Texture.Width * y + x].A != 0)
 								{
-									rightBearing = (int)(frame.Width - (x + frame.Origin.X - frame.TexturePosition.X + 1));
+									rightBearing = (int)(frame.Size.X - (x + frame.Origin.X - frame.TexturePosition.X + 1));
 									break;
 								}
 							}
@@ -118,8 +118,8 @@ namespace Monofoxe.Engine.Drawing
 				{
 					Character = ch,
 					BoundsInTexture = frame.TexturePosition.ToRectangle(),
-					Width = frame.Width - leftBearing - rightBearing,
-					WidthIncludingBearings = frame.Width,
+					Width = frame.Size.X - leftBearing - rightBearing,
+					WidthIncludingBearings = frame.Size.X,
 					LeftSideBearing = leftBearing,
 					RightSideBearing = rightBearing
 				};
@@ -197,7 +197,7 @@ namespace Monofoxe.Engine.Drawing
 		{
 			string[] lines = text.Split(new []{Environment.NewLine}, StringSplitOptions.None);
 
-			return lines.Length * (_frames[(char)DefaultCharacter].Height + LineSpacing) - LineSpacing;
+			return lines.Length * (_frames[(char)DefaultCharacter].Size.Y + LineSpacing) - LineSpacing;
 		}
 		
 		

@@ -14,8 +14,8 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Draws a rectangle using top left and bottom right point.
 		/// </summary>
-		public static void Draw(Vector2 p1, Vector2 p2, bool isOutline) =>
-			Draw(p1, p2, isOutline, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor);
+		public static void Draw(Vector2 p1, Vector2 p2, ShapeFill fill) =>
+			Draw(p1, p2, fill, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor);
 
 		/// <summary>
 		/// Draws a rectangle using top left and bottom right point with specified colors for each corner.
@@ -23,7 +23,7 @@ namespace Monofoxe.Engine.Drawing
 		public static void Draw(
 			Vector2 p1, 
 			Vector2 p2, 
-			bool isOutline, 
+			ShapeFill fill, 
 			Color c1, 
 			Color c2, 
 			Color c3, 
@@ -41,7 +41,7 @@ namespace Monofoxe.Engine.Drawing
 			_rectangleVertices[3].Color = c4;
 						
 			GraphicsMgr.VertexBatch.Texture = null;
-			if (isOutline)
+			if (fill == ShapeFill.Outline)
 			{
 				GraphicsMgr.VertexBatch.AddPrimitive(PrimitiveType.LineList, _rectangleVertices, _outlineRectangleIndices);
 			}
@@ -55,14 +55,14 @@ namespace Monofoxe.Engine.Drawing
 		/// <summary>
 		/// Draws a rectangle using center point and size.
 		/// </summary>
-		public static void DrawBySize(Vector2 p, Vector2 size, bool isOutline) =>
-			Draw(p - size / 2, p + size / 2f, isOutline, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor);
+		public static void DrawBySize(Vector2 p, Vector2 size, ShapeFill fill) =>
+			Draw(p - size / 2, p + size / 2f, fill, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor, GraphicsMgr.CurrentColor);
 
 		/// <summary>
 		/// Draws a rectangle using center point and size with specified colors for each corner.
 		/// </summary>
-		public static void DrawBySize(Vector2 p, Vector2 size, bool isOutline, Color c1, Color c2, Color c3, Color c4) =>
-			Draw(p - size / 2f, p + size / 2f, isOutline, c1, c2, c3, c4);
+		public static void DrawBySize(Vector2 p, Vector2 size, ShapeFill fill, Color c1, Color c2, Color c3, Color c4) =>
+			Draw(p - size / 2f, p + size / 2f, fill, c1, c2, c3, c4);
 
 	}
 }

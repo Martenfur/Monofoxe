@@ -268,13 +268,13 @@ namespace Monofoxe.Samples.Demos
 					DrawPolygon((Polygon)shape);
 				}
 			}
-			CircleShape.Draw(collider.Position.ToPixels(), 4, true);
+			CircleShape.Draw(collider.Position.ToPixels(), 4, ShapeFill.Outline);
 		}
 
 
 		private void DrawCircle(Circle circle)
 		{
-			CircleShape.Draw(circle.Position.ToPixels(), circle.Radius.ToPixels(), true);
+			CircleShape.Draw(circle.Position.ToPixels(), circle.Radius.ToPixels(), ShapeFill.Outline);
 		}
 
 		private void DrawPolygon(Polygon poly)
@@ -290,14 +290,14 @@ namespace Monofoxe.Samples.Demos
 		{
 			GraphicsMgr.CurrentColor = Color.Gray;
 			var aabb = shape.GetBoundingBox();
-			RectangleShape.Draw(aabb.BottomRight.ToPixels(), aabb.TopLeft.ToPixels(), true);
+			RectangleShape.Draw(aabb.BottomRight.ToPixels(), aabb.TopLeft.ToPixels(), ShapeFill.Outline);
 		}
 
 		private void DrawAABB(Collider collider)
 		{
 			GraphicsMgr.CurrentColor = Color.Gray;
 			var aabb = collider.GetBoundingBox();
-			RectangleShape.Draw(aabb.BottomRight.ToPixels(), aabb.TopLeft.ToPixels(), true);
+			RectangleShape.Draw(aabb.BottomRight.ToPixels(), aabb.TopLeft.ToPixels(), ShapeFill.Outline);
 		}
 	}
 }

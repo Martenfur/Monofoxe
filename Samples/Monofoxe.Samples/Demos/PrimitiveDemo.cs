@@ -152,8 +152,8 @@ namespace Monofoxe.Samples.Demos
 			_mesh.Position = position;
 
 			var cell = new Vector2(
-				_autismCatSprite.Width / (float)_mesh.Width,
-				_autismCatSprite.Height / (float)_mesh.Height
+				_autismCatSprite.Size.X / _mesh.Width,
+				_autismCatSprite.Size.Y / _mesh.Height
 			) * _meshRepeat;
 			var c = 0;
 			for(var k = 0; k < _mesh.Height; k += 1)

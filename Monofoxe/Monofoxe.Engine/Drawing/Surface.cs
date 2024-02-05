@@ -100,6 +100,15 @@ namespace Monofoxe.Engine.Drawing
 		) =>
 			Draw(position, origin, scale, rotation, color, ZDepth);
 		
+
+		public void Draw(
+			Vector2 position,
+			Vector2 scale,
+			Angle rotation
+		) =>
+			Draw(position, Origin, scale, rotation, Color, ZDepth);
+		
+		
 		public void Draw(
 			Vector2 position, 
 			Vector2 origin, 

@@ -83,7 +83,7 @@ namespace Monofoxe.Samples.Demos
 			_fireSprite.Draw(
 				position,
 				0.4f, 
-				new Vector2(_fireSprite.Width, _fireSprite.Height) / 2, 
+				_fireSprite.Size / 2, 
 				new Vector2(1, 2) * (float)Math.Sin(_animation * Math.PI * 2 * 2), 
 				new Angle(360 * _animation), 
 				Color.Red
@@ -132,7 +132,7 @@ namespace Monofoxe.Samples.Demos
 			_batch.End();
 			
 			// After you're done, you can draw anything you like without switching graphics mode again.
-			RectangleShape.Draw(position, position + new Vector2(texture.Width, texture.Height), true);
+			RectangleShape.Draw(position, position + new Vector2(texture.Width, texture.Height), ShapeFill.Outline);
 
 
 			position += Vector2.UnitX * 512;
@@ -141,7 +141,7 @@ namespace Monofoxe.Samples.Demos
 			Surface.SetTarget(_surface);
 
 			var po = new Vector2(_surface.Width, _surface.Height) / 2 + new Angle(GameMgr.ElapsedTimeTotal * 10).ToVector2() * 64;
-			RectangleShape.DrawBySize(po, Vector2.One * 8, false);
+			RectangleShape.DrawBySize(po, Vector2.One * 8, ShapeFill.Solid);
 
 			Surface.ResetTarget();
 
@@ -170,7 +170,7 @@ namespace Monofoxe.Samples.Demos
 			GraphicsMgr.Device.Clear(_secondaryColor);
 
 			GraphicsMgr.CurrentColor = _mainColor;
-			CircleShape.Draw(new Vector2(64, 64), 64, false);
+			CircleShape.Draw(new Vector2(64, 64), 64, ShapeFill.Solid);
 
 			Surface.ResetTarget();
 		}
