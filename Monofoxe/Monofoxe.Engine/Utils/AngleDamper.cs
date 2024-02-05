@@ -142,8 +142,12 @@ namespace Monofoxe.Engine.Utils
 			var unboundValue = _oldValue + d;
 
 			// Estimating velocity.
-			var dt = (float)Time.Time();
-			var speed = d / dt;
+			float num = (float)Time.Time();
+			var speed = 0.0;
+			if (num != 0)
+			{
+				speed = d / num;
+			}
 			_oldValue = unboundValue;
 
 			return Update(unboundValue, speed);

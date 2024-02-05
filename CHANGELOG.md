@@ -22,6 +22,7 @@
 
 - Fixed `AddComponent<>()` not taking generic type into account.
 - `DirectoryResourceBox` now ignores non-xnb files properly.
+- Fixed division by zero in dampers.
 
 ### Removed
 - **BREAKING CHANGE:** Removed camera layer filters.
