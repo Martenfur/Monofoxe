@@ -36,7 +36,7 @@ namespace Monofoxe.Tiled
 		}
 
 		/// <summary>
-		/// Makes entity from Tiled temmplate using factory pool.
+		/// Makes entity from Tiled template using factory pool.
 		/// </summary>
 		public static Entity MakeEntity(TiledObject obj, Layer layer, MapBuilder map)
 		{
