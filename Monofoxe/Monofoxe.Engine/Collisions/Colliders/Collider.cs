@@ -29,7 +29,7 @@ namespace Monofoxe.Engine.Collisions.Colliders
 		public Vector2 _rotatedOrigin;
 
 		/// <summary>
-		/// Rotation of the collider, measured in degreen.
+		/// Rotation of the collider, measured in degrees.
 		/// NOTE: You should always call UpdateTransform() after changing this field.
 		/// </summary>
 		public float Rotation;
