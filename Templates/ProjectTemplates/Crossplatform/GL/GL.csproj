@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <PublishReadyToRun>false</PublishReadyToRun>
     <TieredCompilation>false</TieredCompilation>
   </PropertyGroup>
@@ -31,8 +31,8 @@
   <ItemGroup>
     <PackageReference Include="Monofoxe.Engine.DesktopGL" Version="$(MonofoxeVersion)" />
     <PackageReference Include="Monofoxe.Tiled" Version="$(MonofoxeVersion)" />
-    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.*" />
-    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.*" />
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.2.*" />
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.2.*" />
     <PackageReference Include="Nopipeline.Task" Version="$(NopipelineVersion)" />
   </ItemGroup>
   <ItemGroup>
