@@ -52,7 +52,7 @@ Function Build([string] $proj)
 }
 
 Build "Monofoxe.Engine"
-Build "Monofoxe.Engine.DesktopGL"
+Build "Monofoxe.Engine.WindowsGL"
 Build "Monofoxe.Engine.WindowsDX"
 Build "Monofoxe.Tiled"
 Build "Monofoxe.Pipeline"

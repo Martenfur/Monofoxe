@@ -1,7 +1,7 @@
 ﻿using Monofoxe.Engine.Abstractions;
 using System.Runtime.InteropServices;
 
-namespace Monofoxe.Engine.DesktopGL.Implementations
+namespace Monofoxe.Engine.WindowsGL.Implementations
 {
 	internal class WindowsMonitorFrequencyManager : IMonitorFrequencyManager
 	{

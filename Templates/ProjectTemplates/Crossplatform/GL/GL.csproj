@@ -29,7 +29,7 @@
     <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Monofoxe.Engine.DesktopGL" Version="$(MonofoxeVersion)" />
+    <PackageReference Include="Monofoxe.Engine.WindowsGL" Version="$(MonofoxeVersion)" />
     <PackageReference Include="Monofoxe.Tiled" Version="$(MonofoxeVersion)" />
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.2.*" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.2.*" />

@@ -3,7 +3,7 @@ using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace Monofoxe.Engine.DesktopGL.Implementations
+namespace Monofoxe.Engine.WindowsGL.Implementations
 {
 	internal class WindowsWindowWatch : IWindowWatch
 	{
@@ -14,8 +14,8 @@ namespace Monofoxe.Engine.DesktopGL.Implementations
 			var form = (Form)Form.FromHandle(handle);
 			if (form != null)
 			{
-				// On DesktopGL, there is no form.
-				// TODO: Add a way for DesktopGL to intercept the forms somehow.
+				// On WindowsGL, there is no form.
+				// TODO: Add a way for WindowsGL to intercept the forms somehow.
 				form.Closing += ClosingForm;
 			}
 		}

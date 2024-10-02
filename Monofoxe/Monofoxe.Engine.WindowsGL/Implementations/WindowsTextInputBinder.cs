@@ -1,4 +1,4 @@
-﻿namespace Monofoxe.Engine.DesktopGL.Implementations
+﻿namespace Monofoxe.Engine.WindowsGL.Implementations
 {
 	public class WindowsTextInputBinder : ITextInputBinder
 	{

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net8.0-windows</TargetFramework>
 		<PublishReadyToRun>false</PublishReadyToRun>
 		<TieredCompilation>false</TieredCompilation>
 	</PropertyGroup>
@@ -26,7 +26,7 @@
 		<PackageReference Include="Nopipeline.Task" Version="2.2.0" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\Monofoxe\Monofoxe.Engine.DesktopGL\Monofoxe.Engine.DesktopGL.csproj" />
+		<ProjectReference Include="..\..\Monofoxe\Monofoxe.Engine.WindowsGL\Monofoxe.Engine.WindowsGL.csproj" />
 		<ProjectReference Include="..\..\Monofoxe\Monofoxe.Engine\Monofoxe.Engine.csproj" />
 		<ProjectReference Include="..\..\Monofoxe\Monofoxe.Tiled\Monofoxe.Tiled.csproj" />
 		<ProjectReference Include="..\Monofoxe.Samples\Monofoxe.Samples.csproj" />

@@ -1,7 +1,7 @@
-﻿using Monofoxe.Engine.DesktopGL;
+﻿using Monofoxe.Engine.WindowsGL;
 using System;
 
-namespace Monofoxe.Samples.DesktopGL
+namespace Monofoxe.Samples.WindowsGL
 {
 	public static class Program
 	{

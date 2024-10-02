@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Monofoxe.Engine.DesktopGL.Implementations
+namespace Monofoxe.Engine.WindowsGL.Implementations
 {
 
 	internal class WindowsLocalStorage : ILocalStorage

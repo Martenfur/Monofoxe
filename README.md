@@ -20,7 +20,7 @@ Monofoxe took a lot of inspiration from Game Maker, so it should be a bit famili
 - Download `MonofoxeSetup.exe` from the [latest release](https://github.com/Martenfur/Monofoxe/releases/latest). Installer bundles Visual Studio 2019 and 2022 templates. Monofoxe is distributed via nugets, so templates aren't mandatory. It's also a good idea to install project templates for [Monogame](https://github.com/MonoGame/MonoGame/releases/latest).
 
 - Install Monofoxe templates, and from Visual Studio New Project menu create new Monofoxe Crossplatform project.
-- Make sure you have either WindowsDX or DesktopGL project selected as default one, and you're good to go!
+- Make sure you have either WindowsDX or WindowsGL project selected as default one, and you're good to go!
 
 You can also check out the [basic feature demos](Samples/) or the [Docs](Docs/README.md) to learn how to use Monofoxe.
 

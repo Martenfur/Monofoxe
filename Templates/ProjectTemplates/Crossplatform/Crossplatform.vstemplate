@@ -1,7 +1,7 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="ProjectGroup">
 	<TemplateData>
 		<Name>Monofoxe Crossplatform Project</Name>
-		<Description>A Monofoxe game project for WindowsDX and DesktopGL. Supports Windows, Mac and Linux.</Description>
+		<Description>A Monofoxe game project for WindowsDX and WindowsGL. Supports Windows, Mac and Linux.</Description>
 		<ProjectType>CSharp</ProjectType>
 		<NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
 		<ProjectSubType>

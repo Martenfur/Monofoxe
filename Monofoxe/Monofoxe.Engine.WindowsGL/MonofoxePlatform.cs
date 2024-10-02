@@ -1,7 +1,7 @@
 ﻿using Monofoxe.Engine.Abstractions;
-using Monofoxe.Engine.DesktopGL.Implementations;
+using Monofoxe.Engine.WindowsGL.Implementations;
 
-namespace Monofoxe.Engine.DesktopGL
+namespace Monofoxe.Engine.WindowsGL
 {
 	public static class MonofoxePlatform
 	{
@@ -30,7 +30,7 @@ namespace Monofoxe.Engine.DesktopGL
 
 			GameMgr.CurrentGraphicsBackend = GraphicsBackend.OpenGL;
 
-			StuffResolver.AddStuffAs<IAlphaBlendEffectLoader>(new AlphaBlendEffectLoaderDesktopGl());
+			StuffResolver.AddStuffAs<IAlphaBlendEffectLoader>(new AlphaBlendEffectLoaderWindowsGL());
 			StuffResolver.AddStuffAs<ITextInputBinder>(new WindowsTextInputBinder());
 			StuffResolver.AddStuffAs<IClipboard>(new WindowsClipboard());
 			StuffResolver.AddStuffAs<ILocalStorage>(new WindowsLocalStorage());

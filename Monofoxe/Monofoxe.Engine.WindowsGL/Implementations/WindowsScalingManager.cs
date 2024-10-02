@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace Monofoxe.Engine.DesktopGL.Implementations
+namespace Monofoxe.Engine.WindowsGL.Implementations
 {
 	internal class WindowsScalingManager : IScalingManager
 	{

@@ -1,4 +1,4 @@
-﻿using Monofoxe.Engine.DesktopGL;
+﻿using Monofoxe.Engine.WindowsGL;
 using System;
 
 namespace $safeprojectname$
