@@ -6,6 +6,29 @@
 
 ### Added
 
+- Abstractions interfaces to handle platform-specific stuff and implemented abstractions for Windows (`WindowsClipboard`, `WindowsLocalStorage`, `WindowsMonitorFrequencyManager`, `WindowsScalingManager`, `WindowsTextInputBinder`, `WindowsWindowWatch` classes).
+- Added `PositionComponent` class and `Entity.GetPostition()` extension method.
+- Added `ConfigStash` class.
+- Added `BufferedInput` class.
+- Added `BeizerCurve` and `VerticalAxisProjection` methods to `GameMath` class.
+- Added `Sector` class.
+- Added `HotReloadWatch` class.
+- Added `LockableFlag` class.
+
+### Changed
+
+- Migrated to NET8.
+- Updated MonoGame to `3.8.2`.
+- Updated Nopipeline to `2.3.0`.
+- **BREAKING CHANGE:** Removed Linux and Mac support form DesktopGL target. You will have to implement abstractions interfaces to make it work again.
+- **BREAKING CHANGE:** Replaced `MonofoxePlatform` class with the Windows implementation.
+- **BREAKING CHANGE:** Replaced `TextInputBinderDesktopGL` class with the Windows implementation.
+- **BREAKING CHANGE:** Replaced `AlphaBlendEffectLoaderWindowsGL` class with the Windows implementation.
+
+## [v3.0.0-dev.1] - *05.02.2024*
+
+### Added
+
 - Added `RenderMask` as a replacement to camera filters to `Scene`, `Layer` and `Entity`. 
 - Added `Clear()` method to `ResourceBox`.
 - Added `Offset()` method to linear dampers.
