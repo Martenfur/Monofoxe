@@ -9,7 +9,6 @@ Monofoxe took a lot of inspiration from Game Maker, so it should be a bit famili
 
 [![nuget](https://badgen.net/nuget/v/Monofoxe.Engine?icon=nuget)](https://www.nuget.org/packages/Monofoxe.Engine) [View changelog](/CHANGELOG.md)
 
-
 [Last stable release](https://github.com/Martenfur/Monofoxe/releases/latest)
 
 [**View Docs**](Docs/README.md)
@@ -19,14 +18,14 @@ Monofoxe took a lot of inspiration from Game Maker, so it should be a bit famili
 # Getting started
 
 - Download and install [Visual Studio](https://visualstudio.microsoft.com/)
-- Open Terminal and type 
-	``` bash
-	dotnet new install monofoxe
-	```
-- To create a new Monofoxe project, open Terminal and type 
-	``` bash
-	dotnet new monofoxe -n YourProjectName
-	```
+- Open Terminal and type
+  ```bash
+  dotnet new install monofoxe.template
+  ```
+- To create a new Monofoxe project, open Terminal and type
+  ```bash
+  dotnet new monofoxe -n YourProjectName
+  ```
 - Open `YourProjectName.sln` in Visual Studio, select `YourProjectName.DX` (for DirectX) or `YourProjectName.GL` (for OpenGL) project as a Startup project, and you're good to go!
 
 You can also check out the [basic feature demos](Samples/) or the [Docs](Docs/README.md) to learn how to use Monofoxe.
@@ -77,6 +76,5 @@ That's the spirit. Check out if I need any help on my [Quire board](https://quir
 - [MirrorOfSun](https://github.com/MirrorOfSUn)
 - [Shazan](https://bitbucket.org/%7B07c29368-d971-4ab1-8ec5-1a89d56bfa43%7D/)
 - [Ne1gh](https://github.com/Ne1gh-RR)
-
 
 *don't forget to pet your foxes*
