@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Monofoxe.Engine.WindowsDX")]
-[assembly: InternalsVisibleTo("Monofoxe.Engine.DesktopGL")]
+[assembly: InternalsVisibleTo("Monofoxe.Engine.WindowsGL")]
 
 namespace Monofoxe.Engine
 {

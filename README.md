@@ -1,14 +1,15 @@
 ﻿![logo](logo/logo_transparent.png)
 
 # What am I looking at?
-This is Monofoxe - a game engine based on the [Monogame Framework](http://monogame.net). 
-Its main goal is to greatly simplify working with Monogame and to provide basic set of tools 
+
+This is Monofoxe - a game engine based on the [Monogame Framework](http://monogame.net).
+Its main goal is to greatly simplify working with Monogame and to provide basic set of tools
 enabling you to just *create a new project and make a damn game* without removing low-level access to the framework.
 Monofoxe took a lot of inspiration from Game Maker, so it should be a bit familiar to some folks.
 
 [![nuget](https://badgen.net/nuget/v/Monofoxe.Engine?icon=nuget)](https://www.nuget.org/packages/Monofoxe.Engine) [View changelog](/CHANGELOG.md)
 
-[Download last stable release](https://github.com/Martenfur/Monofoxe/releases/latest)
+[Last stable release](https://github.com/Martenfur/Monofoxe/releases/latest)
 
 [**View Docs**](Docs/README.md)
 
@@ -16,11 +17,16 @@ Monofoxe took a lot of inspiration from Game Maker, so it should be a bit famili
 
 # Getting started
 
-- Download and install [Visual Studio](https://visualstudio.microsoft.com/) 2022.
-- Download `MonofoxeSetup.exe` from the [latest release](https://github.com/Martenfur/Monofoxe/releases/latest). Installer bundles Visual Studio 2022 templates. Monofoxe is distributed via nugets, so templates aren't mandatory. It's also a good idea to install project templates for [Monogame](https://github.com/MonoGame/MonoGame/releases/latest).
-
-- Install Monofoxe templates, and from Visual Studio New Project menu create new Monofoxe Crossplatform project.
-- Make sure you have either WindowsDX or DesktopGL project selected as default one, and you're good to go!
+- Download and install [Visual Studio](https://visualstudio.microsoft.com/)
+- Open Terminal and type
+  ```bash
+  dotnet new install monofoxe.template
+  ```
+- To create a new Monofoxe project, open Terminal and type
+  ```bash
+  dotnet new monofoxe -n YourProjectName
+  ```
+- Open `YourProjectName.sln` in Visual Studio, select `YourProjectName.DX` (for DirectX) or `YourProjectName.GL` (for OpenGL) project as a Startup project, and you're good to go!
 
 You can also check out the [basic feature demos](Samples/) or the [Docs](Docs/README.md) to learn the basics of Monofoxe.
 
@@ -53,22 +59,23 @@ Coming in the future:
 
 # Can I use it in my p...
 
-Yes, you can. Monofoxe is licensed under MIT, so you can use it and its code in any shenanigans you want. Free games, commercial games, your own the-coolest-in-the-world engines - no payment or royalties required. Just please leave a credit. ; - )
-(Though, if you will be using FMOD, it has its own [license](https://fmod.com/licensing#faq), which is much less permissive than mine.)
+Yes. Monofoxe is licensed under MIT, so you can use it and its code in any shenanigans you want. Free games, commercial games, your own the-coolest-in-the-world engines - no payment or royalties required. Just please leave a credit. ; - )
+(However, if you will be using FMOD, it has its own [license](https://fmod.com/licensing#faq), which is much less permissive than mine.)
 
 # Should I use it?
 
 yes
 
-# I've suddenly started loving foxes and want to contribute
+# I have suddenly started loving foxes and want to contribute
 
 That's the spirit, but **don't forget to check out Codestyle.cs before contributing!**
 
-You can contact me via email (`chaifoxes@gmail.com`), on [Twitter](https://twitter.com/ChaiFoxes) or on [Monofoxe Discord](https://discord.gg/F9tPYaD).
+You can contact me via email (`chaifoxes@gmail.com`), on [Twitter](https://x.com/the_fox_society) or on [Monofoxe Discord](https://discord.gg/F9tPYaD).
 
-## Foxes who helped
+## The foxes who helped
 
 - [MirrorOfSun](https://github.com/MirrorOfSUn)
 - [Shazan](https://bitbucket.org/%7B07c29368-d971-4ab1-8ec5-1a89d56bfa43%7D/)
+- [Ne1gh](https://github.com/Ne1gh-RR)
 
 *don't forget to pet your foxes*

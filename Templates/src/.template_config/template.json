@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "the fox society",
+  "classifications": [  "Monofoxe", "MonoGame", "Games", "Library", "Template" ],
+  "tags": {
+    "language": "C#"
+  },
+  "identity": "Monofoxe.Template",
+  "name": "Monofoxe Template",
+  "shortName": "monofoxe",
+  "sourceName": "Monofoxe.Template",
+  "symbols": {
+    "skipRestore": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "If specified, skips the automatic restore of the project on create.",
+      "defaultValue": "false"
+    }
+  },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "exclude": [ ".vs/**", ".template_config/**" ]
+        }
+      ]
+    }
+  ]
+}

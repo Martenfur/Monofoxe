@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<OutputPath>..\bin\$(Configuration)\</OutputPath>
+		<DocumentationFile>..\bin\$(Configuration)\$(AssemblyName).xml</DocumentationFile>
+		<NoWarn>1701;1702;1591</NoWarn>
+		<UseWindowsForms>true</UseWindowsForms>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="..\Resources\AlphaBlend_gl.mgfxo" Link="AlphaBlend_gl.mgfxo" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.2.*" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Monofoxe.Engine\Monofoxe.Engine.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<Version>$(MonofoxeVersion)</Version>
 		<Authors>Martenfur</Authors>
-		<Company>Chai Foxes</Company>
+		<Company>the fox society</Company>
 		<Product>Monofoxe Engine</Product>
 		<Description>Monogame-based game engine with an extremely high fox concenration.</Description>
 		<PackageProjectUrl>https://github.com/Martenfur/Monofoxe/</PackageProjectUrl>
