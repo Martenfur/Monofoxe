@@ -2,6 +2,30 @@
 
 ## [Unreleased]
 
+### Features
+
+- Migrated to dotnet templates. No need to download the installer now, see `README.md` to learn about the new setup workflow.
+- Migrated to NET8.
+- Added `ConfigStash` class for quick config storage.
+- Added clipboard support with `IClipboard`.
+- Added the ability to get current monitor frequency with with `IMonitorFrequencyManager`.
+- Added crossplatform file system interface with `ILocalStorage`.
+- Added high DPI support with `IScalingManager`.
+- Added window closing interception with `IWindowWatch` (only available on DirectX).
+- Added the ability to  intercept hot reload events with `HotReloadWatch`.
+- Added `BufferedInput`.
+- Added default Position component.
+- Added `LockableFlag`.
+- Added Bezier curves and vertical projection to `GameMath`.
+
+### Breaking
+
+- Discontinued `Monofoxe.DesktopGL` and replaced it with `Monofoxe.WindowsGL`. The project does not support Linux and MacOS out of the box anymore.
+
+### Fixes
+
+- Fixed mgcb in the templates not compressing assets by default, resulting in larger than necessary dist sizes.
+
 ## [v3.0.0-dev.1] - *05.02.2024*
 
 ### Added
