@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <IncludeContentInPack>true</IncludeContentInPack>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>content</ContentTargetFolders>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <NoDefaultExcludes>true</NoDefaultExcludes>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageOutputPath>.</PackageOutputPath>  
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="src\**\*" Exclude="**\bin\**\*;**\obj\**\*;**\vs\**\*" />
+    <Compile Remove="**\*" />
+    <None Include="README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <PackageType>Template</PackageType>
+    <Version>$(MonofoxeVersion)</Version>
+    <PackageId>Monofoxe.Template</PackageId>
+    <Title>Monofoxe Template</Title>
+    <Company>the fox society</Company>
+    <Authors>minkberry</Authors>
+    <Copyright>the fox society © 2025</Copyright>
+    <Description></Description>
+    <PackageTags>c#;monogame;monofoxe;template;</PackageTags>
+    <PackageCopyright>the fox society © 2025</PackageCopyright>
+    <PackageProjectUrl>https://github.com/Martenfur/Monofoxe</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/Martenfur/Monofoxe</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+</Project>

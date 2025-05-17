@@ -1,0 +1,18 @@
+<Project InitialTargets="BuildContentProject" Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.*">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Monofoxe.Engine" Version="3.0.0-dev.1" />
+    <PackageReference Include="Monofoxe.Tiled" Version="3.0.0-dev.1" />
+ </ItemGroup>
+
+  <Target Name="BuildContentProject">
+    <Exec Command="dotnet build &quot;../Monofoxe.Template.Content/Monofoxe.Template.Content.csproj&quot;"/>
+  </Target>
+</Project>
