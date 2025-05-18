@@ -6,6 +6,9 @@
 
 - Migrated to dotnet templates. No need to download the installer now, see `README.md` to learn about the new setup workflow.
 - Migrated to NET8.
+- Updated MonoGame to `3.8.3`.
+- Updated Nopipeline to `2.3.0`.
+- Updated StbImageSharp to `2.30.15`.
 - Added `ConfigStash` class for quick config storage.
 - Added clipboard support with `IClipboard`.
 - Added the ability to get current monitor frequency with with `IMonitorFrequencyManager`.
@@ -14,40 +17,21 @@
 - Added window closing interception with `IWindowWatch` (only available on DirectX).
 - Added the ability to  intercept hot reload events with `HotReloadWatch`.
 - Added `BufferedInput`.
-- Added default Position component.
 - Added `LockableFlag`.
-- Added Bezier curves and vertical projection to `GameMath`.
+- Added `Sector` struct.
+- Added `BeizerCurve` and `VerticalAxisProjection` methods to `GameMath` class.
+- Added `PositionComponent` class and `Entity.GetPostition()` extension method.
 
 ### Breaking
 
 - Discontinued `Monofoxe.DesktopGL` and replaced it with `Monofoxe.WindowsGL`. The project does not support Linux and MacOS out of the box anymore.
+- Replaced `MonofoxePlatform` class with the Windows implementation.
+- Replaced `TextInputBinderDesktopGL` class with the Windows implementation.
+- Replaced `AlphaBlendEffectLoaderWindowsGL` class with the Windows implementation.
 
 ### Fixes
 
 - Fixed mgcb in the templates not compressing assets by default, resulting in larger than necessary dist sizes.
-
-## [v3.0.0-dev.1] - *05.02.2024*
-
-### Added
-
-- Abstractions interfaces to handle platform-specific stuff and implemented abstractions for Windows (`WindowsClipboard`, `WindowsLocalStorage`, `WindowsMonitorFrequencyManager`, `WindowsScalingManager`, `WindowsTextInputBinder`, `WindowsWindowWatch` classes).
-- Added `PositionComponent` class and `Entity.GetPostition()` extension method.
-- Added `ConfigStash` class.
-- Added `BufferedInput` class.
-- Added `BeizerCurve` and `VerticalAxisProjection` methods to `GameMath` class.
-- Added `Sector` class.
-- Added `HotReloadWatch` class.
-- Added `LockableFlag` class.
-
-### Changed
-
-- Migrated to NET8.
-- Updated MonoGame to `3.8.2`.
-- Updated Nopipeline to `2.3.0`.
-- **BREAKING CHANGE:** Removed Linux and Mac support form DesktopGL target. You will have to implement abstractions interfaces to make it work again.
-- **BREAKING CHANGE:** Replaced `MonofoxePlatform` class with the Windows implementation.
-- **BREAKING CHANGE:** Replaced `TextInputBinderDesktopGL` class with the Windows implementation.
-- **BREAKING CHANGE:** Replaced `AlphaBlendEffectLoaderWindowsGL` class with the Windows implementation.
 
 ## [v3.0.0-dev.1] - *05.02.2024*
 
