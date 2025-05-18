@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Monofoxe.Pipeline.SpriteGroup.AST
 {
@@ -15,10 +14,6 @@ namespace Monofoxe.Pipeline.SpriteGroup.AST
 		}
 
 		public TokenNotExpectedException(string message, Exception innerException) : base(message, innerException)
-		{
-		}
-
-		protected TokenNotExpectedException(SerializationInfo info, StreamingContext context) : base(info, context)
 		{
 		}
 	}
