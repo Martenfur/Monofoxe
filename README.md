@@ -96,10 +96,9 @@ Your dotnet tools have failed to restore properly. Unfortunately, this tends to 
 
 - Right-click on the project you're trying to run (not on the solution), and in the dropdown select `Open in Terminal`.
 - In the terminal window run the following command:
-- ```bash
+  ```bash
   dotnet restore
   ```
-
   or
 
   ```bash
