@@ -1,9 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <PublishReadyToRun>false</PublishReadyToRun>
     <TieredCompilation>false</TieredCompilation>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -26,17 +27,11 @@
     <EmbeddedResource Include="Icon.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Monofoxe.Engine.DesktopGL" Version="3.0.0-dev.2" />
+    <PackageReference Include="Monofoxe.Engine.WindowsGL" Version="3.0.0-dev.2" />
     <PackageReference Include="Monofoxe.Tiled" Version="3.0.0-dev.2" />
-    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.*" />
-    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.*" />
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.3" />
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.3" />
     <PackageReference Include="Nopipeline.Task" Version="2.3.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Monofoxe.Template\Monofoxe.Template.csproj" />
