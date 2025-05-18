@@ -29,11 +29,11 @@
     <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Monofoxe.Engine.DesktopGL" Version="3.0.0-dev.1" />
-    <PackageReference Include="Monofoxe.Tiled" Version="3.0.0-dev.1" />
+    <PackageReference Include="Monofoxe.Engine.DesktopGL" Version="3.0.0-dev.2" />
+    <PackageReference Include="Monofoxe.Tiled" Version="3.0.0-dev.2" />
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.*" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.*" />
-    <PackageReference Include="Nopipeline.Task" Version="2.2.0" />
+    <PackageReference Include="Nopipeline.Task" Version="2.3.0" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />

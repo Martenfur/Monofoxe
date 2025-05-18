@@ -22,10 +22,10 @@
     <None Remove="Content\obj\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Monofoxe.Engine.WindowsDX" Version="3.0.0-dev.1" />
-    <PackageReference Include="Monofoxe.Tiled" Version="3.0.0-dev.1" />
-    <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.*" />
-    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.*" />
+    <PackageReference Include="Monofoxe.Engine.WindowsDX" Version="3.0.0-dev.2" />
+    <PackageReference Include="Monofoxe.Tiled" Version="3.0.0-dev.2" />
+    <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.3" />
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.3" />
     <PackageReference Include="Nopipeline.Task" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
