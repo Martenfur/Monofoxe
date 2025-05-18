@@ -6,12 +6,13 @@
 		<OutputPath>bin/</OutputPath>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="MonoGame.Framework.Content.Pipeline" Version="3.8.2.*">
+		<PackageReference Include="MonoGame.Framework.Content.Pipeline" Version="3.8.3">
 			<PrivateAssets>All</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.2.*">
+		<PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.3">
 			<PrivateAssets>All</PrivateAssets>
 		</PackageReference>
+		<PackageReference Include="StbImageSharp" Version="2.30.15" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Monofoxe\Monofoxe.Pipeline\Monofoxe.Pipeline.csproj" />
