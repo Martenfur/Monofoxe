@@ -15,18 +15,28 @@ Monofoxe took a lot of inspiration from Game Maker, so it should be a bit famili
 
 [**Join Monofoxe Discord**](https://discord.gg/F9tPYaD)
 
+[**Troubleshooting**](#troubleshooting)
+
 # Getting started
 
 - Download and install [Visual Studio](https://visualstudio.microsoft.com/)
 - Open Terminal and type
+
   ```bash
   dotnet new install monofoxe.template
   ```
 - To create a new Monofoxe project, open Terminal and type
+
   ```bash
   dotnet new monofoxe -n YourProjectName
   ```
-- Open `YourProjectName.sln` in Visual Studio, select `YourProjectName.DX` (for DirectX) or `YourProjectName.GL` (for OpenGL) project as a Startup project, and you're good to go!
+- Open `YourProjectName.sln` in Visual Studio, select `YourProjectName.DX` (for DirectX) or `YourProjectName.GL` (for OpenGL) project as a Startup project.
+- If you get an error that looks something like `dotnet mgcb "..." exited with code`, right-click on the project you're trying to run, and in the dropdown select `Open in Terminal`. Then in the terminal window run the following command:
+
+  ```bash
+  dotnet restore
+  ```
+- Run the project and you're good to go!
 
 You can also check out the [basic feature demos](Samples/) or the [Docs](Docs/README.md) to learn the basics of Monofoxe.
 
@@ -78,4 +88,24 @@ You can contact me via email (`chaifoxes@gmail.com`), on [Twitter](https://x.com
 - [Shazan](https://bitbucket.org/%7B07c29368-d971-4ab1-8ec5-1a89d56bfa43%7D/)
 - [Ne1gh](https://github.com/Ne1gh-RR)
 
-*don't forget to pet your foxes*
+## Troubleshooting
+
+### `dotnet mgcb "..." exited with code`
+
+Your dotnet tools have failed to restore properly. Unfortunately, this tends to happen after MonoGame 3.8.3. You need to restore it by hand:
+
+- Right-click on the project you're trying to run (not on the solution), and in the dropdown select `Open in Terminal`.
+- In the terminal window run the following command:
+  ```bash
+  dotnet restore
+  ```
+  or
+
+  ```bash
+  dotnet tool restore
+  ```
+- Try running the project again, this should fix the issue.
+
+### Shaders fail to compile complaining about `libmojoshader_64.dll`
+
+You're missing the `MS VS C++ Redistributable for 2013`. Download and install both x64 and x86 versions [here](https://www.microsoft.com/en-us/download/details.aspx?id=40784).

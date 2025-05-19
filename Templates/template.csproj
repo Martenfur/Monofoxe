@@ -24,7 +24,7 @@
     <Company>the fox society</Company>
     <Authors>minkberry</Authors>
     <Copyright>the fox society © 2025</Copyright>
-    <Description></Description>
+    <Description>Ready to use Monofoxe solution for Windows DirectX and OpenGL.</Description>
     <PackageTags>c#;monogame;monofoxe;template;</PackageTags>
     <PackageCopyright>the fox society © 2025</PackageCopyright>
     <PackageProjectUrl>https://github.com/Martenfur/Monofoxe</PackageProjectUrl>

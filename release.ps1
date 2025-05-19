@@ -23,6 +23,7 @@ dotnet clean "$PWD/Monofoxe/Monofoxe.sln" -v q
 Function Build([string] $proj)
 {
 	"Building $proj"
+	dotnet build "$PWD\Monofoxe\$proj\$proj.csproj" -v q -c Release -p "NoWarn=1591"
 	dotnet pack "$PWD\Monofoxe\$proj\$proj.csproj" -v q -c Release -p "NoWarn=1591" -o "$destReleaseDir"
 }
 

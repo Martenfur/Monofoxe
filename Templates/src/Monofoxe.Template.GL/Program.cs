@@ -1,5 +1,5 @@
 ﻿using System;
-using Monofoxe.Engine.DesktopGL;
+using Monofoxe.Engine.WindowsGL;
 
 namespace Monofoxe.Template.GL
 {
