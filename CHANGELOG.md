@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [v3.0.0-dev.2] - *19.05.2025*
+
 ### Features
 
 - Migrated to dotnet templates. No need to download the installer now, see `README.md` to learn about the new setup workflow.
