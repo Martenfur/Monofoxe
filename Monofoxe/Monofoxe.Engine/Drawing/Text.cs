@@ -52,7 +52,7 @@ namespace Monofoxe.Engine.Drawing
 		{
 			if (CurrentFont == null)
 			{
-				throw new NullReferenceException("CurrentFont is null! Did you forgot to set a font?");
+				throw new NullReferenceException("CurrentFont is null! Did you forget to set a font?");
 			}
 			
 			CurrentFont.Draw(text, position, HorAlign, VerAlign);

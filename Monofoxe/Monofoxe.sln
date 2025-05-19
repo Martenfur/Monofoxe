@@ -22,7 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monofoxe.Engine.WindowsDX", "Monofoxe.Engine.WindowsDX\Monofoxe.Engine.WindowsDX.csproj", "{A1593C65-09C3-4294-A153-A43509D989AA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monofoxe.Engine.DesktopGL", "Monofoxe.Engine.DesktopGL\Monofoxe.Engine.DesktopGL.csproj", "{491EFCE4-315C-40AB-AC26-28F7A6190E9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monofoxe.Engine.WindowsGL", "Monofoxe.Engine.WindowsGL\Monofoxe.Engine.WindowsGL.csproj", "{491EFCE4-315C-40AB-AC26-28F7A6190E9A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{B86C69D3-FFCE-488F-891F-6EAAAD2513FD}"
 EndProject
@@ -32,7 +32,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monofoxe.Samples.Content", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monofoxe.Samples", "..\Samples\Monofoxe.Samples\Monofoxe.Samples.csproj", "{0720FA7C-FCBC-4310-985F-C1D1E9D2C929}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monofoxe.Samples.DesktopGL", "..\Samples\Monofoxe.Samples.DesktopGL\Monofoxe.Samples.DesktopGL.csproj", "{94BCE387-0572-4EF7-A8AB-AEFB7B54B50F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monofoxe.Samples.WindowsGL", "..\Samples\Monofoxe.Samples.WindowsGL\Monofoxe.Samples.WindowsGL.csproj", "{94BCE387-0572-4EF7-A8AB-AEFB7B54B50F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monofoxe.Samples.WindowsDX", "..\Samples\Monofoxe.Samples.WindowsDX\Monofoxe.Samples.WindowsDX.csproj", "{B33C2CAE-3D6A-4A70-9829-550ADDACA92C}"
 EndProject

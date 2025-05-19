@@ -2,6 +2,39 @@
 
 ## [Unreleased]
 
+## [v3.0.0-dev.2] - *19.05.2025*
+
+### Features
+
+- Migrated to dotnet templates. No need to download the installer now, see `README.md` to learn about the new setup workflow.
+- Migrated to NET8.
+- Updated MonoGame to `3.8.3`.
+- Updated Nopipeline to `2.3.0`.
+- Updated StbImageSharp to `2.30.15`.
+- Added `ConfigStash` class for quick config storage.
+- Added clipboard support with `IClipboard`.
+- Added the ability to get current monitor frequency with with `IMonitorFrequencyManager`.
+- Added crossplatform file system interface with `ILocalStorage`.
+- Added high DPI support with `IScalingManager`.
+- Added window closing interception with `IWindowWatch` (only available on DirectX).
+- Added the ability to  intercept hot reload events with `HotReloadWatch`.
+- Added `BufferedInput`.
+- Added `LockableFlag`.
+- Added `Sector` struct.
+- Added `BeizerCurve` and `VerticalAxisProjection` methods to `GameMath` class.
+- Added `PositionComponent` class and `Entity.GetPostition()` extension method.
+
+### Breaking
+
+- Discontinued `Monofoxe.DesktopGL` and replaced it with `Monofoxe.WindowsGL`. The project does not support Linux and MacOS out of the box anymore.
+- Replaced `MonofoxePlatform` class with the Windows implementation.
+- Replaced `TextInputBinderDesktopGL` class with the Windows implementation.
+- Replaced `AlphaBlendEffectLoaderWindowsGL` class with the Windows implementation.
+
+### Fixes
+
+- Fixed mgcb in the templates not compressing assets by default, resulting in larger than necessary dist sizes.
+
 ## [v3.0.0-dev.1] - *05.02.2024*
 
 ### Added

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Metrics;
 using Microsoft.Xna.Framework;
 
 namespace Monofoxe.Engine.Utils
@@ -206,6 +205,43 @@ namespace Monofoxe.Engine.Utils
 		{
 			float area = GetSignedArea(vertices);
 			return (area < 0 ? -area : area);
+		}
+
+
+		/// <summary>
+		/// Calculates three-point bezier curve.
+		/// </summary>
+		/// <param name="value">Should be in 0..1 range.</param>
+		public static Vector2 BezierCurve(Vector2 startPoint, Vector2 controlPoint, Vector2 endPoint, float value)
+		{
+			float u = 1 - value;
+			float tt = value * value;
+			float uu = u * u;
+
+			Vector2 pointOnCurve = uu * startPoint;
+			pointOnCurve += 2 * u * value * controlPoint;
+			pointOnCurve += tt * endPoint;
+
+			return pointOnCurve;
+		}
+
+
+		/// <summary>
+		/// Returns a projection aligned to the Y axis.
+		/// </summary>
+		public static Vector2 VerticalAxisProjection(Vector2 p1, Vector2 p2, Vector2 pp)
+		{
+			if (p1.X == p2.X)
+			{
+				return pp;
+			}
+
+			var d = p2 - p1;
+			var e = d.SafeNormalize();
+
+			var l = (pp.X - p2.X) / e.X;
+
+			return p2 + e * l;
 		}
 	}
 }
