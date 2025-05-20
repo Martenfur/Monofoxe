@@ -12,17 +12,18 @@ namespace Monofoxe.Engine.Utils
 	public static class PerlinNoise
 	{
 
-		// Random seed
-		private static int _seed = new Random((int)DateTime.Now.Ticks).Next();
+		private static int _seed = 0;
 		public static int Seed
 		{
 			get => _seed;
-			set
-			{
-				_seed = value;
-				_reseed(); // Carmody
-				_recalculatePermutations(); // Gustavson
-			}
+		}
+
+		public static void SetSeed(int seed)
+		{
+			_seed = seed;
+
+			_reseed(); // Carmody
+			_recalculatePermutations(); // Gustavson
 		}
 
 
