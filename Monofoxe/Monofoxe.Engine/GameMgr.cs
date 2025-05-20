@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.SceneSystem;
+using Monofoxe.Engine.Utils;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -99,6 +100,7 @@ namespace Monofoxe.Engine
 			var keyboardBind = StuffResolver.GetStuff<ITextInputBinder>();
 			keyboardBind?.Init();
 
+			PerlinNoise.Seed = RandomExt.Global.Next();
 
 			Input.MaxGamepadCount = 2;
 

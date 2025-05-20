@@ -71,7 +71,6 @@ namespace Monofoxe.Samples.Demos
 			{
 				for(var i = 0; i < _mesh.Width; i += 1)
 				{
-
 					_mesh.Vertices[vIndex] = 
 						new Vertex(
 							Vector2.Zero, // Positions will be set later.
