@@ -18,6 +18,10 @@ namespace Monofoxe.Engine.Utils
 			get => _seed;
 		}
 
+		/// <summary>
+		/// Updates seed and creating cache for Carmody and Gustavson simplexes.
+		/// </summary>
+		/// <param name="seed"></param>
 		public static void SetSeed(int seed)
 		{
 			_seed = seed;

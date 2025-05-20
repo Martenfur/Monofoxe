@@ -28,7 +28,6 @@ namespace Monofoxe.Samples
 			GameMgr.MaxGameSpeed = 60;
 			GameMgr.MinGameSpeed = 60; // Fixing framerate on 60.
 
-			//Setting random seed for Perlin noise.
 			PerlinNoise.SetSeed(RandomExt.Global.Next());
 
 			MainCamera.BackgroundColor = new Color(38, 38, 38);
