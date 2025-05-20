@@ -26,6 +26,7 @@ namespace Monofoxe.Samples
 			new SceneFactory(typeof(VertexBatchDemo)),
 			new SceneFactory(typeof(CoroutinesDemo)),
 			new SceneFactory(typeof(CollisionsDemo)),
+			new SceneFactory(typeof(ShakeDemo), ShakeDemo.Description),
 		};
 
 		public int CurrentSceneID {get; private set;} = 0;
