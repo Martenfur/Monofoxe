@@ -49,25 +49,6 @@ namespace Monofoxe.Samples.Misc.Tiled
 			return convertedColliderTilesets;
 		}
 
-		
-		protected override List<Layer> BuildTileLayers(List<Tileset> tilesets)
-		{
-			// Letting basic layer builder do its stuff.
-			var layers = base.BuildTileLayers(tilesets);
-			
-			return layers;
-		}
-
-
-		protected override List<Layer> BuildObjectLayers()
-		{
-			// Letting basic layer builder do its stuff.
-			var layers = base.BuildObjectLayers();
-			
-			return layers;
-		}
-
-
 
 		/// <summary>
 		/// Converts basic tilesets into collider tilesets using data from Tiled structures.
