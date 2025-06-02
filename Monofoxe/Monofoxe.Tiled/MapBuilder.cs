@@ -160,16 +160,32 @@ namespace Monofoxe.Tiled
 
 
 		/// <summary>
-		/// Builds tile layers from Tiled templates. 
+		/// Builds layers from Tiled templates. 
 		/// Called by Build().
 		/// </summary>
+		/*protected virtual List<Layer> BuildLayers(List<Tileset> tilesets)
+		{
+			CreateTileLookupTable(tilesets);
+
+			var layers = new List<Layer>();
+
+			foreach (var mapLayer in TiledMap.Layers)
+			{
+				var layer = MapScene.CreateLayer(mapLayer.Name);
+				layer.Priority = GetLayerPriority(mapLayer);
+
+				var tilemap = new BasicTilemap(layer, tileLayer.Width, tileLayer.Height, tileLayer.TileWidth, tileLayer.TileHeight);
+				tilemap.Offset = tileLayer.Offset;
+			}
+		}*/
+
 		protected virtual List<Layer> BuildTileLayers(List<Tileset> tilesets)
 		{
 			CreateTileLookupTable(tilesets);
 
 			var layers = new List<Layer>();
 
-			foreach(var tileLayer in TiledMap.TileLayers)
+			foreach(var tileLayer in TiledMap.GetLayers<TiledMapTileLayer>())
 			{
 				var layer = MapScene.CreateLayer(tileLayer.Name);
 				layer.Priority = GetLayerPriority(tileLayer);
@@ -211,7 +227,7 @@ namespace Monofoxe.Tiled
 		{
 			var layers = new List<Layer>();
 
-			foreach(var objectLayer in TiledMap.ObjectLayers)
+			foreach(var objectLayer in TiledMap.GetLayers<TiledMapObjectLayer>())
 			{
 				var layer = MapScene.CreateLayer(objectLayer.Name);
 				layer.Priority = GetLayerPriority(objectLayer);
@@ -235,7 +251,7 @@ namespace Monofoxe.Tiled
 		{
 			var layers = new List<Layer>();
 
-			foreach(var imageLayer in TiledMap.ImageLayers)
+			foreach(var imageLayer in TiledMap.GetLayers<TiledMapImageLayer>())
 			{
 				// Yes, a layer per a single image is very wasteful.
 				// I'd suggest to not use image layers for anything other than quick prototyping.

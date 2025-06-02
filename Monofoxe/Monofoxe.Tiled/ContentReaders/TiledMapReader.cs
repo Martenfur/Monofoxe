@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -41,9 +42,8 @@ namespace Monofoxe.Tiled.ContentReaders
 			};
 
 			ReadTilesets(input, tiledMap);
-			ReadTileLayers(input, tiledMap);
-			ReadObjectLayers(input, tiledMap);
-			ReadImageLayers(input, tiledMap);
+
+			ReadLayers(input, tiledMap);
 
 			tiledMap.Properties = input.ReadObject<Dictionary<string, string>>();
 			return tiledMap;
@@ -56,7 +56,7 @@ namespace Monofoxe.Tiled.ContentReaders
 			var tilesetsCount = input.ReadInt32();
 			var tilesets = new TiledMapTileset[tilesetsCount];
 
-			for(var i = 0; i < tilesetsCount; i += 1)
+			for (var i = 0; i < tilesetsCount; i += 1)
 			{
 				tilesets[i] = new TiledMapTileset();
 
@@ -67,7 +67,7 @@ namespace Monofoxe.Tiled.ContentReaders
 				{
 					var texturesCount = input.ReadInt32();
 					tilesets[i].Textures = new Texture2D[texturesCount];
-					for(var k = 0; k < texturesCount; k += 1)
+					for (var k = 0; k < texturesCount; k += 1)
 					{
 						var path = Path.Combine(Path.GetDirectoryName(input.AssetName), input.ReadString());
 						tilesets[i].Textures[k] = input.ContentManager.Load<Texture2D>(path);
@@ -82,9 +82,9 @@ namespace Monofoxe.Tiled.ContentReaders
 				tilesets[i].TileCount = input.ReadInt32();
 				tilesets[i].Columns = input.ReadInt32();
 				tilesets[i].Offset = input.ReadVector2();
-				
+
 				var tiles = new TiledMapTilesetTile[tilesets[i].TileCount];
-				for(var k = 0; k < tiles.Length; k += 1)
+				for (var k = 0; k < tiles.Length; k += 1)
 				{
 					tiles[k] = ReadTilesetTile(input, map);
 					tiles[k].Tileset = tilesets[i];
@@ -97,8 +97,6 @@ namespace Monofoxe.Tiled.ContentReaders
 			map.Tilesets = tilesets;
 		}
 
-
-
 		TiledMapTilesetTile ReadTilesetTile(ContentReader input, TiledMap map)
 		{
 			var tile = new TiledMapTilesetTile();
@@ -107,18 +105,18 @@ namespace Monofoxe.Tiled.ContentReaders
 			tile.TexturePosition = input.ReadObject<Rectangle>();
 
 			tile.ObjectsDrawingOrder = (TiledMapObjectDrawingOrder)input.ReadByte();
-			
+
 			var objectsCount = input.ReadInt32();
 			var objects = new TiledObject[objectsCount];
 
-			for(var k = 0; k < objectsCount; k += 1)
+			for (var k = 0; k < objectsCount; k += 1)
 			{
 				objects[k] = ReadObject(input, map);
 			}
 			tile.Objects = objects;
 
 			tile.Properties = input.ReadObject<Dictionary<string, string>>();
-			
+
 			return tile;
 		}
 
@@ -136,40 +134,66 @@ namespace Monofoxe.Tiled.ContentReaders
 			layer.Properties = input.ReadObject<Dictionary<string, string>>();
 		}
 
-
-		#region Tiles.
-
-		void ReadTileLayers(ContentReader input, TiledMap map)
+		//Reading all the layers.
+		void ReadLayers(ContentReader input, TiledMap map)
 		{
 			var layersCount = input.ReadInt32();
-			var layers = new TiledMapTileLayer[layersCount];
+			var layers = new TiledMapLayer[layersCount];
 
-			for(var i = 0; i < layersCount; i += 1)
+			for (var i = 0; i < layersCount; i += 1)
 			{
-				var layer = new TiledMapTileLayer();
+				TiledMapLayer layer = null; //The compiler's face after I commited this war crime: =D
+
+				var layerType = input.ReadString();
+
+
+				if (layerType == "TiledMapTileLayer")
+				{
+					layer = ReadTileLayer(input, map);
+				}
+				if (layerType == "TiledMapObjectLayer")
+				{
+					layer = ReadObjectLayer(input, map);
+				}
+				if (layerType == "TiledMapImageLayer")
+				{
+					layer = ReadImageLayer(input, map);
+				}
+
+
 				ReadLayer(input, layer);
-				layer.Width = input.ReadInt32();
-				layer.Height = input.ReadInt32();
-				layer.TileWidth = map.TileWidth;
-				layer.TileHeight = map.TileHeight;
-			
-				var tiles = new TiledMapTile[layer.Width][];
-				for(var x = 0; x < layer.Width; x += 1)
-				{
-					tiles[x] = new TiledMapTile[layer.Height];
-				}
-				for(var y = 0; y < layer.Height; y += 1)
-				{
-					for(var x = 0; x < layer.Width; x += 1)
-					{
-						tiles[x][y] = ReadTile(input);
-					}
-				}
-				layer.Tiles = tiles;
 
 				layers[i] = layer;
 			}
-			map.TileLayers = layers;
+
+			map.Layers = layers;
+		}
+
+		#region Tiles.
+
+		TiledMapTileLayer ReadTileLayer(ContentReader input, TiledMap map)
+		{
+			var layer = new TiledMapTileLayer();
+
+			layer.Width = input.ReadInt32();
+			layer.Height = input.ReadInt32();
+			layer.TileWidth = map.TileWidth;
+			layer.TileHeight = map.TileHeight;
+
+			var tiles = new TiledMapTile[layer.Width][];
+			for (var x = 0; x < layer.Width; x += 1)
+			{
+				tiles[x] = new TiledMapTile[layer.Height];
+			}
+			for (var y = 0; y < layer.Height; y += 1)
+			{
+				for (var x = 0; x < layer.Width; x += 1)
+				{
+					tiles[x][y] = ReadTile(input);
+				}
+			}
+
+			return layer;
 		}
 
 		TiledMapTile ReadTile(ContentReader input)
@@ -185,36 +209,27 @@ namespace Monofoxe.Tiled.ContentReaders
 
 		#endregion Tiles.
 
-		
+
 		#region Objects.
 
-		void ReadObjectLayers(ContentReader input, TiledMap map)
+		TiledMapObjectLayer ReadObjectLayer(ContentReader input, TiledMap map)
 		{
-			var layersCount = input.ReadInt32();
-			var layers = new TiledMapObjectLayer[layersCount];
-			
-			for(var i = 0; i < layersCount; i += 1)
+			var layer = new TiledMapObjectLayer();
+
+			layer.DrawingOrder = (TiledMapObjectDrawingOrder)input.ReadByte();
+			layer.Color = input.ReadColor();
+
+			var objectsCount = input.ReadInt32();
+			var objects = new TiledObject[objectsCount];
+
+			for (var k = 0; k < objectsCount; k += 1)
 			{
-				var layer = new TiledMapObjectLayer();
-				ReadLayer(input, layer);
-
-				layer.DrawingOrder = (TiledMapObjectDrawingOrder)input.ReadByte();
-				layer.Color = input.ReadColor();
-
-				var objectsCount = input.ReadInt32();
-				var objects = new TiledObject[objectsCount];
-
-				for(var k = 0; k < objectsCount; k += 1)
-				{
-					objects[k] = ReadObject(input, map);
-				}
-
-				layer.Objects = objects;
-
-				layers[i] = layer;
+				objects[k] = ReadObject(input, map);
 			}
 
-			map.ObjectLayers = layers;
+			layer.Objects = objects;
+
+			return layer;
 		}
 
 
@@ -252,7 +267,7 @@ namespace Monofoxe.Tiled.ContentReaders
 			{
 				return ReadRectangleObject(obj);
 			}
-			
+
 			return obj;
 		}
 
@@ -282,13 +297,13 @@ namespace Monofoxe.Tiled.ContentReaders
 			obj.FlipVer = input.ReadBoolean();
 
 			obj.Tileset = map.GetTileset(obj.GID);
-		
+
 			return obj;
 		}
-		
+
 		TiledObject ReadPointObject(TiledObject baseObj) =>
 			new TiledPointObject(baseObj);
-		
+
 		TiledObject ReadPolygonObject(ContentReader input, TiledObject baseObj)
 		{
 			var obj = new TiledPolygonObject(baseObj);
@@ -301,7 +316,7 @@ namespace Monofoxe.Tiled.ContentReaders
 
 		TiledObject ReadEllipseObject(TiledObject baseObj) =>
 			new TiledEllipseObject(baseObj);
-		
+
 		TiledObject ReadTextObject(ContentReader input, TiledObject baseObj)
 		{
 			var obj = new TiledTextObject(baseObj);
@@ -324,30 +339,21 @@ namespace Monofoxe.Tiled.ContentReaders
 			new TiledRectangleObject(baseObj);
 
 		#endregion Objects.
-		
-		
+
+
 		#region Images.
-		
-		void ReadImageLayers(ContentReader input, TiledMap map)
+
+		TiledMapImageLayer ReadImageLayer(ContentReader input, TiledMap map)
 		{
-			var layersCount = input.ReadInt32();
-			var layers = new TiledMapImageLayer[layersCount];
-			
-			for(var i = 0; i < layersCount; i += 1)
-			{
-				var layer = new TiledMapImageLayer();
-				ReadLayer(input, layer);
+			var layer = new TiledMapImageLayer();
 
-				layer.TexturePath = Path.Combine(Path.GetDirectoryName(input.AssetName), input.ReadString());
-				layer.Texture = input.ContentManager.Load<Texture2D>(input.ReadString());
-				layer.TransparentColor = input.ReadColor();
+			layer.TexturePath = Path.Combine(Path.GetDirectoryName(input.AssetName), input.ReadString());
+			layer.Texture = input.ContentManager.Load<Texture2D>(input.ReadString());
+			layer.TransparentColor = input.ReadColor();
 
-				layers[i] = layer;
-			}
-
-			map.ImageLayers = layers;
+			return layer;
 		}
-		
+
 		#endregion Images.
 
 	}

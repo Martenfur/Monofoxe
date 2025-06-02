@@ -11,6 +11,8 @@ namespace Monofoxe.Pipeline.Tiled
 {
 	static class LayerParser
 	{
+		static List<TiledMapLayer> _layers;
+
 		static List<TiledMapTileLayer> _tileLayers;
 		static List<TiledMapObjectLayer> _objectLayers;
 		static List<TiledMapImageLayer> _imageLayers;
@@ -19,15 +21,11 @@ namespace Monofoxe.Pipeline.Tiled
 		
 		public static void Parse(XmlNode mapXml, TiledMap map)
 		{
-			_tileLayers = new List<TiledMapTileLayer>();
-			_objectLayers = new List<TiledMapObjectLayer>();
-			_imageLayers = new List<TiledMapImageLayer>();
+			_layers = new List<TiledMapLayer>();
 
 			ParseGroup(mapXml);
 
-			map.TileLayers = _tileLayers.ToArray();
-			map.ObjectLayers = _objectLayers.ToArray();
-			map.ImageLayers = _imageLayers.ToArray();
+			map.Layers = _layers.ToArray();
 		}
 
 		static void ParseGroup(XmlNode groupXml)
@@ -38,25 +36,20 @@ namespace Monofoxe.Pipeline.Tiled
 				ParseGroup(group);
 			}
 
-			var tileLayers = groupXml.SelectNodes("layer");
-			foreach(XmlNode layer in tileLayers)
+			var layers = groupXml.SelectNodes("//layer | //objectgroup | //imagelayer");
+			foreach (XmlNode layer in layers)
 			{
-				_tileLayers.Add(ParseTileLayer(layer));
-			}
-
-			var objectLayers = groupXml.SelectNodes("objectgroup");
-			foreach(XmlNode layer in objectLayers)
-			{
-				_objectLayers.Add(ParseObjectLayer(layer));
-			}
-
-			var imageLayers = groupXml.SelectNodes("imagelayer");
-			foreach(XmlNode layer in imageLayers)
-			{
-				var parsedLayer = ParseImageLayer(layer);
-				if (parsedLayer != null)
+				if (layer.GetType() == typeof(TiledMapTileLayer))
 				{
-					_imageLayers.Add(parsedLayer);
+					_layers.Add(ParseTileLayer(layer));
+				}
+				if (layer.GetType() == typeof(TiledMapObjectLayer)) 
+				{
+					_layers.Add(ParseObjectLayer(layer));
+				}
+				if (layer.GetType() == typeof(TiledMapImageLayer))
+				{
+					_layers.Add(ParseImageLayer(layer));
 				}
 			}
 		}

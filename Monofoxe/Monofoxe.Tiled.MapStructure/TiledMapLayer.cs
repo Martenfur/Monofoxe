@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace Monofoxe.Tiled.MapStructure
 {
-	public abstract class TiledMapLayer
+	public class TiledMapLayer
 	{
 		public string Name;
 		public int ID;

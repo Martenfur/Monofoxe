@@ -28,6 +28,8 @@ namespace Monofoxe.Tiled.MapStructure
 
 		public TiledMapTileset[] Tilesets;
 
+		public TiledMapLayer[] Layers;
+
 		public TiledMapTileLayer[] TileLayers;
 		public TiledMapObjectLayer[] ObjectLayers;
 		public TiledMapImageLayer[] ImageLayers;
@@ -61,5 +63,23 @@ namespace Monofoxe.Tiled.MapStructure
 			return null;
 		}
 
+
+		/// <summary>
+		/// Returns array of layers of given type (TiledMapTileLayer, TiledMapObjectLayer, TiledMapImageLayer).
+		/// </summary>
+		public T[] GetLayers<T>() where T : TiledMapLayer
+		{
+			var layersList = new List<T>();
+
+			foreach(var layer in Layers)
+			{
+				if (layer is T)
+				{
+					layersList.Add((T)layer);
+				}
+			}
+
+			return layersList.ToArray();
+		}
 	}
 }
