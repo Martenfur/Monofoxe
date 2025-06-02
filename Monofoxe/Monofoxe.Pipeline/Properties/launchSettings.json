@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "Monofoxe.Pipeline": {
-      "commandName": "Project",
-      "nativeDebugging": true
-    }
-  }
-}
