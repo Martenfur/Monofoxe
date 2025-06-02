@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Monofoxe.Engine;
 using Monofoxe.Tiled.MapStructure;
 using Monofoxe.Tiled.MapStructure.Objects;
 
@@ -192,6 +190,8 @@ namespace Monofoxe.Tiled.ContentReaders
 					tiles[x][y] = ReadTile(input);
 				}
 			}
+
+			layer.Tiles = tiles;
 
 			return layer;
 		}

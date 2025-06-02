@@ -2,7 +2,9 @@
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 using Monofoxe.Tiled.MapStructure;
 using Monofoxe.Tiled.MapStructure.Objects;
+using System;
 using System.IO;
+using System.Linq;
 
 namespace Monofoxe.Pipeline.Tiled
 {
@@ -30,6 +32,8 @@ namespace Monofoxe.Pipeline.Tiled
 				WriteTilesets(output, map.Tilesets);
 
 				WriteLayers(output, map.Layers);
+
+				File.AppendAllText($"C:\\Users\\Ne1gh\\Desktop\\{new Random().Next()}.txt", map.Layers.Count().ToString());
 
 				output.WriteObject(map.Properties);
 			}

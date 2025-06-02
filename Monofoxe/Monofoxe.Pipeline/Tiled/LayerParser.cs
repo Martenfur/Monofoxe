@@ -39,15 +39,15 @@ namespace Monofoxe.Pipeline.Tiled
 			var layers = groupXml.SelectNodes("//layer | //objectgroup | //imagelayer");
 			foreach (XmlNode layer in layers)
 			{
-				if (layer.GetType() == typeof(TiledMapTileLayer))
+				if (layer.Name == "layer")
 				{
 					_layers.Add(ParseTileLayer(layer));
 				}
-				if (layer.GetType() == typeof(TiledMapObjectLayer)) 
+				if (layer.Name == "objectgroup") 
 				{
 					_layers.Add(ParseObjectLayer(layer));
 				}
-				if (layer.GetType() == typeof(TiledMapImageLayer))
+				if (layer.Name == "imagelayer")
 				{
 					_layers.Add(ParseImageLayer(layer));
 				}
@@ -72,7 +72,7 @@ namespace Monofoxe.Pipeline.Tiled
 		static TiledMapTileLayer ParseTileLayer(XmlNode layerXml)
 		{
 			var layer = new TiledMapTileLayer();	
-
+			
 			ParseBaseLayer(layerXml, layer);
 
 			layer.Width = int.Parse(layerXml.Attributes["width"].Value);
