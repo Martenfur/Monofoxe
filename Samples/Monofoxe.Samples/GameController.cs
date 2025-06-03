@@ -75,7 +75,7 @@ namespace Monofoxe.Samples
 		private void OnPostDraw()
 		{
 			_stopwatch.Stop();
-			GameMgr.WindowManager.WindowTitle = Input.ScreenMousePosition.ToString();
+			GameMgr.WindowManager.WindowTitle = "Rendering time: " + _stopwatch.Elapsed;
 			_stopwatch.Reset();
 		}
 
