@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Monofoxe.Engine;
 using Monofoxe.Engine.Drawing;
 using Monofoxe.Engine.EC;
@@ -10,10 +11,10 @@ namespace Monofoxe.Samples.Demos
 {
 	public class ShapeDemo : Entity
 	{
-		
+
 		Color _mainColor = Color.White;
 		HsvColor _secondaryColor = new HsvColor(new Color(34, 65, 250));
-		
+
 		public ShapeDemo(Layer layer) : base(layer)
 		{
 
@@ -25,13 +26,13 @@ namespace Monofoxe.Samples.Demos
 
 			_secondaryColor.H += TimeKeeper.Global.Time(360 / 4f);
 			if (_secondaryColor.H >= 360f)
-			{ 
+			{
 				_secondaryColor.H -= 360;
 			}
 			Debug.WriteLine(_secondaryColor.H);
 
 			// This code shows how to draw shapes using static methods and instanced objects.
-			
+
 			var startingPosition = new Vector2(100, 100);
 			var position = startingPosition;
 			var spacing = 100;
@@ -49,8 +50,8 @@ namespace Monofoxe.Samples.Demos
 
 			CircleShape.CircleVerticesCount = 8; // Changing the amount of circle vertices.
 
-			GraphicsMgr.CurrentColor = _mainColor; 
-			CircleShape.Draw(position, 24, ShapeFill.Solid); 
+			GraphicsMgr.CurrentColor = _mainColor;
+			CircleShape.Draw(position, 24, ShapeFill.Solid);
 
 			GraphicsMgr.CurrentColor = _secondaryColor.ToColor();
 			CircleShape.Draw(position, 32, ShapeFill.Outline);
@@ -64,7 +65,7 @@ namespace Monofoxe.Samples.Demos
 
 
 			// Rectangles.
-			
+
 			// You can draw rectangle using its top left and bottom right point...
 			RectangleShape.Draw(position - Vector2.One * 24, position + Vector2.One * 24, ShapeFill.Solid);
 
@@ -75,17 +76,17 @@ namespace Monofoxe.Samples.Demos
 			position += Vector2.UnitX * spacing;
 
 			RectangleShape.Draw( // We can also manually set colors for each vertex.
-				position - Vector2.One * 24, 
+				position - Vector2.One * 24,
 				position + Vector2.One * 24,
-				ShapeFill.Solid, 
-				_mainColor, 
-				_mainColor, 
-				_mainColor, 
+				ShapeFill.Solid,
+				_mainColor,
+				_mainColor,
+				_mainColor,
 				_secondaryColor.ToColor()
 			);
 
 			RectangleShape.DrawBySize(
-				position, 
+				position,
 				Vector2.One * 64,
 				ShapeFill.Outline,
 				_mainColor,
@@ -105,12 +106,12 @@ namespace Monofoxe.Samples.Demos
 			GraphicsMgr.CurrentColor = _mainColor;
 
 			TriangleShape.Draw(
-				position + new Vector2(-24, -24), 
-				position + new Vector2(24, -24), 
+				position + new Vector2(-24, -24),
+				position + new Vector2(24, -24),
 				position + new Vector2(24, 24),
 				ShapeFill.Solid
 			);
-			
+
 			// Be aware of culling. This triangle, for example, will be culled.
 			// You can disable culling, if you don't want to deal with it.
 			TriangleShape.Draw(new Vector2(-24, -24), new Vector2(24, 24), new Vector2(24, -24), ShapeFill.Solid);

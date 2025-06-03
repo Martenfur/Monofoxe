@@ -2,7 +2,9 @@
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 using Monofoxe.Tiled.MapStructure;
 using Monofoxe.Tiled.MapStructure.Objects;
+using System;
 using System.IO;
+using System.Linq;
 
 namespace Monofoxe.Pipeline.Tiled
 {
@@ -28,13 +30,12 @@ namespace Monofoxe.Pipeline.Tiled
 				output.Write(map.HexSideLength);
 
 				WriteTilesets(output, map.Tilesets);
-				WriteTileLayers(output, map.TileLayers);
-				WriteObjectLayers(output, map.ObjectLayers);
-				WriteImageLayers(output, map.ImageLayers);
+
+				WriteLayers(output, map.Layers);
 
 				output.WriteObject(map.Properties);
 			}
-			catch(System.Exception e)
+			catch (System.Exception e)
 			{
 				throw new System.Exception("Failed to write the map! " + e.Message + " " + e.StackTrace);
 			}
@@ -45,13 +46,13 @@ namespace Monofoxe.Pipeline.Tiled
 		void WriteTilesets(ContentWriter output, TiledMapTileset[] tilesets)
 		{
 			output.Write(tilesets.Length);
-			foreach(var tileset in tilesets)
+			foreach (var tileset in tilesets)
 			{
 				output.Write(tileset.Name);
 				output.WriteObject(tileset.TexturePaths);
 
 				if (
-					tileset.Properties.ContainsKey(TilesetParser.IgnoreTilesetTextureFlag) 
+					tileset.Properties.ContainsKey(TilesetParser.IgnoreTilesetTextureFlag)
 					&& bool.Parse(tileset.Properties[TilesetParser.IgnoreTilesetTextureFlag])
 				)
 				{
@@ -61,11 +62,11 @@ namespace Monofoxe.Pipeline.Tiled
 				{
 					output.Write(true);
 					output.Write(tileset.TexturePaths.Length);
-					for(var i = 0; i < tileset.TexturePaths.Length; i += 1)
+					for (var i = 0; i < tileset.TexturePaths.Length; i += 1)
 					{
 						var texturePath = tileset.TexturePaths[i];
 						var contentPath = Path.Combine(Path.GetDirectoryName(texturePath), Path.GetFileNameWithoutExtension(texturePath));
- 						output.Write(contentPath);
+						output.Write(contentPath);
 					}
 				}
 
@@ -79,11 +80,11 @@ namespace Monofoxe.Pipeline.Tiled
 
 				output.Write(tileset.Offset);
 
-				foreach(var tile in tileset.Tiles)
+				foreach (var tile in tileset.Tiles)
 				{
 					WriteTilesetTile(output, tile);
 				}
-				
+
 				output.WriteObject(tileset.BackgroundColor);
 				output.WriteObject(tileset.Properties);
 			}
@@ -95,13 +96,13 @@ namespace Monofoxe.Pipeline.Tiled
 			output.Write(tile.GID);
 			output.Write(tile.TextureID);
 			output.WriteObject(tile.TexturePosition);
-			
+
 			output.Write((byte)tile.ObjectsDrawingOrder);
-			
+
 			if (tile.Objects != null)
 			{
 				output.Write(tile.Objects.Length);
-				foreach(var obj in tile.Objects)
+				foreach (var obj in tile.Objects)
 				{
 					WriteObject(output, obj);
 				}
@@ -115,7 +116,7 @@ namespace Monofoxe.Pipeline.Tiled
 			output.WriteObject(tile.Properties);
 		}
 
-		
+
 		#endregion Tilesets.
 
 
@@ -126,30 +127,55 @@ namespace Monofoxe.Pipeline.Tiled
 			output.Write(layer.Visible);
 			output.Write(layer.Opacity);
 			output.Write(layer.Offset);
-			
+
 			output.WriteObject(layer.Properties);
 		}
 
 
-		#region Tiles.
-
-		void WriteTileLayers(ContentWriter output, TiledMapTileLayer[] layers)
+		void WriteLayers(ContentWriter output, TiledMapLayer[] layers)
 		{
 			output.Write(layers.Length);
-			foreach(var layer in layers)
+
+			foreach (var layer in layers)
 			{
-				WriteLayer(output, layer);
-				output.Write(layer.Width);
-				output.Write(layer.Height);
-				
-				for(var y = 0; y < layer.Height; y += 1)
+				if (layer is TiledMapTileLayer)
 				{
-					for(var x = 0; x < layer.Width; x += 1)
-					{
-						WriteTile(output, layer.Tiles[x][y]);
-					}
+					output.Write("TiledMapTileLayer");
+
+					WriteTileLayer(output, (TiledMapTileLayer)layer);
+				}
+				if (layer is TiledMapObjectLayer)
+				{
+					output.Write("TiledMapObjectLayer");
+
+					WriteObjectLayer(output, (TiledMapObjectLayer)layer);
+				}
+				if (layer is TiledMapImageLayer)
+				{
+					output.Write("TiledMapImageLayer");
+
+					WriteImageLayer(output, (TiledMapImageLayer)layer);
+				}
+
+				WriteLayer(output, layer);
+			}
+		}
+
+		#region Tiles.
+
+		void WriteTileLayer(ContentWriter output, TiledMapTileLayer layer)
+		{
+			output.Write(layer.Width);
+			output.Write(layer.Height);
+
+			for (var y = 0; y < layer.Height; y += 1)
+			{
+				for (var x = 0; x < layer.Width; x += 1)
+				{
+					WriteTile(output, layer.Tiles[x][y]);
 				}
 			}
+
 		}
 
 
@@ -168,21 +194,17 @@ namespace Monofoxe.Pipeline.Tiled
 
 		#region Objects.
 
-		void WriteObjectLayers(ContentWriter output, TiledMapObjectLayer[] layers)
+		void WriteObjectLayer(ContentWriter output, TiledMapObjectLayer layer)
 		{
-			output.Write(layers.Length);
-			foreach(var layer in layers)
-			{
-				WriteLayer(output, layer);
-				output.Write((byte)layer.DrawingOrder);
-				output.Write(layer.Color);
+			output.Write((byte)layer.DrawingOrder);
+			output.Write(layer.Color);
 
-				output.Write(layer.Objects.Length);
-				foreach(var obj in layer.Objects)
-				{
-					WriteObject(output, obj);
-				}
+			output.Write(layer.Objects.Length);
+			foreach (var obj in layer.Objects)
+			{
+				WriteObject(output, obj);
 			}
+
 		}
 
 		void WriteObject(ContentWriter output, TiledObject obj)
@@ -193,7 +215,7 @@ namespace Monofoxe.Pipeline.Tiled
 				WriteTileObject(output, (TiledTileObject)obj);
 				return;
 			}
-			
+
 			if (obj is TiledPointObject)
 			{
 				WritePointObject(output);
@@ -236,7 +258,7 @@ namespace Monofoxe.Pipeline.Tiled
 			output.Write(obj.Visible);
 			output.WriteObject(obj.Properties);
 		}
-		
+
 		void WriteTileObject(ContentWriter output, TiledTileObject obj)
 		{
 			output.Write((byte)TiledObjectType.Tile);
@@ -257,7 +279,7 @@ namespace Monofoxe.Pipeline.Tiled
 
 		void WriteEllipseObject(ContentWriter output) =>
 			output.Write((byte)TiledObjectType.Ellipse);
-		
+
 		void WriteTextObject(ContentWriter output, TiledTextObject obj)
 		{
 			output.Write((byte)TiledObjectType.Text);
@@ -280,25 +302,19 @@ namespace Monofoxe.Pipeline.Tiled
 
 
 		#region Images.
-		
-		void WriteImageLayers(ContentWriter output, TiledMapImageLayer[] layers)
+
+		void WriteImageLayer(ContentWriter output, TiledMapImageLayer layer)
 		{
-			output.Write(layers.Length);
-			foreach(var layer in layers)
-			{
-				WriteLayer(output, layer);
+			output.Write(layer.TexturePath);
 
-				output.Write(layer.TexturePath);
-
-				var contentPath = Path.Combine(Path.GetDirectoryName(layer.TexturePath), Path.GetFileNameWithoutExtension(layer.TexturePath));
-				output.Write(contentPath);
-				output.Write(layer.TransparentColor);
-			}
+			var contentPath = Path.Combine(Path.GetDirectoryName(layer.TexturePath), Path.GetFileNameWithoutExtension(layer.TexturePath));
+			output.Write(contentPath);
+			output.Write(layer.TransparentColor);
 		}
 
 		#endregion Images.
-		
-		
+
+
 		public override string GetRuntimeType(TargetPlatform targetPlatform) =>
 			"Monofoxe.Tiled.MapStructure.TiledMap, Monofoxe.Tiled";
 

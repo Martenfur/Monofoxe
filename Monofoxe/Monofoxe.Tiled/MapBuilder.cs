@@ -17,13 +17,13 @@ namespace Monofoxe.Tiled
 	public class MapBuilder
 	{
 		public readonly TiledMap TiledMap;
-		public Scene MapScene {get; protected set;}
-		public bool Loaded {get; protected set;} = false;
+		public Scene MapScene { get; protected set; }
+		public bool Loaded { get; protected set; } = false;
 
 
 		public MapBuilder(TiledMap tiledMap) =>
 			TiledMap = tiledMap;
-		
+
 		/// <summary>
 		/// Builds map scene from Tiled map template.
 		/// 
@@ -41,18 +41,16 @@ namespace Monofoxe.Tiled
 			if (!Loaded)
 			{
 				MapScene = SceneMgr.CreateScene(TiledMap.Name);
-			
+
 				var tilesets = BuildTilesets(TiledMap.Tilesets);
-				
-				BuildTileLayers(tilesets);
-				BuildObjectLayers();
-				BuildImageLayers();
+
+				BuildLayers(tilesets);
 
 				Loaded = true;
 			}
 		}
 
-		
+
 		/// <summary>
 		/// Unloads map scene.
 		/// </summary>
@@ -80,37 +78,37 @@ namespace Monofoxe.Tiled
 		protected virtual List<Tileset> BuildTilesets(TiledMapTileset[] tilesets)
 		{
 			var convertedTilesets = new List<Tileset>();
-			
+
 			foreach (var tileset in tilesets)
 			{
 				// Creating sprite from raw texture.
 				List<ITilesetTile> tilesetTilesList = new List<ITilesetTile>();
-				
+
 				if (tileset.Textures != null)
 				{
-					
-					for(var y = 0; y < tileset.Height; y += 1)
+
+					for (var y = 0; y < tileset.Height; y += 1)
 					{
-						for(var x = 0; x < tileset.Width; x += 1)
+						for (var x = 0; x < tileset.Width; x += 1)
 						{
 							var tile = tileset.Tiles[y * tileset.Width + x];
 
 							var tileTexture = tileset.Textures[tile.TextureID];
-							
+
 							var frame = new Frame(tileTexture, tile.TexturePosition.ToRectangleF(), Vector2.Zero);
-						
+
 							var tilesetTile = new BasicTilesetTile(frame);
 							tilesetTilesList.Add(tilesetTile);
 						}
 					}
-					
+
 					// Tileset origins in Tiled are in the left bottom corner. Derp.
 				}
 				// Creating sprite from raw texture.
 
 				var finalTileset = new Tileset(tilesetTilesList.ToArray(), tileset.Offset, tileset.FirstGID);
 
-				
+
 				convertedTilesets.Add(finalTileset);
 			}
 
@@ -152,7 +150,7 @@ namespace Monofoxe.Tiled
 			{
 				return _tilesetLookupMap[index];
 			}
-			catch(IndexOutOfRangeException)
+			catch (IndexOutOfRangeException)
 			{
 				return null;
 			}
@@ -160,99 +158,98 @@ namespace Monofoxe.Tiled
 
 
 		/// <summary>
-		/// Builds tile layers from Tiled templates. 
+		/// Builds layers from Tiled templates. 
 		/// Called by Build().
 		/// </summary>
-		protected virtual List<Layer> BuildTileLayers(List<Tileset> tilesets)
+		protected virtual List<Layer> BuildLayers(List<Tileset> tilesets)
 		{
-			CreateTileLookupTable(tilesets);
+			if (TiledMap.GetLayers<TiledMapTileLayer>().Length != 0)
+			{
+				CreateTileLookupTable(tilesets);
+			}
 
 			var layers = new List<Layer>();
 
-			foreach(var tileLayer in TiledMap.TileLayers)
+			foreach (var mapLayer in TiledMap.Layers)
 			{
-				var layer = MapScene.CreateLayer(tileLayer.Name);
-				layer.Priority = GetLayerPriority(tileLayer);
-				
-				var tilemap = new BasicTilemap(layer, tileLayer.Width, tileLayer.Height, tileLayer.TileWidth, tileLayer.TileHeight);
-				tilemap.Offset = tileLayer.Offset;
+				var layer = MapScene.CreateLayer(mapLayer.Name);
+				layer.Priority = GetLayerPriority(mapLayer);
 
-				for(var y = 0; y < tilemap.Height; y += 1)	
+				if (mapLayer is TiledMapTileLayer)
 				{
-					for(var x = 0; x < tilemap.Width; x += 1)
-					{
-						var tileIndex = tileLayer.Tiles[x][y].GID;
-						
-						tilemap.SetTileUnsafe(
-							x, y, 
-							new BasicTile(
-								tileIndex, 
-								GetTilesetFromTileIndex(tileIndex),
-								tileLayer.Tiles[x][y].FlipHor,
-								tileLayer.Tiles[x][y].FlipVer,
-								tileLayer.Tiles[x][y].FlipDiag
-							)
-						);
-					}
+					BuildTileLayer((TiledMapTileLayer)mapLayer, layer);
 				}
-				
+				if (mapLayer is TiledMapObjectLayer)
+				{
+					BuildObjectLayer((TiledMapObjectLayer)mapLayer, layer);
+				}
+				if (mapLayer is TiledMapImageLayer)
+				{
+					BuildImageLayer((TiledMapImageLayer)mapLayer, layer);
+				}
+
 				layers.Add(layer);
 			}
 
 			return layers;
 		}
-		
+
+		protected virtual void BuildTileLayer(TiledMapTileLayer tileLayer, Layer layer)
+		{
+			var tilemap = new BasicTilemap(layer, tileLayer.Width, tileLayer.Height, tileLayer.TileWidth, tileLayer.TileHeight);
+			tilemap.Offset = tileLayer.Offset;
+
+			for (var y = 0; y < tilemap.Height; y += 1)
+			{
+				for (var x = 0; x < tilemap.Width; x += 1)
+				{
+					var tileIndex = tileLayer.Tiles[x][y].GID;
+
+					tilemap.SetTileUnsafe(
+						x, y,
+						new BasicTile(
+							tileIndex,
+							GetTilesetFromTileIndex(tileIndex),
+							tileLayer.Tiles[x][y].FlipHor,
+							tileLayer.Tiles[x][y].FlipVer,
+							tileLayer.Tiles[x][y].FlipDiag
+						)
+					);
+				}
+			}
+		}
+
 
 		/// <summary>
 		/// Builds object layers from Tiled templates.
 		/// Called by Build().
 		/// </summary>
-		protected virtual List<Layer> BuildObjectLayers()
+		protected virtual void BuildObjectLayer(TiledMapObjectLayer objectLayer, Layer layer)
 		{
-			var layers = new List<Layer>();
-
-			foreach(var objectLayer in TiledMap.ObjectLayers)
+			foreach (var obj in objectLayer.Objects)
 			{
-				var layer = MapScene.CreateLayer(objectLayer.Name);
-				layer.Priority = GetLayerPriority(objectLayer);
-
-				foreach(var obj in objectLayer.Objects)
-				{
-					TiledEntityFactoryPool.MakeEntity(obj, layer, this);
-				}
-				layers.Add(layer);
+				TiledEntityFactoryPool.MakeEntity(obj, layer, this);
 			}
-			return layers;
 		}
 
 
-		
+
 		/// <summary>
 		/// Builds image layers from Tiled templates.
 		/// Called by Build().
 		/// </summary>
-		protected virtual List<Layer> BuildImageLayers()
+		protected virtual void BuildImageLayer(TiledMapImageLayer imageLayer, Layer layer)
 		{
-			var layers = new List<Layer>();
+			// Yes, a layer per a single image is very wasteful.
+			// I'd suggest to not use image layers for anything other than quick prototyping.
 
-			foreach(var imageLayer in TiledMap.ImageLayers)
-			{
-				// Yes, a layer per a single image is very wasteful.
-				// I'd suggest to not use image layers for anything other than quick prototyping.
-				var layer = MapScene.CreateLayer(imageLayer.Name);
-				layer.Priority = GetLayerPriority(imageLayer);
-				
-				var frame = new Frame(
-					imageLayer.Texture, 
-					imageLayer.Texture.Bounds.ToRectangleF(), 
-					Vector2.Zero
-				);
-				new ImageLayerRenderer(layer, imageLayer.Offset, frame);
-				
-				layers.Add(layer);
-			}
+			var frame = new Frame(
+				imageLayer.Texture,
+				imageLayer.Texture.Bounds.ToRectangleF(),
+				Vector2.Zero
+			);
+			new ImageLayerRenderer(layer, imageLayer.Offset, frame);
 
-			return layers;
 		}
 
 
@@ -267,7 +264,7 @@ namespace Monofoxe.Tiled
 			{
 				return int.Parse(layer.Properties["priority"]);
 			}
-			catch(Exception)
+			catch (Exception)
 			{
 				return 0;
 			}

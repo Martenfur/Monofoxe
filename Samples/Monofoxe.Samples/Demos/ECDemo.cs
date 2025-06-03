@@ -30,7 +30,7 @@ namespace Monofoxe.Samples.Demos
 			var player = new Player(layer, new Vector2(400, 300));
 
 			// Now player will be drawn below all the bots, even though he was created last.
-			// Reaordering puts him on the top of entity list.
+			// Reordering puts him on the top of entity list.
 			layer.ReorderEntityToTop(player);
 			//layer.ReorderEntityToBottom(player); // Will have no effect.
 			//layer.ReorderEntity(player, 2); // Player will be updated and drawn only after two entities above him.

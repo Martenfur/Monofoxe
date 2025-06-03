@@ -46,8 +46,8 @@ namespace Monofoxe.Samples
 
 			// Movement.
 			var movementVector3 = new Vector3(
-				Input.CheckButton(LeftButton).ToInt() - Input.CheckButton(RightButton).ToInt(),
-				Input.CheckButton(UpButton).ToInt() - Input.CheckButton(DownButton).ToInt(),
+				Input.CheckButton(RightButton).ToInt() - Input.CheckButton(LeftButton).ToInt(),
+				Input.CheckButton(DownButton).ToInt() - Input.CheckButton(UpButton).ToInt(),
 				0
 			);
 			movementVector3 = Vector3.Transform(
