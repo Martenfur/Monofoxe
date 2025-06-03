@@ -51,7 +51,7 @@ namespace Monofoxe.Samples.Demos
 			// Note that we don't add vertices directly to the RelativeVertices array. 
 			// It is possible to do that, however, you also must increment Count by 1.
 			// There are some restrictions to the polygon shape:
-			// - The vrtices should form a convex shape.
+			// - The vertices should form a convex shape.
 			// - The polygon vertices should have clockwise winding.
 			// - Single polygon cannot have more than CollisionSettings.MaxPolygonVertices (which is 8 by default).
 			_polygon.Add(new Vector2(-32, -32).ToMeters());

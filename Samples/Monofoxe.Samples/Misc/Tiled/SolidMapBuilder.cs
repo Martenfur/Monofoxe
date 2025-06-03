@@ -36,7 +36,7 @@ namespace Monofoxe.Samples.Misc.Tiled
 				// Essentially cloning a tileset with new set of converted tiles.
 				// Goal here is to make tilemap work with collision system. 
 				// All collider data is stored in tileset tiles, which are later assigned to tilemap tiles.
-				// To see collision data, we just need ti take tilemap tile and look at its assigned tileset tile. 
+				// To see collision data, we just need to take tilemap tile and look at its assigned tileset tile. 
 
 				var colliderTileset = new Tileset(
 					ConvertTiles(tilesets[i], convertedBasicTilesets[i]), // All the magic happens here.

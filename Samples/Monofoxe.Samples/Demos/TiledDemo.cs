@@ -41,7 +41,7 @@ namespace Monofoxe.Samples.Demos
 
 			_testMap = ResourceHub.GetResource<TiledMap>("Maps", "Test");
 
-			_builder = new SolidMapBuilder(_testMap);
+			_builder = new MapBuilder(_testMap);
 			_builder.Build();
 		}
 
