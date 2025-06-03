@@ -56,7 +56,7 @@ namespace Monofoxe.Samples.Demos
 
 		Sprite _fireSprite;
 
-
+		Vector2[] _bezierCurvePoints;
 
 		public UtilsDemo(Layer layer) : base(layer)
 		{
@@ -118,6 +118,18 @@ namespace Monofoxe.Samples.Demos
 			_stateMachine.AddState(TestStates.Blue, Blue);
 			_stateMachine.AddState(TestStates.Red, Red);
 			// State machine.
+
+
+			// Bezier curve.
+			_bezierCurvePoints = new Vector2[]
+			{
+				new Vector2(57, 410),
+				new Vector2(70, 500),
+				new Vector2(291, 500),
+				new Vector2(330, 431)
+			};
+			// Bezier curve.
+
 		}
 
 		/// <summary>
@@ -313,6 +325,8 @@ namespace Monofoxe.Samples.Demos
 
 
 			DrawDampers();
+
+			DrawBeizerCurve();
 		}
 
 		private FloatDamper _floatDamper1 = new FloatDamper(0, 1, 1, 0);
@@ -343,6 +357,25 @@ namespace Monofoxe.Samples.Demos
 
 			CircleShape.Draw(_positionDamper.Value, 8, ShapeFill.Solid);
 			LineShape.Draw(_baseAnglePos, _baseAnglePos + _angleDamper.Value.ToVector2() * 50);
+		}
+
+		private void DrawBeizerCurve()
+		{
+			for (var i = 0; i < _bezierCurvePoints.Length - 1; i += 1)
+			{
+				CircleShape.Draw(_bezierCurvePoints[i], 3, ShapeFill.Solid);
+
+				LineShape.Draw(_bezierCurvePoints[i], _bezierCurvePoints[i + 1]);
+			}
+			CircleShape.Draw(_bezierCurvePoints[_bezierCurvePoints.Length - 1], 3, ShapeFill.Solid);
+
+
+			var prevColor = GraphicsMgr.CurrentColor;
+			GraphicsMgr.CurrentColor = Color.Red;
+
+			BezierCurve.Draw(_bezierCurvePoints);
+
+			GraphicsMgr.CurrentColor = prevColor;
 		}
 
 		public override void Destroy()
