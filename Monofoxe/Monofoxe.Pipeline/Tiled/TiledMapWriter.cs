@@ -33,8 +33,6 @@ namespace Monofoxe.Pipeline.Tiled
 
 				WriteLayers(output, map.Layers);
 
-				File.AppendAllText($"C:\\Users\\Ne1gh\\Desktop\\{new Random().Next()}.txt", map.Layers.Count().ToString());
-
 				output.WriteObject(map.Properties);
 			}
 			catch (System.Exception e)
