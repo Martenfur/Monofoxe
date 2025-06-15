@@ -208,21 +208,121 @@ namespace Monofoxe.Engine.Utils
 		}
 
 
+
+		#region Bezier curve stuff.
+		// A look up table for factorials. Capped to 16.
+		private static float[] Factorial = new float[]
+		{
+			1.0f,
+			1.0f,
+			2.0f,
+			6.0f,
+			24.0f,
+			120.0f,
+			720.0f,
+			5040.0f,
+			40320.0f,
+			362880.0f,
+			3628800.0f,
+			39916800.0f,
+			479001600.0f,
+			6227020800.0f,
+			87178291200.0f,
+			1307674368000.0f,
+			20922789888000.0f,
+		};
+
+		private static float Binomial(int n, int i)
+		{
+			float ni;
+			float a1 = Factorial[n];
+			float a2 = Factorial[i];
+			float a3 = Factorial[n - i];
+
+			ni = a1 / (a2 * a3);
+
+			return ni;
+		}
+
+		private static float Bernstein(int n, int i, float value)
+		{
+			float value_i = MathF.Pow(value, i);
+			float value_n_minus_i = MathF.Pow((1 - value), (n - i));
+
+			float basis = Binomial(n, i) * value_i * value_n_minus_i;
+
+			return basis;
+		}
+		#endregion
+
+
 		/// <summary>
-		/// Calculates three-point bezier curve.
+		/// Calculates bezier curve.
 		/// </summary>
 		/// <param name="value">Should be in 0..1 range.</param>
-		public static Vector2 BezierCurve(Vector2 startPoint, Vector2 controlPoint, Vector2 endPoint, float value)
+		public static Vector2 GetVector2Point(Vector2[] controlPoints, float value)
 		{
-			float u = 1 - value;
-			float tt = value * value;
-			float uu = u * u;
+			int N = controlPoints.Length - 1;
 
-			Vector2 pointOnCurve = uu * startPoint;
-			pointOnCurve += 2 * u * value * controlPoint;
-			pointOnCurve += tt * endPoint;
+			if (N > 16)
+			{
+				throw new Exception("The maximum control points allowed is 16.");
+			}
+
+
+			if (value <= 0)
+			{
+				return controlPoints[0];
+			}
+			if (value >= 1)
+			{
+				return controlPoints[controlPoints.Length - 1];
+			}
+
+
+			Vector2 pointOnCurve = new Vector2();
+
+			for (int i = 0; i < controlPoints.Length; ++i)
+			{
+				Vector2 bn = Bernstein(N, i, value) * controlPoints[i];
+
+				pointOnCurve += bn;
+			}
 
 			return pointOnCurve;
+		}
+
+
+		/// <summary>
+		/// Returns an array of points spaced with passed interval.
+		/// </summary>
+		public static Vector2[] BezierCurvePoints(Vector2[] controlPoints, float interval = 0.01f)
+		{
+			int N = controlPoints.Length - 1;
+
+			if (N > 16)
+			{
+				throw new Exception("The maximum control points allowed is 16.");
+			}
+
+
+			List<Vector2> points = new List<Vector2>();
+
+			for (float t = 0.0f; t <= 1.0f + interval - 0.0001f; t += interval)
+			{
+				Vector2 p = new Vector2();
+
+				for (int i = 0; i < controlPoints.Length; ++i)
+				{
+					Vector2 bn = Bernstein(N, i, t) * controlPoints[i];
+
+					p += bn;
+				}
+
+				points.Add(p);
+			}
+
+			return points.ToArray();
 		}
 
 

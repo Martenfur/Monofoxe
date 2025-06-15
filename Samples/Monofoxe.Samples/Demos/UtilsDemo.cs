@@ -124,9 +124,9 @@ namespace Monofoxe.Samples.Demos
 			_bezierCurvePoints = new Vector2[]
 			{
 				new Vector2(57, 410),
-				new Vector2(70, 500),
-				new Vector2(291, 500),
-				new Vector2(330, 431)
+				new Vector2(170, 500),
+				new Vector2(291, 410),
+				new Vector2(330, 500)
 			};
 			// Bezier curve.
 
