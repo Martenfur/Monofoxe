@@ -260,7 +260,7 @@ namespace Monofoxe.Engine.Utils
 		/// Calculates bezier curve.
 		/// </summary>
 		/// <param name="value">Should be in 0..1 range.</param>
-		public static Vector2 GetVector2Point(Vector2[] controlPoints, float value)
+		public static Vector2 BezierCurve(Vector2[] controlPoints, float value)
 		{
 			int N = controlPoints.Length - 1;
 
