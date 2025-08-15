@@ -94,7 +94,7 @@ namespace Monofoxe.Samples.Demos
 
 			// You can make your own custom primitives. 
 			// CustomTrianglePrimitive and CustomLinePrimitive give you
-			// access to the index array. Index array tells inwhat order vertices should be drawn.
+			// access to the index array. Index array tells in what order vertices should be drawn.
 			// One vertex can be used multiple times in an index array.
 			_custom = new CustomTrianglePrimitive(4);
 
