@@ -27,11 +27,9 @@ namespace Monofoxe.Tiled
 		/// <summary>
 		/// Builds map scene from Tiled map template.
 		/// 
-		/// Building goes in four stages:
+		/// Building goes in two stages:
 		/// - Building tilesets.
-		/// - Building tile layers.
-		/// - Building object layers.
-		/// - Building image layers.
+		/// - Building layers in the order they are on the map.
 		/// 
 		/// Each of those stages can be overriden.
 		/// Override this method if you want full control over the map loading.

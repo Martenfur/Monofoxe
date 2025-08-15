@@ -13,11 +13,6 @@ namespace Monofoxe.Pipeline.Tiled
 	{
 		static List<TiledMapLayer> _layers;
 
-		static List<TiledMapTileLayer> _tileLayers;
-		static List<TiledMapObjectLayer> _objectLayers;
-		static List<TiledMapImageLayer> _imageLayers;
-		
-
 		
 		public static void Parse(XmlNode mapXml, TiledMap map)
 		{

@@ -2,6 +2,16 @@
 
 ## [Unreleased]
 
+## [v3.0.0-dev.2-tiled-hotfix] - *19.05.2025*
+
+### Fixes
+
+- Fixed the order layers were usually parsed with: now tile layers can be above object layers!
+
+### Changes
+
+- Deleted `TiledMap.TileLayers`, `TiledMap.ObjectLayers` and `TiledMap.ImageLayers`, these types of layers are now accessible through `TiledMap.GetLayers<T>()`
+
 ## [v3.0.0-dev.2] - *19.05.2025*
 
 ### Features

@@ -30,11 +30,6 @@ namespace Monofoxe.Tiled.MapStructure
 
 		public TiledMapLayer[] Layers;
 
-		public TiledMapTileLayer[] TileLayers;
-		public TiledMapObjectLayer[] ObjectLayers;
-		public TiledMapImageLayer[] ImageLayers;
-
-
 		public Dictionary<string, string> Properties;
 
 		// TODO: Add infinite map support.
