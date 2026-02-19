@@ -14,7 +14,7 @@ namespace Monofoxe.Samples.Misc.Tiled
 	public class SolidMapBuilder : MapBuilder
 	{
 		
-		public SolidMapBuilder(TiledMap tiledMap) : base(tiledMap) {}
+		public SolidMapBuilder(TiledMap tiledMap) : base(tiledMap) { }
 
 		public override void Build()
 		{
@@ -63,11 +63,11 @@ namespace Monofoxe.Samples.Misc.Tiled
 
 				// Getting solid property from the tile.
 				var solid = false;
-				try
+
+				if (tiledTile.Properties.ContainsKey("Solid"))
 				{
 					solid = bool.Parse(tiledTile.Properties["Solid"]);
 				}
-				catch (Exception) {}
 				// Getting solid property from the tile.
 
 				SolidTilesetTile tilesetTile;
