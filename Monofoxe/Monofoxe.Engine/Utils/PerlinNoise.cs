@@ -12,17 +12,22 @@ namespace Monofoxe.Engine.Utils
 	public static class PerlinNoise
 	{
 
-		// Random seed
-		private static int _seed = new Random((int)DateTime.Now.Ticks).Next();
+		private static int _seed = -1;
 		public static int Seed
 		{
 			get => _seed;
-			set
-			{
-				_seed = value;
-				_reseed(); // Carmody
-				_recalculatePermutations(); // Gustavson
-			}
+		}
+
+		/// <summary>
+		/// Updates seed and creating cache for Carmody and Gustavson simplexes.
+		/// </summary>
+		/// <param name="seed"></param>
+		public static void SetSeed(int seed)
+		{
+			_seed = seed;
+
+			_reseed(); // Carmody
+			_recalculatePermutations(); // Gustavson
 		}
 
 
@@ -185,7 +190,8 @@ namespace Monofoxe.Engine.Utils
 			s = (i + j + k) * onesixth;
 			u = x - i + s;
 			v = y - j + s;
-			w = z - k + s; ;
+			w = z - k + s;
+			;
 
 			A[0] = A[1] = A[2] = 0;
 
@@ -217,7 +223,7 @@ namespace Monofoxe.Engine.Utils
 				_recalculatePermutations();
 
 			float n0, n1, n2; // Noise contributions from the three corners
-							  // Skew the input space to determine which simplex cell we're in
+						   // Skew the input space to determine which simplex cell we're in
 			float F2 = 0.5f * ((float)Math.Sqrt(3.0f) - 1.0f);
 			float s = (xin + yin) * F2; // Hairy factor for 2D
 			int i = _fastfloor(xin + s);
@@ -231,11 +237,13 @@ namespace Monofoxe.Engine.Utils
 			// For the 2D case, the simplex shape is an equilateral triangle.
 			// Determine which simplex we are in.
 			int i1, j1; // Offsets for second (middle) corner of simplex in (i,j) coords
-			if (x0 > y0) { i1 = 1; j1 = 0; } // lower triangle, XY order: (0,0)->(1,0)->(1,1)
-			else { i1 = 0; j1 = 1; }      // upper triangle, YX order: (0,0)->(0,1)->(1,1)
-										  // A step of (1,0) in (i,j) means a step of (1-c,-c) in (x,y), and
-										  // a step of (0,1) in (i,j) means a step of (-c,1-c) in (x,y), where
-										  // c = (3-Sqrt(3))/6
+			if (x0 > y0)
+			{ i1 = 1; j1 = 0; } // lower triangle, XY order: (0,0)->(1,0)->(1,1)
+			else
+			{ i1 = 0; j1 = 1; }      // upper triangle, YX order: (0,0)->(0,1)->(1,1)
+								// A step of (1,0) in (i,j) means a step of (1-c,-c) in (x,y), and
+								// a step of (0,1) in (i,j) means a step of (-c,1-c) in (x,y), where
+								// c = (3-Sqrt(3))/6
 			float x1 = x0 - i1 + G2; // Offsets for middle corner in (x,y) unskewed coords
 			float y1 = y0 - j1 + G2;
 			float x2 = x0 - 1.0f + 2.0f * G2; // Offsets for last corner in (x,y) unskewed coords
@@ -295,7 +303,7 @@ namespace Monofoxe.Engine.Utils
 				_recalculatePermutations();
 
 			float n0, n1, n2, n3; // Noise contributions from the four corners
-								  // Skew the input space to determine which simplex cell we're in
+							  // Skew the input space to determine which simplex cell we're in
 			float F3 = 1.0f / 3.0f;
 			float s = (xin + yin + zin) * F3; // Very nice and simple skew factor for 3D
 			int i = _fastfloor(xin + s);
@@ -317,14 +325,19 @@ namespace Monofoxe.Engine.Utils
 			{
 				if (y0 >= z0)
 				{ i1 = 1; j1 = 0; k1 = 0; i2 = 1; j2 = 1; k2 = 0; } // X Y Z order
-				else if (x0 >= z0) { i1 = 1; j1 = 0; k1 = 0; i2 = 1; j2 = 0; k2 = 1; } // X Z Y order
-				else { i1 = 0; j1 = 0; k1 = 1; i2 = 1; j2 = 0; k2 = 1; } // Z X Y order
+				else if (x0 >= z0)
+				{ i1 = 1; j1 = 0; k1 = 0; i2 = 1; j2 = 0; k2 = 1; } // X Z Y order
+				else
+				{ i1 = 0; j1 = 0; k1 = 1; i2 = 1; j2 = 0; k2 = 1; } // Z X Y order
 			}
 			else
 			{ // x0<y0
-				if (y0 < z0) { i1 = 0; j1 = 0; k1 = 1; i2 = 0; j2 = 1; k2 = 1; } // Z Y X order
-				else if (x0 < z0) { i1 = 0; j1 = 1; k1 = 0; i2 = 0; j2 = 1; k2 = 1; } // Y Z X order
-				else { i1 = 0; j1 = 1; k1 = 0; i2 = 1; j2 = 1; k2 = 0; } // Y X Z order
+				if (y0 < z0)
+				{ i1 = 0; j1 = 0; k1 = 1; i2 = 0; j2 = 1; k2 = 1; } // Z Y X order
+				else if (x0 < z0)
+				{ i1 = 0; j1 = 1; k1 = 0; i2 = 0; j2 = 1; k2 = 1; } // Y Z X order
+				else
+				{ i1 = 0; j1 = 1; k1 = 0; i2 = 1; j2 = 1; k2 = 0; } // Y X Z order
 			}
 			// A step of (1,0,0) in (i,j,k) means a step of (1-c,-c,-c) in (x,y,z),
 			// a step of (0,1,0) in (i,j,k) means a step of (-c,1-c,-c) in (x,y,z), and
@@ -373,7 +386,8 @@ namespace Monofoxe.Engine.Utils
 				n2 = t2 * t2 * dot(grad3[gi2], x2, y2, z2);
 			}
 			float t3 = 0.6f - x3 * x3 - y3 * y3 - z3 * z3;
-			if (t3 < 0) n3
+			if (t3 < 0)
+				n3
 				= 0.0f;
 			else
 			{
@@ -485,7 +499,8 @@ namespace Monofoxe.Engine.Utils
 			float t = 0.6f - x * x - y * y - z * z;
 			int h = shuffle(i + A[0], j + A[1], k + A[2]);
 			A[a]++;
-			if (t < 0) return 0;
+			if (t < 0)
+				return 0;
 			int b5 = h >> 5 & 1;
 			int b4 = h >> 4 & 1;
 			int b3 = h >> 3 & 1;

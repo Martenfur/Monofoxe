@@ -99,7 +99,6 @@ namespace Monofoxe.Engine
 			var keyboardBind = StuffResolver.GetStuff<ITextInputBinder>();
 			keyboardBind?.Init();
 
-
 			Input.MaxGamepadCount = 2;
 
 			WindowManager = new WindowMgr(game);
