@@ -44,6 +44,8 @@ namespace Monofoxe.Samples
 
 			GraphicsMgr.VertexBatch.DepthStencilState = depth;
 
+			InactiveSleepTime = new System.TimeSpan(0); //  Makes game not drop frames when window is inactive.
+
 			new GameController();
 		}
 

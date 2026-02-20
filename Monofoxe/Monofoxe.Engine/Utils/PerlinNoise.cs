@@ -12,17 +12,22 @@ namespace Monofoxe.Engine.Utils
 	public static class PerlinNoise
 	{
 
-		// Random seed
-		private static int _seed = new Random((int)DateTime.Now.Ticks).Next();
+		private static int _seed = -1;
 		public static int Seed
 		{
 			get => _seed;
-			set
-			{
-				_seed = value;
-				_reseed(); // Carmody
-				_recalculatePermutations(); // Gustavson
-			}
+		}
+
+		/// <summary>
+		/// Updates seed and creating cache for Carmody and Gustavson simplexes.
+		/// </summary>
+		/// <param name="seed"></param>
+		public static void SetSeed(int seed)
+		{
+			_seed = seed;
+
+			_reseed(); // Carmody
+			_recalculatePermutations(); // Gustavson
 		}
 
 
@@ -185,7 +190,7 @@ namespace Monofoxe.Engine.Utils
 			s = (i + j + k) * onesixth;
 			u = x - i + s;
 			v = y - j + s;
-			w = z - k + s; ;
+			w = z - k + s;
 
 			A[0] = A[1] = A[2] = 0;
 
