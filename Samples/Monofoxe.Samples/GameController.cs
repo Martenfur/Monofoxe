@@ -21,6 +21,7 @@ namespace Monofoxe.Samples
 
 		private Stopwatch _stopwatch = new Stopwatch();
 
+		// It is recommended to reuse random objects.
 		public static RandomExt Random = new RandomExt();
 
 		public GameController() : base(SceneMgr.GetScene("default")["default"])

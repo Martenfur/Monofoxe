@@ -22,7 +22,7 @@ namespace Monofoxe.Samples
 			new SceneFactory(typeof(ECDemo), ECDemo.Description),
 			new SceneFactory(typeof(SceneSystemDemo), SceneSystemDemo.Description),
 			new SceneFactory(typeof(UtilsDemo)),
-			new SceneFactory(typeof(TiledDemo)),
+			new SceneFactory(typeof(TiledDemo), TiledDemo.Description),
 			new SceneFactory(typeof(VertexBatchDemo)),
 			new SceneFactory(typeof(CoroutinesDemo)),
 			new SceneFactory(typeof(CollisionsDemo)),

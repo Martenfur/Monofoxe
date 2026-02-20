@@ -161,11 +161,6 @@ namespace Monofoxe.Tiled
 		/// </summary>
 		protected virtual List<Layer> BuildLayers(List<Tileset> tilesets)
 		{
-			if (TiledMap.GetLayers<TiledMapTileLayer>().Length != 0)
-			{
-				CreateTileLookupTable(tilesets);
-			}
-
 			var layers = new List<Layer>();
 
 			foreach (var mapLayer in TiledMap.Layers)
@@ -175,6 +170,11 @@ namespace Monofoxe.Tiled
 
 				if (mapLayer is TiledMapTileLayer)
 				{
+					if (_tilesetLookupMap == null)
+					{
+						CreateTileLookupTable(tilesets);
+					}
+
 					BuildTileLayer((TiledMapTileLayer)mapLayer, layer);
 				}
 				if (mapLayer is TiledMapObjectLayer)
