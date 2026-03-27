@@ -105,6 +105,7 @@ Your dotnet tools have failed to restore properly. Unfortunately, this tends to 
   dotnet tool restore
   ```
 - Try running the project again, this should fix the issue.
+- Try clearing all NuGet storage. Tools- -> NuGet Package Manager ->  Package Manager Settings -> Clear All NuGet Storage.
 
 ### Shaders fail to compile complaining about `libmojoshader_64.dll`
 
