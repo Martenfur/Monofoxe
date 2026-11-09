@@ -38,4 +38,4 @@ dotnet pack "$templatesPath\template.csproj" -o  "$destReleaseDir"
 
 "DONE! Output files can be found in $destReleaseDir"
 
-"NOTE: Make sure you have set the appropriate Monofoxe version in Packages.props and bumped Nopipeline version in the templates."
+"NOTE: Make sure you have set the appropriate Monofoxe version in Packages.props and in the templates."

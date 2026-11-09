@@ -1,18 +1,29 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UseCurrentRuntimeIdentifier>true</UseCurrentRuntimeIdentifier>
+    <SelfContained>false</SelfContained>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <OutputPath>bin/</OutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Monofoxe.Pipeline" Version="3.0.0-dev.2" />
-    <PackageReference Include="MonoGame.Framework.Content.Pipeline" Version="3.8.3">
+    <PackageReference Include="MonoGame.Framework.Content.Pipeline" Version="3.8.6.1" />
+    <PackageReference Include="MonoGame.Framework.Native" Version="3.8.6.1">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.3">
-      <PrivateAssets>All</PrivateAssets>
-    </PackageReference>
+    <PackageReference Include="MonoGame.Library.FreeType" Version="2.13.2.*" />
+    <PackageReference Include="MonoGame.Library.MojoShader" Version="1.0.0.*" />
+    <PackageReference Include="MonoGame.Tool.Basisu" Version="2.0.2.*" />
+    <PackageReference Include="MonoGame.Tool.Crunch" Version="1.0.4.*" />
+    <PackageReference Include="MonoGame.Tool.Dxc" Version="1.9.2607.*" />
+    <PackageReference Include="MonoGame.Tool.FFmpeg" Version="7.0.0.*" />
+    <PackageReference Include="MonoGame.Tool.FFprobe" Version="7.0.0.*" />
+    <PackageReference Include="AssimpNetter" Version="6.0.5.0" ExcludeAssets="native;build" />
+    <PackageReference Include="MonoGame.Library.Assimp" Version="6.0.5.1" />
   </ItemGroup>
 </Project>

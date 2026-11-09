@@ -1,0 +1,40 @@
+<Project>
+  <Target Name="BuildContent" BeforeTargets="BeforeCompile">
+    <MSBuild Projects="$(MSBuildThisFileDirectory)Monofoxe.Samples.Content.csproj" Targets="Restore" Properties="MSBuildRestoreSessionId=$([System.Guid]::NewGuid())" RemoveProperties="Configuration;TargetFramework;RuntimeIdentifier;RuntimeIdentifiers" />
+    <MSBuild Projects="$(MSBuildThisFileDirectory)Monofoxe.Samples.Content.csproj" Targets="Build" RemoveProperties="Configuration;TargetFramework;RuntimeIdentifier;RuntimeIdentifiers">
+      <Output TaskParameter="TargetOutputs" ItemName="_ContentBuilderAssembly" />
+    </MSBuild>
+    <PropertyGroup>
+      <ContentOutput>$([MSBuild]::NormalizePath('$(ProjectDir)', '$(OutputPath)').TrimEnd('\/'))</ContentOutput>
+      <ContentTemp>$([MSBuild]::NormalizePath('$(ProjectDir)', '$(IntermediateOutputPath)').TrimEnd('\/'))</ContentTemp>
+      <ContentArgs>build -p $(MonoGamePlatform) -g Reach --compress -s "$(MSBuildThisFileDirectory)Content" -o "$(ContentOutput)" -i "$(ContentTemp)"</ContentArgs>
+      <ContentCommand>@(_ContentBuilderAssembly->'%(RootDir)%(Directory)%(Filename)')</ContentCommand>
+    </PropertyGroup>
+    <Exec Command="&quot;$(ContentCommand)&quot; $(ContentArgs)" WorkingDirectory="$(MSBuildThisFileDirectory)..\" CustomErrorRegularExpression="\[E\] .+" CustomWarningRegularExpression="\[W\] .+" />
+  </Target>
+
+  <Target Name="AddGeneratedContentAssets" AfterTargets="BuildContent">
+    <ItemGroup>
+      <GeneratedAsset Include="$([MSBuild]::NormalizePath('$(ProjectDir)', '$(OutputPath)'))Content\**\*" />
+
+      <!-- Post Process Android Assets -->
+      <AndroidAsset Include="@(GeneratedAsset)"
+        Condition="'$(MonoGamePlatform)' == 'Android'">
+        <Link>Content\%(GeneratedAsset.RecursiveDir)%(GeneratedAsset.Filename)%(GeneratedAsset.Extension)</Link>
+      </AndroidAsset>
+
+      <!-- Post Process iOS Bundle Resources -->
+      <BundleResource Include="@(GeneratedAsset)"
+        Condition="'$(MonoGamePlatform)' == 'iOS'">
+        <Link>Content\%(GeneratedAsset.RecursiveDir)%(GeneratedAsset.Filename)%(GeneratedAsset.Extension)</Link>
+      </BundleResource>
+
+      <!-- Copy content for `dotnet publish` builds -->
+      <ContentWithTargetPath Include="@(GeneratedAsset)"
+        Condition="'$(MonoGamePlatform)' != 'Android' And '$(MonoGamePlatform)' != 'iOS'">
+        <TargetPath>Content\%(GeneratedAsset.RecursiveDir)%(GeneratedAsset.Filename)%(GeneratedAsset.Extension)</TargetPath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ContentWithTargetPath>
+    </ItemGroup>
+  </Target>
+</Project>

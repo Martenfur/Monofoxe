@@ -70,7 +70,9 @@ namespace Monofoxe.Pipeline.Tiled
 					// Paths in tileset file are relative to that file, so root dir needs to be swapped.
 					TiledMapImporter.CurrentRootDir = TiledMapImporter.TmxRootDir + Path.GetDirectoryName(tilesetXml.Attributes["source"].Value) + "/";
 
-					doc.Load(TiledMapImporter.CurrentRootDir + "/" + Path.GetFileName(tilesetXml.Attributes["source"].Value));
+					var tilesetPath = TiledMapImporter.CurrentRootDir + "/" + Path.GetFileName(tilesetXml.Attributes["source"].Value);
+					doc.Load(tilesetPath);
+					TiledMapImporter.AddDependency(tilesetPath);
 					tilesetDir = Path.GetDirectoryName(tilesetXml.Attributes["source"].Value) + '/';
 					tilesetXml = doc["tileset"]; // Swapping to actual tileset.
 				}

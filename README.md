@@ -19,7 +19,7 @@ Monofoxe took a lot of inspiration from Game Maker, so it should be a bit famili
 
 # Getting started
 
-- Download and install [Visual Studio](https://visualstudio.microsoft.com/)
+- Download and install [Visual Studio](https://visualstudio.microsoft.com/) and the [.NET 9 SDK](https://dotnet.microsoft.com/download) (or newer). The content project is built with it.
 - Open Terminal and type
 
   ```bash
@@ -31,7 +31,7 @@ Monofoxe took a lot of inspiration from Game Maker, so it should be a bit famili
   dotnet new monofoxe -n YourProjectName
   ```
 - Open `YourProjectName.sln` in Visual Studio, select `YourProjectName.DX` (for DirectX) or `YourProjectName.GL` (for OpenGL) project as a Startup project.
-- If you get an error that looks something like `dotnet mgcb "..." exited with code`, right-click on the project you're trying to run, and in the dropdown select `Open in Terminal`. Then in the terminal window run the following command:
+- If content fails to build, right-click on the project you're trying to run, and in the dropdown select `Open in Terminal`. Then in the terminal window run the following command:
 
   ```bash
   dotnet restore
@@ -54,7 +54,7 @@ Everything Monogame does, plus:
 * Input management.
 * Coroutines.
 * FMOD audio support (As a standalone [library](https://github.com/Martenfur/FmodForFoxes/)).
-* Enhanced content management via [Nopipeline](https://github.com/Martenfur/Nopipeline).
+* Content Builder based resource management with automatic sprite atlases and Tiled map support.
 * Texture packing.
 * Sprite groups and dynamic graphics loading.
 * Graphics pipeline and automated batch\vertex buffer management.
@@ -90,21 +90,15 @@ You can contact me via email (`chaifoxes@gmail.com`), on [Twitter](https://x.com
 
 ## Troubleshooting
 
-### `dotnet mgcb "..." exited with code`
+### The game starts, but cannot find its content
 
-Your dotnet tools have failed to restore properly. Unfortunately, this tends to happen after MonoGame 3.8.3. You need to restore it by hand:
+Make sure the platform project has the `MonoGamePlatform` property set, imports `BuildContent.targets` from the content project, and that the [.NET 9 SDK](https://dotnet.microsoft.com/download) (or newer) is installed. Then build the platform project again - the content builder output is printed into the build log, and errors are reported with an `[E]` prefix.
 
-- Right-click on the project you're trying to run (not on the solution), and in the dropdown select `Open in Terminal`.
-- In the terminal window run the following command:
-  ```bash
-  dotnet restore
-  ```
-  or
+If packages fail to restore, right-click on the project you're trying to run (not on the solution), select `Open in Terminal` and run:
 
-  ```bash
-  dotnet tool restore
-  ```
-- Try running the project again, this should fix the issue.
+```bash
+dotnet restore
+```
 
 ### Shaders fail to compile complaining about `libmojoshader_64.dll`
 

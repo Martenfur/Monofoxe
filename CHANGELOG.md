@@ -2,6 +2,19 @@
 
 ## [Unreleased]
 
+### Features
+
+- Updated MonoGame to `3.8.6.1`.
+- Migrated content builds to the MonoGame Content Builder. Content projects are now console projects with C# build rules, and Nopipeline is no longer used.
+- Sprite groups report their sprites to the Content Builder as dependencies, so atlases are rebuilt when sprites are edited, added or removed. Tiled maps do the same for the tilesets and object templates they reference.
+- Added the `ResourceList` helper to `Monofoxe.Pipeline`. The resource list asset is generated from the content rules instead of a generated `.mgcb` file.
+
+### Breaking
+
+- Removed `.mgcb`, `.npl` and `.config/dotnet-tools.json` from Monofoxe projects. Templates and samples contain a `Builder/Builder.cs` with Content Builder rules and build content through `BuildContent.targets`.
+- Content projects now require the .NET 9 SDK or newer.
+- `ResourceInfoImporter` now imports the generated `.reslist` file instead of a Nopipeline generated `.mgcb` file.
+
 ### Fixes
 
 - Fixed the order layers were usually parsed with: now tile layers can be above object layers!

@@ -30,6 +30,63 @@ namespace Monofoxe.Pipeline.SpriteGroup
 	DisplayName = "Sprite Group Importer - Monofoxe")]
 	public class SpriteGroupImporter : ContentImporter<SpriteGroupData>
 	{
+		/// <summary>
+		/// Snapshot of the sprite files the group consists of. The Content Builder
+		/// compares importer settings between builds, so adding or removing a
+		/// sprite invalidates the atlas. Edits of existing sprites can't be detected
+		/// that way, so Import() also reports them as dependencies.
+		/// </summary>
+		public string SourcesFingerprint { get; set; } = "";
+
+
+		/// <summary>
+		/// Creates an importer for a specific sprite group. The fingerprint has to
+		/// be calculated up front, because the builder checks its cache before the
+		/// importer runs.
+		/// </summary>
+		public static SpriteGroupImporter Create(string filename)
+		{
+			var importer = new SpriteGroupImporter();
+			try
+			{
+				importer.SourcesFingerprint = GetSourcesFingerprint(GetRootDir(filename));
+			}
+			catch
+			{
+				// Broken configs are reported by Import().
+			}
+			return importer;
+		}
+
+
+		private static string GetRootDir(string filename)
+		{
+			var json = File.ReadAllText(filename);
+			var options = new JsonDocumentOptions()
+			{
+				AllowTrailingCommas = true,
+				CommentHandling = JsonCommentHandling.Skip,
+			};
+			var configData = JsonNode.Parse(json, documentOptions: options);
+
+			return Path.GetDirectoryName(filename) + '/' + configData["rootDir"].ToString();
+		}
+
+
+		private static string GetSourcesFingerprint(string rootDir)
+		{
+			if (!Directory.Exists(rootDir))
+			{
+				return "";
+			}
+
+			var files = Directory.GetFiles(rootDir, "*.png", SearchOption.AllDirectories)
+				.Concat(Directory.GetFiles(rootDir, "*.json", SearchOption.AllDirectories))
+				.Select(file => Path.GetRelativePath(rootDir, file).Replace('\\', '/'))
+				.OrderBy(file => file, StringComparer.Ordinal);
+
+			return string.Join("\n", files);
+		}
 
 		public override SpriteGroupData Import(string filename, ContentImporterContext context)
 		{
@@ -70,7 +127,7 @@ namespace Monofoxe.Pipeline.SpriteGroup
 			#endregion Parsing config.
 
 
-			ImportTextures(groupData.RootDir, "", groupData, textureRegex);
+			ImportTextures(groupData.RootDir, "", groupData, textureRegex, context);
 
 			return groupData;
 
@@ -85,12 +142,18 @@ namespace Monofoxe.Pipeline.SpriteGroup
 		/// <param name="dirName">Full path minus root.</param>
 		/// <param name="groupData">SpriteGroupData object.</param>
 		/// <param name="textureRegex">Regex filter. Determines if texture is part of atlas or single.</param>
-		private void ImportTextures(string dirPath, string dirName, SpriteGroupData groupData, string[] textureRegex)
+		private void ImportTextures(string dirPath, string dirName, SpriteGroupData groupData, string[] textureRegex, ContentImporterContext context)
 		{
 			var dirInfo = new DirectoryInfo(dirPath);
 
 			foreach (var file in dirInfo.GetFiles("*.png"))
 			{
+				// Sprites are not built as separate assets, so the builder has to
+				// know that this sprite group depends on them. This replaces the
+				// "watch" lists Nopipeline used to write into the .mgcb file: 
+				// changing any sprite rebuilds only the sprite groups using it.
+				context.AddDependency(file.FullName);
+
 				var spr = new RawSprite();
 				spr.Name = dirName + Path.GetFileNameWithoutExtension(file.Name);
 
@@ -106,6 +169,7 @@ namespace Monofoxe.Pipeline.SpriteGroup
 				 */
 				if (File.Exists(configPath))
 				{
+					context.AddDependency(configPath);
 					try
 					{
 						var conf = File.ReadAllText(configPath);
@@ -175,7 +239,7 @@ namespace Monofoxe.Pipeline.SpriteGroup
 			// Recursively repeating for all subdirectories.
 			foreach (var dir in dirInfo.GetDirectories())
 			{
-				ImportTextures(dir.FullName, dirName + dir.Name + '/', groupData, textureRegex);
+				ImportTextures(dir.FullName, dirName + dir.Name + '/', groupData, textureRegex, context);
 			}
 			// Recursively repeating for all subdirectories.
 

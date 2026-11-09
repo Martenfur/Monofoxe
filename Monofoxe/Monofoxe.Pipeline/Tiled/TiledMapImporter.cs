@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using Monofoxe.Tiled.MapStructure;
@@ -20,6 +21,23 @@ namespace Monofoxe.Pipeline.Tiled
 		/// </summary>
 		public static string CurrentRootDir;
 
+		/// <summary>
+		/// Files the map references (external tilesets and object templates).
+		/// They are reported to the builder as dependencies, so editing a tileset
+		/// or a template rebuilds the map. Nopipeline used to do the same with
+		/// its "watch" lists.
+		/// </summary>
+		private static readonly List<string> _dependencies = new List<string>();
+
+		public static void AddDependency(string path)
+		{
+			var fullPath = Path.GetFullPath(path);
+			if (!_dependencies.Contains(fullPath))
+			{
+				_dependencies.Add(fullPath);
+			}
+		}
+
 
 		public override TiledMap Import(string filename, ContentImporterContext context)
 		{
@@ -27,13 +45,21 @@ namespace Monofoxe.Pipeline.Tiled
 			TmxRootDir = Path.GetDirectoryName(filename) + '/';
 			TmxFilename = filename;
 			CurrentRootDir = TmxRootDir;
+			_dependencies.Clear();
 			Logger.LogLine("ROOT:" + TmxRootDir);
 			try
 			{
 				var xml = new XmlDocument();
 				xml.Load(filename);
-				
-				return MapParser.Parse(xml);
+
+				var map = MapParser.Parse(xml);
+
+				foreach (var dependency in _dependencies)
+				{
+					context.AddDependency(dependency);
+				}
+
+				return map;
 			}
 			catch(System.Exception e)
 			{

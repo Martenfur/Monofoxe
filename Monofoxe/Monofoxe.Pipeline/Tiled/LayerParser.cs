@@ -357,6 +357,7 @@ namespace Monofoxe.Pipeline.Tiled
 			try
 			{
 				doc.Load(templatePath);
+				TiledMapImporter.AddDependency(templatePath);
 				template = doc["template"]["object"];
 				foreach(XmlNode neighbourNode in doc["template"])
 				{

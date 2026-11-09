@@ -1,62 +1,18 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using Microsoft.Xna.Framework.Content.Pipeline;
-
-// Inspired by:
-// https://github.com/Ragath/MonoGame.AssetInfo
-
+﻿using Microsoft.Xna.Framework.Content.Pipeline;
 
 namespace Monofoxe.Pipeline.ResourceInfo
 {
 	/// <summary>
-	/// Asset info importer. Reads .mcgb file and extracts all asset paths.
+	/// Imports the generated resource list. The list contains paths of all
+	/// built and copied assets and is used by ResourceInfoMgr at runtime.
+	/// 
+	/// The Content Builder generates the file from the content collection,
+	/// see ResourceList.Collect().
 	/// </summary>
-	[ContentImporter(".npl", DisplayName = "Resource Info Importer - Monofoxe", DefaultProcessor = "PassThroughProcessor")]
+	[ContentImporter(".reslist", DisplayName = "Resource Info Importer - Monofoxe", DefaultProcessor = "PassThroughProcessor")]
 	public class ResourceInfoImporter : ContentImporter<string[]>
 	{
-		private const string _buildTag = "/build:";
-		private const string _copyTag = "/copy:";
-
-		public override string[] Import(string filename, ContentImporterContext context)
-		{
-			// Since 3.8, pipeline cannot import its own mgcb files as resources,
-			// so we have to reference npl config instead and swap it for mgcb.
-			filename = Path.ChangeExtension(filename, ".mgcb");
-
-			var lines = File.ReadAllLines(filename);
-
-			var resources = new List<string>();
-
-			for(var i = 0; i < lines.Length; i += 1)
-			{
-				if (lines[i].StartsWith(_buildTag))
-				{
-					var resourcePath = Dereference(lines[i].Remove(0, _buildTag.Length));
-
-					resourcePath = Path.Combine(Path.GetDirectoryName(resourcePath), Path.GetFileNameWithoutExtension(resourcePath));
-
-					resources.Add(resourcePath.Replace('\\', '/'));
-					continue;
-				}				
-				if (lines[i].StartsWith(_copyTag))
-				{
-					var resourcePath = Dereference(lines[i].Remove(0, _copyTag.Length));
-
-					// If resource is being copied, we'll need to leave its extension.
-					resources.Add(resourcePath.Replace('\\', '/'));
-				}
-			}
-
-			return resources.ToArray();
-		}
-
-		private string Dereference(string path)
-		{ 
-			if (path.Contains(";"))
-			{ 
-				return path.Split(';')[1];
-			}
-			return path;
-		}
+		public override string[] Import(string filename, ContentImporterContext context) =>
+			ResourceList.Load(filename);
 	}
 }

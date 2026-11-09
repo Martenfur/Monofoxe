@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="src\**\*" Exclude="**\bin\**\*;**\obj\**\*;**\vs\**\*" />
+    <Content Include="src\**\*" Exclude="**\bin\**\*;**\obj\**\*;**\vs\**\*;**\ResourceList.reslist" />
     <Compile Remove="**\*" />
     <None Include="README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
